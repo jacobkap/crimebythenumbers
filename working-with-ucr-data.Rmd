@@ -1,0 +1,87 @@
+# Uniform Crime Report (UCR) Data
+
+The Uniform Crime Reports (UCR) is an annual collection of official data on crime in the United States published by the FBI. Approximately 18,000 individual state, local (city, county, college), tribal, and federal law enforcement agencies report data to the FBI. Some agencies are more consistent than other agencies with reporting their data to the FBI but the vast majority of agencies have reported consistently since the 1990s.
+
+The data file has annual data on the number of crimes reported, the number of crimes cleared, the number cleared where all offenders are under age 18, and the number of unfounded crimes. We'll discuss each of this a bit further as we dive into the data. Thus, the data isn't "incident-level" data - in contrast to the Chicago data that we've worked with. The data instead includes crime counts for each agency. You can read more about the UCR program and all the data sets it includes on the National Archive of Criminal Justice Data page [here](https://www.icpsr.umich.edu/icpsrweb/content/NACJD/guides/ucr.html)
+
+Due to it's longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for decades) it is a popular data set for criminologists. Some of you will use this data for your thesis. 
+
+## Exploring the UCR data
+
+In this section, we are going to work with the combined annual count of crimes for every year available, 1960-2017. The FBI releases the data as a single file per year and each file has monthly counts of crime. This data set does some cleaning for us by aggregating yearly and making it a single file for the whole time period. The first step when working with this UCR data is loading it into R. As with loading any data, it's very important that your path is correctly set using `setwd()` so R knows which folder the data is in. 
+
+```{r comment="", results='hold'}
+
+load("data/offenses_known_yearly_1960_2017.rda")
+
+```
+
+Now we see that a new object is in R's memory, `offenses_known_yearly_1960_2017`.
+
+Let's start with a basic examination of the data. First, how big it is, what variables it has, and what the units are. 
+
+To see how big a data set is, use `ncol()` to see the number of columns and `nrow()` to see the number of rows. The `names()` function tells us every column name. For all of these functions we need to put the data set name inside the ().
+
+```{r}
+ncol(offenses_known_yearly_1960_2017)
+```
+
+```{r}
+nrow(offenses_known_yearly_1960_2017)
+```
+
+```{r}
+names(offenses_known_yearly_1960_2017)
+```
+
+We can see this is a very big file - 159 columns and nearly a million rows! Normally we'd use the `head()` function to see the first 6 rows of every column but since this data has so many columns we won't do that as it'd be hard to read. 
+
+Using `View()` opens up what is essentially an Excel file showing the data. This is a convenient way to quickly get a sense of what is available, what variables mean, and what units the data is in. This method has some limitations though as it encourages us to make decisions based on the first several rows of data, which may be a mistake if there is some bias further on - such as older data being worse quality and having more missing values. But, for a first glance it is useful and will be supplemented by better checks below.
+
+```{r eval = FALSE}
+View(offenses_known_yearly_1960_2017)
+```
+
+From looking at the data in `View()` we can see that the units are agency-years. Each row is a single agency for a single year. This is useful because it tells us we will have crime in agencies over time, which is a very common type of crime data - and one often used in Master's theses. Let's take a look at how many agencies report each year using the `table()` function which says how many times each value occurs for the column we select. This is also a useful check on if every year 1960-2017 is actually available - don't just trust that the data has what it says it has!
+
+```{r}
+table(offenses_known_yearly_1960_2017$year)
+```
+
+From these results it's clear that there are huge differences in how many agencies report in early years compared to more recent years. Is this an issue in an analysis? From the above table it is concerning but not entirely clear there is an issue depending on our analysis. It we only care about recent years then it wouldn't matter. If we only use large agencies, then knowing that relatively few agencies reported in 1960 doesn't mean that few large agencies reported. For that you'd have to look closer at only the agencies you want to study - we won't do that here but keep it in mind. 
+
+## Finding things in our data
+
+For an easy way to find the ORI number of an agency, use this [site](http://crimedatatool.com/crosswalk.html).
+
+Lets look at some summary statistics of a few columns - we don't want to run `summary()` on the whole data as it have too many columns. 
+
+```{r}
+summary(offenses_known_yearly_1960_2017$actual_murder)
+```
+
+```{r}
+summary(offenses_known_yearly_1960_2017$actual_rape_total)
+```
+
+```{r}
+summary(offenses_known_yearly_1960_2017$actual_robbery_with_a_gun)
+```
+
+
+## Manipulating our data
+
+
+
+### Exercises
+
+1. How many motor vehicle thefts were reported to the police?
+2. How many rapes were reported to the police?
+3. Which city had the most murders?
+  + How many murders?
+  + In which year?
+  + For that city, what was the mean number of murders for all years included?
+4. Add a new column to your dataset for the burglary rate for each agency. 
+  + Which agency has the highest burglary rate?
+ 
+

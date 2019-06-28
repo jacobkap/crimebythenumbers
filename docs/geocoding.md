@@ -1,0 +1,597 @@
+
+# Geocoding 
+
+Our officer-involved shooting data has the address for every incident, but to be more useful we really need the geographical coordinates. If we had the coordinates, then we could put them on a map, tabulate how many incident occur within an area (such as a neighborhood or Census tract), and answer geographical questions about these data.
+
+This type of activity is common in research studying the effect of place. For example, several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
+
+## Geocoding a single address
+
+Geocoding is the process of converting a text description of a location (typically an address or intersection) to obtain geographic coordinates (often longitude/latitude, but other coordinate systems are also possible). Google Maps currently reigns supreme in this area. Google Maps understand very general descriptions of locations. You can ask for the coordinates of something like "bobbys burger palace near UPenn" and it will understand that "UPenn" means the University of Pennsylvania and that "bobbys burger palace" is celebrity chef Bobby Flay's fast food burger joint. Unfortunately, as of June 2018 Google Maps now requires a credit card in order to access its geocoding service. Previously, anyone could geocode up to 2,500 locations per day without needing to register.
+
+These technologies are still rapidly evolving, so it is most important to learn how to learn to use these tools. We will use two free geocoders, OpenStreetMap and ArcGIS,  to give you the sense of how to work with them.
+
+The URL for OpenStreetMap has the form
+`http://nominatim.openstreetmap.org/search/ADDRESS?format=json&addressdetails=1&limit=1`
+
+where instead of "ADDRESS" we put in the address whose coordinates we want. As an example, let's look at Penn's McNeil Building.
+
+`http://nominatim.openstreetmap.org/search/3718%20Locust%20Walk,%20Philadelphia,%20PA?format=json&addressdetails=1&limit=1`
+
+You can see the address for Penn's McNeil Building embedded in this URL. Including spaces in the address causes errors so all spaces need to be replaced with `%20`. Let's see what data we get back from this URL. Enter the URL above in your browser and see what values you get back. 
+
+![](images/geocoding_1.PNG)
+
+It gives us a page with several important values. For our purposes we want the "lat" and "lon" sections which are the latitude and longitude parts of a location's coordinates. 
+
+This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. Many web data sources use a standardized language for providing data. JSON (JavaScript Object Notation) is quite common and both OpenStreetMap and ArcGIS use JSON. This is the point of JSON, producing data in a format that a human could understand in a small batch, but a machine could process fast and easily. Fortunately, the `jsonlite` R package facilitates the conversion of JSON text like this into convenient R objects.
+
+
+```r
+install.packages("jsonlite")
+```
+
+We will use the `fromJSON()` function and enter in the URL right in the (). 
+
+
+```r
+library(jsonlite)
+fromJSON("http://nominatim.openstreetmap.org/search/3718%20Locust%20Walk,%20Philadelphia,%20PA?format=json&addressdetails=1&limit=1")
+#>    place_id
+#> 1 228278154
+#>                                                                  licence
+#> 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#>   osm_type   osm_id
+#> 1      way 32108143
+#>                                                            boundingbox
+#> 1 39.952309653061, 39.952409653061, -75.198505469388, -75.198405469388
+#>                lat               lon
+#> 1 39.9523596530612 -75.1984554693878
+#>                                                                                      display_name
+#> 1 3718, Locust Walk, University City, Philadelphia, Philadelphia County, Pennsylvania, 19104, USA
+#>   class  type importance address.house_number address.footway
+#> 1 place house      0.421                 3718     Locust Walk
+#>   address.neighbourhood address.city      address.county address.state
+#> 1       University City Philadelphia Philadelphia County  Pennsylvania
+#>   address.postcode address.country address.country_code
+#> 1            19104             USA                   us
+```
+
+The function `fromJSON()` converts the results from the OpenStreetMap geocoder to a row in a data frame. The JSON tags turn into column names and the values are placed as data in a row.
+
+The major drawback of the OpenStreetMap geocoder is that it does not handle intersections. If we try to geocode "38th St and Walnut St", the results come back empty.
+
+
+```r
+fromJSON("http://nominatim.openstreetmap.org/search/38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA?format=json&addressdetails=1&limit=1")
+#> list()
+```
+
+This is where the ArcGIS geocoder comes in handy. The ArcGIS geocoder also works with JSON but the URL is a little different.
+
+In this case the URL is 
+
+`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
+
+where again ADDRESS is the stand-in for our address. As before, we need to replace spaces in the address with `%20`. 
+
+
+```r
+fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+#> $spatialReference
+#> $spatialReference$wkid
+#> [1] 4326
+#> 
+#> $spatialReference$latestWkid
+#> [1] 4326
+#> 
+#> 
+#> $candidates
+#>                                                           address
+#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
+#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
+#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
+#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#>    location.x location.y score
+#> 1   -75.19868   39.95361 99.61
+#> 2   -75.70500   39.84916 92.11
+#> 3   -75.16610   39.94956 89.84
+#> 4   -75.15921   39.94872 89.84
+#> 5   -75.22935   39.95743 89.84
+#> 6   -75.19625   39.95331 89.84
+#> 7   -75.14849   39.94735 89.84
+#> 8   -75.17451   39.95063 89.84
+#> 9   -75.70560   39.84894 88.18
+#> 10  -75.32272   40.33865 87.85
+#> 11  -74.97302   40.06046 87.54
+#> 12  -75.70581   39.87565 87.23
+#>                                             attributes.Match_addr
+#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
+#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
+#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
+#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
+#> 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461
+#> 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016
+#> 3            StreetName   -75.16710    39.94856   -75.16510    39.95056
+#> 4            StreetName   -75.16021    39.94772   -75.15821    39.94972
+#> 5            StreetName   -75.23035    39.95643   -75.22835    39.95843
+#> 6            StreetName   -75.19725    39.95231   -75.19525    39.95431
+#> 7            StreetName   -75.14949    39.94635   -75.14749    39.94835
+#> 8            StreetName   -75.17551    39.94963   -75.17351    39.95163
+#> 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
+#> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
+#> 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665
+```
+
+It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called "candidates". To avoid having a very long line of code, let's call the list `fromJSON()` returns "address_coordinate" and grab the "candidates" object from that list. 
+
+
+```r
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates$candidates
+#>                                                           address
+#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
+#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
+#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
+#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#>    location.x location.y score
+#> 1   -75.19868   39.95361 99.61
+#> 2   -75.70500   39.84916 92.11
+#> 3   -75.16610   39.94956 89.84
+#> 4   -75.15921   39.94872 89.84
+#> 5   -75.22935   39.95743 89.84
+#> 6   -75.19625   39.95331 89.84
+#> 7   -75.14849   39.94735 89.84
+#> 8   -75.17451   39.95063 89.84
+#> 9   -75.70560   39.84894 88.18
+#> 10  -75.32272   40.33865 87.85
+#> 11  -74.97302   40.06046 87.54
+#> 12  -75.70581   39.87565 87.23
+#>                                             attributes.Match_addr
+#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
+#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
+#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
+#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
+#> 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461
+#> 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016
+#> 3            StreetName   -75.16710    39.94856   -75.16510    39.95056
+#> 4            StreetName   -75.16021    39.94772   -75.15821    39.94972
+#> 5            StreetName   -75.23035    39.95643   -75.22835    39.95843
+#> 6            StreetName   -75.19725    39.95231   -75.19525    39.95431
+#> 7            StreetName   -75.14949    39.94635   -75.14749    39.94835
+#> 8            StreetName   -75.17551    39.94963   -75.17351    39.95163
+#> 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
+#> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
+#> 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665
+```
+
+The "candidates" is a data.frame which includes 12 different coordinates from our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. ArcGIS provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
+
+Since we are grabbing the first row of a data.frame, our square bracket notation must be [row, column]. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.
+
+
+```r
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates <- address_coordinates$candidates
+address_coordinates <- address_coordinates[1, ]
+address_coordinates
+#>                                                    address location.x
+#> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104  -75.19868
+#>   location.y score
+#> 1   39.95361 99.61
+#>                                      attributes.Match_addr
+#> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
+#>   attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
+#> 1            StreetInt   -75.19968    39.95261   -75.19768    39.95461
+```
+
+This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
+
+
+```r
+address_coordinates$location
+#>           x        y
+#> 1 -75.19868 39.95361
+```
+
+Since our end goal was to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
+
+## Making a function
+
+Since ArcGIS is capable of handling intersections, we will focus on using that throughout this lesson. We want to geocode every single address from the officer shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us. 
+
+Let's start by copying the code used to geocode a single address. 
+
+
+```r
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates <- address_coordinates$candidates
+address_coordinates <- address_coordinates[1, ]
+address_coordinates$location
+#>           x        y
+#> 1 -75.19868 39.95361
+```
+
+Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
+
+We can call the function "geocode_address", the input "address" and the returning value "address_coordinates" just to stay consistent with the code we already wrote.
+
+
+```r
+geocode_address <- function(address) {
+   
+   return(address_coordinates)
+}
+```
+
+Now we can add the code.
+
+
+```r
+geocode_address <- function(address) {
+   address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+   address_coordinates <- address_coordinates$candidates
+   address_coordinates <- address_coordinates[1, ]
+   address_coordinates$location
+   return(address_coordinates)
+}
+```
+
+Finally we need to replace the value in `fromJSON()` which is for a specific address with something that works for any address we input.
+
+Since the URL is in the form
+
+`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
+
+we can use the `paste()` function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with `%20`. We can do that using `gsub()` which is perfect for replacing characters. Let's try a simple example using `gsub()` before including it in our function. We just want to find every " " and replace it with "%20". 
+
+We will use the original address as the example.
+
+
+```r
+gsub(" ", "%20", "38th St and Walnut St, Philadelphia, PA")
+#> [1] "38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA"
+```
+
+It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First we do the `paste()`, saving it in an object we can call "url", and then use "url" as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
+
+
+```r
+geocode_address <- function(address) {
+   address <- gsub(" ", "%20", address)
+   url <- paste("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=",
+                address,
+                "&outFields=Match_addr,Addr_type",
+                sep = "")
+   address_coordinates <- fromJSON(url)
+   
+   address_coordinates <- address_coordinates$candidates
+   address_coordinates <- address_coordinates[1, ]
+   address_coordinates <- address_coordinates$location
+   
+   return(address_coordinates)
+}
+```
+
+We can try it using the same address we did earlier, "38th St and Walnut St, Philadelphia, PA", the address of Penn's McNeil Building.
+
+
+```r
+geocode_address("38th St and Walnut St, Philadelphia, PA")
+#>           x        y
+#> 1 -75.19868 39.95361
+```
+It returns the same data.frame as earlier so our function works!
+
+## Geocoding officer shooting locations
+
+We now have a function capable of returning the coordinates of every location in our officer-involved shooting data. We can write a for loop to go through every row of data and get the coordinates for that row's location. 
+
+Let's load in the officer shooting data we made earlier.
+
+
+```r
+setwd(here::here("data"))
+load("officer_shootings.rda")
+```
+
+
+Before we do that we need to fix some issues in the locations column. The main issue is that several of the shootings have the location labeled as "withheld" in the table we scraped but the address does exist inside the PDF itself. 
+
+Let's check first how many times the word "withheld" (with the W capitalized or not) or an empty string "" exists in the "location" column.
+
+
+```r
+table(officer_shootings$location %in% c("", "withheld", "Withheld"))
+#> 
+#> FALSE  TRUE 
+#>   449    15
+```
+
+Above we are saying "how many times do the values "", "withheld", or "Withheld" appear in the column "location". 15 times. 
+
+We can print out the shooting number of the rows with one of those values to make it easy to check the PDF. We can use square bracket [] subsetting to return the rows in the "shooting_number" column where the location is one of those values above.
+
+
+```r
+officer_shootings$shooting_number[officer_shootings$location %in% c("", "withheld", "Withheld")]
+#>  [1] "16-18" "16-26" "10-06" "09-25" "09-27" "09-76" "08-06" "08-18"
+#>  [9] "08-30" "08-35" "08-40" "08-60" "08-70" "08-74" "07-27"
+```
+
+We will also use square bracket notation to replace the value in the "location" column with the correct address that we read manually in the PDF. Let's start with the first shooting, number "16-18" printed above. Using square bracket notation we can see which value is in the "location" column for the row whose "shooting_number" is "16-18".
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "16-18"]
+#> [1] "withheld"
+```
+
+Looking into the PDF we can see that the correct address is "3200 block of Wellington Street". Let's assign that address to the "location" column in the row for that shooting.
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "16-18"] <- "3200 block of Wellington Street"
+```
+
+And we can check if it worked.
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "16-18"]
+#> [1] "3200 block of Wellington Street"
+```
+
+We need to do the same for the other 14 values with missing locations. Several of these text descriptions of the incidents contain the location information. Let's fill those in.
+
+
+```r
+
+officer_shootings$location[officer_shootings$shooting_number == "08-06"] <- "200 block of Clapier Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-18"] <- "900 block of E. Slocum Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-30"] <- "700 block of W. Rockland Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-40"] <- "5400 Jefferson Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-60"] <- "3000 Memphis Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-70"] <- "1300 block of S. 29th Street"
+officer_shootings$location[officer_shootings$shooting_number == "08-74"] <- "5600 block of N. Mascher Street"
+officer_shootings$location[officer_shootings$shooting_number == "10-06"] <- "Howard and Grange Street"
+```
+
+Six shootings ("07-27", "08-35", "09-25", "09-27", "09-76", "16-26") do not have an address in the PDF so we can't fix them. 
+
+While browsing locations sometimes you might come across ones that aren't quite right. For example, shooting "07-19" has the location "51st Arch" when it should be "51st St and Arch".
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "07-19"] <- "51st St and Arch"
+```
+
+Shooting number "17-08" is a strange one. The description says that there were shootings at two locations because the suspect fled after the first shooting. Since the second shooting was in Delaware, we will use the address of the first shooting, "5600 Whitby Avenue".
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "17-08"] <- "5600 Whitby Avenue"
+```
+
+Shooting number "15-06" is unusual as it has quotes around the "A". This will cause issues when geocoding so we need to remove those quotes. The "A" probably refers to A Street so we can replace it as such.
+
+
+```r
+officer_shootings$location[officer_shootings$shooting_number == "15-06"] <- "A Street & Somerset Street"
+```
+
+Several of the addresses are of the form "5400 block of Erdick St". We want these to get geocoded to the middle of the block. So let's going to change addresses like these to be like "5450 Erdick St". We will use `gsub()` to change the pattern "00 block" to "50" to both delete the word "block" and change those locations to number 50, placing them in the middle of the block. We will set the parameter `ignore.case` to TRUE to tell `gsub()` that capitalization does not matter. 
+
+
+```r
+officer_shootings$location <- gsub("00 block", "50", officer_shootings$location, 
+                                   ignore.case = TRUE)
+```
+
+There are a few more issues we can use `gsub()` to fix. Some of the addresses say "xxx block of ". We removed the "block" but the "of" remains. We need to remove that too. A few addresses also say "Rear Alley of" or "near" an address. We can delete those texts as well. We can do this using three separate `gsub()`s or in a single use using the `|` which stands for "or". The `|` says look for things on the left or right of the `|`. For all our values we want to replace them with nothing, or in `gsub()` terms, an empty string "".
+
+
+```r
+officer_shootings$location <- gsub(" of|Rear Alley of |near ", "", officer_shootings$location, 
+                                   ignore.case = TRUE)
+```
+
+We can paste the string ", Philadelphia, PA" to the end of each address so when we geocode it ArcGIS knows these addresses are in Philly.
+
+
+```r
+officer_shootings$location <- paste(officer_shootings$location, ", Philadelphia, PA",
+                                    sep = "")
+```
+
+There are still some addresses that require manual fixing, such as the one reading "5700 N. Park street/5700 N. Broad street". Since this work requires reading through each address and seeing if it is accurate and can be rewritten, I won't dwell on it any further. This kind of work, manually checking data, is important even when using a programming language like R. R can only do what we tell it to do and isn't smart enough to recognize an issue that we can easily see. 
+
+Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manual inspecting and correction is important. If, instead, you look at crime data with millions of rows, it likely wouldn't be worth it to manual inspect so many values. 
+
+We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame "officer_shootings" we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in "officer_shootings".
+
+We need to make columns for the coordinates in "officer_shootings" now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as here if there is no match for the address), the value will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
+
+
+```r
+officer_shootings$lon <- NA
+officer_shootings$lat <- NA
+```
+
+Let's start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let's now save that output to an object we call "temp".
+
+
+```r
+temp <- geocode_address(officer_shootings$location[1])
+temp
+#>           x        y
+#> 1 -75.22253 39.95068
+```
+
+We can use square bracket [] subsetting to assign the value from the "x" column of "temp" to our "lon" column in "officers_shootings" and do the same for "y" and "lat" columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
+
+
+```r
+officer_shootings$lon[1] <- temp$x
+officer_shootings$lat[1] <- temp$y
+```
+
+And we can check the first 6 rows to make sure the first row is the only one with values in these new columns.
+
+
+```r
+head(officer_shootings)
+#>   shooting_number                                              location
+#> 1           19-04                   4950 Hazel Avenue, Philadelphia, PA
+#> 2           19-06                   1350 Kater Street, Philadelphia, PA
+#> 3           19-09 Bridge Street & Roosevelt Boulevard, Philadelphia, PA
+#> 4           19 11                  2150 Taney Terrace, Philadelphia, PA
+#> 5           19-13                1850 N. Broad Street, Philadelphia, PA
+#> 6           19 14                       3450 G Street, Philadelphia, PA
+#>        dates       lon      lat
+#> 1 2019-03-06 -75.22253 39.95068
+#> 2 2019-03-28        NA       NA
+#> 3 2019-04-20        NA       NA
+#> 4 2019-04-25        NA       NA
+#> 5 2019-05-11        NA       NA
+#> 6 2019-05-20        NA       NA
+```
+
+Since we are geocoding a lot of addresses, this may take some time. 
+
+
+```r
+for (i in 1:nrow(officer_shootings)) {
+   temp <- geocode_address(officer_shootings$location[i])
+   officer_shootings$lon[i] <- temp$x
+   officer_shootings$lat[i] <- temp$y
+}
+```
+
+Now it appears that we have longitude and latitude for every incident. We should check that they all look sensible.
+
+
+```r
+summary(officer_shootings$lat)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>  -20.57   39.96   39.99   39.79   40.02   53.61
+```
+
+
+```r
+summary(officer_shootings$lon)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#> -122.86  -75.19  -75.16  -73.63  -75.13  121.05
+```
+
+What is odd about these results? There are no NA values in either column! That does not make sense because we know some of the rows have non-addresses such as "withheld". What happened is that when ArcGIS couldn't find an address match it just gave us the generic coordinates for the city of Philly. Normally we would need to remove those rows but we will keep them in for now and look at the strange pattern caused by this in the section on mapping.
+
+Another check is to make a simple scatterplot of the data. Since all the shootings occurred in Philly, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
+
+
+```r
+plot(officer_shootings$lon, officer_shootings$lat)
+```
+
+<img src="geocoding_files/figure-html/unnamed-chunk-35-1.png" width="70%" style="display: block; margin: auto;" />
+
+While almost all the points have latitude around 39 and 40 and longitude around -75, several incidents appear to occur at in different areas. This is likely due to a geocoding issue with our geocoder finding the wrong address. For your own research, and considering the small number of values in this data, you should check the address to try to get them all geocoded properly. Here, we will simply remove all rows outside this -75 longitude and 39-40 latitude range. 
+
+Let's keep only rows with a latitude lower than 45 and a longitude less than -70 and higher than -80
+
+
+```r
+officer_shootings <- officer_shootings[officer_shootings$lat < 45, ]
+officer_shootings <- officer_shootings[officer_shootings$lon < -70, ]
+officer_shootings <- officer_shootings[officer_shootings$lon > -80, ]
+```
+
+Now we can check the `summary()` function again to see if all the values are in their normal ranges.
+
+
+```r
+summary(officer_shootings$lat)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>   35.48   39.97   39.99   39.98   40.02   40.10
+summary(officer_shootings$lon)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>  -79.43  -75.19  -75.16  -75.17  -75.13  -74.98
+```
+
+These values look correct. We can make another scatterplot as a second check.
+
+
+```r
+plot(officer_shootings$lon, officer_shootings$lat)
+```
+
+<img src="geocoding_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" />
+
+Two shootings have inaccurate latitudes. Let's drop any latitude that is less than 39.
+
+
+```r
+officer_shootings <- officer_shootings[officer_shootings$lat > 39, ]
+```
+
+We'll proceed as if we're satisfied with our geocoding even though you know you have more work to do to fix some of those non-specific geocoding problems. We close this section with a basic map of the city of Philadelphia and the locations of all officer-involved shootings.
+
+
+```r
+library(ggmap)
+mapPhilly <- get_map(c(-75.288486,39.868285,-74.950965,40.138251))
+ggmap(mapPhilly, extent = "normal") +
+   geom_point(aes(x = lon,y = lat), data = officer_shootings,
+              color = "red",
+              alpha = 0.5) +
+   theme(axis.title.x = element_blank(),
+         axis.title.y = element_blank())
+```
+
+<img src="geocoding_files/figure-html/unnamed-chunk-40-1.png" width="70%" style="display: block; margin: auto;" />
+
+To finish this lesson we want to save the "officer_shootings" data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of "officer_shootings" just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as "officer_shootings" to have fewer objects to manage. 
+
+
+```r
+officer_shootings_geocoded <- officer_shootings
+setwd(here::here("data"))
+save(officer_shootings_geocoded, file = "officer_shootings_geocoded.rda")
+```
+

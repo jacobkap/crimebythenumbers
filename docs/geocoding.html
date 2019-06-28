@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>14 Geocoding | R 4 Criminology</title>
+  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="14 Geocoding | R 4 Criminology" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://r4crim.com" />
+  
+  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="github-repo" content="jacobkap/r4crim" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="14 Geocoding | R 4 Criminology" />
+  
+  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+<meta name="author" content="Greg Ridgeway" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="scraping-data-from-pdfs.html">
+<link rel="next" href="hotspot-maps.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R for Criminology</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#assignment-of-values-to-variables-making-things"><i class="fa fa-check"></i><b>1.3</b> Assignment of values to variables (Making “things”)</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.4</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.4.1</b> Setting the working directory</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#loading-data"><i class="fa fa-check"></i><b>1.4.2</b> Loading data</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#first-steps-to-explore-the-data"><i class="fa fa-check"></i><b>1.4.3</b> First steps to explore the data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.2</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.2.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.2.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.2.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.2.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#does-not-match"><i class="fa fa-check"></i><b>3.2.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.2.4" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.2.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.2.5" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.2.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.3</b> Subsetting a data.frame</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-a-specific-column"><i class="fa fa-check"></i><b>3.4</b> Select a specific column</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-specific-rows-in-a-data.frame"><i class="fa fa-check"></i><b>3.4.1</b> Select specific rows in a data.frame</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#battleships"><i class="fa fa-check"></i><b>3.4.2</b> Battleships</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.4.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#graphing-data"><i class="fa fa-check"></i><b>4.2</b> Graphing Data</a></li>
+<li class="chapter" data-level="4.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#aggregating-summaries-of-groups"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dates-and-times.html"><a href="dates-and-times.html"><i class="fa fa-check"></i><b>5</b> Dates and Times</a><ul>
+<li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
+<li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
+<li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
+<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="6.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>6.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="6.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>6.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="6.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>6.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>6.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="6.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>6.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="6.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>6.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="6.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string-and-not"><i class="fa fa-check"></i><b>6.3.4</b> Start of string and “not” <code>^</code></a></li>
+<li class="chapter" data-level="6.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>6.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="6.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>6.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="6.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>6.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="6.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>6.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="6.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>6.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="6.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>6.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="6.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>6.3.11</b> Optional text <code>?</code></a></li>
+<li class="chapter" data-level="6.3.12" data-path="regular-expressions.html"><a href="regular-expressions.html#back-referencing"><i class="fa fa-check"></i><b>6.3.12</b> Back-referencing <code>()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>6.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="7.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-1"><i class="fa fa-check"></i><b>7.1.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.1.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-2"><i class="fa fa-check"></i><b>7.1.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#graphing-data-1"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-3"><i class="fa fa-check"></i><b>7.3.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.3.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-4"><i class="fa fa-check"></i><b>7.3.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#should-we-trust-this-data"><i class="fa fa-check"></i><b>7.4</b> Should we trust this data?</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-5"><i class="fa fa-check"></i><b>7.4.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.4.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-6"><i class="fa fa-check"></i><b>7.4.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>8</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="8.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>8.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="8.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>8.2</b> Cleaning the webscraped data</a></li>
+<li class="chapter" data-level="8.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>8.3</b> Fixing names</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-7"><i class="fa fa-check"></i><b>8.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>9</b> Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>9.1</b> A simple function</a></li>
+<li class="chapter" data-level="9.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>9.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="9.3" data-path="functions.html"><a href="functions.html#making-a-function-to-scrape-movie-data"><i class="fa fa-check"></i><b>9.3</b> Making a function to scrape movie data</a></li>
+<li class="chapter" data-level="9.4" data-path="functions.html"><a href="functions.html#the-benefits-of-functions"><i class="fa fa-check"></i><b>9.4</b> The benefits of functions</a></li>
+<li class="chapter" data-level="9.5" data-path="functions.html"><a href="functions.html#understanding-other-peoples-functions"><i class="fa fa-check"></i><b>9.5</b> Understanding other people’s functions</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>10</b> For loops</a><ul>
+<li class="chapter" data-level="10.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>10.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="10.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-days-of-movie"><i class="fa fa-check"></i><b>10.2</b> Scraping multiple days of movie</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="types-of-objects.html"><a href="types-of-objects.html"><i class="fa fa-check"></i><b>11</b> Types of objects</a><ul>
+<li class="chapter" data-level="11.1" data-path="types-of-objects.html"><a href="types-of-objects.html#vectors"><i class="fa fa-check"></i><b>11.1</b> Vectors</a></li>
+<li class="chapter" data-level="11.2" data-path="types-of-objects.html"><a href="types-of-objects.html#data-frames"><i class="fa fa-check"></i><b>11.2</b> Data frames</a></li>
+<li class="chapter" data-level="11.3" data-path="types-of-objects.html"><a href="types-of-objects.html#lists"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>12</b> Reading and Writing Data</a><ul>
+<li class="chapter" data-level="12.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>12.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-files"><i class="fa fa-check"></i><b>12.1.1</b> R files</a></li>
+<li class="chapter" data-level="12.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-files"><i class="fa fa-check"></i><b>12.1.2</b> Excel files</a></li>
+<li class="chapter" data-level="12.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-files"><i class="fa fa-check"></i><b>12.1.3</b> Stata files</a></li>
+<li class="chapter" data-level="12.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-files"><i class="fa fa-check"></i><b>12.1.4</b> SAS files</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>12.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-files-1"><i class="fa fa-check"></i><b>12.2.1</b> R files</a></li>
+<li class="chapter" data-level="12.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-files-1"><i class="fa fa-check"></i><b>12.2.2</b> Excel files</a></li>
+<li class="chapter" data-level="12.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-files-1"><i class="fa fa-check"></i><b>12.2.3</b> Stata files</a></li>
+<li class="chapter" data-level="12.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-files-1"><i class="fa fa-check"></i><b>12.2.4</b> SAS files</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html"><i class="fa fa-check"></i><b>13</b> Scraping data from PDFs</a><ul>
+<li class="chapter" data-level="13.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#downloading-officer-involved-shooting-files"><i class="fa fa-check"></i><b>13.1</b> Downloading officer-involved Shooting Files</a></li>
+<li class="chapter" data-level="13.2" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#scraping-information-from-the-page"><i class="fa fa-check"></i><b>13.2</b> Scraping information from the page</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#combining-the-data-sets"><i class="fa fa-check"></i><b>13.2.1</b> Combining the data sets</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#extracting-data-from-pdfs"><i class="fa fa-check"></i><b>13.3</b> Extracting data from PDFs</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#scraping-a-single-pdf"><i class="fa fa-check"></i><b>13.3.1</b> Scraping a single PDF</a></li>
+<li class="chapter" data-level="13.3.2" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#making-a-function"><i class="fa fa-check"></i><b>13.3.2</b> Making a function</a></li>
+<li class="chapter" data-level="13.3.3" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#looping-through-every-pdf"><i class="fa fa-check"></i><b>13.3.3</b> Looping through every PDF</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>14</b> Geocoding</a><ul>
+<li class="chapter" data-level="14.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>14.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="14.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
+<li class="chapter" data-level="14.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-officer-shooting-locations"><i class="fa fa-check"></i><b>14.3</b> Geocoding officer shooting locations</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>15</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="15.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#creating-the-maps"><i class="fa fa-check"></i><b>15.1</b> Creating the maps</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>16</b> Choropleth Maps</a></li>
+<li class="chapter" data-level="17" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>17</b> Interactive Maps</a><ul>
+<li class="chapter" data-level="17.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>17.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>17.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="17.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>17.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>17.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="17.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>17.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="17.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>17.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="17.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-polygons"><i class="fa fa-check"></i><b>17.5</b> Interactive polygons</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html"><i class="fa fa-check"></i><b>18</b> Graphing Officer-Involved Shootings</a><ul>
+<li class="chapter" data-level="18.1" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#graphing-a-single-variable"><i class="fa fa-check"></i><b>18.1</b> Graphing a single variable</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#numeric-variable"><i class="fa fa-check"></i><b>18.1.1</b> Numeric variable</a></li>
+<li class="chapter" data-level="18.1.2" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#categorical-variable"><i class="fa fa-check"></i><b>18.1.2</b> Categorical variable</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#time-series"><i class="fa fa-check"></i><b>18.2</b> Time Series</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="scraping-tables-from-pdfs.html"><a href="scraping-tables-from-pdfs.html"><i class="fa fa-check"></i><b>19</b> Scraping Tables from PDFs</a></li>
+<li class="chapter" data-level="20" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html"><i class="fa fa-check"></i><b>20</b> Uniform Crime Report (UCR) Data</a><ul>
+<li class="chapter" data-level="20.1" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>20.1</b> Exploring the UCR data</a></li>
+<li class="chapter" data-level="20.2" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#finding-things-in-our-data"><i class="fa fa-check"></i><b>20.2</b> Finding things in our data</a></li>
+<li class="chapter" data-level="20.3" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#manipulating-our-data"><i class="fa fa-check"></i><b>20.3</b> Manipulating our data</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#exercises-8"><i class="fa fa-check"></i><b>20.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="census-data.html"><a href="census-data.html"><i class="fa fa-check"></i><b>21</b> Census Data</a></li>
+<li class="chapter" data-level="22" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html"><i class="fa fa-check"></i><b>22</b> National Incident-Based Reporting System (NIBRS) Data</a><ul>
+<li class="chapter" data-level="22.1" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html#downloading-the-data"><i class="fa fa-check"></i><b>22.1</b> Downloading the data</a></li>
+<li class="chapter" data-level="22.2" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html#reading-the-data"><i class="fa fa-check"></i><b>22.2</b> Reading the data</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful Resources</a><ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="using-r-markdown.html"><a href="using-r-markdown.html"><i class="fa fa-check"></i><b>B</b> Using R Markdown</a><ul>
+<li class="chapter" data-level="B.1" data-path="using-r-markdown.html"><a href="using-r-markdown.html#code"><i class="fa fa-check"></i><b>B.1</b> Code</a><ul>
+<li class="chapter" data-level="B.1.1" data-path="using-r-markdown.html"><a href="using-r-markdown.html#only-use-code-to-make-output"><i class="fa fa-check"></i><b>B.1.1</b> Only use code to make output</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="using-r-markdown.html"><a href="using-r-markdown.html#figures-and-tables"><i class="fa fa-check"></i><b>B.2</b> Figures and Tables</a></li>
+<li class="chapter" data-level="B.3" data-path="using-r-markdown.html"><a href="using-r-markdown.html#finally-making-the-output-file"><i class="fa fa-check"></i><b>B.3</b> Finally, making the output file</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R 4 Criminology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="geocoding" class="section level1">
+<h1><span class="header-section-number">14</span> Geocoding</h1>
+<p>Our officer-involved shooting data has the address for every incident, but to be more useful we really need the geographical coordinates. If we had the coordinates, then we could put them on a map, tabulate how many incident occur within an area (such as a neighborhood or Census tract), and answer geographical questions about these data.</p>
+<p>This type of activity is common in research studying the effect of place. For example, several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.</p>
+<div id="geocoding-a-single-address" class="section level2">
+<h2><span class="header-section-number">14.1</span> Geocoding a single address</h2>
+<p>Geocoding is the process of converting a text description of a location (typically an address or intersection) to obtain geographic coordinates (often longitude/latitude, but other coordinate systems are also possible). Google Maps currently reigns supreme in this area. Google Maps understand very general descriptions of locations. You can ask for the coordinates of something like “bobbys burger palace near UPenn” and it will understand that “UPenn” means the University of Pennsylvania and that “bobbys burger palace” is celebrity chef Bobby Flay’s fast food burger joint. Unfortunately, as of June 2018 Google Maps now requires a credit card in order to access its geocoding service. Previously, anyone could geocode up to 2,500 locations per day without needing to register.</p>
+<p>These technologies are still rapidly evolving, so it is most important to learn how to learn to use these tools. We will use two free geocoders, OpenStreetMap and ArcGIS, to give you the sense of how to work with them.</p>
+<p>The URL for OpenStreetMap has the form
+<code>http://nominatim.openstreetmap.org/search/ADDRESS?format=json&amp;addressdetails=1&amp;limit=1</code></p>
+<p>where instead of “ADDRESS” we put in the address whose coordinates we want. As an example, let’s look at Penn’s McNeil Building.</p>
+<p><code>http://nominatim.openstreetmap.org/search/3718%20Locust%20Walk,%20Philadelphia,%20PA?format=json&amp;addressdetails=1&amp;limit=1</code></p>
+<p>You can see the address for Penn’s McNeil Building embedded in this URL. Including spaces in the address causes errors so all spaces need to be replaced with <code>%20</code>. Let’s see what data we get back from this URL. Enter the URL above in your browser and see what values you get back.</p>
+<p><img src="images/geocoding_1.PNG" /></p>
+<p>It gives us a page with several important values. For our purposes we want the “lat” and “lon” sections which are the latitude and longitude parts of a location’s coordinates.</p>
+<p>This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. Many web data sources use a standardized language for providing data. JSON (JavaScript Object Notation) is quite common and both OpenStreetMap and ArcGIS use JSON. This is the point of JSON, producing data in a format that a human could understand in a small batch, but a machine could process fast and easily. Fortunately, the <code>jsonlite</code> R package facilitates the conversion of JSON text like this into convenient R objects.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;jsonlite&quot;</span>)</code></pre>
+<p>We will use the <code>fromJSON()</code> function and enter in the URL right in the ().</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(jsonlite)
+<span class="kw">fromJSON</span>(<span class="st">&quot;http://nominatim.openstreetmap.org/search/3718%20Locust%20Walk,%20Philadelphia,%20PA?format=json&amp;addressdetails=1&amp;limit=1&quot;</span>)
+<span class="co">#&gt;    place_id</span>
+<span class="co">#&gt; 1 228278154</span>
+<span class="co">#&gt;                                                                  licence</span>
+<span class="co">#&gt; 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright</span>
+<span class="co">#&gt;   osm_type   osm_id</span>
+<span class="co">#&gt; 1      way 32108143</span>
+<span class="co">#&gt;                                                            boundingbox</span>
+<span class="co">#&gt; 1 39.952309653061, 39.952409653061, -75.198505469388, -75.198405469388</span>
+<span class="co">#&gt;                lat               lon</span>
+<span class="co">#&gt; 1 39.9523596530612 -75.1984554693878</span>
+<span class="co">#&gt;                                                                                      display_name</span>
+<span class="co">#&gt; 1 3718, Locust Walk, University City, Philadelphia, Philadelphia County, Pennsylvania, 19104, USA</span>
+<span class="co">#&gt;   class  type importance address.house_number address.footway</span>
+<span class="co">#&gt; 1 place house      0.421                 3718     Locust Walk</span>
+<span class="co">#&gt;   address.neighbourhood address.city      address.county address.state</span>
+<span class="co">#&gt; 1       University City Philadelphia Philadelphia County  Pennsylvania</span>
+<span class="co">#&gt;   address.postcode address.country address.country_code</span>
+<span class="co">#&gt; 1            19104             USA                   us</span></code></pre>
+<p>The function <code>fromJSON()</code> converts the results from the OpenStreetMap geocoder to a row in a data frame. The JSON tags turn into column names and the values are placed as data in a row.</p>
+<p>The major drawback of the OpenStreetMap geocoder is that it does not handle intersections. If we try to geocode “38th St and Walnut St”, the results come back empty.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fromJSON</span>(<span class="st">&quot;http://nominatim.openstreetmap.org/search/38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA?format=json&amp;addressdetails=1&amp;limit=1&quot;</span>)
+<span class="co">#&gt; list()</span></code></pre>
+<p>This is where the ArcGIS geocoder comes in handy. The ArcGIS geocoder also works with JSON but the URL is a little different.</p>
+<p>In this case the URL is</p>
+<p><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=ADDRESS&amp;outFields=Match_addr,Addr_type</code></p>
+<p>where again ADDRESS is the stand-in for our address. As before, we need to replace spaces in the address with <code>%20</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&amp;outFields=Match_addr,Addr_type&quot;</span>)
+<span class="co">#&gt; $spatialReference</span>
+<span class="co">#&gt; $spatialReference$wkid</span>
+<span class="co">#&gt; [1] 4326</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $spatialReference$latestWkid</span>
+<span class="co">#&gt; [1] 4326</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $candidates</span>
+<span class="co">#&gt;                                                           address</span>
+<span class="co">#&gt; 1        S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 2     E State St &amp; Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 3                    Walnut St, Philadelphia, Pennsylvania, 19102</span>
+<span class="co">#&gt; 4                    Walnut St, Philadelphia, Pennsylvania, 19107</span>
+<span class="co">#&gt; 5                    Walnut St, Philadelphia, Pennsylvania, 19139</span>
+<span class="co">#&gt; 6                    Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 7                    Walnut St, Philadelphia, Pennsylvania, 19106</span>
+<span class="co">#&gt; 8                    Walnut St, Philadelphia, Pennsylvania, 19103</span>
+<span class="co">#&gt; 9   E State St &amp; N Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 10             State Rd &amp; Walnut Ln, Telford, Pennsylvania, 18969</span>
+<span class="co">#&gt; 11         State Rd &amp; Walnut Ave E, Bensalem, Pennsylvania, 19020</span>
+<span class="co">#&gt; 12 E Street Rd &amp; N Walnut Rd, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt;    location.x location.y score</span>
+<span class="co">#&gt; 1   -75.19868   39.95361 99.61</span>
+<span class="co">#&gt; 2   -75.70500   39.84916 92.11</span>
+<span class="co">#&gt; 3   -75.16610   39.94956 89.84</span>
+<span class="co">#&gt; 4   -75.15921   39.94872 89.84</span>
+<span class="co">#&gt; 5   -75.22935   39.95743 89.84</span>
+<span class="co">#&gt; 6   -75.19625   39.95331 89.84</span>
+<span class="co">#&gt; 7   -75.14849   39.94735 89.84</span>
+<span class="co">#&gt; 8   -75.17451   39.95063 89.84</span>
+<span class="co">#&gt; 9   -75.70560   39.84894 88.18</span>
+<span class="co">#&gt; 10  -75.32272   40.33865 87.85</span>
+<span class="co">#&gt; 11  -74.97302   40.06046 87.54</span>
+<span class="co">#&gt; 12  -75.70581   39.87565 87.23</span>
+<span class="co">#&gt;                                             attributes.Match_addr</span>
+<span class="co">#&gt; 1        S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 2     E State St &amp; Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 3                    Walnut St, Philadelphia, Pennsylvania, 19102</span>
+<span class="co">#&gt; 4                    Walnut St, Philadelphia, Pennsylvania, 19107</span>
+<span class="co">#&gt; 5                    Walnut St, Philadelphia, Pennsylvania, 19139</span>
+<span class="co">#&gt; 6                    Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 7                    Walnut St, Philadelphia, Pennsylvania, 19106</span>
+<span class="co">#&gt; 8                    Walnut St, Philadelphia, Pennsylvania, 19103</span>
+<span class="co">#&gt; 9   E State St &amp; N Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 10             State Rd &amp; Walnut Ln, Telford, Pennsylvania, 18969</span>
+<span class="co">#&gt; 11         State Rd &amp; Walnut Ave E, Bensalem, Pennsylvania, 19020</span>
+<span class="co">#&gt; 12 E Street Rd &amp; N Walnut Rd, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt;    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax</span>
+<span class="co">#&gt; 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461</span>
+<span class="co">#&gt; 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016</span>
+<span class="co">#&gt; 3            StreetName   -75.16710    39.94856   -75.16510    39.95056</span>
+<span class="co">#&gt; 4            StreetName   -75.16021    39.94772   -75.15821    39.94972</span>
+<span class="co">#&gt; 5            StreetName   -75.23035    39.95643   -75.22835    39.95843</span>
+<span class="co">#&gt; 6            StreetName   -75.19725    39.95231   -75.19525    39.95431</span>
+<span class="co">#&gt; 7            StreetName   -75.14949    39.94635   -75.14749    39.94835</span>
+<span class="co">#&gt; 8            StreetName   -75.17551    39.94963   -75.17351    39.95163</span>
+<span class="co">#&gt; 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994</span>
+<span class="co">#&gt; 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965</span>
+<span class="co">#&gt; 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146</span>
+<span class="co">#&gt; 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665</span></code></pre>
+<p>It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called “candidates”. To avoid having a very long line of code, let’s call the list <code>fromJSON()</code> returns “address_coordinate” and grab the “candidates” object from that list.</p>
+<pre class="sourceCode r"><code class="sourceCode r">address_coordinates &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&amp;outFields=Match_addr,Addr_type&quot;</span>)
+address_coordinates<span class="op">$</span>candidates
+<span class="co">#&gt;                                                           address</span>
+<span class="co">#&gt; 1        S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 2     E State St &amp; Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 3                    Walnut St, Philadelphia, Pennsylvania, 19102</span>
+<span class="co">#&gt; 4                    Walnut St, Philadelphia, Pennsylvania, 19107</span>
+<span class="co">#&gt; 5                    Walnut St, Philadelphia, Pennsylvania, 19139</span>
+<span class="co">#&gt; 6                    Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 7                    Walnut St, Philadelphia, Pennsylvania, 19106</span>
+<span class="co">#&gt; 8                    Walnut St, Philadelphia, Pennsylvania, 19103</span>
+<span class="co">#&gt; 9   E State St &amp; N Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 10             State Rd &amp; Walnut Ln, Telford, Pennsylvania, 18969</span>
+<span class="co">#&gt; 11         State Rd &amp; Walnut Ave E, Bensalem, Pennsylvania, 19020</span>
+<span class="co">#&gt; 12 E Street Rd &amp; N Walnut Rd, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt;    location.x location.y score</span>
+<span class="co">#&gt; 1   -75.19868   39.95361 99.61</span>
+<span class="co">#&gt; 2   -75.70500   39.84916 92.11</span>
+<span class="co">#&gt; 3   -75.16610   39.94956 89.84</span>
+<span class="co">#&gt; 4   -75.15921   39.94872 89.84</span>
+<span class="co">#&gt; 5   -75.22935   39.95743 89.84</span>
+<span class="co">#&gt; 6   -75.19625   39.95331 89.84</span>
+<span class="co">#&gt; 7   -75.14849   39.94735 89.84</span>
+<span class="co">#&gt; 8   -75.17451   39.95063 89.84</span>
+<span class="co">#&gt; 9   -75.70560   39.84894 88.18</span>
+<span class="co">#&gt; 10  -75.32272   40.33865 87.85</span>
+<span class="co">#&gt; 11  -74.97302   40.06046 87.54</span>
+<span class="co">#&gt; 12  -75.70581   39.87565 87.23</span>
+<span class="co">#&gt;                                             attributes.Match_addr</span>
+<span class="co">#&gt; 1        S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 2     E State St &amp; Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 3                    Walnut St, Philadelphia, Pennsylvania, 19102</span>
+<span class="co">#&gt; 4                    Walnut St, Philadelphia, Pennsylvania, 19107</span>
+<span class="co">#&gt; 5                    Walnut St, Philadelphia, Pennsylvania, 19139</span>
+<span class="co">#&gt; 6                    Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt; 7                    Walnut St, Philadelphia, Pennsylvania, 19106</span>
+<span class="co">#&gt; 8                    Walnut St, Philadelphia, Pennsylvania, 19103</span>
+<span class="co">#&gt; 9   E State St &amp; N Walnut St, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt; 10             State Rd &amp; Walnut Ln, Telford, Pennsylvania, 18969</span>
+<span class="co">#&gt; 11         State Rd &amp; Walnut Ave E, Bensalem, Pennsylvania, 19020</span>
+<span class="co">#&gt; 12 E Street Rd &amp; N Walnut Rd, Kennett Square, Pennsylvania, 19348</span>
+<span class="co">#&gt;    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax</span>
+<span class="co">#&gt; 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461</span>
+<span class="co">#&gt; 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016</span>
+<span class="co">#&gt; 3            StreetName   -75.16710    39.94856   -75.16510    39.95056</span>
+<span class="co">#&gt; 4            StreetName   -75.16021    39.94772   -75.15821    39.94972</span>
+<span class="co">#&gt; 5            StreetName   -75.23035    39.95643   -75.22835    39.95843</span>
+<span class="co">#&gt; 6            StreetName   -75.19725    39.95231   -75.19525    39.95431</span>
+<span class="co">#&gt; 7            StreetName   -75.14949    39.94635   -75.14749    39.94835</span>
+<span class="co">#&gt; 8            StreetName   -75.17551    39.94963   -75.17351    39.95163</span>
+<span class="co">#&gt; 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994</span>
+<span class="co">#&gt; 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965</span>
+<span class="co">#&gt; 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146</span>
+<span class="co">#&gt; 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665</span></code></pre>
+<p>The “candidates” is a data.frame which includes 12 different coordinates from our address. The first one is the one we want and if you look at the “score” column you can see it has the highest score of those 12. ArcGIS provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the “most confident” one - so we will just keep the first row.</p>
+<p>Since we are grabbing the first row of a data.frame, our square bracket notation must be [row, column]. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.</p>
+<pre class="sourceCode r"><code class="sourceCode r">address_coordinates &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&amp;outFields=Match_addr,Addr_type&quot;</span>)
+address_coordinates &lt;-<span class="st"> </span>address_coordinates<span class="op">$</span>candidates
+address_coordinates &lt;-<span class="st"> </span>address_coordinates[<span class="dv">1</span>, ]
+address_coordinates
+<span class="co">#&gt;                                                    address location.x</span>
+<span class="co">#&gt; 1 S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104  -75.19868</span>
+<span class="co">#&gt;   location.y score</span>
+<span class="co">#&gt; 1   39.95361 99.61</span>
+<span class="co">#&gt;                                      attributes.Match_addr</span>
+<span class="co">#&gt; 1 S 38th St &amp; Walnut St, Philadelphia, Pennsylvania, 19104</span>
+<span class="co">#&gt;   attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax</span>
+<span class="co">#&gt; 1            StreetInt   -75.19968    39.95261   -75.19768    39.95461</span></code></pre>
+<p>This data.frame has something we’ve never seen before. It has columns that are themselves data.frames. For example, the column “location” is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.</p>
+<pre class="sourceCode r"><code class="sourceCode r">address_coordinates<span class="op">$</span>location
+<span class="co">#&gt;           x        y</span>
+<span class="co">#&gt; 1 -75.19868 39.95361</span></code></pre>
+<p>Since our end goal was to get the coordinates of an address, the data.frame in the “location” column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address.</p>
+</div>
+<div id="making-a-function-1" class="section level2">
+<h2><span class="header-section-number">14.2</span> Making a function</h2>
+<p>Since ArcGIS is capable of handling intersections, we will focus on using that throughout this lesson. We want to geocode every single address from the officer shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us.</p>
+<p>Let’s start by copying the code used to geocode a single address.</p>
+<pre class="sourceCode r"><code class="sourceCode r">address_coordinates &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&amp;outFields=Match_addr,Addr_type&quot;</span>)
+address_coordinates &lt;-<span class="st"> </span>address_coordinates<span class="op">$</span>candidates
+address_coordinates &lt;-<span class="st"> </span>address_coordinates[<span class="dv">1</span>, ]
+address_coordinates<span class="op">$</span>location
+<span class="co">#&gt;           x        y</span>
+<span class="co">#&gt; 1 -75.19868 39.95361</span></code></pre>
+<p>Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address.</p>
+<p>We can call the function “geocode_address”, the input “address” and the returning value “address_coordinates” just to stay consistent with the code we already wrote.</p>
+<pre class="sourceCode r"><code class="sourceCode r">geocode_address &lt;-<span class="st"> </span><span class="cf">function</span>(address) {
+   
+   <span class="kw">return</span>(address_coordinates)
+}</code></pre>
+<p>Now we can add the code.</p>
+<pre class="sourceCode r"><code class="sourceCode r">geocode_address &lt;-<span class="st"> </span><span class="cf">function</span>(address) {
+   address_coordinates &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&amp;outFields=Match_addr,Addr_type&quot;</span>)
+   address_coordinates &lt;-<span class="st"> </span>address_coordinates<span class="op">$</span>candidates
+   address_coordinates &lt;-<span class="st"> </span>address_coordinates[<span class="dv">1</span>, ]
+   address_coordinates<span class="op">$</span>location
+   <span class="kw">return</span>(address_coordinates)
+}</code></pre>
+<p>Finally we need to replace the value in <code>fromJSON()</code> which is for a specific address with something that works for any address we input.</p>
+<p>Since the URL is in the form</p>
+<p><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=ADDRESS&amp;outFields=Match_addr,Addr_type</code></p>
+<p>we can use the <code>paste()</code> function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with <code>%20</code>. We can do that using <code>gsub()</code> which is perfect for replacing characters. Let’s try a simple example using <code>gsub()</code> before including it in our function. We just want to find every " " and replace it with “%20”.</p>
+<p>We will use the original address as the example.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;%20&quot;</span>, <span class="st">&quot;38th St and Walnut St, Philadelphia, PA&quot;</span>)
+<span class="co">#&gt; [1] &quot;38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&quot;</span></code></pre>
+<p>It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use <code>paste()</code> to combine the parts of the URL with the address and have that as the input in <code>fromJSON()</code>. Let’s do that in two steps. First we do the <code>paste()</code>, saving it in an object we can call “url”, and then use “url” as our input in <code>fromJSON()</code>. Since we do not want spaces in the URL, we need to set the <code>sep</code> parameter in <code>paste()</code> to "".</p>
+<pre class="sourceCode r"><code class="sourceCode r">geocode_address &lt;-<span class="st"> </span><span class="cf">function</span>(address) {
+   address &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;%20&quot;</span>, address)
+   url &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=&quot;</span>,
+                address,
+                <span class="st">&quot;&amp;outFields=Match_addr,Addr_type&quot;</span>,
+                <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
+   address_coordinates &lt;-<span class="st"> </span><span class="kw">fromJSON</span>(url)
+   
+   address_coordinates &lt;-<span class="st"> </span>address_coordinates<span class="op">$</span>candidates
+   address_coordinates &lt;-<span class="st"> </span>address_coordinates[<span class="dv">1</span>, ]
+   address_coordinates &lt;-<span class="st"> </span>address_coordinates<span class="op">$</span>location
+   
+   <span class="kw">return</span>(address_coordinates)
+}</code></pre>
+<p>We can try it using the same address we did earlier, “38th St and Walnut St, Philadelphia, PA”, the address of Penn’s McNeil Building.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">geocode_address</span>(<span class="st">&quot;38th St and Walnut St, Philadelphia, PA&quot;</span>)
+<span class="co">#&gt;           x        y</span>
+<span class="co">#&gt; 1 -75.19868 39.95361</span></code></pre>
+<p>It returns the same data.frame as earlier so our function works!</p>
+</div>
+<div id="geocoding-officer-shooting-locations" class="section level2">
+<h2><span class="header-section-number">14.3</span> Geocoding officer shooting locations</h2>
+<p>We now have a function capable of returning the coordinates of every location in our officer-involved shooting data. We can write a for loop to go through every row of data and get the coordinates for that row’s location.</p>
+<p>Let’s load in the officer shooting data we made earlier.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>))
+<span class="kw">load</span>(<span class="st">&quot;officer_shootings.rda&quot;</span>)</code></pre>
+<p>Before we do that we need to fix some issues in the locations column. The main issue is that several of the shootings have the location labeled as “withheld” in the table we scraped but the address does exist inside the PDF itself.</p>
+<p>Let’s check first how many times the word “withheld” (with the W capitalized or not) or an empty string "" exists in the “location” column.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(officer_shootings<span class="op">$</span>location <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;withheld&quot;</span>, <span class="st">&quot;Withheld&quot;</span>))
+<span class="co">#&gt; </span>
+<span class="co">#&gt; FALSE  TRUE </span>
+<span class="co">#&gt;   449    15</span></code></pre>
+<p>Above we are saying “how many times do the values”“,”withheld“, or”Withheld" appear in the column “location”. 15 times.</p>
+<p>We can print out the shooting number of the rows with one of those values to make it easy to check the PDF. We can use square bracket [] subsetting to return the rows in the “shooting_number” column where the location is one of those values above.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>shooting_number[officer_shootings<span class="op">$</span>location <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;withheld&quot;</span>, <span class="st">&quot;Withheld&quot;</span>)]
+<span class="co">#&gt;  [1] &quot;16-18&quot; &quot;16-26&quot; &quot;10-06&quot; &quot;09-25&quot; &quot;09-27&quot; &quot;09-76&quot; &quot;08-06&quot; &quot;08-18&quot;</span>
+<span class="co">#&gt;  [9] &quot;08-30&quot; &quot;08-35&quot; &quot;08-40&quot; &quot;08-60&quot; &quot;08-70&quot; &quot;08-74&quot; &quot;07-27&quot;</span></code></pre>
+<p>We will also use square bracket notation to replace the value in the “location” column with the correct address that we read manually in the PDF. Let’s start with the first shooting, number “16-18” printed above. Using square bracket notation we can see which value is in the “location” column for the row whose “shooting_number” is “16-18”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;16-18&quot;</span>]
+<span class="co">#&gt; [1] &quot;withheld&quot;</span></code></pre>
+<p>Looking into the PDF we can see that the correct address is “3200 block of Wellington Street”. Let’s assign that address to the “location” column in the row for that shooting.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;16-18&quot;</span>] &lt;-<span class="st"> &quot;3200 block of Wellington Street&quot;</span></code></pre>
+<p>And we can check if it worked.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;16-18&quot;</span>]
+<span class="co">#&gt; [1] &quot;3200 block of Wellington Street&quot;</span></code></pre>
+<p>We need to do the same for the other 14 values with missing locations. Several of these text descriptions of the incidents contain the location information. Let’s fill those in.</p>
+<pre class="sourceCode r"><code class="sourceCode r">
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-06&quot;</span>] &lt;-<span class="st"> &quot;200 block of Clapier Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-18&quot;</span>] &lt;-<span class="st"> &quot;900 block of E. Slocum Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-30&quot;</span>] &lt;-<span class="st"> &quot;700 block of W. Rockland Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-40&quot;</span>] &lt;-<span class="st"> &quot;5400 Jefferson Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-60&quot;</span>] &lt;-<span class="st"> &quot;3000 Memphis Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-70&quot;</span>] &lt;-<span class="st"> &quot;1300 block of S. 29th Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;08-74&quot;</span>] &lt;-<span class="st"> &quot;5600 block of N. Mascher Street&quot;</span>
+officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;10-06&quot;</span>] &lt;-<span class="st"> &quot;Howard and Grange Street&quot;</span></code></pre>
+<p>Six shootings (“07-27”, “08-35”, “09-25”, “09-27”, “09-76”, “16-26”) do not have an address in the PDF so we can’t fix them.</p>
+<p>While browsing locations sometimes you might come across ones that aren’t quite right. For example, shooting “07-19” has the location “51st Arch” when it should be “51st St and Arch”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;07-19&quot;</span>] &lt;-<span class="st"> &quot;51st St and Arch&quot;</span></code></pre>
+<p>Shooting number “17-08” is a strange one. The description says that there were shootings at two locations because the suspect fled after the first shooting. Since the second shooting was in Delaware, we will use the address of the first shooting, “5600 Whitby Avenue”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;17-08&quot;</span>] &lt;-<span class="st"> &quot;5600 Whitby Avenue&quot;</span></code></pre>
+<p>Shooting number “15-06” is unusual as it has quotes around the “A”. This will cause issues when geocoding so we need to remove those quotes. The “A” probably refers to A Street so we can replace it as such.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location[officer_shootings<span class="op">$</span>shooting_number <span class="op">==</span><span class="st"> &quot;15-06&quot;</span>] &lt;-<span class="st"> &quot;A Street &amp; Somerset Street&quot;</span></code></pre>
+<p>Several of the addresses are of the form “5400 block of Erdick St”. We want these to get geocoded to the middle of the block. So let’s going to change addresses like these to be like “5450 Erdick St”. We will use <code>gsub()</code> to change the pattern “00 block” to “50” to both delete the word “block” and change those locations to number 50, placing them in the middle of the block. We will set the parameter <code>ignore.case</code> to TRUE to tell <code>gsub()</code> that capitalization does not matter.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;00 block&quot;</span>, <span class="st">&quot;50&quot;</span>, officer_shootings<span class="op">$</span>location, 
+                                   <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)</code></pre>
+<p>There are a few more issues we can use <code>gsub()</code> to fix. Some of the addresses say “xxx block of”. We removed the “block” but the “of” remains. We need to remove that too. A few addresses also say “Rear Alley of” or “near” an address. We can delete those texts as well. We can do this using three separate <code>gsub()</code>s or in a single use using the <code>|</code> which stands for “or”. The <code>|</code> says look for things on the left or right of the <code>|</code>. For all our values we want to replace them with nothing, or in <code>gsub()</code> terms, an empty string "".</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; of|Rear Alley of |near &quot;</span>, <span class="st">&quot;&quot;</span>, officer_shootings<span class="op">$</span>location, 
+                                   <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)</code></pre>
+<p>We can paste the string “, Philadelphia, PA” to the end of each address so when we geocode it ArcGIS knows these addresses are in Philly.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>location &lt;-<span class="st"> </span><span class="kw">paste</span>(officer_shootings<span class="op">$</span>location, <span class="st">&quot;, Philadelphia, PA&quot;</span>,
+                                    <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre>
+<p>There are still some addresses that require manual fixing, such as the one reading “5700 N. Park street/5700 N. Broad street”. Since this work requires reading through each address and seeing if it is accurate and can be rewritten, I won’t dwell on it any further. This kind of work, manually checking data, is important even when using a programming language like R. R can only do what we tell it to do and isn’t smart enough to recognize an issue that we can easily see.</p>
+<p>Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manual inspecting and correction is important. If, instead, you look at crime data with millions of rows, it likely wouldn’t be worth it to manual inspect so many values.</p>
+<p>We can now write a for loop to go through every row in our data and geocode that address. The function <code>geocode_address()</code> we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame “officer_shootings” we can save the output of <code>geocode_address()</code> to a temporary file and add each of the columns it produces to a column in “officer_shootings”.</p>
+<p>We need to make columns for the coordinates in “officer_shootings” now to be filled in during the for loop. We can call them “lon” and “lat” for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don’t fill in the loop (such as here if there is no match for the address), the value will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>lon &lt;-<span class="st"> </span><span class="ot">NA</span>
+officer_shootings<span class="op">$</span>lat &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre>
+<p>Let’s start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let’s now save that output to an object we call “temp”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">geocode_address</span>(officer_shootings<span class="op">$</span>location[<span class="dv">1</span>])
+temp
+<span class="co">#&gt;           x        y</span>
+<span class="co">#&gt; 1 -75.22253 39.95068</span></code></pre>
+<p>We can use square bracket [] subsetting to assign the value from the “x” column of “temp” to our “lon” column in “officers_shootings” and do the same for “y” and “lat” columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>lon[<span class="dv">1</span>] &lt;-<span class="st"> </span>temp<span class="op">$</span>x
+officer_shootings<span class="op">$</span>lat[<span class="dv">1</span>] &lt;-<span class="st"> </span>temp<span class="op">$</span>y</code></pre>
+<p>And we can check the first 6 rows to make sure the first row is the only one with values in these new columns.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(officer_shootings)
+<span class="co">#&gt;   shooting_number                                              location</span>
+<span class="co">#&gt; 1           19-04                   4950 Hazel Avenue, Philadelphia, PA</span>
+<span class="co">#&gt; 2           19-06                   1350 Kater Street, Philadelphia, PA</span>
+<span class="co">#&gt; 3           19-09 Bridge Street &amp; Roosevelt Boulevard, Philadelphia, PA</span>
+<span class="co">#&gt; 4           19 11                  2150 Taney Terrace, Philadelphia, PA</span>
+<span class="co">#&gt; 5           19-13                1850 N. Broad Street, Philadelphia, PA</span>
+<span class="co">#&gt; 6           19 14                       3450 G Street, Philadelphia, PA</span>
+<span class="co">#&gt;        dates       lon      lat</span>
+<span class="co">#&gt; 1 2019-03-06 -75.22253 39.95068</span>
+<span class="co">#&gt; 2 2019-03-28        NA       NA</span>
+<span class="co">#&gt; 3 2019-04-20        NA       NA</span>
+<span class="co">#&gt; 4 2019-04-25        NA       NA</span>
+<span class="co">#&gt; 5 2019-05-11        NA       NA</span>
+<span class="co">#&gt; 6 2019-05-20        NA       NA</span></code></pre>
+<p>Since we are geocoding a lot of addresses, this may take some time.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(officer_shootings)) {
+   temp &lt;-<span class="st"> </span><span class="kw">geocode_address</span>(officer_shootings<span class="op">$</span>location[i])
+   officer_shootings<span class="op">$</span>lon[i] &lt;-<span class="st"> </span>temp<span class="op">$</span>x
+   officer_shootings<span class="op">$</span>lat[i] &lt;-<span class="st"> </span>temp<span class="op">$</span>y
+}</code></pre>
+<p>Now it appears that we have longitude and latitude for every incident. We should check that they all look sensible.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(officer_shootings<span class="op">$</span>lat)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;  -20.57   39.96   39.99   39.79   40.02   53.61</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(officer_shootings<span class="op">$</span>lon)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt; -122.86  -75.19  -75.16  -73.63  -75.13  121.05</span></code></pre>
+<p>What is odd about these results? There are no NA values in either column! That does not make sense because we know some of the rows have non-addresses such as “withheld”. What happened is that when ArcGIS couldn’t find an address match it just gave us the generic coordinates for the city of Philly. Normally we would need to remove those rows but we will keep them in for now and look at the strange pattern caused by this in the section on mapping.</p>
+<p>Another check is to make a simple scatterplot of the data. Since all the shootings occurred in Philly, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(officer_shootings<span class="op">$</span>lon, officer_shootings<span class="op">$</span>lat)</code></pre>
+<p><img src="geocoding_files/figure-html/unnamed-chunk-35-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>While almost all the points have latitude around 39 and 40 and longitude around -75, several incidents appear to occur at in different areas. This is likely due to a geocoding issue with our geocoder finding the wrong address. For your own research, and considering the small number of values in this data, you should check the address to try to get them all geocoded properly. Here, we will simply remove all rows outside this -75 longitude and 39-40 latitude range.</p>
+<p>Let’s keep only rows with a latitude lower than 45 and a longitude less than -70 and higher than -80</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings &lt;-<span class="st"> </span>officer_shootings[officer_shootings<span class="op">$</span>lat <span class="op">&lt;</span><span class="st"> </span><span class="dv">45</span>, ]
+officer_shootings &lt;-<span class="st"> </span>officer_shootings[officer_shootings<span class="op">$</span>lon <span class="op">&lt;</span><span class="st"> </span><span class="dv">-70</span>, ]
+officer_shootings &lt;-<span class="st"> </span>officer_shootings[officer_shootings<span class="op">$</span>lon <span class="op">&gt;</span><span class="st"> </span><span class="dv">-80</span>, ]</code></pre>
+<p>Now we can check the <code>summary()</code> function again to see if all the values are in their normal ranges.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(officer_shootings<span class="op">$</span>lat)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   35.48   39.97   39.99   39.98   40.02   40.10</span>
+<span class="kw">summary</span>(officer_shootings<span class="op">$</span>lon)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;  -79.43  -75.19  -75.16  -75.17  -75.13  -74.98</span></code></pre>
+<p>These values look correct. We can make another scatterplot as a second check.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(officer_shootings<span class="op">$</span>lon, officer_shootings<span class="op">$</span>lat)</code></pre>
+<p><img src="geocoding_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>Two shootings have inaccurate latitudes. Let’s drop any latitude that is less than 39.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings &lt;-<span class="st"> </span>officer_shootings[officer_shootings<span class="op">$</span>lat <span class="op">&gt;</span><span class="st"> </span><span class="dv">39</span>, ]</code></pre>
+<p>We’ll proceed as if we’re satisfied with our geocoding even though you know you have more work to do to fix some of those non-specific geocoding problems. We close this section with a basic map of the city of Philadelphia and the locations of all officer-involved shootings.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggmap)
+mapPhilly &lt;-<span class="st"> </span><span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">75.288486</span>,<span class="fl">39.868285</span>,<span class="op">-</span><span class="fl">74.950965</span>,<span class="fl">40.138251</span>))
+<span class="kw">ggmap</span>(mapPhilly, <span class="dt">extent =</span> <span class="st">&quot;normal&quot;</span>) <span class="op">+</span>
+<span class="st">   </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon,<span class="dt">y =</span> lat), <span class="dt">data =</span> officer_shootings,
+              <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>,
+              <span class="dt">alpha =</span> <span class="fl">0.5</span>) <span class="op">+</span>
+<span class="st">   </span><span class="kw">theme</span>(<span class="dt">axis.title.x =</span> <span class="kw">element_blank</span>(),
+         <span class="dt">axis.title.y =</span> <span class="kw">element_blank</span>())</code></pre>
+<p><img src="geocoding_files/figure-html/unnamed-chunk-40-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p>To finish this lesson we want to save the “officer_shootings” data.frame to use in future lessons. I am going to make a new object called “officer_shootings_geocoded” that is a copy of “officer_shootings” just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as “officer_shootings” to have fewer objects to manage.</p>
+<pre class="sourceCode r"><code class="sourceCode r">officer_shootings_geocoded &lt;-<span class="st"> </span>officer_shootings
+<span class="kw">setwd</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>))
+<span class="kw">save</span>(officer_shootings_geocoded, <span class="dt">file =</span> <span class="st">&quot;officer_shootings_geocoded.rda&quot;</span>)</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="scraping-data-from-pdfs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hotspot-maps.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/r4crim/edit/master/geocoding.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+
+\cleardoublepage 
+
+# (APPENDIX) Appendix {-}
+
+# Useful Resources
+
+## Learning R and coding issues
+
+[R for Data Science](http://r4ds.had.co.nz/) - This free online book provides a good introduction for R though it differs in several important ways from this class.
+
+
+[Stack Overflow](http://stackoverflow.com/) - Stack Overflow is a website that answers programming-related questions. It's like the Yahoo Answers of programming. That said, a lot of the answer are bad. Some answers are overly confusing or provide code that you may not understand. You can use this source, but don't rely too heavily on it. Its search function isn't great so it's better to Google your question and choose the stackoverflow.com result. 
+
+
+## Data
+
+[Crime Data](https://www.icpsr.umich.edu/icpsrweb/content/NACJD/index.html) - 
+
+[Crime Data (cleaned)](http://crimedatatool.com/data) - 
+
+[General Data](https://www.icpsr.umich.edu/icpsrweb/) - 
+
+[Census Data](https://usa.ipums.org/usa/) - 
+
+[Local crime data](https://www.policedatainitiative.org/datasets/) - 

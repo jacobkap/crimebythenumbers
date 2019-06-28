@@ -1,0 +1,178 @@
+# Choropleth Maps
+
+In the past few lessons we scraped data on every police-involved shooting in Philadelphia from 2007 through early 2019, geocoded the location of the shootings, and made a simple map showing where they happened. In research related to geographic areas 
+
+Since we will be working more on the geocoded version of the police shooting data, let's load it now.
+
+```{r}
+load("data/officer_shootings_geocoded.rda")
+```
+
+The package that we will use to handle geographic data and do most of the work in this lesson is `sf`. `sf` is a sophisticated package and does far more than we will cover in this lesson. For more information about the package's features please see the website for it [here](http://r-spatial.github.io/sf/).
+
+The Philadelphia Police Department divides the city into Police Service Areas (PSAs). The city provides a *shapefile*, a file containing geographic data, that describes the boundaries of the PSAs at Philadelphia's [open data site](https://www.opendataphilly.org/dataset/police-service-areas). R can read these files using the `st_read()` function provided in the `sf` (simple features) package. Even though `st_read()` appears to only be accessing `Boundaries_PSA.shp`, you should have all of the `Boundaries_PSA` files in your `10_shapefiles_and_data` folder. The other files have information that `st_read()` needs, like the coordinate system stored in `Boundaries_PSA.prj`. If you do not have all `Boundaries_PSA` files in your folder, then in a few lines you will get errors like "the sfc object should have crs set," meaning that the Coordinate Reference System (CRS) is missing.
+
+```{r eval = FALSE}
+install.packages("sf")
+```
+
+```{r comment="", results='hold', message=FALSE}
+library(sf)
+```
+
+The way `sf` reads in the shapefiles is through the `st_read()` function. Our input inside the () is a string with the name of the .shp file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains census tracts for Philly so we'll call the object "philly_tracts". 
+
+
+```{r}
+philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
+```
+
+Note that when we downloaded the data, it came with multiple files (some with extentions .cpg, .dbf, etc) but we only have the file with the .shp extention inside of `st_read()`. We still **do** need all of the files and `st_read()` is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.
+
+As always when dealing with a new data set, let's peak at the first 6 rows.
+
+```{r}
+head(philly_tracts)
+```
+
+The last column is important. In all shapefiles the "geometry" column is the one with the instructions to make the map. This data has a single row for each Census tract in the city. So the "geometry" column in each row have a list of coordinates which, if connected in order, make up that tract. Since the "geometry" column contains the instructions to map, we can `plot()` it to show a map of the data. 
+
+```{r}
+plot(philly_tracts$geometry)
+```
+
+Here we have a map of Philadelphia broken up into little pieces. Those pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood. Later in this lesson we will get some demographic and economic data about each of these tracts, but for now you can just think of them as neighborhoods. 
+
+Now, back to those warnings we received about calculating centroids with longitude/latitude data. Geographic datasets that describe locations on the surface of the earth have a "coordinate reference system" (CRS). Let's extract the CRS for `philly_tracts`.
+
+```{r comment="", results='hold', message=FALSE}
+st_crs(philly_tracts)
+```
+
+The `proj4string` tells us that the coordinate system used to describe the PPD boundaries is longitude/latitude. Specifically, it uses the World Geodetic System 1984 (WGS84) maintained by the United States National Geospatial-Intelligence Agency, one of several standards to aid in navigation and geography. The European Petroleum Survey Group (EPSG) maintains a catalog of different coordinate systems (should be no surprise that oil exploration has driven the development of high quality geolocation standards). They have assigned the standard longitude/latitude coordinate system to be [EPSG4326]((http://spatialreference.org/ref/epsg/4326/). You can find the full collection of coordinate systems at [spatialreference.org](http://spatialreference.org/ref/epsg/).
+
+Many of us are comfortable with the longitude/latitude angular coordinate systems. However, the distance covered by a degree of longitude shrinks as you move towards the poles and only equals the distance covered by a degree of latitude at the equator. In addition, the earth is not very spherical so the coordinate system used for computing distances on the Earth's surface might need to depend on where you are on the earth surface.
+
+Almost all web mapping tools (Google Maps, ESRI, OpenStreetMaps) use the pseudo-Mercator projection ([EPSG3857](http://spatialreference.org/ref/epsg/3857/)). Let's convert our philly_tracts data to that coordinate system.
+
+```{r comment="", results='hold', message=FALSE}
+philly_tracts <- st_transform(philly_tracts, crs = st_crs("+init=epsg:3857"))
+st_crs(philly_tracts)
+```
+
+Note that the `proj4string` now indicates that this is a Mercator projection with distance measured in meters (`+units=m`). Now if we ask for the centroids of the PSAs, we get more accurate centroids and no warnings from R.
+
+
+We can use the same projection, but modify it so that distances are measured in feet.
+
+```{r comment="", results='hold', message=FALSE}
+philly_tracts <- st_transform(philly_tracts, crs = st_crs("+init=epsg:3857 +units=us-ft"))
+st_crs(philly_tracts)
+```
+
+There is a special coordinate system for every part of the world. A useful coordinate system for the Philadelphia area is [EPSG2272](http://spatialreference.org/ref/epsg/2272/). Let's convert our philly_tracts data to that coordinate system.
+
+```{r comment="", results='hold', message=FALSE}
+philly_tracts <- st_transform(philly_tracts, crs=st_crs("+init=epsg:2272"))
+st_crs(philly_tracts)
+```
+
+This coordinate system is the Lambert Conic Conformal (LCC). This particular projection of the `philly_tracts` is tuned to provide good precision for the southern part of Pennsylvania and distances are measured in feet (note the `+units=us-ft` tag in the `proj4string`).
+
+Let's transform back to longitude/latitude. It really is best to work using a different coordinate system, but I'm going to stick with longitude/latitude so that the values make a little more sense to us. Also at the scale of Philadelphia, we're just using the centroid calculation to figure out where to put labels. `st_transform()` does allow you to just use the EPSG code by itself.
+
+
+# Spatial joins
+
+Spatial joins is the process of linking two data sources by their geography. For the case of the OIS data, we want to know how many OISs occurred in each PSA. To do this we need to drop each OIS point location into the PSA polygons and have R tell us in which polygon did each OIS land.
+
+First we need to convert our `ois` data frame to an `sf` object, communicating to R that the `lon` and `lat` columns are special. At this stage we also have to communicate in what coordinate system are the `lon` and `lat` values. `st_as_sf()` converts an R object into an `sf` object.
+
+```{r comment="", results='hold', message=FALSE}
+ois <- st_as_sf(officer_shootings_geocoded,
+                coords = c("lon","lat"),
+                crs = st_crs("+init=epsg:2272"))
+# check that everything looks okay
+plot(st_geometry(philly_tracts), axes=TRUE)
+plot(st_geometry(ois), add=TRUE, col=rgb(1,0,0,0.5), pch=16)
+```
+
+`st_join()` will match each row in `ois` to each polygon in PSA. I just want the `PSA_NUM` column out of the `PPDmap`.
+
+```{r comment="", results='hold', message=FALSE}
+PSAlookup <- st_join(ois, PPDmap[,"PSA_NUM"])
+PSAlookup[1:3, c("id","date","location","PSA_NUM","geometry")]
+```
+
+Now our `PSAlookup` contains everything from `ois` but also adds a new column `PSA_NUM`.
+
+Let's examine the PSAs with the most OISs and highlight them on the map.
+
+```{r comment="", message=FALSE}
+a <- rev(sort(table(PSAlookup$PSA)))
+a
+
+plot(st_geometry(PPDmap), axes=TRUE)
+# plot the OISs in the PSA with the most OISs
+i <- which(PSAlookup$PSA_NUM==names(a)[1])
+plot(st_geometry(PSAlookup[i,]), add=TRUE, col=rgb(0,1,0,0.5), pch=16)
+# plot the OISs in the PSA with the second most OISs
+i <- which(PSAlookup$PSA_NUM==names(a)[2])
+plot(st_geometry(PSAlookup[i,]), add=TRUE, col=rgb(0,0,1,0.5), pch=16)
+```
+
+Lastly, we will tabulate the number of OISs in each PSA and color the map by the number of OISs.
+
+```{r comment="", message=FALSE}
+# how many shootings in each PSA?
+a <- table(PSAlookup$PSA_NUM)
+a
+
+# merge the shooting count into the PPDmap data
+i <- match(PPDmap$PSA_NUM, names(a))
+PPDmap$nShoot <- a[i]
+PPDmap[1:3,]
+```
+
+We can see that `PPDmap` now has a new `nShoot` column. A histogram will show what kinds of counts we observe in the PSAs.
+
+```{r comment="", message=FALSE}
+hist(a, xlab="Number of OISs", ylab="Number of PSAs", main="")
+```
+
+Let's discretize the OIS counts into a few categories.
+```{r comment="", message=FALSE}
+a <- cut(PPDmap$nShoot,
+         breaks = c(0, 1, 5, 10, 15, 20, 25, 30),
+         right = FALSE)
+a
+```
+
+`cut()` converts all of the individual counts into categories, like [1,5) or [25,30). For each of these categories we will associate a color for the map. `heat.colors()` will generate a sequence of colors in the yellow, orange, red range.
+
+```{r comment="", message=FALSE}
+col <- rev(heat.colors(7,1))
+col
+```
+
+These are eight digit codes describing the color. The first two digits correspond to red, digits three and four correspond to green, digits five and six correspond to blue, and the last two digits correspond to transparency. These are hexadecimal numbers (base 16). Hexadecimal numbers use the digits 0-9, like normal decimal system numbers, and then denote 10 as A, 11 as B, on up to 15 as F. So FF as a decimal is $15 \times 16 + 15 = 255$, which is the maximum value for a two digit hexadecimal. The hexadecimal 80 as a decimal is $8 \times 16 + 0 = 128$, which is in the middle of the range 0 to 255. So the first color code, FFFF80FF, means maximum red, maximum green, half blue, and not transparent at all. This mixture is known more commonly as "yellow".
+
+Now we need to select the right color for each PSA. If I apply `as.numeric()` to `a`, then all the [0,1) will convert to 1, the [1,5) will convert to 2, and so on up to [25,30) converting to 7. So `col[as.numeric(a)]` will pick out the right color for each PSA. Now create the map coloring each PSA using the right color.
+
+```{r comment="", message=FALSE}
+plot(st_geometry(PPDmap), col=col[as.numeric(a)], border=NA)
+# add the number of shootings to the map
+a <- st_coordinates(st_centroid(PPDmap))
+text(a[,1], a[,2], PPDmap$nShoot, cex=0.5)
+```
+
+Those PSAs with the least shootings are a very pale yellow. As we examine PSAs with a greater number of OISs, their colors get redder and redder.
+
+# Summary
+
+We started with just a web page linking to a collection of PDF files. We scraped information from the web page and downloaded PDFs with details on each shooting. We had R "read" the pdf files to extract the dates that were not readily available. We geocoded the stops so that we could put them on a map. Finally, we could tabulate by Census tract the number of shootings and map those as well.
+
+
+
+If you've worked through all of this, then I would recommend that you save your objects, using `save(ois, PSAlookup, gcOIS, file="PPDOIS.RData")`. That way you will not have to scrape everything off the web again or redo any geocoding.
+

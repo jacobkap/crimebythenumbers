@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Regular Expressions | R 4 Criminology</title>
+  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Regular Expressions | R 4 Criminology" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://r4crim.com" />
+  
+  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="github-repo" content="jacobkap/r4crim" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Regular Expressions | R 4 Criminology" />
+  
+  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+<meta name="author" content="Greg Ridgeway" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="dates-and-times.html">
+<link rel="next" href="graphing-with-ggplot2.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">R for Criminology</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#assignment-of-values-to-variables-making-things"><i class="fa fa-check"></i><b>1.3</b> Assignment of values to variables (Making “things”)</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.4</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.4.1</b> Setting the working directory</a></li>
+<li class="chapter" data-level="1.4.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#loading-data"><i class="fa fa-check"></i><b>1.4.2</b> Loading data</a></li>
+<li class="chapter" data-level="1.4.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#first-steps-to-explore-the-data"><i class="fa fa-check"></i><b>1.4.3</b> First steps to explore the data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-rstudio.html"><a href="intro-to-rstudio.html"><i class="fa fa-check"></i><b>2</b> Intro to RStudio</a></li>
+<li class="chapter" data-level="3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.2</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.2.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.2.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.2.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.2.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#does-not-match"><i class="fa fa-check"></i><b>3.2.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.2.4" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.2.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.2.5" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.2.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.3</b> Subsetting a data.frame</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-a-specific-column"><i class="fa fa-check"></i><b>3.4</b> Select a specific column</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#select-specific-rows-in-a-data.frame"><i class="fa fa-check"></i><b>3.4.1</b> Select specific rows in a data.frame</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#battleships"><i class="fa fa-check"></i><b>3.4.2</b> Battleships</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-making-big-things-small.html"><a href="subsetting-making-big-things-small.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.4.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#graphing-data"><i class="fa fa-check"></i><b>4.2</b> Graphing Data</a></li>
+<li class="chapter" data-level="4.3" data-path="exploratory-data-analysis.html"><a href="exploratory-data-analysis.html#aggregating-summaries-of-groups"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="dates-and-times.html"><a href="dates-and-times.html"><i class="fa fa-check"></i><b>5</b> Dates and Times</a><ul>
+<li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
+<li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
+<li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
+<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="6.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>6.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="6.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>6.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="6.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>6.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>6.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="6.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>6.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="6.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>6.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="6.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string-and-not"><i class="fa fa-check"></i><b>6.3.4</b> Start of string and “not” <code>^</code></a></li>
+<li class="chapter" data-level="6.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>6.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="6.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>6.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="6.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>6.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="6.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>6.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="6.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>6.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="6.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>6.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="6.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>6.3.11</b> Optional text <code>?</code></a></li>
+<li class="chapter" data-level="6.3.12" data-path="regular-expressions.html"><a href="regular-expressions.html#back-referencing"><i class="fa fa-check"></i><b>6.3.12</b> Back-referencing <code>()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>6.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="7.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-1"><i class="fa fa-check"></i><b>7.1.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.1.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-2"><i class="fa fa-check"></i><b>7.1.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#graphing-data-1"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-3"><i class="fa fa-check"></i><b>7.3.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.3.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-4"><i class="fa fa-check"></i><b>7.3.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#should-we-trust-this-data"><i class="fa fa-check"></i><b>7.4</b> Should we trust this data?</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-5"><i class="fa fa-check"></i><b>7.4.1</b> Exercises</a></li>
+<li class="chapter" data-level="7.4.2" data-path="graphing-with-ggplot2.html"><a href="graphing-with-ggplot2.html#exercises-6"><i class="fa fa-check"></i><b>7.4.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>8</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="8.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>8.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="8.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>8.2</b> Cleaning the webscraped data</a></li>
+<li class="chapter" data-level="8.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>8.3</b> Fixing names</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-7"><i class="fa fa-check"></i><b>8.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>9</b> Functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>9.1</b> A simple function</a></li>
+<li class="chapter" data-level="9.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>9.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="9.3" data-path="functions.html"><a href="functions.html#making-a-function-to-scrape-movie-data"><i class="fa fa-check"></i><b>9.3</b> Making a function to scrape movie data</a></li>
+<li class="chapter" data-level="9.4" data-path="functions.html"><a href="functions.html#the-benefits-of-functions"><i class="fa fa-check"></i><b>9.4</b> The benefits of functions</a></li>
+<li class="chapter" data-level="9.5" data-path="functions.html"><a href="functions.html#understanding-other-peoples-functions"><i class="fa fa-check"></i><b>9.5</b> Understanding other people’s functions</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>10</b> For loops</a><ul>
+<li class="chapter" data-level="10.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>10.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="10.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-days-of-movie"><i class="fa fa-check"></i><b>10.2</b> Scraping multiple days of movie</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="types-of-objects.html"><a href="types-of-objects.html"><i class="fa fa-check"></i><b>11</b> Types of objects</a><ul>
+<li class="chapter" data-level="11.1" data-path="types-of-objects.html"><a href="types-of-objects.html#vectors"><i class="fa fa-check"></i><b>11.1</b> Vectors</a></li>
+<li class="chapter" data-level="11.2" data-path="types-of-objects.html"><a href="types-of-objects.html#data-frames"><i class="fa fa-check"></i><b>11.2</b> Data frames</a></li>
+<li class="chapter" data-level="11.3" data-path="types-of-objects.html"><a href="types-of-objects.html#lists"><i class="fa fa-check"></i><b>11.3</b> Lists</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>12</b> Reading and Writing Data</a><ul>
+<li class="chapter" data-level="12.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>12.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="12.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-files"><i class="fa fa-check"></i><b>12.1.1</b> R files</a></li>
+<li class="chapter" data-level="12.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-files"><i class="fa fa-check"></i><b>12.1.2</b> Excel files</a></li>
+<li class="chapter" data-level="12.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-files"><i class="fa fa-check"></i><b>12.1.3</b> Stata files</a></li>
+<li class="chapter" data-level="12.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-files"><i class="fa fa-check"></i><b>12.1.4</b> SAS files</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>12.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-files-1"><i class="fa fa-check"></i><b>12.2.1</b> R files</a></li>
+<li class="chapter" data-level="12.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-files-1"><i class="fa fa-check"></i><b>12.2.2</b> Excel files</a></li>
+<li class="chapter" data-level="12.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-files-1"><i class="fa fa-check"></i><b>12.2.3</b> Stata files</a></li>
+<li class="chapter" data-level="12.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-files-1"><i class="fa fa-check"></i><b>12.2.4</b> SAS files</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html"><i class="fa fa-check"></i><b>13</b> Scraping data from PDFs</a><ul>
+<li class="chapter" data-level="13.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#downloading-officer-involved-shooting-files"><i class="fa fa-check"></i><b>13.1</b> Downloading officer-involved Shooting Files</a></li>
+<li class="chapter" data-level="13.2" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#scraping-information-from-the-page"><i class="fa fa-check"></i><b>13.2</b> Scraping information from the page</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#combining-the-data-sets"><i class="fa fa-check"></i><b>13.2.1</b> Combining the data sets</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#extracting-data-from-pdfs"><i class="fa fa-check"></i><b>13.3</b> Extracting data from PDFs</a><ul>
+<li class="chapter" data-level="13.3.1" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#scraping-a-single-pdf"><i class="fa fa-check"></i><b>13.3.1</b> Scraping a single PDF</a></li>
+<li class="chapter" data-level="13.3.2" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#making-a-function"><i class="fa fa-check"></i><b>13.3.2</b> Making a function</a></li>
+<li class="chapter" data-level="13.3.3" data-path="scraping-data-from-pdfs.html"><a href="scraping-data-from-pdfs.html#looping-through-every-pdf"><i class="fa fa-check"></i><b>13.3.3</b> Looping through every PDF</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>14</b> Geocoding</a><ul>
+<li class="chapter" data-level="14.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>14.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="14.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
+<li class="chapter" data-level="14.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-officer-shooting-locations"><i class="fa fa-check"></i><b>14.3</b> Geocoding officer shooting locations</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>15</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="15.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#creating-the-maps"><i class="fa fa-check"></i><b>15.1</b> Creating the maps</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>16</b> Choropleth Maps</a></li>
+<li class="chapter" data-level="17" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>17</b> Interactive Maps</a><ul>
+<li class="chapter" data-level="17.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>17.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="17.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>17.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="17.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>17.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>17.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="17.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>17.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="17.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>17.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="17.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-polygons"><i class="fa fa-check"></i><b>17.5</b> Interactive polygons</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html"><i class="fa fa-check"></i><b>18</b> Graphing Officer-Involved Shootings</a><ul>
+<li class="chapter" data-level="18.1" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#graphing-a-single-variable"><i class="fa fa-check"></i><b>18.1</b> Graphing a single variable</a><ul>
+<li class="chapter" data-level="18.1.1" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#numeric-variable"><i class="fa fa-check"></i><b>18.1.1</b> Numeric variable</a></li>
+<li class="chapter" data-level="18.1.2" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#categorical-variable"><i class="fa fa-check"></i><b>18.1.2</b> Categorical variable</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="graphing-officer-involved-shootings.html"><a href="graphing-officer-involved-shootings.html#time-series"><i class="fa fa-check"></i><b>18.2</b> Time Series</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="scraping-tables-from-pdfs.html"><a href="scraping-tables-from-pdfs.html"><i class="fa fa-check"></i><b>19</b> Scraping Tables from PDFs</a></li>
+<li class="chapter" data-level="20" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html"><i class="fa fa-check"></i><b>20</b> Uniform Crime Report (UCR) Data</a><ul>
+<li class="chapter" data-level="20.1" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>20.1</b> Exploring the UCR data</a></li>
+<li class="chapter" data-level="20.2" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#finding-things-in-our-data"><i class="fa fa-check"></i><b>20.2</b> Finding things in our data</a></li>
+<li class="chapter" data-level="20.3" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#manipulating-our-data"><i class="fa fa-check"></i><b>20.3</b> Manipulating our data</a><ul>
+<li class="chapter" data-level="20.3.1" data-path="uniform-crime-report-ucr-data.html"><a href="uniform-crime-report-ucr-data.html#exercises-8"><i class="fa fa-check"></i><b>20.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="census-data.html"><a href="census-data.html"><i class="fa fa-check"></i><b>21</b> Census Data</a></li>
+<li class="chapter" data-level="22" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html"><i class="fa fa-check"></i><b>22</b> National Incident-Based Reporting System (NIBRS) Data</a><ul>
+<li class="chapter" data-level="22.1" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html#downloading-the-data"><i class="fa fa-check"></i><b>22.1</b> Downloading the data</a></li>
+<li class="chapter" data-level="22.2" data-path="national-incident-based-reporting-system-nibrs-data.html"><a href="national-incident-based-reporting-system-nibrs-data.html#reading-the-data"><i class="fa fa-check"></i><b>22.2</b> Reading the data</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful Resources</a><ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="B" data-path="using-r-markdown.html"><a href="using-r-markdown.html"><i class="fa fa-check"></i><b>B</b> Using R Markdown</a><ul>
+<li class="chapter" data-level="B.1" data-path="using-r-markdown.html"><a href="using-r-markdown.html#code"><i class="fa fa-check"></i><b>B.1</b> Code</a><ul>
+<li class="chapter" data-level="B.1.1" data-path="using-r-markdown.html"><a href="using-r-markdown.html#only-use-code-to-make-output"><i class="fa fa-check"></i><b>B.1.1</b> Only use code to make output</a></li>
+</ul></li>
+<li class="chapter" data-level="B.2" data-path="using-r-markdown.html"><a href="using-r-markdown.html#figures-and-tables"><i class="fa fa-check"></i><b>B.2</b> Figures and Tables</a></li>
+<li class="chapter" data-level="B.3" data-path="using-r-markdown.html"><a href="using-r-markdown.html#finally-making-the-output-file"><i class="fa fa-check"></i><b>B.3</b> Finally, making the output file</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">R 4 Criminology</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regular-expressions" class="section level1">
+<h1><span class="header-section-number">6</span> Regular Expressions</h1>
+<p>A regular expression is a sequence of characters that defines a search pattern. Sometimes we use regular expressions to help us find a pattern in text that we want, like the Find functionality in Word. Other times, we use a regular expression to help us find and replace a piece of text, like the Find and Replace functionality in Word. The two main R functions that we will learn about are <code>grep()</code> and <code>gsub()</code>. You may use them in verb form (e.g., “I need to grep all the gun cases,” “I was grepping like crazy to find all the opioid cases,” “I first had to gsub the commas with semicolons”). Regular expressions are available in numerous other software packages, so what you learn here will port over to using regular expressions in Linux, Stata, Python, Java, ArcGIS, and many others.</p>
+<p>The <code>grep()</code> function lets you find a pattern in the text and it will return a number saying which element has the pattern. <code>gsub()</code> lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because <code>gsub()</code> has the word “sub” in it and what it does is substitute text with new text.</p>
+<p>A useful cheat sheet on regular expressions is available <a href="https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf">here</a>.</p>
+<p>For this lesson we will use a vector of 50 crime categories. These are all of the crimes in San Francisco Police data. As you’ll see, there are some issues with the crime names that we need to fix.</p>
+<pre class="sourceCode r"><code class="sourceCode r">crimes &lt;-<span class="st"> </span><span class="kw">c</span>(
+  <span class="st">&quot;Arson&quot;</span>,
+  <span class="st">&quot;Assault&quot;</span>,                                  
+  <span class="st">&quot;Burglary&quot;</span>,                                 
+  <span class="st">&quot;Case Closure&quot;</span>,                             
+  <span class="st">&quot;Civil Sidewalks&quot;</span>,                          
+  <span class="st">&quot;Courtesy Report&quot;</span>,                          
+  <span class="st">&quot;Disorderly Conduct&quot;</span>,                       
+  <span class="st">&quot;Drug Offense&quot;</span>,                             
+  <span class="st">&quot;Drug Violation&quot;</span>,                           
+  <span class="st">&quot;Embezzlement&quot;</span>,                             
+  <span class="st">&quot;Family Offense&quot;</span>,                           
+  <span class="st">&quot;Fire Report&quot;</span>,                              
+  <span class="st">&quot;Forgery And Counterfeiting&quot;</span>,               
+  <span class="st">&quot;Fraud&quot;</span>,                                    
+  <span class="st">&quot;Gambling&quot;</span>,                                 
+  <span class="st">&quot;Homicide&quot;</span>,                                 
+  <span class="st">&quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>,
+  <span class="st">&quot;Human Trafficking, Commercial Sex Acts&quot;</span>,   
+  <span class="st">&quot;Juvenile Offenses&quot;</span>,                        
+  <span class="st">&quot;Larceny Theft&quot;</span>,                            
+  <span class="st">&quot;Liquor Laws&quot;</span>,                              
+  <span class="st">&quot;Lost Property&quot;</span>,                            
+  <span class="st">&quot;Malicious Mischief&quot;</span>,                       
+  <span class="st">&quot;Miscellaneous Investigation&quot;</span>,              
+  <span class="st">&quot;Missing Person&quot;</span>,                           
+  <span class="st">&quot;Motor Vehicle Theft&quot;</span>,                      
+  <span class="st">&quot;Motor Vehicle Theft?&quot;</span>,                     
+  <span class="st">&quot;Non-Criminal&quot;</span>,                             
+  <span class="st">&quot;Offences Against The Family And Children&quot;</span>, 
+  <span class="st">&quot;Other&quot;</span>,                                    
+  <span class="st">&quot;Other Miscellaneous&quot;</span>,                      
+  <span class="st">&quot;Other Offenses&quot;</span>,                           
+  <span class="st">&quot;Prostitution&quot;</span>,                             
+  <span class="st">&quot;Rape&quot;</span>,                                     
+  <span class="st">&quot;Recovered Vehicle&quot;</span>,                        
+  <span class="st">&quot;Robbery&quot;</span>,                                  
+  <span class="st">&quot;Sex Offense&quot;</span>,                              
+  <span class="st">&quot;Stolen Property&quot;</span>,                          
+  <span class="st">&quot;Suicide&quot;</span>,                                  
+  <span class="st">&quot;Suspicious&quot;</span>,                               
+  <span class="st">&quot;Suspicious Occ&quot;</span>,                           
+  <span class="st">&quot;Traffic Collision&quot;</span>,                        
+  <span class="st">&quot;Traffic Violation Arrest&quot;</span>,                 
+  <span class="st">&quot;Vandalism&quot;</span>,                                
+  <span class="st">&quot;Vehicle Impounded&quot;</span>,                        
+  <span class="st">&quot;Vehicle Misplaced&quot;</span>,                        
+  <span class="st">&quot;Warrant&quot;</span>,                                  
+  <span class="st">&quot;Weapons Carrying Etc&quot;</span>,                     
+  <span class="st">&quot;Weapons Offence&quot;</span>,                          
+  <span class="st">&quot;Weapons Offense&quot;</span>
+)</code></pre>
+<p>When looking closely at these crimes it is clear that some may overlap in certain categories such as theft, and there are several duplicates with slight differences in spelling. For example the last two crimes are “Weapons Offence” and “Weapons Offense”. These should clearly be the same crime but the first one spelled “offense” wrong. And take a look at “motor vehicle theft”. There are two crimes here because one of them adds a question mark at the end for some reason.</p>
+<div id="finding-patterns-in-text-with-grep" class="section level2">
+<h2><span class="header-section-number">6.1</span> Finding patterns in text with <code>grep()</code></h2>
+<p>First we’ll learn about <code>grep()</code>, which was first developed in the early 1970s. <code>grep()</code> searches data for lines that match a given expression. The name <code>grep</code> is an acronym for “<strong>g</strong>lobally search a <strong>r</strong>egular <strong>e</strong>xpression and <strong>p</strong>rint.” Some tangible examples will help us see how <code>grep()</code> works.</p>
+<p>The syntax for <code>grep()</code> is</p>
+<p>grep(“pattern”, data)</p>
+<p>pattern is the pattern you are searching for, such as “a” if you want to find all values with the letter a. The pattern must always be in quotes.</p>
+<p>data is a string or vector of strings (such as “crimes” we made above) that you are searching in to find the pattern.</p>
+<p>The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and no other elements do. It is essentially returning the index where the conditional statement “is this pattern present” is true.</p>
+<p>So since our data is “crimes” our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
+<p>Let’s start with the letter “a”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)
+<span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47</span>
+<span class="co">#&gt; [24] 48 49 50</span></code></pre>
+<p>It gives us a bunch of numbers where the letter “a” is present in that element of “crimes”. What this is useful for is subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values. This gives us the row numbers to keep.</p>
+<pre class="sourceCode r"><code class="sourceCode r">crimes[<span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)]
+<span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [2] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [3] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [4] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [5] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt;  [6] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt;  [7] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt;  [8] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt;  [9] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [10] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [11] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [12] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [14] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [15] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [16] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [17] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [18] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [19] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [21] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [22] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [23] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [24] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [25] &quot;Weapons Offence&quot;                           </span>
+<span class="co">#&gt; [26] &quot;Weapons Offense&quot;</span></code></pre>
+<p>Searching for the letter “a” isn’t that useful. Let’s say we want to subset the data to only include theft related crimes. From reading the list of crimes we can see there are multiple theft crimes - “Larceny Theft”, “Motor Vehicle Theft”, and “Motor Vehicle Theft?”. We may also want to include “Stolen Property” in this search but we’ll wait until later in this lesson for how to search for multiple patterns. Since those three crimes all have the word “Theft” in the name we can search for the pattern and it will return only those crimes</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Theft&quot;</span>, crimes)
+<span class="co">#&gt; [1] 20 26 27</span></code></pre>
+<p>A very useful parameter is <code>value</code>. When we set <code>value</code> to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset, it is an excellent tool to check if the <code>grep()</code> was successful as we can visually confirm it returns what we want. When we start to learn about special characters soon which makes the patterns more complicated, this will be important.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Theft&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot;  &quot;Motor Vehicle Theft?&quot;</span></code></pre>
+<p>Note that <code>grep()</code> (and <code>gsub()</code>) is case sensitive so you must capitalize properly.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;theft&quot;</span>, crimes)
+<span class="co">#&gt; integer(0)</span></code></pre>
+<p>Setting the parameter <code>ignore.case</code> to be TRUE makes <code>grep()</code> ignore capitalization.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;theft&quot;</span>, crimes, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] 20 26 27</span></code></pre>
+</div>
+<div id="finding-and-replacing-patterns-in-text-with-gsub" class="section level2">
+<h2><span class="header-section-number">6.2</span> Finding and replacing patterns in text with <code>gsub()</code></h2>
+<p><code>gsub()</code> stands for “global substitution.” It takes patterns and replaces them with other patterns. An important use in criminology for <code>gsub()</code> is to fix spelling mistakes in the text such as the way “offense” was spelled wrong in our data. This will be a standard part of your data cleaning process but will be important as a mispelled word can cause significant issues. For example if our previous example of marijuana legalization in Colorado had half of agencies mispelling the name “Colorado”, aggregating the data by the state (or simply subsetting to just Colorado agencies) would give completely different results as you’d lose half you data.</p>
+<p><code>gsub()</code> is also useful when you want to take subcategories and change the value to larger categories. For example we could take any crime with the word “Theft” in it and change the whole crime name to “Theft”. In our data that would take 3 subcategories of thefts and turn it into a larger category we could aggregate to. This will be useful in city-level data where you may only care about violent crime but it has many violent crime categories you need to aggregate.</p>
+<p>The syntax of <code>gsub()</code> is similar to <code>grep()</code> with the addition of a pattern to replace the pattern we found.</p>
+<p><code>gsub("find_pattern", "replace_pattern", data)</code></p>
+<p>Let’s start with a simple example of finding the letter “a” and replacing it with “z”. Our data will be the word “cat”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;cat&quot;</span>)
+<span class="co">#&gt; [1] &quot;czt&quot;</span></code></pre>
+<p>Like <code>grep()</code>, <code>gsub()</code> is case sensitive and has the parameter <code>ignore.case</code> to ignore capitalizations.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;cat&quot;</span>)
+<span class="co">#&gt; [1] &quot;cat&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;cat&quot;</span>, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;czt&quot;</span></code></pre>
+<p><code>gsub()</code> returns the same data you input but with the pattern already replaced. Above you can see that when using capital A, it returns “cat” unchanged as it never found the pattern. When <code>ignore.case</code> was set to TRUE it returned “czt” as it then matched to letter “A”.</p>
+<p>We can use <code>gsub()</code> to replace some issues in the crimes data such as “Offense” being spelled “Offence”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;Offence&quot;</span>, <span class="st">&quot;Offense&quot;</span>, crimes)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;Offenses Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [49] &quot;Weapons Offense&quot;                           </span>
+<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<p>A useful pattern is an empty string "" which says replace whatever the find_pattern is with nothing, deleting it. Let’s delete the letter “a” from the data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;&quot;</span>, crimes)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                  </span>
+<span class="co">#&gt;  [2] &quot;Assult&quot;                                 </span>
+<span class="co">#&gt;  [3] &quot;Burglry&quot;                                </span>
+<span class="co">#&gt;  [4] &quot;Cse Closure&quot;                            </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewlks&quot;                         </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                        </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                     </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                           </span>
+<span class="co">#&gt;  [9] &quot;Drug Violtion&quot;                          </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                           </span>
+<span class="co">#&gt; [11] &quot;Fmily Offense&quot;                          </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                            </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;             </span>
+<span class="co">#&gt; [14] &quot;Frud&quot;                                   </span>
+<span class="co">#&gt; [15] &quot;Gmbling&quot;                                </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                               </span>
+<span class="co">#&gt; [17] &quot;Humn Trfficking (A), Commercil Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Humn Trfficking, Commercil Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                      </span>
+<span class="co">#&gt; [20] &quot;Lrceny Theft&quot;                           </span>
+<span class="co">#&gt; [21] &quot;Liquor Lws&quot;                             </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                          </span>
+<span class="co">#&gt; [23] &quot;Mlicious Mischief&quot;                      </span>
+<span class="co">#&gt; [24] &quot;Miscellneous Investigtion&quot;              </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                         </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                    </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                   </span>
+<span class="co">#&gt; [28] &quot;Non-Criminl&quot;                            </span>
+<span class="co">#&gt; [29] &quot;Offences Aginst The Fmily And Children&quot; </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                  </span>
+<span class="co">#&gt; [31] &quot;Other Miscellneous&quot;                     </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                         </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                           </span>
+<span class="co">#&gt; [34] &quot;Rpe&quot;                                    </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                      </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                            </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                        </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                             </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                         </span>
+<span class="co">#&gt; [42] &quot;Trffic Collision&quot;                       </span>
+<span class="co">#&gt; [43] &quot;Trffic Violtion Arrest&quot;                 </span>
+<span class="co">#&gt; [44] &quot;Vndlism&quot;                                </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                      </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplced&quot;                       </span>
+<span class="co">#&gt; [47] &quot;Wrrnt&quot;                                  </span>
+<span class="co">#&gt; [48] &quot;Wepons Crrying Etc&quot;                     </span>
+<span class="co">#&gt; [49] &quot;Wepons Offence&quot;                         </span>
+<span class="co">#&gt; [50] &quot;Wepons Offense&quot;</span></code></pre>
+</div>
+<div id="useful-special-characters" class="section level2">
+<h2><span class="header-section-number">6.3</span> Useful special characters</h2>
+<p>So far we have just searched for a single character or word and expected a return only if an exact match was found.</p>
+<p>There are several symbols or sequences of symbols that are useful to make more sophisticated patterns. The number of symbols on the keyboard are fairly limited compared to the numerous combinations of patterns of text we might wish to find. As a result you will see that some of these symbols are used in very different ways depending on the context.</p>
+<div id="multiple-characters" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Multiple characters <code>[]</code></h3>
+<p>We can also search for multiple characters, instead of individual characters. We place our list of desired characters within square brackets <code>[]</code>. For example, let’s find crimes that contain vowels.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [49] &quot;Weapons Offence&quot;                           </span>
+<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<p>This also works for numbers though we do not have any numbers in the data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[01234567890]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; character(0)</span></code></pre>
+<p>So the <code>[]</code> in a regular expression means “match any of these characters.” We can also place square brackets next to each other. For example, let’s say we wanted to find values in “crimes” that has three adjacent vowels</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou][aeiou][aeiou]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span>
+<span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span>
+<span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></code></pre>
+<p>Inside the <code>[]</code> we can also use the - to make intervals between certain values. With numbers n-m means any number between n and m (inclusive). For letters, a-z means all lowercase letters and A-Z means all uppercase letters.</p>
+</div>
+<div id="n-many-of-previous-character-n" class="section level3">
+<h3><span class="header-section-number">6.3.2</span> n-many of previous character <code>{n}</code></h3>
+<p>{n} means the preceding item will be matched exactly n times.</p>
+<p>We can use it to rewrite the above <code>grep()</code> to saw the values in the <code>[]</code> should be repeated three times.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]{3}&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span>
+<span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span>
+<span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></code></pre>
+<p>Note that this also matches text that has two or more vowels in a row, since if they have three numbers in a row, then they will also have two numbers in a row.</p>
+</div>
+<div id="n-many-to-m-many-of-previous-character-nm" class="section level3">
+<h3><span class="header-section-number">6.3.3</span> n-many to m-many of previous character <code>{n,m}</code></h3>
+<p>While <code>{n}</code> says “the previous character must be present exactly n times”, we can allow a range by using <code>{n, m}</code>. Here the previous character must be present between n and m times.</p>
+<p>We can check for values where there are 2-3 vowels in a row. Note that there cannot be a space before or after the comma</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]{2,3}&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [2] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [3] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt;  [4] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt;  [5] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt;  [6] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt;  [7] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt;  [8] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt;  [9] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [10] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [11] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [12] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [13] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [14] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [15] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [16] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [17] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [18] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [19] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [21] &quot;Weapons Offence&quot;                           </span>
+<span class="co">#&gt; [22] &quot;Weapons Offense&quot;</span></code></pre>
+<p>If we wanted only crimes with exactly three vowels in a row we’d use <code>{3,3}</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]{3,3}&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span>
+<span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span>
+<span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></code></pre>
+<p>If we leave n blank, such as <code>{,m}</code> it says “previous character must be present up to m times”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]{,3}&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [49] &quot;Weapons Offence&quot;                           </span>
+<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<p>This returns every crime as “up to m times” includes zero times.</p>
+<p>And the same works for leaving m blank but it will be “present at least n times”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]{3,}&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span>
+<span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span>
+<span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></code></pre>
+</div>
+<div id="start-of-string-and-not" class="section level3">
+<h3><span class="header-section-number">6.3.4</span> Start of string and “not” <code>^</code></h3>
+<p>The <code>^</code> symbol has two meanings. When we put a <code>^</code> within square brackets, it means “not” any of the following characters in the square brackets. Let’s use it for the pattern “Offense”. Here we are searching and want a return for any string that does <strong>not</strong> have the pattern “Offense” in it.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[^Offense]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [49] &quot;Weapons Offence&quot;                           </span>
+<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<p>As expected it returns all the crimes other than ones with the word “Offense” in it. This method is similar to the parameter <code>invert</code> which returns all values that do not meet the pattern.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Offense&quot;</span>, crimes, <span class="dt">invert =</span> <span class="ot">TRUE</span>, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt;  [9] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [10] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [11] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [12] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [13] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [14] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [15] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [16] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [17] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [18] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [19] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [20] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [21] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [22] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [23] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [24] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [25] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [26] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [27] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [28] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [29] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [30] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [31] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [32] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [33] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [34] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [35] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [36] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [37] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [38] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [39] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [40] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [41] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [42] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [43] &quot;Weapons Carrying Etc&quot;                      </span>
+<span class="co">#&gt; [44] &quot;Weapons Offence&quot;</span></code></pre>
+<p>The second use of <code>^</code> signifies that what follow it is the start of the string. We put the <code>^</code> at the beginning of the quotes and then anything that follows it must be the very start of the string. As an example let’s search for “Family”. Our data has both the “Family Offense” crime and the “Offences Against The Family And Children” crime (which likely are the same crime written differently). If we use <code>^</code> then we should only have the first one returned.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;^Family&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Family Offense&quot;</span></code></pre>
+</div>
+<div id="end-of-string" class="section level3">
+<h3><span class="header-section-number">6.3.5</span> End of string <code>$</code></h3>
+<p>While we use carets <code>^</code> to signal the beginning of the text, the dollar sign <code>$</code> signals the end of the text. For example, let’s search for all crimes that end with the word “Theft”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Theft$&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Larceny Theft&quot;       &quot;Motor Vehicle Theft&quot;</span></code></pre>
+<p>Note that the crime “Motor Vehicle Theft?” doesn’t get selected as it ends with a question mark.</p>
+</div>
+<div id="anything-." class="section level3">
+<h3><span class="header-section-number">6.3.6</span> Anything <code>.</code></h3>
+<p>The <code>.</code> symbol is a stand-in for any value. This is useful when you aren’t sure about every part of the pattern you are searching. It can also be used when there are slight differences in words such as our incorrect “Offence” and “Offense”. We can replace the “c” and “s” with the <code>.</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Weapons Offen.e&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Weapons Offence&quot; &quot;Weapons Offense&quot;</span></code></pre>
+</div>
+<div id="one-or-more-of-previous" class="section level3">
+<h3><span class="header-section-number">6.3.7</span> One or more of previous <code>+</code></h3>
+<p>The <code>+</code> means at least one of the previous and is the same as <code>{1,}</code>. For example, suppose we wanted to crimes with only two words. We would start with some number of letters followed by a space followed by some more letters and the string would end.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;^[A-Za-z]+ [A-Za-z]+$&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Case Closure&quot;                &quot;Civil Sidewalks&quot;            </span>
+<span class="co">#&gt;  [3] &quot;Courtesy Report&quot;             &quot;Disorderly Conduct&quot;         </span>
+<span class="co">#&gt;  [5] &quot;Drug Offense&quot;                &quot;Drug Violation&quot;             </span>
+<span class="co">#&gt;  [7] &quot;Family Offense&quot;              &quot;Fire Report&quot;                </span>
+<span class="co">#&gt;  [9] &quot;Juvenile Offenses&quot;           &quot;Larceny Theft&quot;              </span>
+<span class="co">#&gt; [11] &quot;Liquor Laws&quot;                 &quot;Lost Property&quot;              </span>
+<span class="co">#&gt; [13] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span>
+<span class="co">#&gt; [15] &quot;Missing Person&quot;              &quot;Other Miscellaneous&quot;        </span>
+<span class="co">#&gt; [17] &quot;Other Offenses&quot;              &quot;Recovered Vehicle&quot;          </span>
+<span class="co">#&gt; [19] &quot;Sex Offense&quot;                 &quot;Stolen Property&quot;            </span>
+<span class="co">#&gt; [21] &quot;Suspicious Occ&quot;              &quot;Traffic Collision&quot;          </span>
+<span class="co">#&gt; [23] &quot;Vehicle Impounded&quot;           &quot;Vehicle Misplaced&quot;          </span>
+<span class="co">#&gt; [25] &quot;Weapons Offence&quot;             &quot;Weapons Offense&quot;</span></code></pre>
+</div>
+<div id="zero-or-more-of-previous" class="section level3">
+<h3><span class="header-section-number">6.3.8</span> Zero or more of previous <code>*</code></h3>
+<p>The <code>*</code> special character says match zero or more of the previous character and is the same as <code>{0,}</code>. Combining <code>.</code> with <code>*</code> is very powerful when used in <code>gsub()</code> to delete text before or after a pattern. Let’s write a pattern that searches a text for the word “Weapons” and then deletes any text after that.</p>
+<p>Our pattern would be "Weapons.*" - The word “Weapons” followed by anything zero or more times.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;Weapons.*&quot;</span>, <span class="st">&quot;Weapons&quot;</span>, crimes)
+<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;Weapons&quot;                                   </span>
+<span class="co">#&gt; [49] &quot;Weapons&quot;                                   </span>
+<span class="co">#&gt; [50] &quot;Weapons&quot;</span></code></pre>
+<p>And now our last three crimes are all identical.</p>
+</div>
+<div id="multiple-patterns" class="section level3">
+<h3><span class="header-section-number">6.3.9</span> Multiple patterns <code>|</code></h3>
+<p>The vertical bar functions as an “or.” Suppose we wanted to get both the word “Drug” and the word “Weapons”. We could write “Drug|Weapon” which searches for “Drug” or “Weapons” in the text.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Drug|Weapons&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Drug Offense&quot;         &quot;Drug Violation&quot;       &quot;Weapons Carrying Etc&quot;</span>
+<span class="co">#&gt; [4] &quot;Weapons Offence&quot;      &quot;Weapons Offense&quot;</span></code></pre>
+</div>
+<div id="parentheses" class="section level3">
+<h3><span class="header-section-number">6.3.10</span> Parentheses <code>()</code></h3>
+<p>Parentheses group together characters as words. For example, suppose we wanted to find the word “Offense”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;(Offense)&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Drug Offense&quot;      &quot;Family Offense&quot;    &quot;Juvenile Offenses&quot;</span>
+<span class="co">#&gt; [4] &quot;Other Offenses&quot;    &quot;Sex Offense&quot;       &quot;Weapons Offense&quot;</span></code></pre>
+<p>On its own the parentheses are no different than just running the regular expression “Offense” with no parentheses. However, in combination with <code>|</code> it gets more interesting and powerful.</p>
+<p>Running just “(Offense)” returns values for multiple types of offenses. Let’s say we just care about Drug and Weapon Offenses. We can search for “Offense” normally and combine <code>()</code> and <code>|</code> to say “search for either the word”Drug" or the word “Family” and they should be followed by the word “Offense”.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;(Drug|Weapons) Offense&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Drug Offense&quot;    &quot;Weapons Offense&quot;</span></code></pre>
+<p>And it returns only the values we want.</p>
+</div>
+<div id="optional-text" class="section level3">
+<h3><span class="header-section-number">6.3.11</span> Optional text <code>?</code></h3>
+<p>The question mark indicates that the character immediately before the ? is optional.</p>
+<p>Let’s search for the term “offens” and add a ? at the end. This says search for the pattern “offen” and we expect an exact match for that pattern. And if the letter “s” follows “offen” return that too, but it isn’t required to be there.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;Offens?&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Drug Offense&quot;                            </span>
+<span class="co">#&gt; [2] &quot;Family Offense&quot;                          </span>
+<span class="co">#&gt; [3] &quot;Juvenile Offenses&quot;                       </span>
+<span class="co">#&gt; [4] &quot;Offences Against The Family And Children&quot;</span>
+<span class="co">#&gt; [5] &quot;Other Offenses&quot;                          </span>
+<span class="co">#&gt; [6] &quot;Sex Offense&quot;                             </span>
+<span class="co">#&gt; [7] &quot;Weapons Offence&quot;                         </span>
+<span class="co">#&gt; [8] &quot;Weapons Offense&quot;</span></code></pre>
+<p>We can further combine it with <code>()</code> and <code>|</code> to get both spellings of Weapon Offense.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;(Drug|Weapons) Offens?&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; [1] &quot;Drug Offense&quot;    &quot;Weapons Offence&quot; &quot;Weapons Offense&quot;</span></code></pre>
+</div>
+<div id="back-referencing" class="section level3">
+<h3><span class="header-section-number">6.3.12</span> Back-referencing <code>()</code></h3>
+<p>We will finish this discussion of special characters by discussing back-referencing, a very powerful technique in <code>gsub()</code> of saving parts of a pattern.</p>
+</div>
+</div>
+<div id="changing-capitalization" class="section level2">
+<h2><span class="header-section-number">6.4</span> Changing capitalization</h2>
+<p>If you’re dealing with data where the only difference is capitalization (as is common in crime data) instead of using <code>gsub()</code> to change individual values, you can use the functions <code>toupper()</code> and <code>tolower()</code>. These functions take as an input a vector of strings (or a column from a data.frame) and return those strings either upper or lowercased. They will change the case of every letter in the string.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">toupper</span>(crimes)
+<span class="co">#&gt;  [1] &quot;ARSON&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;ASSAULT&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;BURGLARY&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;CASE CLOSURE&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;CIVIL SIDEWALKS&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;COURTESY REPORT&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;DISORDERLY CONDUCT&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;DRUG OFFENSE&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;DRUG VIOLATION&quot;                            </span>
+<span class="co">#&gt; [10] &quot;EMBEZZLEMENT&quot;                              </span>
+<span class="co">#&gt; [11] &quot;FAMILY OFFENSE&quot;                            </span>
+<span class="co">#&gt; [12] &quot;FIRE REPORT&quot;                               </span>
+<span class="co">#&gt; [13] &quot;FORGERY AND COUNTERFEITING&quot;                </span>
+<span class="co">#&gt; [14] &quot;FRAUD&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;GAMBLING&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;HOMICIDE&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;HUMAN TRAFFICKING (A), COMMERCIAL SEX ACTS&quot;</span>
+<span class="co">#&gt; [18] &quot;HUMAN TRAFFICKING, COMMERCIAL SEX ACTS&quot;    </span>
+<span class="co">#&gt; [19] &quot;JUVENILE OFFENSES&quot;                         </span>
+<span class="co">#&gt; [20] &quot;LARCENY THEFT&quot;                             </span>
+<span class="co">#&gt; [21] &quot;LIQUOR LAWS&quot;                               </span>
+<span class="co">#&gt; [22] &quot;LOST PROPERTY&quot;                             </span>
+<span class="co">#&gt; [23] &quot;MALICIOUS MISCHIEF&quot;                        </span>
+<span class="co">#&gt; [24] &quot;MISCELLANEOUS INVESTIGATION&quot;               </span>
+<span class="co">#&gt; [25] &quot;MISSING PERSON&quot;                            </span>
+<span class="co">#&gt; [26] &quot;MOTOR VEHICLE THEFT&quot;                       </span>
+<span class="co">#&gt; [27] &quot;MOTOR VEHICLE THEFT?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;NON-CRIMINAL&quot;                              </span>
+<span class="co">#&gt; [29] &quot;OFFENCES AGAINST THE FAMILY AND CHILDREN&quot;  </span>
+<span class="co">#&gt; [30] &quot;OTHER&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;OTHER MISCELLANEOUS&quot;                       </span>
+<span class="co">#&gt; [32] &quot;OTHER OFFENSES&quot;                            </span>
+<span class="co">#&gt; [33] &quot;PROSTITUTION&quot;                              </span>
+<span class="co">#&gt; [34] &quot;RAPE&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;RECOVERED VEHICLE&quot;                         </span>
+<span class="co">#&gt; [36] &quot;ROBBERY&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;SEX OFFENSE&quot;                               </span>
+<span class="co">#&gt; [38] &quot;STOLEN PROPERTY&quot;                           </span>
+<span class="co">#&gt; [39] &quot;SUICIDE&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;SUSPICIOUS&quot;                                </span>
+<span class="co">#&gt; [41] &quot;SUSPICIOUS OCC&quot;                            </span>
+<span class="co">#&gt; [42] &quot;TRAFFIC COLLISION&quot;                         </span>
+<span class="co">#&gt; [43] &quot;TRAFFIC VIOLATION ARREST&quot;                  </span>
+<span class="co">#&gt; [44] &quot;VANDALISM&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;VEHICLE IMPOUNDED&quot;                         </span>
+<span class="co">#&gt; [46] &quot;VEHICLE MISPLACED&quot;                         </span>
+<span class="co">#&gt; [47] &quot;WARRANT&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;WEAPONS CARRYING ETC&quot;                      </span>
+<span class="co">#&gt; [49] &quot;WEAPONS OFFENCE&quot;                           </span>
+<span class="co">#&gt; [50] &quot;WEAPONS OFFENSE&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tolower</span>(crimes)
+<span class="co">#&gt;  [1] &quot;arson&quot;                                     </span>
+<span class="co">#&gt;  [2] &quot;assault&quot;                                   </span>
+<span class="co">#&gt;  [3] &quot;burglary&quot;                                  </span>
+<span class="co">#&gt;  [4] &quot;case closure&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;civil sidewalks&quot;                           </span>
+<span class="co">#&gt;  [6] &quot;courtesy report&quot;                           </span>
+<span class="co">#&gt;  [7] &quot;disorderly conduct&quot;                        </span>
+<span class="co">#&gt;  [8] &quot;drug offense&quot;                              </span>
+<span class="co">#&gt;  [9] &quot;drug violation&quot;                            </span>
+<span class="co">#&gt; [10] &quot;embezzlement&quot;                              </span>
+<span class="co">#&gt; [11] &quot;family offense&quot;                            </span>
+<span class="co">#&gt; [12] &quot;fire report&quot;                               </span>
+<span class="co">#&gt; [13] &quot;forgery and counterfeiting&quot;                </span>
+<span class="co">#&gt; [14] &quot;fraud&quot;                                     </span>
+<span class="co">#&gt; [15] &quot;gambling&quot;                                  </span>
+<span class="co">#&gt; [16] &quot;homicide&quot;                                  </span>
+<span class="co">#&gt; [17] &quot;human trafficking (a), commercial sex acts&quot;</span>
+<span class="co">#&gt; [18] &quot;human trafficking, commercial sex acts&quot;    </span>
+<span class="co">#&gt; [19] &quot;juvenile offenses&quot;                         </span>
+<span class="co">#&gt; [20] &quot;larceny theft&quot;                             </span>
+<span class="co">#&gt; [21] &quot;liquor laws&quot;                               </span>
+<span class="co">#&gt; [22] &quot;lost property&quot;                             </span>
+<span class="co">#&gt; [23] &quot;malicious mischief&quot;                        </span>
+<span class="co">#&gt; [24] &quot;miscellaneous investigation&quot;               </span>
+<span class="co">#&gt; [25] &quot;missing person&quot;                            </span>
+<span class="co">#&gt; [26] &quot;motor vehicle theft&quot;                       </span>
+<span class="co">#&gt; [27] &quot;motor vehicle theft?&quot;                      </span>
+<span class="co">#&gt; [28] &quot;non-criminal&quot;                              </span>
+<span class="co">#&gt; [29] &quot;offences against the family and children&quot;  </span>
+<span class="co">#&gt; [30] &quot;other&quot;                                     </span>
+<span class="co">#&gt; [31] &quot;other miscellaneous&quot;                       </span>
+<span class="co">#&gt; [32] &quot;other offenses&quot;                            </span>
+<span class="co">#&gt; [33] &quot;prostitution&quot;                              </span>
+<span class="co">#&gt; [34] &quot;rape&quot;                                      </span>
+<span class="co">#&gt; [35] &quot;recovered vehicle&quot;                         </span>
+<span class="co">#&gt; [36] &quot;robbery&quot;                                   </span>
+<span class="co">#&gt; [37] &quot;sex offense&quot;                               </span>
+<span class="co">#&gt; [38] &quot;stolen property&quot;                           </span>
+<span class="co">#&gt; [39] &quot;suicide&quot;                                   </span>
+<span class="co">#&gt; [40] &quot;suspicious&quot;                                </span>
+<span class="co">#&gt; [41] &quot;suspicious occ&quot;                            </span>
+<span class="co">#&gt; [42] &quot;traffic collision&quot;                         </span>
+<span class="co">#&gt; [43] &quot;traffic violation arrest&quot;                  </span>
+<span class="co">#&gt; [44] &quot;vandalism&quot;                                 </span>
+<span class="co">#&gt; [45] &quot;vehicle impounded&quot;                         </span>
+<span class="co">#&gt; [46] &quot;vehicle misplaced&quot;                         </span>
+<span class="co">#&gt; [47] &quot;warrant&quot;                                   </span>
+<span class="co">#&gt; [48] &quot;weapons carrying etc&quot;                      </span>
+<span class="co">#&gt; [49] &quot;weapons offence&quot;                           </span>
+<span class="co">#&gt; [50] &quot;weapons offense&quot;</span></code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dates-and-times.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="graphing-with-ggplot2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": false,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/r4crim/edit/master/regular-expressions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
