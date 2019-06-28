@@ -89,56 +89,60 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> $candidates
 #>                                                           address
 #> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
 #> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
 #> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#> 12                     Walnut St, Middleport, Pennsylvania, 17953
+#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
 #>    location.x location.y score
-#> 1   -75.19868   39.95361 99.61
-#> 2   -75.70500   39.84916 92.11
-#> 3   -75.16610   39.94956 89.84
-#> 4   -75.15921   39.94872 89.84
-#> 5   -75.22935   39.95743 89.84
-#> 6   -75.19625   39.95331 89.84
-#> 7   -75.14849   39.94735 89.84
-#> 8   -75.17451   39.95063 89.84
-#> 9   -75.70560   39.84894 88.18
+#> 1   -75.19868   39.95362 99.61
+#> 2   -75.16610   39.94957 89.84
+#> 3   -75.15921   39.94872 89.84
+#> 4   -75.22944   39.95745 89.84
+#> 5   -75.19633   39.95332 89.84
+#> 6   -75.14852   39.94737 89.84
+#> 7   -75.17449   39.95063 89.84
+#> 8   -75.70560   39.84894 88.18
+#> 9   -75.70500   39.84917 88.18
 #> 10  -75.32272   40.33865 87.85
 #> 11  -74.97302   40.06046 87.54
-#> 12  -75.70581   39.87565 87.23
+#> 12  -76.08395   40.72661 87.25
+#> 13  -75.70581   39.87566 87.23
 #>                                             attributes.Match_addr
 #> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
 #> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
 #> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#> 12                     Walnut St, Middleport, Pennsylvania, 17953
+#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
 #>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461
-#> 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016
-#> 3            StreetName   -75.16710    39.94856   -75.16510    39.95056
-#> 4            StreetName   -75.16021    39.94772   -75.15821    39.94972
-#> 5            StreetName   -75.23035    39.95643   -75.22835    39.95843
-#> 6            StreetName   -75.19725    39.95231   -75.19525    39.95431
-#> 7            StreetName   -75.14949    39.94635   -75.14749    39.94835
-#> 8            StreetName   -75.17551    39.94963   -75.17351    39.95163
-#> 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 1             StreetInt   -75.19968    39.95262   -75.19768    39.95462
+#> 2            StreetName   -75.16710    39.94857   -75.16510    39.95057
+#> 3            StreetName   -75.16021    39.94772   -75.15821    39.94972
+#> 4            StreetName   -75.23044    39.95645   -75.22844    39.95845
+#> 5            StreetName   -75.19733    39.95232   -75.19533    39.95432
+#> 6            StreetName   -75.14952    39.94637   -75.14752    39.94837
+#> 7            StreetName   -75.17549    39.94963   -75.17349    39.95163
+#> 8             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 9             StreetInt   -75.70600    39.84817   -75.70400    39.85017
 #> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
 #> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
-#> 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665
+#> 12           StreetName   -76.08495    40.72561   -76.08295    40.72761
+#> 13            StreetInt   -75.70681    39.87466   -75.70481    39.87666
 ```
 
 It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called "candidates". To avoid having a very long line of code, let's call the list `fromJSON()` returns "address_coordinate" and grab the "candidates" object from that list. 
@@ -149,56 +153,60 @@ address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services
 address_coordinates$candidates
 #>                                                           address
 #> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
 #> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
 #> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#> 12                     Walnut St, Middleport, Pennsylvania, 17953
+#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
 #>    location.x location.y score
-#> 1   -75.19868   39.95361 99.61
-#> 2   -75.70500   39.84916 92.11
-#> 3   -75.16610   39.94956 89.84
-#> 4   -75.15921   39.94872 89.84
-#> 5   -75.22935   39.95743 89.84
-#> 6   -75.19625   39.95331 89.84
-#> 7   -75.14849   39.94735 89.84
-#> 8   -75.17451   39.95063 89.84
-#> 9   -75.70560   39.84894 88.18
+#> 1   -75.19868   39.95362 99.61
+#> 2   -75.16610   39.94957 89.84
+#> 3   -75.15921   39.94872 89.84
+#> 4   -75.22944   39.95745 89.84
+#> 5   -75.19633   39.95332 89.84
+#> 6   -75.14852   39.94737 89.84
+#> 7   -75.17449   39.95063 89.84
+#> 8   -75.70560   39.84894 88.18
+#> 9   -75.70500   39.84917 88.18
 #> 10  -75.32272   40.33865 87.85
 #> 11  -74.97302   40.06046 87.54
-#> 12  -75.70581   39.87565 87.23
+#> 12  -76.08395   40.72661 87.25
+#> 13  -75.70581   39.87566 87.23
 #>                                             attributes.Match_addr
 #> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2     E State St & Walnut St, Kennett Square, Pennsylvania, 19348
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 8                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 9   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
+#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
+#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
+#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
+#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
+#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
+#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
+#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
 #> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
 #> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
+#> 12                     Walnut St, Middleport, Pennsylvania, 17953
+#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
 #>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1             StreetInt   -75.19968    39.95261   -75.19768    39.95461
-#> 2             StreetInt   -75.70600    39.84817   -75.70400    39.85016
-#> 3            StreetName   -75.16710    39.94856   -75.16510    39.95056
-#> 4            StreetName   -75.16021    39.94772   -75.15821    39.94972
-#> 5            StreetName   -75.23035    39.95643   -75.22835    39.95843
-#> 6            StreetName   -75.19725    39.95231   -75.19525    39.95431
-#> 7            StreetName   -75.14949    39.94635   -75.14749    39.94835
-#> 8            StreetName   -75.17551    39.94963   -75.17351    39.95163
-#> 9             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 1             StreetInt   -75.19968    39.95262   -75.19768    39.95462
+#> 2            StreetName   -75.16710    39.94857   -75.16510    39.95057
+#> 3            StreetName   -75.16021    39.94772   -75.15821    39.94972
+#> 4            StreetName   -75.23044    39.95645   -75.22844    39.95845
+#> 5            StreetName   -75.19733    39.95232   -75.19533    39.95432
+#> 6            StreetName   -75.14952    39.94637   -75.14752    39.94837
+#> 7            StreetName   -75.17549    39.94963   -75.17349    39.95163
+#> 8             StreetInt   -75.70660    39.84794   -75.70460    39.84994
+#> 9             StreetInt   -75.70600    39.84817   -75.70400    39.85017
 #> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
 #> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
-#> 12            StreetInt   -75.70681    39.87465   -75.70481    39.87665
+#> 12           StreetName   -76.08495    40.72561   -76.08295    40.72761
+#> 13            StreetInt   -75.70681    39.87466   -75.70481    39.87666
 ```
 
 The "candidates" is a data.frame which includes 12 different coordinates from our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. ArcGIS provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
@@ -214,11 +222,11 @@ address_coordinates
 #>                                                    address location.x
 #> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104  -75.19868
 #>   location.y score
-#> 1   39.95361 99.61
+#> 1   39.95362 99.61
 #>                                      attributes.Match_addr
 #> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
 #>   attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1            StreetInt   -75.19968    39.95261   -75.19768    39.95461
+#> 1            StreetInt   -75.19968    39.95262   -75.19768    39.95462
 ```
 
 This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
@@ -227,7 +235,7 @@ This data.frame has something we've never seen before. It has columns that are t
 ```r
 address_coordinates$location
 #>           x        y
-#> 1 -75.19868 39.95361
+#> 1 -75.19868 39.95362
 ```
 
 Since our end goal was to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
@@ -245,7 +253,7 @@ address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates$location
 #>           x        y
-#> 1 -75.19868 39.95361
+#> 1 -75.19868 39.95362
 ```
 
 Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
@@ -315,7 +323,7 @@ We can try it using the same address we did earlier, "38th St and Walnut St, Phi
 ```r
 geocode_address("38th St and Walnut St, Philadelphia, PA")
 #>           x        y
-#> 1 -75.19868 39.95361
+#> 1 -75.19868 39.95362
 ```
 It returns the same data.frame as earlier so our function works!
 
