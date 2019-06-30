@@ -164,7 +164,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want.
@@ -186,7 +186,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -194,7 +194,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can also combine different types of graphs.
 
@@ -205,7 +205,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We add this to the graphs the same as adding anything else.
 
@@ -217,7 +217,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   expand_limits(y = 0)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -229,7 +229,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 Some other useful features are changing the axis labels and the graph title.
@@ -248,7 +248,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2016)")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
   
 
 ### Exercises
@@ -268,7 +268,7 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 This graph shows us that when liquor consumption increases, beer consumption also usually increases.
 
@@ -283,7 +283,7 @@ ggplot(penn_alcohol, aes(x = number_of_glasses_wine,
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
  
 2. Make a scatterplot using some other pair of variables or a different state.
 
@@ -299,7 +299,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Then include a second geom_line() with its own aes() for the second variable.
 
@@ -310,7 +310,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line(aes(x = year, y = number_of_shots_liquor))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 A problem with this is that both lines are the same color. We need to set a color for each line, and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
@@ -323,7 +323,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                 color = "number_of_shots_liquor of Liquor"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can change the legend title.
 
@@ -337,7 +337,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   labs(color = "Alcohol Type")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, a useful option to to move the legend from the side to the bottom. This will allow the graph to be larger.
 
@@ -352,7 +352,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   theme(legend.position = "bottom")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-26-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
 
 If our data was in a different format we could set colors if a different way. The way our data is setup is how most data you'll encounter will be and, as our goal is understanding the data, this method works.
 

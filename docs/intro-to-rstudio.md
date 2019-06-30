@@ -1,2 +1,2 @@
 
-# Intro to RStudio 
+# Introduction to RStudio 

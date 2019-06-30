@@ -404,7 +404,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_density).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -414,7 +414,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Categorical variable
 
@@ -424,7 +424,7 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -436,7 +436,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.
@@ -451,7 +451,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-24-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -465,8 +465,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" />
-
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 We can reuse this code to make a similar graph for the gender variable.
@@ -482,7 +481,7 @@ ggplot(shootings, aes(x = gender)) +
 #> Warning: Removed 5 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-26-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ## Time Series
@@ -517,7 +516,7 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-30-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -530,7 +529,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-32-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -538,7 +537,7 @@ ggplot(yearly_shootings[yearly_shootings$year != 2019, ], aes(x = year, y = dumm
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -548,4 +547,4 @@ ggplot(yearly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-34-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />

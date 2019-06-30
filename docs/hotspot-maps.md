@@ -38,7 +38,7 @@ philly_map <- ggmap(get_map(c(-75.288486,39.868285,-74.950965,40.138251), source
 philly_map
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
 Since we saved the map output into "philly_map" we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set.
 
@@ -50,10 +50,10 @@ philly_map +
              alpha = 0.5,
              color = "darkred",
              size  = 1)
-#> Warning: Removed 2 rows containing missing values (geom_point).
+#> Warning: Removed 3 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
 This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we'll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You'll notice that it has a message saying "Removed 2 rows containing missing values (geom_point)." That just means that `ggplot()` automatically deleted 2 rows that didn't contain any lon or lat data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.
 
@@ -64,7 +64,7 @@ Let's pause for a moment to think about what a map really is. Below I made a sim
 plot(officer_shootings_geocoded$lon, officer_shootings_geocoded$lat, col = "darkred")
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let's now try plotting hexagonal bins, which the `hexbin` package let us do. Why hexagons? It turns out that squares tend to have problems in the corners. The precision is low there and our eye tends to get drawn to the parallel lines the square grid makes. Ideally, we want to use a shape that has a small perimeter-to-area ratio. Circles have the smallest perimeter-to-area ratio, but we can't use circles to tile over the map. Hexagons fall in between squares and circles.
 
@@ -78,10 +78,10 @@ philly_map +
               bins = 60,
               data = officer_shootings_geocoded)
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
 
 Or try the following. Setting `alpha = 2/4` makes the bins a little more transparent. Try comparing with `alpha = 1/4` or `alpha = 3/4`.
 
@@ -94,10 +94,10 @@ philly_map +
               alpha = 0.5,
               data  = officer_shootings_geocoded)
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
 The previous map was a default monochromatic color (blue). You can change the color gradient. To see what colors are available, type `colors()`.
 
@@ -113,10 +113,10 @@ philly_map +
                       low = "springgreen",
                       high = "darkred")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 From this map we can see that most areas which has a shooting has only 1-2 shootings in that area (a limitation to this map is it is unclear just how wide these "areas" are). North Philly and North-West Philly has more areas with more shootings, and more shootings overall. But look right in the middle of Center City by City Hall, an area has 8 shootings, the most of any hexagonal. Were there really 8 shootings outside of City Hall? No. Remember those addresses that couldn't be properly located? The coordinates given to those addresses were to City Hall, causing this weird pattern in our map. 
 
@@ -130,10 +130,10 @@ philly_map +
                  data = officer_shootings_geocoded,
                  geom = 'density2d',
                  col  = 'white')
-#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let's make a hotspot map with a gradient, red for high crime and green for low crime.
 
@@ -151,10 +151,10 @@ philly_map +
   scale_alpha(range = c(.4, .75),
               guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
-#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can use `bins` to control the number of levels of colors plotted.
 
@@ -173,10 +173,10 @@ philly_map +
   scale_alpha(range = c(.4, .75),
               guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) 
-#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 Be careful with maps like these. This map is so broad is appears like shootings are ubiquituous across the city. We know from the map showing each shooting as a dot and that there are <500 shootings, that this is  not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.
 
@@ -200,7 +200,7 @@ As a basic check, let's just see how many shootings there were each year.
 table(officer_shootings_geocoded$year)
 #> 
 #> 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 
-#>   61   40   55   47   44   59   35   28   21   22   12   12    5
+#>   61   40   56   47   44   59   35   28   21   22   12   12    5
 ```
 
 It looks like the general pattern is that shootings are declining. Now we can map each year. We are looping through each year in the data, and reusing the map code before except instead of the full data, we subset data to be only rows matching the year in that iteration of the loop.  
@@ -233,9 +233,9 @@ for (year in unique(officer_shootings_geocoded$year)) {
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-2.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-3.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-4.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-5.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-6.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-7.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-8.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-9.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-10.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-11.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-12.png" width="70%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-13.png" width="70%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-2.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-3.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-4.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-5.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-6.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-7.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-8.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-9.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-10.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-11.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-12.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-13.png" width="90%" style="display: block; margin: auto;" />

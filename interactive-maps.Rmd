@@ -155,3 +155,22 @@ leaflet() %>%
 
 
 ## Interactive polygons
+
+```{r}
+library(sf)
+library(sp)
+bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
+pal <- colorBin("YlOrRd", domain = philly_tracts$NAMELSAD10, bins = bins)
+
+philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+          attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts$geometry,
+              fillColor = ~pal(philly_tracts$geometry),
+              col = "black",
+              weight = 2,
+                                 popup = philly_tracts$NAMELSAD10)
+```
+

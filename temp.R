@@ -1,11 +1,7 @@
-data <- officer_shootings_geocoded
-
-sp::coordinates(data) <- ~lon+lat
-sp::proj4string(data) <- "+proj=longlat +ellps=WGS84 +no_defs"
-data                  <- sf::st_as_sf(data)
-data         <- sf::st_transform(data, 2272)
-head(data)
-
+officer_shootings_geocoded <- st_as_sf(officer_shootings_geocoded, 
+              coords = c("lon", "lat"), 
+              crs = "+proj=longlat +ellps=WGS84 +no_defs")
+officer_shootings_geocoded <- st_transform(officer_shootings_geocoded, crs = 2272)
 
 plot(philly_tracts$geometry)
 plot(data$geometry, col = "red", add = TRUE)
@@ -24,7 +20,7 @@ z <- aggregate(shootings ~ GEOID10, data = z, FUN = sum)
 summary(z$shootings)
 
 
-z2 <- dplyr::full_join(z, philly_tracts)
+z2 <- dplyr::left_join(philly_tracts, z)
 head(z2)
 table(z2$shootings)
 z2[is.na(z2)] <- 0

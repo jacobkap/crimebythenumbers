@@ -518,14 +518,14 @@ Now it appears that we have longitude and latitude for every incident. We should
 ```r
 summary(officer_shootings$lat)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -20.57   39.96   39.99   39.79   40.02   53.61
+#>  -20.57   39.96   39.99   39.80   40.02   53.61
 ```
 
 
 ```r
 summary(officer_shootings$lon)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#> -122.86  -75.19  -75.16  -73.63  -75.13  121.05
+#> -122.86  -75.19  -75.16  -73.62  -75.13  121.05
 ```
 
 What is odd about these results? There are no NA values in either column! That does not make sense because we know some of the rows have non-addresses such as "withheld". What happened is that when ArcGIS couldn't find an address match it just gave us the generic coordinates for the city of Philly. Normally we would need to remove those rows but we will keep them in for now and look at the strange pattern caused by this in the section on mapping.
@@ -537,7 +537,7 @@ Another check is to make a simple scatterplot of the data. Since all the shootin
 plot(officer_shootings$lon, officer_shootings$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-35-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" />
 
 While almost all the points have latitude around 39 and 40 and longitude around -75, several incidents appear to occur at in different areas. This is likely due to a geocoding issue with our geocoder finding the wrong address. For your own research, and considering the small number of values in this data, you should check the address to try to get them all geocoded properly. Here, we will simply remove all rows outside this -75 longitude and 39-40 latitude range. 
 
@@ -556,10 +556,10 @@ Now we can check the `summary()` function again to see if all the values are in 
 ```r
 summary(officer_shootings$lat)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   35.48   39.97   39.99   39.98   40.02   40.10
+#>   35.48   39.96   39.99   39.98   40.02   40.10
 summary(officer_shootings$lon)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -79.43  -75.19  -75.16  -75.17  -75.13  -74.98
+#>  -79.43  -75.19  -75.16  -75.18  -75.13  -74.98
 ```
 
 These values look correct. We can make another scatterplot as a second check.
@@ -569,7 +569,7 @@ These values look correct. We can make another scatterplot as a second check.
 plot(officer_shootings$lon, officer_shootings$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-38-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-38-1.png" width="90%" style="display: block; margin: auto;" />
 
 Two shootings have inaccurate latitudes. Let's drop any latitude that is less than 39.
 
@@ -592,7 +592,7 @@ ggmap(mapPhilly, extent = "normal") +
          axis.title.y = element_blank())
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-40-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
 
 To finish this lesson we want to save the "officer_shootings" data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of "officer_shootings" just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as "officer_shootings" to have fewer objects to manage. 
 

@@ -38,7 +38,7 @@ plot(1:100, type = "h", col = "yellow",
      main = "Awful graph title")
 ```
 
-<img src="rmarkdown_files/figure-html/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rmarkdown_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
 
 If you had put this graph in your Word document and decided to change it you would have to replace it every time you made a change. While this is a minor procedure, it adds up if you have many graphs or decide to change the graph frequently. Below is the same graph with just the title and color changed. If this were my thesis, I could have changed the original code and been assured that the most up-to-date graph (or table, etc.) is always the one included with the thesis. Change the code and never think about it. 
 
@@ -48,7 +48,7 @@ plot(1:100, type = "h", col = "blue",
      main = "Great graph title!")
 ```
 
-<img src="rmarkdown_files/figure-html/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="rmarkdown_files/figure-html/unnamed-chunk-3-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Only use code to make output
 
@@ -89,7 +89,7 @@ When you make the output file (called "knitting" the file), all code chunks will
 Above was a code chunk that makes a graph. The only addition you will likely make to this type of code is to add a caption. Do this by adding the option `fig.cap = ""` with the caption in the quotes.
 
 <div class="figure" style="text-align: center">
-<img src="rmarkdown_files/figure-html/unnamed-chunk-7-1.png" alt="This is an example figure caption" width="70%" />
+<img src="rmarkdown_files/figure-html/unnamed-chunk-7-1.png" alt="This is an example figure caption" width="90%" />
 <p class="caption">(\#fig:unnamed-chunk-7)This is an example figure caption</p>
 </div>
 
