@@ -133,13 +133,13 @@ $central
 [15] "WI" "WY"
 lapply(state.list,sample,size=3,replace=FALSE)
 $west
-[1] "ID" "AZ" "UT"
+[1] "OR" "AK" "NV"
 
 $east
-[1] "AL" "WV" "SC"
+[1] "VA" "GA" "MD"
 
 $central
-[1] "LA" "WY" "IA"
+[1] "IL" "SD" "ND"
 sapply(state.list,length)
    west    east central 
      11      24      16 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10 For loops | R 4 Criminology</title>
+  <title>21 Census Data from Social Explorer | R 4 Criminology</title>
   <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10 For loops | R 4 Criminology" />
+  <meta property="og:title" content="21 Census Data from Social Explorer | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10 For loops | R 4 Criminology" />
+  <meta name="twitter:title" content="21 Census Data from Social Explorer | R 4 Criminology" />
   
   <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="functions.html">
-<link rel="next" href="types-of-objects.html">
+<link rel="prev" href="uniform-crime-report-ucr-data.html">
+<link rel="next" href="census-data-from-ipums.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -356,141 +356,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="for-loops" class="section level1">
-<h1><span class="header-section-number">10</span> For loops</h1>
-<p>Sometimes we need to have R repeat certain tasks multiple times, such as marching through each row of a data set and modifying values or scraping many pages of a website. For loops accomplish this. Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in <a href="functions.html#making-a-function-to-scrape-movie-data">9.3</a>. In this lesson we will use a for loop to scrape movie data for a an entire year of dates.</p>
-<div id="basic-for-loops" class="section level2">
-<h2><span class="header-section-number">10.1</span> Basic for loops</h2>
-<p>Here is a basic for loop that runs through the numbers 1 to 10 and prints them out one at a time.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-   <span class="kw">print</span>(i)
-}
-<span class="co">#&gt; [1] 1</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; [1] 3</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] 6</span>
-<span class="co">#&gt; [1] 7</span>
-<span class="co">#&gt; [1] 8</span>
-<span class="co">#&gt; [1] 9</span>
-<span class="co">#&gt; [1] 10</span></code></pre>
-<p>Note the basic structure. There’s the keyword <code>for</code>. Inside the parentheses is a variable <code>i</code> (but you can use any variable name you want), the keyword <code>in</code>, and finally a collection of values, in this case the numbers 1 to 10. The for loop will march through this collection of values, assigning <code>i</code> each value in turn, and running the code inside the squiggly braces {}. So first <code>i</code> will be set to 1 and the <code>print()</code> function will print the value 1 to the screen. When that is done, <code>i</code> will take the next value in the collection, 2, and the for loop will run the <code>print()</code> function and print the number 2. This continues until <code>i</code> takes the value 10 and <code>print()</code> prints that 10 to the screen.</p>
-<p>The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function all the code you want to use goes in between the “{” and “}” squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values.</p>
-<p>Let’s look closer at the <code>(i in 1:10)</code>. The <code>i</code> is simply a placeholder object which takes the value 1:10 each iteration of the loop. It’s not necessary to call it <code>i</code> but that is convention in programming to do so. It takes the value of whatever follows the <code>in</code> which can range from a vector of strings to numbers to lists of data.frames. Especially when you’re first beginning using R it could help to call the <code>i</code> something informative to you about what value it has.</p>
-<p>Let’s go through a few examples with different names for <code>i</code> and different values it is looping through.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-   <span class="kw">print</span>(a_number)
-}
-<span class="co">#&gt; [1] 1</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; [1] 3</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] 6</span>
-<span class="co">#&gt; [1] 7</span>
-<span class="co">#&gt; [1] 8</span>
-<span class="co">#&gt; [1] 9</span>
-<span class="co">#&gt; [1] 10</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)
-<span class="cf">for</span> (animal <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-   <span class="kw">print</span>(animals)
-}
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;  </span>
-<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></code></pre>
-<p>Now let’s make our code a bit more complicated, adding the number 2 every loop.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {
-   <span class="kw">print</span>(a_number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>)
-}
-<span class="co">#&gt; [1] 3</span>
-<span class="co">#&gt; [1] 4</span>
-<span class="co">#&gt; [1] 5</span>
-<span class="co">#&gt; [1] 6</span>
-<span class="co">#&gt; [1] 7</span>
-<span class="co">#&gt; [1] 8</span>
-<span class="co">#&gt; [1] 9</span>
-<span class="co">#&gt; [1] 10</span>
-<span class="co">#&gt; [1] 11</span>
-<span class="co">#&gt; [1] 12</span></code></pre>
-<p>I’m keeping the results inside of <code>print()</code> since for loops do not print the results by default. Let’s try combining this with some subsetting using square bracket notation []. We will look through every value in “numbers” a vector with the values 1:10 and replace each value with it’s value plus 2.</p>
-<p>The object we’re looping through is “numbers”. But we’re actually looping through every index it has, hence the <code>1:length(numbers)</code>. That is saying, <code>i</code> takes the value of each index in “numbers” which is very useful when being able to change that element. <code>length(numbers)</code> just finds how long the vector “numbers” is (were this a data.frame we could use <code>nrow()</code>) to find how many elements it has. In the code we take the value at each index <code>numbers[i]</code> and add 2 to it.</p>
-<pre class="sourceCode r"><code class="sourceCode r">numbers &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(numbers)) {
-  numbers[i] &lt;-<span class="st"> </span>numbers[i] <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
-}</code></pre>
-<p>We can also include functions we made in for loops. Here’s a function we made last lesson which adds 2 to each inputted number.</p>
-<pre class="sourceCode r"><code class="sourceCode r">add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number) {
-  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
-  <span class="kw">return</span>(number)
-}</code></pre>
-<p>Let’s put that in the loop.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(numbers)) {
-  numbers[i] &lt;-<span class="st"> </span><span class="kw">add_2</span>(numbers[i])
-}</code></pre>
-</div>
-<div id="scraping-multiple-days-of-movie" class="section level2">
-<h2><span class="header-section-number">10.2</span> Scraping multiple days of movie</h2>
-<p>Below is the function copied from the previous lesson on functions where we enter a single date and it scrapes the site <a href="https://www.the-numbers.com/">The-Numbers</a> for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year.</p>
-<pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
-  url &lt;-<span class="st"> &quot;http://www.the-numbers.com/box-office-chart/daily/&quot;</span>
-  url_date &lt;-<span class="st"> </span><span class="kw">paste</span>(url, date, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-  
-  movie_data &lt;-<span class="st"> </span><span class="kw">read_html</span>(url_date)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_table</span>(movie_data)
-  movie_data &lt;-<span class="st"> </span>movie_data[[<span class="dv">1</span>]]
-  
-  <span class="kw">return</span>(movie_data)
-}</code></pre>
-<p>With any for loop you need to figure out what is going to be changing, in this case it is the date. And since we want a year’s worth of movie data, we need to make an object with an entire year of dates. We can use the function <code>seq()</code> in association with the <code>lubridate</code> package to make that object.</p>
-<p><code>seq()</code> produces a vector of every value between two points (either numbers or Dates) based on the increments we specify, in this case daily.</p>
-<p>We want a year of data, from July 4th, 2017 to July 4th, 2018 so those will be our start and end points. And we want Dates returned so we will use the <code>ymd()</code> function from <code>lubridate</code> to turn those values into dates.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span>
-<span class="co">#&gt; The following object is masked from &#39;package:base&#39;:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     date</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">year_of_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">ymd</span>(<span class="st">&quot;2017-7-4&quot;</span>), <span class="kw">ymd</span>(<span class="st">&quot;2018-7-4&quot;</span>), <span class="dt">by =</span> <span class="st">&quot;days&quot;</span>)</code></pre>
-<p>Check the first 6 values to see if it did it right.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(year_of_dates)
-<span class="co">#&gt; [1] &quot;2017-07-04&quot; &quot;2017-07-05&quot; &quot;2017-07-06&quot; &quot;2017-07-07&quot; &quot;2017-07-08&quot;</span>
-<span class="co">#&gt; [6] &quot;2017-07-09&quot;</span></code></pre>
-<p>It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object “year_of_dates” it uses “-”, in the website we are scraping, it uses “/”. It may seem like a minor point but if we try to use “-” instead of “/” we will have an error. Luckily, we know enough <code>gsub()</code> to quickly replace all “-” with “/”.</p>
-<pre class="sourceCode r"><code class="sourceCode r">year_of_dates &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;-&quot;</span>, <span class="st">&quot;/&quot;</span>, year_of_dates)</code></pre>
-<p>Now we can write the for loop to go through every single date in “year_of_dates” and use the function <code>scrape_movie_data</code> we made to scrape data for that date.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (date <span class="cf">in</span> year_of_dates) {
-  movie_data &lt;-<span class="st"> </span><span class="kw">scrape_movie_data</span>(date)
-}</code></pre>
-<p>Don’t run this yet because there are two issues remaining. The first is that if we run it as is it will scrape the website for each site, save the results into the object “movie_data” and keep overwriting this object for each date. We need to create an object that doesn’t get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where “something” is a descriptive word for the data. In this case we will use “movie_data_final” and “movie_data_temp”.</p>
-<p>We start by creating the object “movie_data_final” and saying it gets the value “data.frame()”. That’s just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the “movie_data_temp” data to “movie_data_final” for each date. We will use the function <code>rbind()</code> which lets us combine two data.frames together. Think of it like the <code>c()</code> function but for the more complex data.frame (i.e. Excel files) type of objects. So every iteration of the loop we scrape a single date then add that to the “movie_data_final” object.</p>
-<pre class="sourceCode r"><code class="sourceCode r">
-movie_data_final &lt;-<span class="st"> </span><span class="kw">data.frame</span>()
-<span class="cf">for</span> (date <span class="cf">in</span> year_of_dates) {
-  
-  movie_data_temp &lt;-<span class="st"> </span><span class="kw">scrape_movie_data</span>(date)
-  movie_data_final &lt;-<span class="st"> </span><span class="kw">rbind</span>(movie_data_final, movie_data_temp)
-
-}</code></pre>
-<p>The second issue is that there is no variable indicating what day it that was scraped. When adding many days together, we need a variable to be able to distinguish the day. This can easily be fixed by making a column in the data which says the date. When we used <code>gsub()</code> on “year_of_dates” we changed it from a Date type to a character type. Let’s change it back in the new variable we made by putting it in <code>ymd()</code> before saving to to the column.</p>
-<pre class="sourceCode r"><code class="sourceCode r">
-movie_data_final &lt;-<span class="st"> </span><span class="kw">data.frame</span>()
-<span class="cf">for</span> (date <span class="cf">in</span> year_of_dates) {
-  
-  movie_data_temp &lt;-<span class="st"> </span><span class="kw">scrape_movie_data</span>(date)
-  movie_data_temp<span class="op">$</span>date &lt;-<span class="st"> </span><span class="kw">ymd</span>(date)
-  
-  movie_data_final &lt;-<span class="st"> </span><span class="kw">rbind</span>(movie_data_final, movie_data_temp)
-}</code></pre>
-<p>Now we are ready to run the for loop and get movie data for an entire year.</p>
+<div id="census-data-from-social-explorer" class="section level1">
+<h1><span class="header-section-number">21</span> Census Data from Social Explorer</h1>
+<div id="getting-census-data-from-social-explorer" class="section level2">
+<h2><span class="header-section-number">21.1</span> Getting Census data from Social Explorer</h2>
+<p>Social Explorer is a convenient tool to let us get Census data in a relatively clean format. The tool has interactive graphs for a huge number of variables and different levels of geographies for data in the United States. For our purposes we will focus on their Tables feature which lets you select different data sets (we will focus on Census data), select the variables you want, and get an Excel file with that data. We will do this to get tract-level Census data and merge it in with the tract-level shooting data to make some basic scatterplots and correlations.</p>
+<p>For students on Penn’s campus you can go directly to <a href="https://www.socialexplorer.com/explore-maps">Social Explorer’s Website</a> since Penn pays for a license to use the site. Otherwise you can go through a link in the school’s library website <a href="https://franklin.library.upenn.edu/catalog/FRANKLIN_9941110333503681">here</a>, click “Connect to resource.” near the bottom. For those going through the library website, click “Use as guest” on the page it opens up.</p>
+<p>We want a table to click Tables on the left side of the page. And we’ll get data from the American Community Surveys (5-Year Estimates).</p>
+<p><img src="images/social_explorer_1.PNG" /></p>
+<p><img src="images/social_explorer_2.PNG" /></p>
+<p><img src="images/social_explorer_3.PNG" /></p>
+<p><img src="images/social_explorer_4.PNG" /></p>
+<p><img src="images/social_explorer_5.PNG" /></p>
+<p><img src="images/social_explorer_6.PNG" /></p>
+<p><img src="images/social_explorer_7.PNG" /></p>
+<p><img src="images/social_explorer_8.PNG" /></p>
+<p>Once you click “Census Tract data (CSV)” it’ll download a .csv file. I have renamed the file “philly_census_tract_essentials.csv” to give it a more descriptive name. Now we are ready to work with this data and merge it with the shootings data.</p>
 
 </div>
 </div>
@@ -499,8 +380,8 @@ movie_data_final &lt;-<span class="st"> </span><span class="kw">data.frame</span
           </div>
         </div>
       </div>
-<a href="functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="types-of-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="uniform-crime-report-ucr-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="census-data-from-ipums.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -520,7 +401,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jacobkap/r4crim/edit/master/for-loops.Rmd",
+"link": "https://github.com/jacobkap/r4crim/edit/master/census-data-social-explorer.Rmd",
 "text": "Edit"
 },
 "history": {
