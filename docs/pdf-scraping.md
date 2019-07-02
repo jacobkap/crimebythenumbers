@@ -315,6 +315,8 @@ pdf
 
 When we print the file we can see that it is a single big block of text. Near the beginning of the text we can see a date, 1/07/16. That's what we want. When comparing the PDF which we can read ourselves on Adobe Acrobat or a web browser, it is clear that all the line breaks in the PDF disappeared when we used `pdf_text()`. More specifically, the line breaks were replaced by `\n` which is R's way of saying "this is a line break".
 
+![](images/pdf_scrape_1.PNG)
+
 Note that there are scattered `\r\n` throughout. These are carriage return (`\r`) and line feed (`\n`) characters that signal the end of a line. The old printers would look for these characters to move the printer head back to the beginning of a line (carriage return) and advance the page to the next line (line feed). Nowadays, those same characters are still used to denote the end of a line. However, PCs use `\r\n`, Unix systems use `\n`, older Macs used `\r`, but Mac OS X adopted the Unix standard `\n`. Expect any of these combinations in data files. 
 
 We want to grab just the date from this file.  Since the file is in a single block of text, we need to break it up based on where there should be a line break (turning each line back into an individual part of the file) and grab only the line with the date.
