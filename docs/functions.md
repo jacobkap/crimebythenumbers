@@ -203,7 +203,7 @@ IQR
 function (x, na.rm = FALSE, type = 7) 
 diff(quantile(as.numeric(x), c(0.25, 0.75), na.rm = na.rm, names = FALSE, 
     type = type))
-<bytecode: 0x0000000014e55330>
+<bytecode: 0x0000000014e55410>
 <environment: namespace:stats>
 ```
 
