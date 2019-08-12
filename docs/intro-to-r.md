@@ -289,7 +289,7 @@ paste(my_states, collapse = ",")
 #> [1] "WA,DC,CA,PA,MD,VA,OH"
 ```
 
-The `paste()` function pastes character strings together. By default, `paste()` puts a space betweeen the strings being pasted together. It looks strange with that space after WV in "WV , USA". We can set the separator to be nothing (the empty string) by setting `sep = ""`. Remember that you need a comma before starting a new parameter. 
+The `paste()` function pastes character strings together. By default, `paste()` puts a space between the strings being pasted together. It looks strange with that space after WV in "WV , USA". We can set the separator to be nothing (the empty string) by setting `sep = ""`. Remember that you need a comma before starting a new parameter. 
 
 Being able to sort or manipulate strings/character values (i.e. not numbers) is important in research. When dealing with real crime data you'll find that there are often spelling issues where categories are slightly different (e.g. 'assault' 'asault' 'asslt') that you need to make consistent for an analysis. You will also likely want to grab only rows where the data is a certain crime, such as all assaults, which is something we'll learn later. 
 
@@ -390,7 +390,7 @@ Now you can use R functions to load in any data sets that are in your working fo
 
 ### Loading data
 
-The `load()` function lets us load data already in the R format. These files will end in the extention ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (using the `<-` we learned above) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see later on. 
+The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (using the `<-` we learned above) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see later on. 
 
 
 ```r
@@ -405,7 +405,7 @@ The object we loaded is called `chicago` and if you look in the "Environment" ta
 `summary()`
 `View()`
 
-Note that the first two functions are lowercased while `View()` is capitalized. That is simply because older functions in R were often capitalized while newer ones use all lowercase letters. R is case sensitive so using `view()` will not work. 
+Note that the first two functions are lowercase while `View()` is capitalized. That is simply because older functions in R were often capitalized while newer ones use all lowercase letters. R is case sensitive so using `view()` will not work. 
 
 The `head()` function prints the first 6 rows of each column out in the console. This is useful to get a quick glance at the data but has some important drawbacks. When using data sets with a large number of columns it can be quickly overwhelming by printing too much. There may also be differences in the first 6 rows with other rows. For example if the rows are ordered chronologically (as is the case with most crime data) the first 6 rows will be the most recent. If data collection methods or the quality of collection changed over time, these 6 rows won't be representative of the data.  
 

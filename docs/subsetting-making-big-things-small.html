@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Subsetting: Making big things small | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Subsetting: Making big things small | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="3 Subsetting: Making big things small | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -361,12 +363,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="subsetting-making-big-things-small" class="section level1">
 <h1><span class="header-section-number">3</span> Subsetting: Making big things small</h1>
-<p>Subsetting data is a way to take a large data set and reduce it to a smaller one better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn’t relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.</p>
+<p>Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn’t relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.</p>
 <div id="select-specific-values" class="section level2">
 <h2><span class="header-section-number">3.1</span> Select specific values</h2>
 <pre class="sourceCode r"><code class="sourceCode r">animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</code></pre>
 <p>Here we have made an object called “animals” with a number of different animals in it. In R, we will use square brackets [] to select specific values in that object, something called “indexing”. Put a number (or numbers) in the square bracket and it’ll return the value at that “index”. The index is just the place number where each value is. “cat” is the first value in “animals” so it is at the first index, “dog” is the second value so it is the second index or index 2. “snake” is our last value and is the 6th value in “animals” so it index 6 (some languages use “zero indexing” which means the first index is index 0, the second is index 1. So in our example “cat” would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).</p>
-<p>The snytax (how the code is written) goes</p>
+<p>The syntax (how the code is written) goes</p>
 <p>object[index(s)]</p>
 <p>First we have the object and then we put the square bracket []. We need both the object and the [] for subsetting to work. Let’s say we wanted to choose just the “snake” from our “animals” object. In normal language we say “I want the 6th value from”animals". We say where we’re looking and which value we want.</p>
 <pre class="sourceCode r"><code class="sourceCode r">animals[<span class="dv">6</span>]
@@ -415,7 +417,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>&lt;= Less than or equal to</li>
 <li>&gt;= Greater than or equal to</li>
 </ul>
-<p>Since many conditionals involve numbers (espcially in criminology), let’s make a new object called “numbers” with the first 10 numbers to use in the examples.</p>
+<p>Since many conditionals involve numbers (especially in criminology), let’s make a new object called “numbers” with the first 10 numbers to use in the examples.</p>
 <pre class="sourceCode r"><code class="sourceCode r">numbers &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></code></pre>
 <div id="matching-a-single-value" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> Matching a single value</h3>
@@ -481,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 [<span class="dv">1</span>] <span class="ot">FALSE</span>
 [<span class="dv">1</span>] <span class="ot">TRUE</span>
 [<span class="dv">1</span>] <span class="ot">FALSE</span></code></pre>
-<p>Note that witn <code>&amp;</code> every condition must be true for it to return TRUE. With <code>or</code> only one condition must be true.</p>
+<p>Note that with <code>&amp;</code> every condition must be true for it to return TRUE. With <code>or</code> only one condition must be true.</p>
 <p>We can combine logical operators into more complicated expressions.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">|</span><span class="st"> </span><span class="dv">2</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre>
@@ -491,7 +493,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="subsetting-a-data.frame" class="section level2">
 <h2><span class="header-section-number">3.3</span> Subsetting a data.frame</h2>
-<p>Above we were just using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a “data.frame” which is something we’ll discuss in detail later on. For now you can imaginate a data.frame being like an Excel file with multiple rows and columns.</p>
+<p>Above we were just using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a “data.frame” which is something we’ll discuss in detail later on. For now you can imagine a data.frame being like an Excel file with multiple rows and columns.</p>
 <p>Let’s load in data from the Uniform Crime Report (UCR), an FBI data set that we’ll work on in a later lesson. This data has crime data every year from 1960-2017 and for every nearly every agency in the country (early years have far fewer agencies reporting than recent years).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</code></pre>
 <p>Let’s peak at the first 6 rows and 6 columns using the square bracket notation [] for data.frames which we’ll explain more below.</p>
@@ -503,7 +505,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; 4 AK00101 AK0010100   anchorage alaska        AK 2014</span>
 <span class="co">#&gt; 5 AK00101 AK0010100   anchorage alaska        AK 2013</span>
 <span class="co">#&gt; 6 AK00101 AK0010100   anchorage alaska        AK 2012</span></code></pre>
-<p>The first 6 rows appear to be agency identification info for Archorage, Alaska from 2017-2012. For good measure let’s check how many rows and columns are in this data. This will give us some guidance on subsetting which we’ll see below. <code>nrow()</code> gives us the number of rows and <code>ncol()</code> givws us the number of columns.</p>
+<p>The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2017-2012. For good measure let’s check how many rows and columns are in this data. This will give us some guidance on subsetting which we’ll see below. <code>nrow()</code> gives us the number of rows and <code>ncol()</code> gives us the number of columns.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)
 <span class="co">#&gt; [1] 959010</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)
@@ -602,7 +604,7 @@ only the following columns: actual_murder, state, year, population, ori, agency_
 <h2><span class="header-section-number">3.4</span> Select a specific column</h2>
 <p>The way to select a specific column in R is called the dollar sign notation.</p>
 <p><code>data$column</code></p>
-<p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or mispellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
+<p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
 <p>We can do this for the column “agency_name” in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in <code>head()</code> so it only displays the first 6 rows of the column rather than printing the entire column.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name)
 <span class="co">#&gt; [1] &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot;</span></code></pre>
@@ -794,7 +796,7 @@ only the following columns: actual_murder, state, year, population, ori, agency_
 <li>only rows where the year is 2011-2017</li>
 <li>only the following columns: actual_murder, state, year, population, ori, agency_name</li>
 </ol>
-<p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercased). And at this point we want keep all columns in the data. So let’s make a new object called “colorado” to save the result of this subset.</p>
+<p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let’s make a new object called “colorado” to save the result of this subset.</p>
 <p>Remember that we want to put the object to the left of the [] to make sure it returns the data. Just having the [] will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don’t need to put anything after the comma.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</code></pre>
 <p>Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use %in% and put the years in a vector 2011:2017. This time our primary data set is “colorado”, not “offenses_known_yearly_1960_2017” since “colorado” has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want.</p>

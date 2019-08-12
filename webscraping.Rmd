@@ -2,7 +2,7 @@
 
 You may come across data online that are relevant to your interests or research (for example, past students have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Yet, patterns in the page provide a valuable way to "scrape" data from that webpage. Here, we're going to work through an example of webscraping. We're going to get data on ticket sales of every movie, for every day in a single year. 
 
-For our purposes we will be using the R package [`rvest`](https://github.com/tidyverse/rvest). This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our will be.
+For our purposes we will be using the R package [`rvest`](https://github.com/tidyverse/rvest). This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.
 
 If you haven't done so before, make sure to install `rvest`.
 
@@ -18,17 +18,16 @@ library(rvest)
 
 We will be scraping movie ticket data from the website [The-Numbers](http://www.the-numbers.com). This site has daily information on how much money each movie in theaters made that day. The data includes the name of the movie, the number of theaters it played in, how much it made that day, how much it made since it started playing, and how many days it has been in theaters. Conveniently, this is all found in a single table on that page.
 
-Here is a screenshot of data from July 4th, 2018
+Here is a screenshot of data from July 4th, 2018 and here is a link to [that page]([http://www.the-numbers.com/box-office-chart/daily/2018/07/04](http://www.the-numbers.com/box-office-chart/daily/2018/07/04)
 
 ![Here is a screenshot of data from July 4th, 2018](images/the-numbers_example.PNG)
 
-Have a look at the webpage [http://www.the-numbers.com/box-office-chart/daily/2018/07/04](http://www.the-numbers.com/box-office-chart/daily/2018/07/04) .
 
 ## Scraping one page
 
-In later lessons we'll learn how to scrape an entire year of data from this site. For now, let's focus on just getting data from July 4th, 2018.
+In later lessons we'll learn how to scrape an entire year of data from this site. For now, we'll focus on just getting data from July 4th, 2018.
 
-The first step to scraping a page is to read in that page's information to R using the function `read_html()`. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages. 
+The first step to scraping a page is to read in that page's information to R using the function `read_html()` from the `rvest` package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages. 
 
 ```{r}
 read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
@@ -50,11 +49,11 @@ This will open up a tab on the screen and allows you to see the building blocks 
 
 ![](images/the-numbers_3.PNG)
 
-Right click the "table" area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and lets us grab only that from the XML Document we made earlier. 
+Right click the "table" area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and allows us grab only that part from the XML Document we made earlier. 
 
 ![](images/the-numbers_4.PNG)
 
-We will use the function `html_nodes()` to just grab the parts of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called "movie_data") and then we can paste the text we copied from thr website (putting it in quotes). 
+We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called "movie_data") and then we can paste the text we copied from thr website (putting it in quotes). 
 
 Note that when doing this in Google Chrome, you follow the same steps except click "Copy selector" rather than "CSS Selector". The value copied also differs between Chrome and Firefox though the result is the same in our code. 
 
@@ -89,7 +88,6 @@ We have now successfully scraped a website! The "movie_data" object is a data.fr
 ## Cleaning the webscraped data
 
 Let's look at some summary statistics and try to find which movie made the most money that day. Let's check what the max value is in the "Gross" column which says how much the movie made on that day. 
-
 
 ```{r}
 max(movie_data$Gross)
@@ -133,13 +131,13 @@ Now to do the dollar sign. Remember that in `gsub()` and `grep()` the \$ is a sp
 gsub("\\$", "", "$11,501,395")
 ```
 
-Each of these `gsub()`s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the `|` operator which tells `gsub()` to replace the value on the left **or** right side of them symbol (or both if both are present). 
+Each of these `gsub()`s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the `|` operator which tells `gsub()` to replace the value on the left **or** right side of the `|` symbol (or both if both are present). 
 
 ```{r}
 gsub(",|\\$", "", "$11,501,395")
 ```
 
-The second choce is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` we wrote earlier, using "x" as our value and saving the results back into x. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
+The second choce is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
 
 ```{r}
 x <- "$11,501,395"
@@ -207,6 +205,8 @@ We can check to make sure it worked by again running `names()`.
 ```{r}
 names(movie_data)
 ```
+
+We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages. 
 
 ### Exercises
 

@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>20 Uniform Crime Report (UCR) Data | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="20 Uniform Crime Report (UCR) Data | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="20 Uniform Crime Report (UCR) Data | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -361,15 +363,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="uniform-crime-report-ucr-data" class="section level1">
 <h1><span class="header-section-number">20</span> Uniform Crime Report (UCR) Data</h1>
-<p>The Uniform Crime Reports (UCR) is an annual collection of official data on crime in the United States published by the FBI. Approximately 18,000 individual state, local (city, county, college), tribal, and federal law enforcement agencies report data to the FBI. Some agencies are more consistent than other agencies with reporting their data to the FBI but the vast majority of agencies have reported consistently since the 1990s.</p>
+<p>The Uniform Crime Reports (UCR) is an annual collection of official data on crime in the United States published by the FBI. Nearly every police agency in the United States - approximately 18,000 agencies including state, local (city, county, college), tribal and federal police departments - now reports their data to the FBI which compiles are releases the UCR data. This data is available since 1960 though early years have many fewer agencies reporting than do so in later years.</p>
 <p>The data file has annual data on the number of crimes reported, the number of crimes cleared, the number cleared where all offenders are under age 18, and the number of unfounded crimes. We’ll discuss each of this a bit further as we dive into the data. Thus, the data isn’t “incident-level” data - in contrast to the Chicago data that we’ve worked with. The data instead includes crime counts for each agency. You can read more about the UCR program and all the data sets it includes on the National Archive of Criminal Justice Data page <a href="https://www.icpsr.umich.edu/icpsrweb/content/NACJD/guides/ucr.html">here</a></p>
-<p>Due to it’s longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for decades) it is a popular data set for criminologists. Some of you will use this data for your thesis.</p>
+<p>Due to it’s longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for decades) it is a popular data set for criminologists.</p>
 <div id="exploring-the-ucr-data" class="section level2">
 <h2><span class="header-section-number">20.1</span> Exploring the UCR data</h2>
-<p>In this section, we are going to work with the combined annual count of crimes for every year available, 1960-2017. The FBI releases the data as a single file per year and each file has monthly counts of crime. This data set does some cleaning for us by aggregating yearly and making it a single file for the whole time period. The first step when working with this UCR data is loading it into R. As with loading any data, it’s very important that your path is correctly set using <code>setwd()</code> so R knows which folder the data is in.</p>
+<p>We are going to work with the combined annual count of crimes for every year available, 1960-2017. The FBI releases the data as a single file per year and each file has monthly counts of crime. This data set does some cleaning for us by aggregating yearly and making it a single file for the whole time period. The first step when working with this UCR data is loading it into R. As with loading any data, make sure that your path is correctly set using <code>setwd()</code> so R knows which folder the data is in.</p>
 <pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</code></pre>
-<p>Now we see that a new object is in R’s memory, <code>offenses_known_yearly_1960_2017</code>.</p>
 <p>Let’s start with a basic examination of the data. First, how big it is, what variables it has, and what the units are.</p>
 <p>To see how big a data set is, use <code>ncol()</code> to see the number of columns and <code>nrow()</code> to see the number of rows. The <code>names()</code> function tells us every column name. For all of these functions we need to put the data set name inside the ().</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)
@@ -478,7 +479,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="finding-things-in-our-data" class="section level2">
 <h2><span class="header-section-number">20.2</span> Finding things in our data</h2>
 <p>For an easy way to find the ORI number of an agency, use this <a href="http://crimedatatool.com/crosswalk.html">site</a>.</p>
-<p>Lets look at some summary statistics of a few columns - we don’t want to run <code>summary()</code> on the whole data as it have too many columns.</p>
+<p>Lets look at some summary statistics of a few columns - we don’t want to run <code>summary()</code> on the whole data as it has too many columns.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>actual_murder)
 <span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
 <span class="co">#&gt;   -2.0000    0.0000    0.0000    0.9958    0.0000 2245.0000</span></code></pre>
@@ -504,7 +505,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>For that city, what was the mean number of murders for all years included?</li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
-<li>Add a new column to your dataset for the burglary rate for each agency.</li>
+<li>Add a new column to your data set for the burglary rate for each agency.</li>
 </ol>
 <ul>
 <li>Which agency has the highest burglary rate?</li>

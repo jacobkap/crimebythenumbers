@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>8 Webscraping with rvest | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8 Webscraping with rvest | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="8 Webscraping with rvest | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -362,23 +364,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="webscraping-with-rvest" class="section level1">
 <h1><span class="header-section-number">8</span> Webscraping with <code>rvest</code></h1>
 <p>You may come across data online that are relevant to your interests or research (for example, past students have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Yet, patterns in the page provide a valuable way to “scrape” data from that webpage. Here, we’re going to work through an example of webscraping. We’re going to get data on ticket sales of every movie, for every day in a single year.</p>
-<p>For our purposes we will be using the R package <a href="https://github.com/tidyverse/rvest"><code>rvest</code></a>. This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our will be.</p>
+<p>For our purposes we will be using the R package <a href="https://github.com/tidyverse/rvest"><code>rvest</code></a>. This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.</p>
 <p>If you haven’t done so before, make sure to install <code>rvest</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;rvest&quot;</span>)</code></pre>
 <p>And every time you start R, if you want to use <code>rvest</code> you must tell R so by using <code>library()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
 <span class="co">#&gt; Loading required package: xml2</span></code></pre>
 <p>We will be scraping movie ticket data from the website <a href="http://www.the-numbers.com">The-Numbers</a>. This site has daily information on how much money each movie in theaters made that day. The data includes the name of the movie, the number of theaters it played in, how much it made that day, how much it made since it started playing, and how many days it has been in theaters. Conveniently, this is all found in a single table on that page.</p>
-<p>Here is a screenshot of data from July 4th, 2018</p>
+<p>Here is a screenshot of data from July 4th, 2018 and here is a link to [that page](<a href="http://www.the-numbers.com/box-office-chart/daily/2018/07/04">http://www.the-numbers.com/box-office-chart/daily/2018/07/04</a></p>
 <div class="figure">
 <img src="images/the-numbers_example.PNG" alt="Here is a screenshot of data from July 4th, 2018" />
 <p class="caption">Here is a screenshot of data from July 4th, 2018</p>
 </div>
-<p>Have a look at the webpage <a href="http://www.the-numbers.com/box-office-chart/daily/2018/07/04">http://www.the-numbers.com/box-office-chart/daily/2018/07/04</a> .</p>
 <div id="scraping-one-page" class="section level2">
 <h2><span class="header-section-number">8.1</span> Scraping one page</h2>
-<p>In later lessons we’ll learn how to scrape an entire year of data from this site. For now, let’s focus on just getting data from July 4th, 2018.</p>
-<p>The first step to scraping a page is to read in that page’s information to R using the function <code>read_html()</code>. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages.</p>
+<p>In later lessons we’ll learn how to scrape an entire year of data from this site. For now, we’ll focus on just getting data from July 4th, 2018.</p>
+<p>The first step to scraping a page is to read in that page’s information to R using the function <code>read_html()</code> from the <code>rvest</code> package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_html</span>(<span class="st">&quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span>)
 <span class="co">#&gt; {xml_document}</span>
 <span class="co">#&gt; &lt;html&gt;</span>
@@ -391,9 +392,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/the-numbers_2.PNG" /></p>
 <p>This will open up a tab on the screen and allows you to see the building blocks on that page. When you move your cursor over parts of this tab, the parts of the page it relates to will be highlighted in blue. Want want all of the data from the table so move your cursor to where it starts with “&lt;table”. Doing so will highlight the entire table in blue.</p>
 <p><img src="images/the-numbers_3.PNG" /></p>
-<p>Right click the “table” area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and lets us grab only that from the XML Document we made earlier.</p>
+<p>Right click the “table” area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and allows us grab only that part from the XML Document we made earlier.</p>
 <p><img src="images/the-numbers_4.PNG" /></p>
-<p>We will use the function <code>html_nodes()</code> to just grab the parts of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called “movie_data”) and then we can paste the text we copied from thr website (putting it in quotes).</p>
+<p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called “movie_data”) and then we can paste the text we copied from thr website (putting it in quotes).</p>
 <p>Note that when doing this in Google Chrome, you follow the same steps except click “Copy selector” rather than “CSS Selector”. The value copied also differs between Chrome and Firefox though the result is the same in our code.</p>
 <pre class="sourceCode r"><code class="sourceCode r">movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)</code></pre>
 <p>Since we are getting data from a table, we need to tell rvest that the format of the scraped data is a table. We do with using <code>html_table()</code> and our input in the () is the the object made in the function <code>html_nodes()</code>.</p>
@@ -459,10 +460,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now to do the dollar sign. Remember that in <code>gsub()</code> and <code>grep()</code> the $ is a special character indicating that whatever precedes it is the last character. To tell R we want the $ literally, we use two backslashes before it - this is how to deal with all special characters, not just dollar signs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;$11,501,395&quot;</span>)
 <span class="co">#&gt; [1] &quot;11,501,395&quot;</span></code></pre>
-<p>Each of these <code>gsub()</code>s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the <code>|</code> operator which tells <code>gsub()</code> to replace the value on the left <strong>or</strong> right side of them symbol (or both if both are present).</p>
+<p>Each of these <code>gsub()</code>s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the <code>|</code> operator which tells <code>gsub()</code> to replace the value on the left <strong>or</strong> right side of the <code>|</code> symbol (or both if both are present).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;,|</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;$11,501,395&quot;</span>)
 <span class="co">#&gt; [1] &quot;11501395&quot;</span></code></pre>
-<p>The second choce is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value "“$11,501,395” into an object we call “x” and then run both <code>gsub()</code> we wrote earlier, using “x” as our value and saving the results back into x. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
+<p>The second choce is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value "“$11,501,395” into an object we call “x” and then run both <code>gsub()</code> we wrote earlier, using “x” (without quotes since it is an object) as our value and saving the results back into “x”. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> &quot;$11,501,395&quot;</span>
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;,&quot;</span>, <span class="st">&quot;&quot;</span>, x)
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, x)
@@ -505,6 +506,7 @@ movie_data<span class="op">$</span>Gross &lt;-<span class="st"> </span><span cla
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(movie_data)
 <span class="co">#&gt;  [1] &quot;&quot;            &quot;&quot;            &quot;Movie&quot;       &quot;Distributor&quot; &quot;Gross&quot;      </span>
 <span class="co">#&gt;  [6] &quot;Change&quot;      &quot;Thtrs.&quot;      &quot;PerThtr.&quot;    &quot;TotalGross&quot;  &quot;Days&quot;</span></code></pre>
+<p>We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages.</p>
 <div id="exercises-7" class="section level3">
 <h3><span class="header-section-number">8.3.1</span> Exercises</h3>
 <ol style="list-style-type: decimal">

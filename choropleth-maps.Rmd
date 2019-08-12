@@ -24,7 +24,7 @@ The way `sf` reads in the shapefiles is through the `st_read()` function. Our in
 philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
 ```
 
-Note that when we downloaded the data, it came with multiple files (some with extentions .cpg, .dbf, etc) but we only have the file with the .shp extention inside of `st_read()`. We still **do** need all of the files and `st_read()` is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.
+Note that when we downloaded the data, it came with multiple files (some with extensions .cpg, .dbf, etc) but we only have the file with the .shp extension inside of `st_read()`. We still **do** need all of the files and `st_read()` is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.
 
 As always when dealing with a new data set, let's peak at the first 6 rows.
 
@@ -41,7 +41,7 @@ plot(philly_tracts$geometry)
 Here we have a map of Philadelphia broken up into little pieces. Those pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood. Later in this lesson we will get some demographic and economic data about each of these tracts, but for now you can just think of them as neighborhoods. 
 
 
-In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`. Geographic datasets that describe locations on the surface of the earth have a "coordinate reference system" (CRS). Let's extract the CRS for `philly_tracts`.
+In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`. Geographic data sets that describe locations on the surface of the earth have a "coordinate reference system" (CRS). Let's extract the CRS for `philly_tracts`.
 
 ```{r comment="", results='hold', message=FALSE}
 st_crs(philly_tracts)
@@ -138,7 +138,7 @@ There are now columns from the Census tracts data which says which tract the sho
 head(shootings_agg[, c("STATEFP10", "COUNTYFP10", "TRACTCE10", "GEOID10")])
 ```
 
-The GEOID10 column is a unique identifer for the Census tracts in Philly. It is made up by a few other identifers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column "COUNTYFP10". The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.
+The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column "COUNTYFP10". The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.
 
 For now we will use the code to aggregate the number of shootings per Census tract. Remember, the `aggregate()` command aggregates a numeric value by some categorical value. Here we aggregate the number of shootings per Census tract. So our code will be
 

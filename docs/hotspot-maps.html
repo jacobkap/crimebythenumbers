@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>15 Hotspot maps | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="15 Hotspot maps | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="15 Hotspot maps | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -366,16 +368,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/officer_shootings_geocoded.rda&quot;</span>)</code></pre>
 <div id="creating-the-maps" class="section level2">
 <h2><span class="header-section-number">15.1</span> Creating the maps</h2>
-<p>We’ll be using two packages to make our maps, <code>ggmap</code> and <code>hexbin</code>, so be sure you have those installed.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;ggmap&quot;</span>, <span class="st">&quot;hexbin&quot;</span>))</code></pre>
+<p>To make these maps we will use the package <code>ggmap</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ggmap&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggmap)
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span>
-<span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span>
-<span class="kw">library</span>(hexbin)</code></pre>
-<p>Next, we’ll need to get a map of officer_shootings_geocoded. Google Maps used to be readily available through <code>ggmap</code>, but as of June 2018 the account requirements became more complicated for Google Maps. We will use other map services instead here. Stamen is a design organization that provides maps of several styles. Here we define the bounding box for the city of Philadelphia. This bounding box determines where in the world the map shows, so we want to set it to coorindates that will show the whole of Philadelphia.</p>
-<p>Next, we’ll need to get a map of officer_shootings_geocoded. Google Maps used to be readily available through <code>ggmap</code>, but as of June 2018 the account requirements became more complicated for Google Maps. We will use other map services instead here. Stamen is a design organization that provides maps of several styles. Here we define the bounding box for the City of officer_shootings_geocoded.</p>
-<pre class="sourceCode r"><code class="sourceCode r">philly_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">75.288486</span>,<span class="fl">39.868285</span>,<span class="op">-</span><span class="fl">74.950965</span>,<span class="fl">40.138251</span>), <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))
+<span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></code></pre>
+<p>We’ll start by making the background to our map, showing Philadelphia. We do so using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for Philadelphia to ensure we get a map of the right spot.</p>
+<pre class="sourceCode r"><code class="sourceCode r">philly_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">75.288486</span>, <span class="fl">39.868285</span>, <span class="fl">-74.950965</span>, <span class="fl">40.138251</span>), <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))
 philly_map</code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into “philly_map” we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the shootings from our data set.</p>
@@ -385,22 +385,22 @@ philly_map</code></pre>
              <span class="dt">alpha =</span> <span class="fl">0.5</span>,
              <span class="dt">color =</span> <span class="st">&quot;darkred&quot;</span>,
              <span class="dt">size  =</span> <span class="dv">1</span>)
-<span class="co">#&gt; Warning: Removed 3 rows containing missing values (geom_point).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing missing values (geom_point).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we’ll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You’ll notice that it has a message saying “Removed 2 rows containing missing values (geom_point).” That just means that <code>ggplot()</code> automatically deleted 2 rows that didn’t contain any lon or lat data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.</p>
-<p>Let’s pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in a later section we’ll learn about interavtive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to se that there are lots of shootings in West Philly but not around University City, for example, The exact same pattern is present in the scatterlot but without the ability to tell “where” a dot is.</p>
+<p>This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we’ll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You’ll notice that it has a message saying “Removed 2 rows containing missing values (geom_point).” That just means that <code>ggplot()</code> automatically deleted 2 rows that didn’t contain any longitude or latitude data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.</p>
+<p>Let’s pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in a later section we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of shootings in West Philly but not around University City, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(officer_shootings_geocoded<span class="op">$</span>lon, officer_shootings_geocoded<span class="op">$</span>lat, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)</code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Let’s now try plotting hexagonal bins, which the <code>hexbin</code> package let us do. Why hexagons? It turns out that squares tend to have problems in the corners. The precision is low there and our eye tends to get drawn to the parallel lines the square grid makes. Ideally, we want to use a shape that has a small perimeter-to-area ratio. Circles have the smallest perimeter-to-area ratio, but we can’t use circles to tile over the map. Hexagons fall in between squares and circles.</p>
-<p>Note: when you run the following lines of code, you will get the following message: “Coordinate system already present. Adding new coordinate system, which will replace the existing one.” Don’t panic, this message is supposed to appear.</p>
+<p>Now we can start making hotspot maps which help to show areas with clusters of events. To do so we use</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_map <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat),
               <span class="dt">bins =</span> <span class="dv">60</span>,
               <span class="dt">data =</span> officer_shootings_geocoded)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_binhex).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_binhex).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can adjust the <code>alpha</code> parameter to change how transparent the bins are.</p>
 <p>Or try the following. Setting <code>alpha = 2/4</code> makes the bins a little more transparent. Try comparing with <code>alpha = 1/4</code> or <code>alpha = 3/4</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_map <span class="op">+</span>
 <span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
@@ -409,7 +409,7 @@ philly_map</code></pre>
               <span class="dt">alpha =</span> <span class="fl">0.5</span>,
               <span class="dt">data  =</span> officer_shootings_geocoded)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_binhex).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_binhex).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The previous map was a default monochromatic color (blue). You can change the color gradient. To see what colors are available, type <code>colors()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_map <span class="op">+</span>
@@ -422,7 +422,7 @@ philly_map</code></pre>
                       <span class="dt">low =</span> <span class="st">&quot;springgreen&quot;</span>,
                       <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>)
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_binhex).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_binhex).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>From this map we can see that most areas which has a shooting has only 1-2 shootings in that area (a limitation to this map is it is unclear just how wide these “areas” are). North Philly and North-West Philly has more areas with more shootings, and more shootings overall. But look right in the middle of Center City by City Hall, an area has 8 shootings, the most of any hexagonal. Were there really 8 shootings outside of City Hall? No. Remember those addresses that couldn’t be properly located? The coordinates given to those addresses were to City Hall, causing this weird pattern in our map.</p>
 <p>You can also create a map that shows the high crime areas in a way that is akin to elevation on a topographic map. The more concentrated the concentric areas, the higher the crime (or, in the case of a topographic map, the higher the terrain). Note that a plot using <code>stat_density2d()</code> requires a lot of memory. That’s why it’s a good idea to use a sample of cases or a small data set.</p>
@@ -432,13 +432,13 @@ philly_map</code></pre>
                  <span class="dt">data =</span> officer_shootings_geocoded,
                  <span class="dt">geom =</span> <span class="st">&#39;density2d&#39;</span>,
                  <span class="dt">col  =</span> <span class="st">&#39;white&#39;</span>)
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_density2d).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_density2d).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Let’s make a hotspot map with a gradient, red for high crime and green for low crime.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_map <span class="op">+</span>
 <span class="st">  </span><span class="kw">stat_density2d</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat,
-                     <span class="dt">fill=</span>..level..,
-                     <span class="dt">alpha=</span>..level..),
+                     <span class="dt">fill =</span> ..level..,
+                     <span class="dt">alpha =</span> ..level..),
                  <span class="dt">data =</span> officer_shootings_geocoded,
                  <span class="dt">geom =</span> <span class="st">&#39;polygon&#39;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Shootings Density&#39;</span>,
@@ -447,7 +447,7 @@ philly_map</code></pre>
 <span class="st">  </span><span class="kw">scale_alpha</span>(<span class="dt">range =</span> <span class="kw">c</span>(.<span class="dv">4</span>, <span class="fl">.75</span>),
               <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_colorbar</span>(<span class="dt">barwidth =</span> <span class="fl">1.5</span>, <span class="dt">barheight =</span> <span class="dv">10</span>))
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_density2d).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_density2d).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can use <code>bins</code> to control the number of levels of colors plotted.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_map <span class="op">+</span>
@@ -463,9 +463,9 @@ philly_map</code></pre>
 <span class="st">  </span><span class="kw">scale_alpha</span>(<span class="dt">range =</span> <span class="kw">c</span>(.<span class="dv">4</span>, <span class="fl">.75</span>),
               <span class="dt">guide =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill =</span> <span class="kw">guide_colorbar</span>(<span class="dt">barwidth =</span> <span class="fl">1.5</span>, <span class="dt">barheight =</span> <span class="dv">10</span>)) 
-<span class="co">#&gt; Warning: Removed 3 rows containing non-finite values (stat_density2d).</span></code></pre>
+<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_density2d).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Be careful with maps like these. This map is so broad is appears like shootings are ubiquituous across the city. We know from the map showing each shooting as a dot and that there are &lt;500 shootings, that this is not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.</p>
+<p>Be careful with maps like these. This map is so broad is appears like shootings are ubiquitous across the city. We know from the map showing each shooting as a dot and that there are &lt;500 shootings, that this is not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.</p>
 <p>Since our maps show every shooting on the same map, if there are different patterns depending on the year, we can’t pick up those patterns. As a check, let’s write a for loop that maps each year’s data separately. First we need to make a variable with the shooting’s year to be able to subset data for just that year. We can use the <code>year()</code> function from <code>lubridate</code> to do this.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
 <span class="co">#&gt; </span>
@@ -478,20 +478,20 @@ officer_shootings_geocoded<span class="op">$</span>year &lt;-<span class="st"> <
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(officer_shootings_geocoded<span class="op">$</span>year)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 </span>
-<span class="co">#&gt;   61   40   56   47   44   59   35   28   21   22   12   12    5</span></code></pre>
+<span class="co">#&gt;   61   40   55   47   44   59   35   28   21   22   12   12    5</span></code></pre>
 <p>It looks like the general pattern is that shootings are declining. Now we can map each year. We are looping through each year in the data, and reusing the map code before except instead of the full data, we subset data to be only rows matching the year in that iteration of the loop.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (year <span class="cf">in</span> <span class="kw">unique</span>(officer_shootings_geocoded<span class="op">$</span>year)) { 
   <span class="kw">print</span>(
     philly_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat),
-              <span class="dt">bins  =</span> <span class="dv">60</span>,
-              <span class="dt">alpha =</span> <span class="fl">0.75</span>,
-              <span class="dt">data =</span> officer_shootings_geocoded[officer_shootings_geocoded<span class="op">$</span>year <span class="op">==</span><span class="st"> </span>year, ]) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Shootings Density&#39;</span>,
-                      <span class="dt">low =</span> <span class="st">&quot;springgreen&quot;</span>,
-                      <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>) <span class="op">+</span>
-<span class="st">       </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Philadelphia Police Officer-Involed Shootings, &quot;</span>, year))
+<span class="st">      </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
+<span class="st">      </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat),
+                  <span class="dt">bins  =</span> <span class="dv">60</span>,
+                  <span class="dt">alpha =</span> <span class="fl">0.75</span>,
+                  <span class="dt">data =</span> officer_shootings_geocoded[officer_shootings_geocoded<span class="op">$</span>year <span class="op">==</span><span class="st"> </span>year, ]) <span class="op">+</span>
+<span class="st">      </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Shootings Density&#39;</span>,
+                          <span class="dt">low =</span> <span class="st">&quot;springgreen&quot;</span>,
+                          <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>) <span class="op">+</span>
+<span class="st">      </span><span class="kw">ggtitle</span>(<span class="kw">paste</span>(<span class="st">&quot;Philadelphia Police Officer-Involved Shootings, &quot;</span>, year))
   )
 }
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
@@ -506,7 +506,7 @@ officer_shootings_geocoded<span class="op">$</span>year &lt;-<span class="st"> <
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 2 rows containing non-finite values (stat_binhex).</span>
+<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span>
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
 <span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-2.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-3.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-4.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-5.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-6.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-7.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-8.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-9.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-10.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-11.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-12.png" width="90%" style="display: block; margin: auto;" /><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-13.png" width="90%" style="display: block; margin: auto;" /></p>

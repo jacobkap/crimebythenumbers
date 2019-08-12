@@ -1,7 +1,7 @@
 
 # Subsetting: Making big things small
 
-Subsetting data is a way to take a large data set and reduce it to a smaller one better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.
+Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.
 
 ## Select specific values
 
@@ -12,7 +12,7 @@ animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 
 Here we have made an object called "animals" with a number of different animals in it. In R, we will use square brackets [] to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 
-The snytax (how the code is written) goes
+The syntax (how the code is written) goes
 
 object[index(s)]
 
@@ -110,7 +110,7 @@ For each case you are asking does the thing on the left of the conditional state
   + <=  Less than or equal to
   + \>=  Greater than or equal to
   
-Since many conditionals involve numbers (espcially in criminology), let's make a new object called "numbers" with the first 10 numbers to use in the examples.
+Since many conditionals involve numbers (especially in criminology), let's make a new object called "numbers" with the first 10 numbers to use in the examples.
 
 
 ```r
@@ -254,7 +254,7 @@ FALSE | FALSE
 [1] FALSE
 ```
 
-Note that witn `&` every condition must be true for it to return TRUE. With `or` only one condition must be true.
+Note that with `&` every condition must be true for it to return TRUE. With `or` only one condition must be true.
 
 We can combine logical operators into more complicated expressions.
 
@@ -273,7 +273,7 @@ We can combine logical operators into more complicated expressions.
 
 ## Subsetting a data.frame 
 
-Above we were just using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which is something we'll discuss in detail later on. For now you can imaginate a data.frame being like an Excel file with multiple rows and columns. 
+Above we were just using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which is something we'll discuss in detail later on. For now you can imagine a data.frame being like an Excel file with multiple rows and columns. 
 
 Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2017 and for every nearly every agency in the country (early years have far fewer agencies reporting than recent years).
 
@@ -296,7 +296,7 @@ offenses_known_yearly_1960_2017[1:6, 1:6]
 #> 6 AK00101 AK0010100   anchorage alaska        AK 2012
 ```
 
-The first 6 rows appear to be agency identification info for Archorage, Alaska from 2017-2012. For good measure let's check how many rows and columns are in this data. This will give us some guidance on subsetting which we'll see below. `nrow()` gives us the number of rows and `ncol()` givws us the number of columns.
+The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2017-2012. For good measure let's check how many rows and columns are in this data. This will give us some guidance on subsetting which we'll see below. `nrow()` gives us the number of rows and `ncol()` gives us the number of columns.
 
 
 ```r
@@ -416,7 +416,7 @@ The way to select a specific column in R is called the dollar sign notation.
 
 `data$column`
 
-We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or mispellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
+We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
 
 We can do this for the column "agency_name" in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
 
@@ -667,7 +667,7 @@ Finally we have the tools to subset our UCR data to just be Colorado from 2011-2
 2. only rows where the year is 2011-2017
 3. only the following columns: actual_murder, state, year, population, ori, agency_name
 
-We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercased). And at this point we want keep all columns in the data. So let's make a new object called "colorado" to save the result of this subset.
+We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called "colorado" to save the result of this subset.
 
 Remember that we want to put the object to the left of the [] to make sure it returns the data. Just having the [] will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don't need to put anything after the comma.
 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 Functions | R 4 Criminology</title>
+  <title>About the Author | R 4 Criminology</title>
   <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 Functions | R 4 Criminology" />
+  <meta property="og:title" content="About the Author | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 Functions | R 4 Criminology" />
+  <meta name="twitter:title" content="About the Author | R 4 Criminology" />
   
   <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="webscraping-with-rvest.html">
-<link rel="next" href="for-loops.html">
+<link rel="prev" href="index.html">
+<link rel="next" href="introduction-to-r.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -361,146 +361,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="functions" class="section level1">
-<h1><span class="header-section-number">9</span> Functions</h1>
-<p>So far you have seen several built-in functions in R, like <code>max()</code>, <code>head()</code>, and <code>table()</code>. These functions help us complete tasks that normally would take several lines of R code. They also make it easy to read R code. It’s easy to know what <code>max(c(1,3,5,7,9))</code> means. In R you can also write your own functions. Let’s say we want a function that adds the number 2 to any number we input.</p>
-<div id="a-simple-function" class="section level2">
-<h2><span class="header-section-number">9.1</span> A simple function</h2>
-<pre class="sourceCode r"><code class="sourceCode r">add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number) {
-  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
-  <span class="kw">return</span>(number)
-}</code></pre>
-<p>As you can see, the basic template of an R function is:</p>
-<p>function_name &lt;- function(parameters) {
-code
-return(output)
-}</p>
-<p>There are five essential parts of a function</p>
-<ul>
-<li>function_name - This is just the name we give to the function. It can be anything but, like when making other objects, call it something where it is easy to remember what it does.</li>
-<li>parameters - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function <code>mean()</code> you put in a vector of numbers in the () section and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.</li>
-<li>code - This is the code you write to do the thing you want the function to do. In the above example our code is <code>number &lt;- number + 2</code>. For any number inputted, our code adds 2 to it and saves it back into the object number.</li>
-<li>return - This is something new in this class, here you use <code>return()</code> and inside the () you put the object you want to be outputted. In our example we have “number” inside the <code>return()</code> as that’s what we want to come out of the function. It is not always necessary to end your function with <code>return()</code> but is highly recommended to make sure you’re outputting what it is you want to output.</li>
-<li>The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text “&lt;- function()” where the parameters (if any) are in the (). After the closing parentheses put a “{” and at the very end of the function, after the <code>return()</code>, close those squiggly brackets with a “}”. The “&lt;- function()” tells R that you are making a function rather than some other type of object. And the “{” and “}” tell R that all the code in between are part of that function.</li>
-</ul>
-<p>Our function here adds 2 to any number we input.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">2</span>)
-<span class="co">#&gt; [1] 4</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">5</span>)
-<span class="co">#&gt; [1] 7</span></code></pre>
-</div>
-<div id="adding-parameters" class="section level2">
-<h2><span class="header-section-number">9.2</span> Adding parameters</h2>
-<p>Let’s add a single parameter which multiplies the result by 5 if selected.</p>
-<pre class="sourceCode r"><code class="sourceCode r">add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times_5 =</span> <span class="ot">FALSE</span>) {
-  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
-  <span class="kw">return</span>(number)
-}</code></pre>
-<p>Now we have added a meter parameter, called “time_5” to the () part of the function and set it the be FALSE by default. Right now it doesn’t do anything so we need to add code to saw what happens if it is TRUE (remember in R true and false must always be all capitalized letters).</p>
-<pre class="sourceCode r"><code class="sourceCode r">add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times_5 =</span> <span class="ot">FALSE</span>) {
-  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>
-  
-  <span class="cf">if</span> (times_<span class="dv">5</span> <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) {
-    number &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span><span class="dv">5</span>
-  }
-  
-  <span class="kw">return</span>(number)
-}</code></pre>
-<p>Now our code says if the parameter “times_5” is TRUE, then do the thing in the squiggly brackets {} below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let’s try out our function.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">2</span>)
-<span class="co">#&gt; [1] 4</span></code></pre>
-<p>It returns 4, as expected. Note that as the paramter “times_5” is FALSE by default. When we don’t tell the function that we want it to be TRUE, the code in our “if statement” doesn’t run.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">2</span>, <span class="dt">times_5 =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; [1] 20</span></code></pre>
-</div>
-<div id="making-a-function-to-scrape-movie-data" class="section level2">
-<h2><span class="header-section-number">9.3</span> Making a function to scrape movie data</h2>
-<p>In <a href="webscraping-with-rvest.html#scraping-one-page">8.1</a> we wrote some code to scrape data from the website <a href="/www.the-numbers.com">The-Numbers</a> for a single day. We are going to turn that code into a function here. The benefit is that our input to the function will be a date and then it returns the scraped data for that date. If we want multiple dates (and for webscraping you usually do), we just change the date we input without changing the code at all.</p>
-<p>We used the <code>rvest</code> package so we need to tell R want to use it again.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
-<span class="co">#&gt; Loading required package: xml2</span></code></pre>
-<p>Let’s start by writing a shell of the function - everything but the code. We can call it “scrape_movie_data” (though any name would work), add in the “&lt;- function()” and put “date” (without quotes) in the () as our input for the function is a date. We want the function to return the movie data for that date so we include <code>return(movie_data)</code>. And don’t forget the “{” after the end of the <code>function()</code> and “}” at the very end of the function. Now we need to add the code that takes the date, scrapes the website, and saves that data into an object called “movie_data”.</p>
-<pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
-  
-  <span class="kw">return</span>(movie_data)
-}</code></pre>
-<p>Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
-<pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
-  
-  movie_data &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span>)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_table</span>(movie_data)
-  movie_data &lt;-<span class="st"> </span>movie_data[[<span class="dv">1</span>]]
-  
-  <span class="kw">return</span>(movie_data)
-}</code></pre>
-<p>The part inside the () of <code>read_html()</code> is the URL of the page we want to scrape. This is the part of the function that will change based on our input. Specifically, just the date will change, the rest of the URL up to the date section stays the same every time (we know this just by clicking through dates on the website and seeing how the URL changes).</p>
-<p>We want to make it so the date inputted is the date used in the URL of the page to scrape. So let’s split up the URL into two pieces - the part that stays constant and the part that changes.</p>
-<p>Constant - “<a href="http://www.the-numbers.com/box-office-chart/daily/" class="uri">http://www.the-numbers.com/box-office-chart/daily/</a>”
-Changes - “2018/07/04”</p>
-<p>And now let’s make variables with these values.</p>
-<pre class="sourceCode r"><code class="sourceCode r">Constant &lt;-<span class="st"> &quot;http://www.the-numbers.com/box-office-chart/daily/&quot;</span>
-Changes  &lt;-<span class="st"> &quot;2018/07/04&quot;</span></code></pre>
-<p>We can use <code>paste()</code> to combine these two and set the parameter <code>sep</code> to "" so there are no spaces between the url and the date (the function <code>paste0()</code> is the same as <code>paste()</code> but defaults <code>set</code> to "" so we could use that if we wanted). We will save the result of <code>paste()</code> as an object called “url_date” but it doesn’t matter what we name it.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste</span>(Constant, Changes, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-<span class="co">#&gt; [1] &quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span></code></pre>
-<p>Inside our function code we need to make the “Constant” variable but let’s rename it “url” since that better describes what it is. Since the date is what is inputted into the function, we don’t need to make that variable. Our <code>paste()</code> function is the same as above but with with these new variable names - since the parameter inputted is called “date” that is the variable name we need to include in the <code>paste()</code>. And we can call it a new name - “url_date” - in the code just to simplify things. Then put this variable in the () of <code>read_html()</code> and it will go to the proper page based on the date we input.</p>
-<pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
-  url &lt;-<span class="st"> &quot;http://www.the-numbers.com/box-office-chart/daily/&quot;</span>
-  url_date &lt;-<span class="st"> </span><span class="kw">paste</span>(url, date, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
-  
-  movie_data &lt;-<span class="st"> </span><span class="kw">read_html</span>(url_date)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)
-  movie_data &lt;-<span class="st"> </span><span class="kw">html_table</span>(movie_data)
-  movie_data &lt;-<span class="st"> </span>movie_data[[<span class="dv">1</span>]]
-  
-  <span class="kw">return</span>(movie_data)
-}</code></pre>
-<p>Now we can try it for a new date, let’s say July 4th, 2015. We will save it in the object “july_2015” just to avoid it printing out every single row when the function is done.</p>
-<pre class="sourceCode r"><code class="sourceCode r">july_<span class="dv">2015</span> &lt;-<span class="st"> </span><span class="kw">scrape_movie_data</span>(<span class="st">&quot;2015/7/4&quot;</span>)
-<span class="kw">head</span>(july_<span class="dv">2015</span>)
-<span class="co">#&gt;                       Movie        Distributor      Gross Change Thtrs.</span>
-<span class="co">#&gt; 1 1 (2)      Jurassic World          Universal $8,539,045   +31%  3,737</span>
-<span class="co">#&gt; 2 2 (1)          Inside Out        Walt Disney $8,209,548   +19%  4,158</span>
-<span class="co">#&gt; 3 3 (-) Terminator: Genisys Paramount Pictures $7,883,583         3,758</span>
-<span class="co">#&gt; 4 4 (5)               Ted 2          Universal $2,896,320   -21%  3,448</span>
-<span class="co">#&gt; 5 5 (-)      Magic Mike XXL       Warner Bros. $2,512,969         3,355</span>
-<span class="co">#&gt; 6 6 (6)                 Max       Warner Bros. $1,891,378   +28%  2,870</span>
-<span class="co">#&gt;   Per Thtr.  Total Gross Days</span>
-<span class="co">#&gt; 1    $2,285 $547,667,605   23</span>
-<span class="co">#&gt; 2    $1,974 $236,889,029   16</span>
-<span class="co">#&gt; 3    $2,098  $34,029,282    4</span>
-<span class="co">#&gt; 4      $840  $54,725,070    9</span>
-<span class="co">#&gt; 5      $749  $23,815,016    4</span>
-<span class="co">#&gt; 6      $659  $23,323,044    9</span></code></pre>
-<p>In the next lesson we’ll use “for loops” to scrape several years of data using the function we just made.</p>
-</div>
-<div id="the-benefits-of-functions" class="section level2">
-<h2><span class="header-section-number">9.4</span> The benefits of functions</h2>
-<p>The primary benefit of writing a function is to simplify the reading of a script. It is much easier to comprehend what a script is doing if you have code that says something like <code>scrape_movie_data()</code> rather than a bunch of code. If you have 100 lines of code to do something, it is often easier to manage by splitting it up into a number of functions. That way, even if the code is totally unchanged, you only have to worry about a small chunk at a time and can (partially) avoid being overwhelmed.</p>
-<p>A secondary benefit is that you can use this function again and again to help solve other problems. If, for example, you have code that cleans data from Philadelphia’s crime data set, if you wanted to use it for Chicago’s crime data, making a single function is much easier (to read and to fix if there is an issue) than copying the code. If you wanted to use it for 20 cities, copy and pasting code quickly becomes a terrible solution - functions work much better. If you did copy and paste 20 times and you found a bug, then you’d have to fix the bug 20 times. With a function you would change the code once.</p>
-</div>
-<div id="understanding-other-peoples-functions" class="section level2">
-<h2><span class="header-section-number">9.5</span> Understanding other people’s functions</h2>
-<p>For many functions built into R you can see what they do by typing the name of the
-function and excluding the () you usually have. Here’s the code R uses every time you run <code>IQR()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">IQR
-<span class="cf">function</span> (x, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>, <span class="dt">type =</span> <span class="dv">7</span>) 
-<span class="kw">diff</span>(<span class="kw">quantile</span>(<span class="kw">as.numeric</span>(x), <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="dt">na.rm =</span> na.rm, <span class="dt">names =</span> <span class="ot">FALSE</span>, 
-    <span class="dt">type =</span> type))
-<span class="op">&lt;</span>bytecode<span class="op">:</span><span class="st"> </span><span class="dv">0x00000000127738c0</span><span class="op">&gt;</span>
-<span class="er">&lt;</span>environment<span class="op">:</span><span class="st"> </span>namespace<span class="op">:</span>stats<span class="op">&gt;</span></code></pre>
-<p>You can see that it computes the 0.25 quantile and the 0.75 quantile and uses the function <code>diff()</code> to compute their difference.</p>
+<div id="about-the-author" class="section level1 unnumbered">
+<h1>About the Author</h1>
+<p><strong>Jacob Kaplan</strong> (<a href="http://crimedatatool.com/" class="uri">http://crimedatatool.com/</a>) is a Ph.D. candidate in criminology at the University of Pennsylvania. His research focuses on Crime Prevention Through Environmental Design (CPTED), specifically on the effect of outdoor lighting on crime. He is the author of several R packages, such as <a href="https://jacobkap.github.io/asciiSetupReader/">asciiSetupReader</a>, <a href="https://jacobkap.github.io/fastDummies/">fastDummies</a>, and <a href="https://jacobkap.github.io/boxoffice/">boxoffice</a>. His website <a href="http://crimedatatool.com/">Crime Data Tool</a> allows easy analysis of crime-related data and he has released over a <a href="http://crimedatatool.com/data.html">dozen crime data sets</a> (primarily FBI UCR data) on openICPSR. He is currently on the job market.</p>
 
-</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="webscraping-with-rvest.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="for-loops.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction-to-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -520,7 +392,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jacobkap/r4crim/edit/master/functions.Rmd",
+"link": "https://github.com/jacobkap/r4crim/edit/master/author.Rmd",
 "text": "Edit"
 },
 "history": {

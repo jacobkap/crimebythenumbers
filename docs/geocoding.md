@@ -541,13 +541,13 @@ plot(officer_shootings$lon, officer_shootings$lat)
 
 While almost all the points have latitude around 39 and 40 and longitude around -75, several incidents appear to occur at in different areas. This is likely due to a geocoding issue with our geocoder finding the wrong address. For your own research, and considering the small number of values in this data, you should check the address to try to get them all geocoded properly. Here, we will simply remove all rows outside this -75 longitude and 39-40 latitude range. 
 
-Let's keep only rows with a latitude lower than 45 and a longitude less than -70 and higher than -80
+Let's keep only rows with a latitude lower than 45 and a longitude less than -70 and higher than -76
 
 
 ```r
 officer_shootings <- officer_shootings[officer_shootings$lat < 45, ]
 officer_shootings <- officer_shootings[officer_shootings$lon < -70, ]
-officer_shootings <- officer_shootings[officer_shootings$lon > -80, ]
+officer_shootings <- officer_shootings[officer_shootings$lon > -76, ]
 ```
 
 Now we can check the `summary()` function again to see if all the values are in their normal ranges.
@@ -556,10 +556,10 @@ Now we can check the `summary()` function again to see if all the values are in 
 ```r
 summary(officer_shootings$lat)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   35.48   39.96   39.99   39.98   40.02   40.10
+#>   39.89   39.97   39.99   39.99   40.02   40.10
 summary(officer_shootings$lon)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -79.43  -75.19  -75.16  -75.18  -75.13  -74.98
+#>  -75.30  -75.19  -75.16  -75.16  -75.13  -74.98
 ```
 
 These values look correct. We can make another scatterplot as a second check.

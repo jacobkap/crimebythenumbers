@@ -133,13 +133,13 @@ $central
 [15] "WI" "WY"
 lapply(state.list,sample,size=3,replace=FALSE)
 $west
-[1] "NV" "CA" "NM"
+[1] "HI" "ID" "CA"
 
 $east
-[1] "NJ" "AL" "ME"
+[1] "TN" "AL" "NJ"
 
 $central
-[1] "IA" "MI" "ND"
+[1] "IA" "MO" "NE"
 sapply(state.list,length)
    west    east central 
      11      24      16 
@@ -195,6 +195,6 @@ We have now created a lot of objects. At any time you can run `ls()` to list all
 
 ```r
 ls()
-[1] "a"          "b"          "i"          "state.list"
+[1] "a"          "b"          "cde_key"    "i"          "state.list"
 ```
 Assuming you are using R Studio, you can also see the objects stored in memory by clicking on the Environment tab.

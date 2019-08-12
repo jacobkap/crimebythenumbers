@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>5 Dates and Times | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="5 Dates and Times | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="5 Dates and Times | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -361,28 +363,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="dates-and-times" class="section level1">
 <h1><span class="header-section-number">5</span> Dates and Times</h1>
-<p>Working with dates and times is a lot different than working with the more familiar numbers. Months have different number of days. Sometimes we count hours of the day up to 12 and then start over. Sometimes we count hours up to 24 and then start over. Some years have 366 days. We have 24 times zones around the world. Twice a year we switch clocks for Daylight Saving Time, except in some places like Arizona and Hawaii. Arithmetic, such as adding one month to a date, is poorly defined. Which date is one month after January 31st? Is it February 28th? Or is it March 3rd?</p>
-<p>Fortunately, software for working with dates exist to make these tasks easier. Unfortunately, every system seems to make their own design decisions. Excel stores dates as the number of days since January 0, 1900. That’s not a typo, they count from January 0, 1900. Linux systems count days since January 1, 1970. SPSS stores times as the number of seconds since midnight October 14, 1582, the adoption date of the Gregorian calendar. Much of the world did not adopt the calendar in 1582. The American colonies did not adopt the Gregorian calendar until 1752 along with Great Britain. So beware if you are a historian digging through centuries old data. Aligning dates can become very messy.</p>
 <div id="why-do-dates-and-times-matter" class="section level2">
 <h2><span class="header-section-number">5.1</span> Why do dates and times matter?</h2>
-<p>Before we get started with any code, let’s think about why we should care about any of this. Like most things you’ll use R for in this class (and for your thesis), the data you have isn’t in the format you want it to be. For simple questions like “what day has the most crime?” you’ll need to know what day each crime occured on. For more complex questions like “did marijuana legalization affect murder?” you need to know how many crimes occurred on months or years before and after marijuana legalization. In almost every case where time matters for research (and it matters in many studies) you will have data in the <strong>wrong</strong> format to answer you question. You’ll likely want to group all the days in a month together or just take crimes that happened at a certain time (as is common in studies of outdoor lighting).</p>
-<p>Most Master’s theses are policy analyses comparing some outcome (e.g. number of crimes) in a state before and after a policy change compared to a similar locations without that change. In these cases you want to think about what time unit you data should be in (crimes per month, crime per year) and use the following tools to get the data into the right format.</p>
+<p>Before we get started with any code, let’s think about why we should care about dates and times in data. Like most things you’ll use R for in this class (and for your thesis), the data you have isn’t in the format you want it to be. For simple questions like “what day has the most crime?” you’ll need to know what day each crime occured on. For more complex questions like “did marijuana legalization affect murder?” you need to know how many crimes occurred on months or years before and after marijuana legalization. In almost every case where time matters for research (and it matters in many studies) you will have data in the <strong>wrong</strong> format to answer you question. You’ll likely want to group all the days in a month together or just take crimes that happened at a certain time (as is common in studies of outdoor lighting).</p>
+<p>Many research studies are policy analyses comparing some outcome (e.g. number of crimes) in a state before and after a policy change compared to a similar locations without that change. In these cases you want to think about what time unit you data should be in (crimes per month, crime per year) and use the following tools to get the data into the right format.</p>
 </div>
 <div id="lubridate" class="section level2">
 <h2><span class="header-section-number">5.2</span> <code>lubridate</code></h2>
-<p>R has had a variety of attempts at providing a means for managing dates. We are going to use the <a href="https://lubridate.tidyverse.org/"><code>lubridate</code></a> package that addresses just about everything you might need to do with dates and times. A useful cheat sheet is available <a href="https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf">here</a>.</p>
-<p><code>lubridate</code> is not part of R by default. You will need to install it. Run</p>
+<p>To work with dates and times we will use the <code>lubridate</code> package which makes doing so simple. For a useful cheatsheet for this package click <a href="https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf">here</a> To install this package run</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</code></pre>
-<p>and R will hit the web, download the <code>lubridate</code> package and any supporting packages it needs (and it does need a few), and installs them. This is a one time event. Once you have <code>lubridate</code> on your machine you will not need to reinstall it every time you need it. You will, however, have to tell R that you will use <code>lubridate</code> at the beginning of each session that you use it (as we do below).</p>
-<p>Some of our students, particularly on Macs, have encountered trouble installing some packages for R. R will sometimes try to download the source code for the packages and compile them from scratch on your machine. Sometimes that goes well and other times it requires that you have other tools installed on your machine. An easy solution is to run</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>, <span class="dt">type=</span><span class="st">&quot;mac.binary&quot;</span>)</code></pre>
-<p>instead to insist that R finds and installs a ready-to-use version of the packages.</p>
+<p>and R will download the package, allowing you to use this.</p>
+<p>Some Mac users have issues installing packages so if you run into an issue try changing the paramter <code>type</code> to “mac.binary” in the <code>install.packages()</code> function.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;mac.binary&quot;</span>)</code></pre>
+<p>When you use a new package you will always need to download it using <code>install.packages("package_name")</code> the first time. You only need to do it once however every session you use it (i.e. time without restarting R) you will need to run <code>library("package_name")</code> to tell R you want to use this package. Since some packages have functions with the same name as other packages this is useful so you don’t accidentally use a function you didn’t intend to use.</p>
+<p>In our case we’ll run <code>library(lubridate)</code> to be able to use the package. Note that <code>install.package()</code> has the package name in quotes and <code>library()</code> does not.</p>
 </div>
 <div id="working-with-dates" class="section level2">
 <h2><span class="header-section-number">5.3</span> Working with dates</h2>
-<p>While <code>lubridate</code> is now installed, once per R session you will need to load <code>lubridate</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)</code></pre>
-<p>If you close R and restart it, then you’ll need to run this line again. <code>library(package)</code> is the way you tell R that you need to use the functions included in that package.</p>
 <p>Before using real data, we’ll start with defining useful functions and using a toy example. Below we have made the object called “dates” with three character values showing the dates August 7th for the years 2010-2012. Please note that Dates (capital D) are a special type of value that R understands and just putting what we can read as a date in quotes doesn’t make it so.</p>
 <pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2010-08-07&quot;</span>, <span class="st">&quot;2011-08-07&quot;</span>, <span class="st">&quot;2012-08-07&quot;</span>)</code></pre>
 <p>When we look at these dates we can see that it starts with the year, then has the month, then the day. R doesn’t know that. We have to tell R what order the year, month, and day are in. This is the key part of the <code>lubridate</code> package. There are three functions which tell R which order to use. Year, month, and day are all abbreviated to the first letter and all lowercase. Inside the parentheses we put the dates.</p>
@@ -393,11 +390,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Since our date are in year-month-day order, we will use <code>ymd()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(dates)
-<span class="co">#&gt; [1] &quot;2010-08-07&quot; &quot;2011-08-07&quot; &quot;2012-08-07&quot;</span></code></pre>
+<span class="co">#&gt; Error in ymd(dates): could not find function &quot;ymd&quot;</span></code></pre>
 <p>If you tell R the wrong order, it will not be able to read the data and will return NAs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">myd</span>(dates)
-<span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span>
-<span class="co">#&gt; [1] NA NA NA</span></code></pre>
+<span class="co">#&gt; Error in myd(dates): could not find function &quot;myd&quot;</span></code></pre>
 <p>Some dates come with hour, minutes, and even seconds telling exactly when the event happened. In those cases you must add _hm to the end of your code to indicate that there are hour and minute information in the data. If there are also seconds, use _hms.</p>
 <ul>
 <li><code>ymd_hms()</code></li>
@@ -409,8 +405,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Like before, telling R the wrong order will return all NAs. If the date has hours and minutes (and seconds) you must have _hm or it won’t work right, and if it doesn’t you must not include it.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd_hms</span>(dates)
-<span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span>
-<span class="co">#&gt; [1] NA NA NA</span></code></pre>
+<span class="co">#&gt; Error in ymd_hms(dates): could not find function &quot;ymd_hms&quot;</span></code></pre>
 <p>Once you have the dates in the Date format, you can use a number of useful functions to extract information from these Dates such as the year or month of the date, the hour if hours are available, and even the day of the month or week.</p>
 <ul>
 <li><code>year()</code> Gives the year</li>
@@ -421,31 +416,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>wday()</code> Gives the day of week</li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">year</span>(dates)
-<span class="co">#&gt; [1] 2010 2011 2012</span></code></pre>
-<p>This gives us an error. Why? When we ran the code <code>ymd(dates)</code> it changed the value in “dates” to Date type and printed out those new values. But it didn’t save it anywhere so “dates” is still a vector of characters rather than Dates. We need to run <code>ymd(dates)</code> again and save the result somewhere. Generally, to reduce the number of objects created when you’re making a change you just save it back in the original object, overwriting it. <strong>This doesn’t change the raw data found in .csv or .rda files, only the data that is read into R. This is important because we always want to keep the raw data unchanged and have all our changes recorded in code.</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">ymd</span>(dates)</code></pre>
+<span class="co">#&gt; Error in year(dates): could not find function &quot;year&quot;</span></code></pre>
+<p>This gives us an error. Why? When we ran the code <code>ymd(dates)</code> it changed the value in “dates” to Date type and printed out those new values. But it didn’t save it anywhere so our “dates” object is still a vector of characters rather than Dates. We need to run <code>ymd(dates)</code> again and save the result somewhere. Generally, to reduce the number of objects created when you’re making a change you just save it back in the original object, overwriting it. <strong>This doesn’t change the raw data found in .csv or .rda files, only the data that is read into R. This is important because we always want to keep the raw data unchanged and have all our changes recorded in code.</strong></p>
+<pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">ymd</span>(dates)
+<span class="co">#&gt; Error in ymd(dates): could not find function &quot;ymd&quot;</span></code></pre>
 <p>Now that we have save our changes in the “dates” object, lets try again.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">year</span>(dates)
-<span class="co">#&gt; [1] 2010 2011 2012</span></code></pre>
+<span class="co">#&gt; Error in year(dates): could not find function &quot;year&quot;</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates)
-<span class="co">#&gt; [1] 8 8 8</span></code></pre>
+<span class="co">#&gt; Error in month(dates): could not find function &quot;month&quot;</span></code></pre>
 <p>By default <code>month()</code> gives the month number rather than the name of the month. We need to set the paramater <code>label</code> to TRUE to get the month name.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates, <span class="dt">label =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; [1] Aug Aug Aug</span>
-<span class="co">#&gt; 12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</span></code></pre>
+<span class="co">#&gt; Error in month(dates, label = TRUE): could not find function &quot;month&quot;</span></code></pre>
 <p>We can also set the parameter <code>abbr</code> to FALSE if we want the full month name rather than the abbreviation.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)
-<span class="co">#&gt; [1] August August August</span>
-<span class="co">#&gt; 12 Levels: January &lt; February &lt; March &lt; April &lt; May &lt; June &lt; ... &lt; December</span></code></pre>
+<span class="co">#&gt; Error in month(dates, label = TRUE, abbr = FALSE): could not find function &quot;month&quot;</span></code></pre>
 <p>The final useful function we will discuss is <code>floor_date()</code> which rounds down the date to the first day of the unit given. There are a number of possible units, the most common in our purposes will be “year”, “month” “week”, and “day”.</p>
 <ul>
 <li><code>floor_date()</code></li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(dates, <span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>)
-<span class="co">#&gt; [1] &quot;2010-08-01&quot; &quot;2011-08-01&quot; &quot;2012-08-01&quot;</span></code></pre>
+<span class="co">#&gt; Error in floor_date(dates, unit = &quot;month&quot;): could not find function &quot;floor_date&quot;</span></code></pre>
 <p>If we change the unit to “year” it’ll change the date to the first date in the year.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(dates, <span class="dt">unit =</span> <span class="st">&quot;year&quot;</span>)
-<span class="co">#&gt; [1] &quot;2010-01-01&quot; &quot;2011-01-01&quot; &quot;2012-01-01&quot;</span></code></pre>
+<span class="co">#&gt; Error in floor_date(dates, unit = &quot;year&quot;): could not find function &quot;floor_date&quot;</span></code></pre>
 <p>Using <code>floor_date()</code> will be very useful when you want to find the number of crimes in each month/year as you can do this to get a single date for each month/year and aggregate crimes in that month/year.</p>
 </div>
 <div id="chicago-crime-data" class="section level2">
@@ -454,67 +448,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/chicago.rda&quot;</span>)</code></pre>
 <p>We can use <code>head()</code> to look at the first 6 rows of dates</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(chicago<span class="op">$</span>Date)
-[<span class="dv">1</span>] <span class="st">&quot;12/09/2014 11:54:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:45:00 PM&quot;</span>
-[<span class="dv">3</span>] <span class="st">&quot;12/09/2014 11:42:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:42:00 PM&quot;</span>
-[<span class="dv">5</span>] <span class="st">&quot;12/09/2014 11:40:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
-<p>Now let’s use the square bracket [] indexing to also see the first 6 rows of dates. Remember, we’re going to want a vector of nubmers 1 through 6 for this. Since these numbers are sequential without any missing we can use 1:6 instead of manually making a vector c(1, 2, 3, 4, 5, 6). Since we already specify we want the Date column, we don’t need any commas after the vector of numbers.</p>
+<span class="co">#&gt; [1] &quot;12/09/2014 11:54:00 PM&quot; &quot;12/09/2014 11:45:00 PM&quot;</span>
+<span class="co">#&gt; [3] &quot;12/09/2014 11:42:00 PM&quot; &quot;12/09/2014 11:42:00 PM&quot;</span>
+<span class="co">#&gt; [5] &quot;12/09/2014 11:40:00 PM&quot; &quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
+<p>Now let’s use the square bracket [] indexing to also see the first 6 rows of dates. Remember, we’re going to want a vector of numbers 1 through 6 for this. Since these numbers are sequential without any missing we can use 1:6 instead of manually making a vector c(1, 2, 3, 4, 5, 6). Since we already specify we want the Date column, we don’t need any commas after the vector of numbers.</p>
 <pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>Date[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]
-[<span class="dv">1</span>] <span class="st">&quot;12/09/2014 11:54:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:45:00 PM&quot;</span>
-[<span class="dv">3</span>] <span class="st">&quot;12/09/2014 11:42:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:42:00 PM&quot;</span>
-[<span class="dv">5</span>] <span class="st">&quot;12/09/2014 11:40:00 PM&quot;</span> <span class="st">&quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
-<p>As you can see the dates include the date in month-day-year format and the time includes hours, minutes, and seconds. So we must read in the data using <code>mdy_hms()</code> to tell R the proper order of the date and that it includes time up to the second. Lets save the results in a new column called “real_date”. It’s often useful when changing a column to save it as a new column in case you make a mistake in the code - that way you don’t have to reload the data to fix it.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>real_date &lt;-<span class="st"> </span><span class="kw">mdy_hms</span>(chicago<span class="op">$</span>Date)</code></pre>
+<span class="co">#&gt; [1] &quot;12/09/2014 11:54:00 PM&quot; &quot;12/09/2014 11:45:00 PM&quot;</span>
+<span class="co">#&gt; [3] &quot;12/09/2014 11:42:00 PM&quot; &quot;12/09/2014 11:42:00 PM&quot;</span>
+<span class="co">#&gt; [5] &quot;12/09/2014 11:40:00 PM&quot; &quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
+<p>As you can see, the dates include the date in month-day-year format and the time includes hours, minutes, and seconds. So we must read in the data using <code>mdy_hms()</code> to tell R the proper order of the date and that it includes time up to the second. Lets save the results in a new column called “real_date”. It’s often useful when changing a column to save it as a new column in case you make a mistake in the code - that way you don’t have to reload the data to fix it.</p>
+<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>real_date &lt;-<span class="st"> </span><span class="kw">mdy_hms</span>(chicago<span class="op">$</span>Date)
+<span class="co">#&gt; Error in mdy_hms(chicago$Date): could not find function &quot;mdy_hms&quot;</span></code></pre>
 <p>Now lets use <code>head()</code> again on our new column to see what we made.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(chicago<span class="op">$</span>real_date)
-[<span class="dv">1</span>] <span class="st">&quot;2014-12-09 23:54:00 UTC&quot;</span> <span class="st">&quot;2014-12-09 23:45:00 UTC&quot;</span>
-[<span class="dv">3</span>] <span class="st">&quot;2014-12-09 23:42:00 UTC&quot;</span> <span class="st">&quot;2014-12-09 23:42:00 UTC&quot;</span>
-[<span class="dv">5</span>] <span class="st">&quot;2014-12-09 23:40:00 UTC&quot;</span> <span class="st">&quot;2014-12-09 23:37:00 UTC&quot;</span></code></pre>
+<span class="co">#&gt; NULL</span></code></pre>
 <p>Lets make new columns for the year, month, and weekday for each date and then do some basic exploring on these new variables.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(chicago<span class="op">$</span>real_date)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">month</span>(chicago<span class="op">$</span>real_date,<span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>weekday &lt;-<span class="st"> </span><span class="kw">wday</span>(chicago<span class="op">$</span>real_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(chicago<span class="op">$</span>real_date)
+<span class="co">#&gt; Error in year(chicago$real_date): could not find function &quot;year&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">month</span>(chicago<span class="op">$</span>real_date,<span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Error in month(chicago$real_date, label = TRUE, abbr = FALSE): could not find function &quot;month&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>weekday &lt;-<span class="st"> </span><span class="kw">wday</span>(chicago<span class="op">$</span>real_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; Error in wday(chicago$real_date, label = TRUE, abbr = FALSE): could not find function &quot;wday&quot;</span></code></pre>
 <p>First we can use <code>table()</code> on each of these new columns to see how frequently each value in the category appears in our data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>year)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  2014 </span>
-<span class="co">#&gt; 10000</span></code></pre>
+<span class="co">#&gt; &lt; table of extent 0 &gt;</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>month)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   January  February     March     April       May      June      July </span>
-<span class="co">#&gt;         0         0         0         0         0         0         0 </span>
-<span class="co">#&gt;    August September   October  November  December </span>
-<span class="co">#&gt;         0         0         0      4179      5821</span></code></pre>
+<span class="co">#&gt; &lt; table of extent 0 &gt;</span></code></pre>
 <p>Our data comes entirely from November and December in 2014. This certainly limits our ability to see if crime changes across seasons or over years.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;      1260      1855      1832      1341      1092      1312      1308</span></code></pre>
+<span class="co">#&gt; &lt; table of extent 0 &gt;</span></code></pre>
 <p>It looks like there’s a difference in which days have the most crime with Monday and Tuesday being the most dangerous days. For easier interpretation let’s turn these counts into percents. An easy way is to divide the results by the total number of rows in our data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(chicago)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;    0.1260    0.1855    0.1832    0.1341    0.1092    0.1312    0.1308</span></code></pre>
+<span class="co">#&gt; numeric(0)</span></code></pre>
 <p>This gives us proportions - we can multiple by 100 to get percents.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(chicago) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;     12.60     18.55     18.32     13.41     10.92     13.12     13.08</span></code></pre>
+<span class="co">#&gt; numeric(0)</span></code></pre>
 <p>Now we see that indeed Monday and Tuesday have a much higher percent of crime in the data than other days. Is this reasonable? Most studies find that weekends have the highest amount of crime and than Mondays and Tuesdays are relatively low crime. But remember that we’re only using a sample of 10,000 crimes across two months in a single year from Chicago. Our data is likely not representative and we shouldn’t interpret it too much.</p>
-</div>
-<div id="time-zones" class="section level2">
-<h2><span class="header-section-number">5.5</span> Time zones</h2>
-<p><code>lubridate</code> has converted the date and time formats to a more standardized form, one that is easier to use on a computer.</p>
-<p>The default time zone is Coordinated Universal Time abbreviated UTC, which is the same as Greenwich Mean Time. Interestingly, the abbreviation CUT would make more sense in English, but TCU would make more sense in French, so the compromise was to universally abbreviate as UTC. Since all of these crimes occurred in Chicago, let’s explicitly set the time zone to Central Time. The function <code>OlsonNames()</code> will give you a list of all possible time zones you can use.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>real_date &lt;-<span class="st"> </span><span class="kw">force_tz</span>(chicago<span class="op">$</span>real_date, <span class="st">&quot;America/Chicago&quot;</span>)
-chicago<span class="op">$</span>real_date[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]   <span class="co"># show just the first five dates</span>
-[<span class="dv">1</span>] <span class="st">&quot;2014-12-09 23:54:00 CST&quot;</span> <span class="st">&quot;2014-12-09 23:45:00 CST&quot;</span>
-[<span class="dv">3</span>] <span class="st">&quot;2014-12-09 23:42:00 CST&quot;</span> <span class="st">&quot;2014-12-09 23:42:00 CST&quot;</span>
-[<span class="dv">5</span>] <span class="st">&quot;2014-12-09 23:40:00 CST&quot;</span></code></pre>
-<p>Now when printed you can see that the timezone is set to Central Standard Time. R will automatically handle Daylight Saving Time. Note that an August date reports Central Daylight Time.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">force_tz</span>(<span class="kw">mdy_hms</span>(<span class="st">&quot;8/1/2014 12:00:00&quot;</span>), <span class="st">&quot;America/Chicago&quot;</span>)
-[<span class="dv">1</span>] <span class="st">&quot;2014-08-01 12:00:00 CDT&quot;</span></code></pre>
 <div id="exercises" class="section level3">
-<h3><span class="header-section-number">5.5.1</span> Exercises</h3>
+<h3><span class="header-section-number">5.4.1</span> Exercises</h3>
 <ol style="list-style-type: decimal">
 <li>What is the most common crime on Fridays?</li>
 <li>How many assaults happened on Fridays?</li>

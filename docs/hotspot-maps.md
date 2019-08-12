@@ -12,11 +12,12 @@ load("data/officer_shootings_geocoded.rda")
 
 
 ## Creating the maps
-We'll be using two packages to make our maps, `ggmap` and `hexbin`, so be sure you have those installed.
+
+To make these maps we will use the package `ggmap`. 
 
 
 ```r
-install.packages(c("ggmap", "hexbin"))
+install.packages("ggmap")
 ```
 
 
@@ -25,16 +26,13 @@ library(ggmap)
 #> Loading required package: ggplot2
 #> Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
 #> Please cite ggmap if you use it! See citation("ggmap") for details.
-library(hexbin)
 ```
 
-Next, we'll need to get a map of officer_shootings_geocoded. Google Maps used to be readily available through `ggmap`, but as of June 2018 the account requirements became more complicated for Google Maps. We will use other map services instead here. Stamen is a design organization that provides maps of several styles. Here we define the bounding box for the city of Philadelphia. This bounding box determines where in the world the map shows, so we want to set it to coorindates that will show the whole of Philadelphia.
-
-Next, we'll need to get a map of officer_shootings_geocoded. Google Maps used to be readily available through `ggmap`, but as of June 2018 the account requirements became more complicated for Google Maps. We will use other map services instead here. Stamen is a design organization that provides maps of several styles. Here we define the bounding box for the City of officer_shootings_geocoded.
+We'll start by making the background to our map, showing Philadelphia. We do so using the `get_map()` function from `ggmap` which gets a map background from a number of sources. We'll set the source to "stamen" since Google no longer allows us to get a map without creating an account. The first parameter in `get_map()` is simply coordinates for Philadelphia to ensure we get a map of the right spot. 
 
 
 ```r
-philly_map <- ggmap(get_map(c(-75.288486,39.868285,-74.950965,40.138251), source = "stamen"))
+philly_map <- ggmap(get_map(c(-75.288486, 39.868285, -74.950965, 40.138251), source = "stamen"))
 philly_map
 ```
 
@@ -50,14 +48,14 @@ philly_map +
              alpha = 0.5,
              color = "darkred",
              size  = 1)
-#> Warning: Removed 3 rows containing missing values (geom_point).
+#> Warning: Removed 2 rows containing missing values (geom_point).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
-This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we'll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You'll notice that it has a message saying "Removed 2 rows containing missing values (geom_point)." That just means that `ggplot()` automatically deleted 2 rows that didn't contain any lon or lat data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.
+This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we'll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You'll notice that it has a message saying "Removed 2 rows containing missing values (geom_point)." That just means that `ggplot()` automatically deleted 2 rows that didn't contain any longitude or latitude data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.
 
-Let's pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in a later section we'll learn about interavtive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to se that there are lots of shootings in West Philly but not around University City, for example, The exact same pattern is present in the scatterlot but without the ability to tell "where" a dot is. 
+Let's pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in a later section we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of shootings in West Philly but not around University City, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
 
 
 ```r
@@ -66,9 +64,8 @@ plot(officer_shootings_geocoded$lon, officer_shootings_geocoded$lat, col = "dark
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-Let's now try plotting hexagonal bins, which the `hexbin` package let us do. Why hexagons? It turns out that squares tend to have problems in the corners. The precision is low there and our eye tends to get drawn to the parallel lines the square grid makes. Ideally, we want to use a shape that has a small perimeter-to-area ratio. Circles have the smallest perimeter-to-area ratio, but we can't use circles to tile over the map. Hexagons fall in between squares and circles.
+Now we can start making hotspot maps which help to show areas with clusters of events. To do so we use 
 
-Note: when you run the following lines of code, you will get the following message: "Coordinate system already present. Adding new coordinate system, which will replace the existing one." Don't panic, this message is supposed to appear.
 
 
 ```r
@@ -78,10 +75,12 @@ philly_map +
               bins = 60,
               data = officer_shootings_geocoded)
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
+
+We can adjust the `alpha` parameter to change how transparent the bins are. 
 
 Or try the following. Setting `alpha = 2/4` makes the bins a little more transparent. Try comparing with `alpha = 1/4` or `alpha = 3/4`.
 
@@ -94,7 +93,7 @@ philly_map +
               alpha = 0.5,
               data  = officer_shootings_geocoded)
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
@@ -113,7 +112,7 @@ philly_map +
                       low = "springgreen",
                       high = "darkred")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 3 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
@@ -130,7 +129,7 @@ philly_map +
                  data = officer_shootings_geocoded,
                  geom = 'density2d',
                  col  = 'white')
-#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
@@ -141,8 +140,8 @@ Let's make a hotspot map with a gradient, red for high crime and green for low c
 ```r
 philly_map +
   stat_density2d(aes(x = lon, y = lat,
-                     fill=..level..,
-                     alpha=..level..),
+                     fill = ..level..,
+                     alpha = ..level..),
                  data = officer_shootings_geocoded,
                  geom = 'polygon') +
   scale_fill_gradient('Shootings Density',
@@ -151,7 +150,7 @@ philly_map +
   scale_alpha(range = c(.4, .75),
               guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10))
-#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
@@ -173,12 +172,12 @@ philly_map +
   scale_alpha(range = c(.4, .75),
               guide = FALSE) +
   guides(fill = guide_colorbar(barwidth = 1.5, barheight = 10)) 
-#> Warning: Removed 3 rows containing non-finite values (stat_density2d).
+#> Warning: Removed 2 rows containing non-finite values (stat_density2d).
 ```
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
-Be careful with maps like these. This map is so broad is appears like shootings are ubiquituous across the city. We know from the map showing each shooting as a dot and that there are <500 shootings, that this is  not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.
+Be careful with maps like these. This map is so broad is appears like shootings are ubiquitous across the city. We know from the map showing each shooting as a dot and that there are <500 shootings, that this is not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.
 
 Since our maps show every shooting on the same map, if there are different patterns depending on the year, we can't pick up those patterns. As a check, let's write a for loop that maps each year's data separately. First we need to make a variable with the shooting's year to be able to subset data for just that year. We can use the `year()` function from `lubridate` to do this.
 
@@ -200,7 +199,7 @@ As a basic check, let's just see how many shootings there were each year.
 table(officer_shootings_geocoded$year)
 #> 
 #> 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 
-#>   61   40   56   47   44   59   35   28   21   22   12   12    5
+#>   61   40   55   47   44   59   35   28   21   22   12   12    5
 ```
 
 It looks like the general pattern is that shootings are declining. Now we can map each year. We are looping through each year in the data, and reusing the map code before except instead of the full data, we subset data to be only rows matching the year in that iteration of the loop.  
@@ -210,15 +209,15 @@ It looks like the general pattern is that shootings are declining. Now we can ma
 for (year in unique(officer_shootings_geocoded$year)) { 
   print(
     philly_map +
-  coord_cartesian() +
-  stat_binhex(aes(x = lon, y = lat),
-              bins  = 60,
-              alpha = 0.75,
-              data = officer_shootings_geocoded[officer_shootings_geocoded$year == year, ]) +
-  scale_fill_gradient('Shootings Density',
-                      low = "springgreen",
-                      high = "darkred") +
-       ggtitle(paste("Philadelphia Police Officer-Involed Shootings, ", year))
+      coord_cartesian() +
+      stat_binhex(aes(x = lon, y = lat),
+                  bins  = 60,
+                  alpha = 0.75,
+                  data = officer_shootings_geocoded[officer_shootings_geocoded$year == year, ]) +
+      scale_fill_gradient('Shootings Density',
+                          low = "springgreen",
+                          high = "darkred") +
+      ggtitle(paste("Philadelphia Police Officer-Involved Shootings, ", year))
   )
 }
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
@@ -233,7 +232,7 @@ for (year in unique(officer_shootings_geocoded$year)) {
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 2 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 ```

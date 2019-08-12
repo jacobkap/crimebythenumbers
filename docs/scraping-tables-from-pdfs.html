@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>19 Scraping Tables from PDFs | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="19 Scraping Tables from PDFs | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="19 Scraping Tables from PDFs | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -363,11 +365,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">19</span> Scraping Tables from PDFs</h1>
 <p>In Section <a href="scraping-data-from-pdfs.html#scraping-data-from-pdfs">13</a> we very briefly began working on scraping data from a PDF. We read in PDFs from Philadelphia’s officer-involved shooting data and grabbed only the date of each incident. That data was written up like a report, with the date of the incident followed by a description of what happened. In the majority of cases when you want data from a PDF it will be in a table rather than descriptive paragraph. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and <code>strsplit()</code> again to start handling this data.</p>
 <p>Let’s first take a look at the data we will be scraping. The first step in any PDF scraping should be looking at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors.</p>
-<p>We will be using the Sector Profile 2017 PDF which has information in three tables which we’ll scrape then combine together. The fata was downloaded on the U.S. Customs and Border Protection “Stats and Summaries” page <a href="https://www.cbp.gov/newsroom/media-resources/stats">here</a>. If you’re interested in using more of their data, some of it has been cleaned and made available <a href="https://www.openicpsr.org/openicpsr/project/109522/version/V2/view">here</a>.</p>
+<p>We will be using the Sector Profile 2017 PDF which has information in three tables which we’ll scrape then combine together. The data was downloaded on the U.S. Customs and Border Protection “Stats and Summaries” page <a href="https://www.cbp.gov/newsroom/media-resources/stats">here</a>. If you’re interested in using more of their data, some of it has been cleaned and made available <a href="https://www.openicpsr.org/openicpsr/project/109522/version/V2/view">here</a>.</p>
 <p>The file we want to use is called “usbp_stats_fy2017_sector_profile.pdf” and has three tables in the PDF. Let’s take a look at them one at a time, understanding what variable are available, and what units each row is in. Then we’ll start scraping the tables.</p>
 <p>The first table is “Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)”. Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible we would have to get data that is monthly so we can just use October 2016 through September 2017 for match up properly.</p>
 <p>Now if we look more at the table we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also available as rows. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide data, sections, and subsections.</p>
-<p>There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican, marijuana and cocaine seizures (in pounds), and the number of accepted prosecutions (assumably of those apprehended). The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border.</p>
+<p>There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican, marijuana and cocaine seizures (in pounds), and the number of accepted prosecutions (presumably of those apprehended). The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border.</p>
 <p><img src="images/pdf_table_1.PNG" /></p>
 <p>Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is a duplicated column as in Table 1.</p>
 <p><img src="images/pdf_table_2.PNG" /></p>
@@ -482,7 +484,7 @@ sector_profile &lt;-<span class="st"> </span>sector_profile[[<span class="dv">1<
 <span class="co">#&gt; [4,] &quot;391&quot; &quot;1&quot;  &quot;N/A **** N/A ****&quot; &quot;&quot;   </span>
 <span class="co">#&gt; [5,] &quot;9&quot;   &quot;0&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span>
 <span class="co">#&gt; [6,] &quot;37&quot;  &quot;2&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></code></pre>
-<p>We can make it a data.frame just by putting it in <code>data.frame()</code>. To avoid making the columns into factors, we’ll set the parameter <code>stringsAsFactors</code> to FALSE. And we can assign the columns names using a vector of strings we can make. We’ll use the same column names as in the PDF but lowercased and replacing spaces and parentheses with underscores.</p>
+<p>We can make it a data.frame just by putting it in <code>data.frame()</code>. To avoid making the columns into factors, we’ll set the parameter <code>stringsAsFactors</code> to FALSE. And we can assign the columns names using a vector of strings we can make. We’ll use the same column names as in the PDF but lowercase and replacing spaces and parentheses with underscores.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sector_profile &lt;-<span class="st"> </span><span class="kw">data.frame</span>(sector_profile, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 <span class="kw">names</span>(sector_profile) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;sector&quot;</span>,
                            <span class="st">&quot;agent_staffing&quot;</span>,

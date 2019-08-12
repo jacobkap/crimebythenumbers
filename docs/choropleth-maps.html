@@ -5,24 +5,23 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>16 Choropleth Maps | R 4 Criminology</title>
-  <meta name="description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
   <meta property="og:title" content="16 Choropleth Maps | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
-  <meta property="og:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta property="og:description" content="Notes for learning R for Criminology." />
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="16 Choropleth Maps | R 4 Criminology" />
   
-  <meta name="twitter:description" content="Notes for learning and applying R to questions about crime and the justice system." />
+  <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
 
 <meta name="author" content="Jacob Kaplan" />
-<meta name="author" content="Greg Ridgeway" />
 
 
 
@@ -151,8 +150,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data-vs-information"><i class="fa fa-check"></i>Data vs Information</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>1</b> Introduction to R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#basic-math"><i class="fa fa-check"></i><b>1.1</b> Basic Math</a></li>
 <li class="chapter" data-level="1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#combining-values-together-into-a-collection-or-vector"><i class="fa fa-check"></i><b>1.2</b> Combining values together into a collection (or vector)</a></li>
@@ -189,9 +192,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#why-do-dates-and-times-matter"><i class="fa fa-check"></i><b>5.1</b> Why do dates and times matter?</a></li>
 <li class="chapter" data-level="5.2" data-path="dates-and-times.html"><a href="dates-and-times.html#lubridate"><i class="fa fa-check"></i><b>5.2</b> <code>lubridate</code></a></li>
 <li class="chapter" data-level="5.3" data-path="dates-and-times.html"><a href="dates-and-times.html#working-with-dates"><i class="fa fa-check"></i><b>5.3</b> Working with dates</a></li>
-<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a></li>
-<li class="chapter" data-level="5.5" data-path="dates-and-times.html"><a href="dates-and-times.html#time-zones"><i class="fa fa-check"></i><b>5.5</b> Time zones</a><ul>
-<li class="chapter" data-level="5.5.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.5.1</b> Exercises</a></li>
+<li class="chapter" data-level="5.4" data-path="dates-and-times.html"><a href="dates-and-times.html#chicago-crime-data"><i class="fa fa-check"></i><b>5.4</b> Chicago crime data</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="dates-and-times.html"><a href="dates-and-times.html#exercises"><i class="fa fa-check"></i><b>5.4.1</b> Exercises</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Regular Expressions</a><ul>
@@ -377,7 +379,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; bbox:           xmin: -75.28031 ymin: 39.86747 xmax: -74.95575 ymax: 40.13793</span>
 <span class="co">#&gt; epsg (SRID):    4326</span>
 <span class="co">#&gt; proj4string:    +proj=longlat +datum=WGS84 +no_defs</span></code></pre>
-<p>Note that when we downloaded the data, it came with multiple files (some with extentions .cpg, .dbf, etc) but we only have the file with the .shp extention inside of <code>st_read()</code>. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.</p>
+<p>Note that when we downloaded the data, it came with multiple files (some with extensions .cpg, .dbf, etc) but we only have the file with the .shp extension inside of <code>st_read()</code>. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.</p>
 <p>As always when dealing with a new data set, let’s peak at the first 6 rows.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(philly_tracts)
 <span class="co">#&gt; Simple feature collection with 6 features and 14 fields</span>
@@ -411,7 +413,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(philly_tracts<span class="op">$</span>geometry)</code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Here we have a map of Philadelphia broken up into little pieces. Those pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood. Later in this lesson we will get some demographic and economic data about each of these tracts, but for now you can just think of them as neighborhoods.</p>
-<p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string”. Let’s talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Geographic datasets that describe locations on the surface of the earth have a “coordinate reference system” (CRS). Let’s extract the CRS for <code>philly_tracts</code>.</p>
+<p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string”. Let’s talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Geographic data sets that describe locations on the surface of the earth have a “coordinate reference system” (CRS). Let’s extract the CRS for <code>philly_tracts</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(philly_tracts)
 Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span>EPSG<span class="op">:</span><span class="st"> </span><span class="dv">4326</span> 
@@ -536,7 +538,7 @@ Coordinate Reference System<span class="op">:</span>
 <span class="co">#&gt; 5        42        101    037700 42101037700 POINT (2694966 246773.4)</span>
 <span class="co">#&gt; 6        42        101    019200 42101019200 POINT (2706722 254283.8)</span>
 <span class="co">#&gt; 7        42        101    017800 42101017800 POINT (2705021 251022.7)</span></code></pre>
-<p>The GEOID10 column is a unique identifer for the Census tracts in Philly. It is made up by a few other identifers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column “COUNTYFP10”. The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.</p>
+<p>The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column “COUNTYFP10”. The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.</p>
 <p>For now we will use the code to aggregate the number of shootings per Census tract. Remember, the <code>aggregate()</code> command aggregates a numeric value by some categorical value. Here we aggregate the number of shootings per Census tract. So our code will be</p>
 <p>aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)</p>
 <p>We actually don’t have a variable with the number of shootings so we need to make that. We can simply call it “number_shootings” and give it that value of 1 since each row is only one shooting.</p>

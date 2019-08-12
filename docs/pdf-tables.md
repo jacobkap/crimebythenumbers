@@ -5,7 +5,7 @@ In Section \@ref(scraping-data-from-pdfs) we very briefly began working on scrap
 
 Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be looking at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
-We will be using the Sector Profile 2017 PDF which has information in three tables which we'll scrape then combine together. The fata was downloaded on the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
+We will be using the Sector Profile 2017 PDF which has information in three tables which we'll scrape then combine together. The data was downloaded on the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
 
 The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has three tables in the PDF. Let's take a look at them one at a time, understanding what variable are available, and what units each row is in. Then we'll start scraping the tables.
 
@@ -13,7 +13,7 @@ The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30
 
 Now if we look more at the table we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also available as rows. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide data, sections, and subsections. 
 
-There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican, marijuana and cocaine seizures (in pounds), and the number of accepted prosecutions (assumably of those apprehended). The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
+There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican, marijuana and cocaine seizures (in pounds), and the number of accepted prosecutions (presumably of those apprehended). The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
 
 ![](images/pdf_table_1.PNG)
 
@@ -221,7 +221,7 @@ head(sector_profile)
 #> [5,] "9"   "0"  "N/A"               "N/A"
 #> [6,] "37"  "2"  "N/A"               "N/A"
 ```
-We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but lowercased and replacing spaces and parentheses with underscores.
+We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but lowercase and replacing spaces and parentheses with underscores.
 
 
 ```r
