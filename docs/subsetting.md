@@ -10,7 +10,7 @@ Subsetting data is a way to take a large data set and reduce it to a smaller one
 animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 ```
 
-Here we have made an object called "animals" with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+Here we have made an object called "animals" with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 
 The syntax (how the code is written) goes
 
@@ -71,6 +71,50 @@ Now let's remove multiple values, the first 3.
 animals[-c(1, 2, 3)]
 #> [1] "buffalo" "lion"    "snake"
 ```
+
+## Assignment values to objects (Making "things")
+
+Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object "animals" with the value of each of the different animals we wrote. 
+
+We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had "x <- 5" the object "x" gets the value 5. We could also say "five was assigned to x". 
+
+The terminology is "object gets value" or "value assigned to object", both work. 
+
+You can use the `=` instead of `<-`. Again, the thing on the left gets the value of the thing on the right even when using `=`.
+
+
+```r
+x <- 2
+```
+
+a now has the value of the number 2.
+
+
+```r
+x
+#> [1] 2
+```
+
+It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work or it'll cause an error. For those reasons we will use `<-` for this class. 
+
+Note that when we made x we simple wrote `x <- 2` while when we made animals we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which combines them together. With mulitple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
+
+
+```r
+x <- c(1, 2, 3)
+```
+
+The result of the `c()` is called a vector and you can think of it as a collection of values. 
+
+Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type R will automatically convert it. 
+
+
+```r
+c("cat", "dog", 2)
+#> [1] "cat" "dog" "2"
+```
+
+Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type R automatically converted the 2 to a string of "2".
 
 ## Logical values and operations
 

@@ -1,168 +1,33 @@
 
 # Introduction to R
 
-This is the first set of notes for an introduction to R programming for criminology and criminal justice. These notes assume that you have the latest version of [R](https://cloud.r-project.org/) and [R Studio Desktop (The free version)](https://www.rstudio.com/products/rstudio/download/) installed. We are also assuming that you know how to start a new script file (File -> New File -> R Script) and submit code to the R console. From that basic knowledge about using R, we are going to start with `2 + 2` and by the end of this set of notes you will load in a small Chicago crime data set and look at some summary statistics of the data's variables. Our aim is to build a firm foundation on which we will build throughout this set of notes.
+## Why learn to program?
 
-R sometimes provides useful help as to how to do something, such as choosing the right function or figuring what the syntax of a line of code should be. Let's say we're stumped as to what the `mean()` function does. Just type `?mean` at the R console and hit enter/return to read documentation on `mean()`. Most help pages have examples at the bottom that can give you a better idea about how the function works. R has many thousands of functions and an often seemingly inconsistent syntax. As you do more complex work with R (such as using new packages, which are collections of user-written functions), the Help tab can be useful. 
+With the exception of some more advanced techniques like scraping data from websites or from PDFs, nearly everything we do here can be done through Excel, a software you're probably more familiar with. The basic steps for research projects are generally 
 
-## Basic Math
-
-R, on a very unsophisticated level, is like a calculator. 
-
-
-```r
-2 + 2
-#> [1] 4
-```
+1. Open up a data set - which frequently comes as an Excel file!
+2. Change some values - misspelling or too specific categories are very common in crime data
+3. Delete some values - such as states you won't be studying
+4. Make some graphs
+5. Calculate some values - such as number of crimes per year
+6. Sometimes do a statistical analysis depending on type of project
+7. Write up what you find 
 
 
-```r
-(1 + 2 + 3 - 4) / (5 * 7)
-#> [1] 0.05714286
-```
+R can do all of this but why should you want to (or have to) learn a entirely new skill just to do something you can already do. R is useful for two main reasons: scale and reproducibility.
+
+### Scale
+
+### Reproducibility
+
+The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down in the code 
 
 
-```r
-2^3
-#> [1] 8
-```
-
-
-```r
-round(2.718281828, 3)
-#> [1] 2.718
-```
-
-At a more sophisticated level it can do every step in a research project from reading in the raw data, cleaning it, analyzing it, and letting you write up the results in a PDF or Word Document. We'll learn about many of these steps throughout this course. 
-
-## Combining values together into a collection (or vector)
-
-We will use the `c()` function a lot. `c()` *c*ombines elements, like numbers and text to form a vector or a collection of values. If we wanted to combine the numbers 1 to 5 we could do
-
-
-```r
-c(1, 2, 3, 4, 5)
-#> [1] 1 2 3 4 5
-```
-
-It also works on what are called strings (sometimes called characters or character type). You can think of a string as any value inside of quotation marks. This includes numbers as long as they are inside quotes such as "2". 
-
-
-```r
-c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"
-```
-
-The "thing" that the `c()` function creates is called a vector. A vector is simply a collection of same-type values. So writing `c(1, 2, 3, 4, 5)` creates a vector with the values 1-5. Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type R will automatically convert it. 
-
-
-```r
-c("cat", "dog", 2)
-#> [1] "cat" "dog" "2"
-```
-
-Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type R automatically converted the 2 to a string of "2". We'll talk more explicitly about the different types of objects R has later, but for now it is important to know that `c()` creates a vector as we'll be using vectors frequently in this course. 
-
-With the `c()` function, it's important to separate all of the items with commas. 
-
-Conveniently, if you want to add 1 to each item in this collection, there's no need to add 1 like `c(1 + 1, 2 + 1, 3 + 1, 4 + 1, 5 + 1)`... that's a lot of typing. Instead R offers the shortcut
-
-
-```r
-c(1, 2, 3, 4, 5) + 1
-#> [1] 2 3 4 5 6
-```
-
-In fact, you can apply any mathematical operation to each value in the same way.
-
-
-```r
-c(1, 2, 3, 4, 5)*2
-#> [1]  2  4  6  8 10
-```
 
 As a common example in criminology, in comparing crime between two cities you generally don't want to compare counts due to population differences. A city with a million people often has more crime than a city with 50,000 people just due to the size difference. So you'd want to compare rates of crime per population (usually per 100,000 people). To do this you just divide the count by the city's population and multiple the result by 100,000. 
 
-Let's say both of these cities had 100 murders, 200 burglaries, and 300 robberies. To find the rate you do 
-
-
-```r
-(100 / 1000000) * 100000
-#> [1] 10
-```
-
-
-```r
-(200 / 1000000) * 100000
-#> [1] 20
-```
-
-
-```r
-(300 / 1000000) * 100000
-#> [1] 30
-```
-
-and you get the rate of crime per 100,000 population for the larger city. But doing that already is a lot of copying of the same code as the only variable we're changing each time is the number of crimes. Imagine doing that for dozens of crime categories or for thousands of agencies. The benefit of using `c()` is we can apply the mathematical operation to all of the values at once.
-
-
-```r
-(c(100, 200, 300) / 1000000) * 100000
-#> [1] 10 20 30
-```
-and do the same thing for our smaller city
-
-
-```r
-(c(100, 200, 300) / 50000) * 100000
-#> [1] 200 400 600
-```
-
 This concept - doing the same thing to multiple values - is important in R and will come in handy later. Imagine that we had an Excel file where a column shows the number of crimes in a given city (each row is a new city). Using the method above we can find the average number of crimes (or any other mathematical operation) easily by treating that column as the values in the `c()` above.
 
-The `c()` function isn't the only way to make a collection of values in R. For example, placing a `:` between two numbers can return a collection of numbers in sequence. The functions `rep()` and `seq()` produce repeated values or sequences.
-
-
-```r
-1:10
-#>  [1]  1  2  3  4  5  6  7  8  9 10
-```
-
-
-```r
-5:-5
-#>  [1]  5  4  3  2  1  0 -1 -2 -3 -4 -5
-```
-
-`rep()` takes first the value to be repeated, and then the number of times to repeat it.
-
-
-```r
-rep(1, 10)
-#>  [1] 1 1 1 1 1 1 1 1 1 1
-```
-
-It can accept a vector of values to be repeated.
-
-
-```r
-rep(c(1, 2), each = 5)
-#>  [1] 1 1 1 1 1 2 2 2 2 2
-```
-
-
-```r
-seq(1, 5)
-#> [1] 1 2 3 4 5
-```
-
-R will also do arithmetic with two vectors, doing the calculation pairwise. The following will compute 1 + 11 and 2 + 12 up to 10 + 20.
-
-
-```r
-1:10 + 11:20
-#>  [1] 12 14 16 18 20 22 24 26 28 30
-```
 
 Yet, other functions operate on the whole collection of values in a vector. For each of these functions you will need to put the vector inside the parentheses of the main function. See the following examples:
 
@@ -226,135 +91,10 @@ which.min(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
 #> [1] 1
 ```
 
-Many functions in R are helpful to see and understand your data. For example, we can rearrange a collection of values in ascending or descending order. Note the `order()` function.  How is it similar to the `which.max()` or `which.min()` function?  Note the `sort()` function.
-
-  + `sort()` Sorts from smallest to largest
-  + `order()` Tells you what order each value should be moved to for it to be sorted from smallest to largest
-
-
-```r
-sort(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#>  [1]  1  2  3  4  5  6  7  8  9 10
-```
-
-
-```r
-order(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#>  [1]  1  5  3  8  6  4  9  7 10  2
-```
-
-Below is the same `sort()` function as before but with the parameter `decreasing`. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the sort from smallest to largest to be from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE (you'll learn more about TRUE and FALSE values soon and they must always be written in all capital letters).
-
-
-```r
-sort(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9), decreasing = TRUE)
-#>  [1] 10  9  8  7  6  5  4  3  2  1
-```
-
-To learn about the parameters available for each function, check the help menu for that function using the Help tab or by typing `?function` in the console and replacing "function" with the name of the function you're interested in. The section of the help page labeled Arguments tells you each of the parameters and what they do. The top of this help page (under Description) also explains what the function does. 
-
-
-```r
-?sort
-```
-
-The above examples have involved mostly numerical values in a vector. Here are some examples involving non-numerical "string" or "character" values. Let's create an object called `my_states` (a name I made up) that will contain a number of state abbreviations.
-
-
-```r
-my_states <- c("WA","DC","CA","PA","MD","VA","OH")
-```
-
-Take a look at the arrow `<-` (pronounced 'gets'). This is how you tell R to take the result of what is on the right and store it in the object named on the left. We're going to talk more about this arrow soon. Now let's run some new functions on this collection of state a.
-
-
-```r
-paste(my_states, ", USA")
-#> [1] "WA , USA" "DC , USA" "CA , USA" "PA , USA" "MD , USA" "VA , USA"
-#> [7] "OH , USA"
-```
-
-
-```r
-paste(my_states, ", USA", sep = "")
-#> [1] "WA, USA" "DC, USA" "CA, USA" "PA, USA" "MD, USA" "VA, USA" "OH, USA"
-```
-
-
-```r
-paste(my_states, collapse = ",")
-#> [1] "WA,DC,CA,PA,MD,VA,OH"
-```
-
 The `paste()` function pastes character strings together. By default, `paste()` puts a space between the strings being pasted together. It looks strange with that space after WV in "WV , USA". We can set the separator to be nothing (the empty string) by setting `sep = ""`. Remember that you need a comma before starting a new parameter. 
 
 Being able to sort or manipulate strings/character values (i.e. not numbers) is important in research. When dealing with real crime data you'll find that there are often spelling issues where categories are slightly different (e.g. 'assault' 'asault' 'asslt') that you need to make consistent for an analysis. You will also likely want to grab only rows where the data is a certain crime, such as all assaults, which is something we'll learn later. 
 
-We used `sort()` to sort numbers from smallest to largest. It can also be used on a vector of strings to alphabetize it. This is useful when rearranging data.frames (think an Excel file) to alphabetize by a variable to make it easier to read. 
-
-
-```r
-sort(my_states)
-#> [1] "CA" "DC" "MD" "OH" "PA" "VA" "WA"
-```
-
-Setting the parameter `decreasing` to TRUE sorts it by reverse alphabetical order.
-
-
-```r
-sort(my_states, decreasing = TRUE)
-#> [1] "WA" "VA" "PA" "OH" "MD" "DC" "CA"
-```
-
-Note that running the above code doesn't actually change the "my_states" vector. It we check, the order is as it was initially, not sorted.
-
-
-```r
-my_states
-#> [1] "WA" "DC" "CA" "PA" "MD" "VA" "OH"
-```
-
-That is because just running code on something doesn't save it. In most cases it just prints the changed values but our original object remains unchanged. That is because we need to change the output of these functions to a new object, something called "assigning" values to an object.
-
-## Assignment of values to variables (Making "things")
-
-The left-facing arrow symbol is an extremely important tool in R. Try the following:
-
-
-```r
-a <- 1
-```
-
-Now type:
-
-
-```r
-a
-#> [1] 1
-```
-
-R has assigned "a" the value of "1". We choose "a" because it is an easy name to type but when you're working on projects you want to call the objects something that is easy to remember and (most importantly!) tells you immediately what the data is. If you are using data on Philadelphia crime, a good name would be philadelphia_crime. Make it easy on yourself what the data is!
-
-R programmers typically pronounce the `<-` as "gets". So we would read `a <- 1` as "a gets one". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So the object "a" gets the value 1. We could also say "one was assigned to a". 
-
-The terminology is "object gets value" or "value assigned to object", both work. 
-
-You can use the `=` instead of `<-`. Again, the thing on the left gets the value of the thing on the right even when using `=`.
-
-
-```r
-a <- 2
-```
-
-a now has the value of the number 2.
-
-
-```r
-a
-#> [1] 2
-```
-
-It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work or it'll cause an error. For those reasons we will use `<-` for this class. 
 
 ## Reading data into R
 
@@ -377,9 +117,8 @@ Use `setwd()` to tell R what folder you want it to use as the working directory.
 ```
 setwd("C:/Users/user/Dropbox/R_project/R4crim/data")    
 ```
-Note that for all platforms, Windows, Macs, and Linux, the working directory only uses forward slashes. So Windows users be careful. Most Windows applications use backslashes, but in an effort to make R scripts work across all platforms, R requires forward slashes.
 
-If you do not know how to write your working directory, here comes R Studio to the rescue. In R Studio click Session -> Set Working Directory -> Choose Directory. Then click through to navigate to the working directory that you want to use. When you find it click "Select Folder". Then look over at the console. R Studio will construct the right `setwd()` syntax for you. Copy and paste that into your script for use later. No need to have to click through the Session menu again now that you have your `setwd()` set up.
+If you do not know how to write your working directory, here comes R Studio to the rescue. In R Studio click Session -> Set Working Directory -> Choose Directory. Then click through to navigate to the working directory that you want to use. When you find it click "Select Folder". Then look over at the console. R Studio will construct the right `setwd()` syntax for you. Copy and paste that into your R script for use later. No need to have to click through the Session menu again now that you have your `setwd()` set up.
 
 ![](images/working_directory.PNG)
 
@@ -387,70 +126,43 @@ Now you can use R functions to load in any data sets that are in your working fo
 
 ### Loading data
 
-The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (using the `<-` we learned above) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see later on. 
+The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (using the `<-` we learned above) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see in Chapter \ref(Reading and Writing Data). 
 
 
 ```r
-load("data/chicago.rda")
+load("data/ucr2017.rda")
 ```
 
-### First steps to explore the data
+## First steps to exploring data
 
-The object we loaded is called `chicago` and if you look in the "Environment" tab in RStudio you'll now see a object there with the name `chicago`. We'll start exploring this data in the next lesson but for now let's use three simple (and important) functions to get a sense of what the data holds. For each of these functions write the name of the data set (without quotes since we don't need quotes for an object already made in R) inside the (). 
+The object we loaded is called `ucr2017`. We'll explore this data more thoroughly in the Chapter \ref(exploratory-data-analysis) but for now let's use four simple (and important) functions to get a sense of what the data holds. For each of these functions write the name of the data set (without quotes since we don't need quotes for an object already made in R) inside the (). 
 
 `head()`
 `summary()`
+`plot()`
 `View()`
 
-Note that the first two functions are lowercase while `View()` is capitalized. That is simply because older functions in R were often capitalized while newer ones use all lowercase letters. R is case sensitive so using `view()` will not work. 
+Note that the first three functions are lowercase while `View()` is capitalized. That is simply because older functions in R were often capitalized while newer ones use all lowercase letters. R is case sensitive so using `view()` will not work. 
 
 The `head()` function prints the first 6 rows of each column out in the console. This is useful to get a quick glance at the data but has some important drawbacks. When using data sets with a large number of columns it can be quickly overwhelming by printing too much. There may also be differences in the first 6 rows with other rows. For example if the rows are ordered chronologically (as is the case with most crime data) the first 6 rows will be the most recent. If data collection methods or the quality of collection changed over time, these 6 rows won't be representative of the data.  
 
 
 ```r
-head(chicago)
-#>        ID Case.Number                   Date                     Block
-#> 1 9885391    HX536570 12/09/2014 11:54:00 PM           040XX W 26TH ST
-#> 2 9885433    HX536595 12/09/2014 11:45:00 PM 089XX S SOUTH CHICAGO AVE
-#> 3 9885375    HX536553 12/09/2014 11:42:00 PM        052XX S HARPER AVE
-#> 4 9889805    HX539585 12/09/2014 11:42:00 PM           033XX N TROY ST
-#> 5 9885389    HX536579 12/09/2014 11:40:00 PM          015XX W 107TH ST
-#> 6 9885387    HX536562 12/09/2014 11:37:00 PM       0000X N LARAMIE AVE
-#>   IUCR    Primary.Type
-#> 1 0560         ASSAULT
-#> 2 0498         BATTERY
-#> 3 2820   OTHER OFFENSE
-#> 4 2825   OTHER OFFENSE
-#> 5 1310 CRIMINAL DAMAGE
-#> 6 2018       NARCOTICS
-#>                                                   Description
-#> 1                                                      SIMPLE
-#> 2 AGGRAVATED DOMESTIC BATTERY: HANDS/FIST/FEET SERIOUS INJURY
-#> 3                                            TELEPHONE THREAT
-#> 4                                     HARASSMENT BY TELEPHONE
-#> 5                                                 TO PROPERTY
-#> 6                                MANU/DELIVER:SYNTHETIC DRUGS
-#>   Location.Description Arrest Domestic Beat District Ward Community.Area
-#> 1           DRUG STORE   true    false 1031       10   22             30
-#> 2          GAS STATION  false     true  423        4    7             46
-#> 3            RESIDENCE  false     true  234        2    4             41
-#> 4                OTHER  false     true 1733       17   33             21
-#> 5            RESIDENCE  false    false 2212       22   19             75
-#> 6             SIDEWALK   true    false 1522       15   28             25
-#>   FBI.Code X.Coordinate Y.Coordinate Year             Updated.On Latitude
-#> 1      08A      1150052      1886384 2014 12/16/2014 12:53:13 PM 41.84415
-#> 2      04B      1195182      1846473 2014 12/16/2014 12:53:13 PM 41.73363
-#> 3       26      1187140      1870924 2014 12/16/2014 12:53:13 PM 41.80092
-#> 4       26      1154836      1921848 2014 12/16/2014 12:53:13 PM 41.94137
-#> 5       14      1167706      1833732 2014 12/16/2014 12:53:13 PM 41.69930
-#> 6       18      1141668      1900044 2014 12/16/2014 12:53:13 PM 41.88179
-#>   Longitude                      Location
-#> 1 -87.72483 (41.844145133, -87.724831093)
-#> 2 -87.56053 (41.733630144, -87.560531076)
-#> 3 -87.58922 (41.800920218, -87.589217569)
-#> 4 -87.70632  (41.941367376, -87.70632349)
-#> 5 -87.66155  (41.699299772, -87.66155332)
-#> 6 -87.75526 (41.881788892, -87.755261729)
+head(ucr2017)
+#>       ori year agency_name  state population actual_murder
+#> 1 AK00101 2017   anchorage alaska     296188            27
+#> 2 AK00102 2017   fairbanks alaska      32937            10
+#> 3 AK00103 2017      juneau alaska      32344             1
+#> 4 AK00104 2017   ketchikan alaska       8230             1
+#> 5 AK00105 2017      kodiak alaska       6198             0
+#> 6 AK00106 2017        nome alaska       3829             0
+#>   actual_rape_total actual_robbery_total actual_assault_aggravated
+#> 1               391                  778                      2368
+#> 2                24                   40                       131
+#> 3                50                   46                       206
+#> 4                19                    0                        14
+#> 5                15                    4                        41
+#> 6                 7                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types which are just columns with words rather than numbers, it'll say what type of data it is.
@@ -467,68 +179,52 @@ The six values it returns for numeric and Date columns are
 
 
 ```r
-summary(chicago)
-#>        ID          Case.Number            Date          
-#>  Min.   :  21662   Length:10000       Length:10000      
-#>  1st Qu.:9873271   Class :character   Class :character  
-#>  Median :9877206   Mode  :character   Mode  :character  
-#>  Mean   :9865755                                        
-#>  3rd Qu.:9881800                                        
-#>  Max.   :9893902                                        
-#>                                                         
-#>     Block               IUCR           Primary.Type      
-#>  Length:10000       Length:10000       Length:10000      
-#>  Class :character   Class :character   Class :character  
-#>  Mode  :character   Mode  :character   Mode  :character  
-#>                                                          
-#>                                                          
-#>                                                          
-#>                                                          
-#>  Description        Location.Description    Arrest         
-#>  Length:10000       Length:10000         Length:10000      
-#>  Class :character   Class :character     Class :character  
-#>  Mode  :character   Mode  :character     Mode  :character  
-#>                                                            
-#>                                                            
-#>                                                            
-#>                                                            
-#>    Domestic              Beat         District          Ward      
-#>  Length:10000       Min.   : 111   Min.   : 1.00   Min.   : 1.00  
-#>  Class :character   1st Qu.: 532   1st Qu.: 5.00   1st Qu.:10.00  
-#>  Mode  :character   Median :1013   Median :10.00   Median :22.00  
-#>                     Mean   :1129   Mean   :11.03   Mean   :22.38  
-#>                     3rd Qu.:1633   3rd Qu.:16.00   3rd Qu.:33.00  
-#>                     Max.   :2535   Max.   :25.00   Max.   :50.00  
-#>                                    NA's   :191                    
-#>  Community.Area   FBI.Code          X.Coordinate      Y.Coordinate    
-#>  Min.   : 1.0   Length:10000       Min.   :1099148   Min.   :1815076  
-#>  1st Qu.:23.0   Class :character   1st Qu.:1152189   1st Qu.:1857802  
-#>  Median :32.0   Mode  :character   Median :1165917   Median :1889381  
-#>  Mean   :37.9                      Mean   :1164614   Mean   :1884192  
-#>  3rd Qu.:56.0                      3rd Qu.:1176787   3rd Qu.:1907553  
-#>  Max.   :77.0                      Max.   :1204781   Max.   :1951533  
-#>                                    NA's   :191       NA's   :191      
-#>       Year       Updated.On           Latitude       Longitude     
-#>  Min.   :2014   Length:10000       Min.   :41.65   Min.   :-87.91  
-#>  1st Qu.:2014   Class :character   1st Qu.:41.77   1st Qu.:-87.72  
-#>  Median :2014   Mode  :character   Median :41.85   Median :-87.67  
-#>  Mean   :2014                      Mean   :41.84   Mean   :-87.67  
-#>  3rd Qu.:2014                      3rd Qu.:41.90   3rd Qu.:-87.63  
-#>  Max.   :2014                      Max.   :42.02   Max.   :-87.53  
-#>                                    NA's   :191     NA's   :191     
-#>    Location        
-#>  Length:10000      
-#>  Class :character  
-#>  Mode  :character  
-#>                    
-#>                    
-#>                    
-#> 
+summary(ucr2017)
+#>      ori                 year      agency_name           state          
+#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
+#>                     Mean   :2017                                        
+#>                     3rd Qu.:2017                                        
+#>                     Max.   :2017                                        
+#>    population      actual_murder     actual_rape_total 
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  
+#>  Median :   4460   Median :  0.000   Median :   1.000  
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000  
+#>  actual_robbery_total actual_assault_aggravated
+#>  Min.   :   -1.00     Min.   :   -1.00         
+#>  1st Qu.:    0.00     1st Qu.:    1.00         
+#>  Median :    0.00     Median :    5.00         
+#>  Mean   :   19.85     Mean   :   49.98         
+#>  3rd Qu.:    4.00     3rd Qu.:   21.00         
+#>  Max.   :13995.00     Max.   :29771.00
 ```
+
+The `plot()` function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we'll make a scatterplot seeing the relationship between a city's number of murders and their number of aggravated assault (assault with a weapon or that causes serious bodily injury).
+
+To do so we must specify which column is displayed on the x-axis and which one is displayed on the y-axis. In Chapter \ref(Select a specific column) we'll talk explicitly about how to select specific columns from our data. For now all you need to know is to select a column you write the data set name followed by dollar sign `$` followed by the column name. Do not include any quotations or spaces (technically spaces can be included but make it a bit harder to read and are against conventional style when writing R code so we'll exclude them). Inside of `plot()` we say that "x = ucr2017\$actual_murder" so that column goes on the x-axis and "y = ucr2017\$actual_assault_aggravated" so aggravated assault goes on the y-axis. And that's all it takes to make a simple graph. 
+
+
+```r
+plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
+```
+
+<img src="intro-to-r_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 
 
 ```r
-View(chicago)
+View(ucr2017)
 ```
+
+## Finding help about functions
+
+If you are having trouble understanding what a function does, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
+
+If we wrote `help(c)` to figure out what the `c()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `c()`) are optional.
+
+![](images/help_page.PNG)

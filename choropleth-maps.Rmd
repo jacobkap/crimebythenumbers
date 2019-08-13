@@ -80,7 +80,7 @@ This coordinate system is the Lambert Conic Conformal (LCC). This particular pro
 
 What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can do two things. First we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. The second thing is to be able to combine the tract-level shootings with other data sets. Since some data also comes at the tract-level we can merge the data sets together and see if there is any relationship between the variables. In this lesson we will do that using Census data. 
 
-Spatial joins is the process of linking two data sources by their geography. For the case of the officer-involved shooting data, we want to know how many shootings occurred in each tract To do this we need to drop each shooting point location into the PSA polygons and have R tell us in which polygon (in mapping terms each tract is a polygon) did each shooting land.
+Spatial joins is the process of linking two data sources by their geography. For the case of the officer-involved shooting data, we want to know how many shootings occurred in each tract. To do this we need to drop each shooting point location into the PSA polygons and have R tell us in which polygon (in mapping terms each tract is a polygon) did each shooting land.
 
 First we need to convert our "officer_shootings_geocoded" data frame to a spatial object, communicating to R that the `lon` and `lat` columns are special. At this stage we also have to communicate in what coordinate system are the `lon` and `lat` values. We want the same coordinate system in both the shootings data and the Census tracts data.
 
@@ -126,14 +126,13 @@ We'll start by finding the tract where each shooting occurred using the function
 shootings_agg <- st_join(officer_shootings_geocoded, philly_tracts)
 ```
 
-Let's peak at the first 6 rows. 
+Let's look at the first 6 rows. 
 
 ```{r}
 head(shootings_agg)
 ```
 
 There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the "philly_tracts" data. Let's look specifically at the "GEOID10" variable since that is actually important and common in dealing with Census data. And let's also print out the columns "STATEFP10", "COUNTYFP10", and "TRACTCE10". 
-
 ```{r}
 head(shootings_agg[, c("STATEFP10", "COUNTYFP10", "TRACTCE10", "GEOID10")])
 ```
@@ -278,7 +277,6 @@ ggplot(philly_tracts_shootings, aes(fill = number_shootings)) +
         axis.text.y = element_blank(),
         axis.ticks = element_blank())
 ```
-
 
 We'll return to this data in Section \@ref(interactive-polygons) for the lesson on interactive maps so we need to save it.
 

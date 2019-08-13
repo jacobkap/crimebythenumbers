@@ -205,7 +205,7 @@ sort(table(ucr2017$state))
 #>                 1473
 ```
 
-And if we want to sort it in decreasing order of frequency, we can use the parameter `decreasing` in `sort()` and set it to TRUE. 
+And if we want to sort it in decreasing order of frequency, we can use the parameter `decreasing` in `sort()` and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the sort from smallest to largest to be from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE (you'll learn more about TRUE and FALSE values soon and they must always be written in all capital letters).
 
 
 ```r
