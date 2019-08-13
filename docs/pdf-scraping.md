@@ -1,11 +1,9 @@
 
 # Scraping data from PDFs
 
-In this section, we are going to explore officer-involved shootings (OIS) in Philadelphia. The Philadelphia Police Department posts a lot of information about officer-involved shootings online going back to 2007. Have a look at their [OIS webpage](http://www.phillypolice.com/ois/) . 
+Many government agencies will public reports as PDF files with data in tables embedded within. This makes it difficult to use as we can't simply load the PDF into R and start working on the data as we've done before. We need to take the data inside the PDF and turn it into a format that R can understand, often by In Chapter \@ref(pdf-tables) we will work on grabbing a table from a PDF, in this lesson we will just grab a line of text for the PDF. For this lesson we'll use data on officer-involved shootings from the Philadelphia Police Department's website [here](http://www.phillypolice.com/ois/) . The site contains information about the shooting such as the location and date - which we will scrape from the page - as well as information inside each shooting's description PDF which we will learn to scrape here. 
 
 Our goal here and in the following lessons is to see how the number of officer-involved shootings changed over time and see where in Philadelphia they occurred. For this we need two pieces of information: the date each shooting occurred, and the location of each shooting. 
-
-While a lot of information has been posted to the webpage, more information is buried in PDF files associated with each of the incidents. In order for us to explore these data, we are going to scrape the basic information from the webpage as well as the PDFs.
 
 ## Downloading officer-involved Shooting Files
 
@@ -19,7 +17,7 @@ library(rvest)
 #> Loading required package: xml2
 ```
 
-The last time we used `rvest` we did so to get information about movie ticket sales by grabbing data from a table on the page. In this case we are using it for two purposes: to get the link of each PDF on the page to download and to get the address of each incident. Each year of data has it's own table with a link to the PDF and the street address of where the shooting took place. For years after 2012 it also includes some useful information about the shooting but we will not be using that information in this lesson.
+The last time we used `rvest` we did so to get information about movie ticket sales by grabbing data from a table on the page. In this case we are using it for two purposes: to get the link of each PDF on the page to download and to get the address of each incident. Each year of data has its own table with a link to the PDF and the street address of where the shooting took place. For years after 2012 it also includes some useful information about the shooting but we will not be using that information in this lesson.
 
 First we need to get the links of each PDF to download. Since links are simply a special type of text on the page, we can use a similar method to webscraping movie data to get all of the links.
 
@@ -143,7 +141,7 @@ for (file in links) {
 
 ## Scraping information from the page
 
-We also want the date and address of every shooting. While that data is available in the PDFs, it isn't in a consistent format which would make it difficult to get. The webpage we downloaded the PDFs from does contain the address of each shooting in a convenient table so we will scrape the data from there. While the PDFs have the date for every shooting, starting in 2017 the date isn't in any easy to scrape format so we will scrape the date column that is present for all years starting in 2013. Since we will want to merge the location with the data from the PDF, we will also scrape the Police Shooting Number column so we have something consistent in both the PDF and the scraped data to merge by. 
+We also want the date and address of every shooting. While that data is available in the PDFs, it isn't in a consistent format which would make it difficult to get. The webpage we downloaded the PDFs from does contain the address of each shooting in a convenient table so we will scrape the data from there. While the PDFs have the date for every shooting, starting in 2017 the date isn't in an easy to scrape format so we will scrape the date column that is present for all years starting in 2013. Since we will want to merge the location with the data from the PDF, we will also scrape the Police Shooting Number column so we have something consistent in both the PDF and the scraped data to merge by. 
 
 As before, we will start by using `read_html()` to read the page into R. We will call this object "page" as we are going to use it for scraping the location, date and the shooting number so we don't want to overwrite the object.
 
@@ -295,9 +293,9 @@ tail(officer_shootings)
 
 ## Extracting data from PDFs
 
-All of the shootings in 2012 and earlier are missing the incident dates. However, the PDF documents describing the incident contains the date of the incident. Rather than reading all the PDF files and transcribing the dates, we are going to have R do all the work.
+We scraped dates for shootings from 2013 and more recent and now need to get the dates for 2012 and before. We will do so by scraping the PDFs and taking the line that says the data of the shooting.
 
-The package `pdftools` includes functions for exploring PDF files. Let's install and load the library and have a look at one of the PDF files. We will write some code that scrapes the PDF to get the date. We'll then write a function that returns the date for the PDF inputted. Finally, we'll use a for loop to get the date of every single PDF and merge it with the "officer_shootings" data we created above to get a single file which has the date and location of every officer-involved shooting.
+For this we will use the package `pdftools` which lets R scrape PDFs.
 
 
 ```r
@@ -311,7 +309,7 @@ library(pdftools)
 
 ### Scraping a single PDF
 
-`pdf_text()` extracts all the raw text from the pdf file. The input in the () is the name (in quotes as it is saying to R, go to the file on the computer) of the PDF to be read. Make sure your working directory is set to where the file is. We will look at the last shooting in 2016 which we called "16-01.pdf".
+`pdf_text()` lets us scrape the text from a PDF. The input in the () is the name (in quotes as it is saying to R, go to the file on the computer) of the PDF to be read. Make sure your working directory is set to where the file is. As an example we will look at the last shooting in 2016 which we called "16-01.pdf".
 
 
 ```r
@@ -325,11 +323,9 @@ pdf
 #> [1] "PS# 16-01\r\n1/07/16\r\nOn Thursday, January 7, 2016, at approximately 11:41 P.M., a uniformed\r\nofficer in a marked police vehicle was traveling north in the 300 block of S.\r\n60th Street, when he observed a male approaching his vehicle near the\r\nintersection of 60th and Spruce Streets. The male was armed with a firearm.\r\nWithout warning, the offender discharged the firearm, striking the officer as\r\nhe remained seated inside his police vehicle. The offender advanced to the\r\ndriver’s door of the police vehicle and leaned in through the shattered\r\nwindow, still discharging his firearm at the officer. The offender then fled on\r\nfoot, but continued to discharge his weapon at the officer. The officer exited\r\nhis police vehicle and returned fire striking the offender. The offender was\r\napprehended by responding officers in the 5900 block of Delancey Street.\r\nThe officer was transported to Penn-Presbyterian Hospital where he was\r\nadmitted.\r\nThe offender was transported to the Hospital of the University of\r\nPennsylvania for treatment.\r\nThe offender’s firearm, a Glock, 9MM, semi-automatic pistol, which had been\r\nreported stolen, was recovered empty, with the slide locked to the rear, at the\r\nscene.\r\nThere were no other injuries as a result of this firearm discharge.\r\n  *** Information posted in the original summary reflects a preliminary\r\nunderstanding of what occurred at the time of the incident. This information\r\nis posted shortly after the incident and may be updated as the investigation\r\nleads to new information. The DA’s Office is provided all the information\r\nfrom the PPD’s investigation prior to their charging decision.\r\n"
 ```
 
-When we print the file we can see that it is a single big block of text. Near the beginning of the text we can see a date, 1/07/16. That's what we want. When comparing the PDF which we can read ourselves on Adobe Acrobat or a web browser, it is clear that all the line breaks in the PDF disappeared when we used `pdf_text()`. More specifically, the line breaks were replaced by `\n` which is R's way of saying "this is a line break".
+When we print the file we can see that it is a single big block of text. Near the beginning of the text we can see a date, 1/07/16. When comparing the PDF which we can read ourselves on Adobe Acrobat or a web browser, it is clear that all the line breaks in the PDF disappeared when we used `pdf_text()`. More specifically, the line breaks were replaced by `\n` which is R's way of saying "this is a line break".
 
 ![](images/pdf_scrape_1.PNG)
-
-Note that there are scattered `\r\n` throughout. These are carriage return (`\r`) and line feed (`\n`) characters that signal the end of a line. The old printers would look for these characters to move the printer head back to the beginning of a line (carriage return) and advance the page to the next line (line feed). Nowadays, those same characters are still used to denote the end of a line. However, PCs use `\r\n`, Unix systems use `\n`, older Macs used `\r`, but Mac OS X adopted the Unix standard `\n`. Expect any of these combinations in data files. 
 
 We want to grab just the date from this file.  Since the file is in a single block of text, we need to break it up based on where there should be a line break (turning each line back into an individual part of the file) and grab only the line with the date.
 
@@ -526,7 +522,7 @@ grep("^0|^10|^11|^12", pdf_files)
 #> [307] 307 308 309 310 311 312 313 314 315 316 317
 ```
 
-This prints out a list of which elements in "pdf_files" are a match. We can use square bracket notation [] subsetting to just keep the elements in "pdf_files" that we want. And let's save that object as "pdf_files", overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of. 
+This prints out a list of which elements in "pdf_files" are a match. We can use square bracket notation `[]` subsetting to just keep the elements in "pdf_files" that we want. And let's save that object as "pdf_files", overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of. 
 
 
 ```r
@@ -593,7 +589,7 @@ for (file in pdf_files) {
 }
 ```
 
-Finally we add in code that uses square bracket notation [] to say change the value in the "dates" column in the row where the shooting number matches the shooting number we made from the file name to the date we got from the PDF. 
+Finally we add in code that uses square bracket notation `[]` to say change the value in the "dates" column in the row where the shooting number matches the shooting number we made from the file name to the date we got from the PDF. 
 
 The for loop is done and we can run it.
 

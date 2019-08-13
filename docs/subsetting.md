@@ -10,13 +10,13 @@ Subsetting data is a way to take a large data set and reduce it to a smaller one
 animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 ```
 
-Here we have made an object called "animals" with a number of different animals in it. In R, we will use square brackets [] to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+Here we have made an object called "animals" with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 
 The syntax (how the code is written) goes
 
-object[index(s)]
+object[index]
 
-First we have the object and then we put the square bracket []. We need both the object and the [] for subsetting to work. Let's say we wanted to choose just the "snake" from our "animals" object. In normal language we say "I want the 6th value from "animals". We say where we're looking and which value we want. 
+First we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our "animals" object. In normal language we say "I want the 6th value from "animals". We say where we're looking and which value we want. 
 
 
 ```r
@@ -24,7 +24,7 @@ animals[6]
 #> [1] "snake"
 ```
 
-Now let's the third value
+Now let's get the third value.
 
 
 ```r
@@ -32,7 +32,7 @@ animals[3]
 #> [1] "gorilla"
 ```
 
-If we want multiple values we can enter multiple numbers. Remember that if you have multiple values, you need to make a vector using `c()`. If we wanted values 1-3 we could use c(1, 2, 3), with each number separated by a column.
+If we want multiple values we can enter multiple numbers. Remember that if you have multiple values, you need to make a vector using `c()`. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 
 ```r
@@ -40,12 +40,12 @@ animals[c(1, 2, 3)]
 #> [1] "cat"     "dog"     "gorilla"
 ```
 
-When making a vector of continuous integers, instead of writing them all out manually we can use first_number:last_number like so
+When making a vector of sequential integers, instead of writing them all out manually we can use first_number:last_number like so
 
 
 ```r
 animals[1:3]
-[1] "cat"     "dog"     "gorilla"
+#> [1] "cat"     "dog"     "gorilla"
 ```
 
 The order we enter the numbers determines the order of values it returns. Let's get the third index, the fourth index, and the first index, in that order.
@@ -56,12 +56,12 @@ animals[c(3, 4, 1)]
 #> [1] "gorilla" "buffalo" "cat"
 ```
 
-If you put a negative number inside the `[]`, this will communicate to R to remove that item from the collection. Let's remove "cat" from "animals". Since it is the 1st item in "animals" we can remove it like this 
+Putting a negative number inside the `[]` will return all values **except** for that index, essentially deleting it. Let's remove "cat" from "animals". Since it is the 1st item in "animals" we can remove it like this 
 
 
 ```r
 animals[-1]
-[1] "dog"     "gorilla" "buffalo" "lion"    "snake"  
+#> [1] "dog"     "gorilla" "buffalo" "lion"    "snake"
 ```
 
 Now let's remove multiple values, the first 3.
@@ -69,28 +69,16 @@ Now let's remove multiple values, the first 3.
 
 ```r
 animals[-c(1, 2, 3)]
-[1] "buffalo" "lion"    "snake"  
+#> [1] "buffalo" "lion"    "snake"
 ```
 
 ## Logical values and operations
 
-We also frequently want to conditionally select certain values Above we selected values by number, but that requires us to know exactly which values we want. Conditionally selecting values say having some conditional statement (e.g. fewer than 100 murders) and keeping only values that meet that condition.
+We also frequently want to conditionally select certain values. Above we selected values by number, but that requires us to know exactly which values we want. We can conditionally selecting values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE (in R you must spell it in capital letters).
 
 First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 
-Logical values in R are the two values `TRUE` and `FALSE`, always written in all capital letters in R. You can also combine a bunch of `TRUE` and `FALSE` values into a collection.
-
-
-```r
-TRUE
-FALSE
-c(TRUE,FALSE,TRUE,FALSE)
-[1] TRUE
-[1] FALSE
-[1]  TRUE FALSE  TRUE FALSE
-```
-
-We can use this to index and it will return every element with we say TRUE. 
+We can use these values to index and it will return every element which we say is TRUE. 
 
 
 ```r
@@ -98,17 +86,17 @@ animals[c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)]
 #> [1] "cat" "dog"
 ```
 
-This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (data in a single state, at a certain time, at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn't. There are a number of different ways to make conditional statements. First let's go through some special characters involved and then show examples of each one.
+This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (data in a single state (or multiple states), at a certain time, at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn't. There are a number of different ways to make conditional statements. First let's go through some special characters involved and then show examples of each one.
 
 For each case you are asking does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right. 
 
-  + ==  Equals (compared to a single value)
-  + %in% Equals (one value match out of many comparisons)
-  + !=  Does not equal
-  + <   Less than
-  + \>   Greater than
-  + <=  Less than or equal to
-  + \>=  Greater than or equal to
+  + `==`   Equals (compared to a single value)
+  + `%in%` Equals (one value match out of multiple comparisons)
+  + `!=`   Does not equal
+  + `<`    Less than
+  + `\>`   Greater than
+  + `<=`   Less than or equal to
+  + `\>=`  Greater than or equal to
   
 Since many conditionals involve numbers (especially in criminology), let's make a new object called "numbers" with the first 10 numbers to use in the examples.
 
@@ -117,10 +105,9 @@ Since many conditionals involve numbers (especially in criminology), let's make 
 numbers <- 1:10
 ```
 
-
 ### Matching a single value
 
-The conditional == asks if the thing on the left equals the thing on the right. Note that it uses two equal signs. If we used only one equal sign it would assign the thing on the left the value of the thing on the right (as if we did `<-`). 
+The conditional `==` asks if the thing on the left equals the thing on the right. Note that it uses two equal signs. If we used only one equal sign it would assign the thing on the left the value of the thing on the right (as if we did `<-`). 
 
 
 ```r
@@ -128,7 +115,7 @@ The conditional == asks if the thing on the left equals the thing on the right. 
 #> [1] TRUE
 ```
 
-This gives `TRUE` as we know that 2 does equal 2. If we change either value, it would give us FALSE.
+This gives `TRUE` as we know that 2 does equal 2. If we change either value, it would give us `FALSE`.
 
 
 ```r
@@ -144,7 +131,7 @@ numbers == 2
 #>  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
-This also works with characters such as all the animals in the object we made earlier. "gorilla" is the third animal in our object, so if we check animals == "gorilla" we expect the third value to be `TRUE` and all others to be `FALSE`. Make sure it is spelled exactly (including capitalization) and is in quotes. 
+This also works with characters such as the animals in the object we made earlier. "gorilla" is the third animal in our object, so if we check animals == "gorilla" we expect the third value to be `TRUE` and all others to be `FALSE`. Make sure the match is spelled correctly (including capitalization) and is in quotes. 
 
 
 ```r
@@ -152,7 +139,7 @@ animals == "gorilla"
 #> [1] FALSE FALSE  TRUE FALSE FALSE FALSE
 ```
 
-The == only works when there is one thing on the right hand side. In criminology we often want to know if there is a match for multiple things - is the crime one of the following crimes..., did the crime happen in one of these months..., is the victim a member of these demographic groups...? So we need a way to check if a value is one of many values. 
+The `==` only works when there is one thing on the right hand side. In criminology we often want to know if there is a match for multiple things - is the crime one of the following crimes..., did the crime happen in one of these months..., is the victim a member of these demographic groups...? So we need a way to check if a value is one of many values. 
 
 ### Matching multiple values
 
@@ -161,7 +148,7 @@ The R operator `%in%` asks each value on the left whether or not it is a member 
 
 ```r
 2 %in% c(1, 2, 3) 
-[1] TRUE
+#> [1] TRUE
 ```
 
 For our "animals" object, if we check if they are in the vector c("cat", "dog", "gorilla"), now all three of those animals will return `TRUE`.
@@ -177,7 +164,7 @@ animals %in% c("cat", "dog", "gorilla")
 
 Sometimes it is easier to ask what is not a match. For example, if you wanted to get every month except January, instead of writing the other 11 months, you just ask for any month that does not equal "January". 
 
-We can use `!`, which means "not,". When we wanted an exact match we used ==, if we want a not match we can use != (this time it is only a single equals sign). 
+We can use `!`, which means "not". When we wanted an exact match we used `==`, if we want a not match we can use `!=` (this time it is only a single equals sign). 
 
 
 ```r
@@ -186,13 +173,12 @@ We can use `!`, which means "not,". When we wanted an exact match we used ==, if
 ```
 
 
-
 ```r
 "cat" != "gorilla"
 #> [1] TRUE
 ```
 
-Note that for matching multiple values with %in%, we can't write !%in% but have to put the ! before the values on the left.
+Note that for matching multiple values with `%in%`, we cannot write `!%in%` but have to put the ! before the values on the left.
 
 
 ```r
@@ -207,28 +193,28 @@ We can use R to compare values using greater than or less than symbols. We can a
 
 ```r
 6 > 5
-[1] TRUE
+#> [1] TRUE
 ```
 
 
 ```r
 6 < 5
-[1] FALSE
+#> [1] FALSE
 ```
 
 
 ```r
 6 >= 5
-[1] TRUE
+#> [1] TRUE
 ```
 
 
 ```r
 5 <= 5
-[1] TRUE
+#> [1] TRUE
 ```
 
-When used on our object "numbers" it will return 10 values (since number is 10 elements long) with a `TRUE` is the condition is true for the element and `FALSE` otherwise. Let's run numbers > 3. We expect the first 3 values to be `FALSE` as 1, 2, and 3 and not larger than 3.
+When used on our object "numbers" it will return 10 values (since "numbers" is 10 elements long) with a `TRUE` if the condition is true for the element and `FALSE` otherwise. Let's run numbers > 3. We expect the first 3 values to be `FALSE` as 1, 2, and 3 and not larger than 3.
 
 
 ```r
@@ -240,23 +226,9 @@ numbers > 3
 
 In many cases when you are subsetting you will want to subset based on more than one condition. For example, let's say you have crime data from every state between 1960 and 2017. Your research question is "did Colorado's marijuana legalization affect crime in the state?" In that case you want only data from Colorado. Since legalization begin in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state column and the year column. 
 
-We use logical operators to create logical expressions and R can evaluate them as either `TRUE` or `FALSE`. For example, `&` represents the logical "and" and `|` represents the logical "or."
+To make conditional statements with multiple conditions we use `|` for "or" and `&` for "and". 
 
-
-```r
-TRUE  & TRUE
-FALSE & TRUE
-FALSE | TRUE
-FALSE | FALSE
-[1] TRUE
-[1] FALSE
-[1] TRUE
-[1] FALSE
-```
-
-Note that with `&` every condition must be true for it to return TRUE. With `or` only one condition must be true.
-
-We can combine logical operators into more complicated expressions.
+Condition 1 | Condition 2 
 
 
 ```r
@@ -264,12 +236,17 @@ We can combine logical operators into more complicated expressions.
 #> [1] TRUE
 ```
 
+As it sounds, when using `|` either of the conditions (there can be as many conditions as we want) can be true for it to return `TRUE`. 
+
+Condition 1 & Condition 2
+
 
 ```r
 2 == 3 & 2 > 1
 #> [1] FALSE
 ```
 
+For `&`, all of the conditions must be true. If even one condition is not true it will return `FALSE`.
 
 ## Subsetting a data.frame 
 
@@ -396,7 +373,6 @@ names(offenses_known_yearly_1960_2017)
 #> [157] "unfound_index_violent"          "unfound_index_property"        
 #> [159] "unfound_index_total"
 ```
-
 
 This data has nearly a million rows and 159 columns so we certainly don't want to print everything in the console. Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?". Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
 
@@ -652,8 +628,6 @@ So make sure when you want a row from a data.frame you always include the comma!
 ### Battleships
 
 When we use square bracket [] notation on a data.frame we must include both row and column numbers (or column names in a vector `c()`) for the subset to work properly. Why? Think about the game Battleships. The board have 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows you could mean and row 7 has 10 columns. So your opponent only knows which cell you mean if you give both the column name and row number. 
-
-
 
 ![](images/battleships.png)
 

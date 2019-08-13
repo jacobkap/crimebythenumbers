@@ -1,9 +1,12 @@
 
 # Regular Expressions 
 
-A regular expression is a sequence of characters that defines a search pattern. Sometimes we use regular expressions to help us find a pattern in text that we want, like the Find functionality in Word. Other times, we use a regular expression to help us find and replace a piece of text, like the Find and Replace functionality in Word. The two main R functions that we will learn about are `grep()` and `gsub()`. You may use them in verb form (e.g., "I need to grep all the gun cases," "I was grepping like crazy to find all the opioid cases," "I first had to gsub the commas with semicolons"). Regular expressions are available in numerous other software packages, so what you learn here will port over to using regular expressions in Linux, Stata, Python, Java, ArcGIS, and many others.
+Many word processing programs like Microsoft Word or Google Docs let you search for a pattern - usually a word or phrase - and it will show you where on the page that pattern appears. It also lets you replace that word or phrase with something new. R does the same using the function `grep()` to search for a pattern, and tell you where in the data it appears, and `gsub()` which lets you search for a pattern and then replace it with a new pattern.
 
-The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern. `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is substitute text with new text. 
+  * `grep()` - Find
+  * `gsub()` - Find and Replace
+
+The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern (basically which row has a match). `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is substitute text with new text. 
 
 A useful cheat sheet on regular expressions is available [here](https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf).
 
@@ -69,7 +72,7 @@ When looking closely at these crimes it is clear that some may overlap in certai
 
 ## Finding patterns in text with `grep()`
 
-First we'll learn about `grep()`, which was first developed in the early 1970s. `grep()` searches data for lines that match a given expression. The name `grep` is an acronym for "**g**lobally search a **r**egular **e**xpression and **p**rint." Some tangible examples will help us see how `grep()` works.
+We'll start with `grep()` which allows us to search a vector of data and find where there is a match for the pattern we want to look for. 
 
 The syntax for `grep()` is 
 
@@ -77,7 +80,7 @@ grep("pattern", data)
 
 pattern is the pattern you are searching for, such as "a" if you want to find all values with the letter a. The pattern must always be in quotes.
 
-data is a string or vector of strings (such as "crimes" we made above) that you are searching in to find the pattern. 
+data is a vector of strings (such as "crimes" we made above or a column in a data set) that you are searching in to find the pattern. 
 
 The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and no other elements do. It is essentially returning the index where the conditional statement "is this pattern present" is true.
 
@@ -133,7 +136,7 @@ grep("Theft", crimes)
 #> [1] 20 26 27
 ```
 
-A very useful parameter is `value`. When we set `value` to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset, it is an excellent tool to check if the `grep()` was successful as we can visually confirm it returns what we want. When we start to learn about special characters soon which makes the patterns more complicated, this will be important.
+A very useful parameter is `value`. When we set `value` to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset (since R no longer knows which rows are a match), it is an excellent tool to check if the `grep()` was successful as we can visually confirm it returns what we want. When we start to learn about special characters soon which makes the patterns more complicated, this will be important.
 
 
 ```r
@@ -159,7 +162,7 @@ grep("theft", crimes, ignore.case = TRUE)
 
 ## Finding and replacing patterns in text with `gsub()`
 
-`gsub()` stands for "global substitution." It takes patterns and replaces them with other patterns. An important use in criminology for `gsub()` is to fix spelling mistakes in the text such as the way "offense" was spelled wrong in our data. This will be a standard part of your data cleaning process but will be important as a mispelled word can cause significant issues. For example if our previous example of marijuana legalization in Colorado had half of agencies mispelling the name "Colorado", aggregating the data by the state (or simply subsetting to just Colorado agencies) would give completely different results as you'd lose half you data.
+`gsub()` takes patterns and replaces them with other patterns. An important use in criminology for `gsub()` is to fix spelling mistakes in the text such as the way "offense" was spelled wrong in our data. This will be a standard part of your data cleaning process and is important as a misspelled word can cause significant issues. For example if our previous example of marijuana legalization in Colorado had half of agencies misspelling the name "Colorado", aggregating the data by the state (or simply subsetting to just Colorado agencies) would give completely different results as you'd lose half you data.
 
 `gsub()` is also useful when you want to take subcategories and change the value to larger categories. For example we could take any crime with the word "Theft" in it and change the whole crime name to "Theft". In our data that would take 3 subcategories of thefts and turn it into a larger category we could aggregate to. This will be useful in city-level data where you may only care about violent crime but it has many violent crime categories you need to aggregate.
 
@@ -175,7 +178,7 @@ gsub("a", "z", "cat")
 #> [1] "czt"
 ```
 
-Like `grep()`, `gsub()` is case sensitive and has the parameter `ignore.case` to ignore capitalizations.
+Like `grep()`, `gsub()` is case sensitive and has the parameter `ignore.case` to ignore capitalization.
 
 
 ```r
@@ -307,17 +310,74 @@ gsub("a", "", crimes)
 
 ## Useful special characters
 
-So far we have just searched for a single character or word and expected a return only if an exact match was found.
-
-There are several symbols or sequences of symbols that are useful to make more sophisticated patterns. The number of symbols on the keyboard are fairly limited compared to the numerous combinations of patterns of text we might wish to find. As a result you will see that some of these symbols are used in very different ways depending on the context.
+So far we have just searched for a single character or word and expected a return only if an exact match was found. There a number of characters called "special characters" that allow us to make more complex `grep()` and `gsub()` pattern searches. 
 
 ### Multiple characters `[]`
 
-We can also search for multiple characters, instead of individual characters. We place our list of desired characters within square brackets `[]`. For example, let's find crimes that contain vowels.
+To search for multiple matches we can put the pattern we want to search for inside square brackets `[]` (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain vowels.
+
+We can also search for multiple characters, instead of individual characters. We place our list of desired characters within square brackets `[]`. 
 
 
 ```r
 grep("[aeiou]", crimes, value = TRUE)
+#>  [1] "Arson"                                     
+#>  [2] "Assault"                                   
+#>  [3] "Burglary"                                  
+#>  [4] "Case Closure"                              
+#>  [5] "Civil Sidewalks"                           
+#>  [6] "Courtesy Report"                           
+#>  [7] "Disorderly Conduct"                        
+#>  [8] "Drug Offense"                              
+#>  [9] "Drug Violation"                            
+#> [10] "Embezzlement"                              
+#> [11] "Family Offense"                            
+#> [12] "Fire Report"                               
+#> [13] "Forgery And Counterfeiting"                
+#> [14] "Fraud"                                     
+#> [15] "Gambling"                                  
+#> [16] "Homicide"                                  
+#> [17] "Human Trafficking (A), Commercial Sex Acts"
+#> [18] "Human Trafficking, Commercial Sex Acts"    
+#> [19] "Juvenile Offenses"                         
+#> [20] "Larceny Theft"                             
+#> [21] "Liquor Laws"                               
+#> [22] "Lost Property"                             
+#> [23] "Malicious Mischief"                        
+#> [24] "Miscellaneous Investigation"               
+#> [25] "Missing Person"                            
+#> [26] "Motor Vehicle Theft"                       
+#> [27] "Motor Vehicle Theft?"                      
+#> [28] "Non-Criminal"                              
+#> [29] "Offences Against The Family And Children"  
+#> [30] "Other"                                     
+#> [31] "Other Miscellaneous"                       
+#> [32] "Other Offenses"                            
+#> [33] "Prostitution"                              
+#> [34] "Rape"                                      
+#> [35] "Recovered Vehicle"                         
+#> [36] "Robbery"                                   
+#> [37] "Sex Offense"                               
+#> [38] "Stolen Property"                           
+#> [39] "Suicide"                                   
+#> [40] "Suspicious"                                
+#> [41] "Suspicious Occ"                            
+#> [42] "Traffic Collision"                         
+#> [43] "Traffic Violation Arrest"                  
+#> [44] "Vandalism"                                 
+#> [45] "Vehicle Impounded"                         
+#> [46] "Vehicle Misplaced"                         
+#> [47] "Warrant"                                   
+#> [48] "Weapons Carrying Etc"                      
+#> [49] "Weapons Offence"                           
+#> [50] "Weapons Offense"
+```
+
+The `grep()` searches if any of the letters inside of the `[]` are present in our "crimes" vector. As it searches for any letter inside of the square brackets, the order does not matter.
+
+
+```r
+grep("[uoiea]", crimes, value = TRUE)
 #>  [1] "Arson"                                     
 #>  [2] "Assault"                                   
 #>  [3] "Burglary"                                  
@@ -378,7 +438,7 @@ grep("[01234567890]", crimes, value = TRUE)
 #> character(0)
 ```
 
-So the `[]` in a regular expression means "match any of these characters." We can also place square brackets next to each other. For example, let's say we wanted to find values in "crimes" that has three adjacent vowels
+If we wanted to search for a pattern, such as vowels, that is repeated we could put multiple `[]` patterns together. We will see another way to search for a repeated pattern soon. 
 
 
 ```r
@@ -389,6 +449,26 @@ grep("[aeiou][aeiou][aeiou]", crimes, value = TRUE)
 ```
 
 Inside the `[]` we can also use the - to make intervals between certain values. With numbers n-m means any number between n and m (inclusive). For letters, a-z means all lowercase letters and A-Z means all uppercase letters. 
+
+
+```r
+grep("[x-z]", crimes, value = TRUE)
+#>  [1] "Burglary"                                  
+#>  [2] "Courtesy Report"                           
+#>  [3] "Disorderly Conduct"                        
+#>  [4] "Embezzlement"                              
+#>  [5] "Family Offense"                            
+#>  [6] "Forgery And Counterfeiting"                
+#>  [7] "Human Trafficking (A), Commercial Sex Acts"
+#>  [8] "Human Trafficking, Commercial Sex Acts"    
+#>  [9] "Larceny Theft"                             
+#> [10] "Lost Property"                             
+#> [11] "Offences Against The Family And Children"  
+#> [12] "Robbery"                                   
+#> [13] "Sex Offense"                               
+#> [14] "Stolen Property"                           
+#> [15] "Weapons Carrying Etc"
+```
 
 ### n-many of previous character `{n}`
 
@@ -404,13 +484,11 @@ grep("[aeiou]{3}", crimes, value = TRUE)
 #> [5] "Suspicious Occ"
 ```
 
-Note that this also matches text that has two or more vowels in a row, since if they have three numbers in a row, then they will also have two numbers in a row. 
-
 ### n-many to m-many of previous character `{n,m}`
 
-While `{n}` says "the previous character must be present exactly n times", we can allow a range by using `{n, m}`. Here the previous character must be present between n and m times.
+While `{n}` says "the previous character (or characters inside a `[]`) must be present exactly n times", we can allow a range by using `{n, m}`. Here the previous character must be present between n and m times.
 
-We can check for values where there are 2-3 vowels in a row. Note that there cannot be a space before or after the comma
+We can check for values where there are 2-3 vowels in a row. Note that there cannot be a space before or after the comma.
 
 
 ```r
@@ -521,7 +599,7 @@ grep("[aeiou]{3,}", crimes, value = TRUE)
 
 ### Start of string and "not" `^`
 
-The `^` symbol has two meanings.  When we put a `^` within square brackets, it means "not" any of the following characters in the square brackets. Let's use it for the pattern "Offense". Here we are searching and want a return for any string that does **not** have the pattern "Offense" in it.
+The `^` symbol has two meanings. When the `^` is within square brackets `[]`, it means "not" any of the following characters in the square brackets. Let's use it for the pattern "Offense". Here we want a return for any string that does **not** have the pattern "Offense" in it.
 
 
 ```r
@@ -639,7 +717,7 @@ grep("^Family", crimes, value = TRUE)
 
 ### End of string `$`
 
-While we use carets `^` to signal the beginning of the text, the dollar sign `$` signals the end of the text. For example,  let's search for all crimes that end with the word "Theft".
+The dollar sign `$` acts similar to the caret `^` except it now signifies that the value before it is the **end** of the string. We put the `$` at the very end of our search pattern and whatever character is before it is the end of the string. For example,  let's search for all crimes that end with the word "Theft".
 
 
 ```r
@@ -661,7 +739,7 @@ grep("Weapons Offen.e", crimes, value = TRUE)
 
 ### One or more of previous `+`
 
-The `+` means at least one of the previous and is the same as `{1,}`. For example, suppose we wanted to crimes with only two words. We would start with some number of letters followed by a space followed by some more letters and the string would end.
+The `+` means that the character immediately before it is present at least one time. This is the same as writing `{1,}`. If we wanted to find all values with only two words we would start with some number of letters followed by a space followed by some more letters and the string would end.
 
 
 ```r
@@ -683,9 +761,9 @@ grep("^[A-Za-z]+ [A-Za-z]+$", crimes, value = TRUE)
 
 ### Zero or more of previous `*`
 
-The `*` special character says match zero or more of the previous character and is the same as `{0,}`. Combining `.` with `*` is very powerful when used in `gsub()` to delete text before or after a pattern. Let's write a pattern that searches a text for the word "Weapons" and then deletes any text after that. 
+The `*` special character says match zero or more of the previous character and is the same as `{0,}`. Combining `.` with `*` is very powerful when used in `gsub()` to delete text before or after a pattern. Let's write a pattern that searches the text for the word "Weapons" and then deletes any text after that. 
 
-Our pattern would be "Weapons.*" - The word "Weapons" followed by anything zero or more times. 
+Our pattern would be "Weapons.*" which is the word "Weapons" followed by anything zero or more times. 
 
 
 ```r
@@ -746,7 +824,7 @@ And now our last three crimes are all identical.
 
 ### Multiple patterns `|`
 
-The vertical bar functions as an "or." Suppose we wanted to get both the word "Drug" and the word "Weapons". We could write "Drug|Weapon" which searches for "Drug" or "Weapons" in the text. 
+The vertical bar `|` special character allows us to check for multiple patterns. It essentially functions as "pattern A or Pattern B" with the `|` symbol replacing the word "or" (and making sure to not have any space between patterns.). To check our crimes for the word "Drug" and the word "Weapons" we could write "Drug|Weapon" which searches for "Drug" or "Weapons" in the text. 
 
 
 ```r
@@ -757,7 +835,7 @@ grep("Drug|Weapons", crimes, value = TRUE)
 
 ### Parentheses `()`
 
-Parentheses group together characters as words. For example, suppose we wanted to find the word "Offense".
+Parentheses act similar to the square brackets `[]` where we want everything inside but with parentheses the values must be in the proper order.
 
 
 ```r
@@ -766,7 +844,7 @@ grep("(Offense)", crimes, value = TRUE)
 #> [4] "Other Offenses"    "Sex Offense"       "Weapons Offense"
 ```
 
-On its own the parentheses are no different than just running the regular expression "Offense" with no parentheses. However, in combination with `|` it gets more interesting and powerful.
+Running the above code returns the same results as if we didn't include the parentheses. The usefulness of parentheses comes when combining it with the `|` symbol to be able to check "(X|Y) Z"), or the X or Y and must be followed by Z. 
 
 Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say "search for either the word "Drug" or the word "Family" and they should be followed by the word "Offense".
 
@@ -780,9 +858,9 @@ And it returns only the values we want.
 
 ###  Optional text `?`
 
-The question mark indicates that the character immediately before the ? is optional.
+The question mark indicates that the character immediately before the `?` is optional.
 
-Let's search for the term "offens" and add a ? at the end. This says search for the pattern "offen" and we expect an exact match for that pattern. And if the letter "s" follows "offen" return that too, but it isn't required to be there. 
+Let's search for the term "offens" and add a ? at the end. This says search for the pattern "offen" and we expect an exact match for that pattern. And if anything follows "offen" return that too, but it isn't required to be there. 
 
 
 ```r
@@ -811,7 +889,7 @@ We will finish this discussion of special characters by discussing back-referenc
 
 ## Changing capitalization
 
-If you're dealing with data where the only difference is capitalization (as is common in crime data) instead of using `gsub()` to change individual values, you can use the functions `toupper()` and `tolower()`. These functions take as an input a vector of strings (or a column from a data.frame) and return those strings either upper or lowercased. They will change the case of every letter in the string.
+If you're dealing with data where the only difference is capitalization (as is common in crime data) instead of using `gsub()` to change individual values, you can use the functions `toupper()` and `tolower()`. These functions take as an input a vector of strings (or a column from a data.frame) and return those strings either upper or lowercase. They will change the case of every letter in the string.
 
 
 ```r
@@ -922,5 +1000,3 @@ tolower(crimes)
 #> [49] "weapons offence"                           
 #> [50] "weapons offense"
 ```
-
-

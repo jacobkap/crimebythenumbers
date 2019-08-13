@@ -1,8 +1,12 @@
 # Functions
 
-So far you have seen several built-in functions in R, like `max()`, `head()`, and `table()`. These functions help us complete tasks that normally would take several lines of R code. They also make it easy to read R code. It's easy to know what `max(c(1,3,5,7,9))` means. In R you can also write your own functions. Let's say we want a function that adds the number 2 to any number we input. 
+So far we have been writing code to handle specific situations such as subsetting a single data.frame. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc) on those values. Code where you can input a value (such as a data.frame) and some (often optional) instructions on how to handle that data, and have the code run on the value is called a function. Think of it like a stapler - you put the paper in a push down and it staples the paper together. It doesn't matter what papers you are using, it always staples them together. If you needed to buy a new stapler every time you needed to staple something  you'd quickly have way too many staples (and waste a bunch of money). 
+
+An important benefit is that you can use this function again and again to help solve other problems. If, for example, you have code that cleans data from Philadelphia's crime data set, if you wanted to use it for Chicago's crime data, making a single function is much easier (to read and to fix if there is an issue) than copying the code. If you wanted to use it for 20 cities, copy and pasting code quickly becomes a terrible solution - functions work much better. If you did copy and paste 20 times and you found a bug, then you'd have to fix the bug 20 times. With a function you would change the code once. 
 
 ## A simple function
+
+We'll start with a simple function that takes a number and returns that number plus the value 2.
 
 ```{r}
 add_2 <- function(number) {
@@ -11,7 +15,7 @@ add_2 <- function(number) {
 }
 ```
 
-As you can see, the basic template of an R function is:
+The syntax (how we write it) of a function is
 
 function_name <- function(parameters) { 
   code 
@@ -47,7 +51,7 @@ add_2 <- function(number, times_5 = FALSE) {
 }
 ```
 
-Now we have added a meter parameter, called "time_5" to the () part of the function and set it the be FALSE by default. Right now it doesn't do anything so we need to add code to saw what happens if it is TRUE (remember in R true and false must always be all capitalized letters).
+Now we have added a parameter called "time_5" to the () part of the function and set it the be FALSE by default. Right now it doesn't do anything so we need to add code to saw what happens if it is TRUE (remember in R true and false must always be all capital letters).
 
 ```{r}
 add_2 <- function(number, times_5 = FALSE) {
@@ -67,7 +71,7 @@ Now our code says if the parameter "times_5" is TRUE, then do the thing in the s
 add_2(2)
 ```
 
-It returns 4, as expected. Note that as the paramter "times_5" is FALSE by default. When we don't tell the function that we want it to be TRUE, the code in our "if statement" doesn't run.
+It returns 4, as expected. Note that as the parameter "times_5" is FALSE by default. When we don't tell the function that we want it to be TRUE, the code in our "if statement" doesn't run.
 
 ```{r}
 add_2(2, times_5 = TRUE)
@@ -150,21 +154,3 @@ head(july_2015)
 ```
 
 In the next lesson we'll use "for loops" to scrape several years of data using the function we just made.
-
-## The benefits of functions
-
-The primary benefit of writing a function is to simplify the reading of a script. It is much easier to comprehend what a script is doing if you have code that says something like `scrape_movie_data()` rather than a bunch of code. If you have 100 lines of code to do something, it is often easier to manage by splitting it up into a number of functions. That way, even if the code is totally unchanged, you only have to worry about a small chunk at a time and can (partially) avoid being overwhelmed.
-
-A secondary benefit is that you can use this function again and again to help solve other problems. If, for example, you have code that cleans data from Philadelphia's crime data set, if you wanted to use it for Chicago's crime data, making a single function is much easier (to read and to fix if there is an issue) than copying the code. If you wanted to use it for 20 cities, copy and pasting code quickly becomes a terrible solution - functions work much better. If you did copy and paste 20 times and you found a bug, then you'd have to fix the bug 20 times. With a function you would change the code once. 
-
-## Understanding other people's functions
-
-For many functions built into R you can see what they do by typing the name of the 
-function and excluding the () you usually have. Here's the code R uses every time you run `IQR()`.
-
-```{r comment="", results='markup'}
-IQR
-```
-
-
-You can see that it computes the 0.25 quantile and the 0.75 quantile and uses the function `diff()` to compute their difference. 

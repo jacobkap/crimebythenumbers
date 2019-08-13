@@ -287,3 +287,23 @@ View(alcohol)
 1. Are these results what you expected?
 2. Does it make the data more or less trustworthy?
 
+## Color blindness
+
+Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose the incorrect colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
+
+![](images/colorbrewer.PNG)
+
+This site let's you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for categorical data we've used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
+
+Let's use an example of a color blind friendly colors from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
+
+```{r}
+ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
+                         color = "Glasses of Wine")) +
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor,
+                color = "number_of_shots_liquor")) +
+  labs(color = "Alcohol Type") +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("#7570b3", "#d95f02"))
+```

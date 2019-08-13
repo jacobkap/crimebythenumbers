@@ -1,6 +1,6 @@
 # Exploratory data analysis
 
-When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
+When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year, a unique ID code, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
 While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.
 
@@ -10,7 +10,7 @@ While not a comprehensive list, the following is a good start for exploratory da
   + Are there outliers? How many?
   + Are there missing values? How many?
 
-For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. 
+For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(uniform-crime-report-(ucr)-data) when focusing on what UCR is and how to use it. 
 
 First we need to load the data. Make sure your working directory is set to folder where the data is.
 
@@ -18,7 +18,7 @@ First we need to load the data. Make sure your working directory is set to folde
 load("data/ucr2017.rda")
 ```
 
-As a first step let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and column, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
+As a first step let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
 
 ```{r}
 nrow(ucr2017)
@@ -34,14 +34,13 @@ The function `head()` will print out the first 6 rows of every column in the dat
 head(ucr2017)
 ```
 
-From these results it appears that each row is a single agency's annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes). 
+From these results it appears that each row is a single agency's annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we'll see in a later lesson). 
 
 Finally, we can run `names()` to print out every column name. We can already see every name from `head()` but this is useful when we have many columns.
 
 ```{r}
 names(ucr2017)
 ```
-
 
 ## Summary and Table
 
@@ -51,7 +50,7 @@ An important function in understanding the data you have is `summary()` which, a
 summary(ucr2017)
 ```
 
-The `table()` function counts how many of each value appear in a category. Unlike `summary()` we can't just put the entire data set into the (), we need to specify a single column. Remember, to specify a column you use the dollar sign notation which is data$column. For nearly every function we use to examine the data set as a whole, you can do the same for a specific column. 
+The `table()` function returns every unique value in a category **and** how often that value appears. Unlike `summary()` we can't just put the entire data set into the (), we need to specify a single column. Remember, to specify a column you use the dollar sign notation which is data$column. For nearly every function we use to examine the data set as a whole, you can do the same for a specific column. 
 
 ```{r}
 head(ucr2017$agency_name)
@@ -83,9 +82,9 @@ sort(table(ucr2017$state), decreasing = TRUE)
 
 ## Graphing Data
 
-R enables us quickly plot our data. We will learn a more sophisticated way to make graphs (that look better!) but for now let's use the function `plot()`. 
+We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more sophisticated way to make graphs (that look better!) but for now let's use the function `plot()`. 
 
-Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax ("how you write it") is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
+Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
 ```{r}
 plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
@@ -93,7 +92,7 @@ plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
-To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket [] notation to subset. Remember it is 
+To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket `[]` notation to subset. Remember it is 
 
 [rows, columns]
 
@@ -117,7 +116,7 @@ Now we can do the same graph as above but using this new data set.
 plot(ucr2017_big_cities$actual_assault_aggravated, ucr2017_big_cities$actual_robbery_total)
 ```
 
-The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly, the trend is similar with this small subset of data as with all agencies included.
+The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
 To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).
 
@@ -125,7 +124,7 @@ To make our graph look better, we can add labels for the axes and a title (there
   + ylab - Y-axis label
   + main - Graph title
   
-Like all parameters, we add them in the () of `plot()` and separate each by a comma). Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.
+Like all parameters, we add them in the () of `plot()` and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.
 
 ```{r}
 plot(ucr2017_big_cities$actual_assault_aggravated, ucr2017_big_cities$actual_robbery_total,
@@ -139,11 +138,11 @@ plot(ucr2017_big_cities$actual_assault_aggravated, ucr2017_big_cities$actual_rob
 
 Right now we have the number of crimes in each agency. For many policy analyses we'd be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data we need to **aggregate** up to the state level. What the `aggregate()` function does is group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group. 
 
-In Section \@ref(subset-colorado-data) we started to see if marijuana legalization affected murder in Colorado. We subsetted the data to only include agencies in Colorado from 2011-2017. Now we can continue to answer the question by aggregating to the state-level to see total number of murders per year.
+In Section \@ref(subset-colorado-data) we started to see if marijuana legalization affected murder in Colorado. We subsetted the data to only include agencies in Colorado from 2011-2017. Now we can continue to answer the question by aggregating to the state-level to see the total number of murders per year.
 
-Let's think about how our data are and how we would (theoretically, before any code) find that out. 
+Let's think about how our data are and how we would (theoretically, before we write any code) find that out. 
 
-Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2009 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2010 and add up their murders. And so on for all the years. That is essentially what `aggregate()` does. It takes each row and groups them according to the category we specify and then adds up (or does the mathematical operator we specify) each value in each group.
+Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2011 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2012 and add up their murders. And so on for all the years. That is essentially what `aggregate()` does. It takes each row and groups them according to the category we specify and then adds up (or does the mathematical operator we specify) each value in each group.
 
 The syntax (how we write the code) is as follows
 

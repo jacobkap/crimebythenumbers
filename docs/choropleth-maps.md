@@ -168,23 +168,23 @@ head(officer_shootings_geocoded)
 #> Simple feature collection with 6 features and 3 fields
 #> geometry type:  POINT
 #> dimension:      XY
-#> bbox:           xmin: 2677013 ymin: 226302.3 xmax: 2706722 ymax: 254283.8
+#> bbox:           xmin: 2677481 ymin: 226464.5 xmax: 2706666 ymax: 253839.1
 #> epsg (SRID):    2272
 #> proj4string:    +proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs
 #>   shooting_number                                 location      dates
-#> 1           19-04      4950 Hazel Avenue, Philadelphia, PA 2019-03-06
-#> 2           19-06      1350 Kater Street, Philadelphia, PA 2019-03-28
-#> 4           19 11     2150 Taney Terrace, Philadelphia, PA 2019-04-25
-#> 5           19-13   1850 N. Broad Street, Philadelphia, PA 2019-05-11
-#> 6           19 14          3450 G Street, Philadelphia, PA 2019-05-20
-#> 7           18-01 2850 Kensington Avenue, Philadelphia, PA 2018-01-13
+#> 1           19-04      4900 Hazel Avenue, Philadelphia, PA 2019-03-06
+#> 2           19-06      1300 Kater Street, Philadelphia, PA 2019-03-28
+#> 4           19 11     2100 Taney Terrace, Philadelphia, PA 2019-04-25
+#> 5           19-13   1800 N. Broad Street, Philadelphia, PA 2019-05-11
+#> 6           19 14          3400 G Street, Philadelphia, PA 2019-05-20
+#> 7           18-01 2800 Kensington Avenue, Philadelphia, PA 2018-01-13
 #>                   geometry
-#> 1 POINT (2677013 235030.1)
-#> 2 POINT (2693287 232708.6)
-#> 4 POINT (2686167 226302.3)
-#> 5 POINT (2694966 246773.4)
-#> 6 POINT (2706722 254283.8)
-#> 7 POINT (2705021 251022.7)
+#> 1 POINT (2677481 234962.8)
+#> 2 POINT (2693626 232671.6)
+#> 4 POINT (2686095 226464.5)
+#> 5 POINT (2694910 246343.1)
+#> 6 POINT (2706666 253839.1)
+#> 7   POINT (2704596 250717)
 ```
 
 We can see it is now a "simple feature collection" with the correct projection. And we can see there is a new column called "geometry" just like in "philly_tracts". The type of data in "geometry" is POINT since our data is just a single location instead of a polygon like in the tracts data. 
@@ -221,37 +221,37 @@ head(shootings_agg)
 #> Simple feature collection with 6 features and 17 fields
 #> geometry type:  POINT
 #> dimension:      XY
-#> bbox:           xmin: 2677013 ymin: 226302.3 xmax: 2706722 ymax: 254283.8
+#> bbox:           xmin: 2677481 ymin: 226464.5 xmax: 2706666 ymax: 253839.1
 #> epsg (SRID):    2272
 #> proj4string:    +proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs
 #>   shooting_number                                 location      dates
-#> 1           19-04      4950 Hazel Avenue, Philadelphia, PA 2019-03-06
-#> 2           19-06      1350 Kater Street, Philadelphia, PA 2019-03-28
-#> 4           19 11     2150 Taney Terrace, Philadelphia, PA 2019-04-25
-#> 5           19-13   1850 N. Broad Street, Philadelphia, PA 2019-05-11
-#> 6           19 14          3450 G Street, Philadelphia, PA 2019-05-20
-#> 7           18-01 2850 Kensington Avenue, Philadelphia, PA 2018-01-13
+#> 1           19-04      4900 Hazel Avenue, Philadelphia, PA 2019-03-06
+#> 2           19-06      1300 Kater Street, Philadelphia, PA 2019-03-28
+#> 4           19 11     2100 Taney Terrace, Philadelphia, PA 2019-04-25
+#> 5           19-13   1800 N. Broad Street, Philadelphia, PA 2019-05-11
+#> 6           19 14          3400 G Street, Philadelphia, PA 2019-05-20
+#> 7           18-01 2800 Kensington Avenue, Philadelphia, PA 2018-01-13
 #>   OBJECTID STATEFP10 COUNTYFP10 TRACTCE10     GEOID10 NAME10
 #> 1      208        42        101    007900 42101007900     79
 #> 2       33        42        101    001500 42101001500     15
 #> 4      198        42        101    003600 42101003600     36
 #> 5      384        42        101    037700 42101037700    377
 #> 6       21        42        101    019200 42101019200    192
-#> 7      244        42        101    017800 42101017800    178
-#>         NAMELSAD10 MTFCC10 FUNCSTAT10 ALAND10 AWATER10  INTPTLAT10
-#> 1  Census Tract 79   G5020          S  377950        0 +39.9504630
-#> 2  Census Tract 15   G5020          S  239383        0 +39.9419037
-#> 4  Census Tract 36   G5020          S  964539        0 +39.9279255
-#> 5 Census Tract 377   G5020          S  736894        0 +39.9824381
-#> 6 Census Tract 192   G5020          S  656913        0 +40.0006393
-#> 7 Census Tract 178   G5020          S  662905        0 +39.9913734
+#> 7      172        42        101    017702 42101017702 177.02
+#>            NAMELSAD10 MTFCC10 FUNCSTAT10 ALAND10 AWATER10  INTPTLAT10
+#> 1     Census Tract 79   G5020          S  377950        0 +39.9504630
+#> 2     Census Tract 15   G5020          S  239383        0 +39.9419037
+#> 4     Census Tract 36   G5020          S  964539        0 +39.9279255
+#> 5    Census Tract 377   G5020          S  736894        0 +39.9824381
+#> 6    Census Tract 192   G5020          S  656913        0 +40.0006393
+#> 7 Census Tract 177.02   G5020          S  489258        0 +39.9950621
 #>     INTPTLON10 LOGRECNO                 geometry
-#> 1 -075.2182570    10410 POINT (2677013 235030.1)
-#> 2 -075.1591158    10356 POINT (2693287 232708.6)
-#> 4 -075.1920206    10377 POINT (2686167 226302.3)
-#> 5 -075.1506932    10694 POINT (2694966 246773.4)
-#> 6 -075.1150648    10519 POINT (2706722 254283.8)
-#> 7 -075.1173063    10510 POINT (2705021 251022.7)
+#> 1 -075.2182570    10410 POINT (2677481 234962.8)
+#> 2 -075.1591158    10356 POINT (2693626 232671.6)
+#> 4 -075.1920206    10377 POINT (2686095 226464.5)
+#> 5 -075.1506932    10694 POINT (2694910 246343.1)
+#> 6 -075.1150648    10519 POINT (2706666 253839.1)
+#> 7 -075.1231399    10509   POINT (2704596 250717)
 ```
 
 There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the "philly_tracts" data. Let's look specifically at the "GEOID10" variable since that is actually important and common in dealing with Census data. And let's also print out the columns "STATEFP10", "COUNTYFP10", and "TRACTCE10". 
@@ -262,16 +262,16 @@ head(shootings_agg[, c("STATEFP10", "COUNTYFP10", "TRACTCE10", "GEOID10")])
 #> Simple feature collection with 6 features and 4 fields
 #> geometry type:  POINT
 #> dimension:      XY
-#> bbox:           xmin: 2677013 ymin: 226302.3 xmax: 2706722 ymax: 254283.8
+#> bbox:           xmin: 2677481 ymin: 226464.5 xmax: 2706666 ymax: 253839.1
 #> epsg (SRID):    2272
 #> proj4string:    +proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs
 #>   STATEFP10 COUNTYFP10 TRACTCE10     GEOID10                 geometry
-#> 1        42        101    007900 42101007900 POINT (2677013 235030.1)
-#> 2        42        101    001500 42101001500 POINT (2693287 232708.6)
-#> 4        42        101    003600 42101003600 POINT (2686167 226302.3)
-#> 5        42        101    037700 42101037700 POINT (2694966 246773.4)
-#> 6        42        101    019200 42101019200 POINT (2706722 254283.8)
-#> 7        42        101    017800 42101017800 POINT (2705021 251022.7)
+#> 1        42        101    007900 42101007900 POINT (2677481 234962.8)
+#> 2        42        101    001500 42101001500 POINT (2693626 232671.6)
+#> 4        42        101    003600 42101003600 POINT (2686095 226464.5)
+#> 5        42        101    037700 42101037700 POINT (2694910 246343.1)
+#> 6        42        101    019200 42101019200 POINT (2706666 253839.1)
+#> 7        42        101    017702 42101017702   POINT (2704596 250717)
 ```
 
 The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column "COUNTYFP10". The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.
@@ -300,7 +300,7 @@ Let's check a summary of the "number_shootings" variable we made.
 ```r
 summary(shootings_agg$number_shootings)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   1.000   1.000   2.000   2.163   3.000   9.000
+#>   1.000   1.000   2.000   2.152   3.000   9.000
 ```
 
 The minimum is one shooting per tract, two on average, and 9 in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn't get geocoded properly were given the coordinates of City Hall, likely making up that tract with 9 shootings. And then let's think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.
@@ -308,7 +308,7 @@ The minimum is one shooting per tract, two on average, and 9 in the tract with t
 
 ```r
 nrow(shootings_agg)
-#> [1] 203
+#> [1] 204
 ```
 
 And let's compare it to the "philly_tracts" data.
@@ -368,7 +368,7 @@ If we look at `summary()` again for "number_shootings" we can see that there are
 ```r
 summary(philly_tracts_shootings$number_shootings)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>   1.000   1.000   2.000   2.163   3.000   9.000     181
+#>   1.000   1.000   2.000   2.152   3.000   9.000     180
 ```
 
 We need to convert these values to 0. We will use the `is.na()` function to conditionally find all rows with a NA value in the "number_shootings" column and use square bracket notation to change the value to 0.

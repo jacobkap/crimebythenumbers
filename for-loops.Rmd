@@ -1,10 +1,10 @@
 # For loops
 
-Sometimes we need to have R repeat certain tasks multiple times, such as marching through each row of a data set and modifying values or scraping many pages of a website. For loops accomplish this. Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in \@ref(making-a-function-to-scrape-movie-data). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
+In R we often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in \@ref(making-a-function-to-scrape-movie-data). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
 
 ## Basic for loops
 
-Here is a basic for loop that runs through the numbers 1 to 10 and prints them out one at a time.
+We'll start with a simple example, making R print the numbers 1-10. 
 
 ```{r}
 for (i in 1:10) {
@@ -12,9 +12,7 @@ for (i in 1:10) {
 }
 ```
 
-Note the basic structure. There's the keyword `for`. Inside the parentheses is a variable `i` (but you can use any variable name you want), the keyword `in`, and finally a collection of values, in this case the numbers 1 to 10. The for loop will march through this collection of values, assigning `i` each value in turn, and running the code inside the squiggly braces {}. So first `i` will be set to 1 and the `print()` function will print the value 1 to the screen. When that is done, `i` will take the next value in the collection, 2, and the for loop will run the `print()` function and print the number 2. This continues until `i` takes the value 10 and `print()` prints that 10 to the screen.
-
-The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function all the code you want to use goes in between the "{" and "}" squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values. 
+The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the `{` and `}` squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values. 
 
 Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1:10 each iteration of the loop. It's not necessary to call it `i` but that is convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings to numbers to lists of data.frames. Especially when you're first beginning using R it could help to call the `i` something informative to you about what value it has. 
 
@@ -42,7 +40,7 @@ for (a_number in 1:10) {
 }
 ```
 
-I'm keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation []. We will look through every value in "numbers" a vector with the values 1:10 and replace each value with it's value plus 2.
+I'm keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in "numbers" a vector we will make with the values 1:10 and replace each value with it's value plus 2.
 
 The object we're looping through is "numbers". But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in "numbers" which is very useful when being able to change that element. `length(numbers)` just finds how long the vector "numbers" is (were this a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
 
@@ -71,7 +69,7 @@ for (i in 1:length(numbers)) {
 ```
 
 
-## Scraping multiple days of movie
+## Scraping multiple days of movie data
 
 Below is the function copied from the previous lesson on functions where we enter a single date and it scrapes the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
 
@@ -124,7 +122,7 @@ for (date in year_of_dates) {
 }
 ```
 
-Don't run this yet because there are two issues remaining. The first is that if we run it as is it will scrape the website for each site, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where "something" is a descriptive word for the data. In this case we will use "movie_data_final" and "movie_data_temp".
+Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each site, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where "something" is a descriptive word for the data. In this case we will use "movie_data_final" and "movie_data_temp".
 
 We start by creating the object "movie_data_final" and saying it gets the value "data.frame()". That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the "movie_data_temp" data to "movie_data_final" for each date. We will use the function `rbind()` which lets us combine two data.frames together. Think of it like the `c()` function but for the more complex data.frame (i.e. Excel files) type of objects. So every iteration of the loop we scrape a single date then add that to the "movie_data_final" object.
 

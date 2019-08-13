@@ -42,7 +42,7 @@ We will use the `c()` function a lot. `c()` *c*ombines elements, like numbers an
 
 ```r
 c(1, 2, 3, 4, 5)
-[1] 1 2 3 4 5
+#> [1] 1 2 3 4 5
 ```
 
 It also works on what are called strings (sometimes called characters or character type). You can think of a string as any value inside of quotation marks. This includes numbers as long as they are inside quotes such as "2". 
@@ -70,7 +70,7 @@ Conveniently, if you want to add 1 to each item in this collection, there's no n
 
 ```r
 c(1, 2, 3, 4, 5) + 1
-[1] 2 3 4 5 6
+#> [1] 2 3 4 5 6
 ```
 
 In fact, you can apply any mathematical operation to each value in the same way.
@@ -161,7 +161,7 @@ R will also do arithmetic with two vectors, doing the calculation pairwise. The 
 
 ```r
 1:10 + 11:20
- [1] 12 14 16 18 20 22 24 26 28 30
+#>  [1] 12 14 16 18 20 22 24 26 28 30
 ```
 
 Yet, other functions operate on the whole collection of values in a vector. For each of these functions you will need to put the vector inside the parentheses of the main function. See the following examples:
@@ -234,25 +234,22 @@ Many functions in R are helpful to see and understand your data. For example, we
 
 ```r
 sort(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
+#>  [1]  1  2  3  4  5  6  7  8  9 10
 ```
-
- [1]  1  2  3  4  5  6  7  8  9 10
 
 
 ```r
 order(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
+#>  [1]  1  5  3  8  6  4  9  7 10  2
 ```
-
- [1]  1  5  3  8  6  4  9  7 10  2
 
 Below is the same `sort()` function as before but with the parameter `decreasing`. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the sort from smallest to largest to be from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE (you'll learn more about TRUE and FALSE values soon and they must always be written in all capital letters).
 
 
 ```r
 sort(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9), decreasing = TRUE)
+#>  [1] 10  9  8  7  6  5  4  3  2  1
 ```
-
- [1] 10  9  8  7  6  5  4  3  2  1
 
 To learn about the parameters available for each function, check the help menu for that function using the Help tab or by typing `?function` in the console and replacing "function" with the name of the function you're interested in. The section of the help page labeled Arguments tells you each of the parameters and what they do. The top of this help page (under Description) also explains what the function does. 
 
