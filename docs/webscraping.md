@@ -1,4 +1,6 @@
 
+# (PART) Collect {-}
+
 # Webscraping with `rvest`
 
 You may come across data online that are relevant to your interests or research (for example, past students have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Yet, patterns in the page provide a valuable way to "scrape" data from that webpage. Here, we're going to work through an example of webscraping. We're going to get data on ticket sales of every movie, for every day in a single year. 

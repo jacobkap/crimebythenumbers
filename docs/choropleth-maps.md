@@ -39,7 +39,7 @@ philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
 
 Note that when we downloaded the data, it came with multiple files (some with extensions .cpg, .dbf, etc) but we only have the file with the .shp extension inside of `st_read()`. We still **do** need all of the files and `st_read()` is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file.
 
-As always when dealing with a new data set, let's peak at the first 6 rows.
+As usual when dealing with a new data set, let's look at the first 6 rows.
 
 
 ```r
@@ -82,10 +82,9 @@ plot(philly_tracts$geometry)
 
 <img src="choropleth-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-Here we have a map of Philadelphia broken up into little pieces. Those pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood. Later in this lesson we will get some demographic and economic data about each of these tracts, but for now you can just think of them as neighborhoods. 
+Here we have a map of Philadelphia broken up into little pieces. These pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood.
 
-
-In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`. Geographic data sets that describe locations on the surface of the earth have a "coordinate reference system" (CRS). Let's extract the CRS for `philly_tracts`.
+In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`.  Let's extract the CRS for `philly_tracts`.
 
 
 ```r
@@ -94,6 +93,21 @@ Coordinate Reference System:
   EPSG: 4326 
   proj4string: "+proj=longlat +datum=WGS84 +no_defs"
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Geographic data sets that describe locations on the surface of the earth have a "coordinate reference system" (CRS).
 
 The `proj4string` tells us that the coordinate system used to describe the Census tract boundaries is longitude/latitude. Specifically, it uses the World Geodetic System 1984 (WGS84) maintained by the United States National Geospatial-Intelligence Agency, one of several standards to aid in navigation and geography. The European Petroleum Survey Group (EPSG) maintains a catalog of different coordinate systems (should be no surprise that oil exploration has driven the development of high quality geolocation standards). They have assigned the standard longitude/latitude coordinate system to be [EPSG4326]((http://spatialreference.org/ref/epsg/4326/). You can find the full collection of coordinate systems at [spatialreference.org](http://spatialreference.org/ref/epsg/).
 
@@ -147,6 +161,12 @@ First we need to convert our "officer_shootings_geocoded" data frame to a spatia
 Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, "officer_shootings_geocoded". Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in "philly_tracts" earlier. 
 
 
+
+
+
+
+
+
 ```r
 officer_shootings_geocoded <- st_as_sf(officer_shootings_geocoded, 
                                        coords = c("lon", "lat"), 
@@ -157,7 +177,8 @@ We want our shootings data in the same projection as the tracts data so we need 
 
 
 ```r
-officer_shootings_geocoded <- st_transform(officer_shootings_geocoded, crs = st_crs(philly_tracts))
+officer_shootings_geocoded <- st_transform(officer_shootings_geocoded, 
+                                           crs = st_crs(philly_tracts))
 ```
 
 Now we can take a look at `head()` to see if it was projected.
@@ -206,7 +227,7 @@ Our next step is to combine these two data sets to figure out how many shootings
 3. Combine with the Census tract data
 4. Make maps
 
-We'll start by finding the tract where each shooting occurred using the function `st_join()` which is part of `sf`. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let's call the output of this function "shootings_agg". The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the "officer_shootings_geocoded" data. In the next step we'll see why this matters. 
+We'll start by finding the tract where each shooting occurred using the function `st_join()` which is a function in `sf`. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let's call the output of this function "shootings_agg". The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the "officer_shootings_geocoded" data. In the next step we'll see why this matters. 
 
 
 ```r
@@ -302,7 +323,7 @@ summary(shootings_agg$number_shootings)
 #>   1.000   1.000   2.000   2.152   3.000   9.000
 ```
 
-The minimum is one shooting per tract, two on average, and 9 in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn't get geocoded properly were given the coordinates of City Hall, likely making up that tract with 9 shootings. And then let's think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.
+The minimum is one shooting per tract, two on average, and `max(shootings_agg$number_shootings)` in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn't get geocoded properly were given the coordinates of City Hall, likely making up that tract with  `max(shootings_agg$number_shootings)` shootings. And then let's think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.
 
 
 ```r
@@ -317,9 +338,10 @@ And let's compare it to the "philly_tracts" data.
 nrow(philly_tracts)
 #> [1] 384
 ```
+
 The shootings data is missing about 180 tracts. That is because if no shooting occurred there, there would never be a matching row in the data so that tract wouldn't appear in the shooting data. That's not going to be a major issue here but is something to keep in mind in future research. And given the sensitivity of this issue, is a good reason to carefully check your data before make any conclusions.
 
-The data is ready to merge with the "philly_tracts" data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and load it.
+The data is ready to merge with the "philly_tracts" data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()` it.
 
 
 ```r
@@ -361,7 +383,7 @@ philly_tracts_shootings <- left_join(philly_tracts, shootings_agg)
 #> Joining, by = "GEOID10"
 ```
 
-If we look at `summary()` again for "number_shootings" we can see that there are now 181 rows with NAs. These are the tracts where there were no shootings so they weren't present in the "shootings_agg" data. 
+If we look at `summary()` again for "number_shootings" we can see that there are now `sum(is.na(philly_tracts_shootings$number_shootings))` rows with NAs. These are the tracts where there were no shootings so they weren't present in the "shootings_agg" data. 
 
 
 ```r

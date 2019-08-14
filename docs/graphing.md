@@ -1,4 +1,6 @@
 
+# (PART) Visualize {-}
+
 # Graphing with `ggplot2`
 
 `ggplot2` is the package we will use to make graphs. The 'gg' stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces'. We'll get into those pieces during this lesson. [Cheat sheet for ggplot](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
@@ -354,7 +356,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
 
 <img src="graphing_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
 
-If our data was in a different format we could set colors if a different way. The way our data is setup is how most data you'll encounter will be and, as our goal is understanding the data, this method works.
+If our data was in a different format we could set colors in a different way. The way our data is setup is how most data you'll encounter will be and, as our goal is understanding the data, this method works.
 
 ## Should we trust this data?
 

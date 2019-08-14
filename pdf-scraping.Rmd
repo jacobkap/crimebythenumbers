@@ -1,6 +1,6 @@
 # Scraping data from PDFs
 
-Many government agencies will public reports as PDF files with data in tables embedded within. This makes it difficult to use as we can't simply load the PDF into R and start working on the data as we've done before. We need to take the data inside the PDF and turn it into a format that R can understand, often by In Chapter \@ref(pdf-tables) we will work on grabbing a table from a PDF, in this lesson we will just grab a line of text for the PDF. For this lesson we'll use data on officer-involved shootings from the Philadelphia Police Department's website [here](http://www.phillypolice.com/ois/) . The site contains information about the shooting such as the location and date - which we will scrape from the page - as well as information inside each shooting's description PDF which we will learn to scrape here. 
+Many government agencies will public reports as PDF files with data in tables embedded within. This makes it difficult to use as we can't simply load the PDF into R and start working on the data as we've done before. We need to take the data inside the PDF and turn it into a format that R can understand, often by In Chapter \@ref(Scraping Tables from PDFs) we will work on grabbing a table from a PDF, in this lesson we will just grab a line of text for the PDF. For this lesson we'll use data on officer-involved shootings from the Philadelphia Police Department's website [here](http://www.phillypolice.com/ois/) . The site contains information about the shooting such as the location and date - which we will scrape from the page - as well as information inside each shooting's description PDF which we will learn to scrape here. 
 
 Our goal here and in the following lessons is to see how the number of officer-involved shootings changed over time and see where in Philadelphia they occurred. For this we need two pieces of information: the date each shooting occurred, and the location of each shooting. 
 
@@ -268,22 +268,17 @@ So what pattern does our date have? It is always one or two numbers followed by 
 
 1/07/16
 
-So our pattern in grep will be 
+So our pattern in `grep()` will be 
 
-[0-9]+/[0-9]+/[0-9]+
+\\^[0-9]+/[0-9]+/[0-9]+
 
 [0-9] means any number. The + is a special character which says "one or more of the previous character" so [0-9] means "one or more numbers". Some files (such as this one) have multiple dates in the text so we want to only get rows starting with a date. The ^ is a special character saying that whatever follows it is the start of the string.
-
-So our search expression is
-
-^[0-9]+/[0-9]+/[0-9]+
 
 By default `grep()` will return a number indicating the element where it found a match. If we set the parameter `value` to TRUE, it will print out that element. 
 
 ```{r}
 grep("^[0-9]+/[0-9]+/[0-9]+", pdf_split, value = TRUE)
 ```
-
 
 ### Making a function
 

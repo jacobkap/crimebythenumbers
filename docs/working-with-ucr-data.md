@@ -1,4 +1,6 @@
 
+# (PART) Data {-}
+
 # Uniform Crime Report (UCR) Data
 
 The Uniform Crime Reports (UCR) is an annual collection of agency-level crime data published by the FBI. Nearly every police agency in the United States - approximately 18,000 agencies including state, local (city, county, college), tribal and federal police departments - now reports their data to the FBI which compiles are releases the UCR data. This data is available since 1960 though early years have many fewer agencies reporting than do so in later years. 
@@ -184,10 +186,10 @@ summary(offenses_known_yearly_1960_2017$actual_robbery_with_a_gun)
 1. How many motor vehicle thefts were reported to the police?
 2. How many rapes were reported to the police?
 3. Which city had the most murders?
-  + How many murders?
-  + In which year?
-  + For that city, what was the mean number of murders for all years included?
+    + How many murders?
+    + In which year?
+    + For that city, what was the mean number of murders for all years included?
 4. Add a new column to your data set for the burglary rate for each agency. 
-  + Which agency has the highest burglary rate?
+    + Which agency has the highest burglary rate?
  
 
