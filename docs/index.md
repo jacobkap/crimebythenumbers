@@ -25,11 +25,11 @@ This book is based off of the lessons I took as a Master's student in criminolog
 
 For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (The free version)](https://www.rstudio.com/products/rstudio/download/) . We'll get into what R and RStudio are soon but please have them installed to be able to follow along with each chapter. I highly recommend following along with the code for each lesson and trying to use the lessons learned on a data set you are interested in. 
 
-## What you will learn
+## What you will learn {-}
 
 For most of the lessons we will be working through real research questions and working from start to finish as you would on a real project. This involves thinking about what you want to accomplish from the data you have what steps you need to take to reach that goal. This involves more than just knowing what code to write - it includes figuring out what what you data has, whether it can answer the question you're asking, and planning out (without writing any code yet) what you need to do when you start coding. 
 
-### Skills
+### Skills {-}
 
 There is a large range of skills in criminological research - far too large to cover in a single book. Here we will attempt to teach fundamental skills to build a solid foundation for future work. We'll be focusing on the following skills and trying to reinforce our skills with each lesson. 
 
@@ -41,7 +41,7 @@ There is a large range of skills in criminological research - far too large to c
   * Mapping
   * Writing documents through R
 
-### Data
+### Data {-}
 
 Criminology has a large - and growing - number of data sets publicly available for us to use. In this book we will focus on a few prominent ones including the following:
 
@@ -51,7 +51,7 @@ Criminology has a large - and growing - number of data sets publicly available f
   
 We'll also cover a number of other data sets such a local police data from Chicago and Philadelphia, and government data on alcohol consumption in the United States.
 
-## What you won't learn
+## What you won't learn {-}
 
 This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as too large for my computer to handle) require special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. 
 

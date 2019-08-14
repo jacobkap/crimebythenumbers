@@ -1,5 +1,5 @@
 
-# Introduction to R
+# Introduction to R and RStudio
 
 ## Why learn to program?
 
@@ -12,7 +12,6 @@ With the exception of some more advanced techniques like scraping data from webs
 5. Calculate some values - such as number of crimes per year
 6. Sometimes do a statistical analysis depending on type of project
 7. Write up what you find 
-
 
 R can do all of this but why should you want to (or have to) learn a entirely new skill just to do something you can already do. R is useful for two main reasons: scale and reproducibility.
 
@@ -29,102 +28,81 @@ As a common example in criminology, in comparing crime between two cities you ge
 This concept - doing the same thing to multiple values - is important in R and will come in handy later. Imagine that we had an Excel file where a column shows the number of crimes in a given city (each row is a new city). Using the method above we can find the average number of crimes (or any other mathematical operation) easily by treating that column as the values in the `c()` above.
 
 
-Yet, other functions operate on the whole collection of values in a vector. For each of these functions you will need to put the vector inside the parentheses of the main function. See the following examples:
+In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understanf completely yet. That is fine, we'll cover everything in more detail as the lessons progress. 
 
-  + `sum()` Sum
-  + `mean()` Mean of the vector
-  + `median()` Median of the vector
-  + `length()` How many values there are in the vector
+## Using RStudio
 
+RStudio is essentially the interface we use to work with R. It has a number of features to make it easier for us to work with R - while not strictly necessary to use, most people who use R do so through RStudio. 
 
-```r
-sum(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9)) 
-#> [1] 55
-```
+When you open up RStudio you'll see four panels, each which play an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
+At the top right is the Console panel. Here you can write code where the > symbol is, hit enter/return and R will run the code. If you write `2+2` it will return (in this case just print an answer) 4. This is very useful something simple like math or quickly looking at data or making a plot. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the console. To do reprodicible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
-```r
-mean(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#> [1] 5.5
-```
+The way to keep the code you've written in a file you can open later or share with someone else is by writing code in an R Script. An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top left of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) be shown there too (making a plot will be shown in a different panel as we'll see soon). For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it doesn't do anything).
 
+The Source panel is where the R Scripts will be and is located at the top left on the image below. It is good practice to do all of your code writing in an R Script - even if you delete some lines of code later - as it eliminates the possibility of losing code or forgetting what you wrote. Having all the code in front of you in a text file also makes it easier to understand the flow of code from start to finish to a task - an issue we'll discuss more in later lessons. 
 
-```r
-median(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9)) 
-#> [1] 5.5
-```
+While the Source and Console panels are the ones that are of most use, there are two other panels worth discussing. As these two panels let you interchange which tabs are available in them, we'll return to them shortly in the discussion of the options RStudio has to customize it. 
 
+![](images/rstudio_1.PNG)
 
-```r
-length(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#> [1] 10
-```
+### Opening an R Script
 
-There are also some functions in R that help us find the biggest and smallest values. For example:
+When you want to open up a new R Studio you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available including the group at the bottom to make documentations such as PowerPoints, R Markdown which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \ref(Using R Markdown)), and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this but keep in mind the wide capabilities of R if you have another task to do. 
 
-  + `max()` What is the biggest value in vector?
-  + `which.max()` In which "spot" (or "index") would we find it? This will be useful for the lesson on subsetting which is a way to grab only specific rows or columns (such as the row with the largest value)
-  + `min()` What is the smallest value in vector?
-  + `which.min()` In which "spot" would we find it?
-
-
-```r
-max(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9)) 
-#> [1] 10
-```
-
-
-```r
-which.max(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#> [1] 2
-```
-
-
-```r
-min(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#> [1] 1
-```
-
-
-```r
-which.min(c(1, 10, 3, 6, 2, 5, 8, 4, 7, 9))
-#> [1] 1
-```
-
-The `paste()` function pastes character strings together. By default, `paste()` puts a space between the strings being pasted together. It looks strange with that space after WV in "WV , USA". We can set the separator to be nothing (the empty string) by setting `sep = ""`. Remember that you need a comma before starting a new parameter. 
-
-Being able to sort or manipulate strings/character values (i.e. not numbers) is important in research. When dealing with real crime data you'll find that there are often spelling issues where categories are slightly different (e.g. 'assault' 'asault' 'asslt') that you need to make consistent for an analysis. You will also likely want to grab only rows where the data is a certain crime, such as all assaults, which is something we'll learn later. 
-
-
-## Reading data into R
-
-In nearly every case in research you'll have data produced by some outside group (FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in a later chapter. Here, we will talk about the standard R data file only. 
+![](images/rstudio_2.PNG)
 
 ### Setting the working directory
 
-Now that we have covered a lot of fundamental R features, it is time to load in a real data set. However, before we do that, R needs to know where to find the data file. So we first need to talk about "the working directory". When you start R, it has a default folder or directory on your computer where it will retrieve or save any files. You can run `getwd()` to get the current working directory. Here's our current working directory, which will not be the same as yours.
+Most research projects incorporate data that someone else (such as the FBI or a local police agency) has put together. In these cases we need to load the data into R to be able to use it. In a little bit we'll load a data set into R and start working on it but let's take a step back now and think about how to even load data into R. First we'll need to get the data onto our computer somehow, probably by downloading it from an agency's website. Let's be specific - we don't download it to our computer, we download it to a specific folder on our computer (usually defaulted to the Downloads from on a Windows machine). So let's say you wanted to load a file called "data" into R. If you have a file called "data" in both your Dekstop and your Downloads folder, R wouldn't know which one you wanted. And unless your data was in the folder R searches by default (which may not be where the file is downloaded by default), R won't know which file to download.
 
+We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" or the "Folders where I want you, R, to look for my data" in more simple terms. To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. 
 
-```r
-getwd()    
-[1] "C:/Users/user/Dropbox/R_project/r4crim"
-```
+And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. So copy that line of code that says `setwd()` (which stands for "set working directory") to your R Script when you start. 
 
-Almost certainly this default directory is *not* where you plan to have all of your data sets and files stored. Instead, you probably have an "analysis" or "project" or "R4crim" folder somewhere on your computer where you would like to store your data and work (you should also store the R files you write for that data to keep the data and code for that data together).
+![](images/rstudio_3.PNG)
 
-Use `setwd()` to tell R what folder you want it to use as the working directory. If you do not set the working directory, R will not know where to find the data you wish to import and will be unable to read the data. Make it a habit to have `setwd()` as the first line of every script you write. If you know the working directory you want to use, then you can just put it inside the `setwd()` function.
+### Changing RStudio
 
-```
-setwd("C:/Users/user/Dropbox/R_project/R4crim/data")    
-```
+Your RStudio looks different than my RStudio because I changed a number of settings to suit my preferences. To do so yourself click the Tools tab on the top menu and then click Global Options.
 
-If you do not know how to write your working directory, here comes R Studio to the rescue. In R Studio click Session -> Set Working Directory -> Choose Directory. Then click through to navigate to the working directory that you want to use. When you find it click "Select Folder". Then look over at the console. R Studio will construct the right `setwd()` syntax for you. Copy and paste that into your R script for use later. No need to have to click through the Session menu again now that you have your `setwd()` set up.
+![](images/rstudio_5.PNG)
 
-![](images/working_directory.PNG)
+This opens up a window with a number of different tabs to change how R behaves and how it looks. 
 
-Now you can use R functions to load in any data sets that are in your working folder. If you have done your `setwd()` correctly, you shouldn't get any errors because R will know exactly where to look for the data files. If the working directory that you've given in the `setwd()` isn't right, R will think the file doesn't even exist. For example, if you give the path for, say, your R4econ folder, R won't be able to load data because the file isn't stored in what R thinks is your working directory. With that out of the way, let's load a data set.
+Under Workspace make sure to **uncheck** the "Restory .RData into workspace at startup" and to set "Save workspace to .RData on exit:" to Never. What this does is make sure that every time you open R it starts fresh with no objects (essentially data loaded into R or made in R) from previous sessions. This may be annoying at times, especially when it comes to loading large files but its benefits far outweight the costs. 
+
+You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
+
+![](images/rstudio_6.PNG)
+
+The Code tab lets you specify how you want the code to be displayed. The important section for us is to make sure to check the "Soft-wrap R source files" checkbox. If you write a very long line of code it gets too big to view all at once and you must scroll to the right to read it all. That can be annoying as you won't be able to see all the code at once. Setting "Soft-wrap" makes it so if a line is too long it will just be shown on mutiple lines which solves that issue. In practice it is best to avoid long lines of codes as it makes it hard to read but that isn't always possible. 
+
+![](images/rstudio_7.PNG)
+
+The Appearance tab lets you change the background, color, and size of text. Change it to your preferences. 
+
+![](images/rstudio_8.PNG)
+
+The final tab we'll look at is Pane Layout. This lets you move arond the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, doesn't remove it from RStudio) and we'll talk about three of them. The Environment panel shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment panel. If it is there, you have loaded the file correctly. 
+
+As we'll discuss more in Section \ref(Finding help about functions), the Help tab will open up to show you a help page for a function you want more information on. The Plots panel will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
+
+![](images/rstudio_9.PNG)
+
+### Helpful cheatsheets
+
+RStudio also includes a number of links to helpful cheatsheets for a number of important topics. To get to it click Help, then Cheatsheets and click on whichever one you need. 
+
+![](images/rstudio_4.PNG)
+
+## Reading data into R
+
+For many research projects you'll have data produced by some outside group (FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in a later chapter. Here, we will talk about the standard R data file only. 
 
 ### Loading data
+
+As we learned above in Section \ref(Setting the working directory) we need to set out working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your computer, make sure to set your working directory now.
 
 The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (using the `<-` we learned above) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see in Chapter \ref(Reading and Writing Data). 
 
@@ -212,7 +190,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="intro-to-r_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 

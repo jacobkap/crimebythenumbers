@@ -249,7 +249,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 #>                    1
 ```
 
-## Graphing Data
+## Graphing
 
 We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more sophisticated way to make graphs (that look better!) but for now let's use the function `plot()`. 
 
