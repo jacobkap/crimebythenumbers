@@ -1,5 +1,5 @@
 
-# National Incident-Based Reporting System (NIBRS) Data
+# National Incident-Based Reporting System (NIBRS) Data {#nibrs}
 
 
 https://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/25109
@@ -24,8 +24,6 @@ That'll download a zipped folder. Inside the folder is another folder called ICP
 ```r
 install.packages("asciiSetupReader")
 ```
-
-Now we need to use `library()` to tell R we are going to use that package.
 
 
 ```r

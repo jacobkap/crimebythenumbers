@@ -1,32 +1,16 @@
 
-# Graphing Officer-Involved Shootings
+# More Graphing with `ggplot`
 
 In this lesson we will continue to explore graphing using `ggplot()`. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we'll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the victim of the shootings, allowing us to practice making many types of graphs. 
 
 To explore the data on their website, see [here](https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c) . To examine their methodology, see [here](https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b) .
 
-The data initially comes as a .csv file. TO read in .csv files (which are a common format you'll find data in) we can use the `read.csv()` function built into R (meaning we don't need to load any packages). The input in the () is the file name ending in ".csv". As it is telling R to read a file on the computer, the whole name must be in quotes. 
-
-Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can using "shootings" as it's relatively descriptive and easy for us to write. 
-
-
-```r
-shootings <- read.csv("data/fatal-police-shootings-data.csv")
-```
-
-Another function worth mentioning in reading .csv files to R is `read_csv()` - note that it uses an underscore rather than a period. This function is part of the `readr` package so you need to install it once and then use `library()` every R session to use it. 
-
-
-```r
-install.packages("readr")
-```
+The data initially comes as a .csv file so we'll use the `read_csv()` function from the `readr` package. 
 
 
 ```r
 library(readr)
 ```
-
-The primary benefit to `read_csv()` is speed. When dealing with a large file, `read_csv()` is much faster than `read.csv()` though there is not much difference when it comes to small data. 
 
 
 ```r
@@ -50,30 +34,14 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 #> )
 ```
 
-`read_csv()` also reads in data to an object called a `tibble` which is very similar to a data.frame but has some differences in displaying the data. If we run `head()` on the data it doesn't show all columns. This is useful to avoid accidentally printing out a massive amounts of columns.
-
-
-```r
-head(shootings)
-#> # A tibble: 6 x 14
-#>      id name  date       manner_of_death armed   age gender race  city 
-#>   <dbl> <chr> <date>     <chr>           <chr> <dbl> <chr>  <chr> <chr>
-#> 1     3 Tim ~ 2015-01-02 shot            gun      53 M      A     Shel~
-#> 2     4 Lewi~ 2015-01-02 shot            gun      47 M      W     Aloha
-#> 3     5 John~ 2015-01-03 shot and Taser~ unar~    23 M      H     Wich~
-#> 4     8 Matt~ 2015-01-04 shot            toy ~    32 M      W     San ~
-#> 5     9 Mich~ 2015-01-04 shot            nail~    39 M      H     Evans
-#> 6    11 Kenn~ 2015-01-04 shot            gun      18 M      W     Guth~
-#> # ... with 5 more variables: state <chr>, signs_of_mental_illness <lgl>,
-#> #   threat_level <chr>, flee <chr>, body_camera <lgl>
-```
-
-We'll turn the "shootings" object into a data.frame just for simplicity.
+Since `read_csv()` reads files into a tibble object, we'll turn it into a data.frame just for simplicity.
 
 
 ```r
 shootings <- as.data.frame(shootings)
 ```
+
+
 
 Now that we have the data read in, let's look at it.
 
@@ -404,7 +372,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_density).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -414,7 +382,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Categorical variable
 
@@ -424,7 +392,7 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -436,7 +404,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.
@@ -451,7 +419,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -465,7 +433,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 We can reuse this code to make a similar graph for the gender variable.
@@ -481,7 +449,7 @@ ggplot(shootings, aes(x = gender)) +
 #> Warning: Removed 5 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ## Time Series
@@ -495,8 +463,6 @@ library(lubridate)
 #> 
 #>     date
 ```
-
-
 
 
 ```r
@@ -516,7 +482,7 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -529,7 +495,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -537,7 +503,7 @@ ggplot(yearly_shootings[yearly_shootings$year != 2019, ], aes(x = year, y = dumm
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -547,4 +513,4 @@ ggplot(yearly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />

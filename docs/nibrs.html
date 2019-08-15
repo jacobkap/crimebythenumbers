@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>21 Census Data from IPUMS | R 4 Criminology</title>
+  <title>22 National Incident-Based Reporting System (NIBRS) Data | R 4 Criminology</title>
   <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="21 Census Data from IPUMS | R 4 Criminology" />
+  <meta property="og:title" content="22 National Incident-Based Reporting System (NIBRS) Data | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="21 Census Data from IPUMS | R 4 Criminology" />
+  <meta name="twitter:title" content="22 National Incident-Based Reporting System (NIBRS) Data | R 4 Criminology" />
   
   <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="census-data-from-social-explorer.html">
-<link rel="next" href="nibrs.html">
+<link rel="prev" href="census-data-from-ipums.html">
+<link rel="next" href="useful-resources.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -377,46 +377,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="census-data-from-ipums" class="section level1">
-<h1><span class="header-section-number">21</span> Census Data from IPUMS</h1>
-<p>In Chapter <a href="choropleth-maps.html#choropleth-maps">15</a> we used the website Social Explorer to look at Census data at the Census tract level. This is a tool to quickly get Census data without writing too much code. As mentioned earlier, there are a number of limitations to this tool. Primarily that we are limited to just the variables it decides to give us. If we want other variables, or combinations of variables, we need to use another tool.</p>
-<div id="getting-ipums-data" class="section level2">
-<h2><span class="header-section-number">21.1</span> Getting IPUMS data</h2>
-<p><img src="images/ipums_1.PNG" /></p>
-<p><img src="images/ipums_2.PNG" /></p>
-<p><img src="images/ipums_3.PNG" /></p>
-<p><img src="images/ipums_4.PNG" /></p>
-<p><img src="images/ipums_5.PNG" /></p>
-<p><img src="images/ipums_6.PNG" /></p>
-<p><img src="images/ipums_7.PNG" /></p>
-<p><img src="images/ipums_8.PNG" /></p>
-<p><img src="images/ipums_9.PNG" /></p>
-<p><img src="images/ipums_10.PNG" /></p>
-<p><img src="images/ipums_11.PNG" /></p>
-<p><img src="images/ipums_12.PNG" /></p>
-<p><img src="images/ipums_13.PNG" /></p>
+<div id="nibrs" class="section level1">
+<h1><span class="header-section-number">22</span> National Incident-Based Reporting System (NIBRS) Data</h1>
+<p><a href="https://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/25109" class="uri">https://www.icpsr.umich.edu/icpsrweb/ICPSR/studies/25109</a></p>
+<p>Through our work with the UCR, we’ve already discussed reported crime. Nonetheless, not all crimes are reported to the police. Also, sometimes the UCR doesn’t provide us with specific information about a victim-involved crime incident such as whether the victim knew the offenders or the location of the crime incident.</p>
+<p>Each year, the U.S. Census Bureau conducts the National Crime Victimization Survey (NCVS), which is a valuable source of self-reported victimization data. The Census Bureau interviews a sample of people about the number and characteristics of crime victimizations they experienced during the prior 6 months. In 2015, for example, they collected data from 95,760 households and 163,880 persons.</p>
+<p>The NCVS contains valuable information about nonfatal personal crimes such as rape or robbery as well as property crimes such as burglary. Additional information about the NCVS can be found at the <a href="https://www.bjs.gov/index.cfm?ty=dcdetail&amp;iid=245">BJS website</a>. To give a sense of the type of data that the NCVS contains, refer to the <a href="http://www.bjs.gov/content/pub/pdf/cv12.pdf">Official 2012-2013 BJS Crime Victimization report</a>.</p>
+<div id="downloading-the-data" class="section level2">
+<h2><span class="header-section-number">22.1</span> Downloading the data</h2>
+<p>First, we will download the [NCVS 2016] data()<a href="https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/36828/datadocumentation" class="uri">https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/36828/datadocumentation</a>. We want the following file: DS4 Incident Record-Type File. Click the download button to the right and select “ASCII + SPSS Setup”. <em>Don’t select R.</em> While NACJD does provide the data as an R file, this file has some issues where the column names are not easy to understand (e.g. Often they are just the letter V followed by a number such as V1, V2, V3). Using the ASCII+SPSS file lets us easily read in the data with usable column names.</p>
+<p>That’ll download a zipped folder. Inside the folder is another folder called ICPSR_36828. Inside that is a folder called DS0004 (named 4 as it is the 4th file available to download on that page), and inside that are the two files we want: “36828-0004-Data.txt” and “36828-0004-Setup”. Take <em>both</em> of these files and move them into your working directory. NACJD data will come with a numeric name which is just the unique identifier of that data. So I prefer to change the name to something that is easy to understand what the file holds. In this case I renamed the files to “ncvs_incident_2016.txt” and “ncvs_incident_2016.sps”.</p>
 </div>
-<div id="cleaning-the-data" class="section level2">
-<h2><span class="header-section-number">21.2</span> Cleaning the data</h2>
-</div>
-<div id="aggregating-the-data" class="section level2">
-<h2><span class="header-section-number">21.3</span> Aggregating the data</h2>
-</div>
-<div id="graphing-the-data" class="section level2">
-<h2><span class="header-section-number">21.4</span> Graphing the data</h2>
-</div>
-<div id="mapping-the-data" class="section level2">
-<h2><span class="header-section-number">21.5</span> Mapping the data</h2>
+<div id="reading-the-data" class="section level2">
+<h2><span class="header-section-number">22.2</span> Reading the data</h2>
+<p>(The FBI still sends out their data in this format!) To read in these files we will use the package <code>asciiSetupReader</code> which has been built for this exact purpose.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;asciiSetupReader&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(asciiSetupReader)</code></pre>
+<p>Unlike when reading in .rda files, with this package we read in the file to an object which we name ourselves. We will call it ncvs for ease. The relevant function is <code>read_ascii_setup()</code> which has two mandatory parameters <code>data</code> and <code>setup_file</code>. <code>data</code> is the name (in quotes) of the text (.txt) file which holds the data. <code>setup_file</code> is similar but now is the name of the setup (.sps) file, again in quotes.
+`</p>
+<p>As a standard first step let’s check the number of rows and columns in the data.</p>
+<p>This data has 952 columns which is too many for us to run <code>names()</code> or <code>head()</code>. That many variables means that most of the columns are not relevant for our purposes here. What we want to do is make a smaller data set with only the relevant columns. That way we have data that can be easily checked with <code>head()</code> or <code>View()</code>. When dealing with enormous data sets (such as NIBRS data we’ll look at soon that can have millions of rows), having smaller files makes the code run quicker and in some cases allows it to run at all (too big of a file can cause R to run extremely slowly or crash).</p>
+<p>Normally we would subset this data to keep only the columns we want to use. However, as we used the <code>asciiSetupReader</code> package, there is a better solution. The <code>read_ascii_setup()</code> function has a parameter <code>select_columns</code> that allows us to select the columns we want and it will only read in those columns. This is useful as it means we can start with a subsetted file which avoids any issues of reading in enormous files.</p>
+<p>For <code>select_columns</code> we need to have a vector <code>c()</code> of either numbers or the column names (in quotes) that we want to keep. For this, open up the file “ncvs_incident_2016.sps” (this is not an R file so you can just double-click it to open on your computer’s default software for this type of file, usually Microsoft Word or Wordpad). Scroll down to the selection labeled “VARIABLE LABELS” and it will show a list of variable names on the left and “cleaned” versions of their names on the right. (You can also choose columns by using the codebook included in the folder downloaded from NACJD. The codebook is helpful because it explains what each variable means and you should definitely read the codebook before working with new data. However, as NCVS data has several different files included (Address-level, Household-level, Person-level, and Incident-level), the codebook covers all of these. The file “ncvs_incident_2016.sps” includes only the incident-level data columns we are using so it is a little easier to work with in this case.)</p>
+<p><img src="images/nibrs_1.PNG" /></p>
+<p><img src="images/nibrs_2.PNG" /></p>
+<p><img src="images/nibrs_3.PNG" /></p>
+<p><img src="images/nibrs_4.PNG" /></p>
+<p><img src="images/nibrs_5.PNG" /></p>
+<p><img src="images/nibrs_6.PNG" /></p>
+
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="census-data-from-social-explorer.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="nibrs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="census-data-from-ipums.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="useful-resources.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -436,7 +438,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jacobkap/r4crim/edit/master/census-data-ipums.Rmd",
+"link": "https://github.com/jacobkap/r4crim/edit/master/working-with-nibrs-data.Rmd",
 "text": "Edit"
 },
 "history": {

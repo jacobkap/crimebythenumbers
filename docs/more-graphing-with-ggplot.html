@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 Reading and Writing Data | R 4 Criminology</title>
+  <title>17 More Graphing with ggplot | R 4 Criminology</title>
   <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 Reading and Writing Data | R 4 Criminology" />
+  <meta property="og:title" content="17 More Graphing with ggplot | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 Reading and Writing Data | R 4 Criminology" />
+  <meta name="twitter:title" content="17 More Graphing with ggplot | R 4 Criminology" />
   
   <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="for-loops.html">
-<link rel="next" href="scraping-data-from-pdfs.html">
+<link rel="prev" href="interactive-maps.html">
+<link rel="next" href="r-markdown.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -377,25 +377,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="reading-and-writing-data" class="section level1">
-<h1><span class="header-section-number">9</span> Reading and Writing Data</h1>
-<p>So far in these lessons we’ve used data from a number of sources but which all came as .rda files which is the standard R data format. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we’ll cover how to read all of these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them.</p>
-<p>Fixed-width ASCII files are not very common and require a bit more effort than the other formats so we’ll leave those until Chapter (#nibrs) where we discuss in detail how to use this type of data.</p>
-<div id="reading-data-into-r-1" class="section level2">
-<h2><span class="header-section-number">9.1</span> Reading Data into R</h2>
-<div id="r" class="section level3">
-<h3><span class="header-section-number">9.1.1</span> R</h3>
-<p>As we’ve seen earlier, to read in data with a .rda or .rdata extension you use the function <code>load()</code> with the file name (including the extension) in quotation marks inside of the parentheses. This loads the data into R and calls the object the name it was when it was saved. Therefore we do not need to give it a name ourselves.</p>
-<p>For each of the other types of data we’ll need to assign a name to the data we’re reading in so it has a name. Whereas we’ve done <code>x &lt;- 2</code> to say x gets the value of 2, now we’d do <code>x &lt;- DATA</code> where DATA is the way to load in the data and x will get the entire data.frame.</p>
-</div>
-<div id="excel" class="section level3">
-<h3><span class="header-section-number">9.1.2</span> Excel</h3>
-<p>Unlike reading in</p>
-<p>To read in Excel files, those ending in .csv, we can use the function <code>read_csv()</code> from the package <code>readr</code> (the function <code>read.csv()</code> is included in R by default so doesn’t require any packages but is far slower than <code>read_csv()</code> so we will not use it).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;readr&quot;</span>)</code></pre>
+<div id="more-graphing-with-ggplot" class="section level1">
+<h1><span class="header-section-number">17</span> More Graphing with <code>ggplot</code></h1>
+<p>In this lesson we will continue to explore graphing using <code>ggplot()</code>. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we’ll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the victim of the shootings, allowing us to practice making many types of graphs.</p>
+<p>To explore the data on their website, see <a href="https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c">here</a> . To examine their methodology, see <a href="https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b">here</a> .</p>
+<p>The data initially comes as a .csv file so we’ll use the <code>read_csv()</code> function from the <code>readr</code> package.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)</code></pre>
-<p>To read in .csv files (which are a common format you’ll find data in) we can use the <code>read.csv()</code> function built into R (meaning we don’t need to load any packages). The input in the () is the file name ending in “.csv”. As it is telling R to read a file on the computer, the whole name must be in quotes.</p>
-<p>Unlike loading an .rda file using <code>load()</code>, there is no name for the object that gets read in so we must assign the data a name. We can using “shootings” as it’s relatively descriptive and easy for us to write.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/fatal-police-shootings-data.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
@@ -414,85 +401,340 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt;   flee = col_character(),</span>
 <span class="co">#&gt;   body_camera = col_logical()</span>
 <span class="co">#&gt; )</span></code></pre>
-<p><code>read_csv()</code> also reads in data to an object called a <code>tibble</code> which is very similar to a data.frame but has some differences in displaying the data. If we run <code>head()</code> on the data it doesn’t show all columns. This is useful to avoid accidentally printing out a massive amounts of columns.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(shootings)
-<span class="co">#&gt; # A tibble: 6 x 14</span>
-<span class="co">#&gt;      id name  date       manner_of_death armed   age gender race  city </span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;chr&gt;           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt; 1     3 Tim ~ 2015-01-02 shot            gun      53 M      A     Shel~</span>
-<span class="co">#&gt; 2     4 Lewi~ 2015-01-02 shot            gun      47 M      W     Aloha</span>
-<span class="co">#&gt; 3     5 John~ 2015-01-03 shot and Taser~ unar~    23 M      H     Wich~</span>
-<span class="co">#&gt; 4     8 Matt~ 2015-01-04 shot            toy ~    32 M      W     San ~</span>
-<span class="co">#&gt; 5     9 Mich~ 2015-01-04 shot            nail~    39 M      H     Evans</span>
-<span class="co">#&gt; 6    11 Kenn~ 2015-01-04 shot            gun      18 M      W     Guth~</span>
-<span class="co">#&gt; # ... with 5 more variables: state &lt;chr&gt;, signs_of_mental_illness &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   threat_level &lt;chr&gt;, flee &lt;chr&gt;, body_camera &lt;lgl&gt;</span></code></pre>
-<p>We can convert it to a data.frame using the function <code>as.data.frame()</code> though that isn’t strictly necessary since tibbles and data.frames operate so similarly.</p>
+<p>Since <code>read_csv()</code> reads files into a tibble object, we’ll turn it into a data.frame just for simplicity.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(shootings)</code></pre>
+<p>Now that we have the data read in, let’s look at it.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(shootings)
+<span class="co">#&gt; [1] 4371</span>
+<span class="kw">ncol</span>(shootings)
+<span class="co">#&gt; [1] 14</span></code></pre>
+<p>The data has 14 variables and covers over 4,000 shootings. Let’s check out some of the variables, first using <code>head()</code> then using <code>summary()</code> and <code>table()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(shootings)
+<span class="co">#&gt;   id               name       date  manner_of_death      armed age gender</span>
+<span class="co">#&gt; 1  3         Tim Elliot 2015-01-02             shot        gun  53      M</span>
+<span class="co">#&gt; 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M</span>
+<span class="co">#&gt; 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M</span>
+<span class="co">#&gt; 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M</span>
+<span class="co">#&gt; 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M</span>
+<span class="co">#&gt; 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M</span>
+<span class="co">#&gt;   race          city state signs_of_mental_illness threat_level</span>
+<span class="co">#&gt; 1    A       Shelton    WA                    TRUE       attack</span>
+<span class="co">#&gt; 2    W         Aloha    OR                   FALSE       attack</span>
+<span class="co">#&gt; 3    H       Wichita    KS                   FALSE        other</span>
+<span class="co">#&gt; 4    W San Francisco    CA                    TRUE       attack</span>
+<span class="co">#&gt; 5    H         Evans    CO                   FALSE       attack</span>
+<span class="co">#&gt; 6    W       Guthrie    OK                   FALSE       attack</span>
+<span class="co">#&gt;          flee body_camera</span>
+<span class="co">#&gt; 1 Not fleeing       FALSE</span>
+<span class="co">#&gt; 2 Not fleeing       FALSE</span>
+<span class="co">#&gt; 3 Not fleeing       FALSE</span>
+<span class="co">#&gt; 4 Not fleeing       FALSE</span>
+<span class="co">#&gt; 5 Not fleeing       FALSE</span>
+<span class="co">#&gt; 6 Not fleeing       FALSE</span></code></pre>
+<p>Each row is a single shooting and it includes variables such as the victim’s name, the date of the shooting, demographic information about that person, the shooting city and state, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can’t use <code>summary()</code> on them. Let’s use <code>summary()</code> on the date and age columns and then use <code>table()</code> for the rest.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(shootings<span class="op">$</span>date)
+<span class="co">#&gt;         Min.      1st Qu.       Median         Mean      3rd Qu. </span>
+<span class="co">#&gt; &quot;2015-01-02&quot; &quot;2016-02-07&quot; &quot;2017-03-16&quot; &quot;2017-03-18&quot; &quot;2018-04-11&quot; </span>
+<span class="co">#&gt;         Max. </span>
+<span class="co">#&gt; &quot;2019-06-25&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(shootings<span class="op">$</span>age)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span>
+<span class="co">#&gt;    6.00   27.00   35.00   36.84   45.00   91.00     182</span></code></pre>
+<p>From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is contintuously updating their data but I downloaded in on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most victim’s around that range. However, the youngest victim is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable.</p>
+<p>Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with manne_of_death.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             shot shot and Tasered </span>
+<span class="co">#&gt;             4146              225</span></code></pre>
+<p>To turn these counts into percentages we can divide the results by the number of rows in our data and miltiple by 100.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;             shot shot and Tasered </span>
+<span class="co">#&gt;        94.852437         5.147563</span></code></pre>
+<p>Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at where the victim was armed.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                  air conditioner                               ax </span>
+<span class="co">#&gt;                       0.02287806                       0.48043926 </span>
+<span class="co">#&gt;                         barstool                     baseball bat </span>
+<span class="co">#&gt;                       0.02287806                       0.27453672 </span>
+<span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                            baton                          bayonet </span>
+<span class="co">#&gt;                       0.09151224                       0.02287806 </span>
+<span class="co">#&gt;                           BB gun                     bean-bag gun </span>
+<span class="co">#&gt;                       0.06863418                       0.02287806 </span>
+<span class="co">#&gt;                      beer bottle                     blunt object </span>
+<span class="co">#&gt;                       0.06863418                       0.11439030 </span>
+<span class="co">#&gt;                    bow and arrow                       box cutter </span>
+<span class="co">#&gt;                       0.02287806                       0.22878060 </span>
+<span class="co">#&gt;                            brick                          carjack </span>
+<span class="co">#&gt;                       0.04575612                       0.02287806 </span>
+<span class="co">#&gt;                            chain                        chain saw </span>
+<span class="co">#&gt;                       0.04575612                       0.04575612 </span>
+<span class="co">#&gt;                         chainsaw                            chair </span>
+<span class="co">#&gt;                       0.02287806                       0.04575612 </span>
+<span class="co">#&gt;              claimed to be armed               contractor&#39;s level </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                   cordless drill                         crossbow </span>
+<span class="co">#&gt;                       0.02287806                       0.20590254 </span>
+<span class="co">#&gt;                          crowbar                        fireworks </span>
+<span class="co">#&gt;                       0.06863418                       0.02287806 </span>
+<span class="co">#&gt;                         flagpole                       flashlight </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                      garden tool                      glass shard </span>
+<span class="co">#&gt;                       0.02287806                       0.06863418 </span>
+<span class="co">#&gt;                              gun                      gun and car </span>
+<span class="co">#&gt;                      55.43353924                       0.11439030 </span>
+<span class="co">#&gt;                    gun and knife                    gun and sword </span>
+<span class="co">#&gt;                       0.34317090                       0.02287806 </span>
+<span class="co">#&gt;                  gun and vehicle              guns and explosives </span>
+<span class="co">#&gt;                       0.04575612                       0.06863418 </span>
+<span class="co">#&gt;                           hammer                       hand torch </span>
+<span class="co">#&gt;                       0.22878060                       0.02287806 </span>
+<span class="co">#&gt;                          hatchet                  hatchet and gun </span>
+<span class="co">#&gt;                       0.18302448                       0.04575612 </span>
+<span class="co">#&gt;                incendiary device                            knife </span>
+<span class="co">#&gt;                       0.04575612                      14.96225120 </span>
+<span class="co">#&gt;                 lawn mower blade                          machete </span>
+<span class="co">#&gt;                       0.04575612                       0.86936628 </span>
+<span class="co">#&gt;                  machete and gun                     meat cleaver </span>
+<span class="co">#&gt;                       0.02287806                       0.06863418 </span>
+<span class="co">#&gt;                  metal hand tool                     metal object </span>
+<span class="co">#&gt;                       0.02287806                       0.09151224 </span>
+<span class="co">#&gt;                       metal pipe                       metal pole </span>
+<span class="co">#&gt;                       0.25165866                       0.04575612 </span>
+<span class="co">#&gt;                       metal rake                      metal stick </span>
+<span class="co">#&gt;                       0.02287806                       0.06863418 </span>
+<span class="co">#&gt;                       motorcycle                         nail gun </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                              oar                       pellet gun </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                              pen                     pepper spray </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;                         pick-axe                    piece of wood </span>
+<span class="co">#&gt;                       0.06863418                       0.06863418 </span>
+<span class="co">#&gt;                             pipe                        pitchfork </span>
+<span class="co">#&gt;                       0.13726836                       0.04575612 </span>
+<span class="co">#&gt;                             pole                   pole and knife </span>
+<span class="co">#&gt;                       0.04575612                       0.04575612 </span>
+<span class="co">#&gt;                             rock                    samurai sword </span>
+<span class="co">#&gt;                       0.09151224                       0.02287806 </span>
+<span class="co">#&gt;                         scissors                      screwdriver </span>
+<span class="co">#&gt;                       0.06863418                       0.18302448 </span>
+<span class="co">#&gt;                     sharp object                           shovel </span>
+<span class="co">#&gt;                       0.11439030                       0.06863418 </span>
+<span class="co">#&gt;                            spear                          stapler </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806 </span>
+<span class="co">#&gt;              straight edge razor                            sword </span>
+<span class="co">#&gt;                       0.06863418                       0.34317090 </span>
+<span class="co">#&gt;                            Taser                        tire iron </span>
+<span class="co">#&gt;                       0.41180508                       0.02287806 </span>
+<span class="co">#&gt;                       toy weapon                          unarmed </span>
+<span class="co">#&gt;                       3.54609929                       6.36010066 </span>
+<span class="co">#&gt;                     undetermined                   unknown weapon </span>
+<span class="co">#&gt;                       4.30107527                       1.25829330 </span>
+<span class="co">#&gt;                          vehicle                  vehicle and gun </span>
+<span class="co">#&gt;                       1.57858614                       0.02287806 </span>
+<span class="co">#&gt;                    walking stick                           wrench </span>
+<span class="co">#&gt;                       0.02287806                       0.02287806</span></code></pre>
+<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon and it doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
+<pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)
+temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)
+temp
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                  air conditioner                         barstool </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                          bayonet                     bean-bag gun </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                    bow and arrow                          carjack </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                         chainsaw              claimed to be armed </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;               contractor&#39;s level                   cordless drill </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                        fireworks                         flagpole </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                       flashlight                      garden tool </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                    gun and sword                       hand torch </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                  machete and gun                  metal hand tool </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                       metal rake                       motorcycle </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                         nail gun                              oar </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                       pellet gun                              pen </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                     pepper spray                    samurai sword </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                            spear                          stapler </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                        tire iron                  vehicle and gun </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                    walking stick                           wrench </span>
+<span class="co">#&gt;                             0.02                             0.02 </span>
+<span class="co">#&gt;                            brick                            chain </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                        chain saw                            chair </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                  gun and vehicle                  hatchet and gun </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                incendiary device                 lawn mower blade </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                       metal pole                        pitchfork </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                             pole                   pole and knife </span>
+<span class="co">#&gt;                             0.05                             0.05 </span>
+<span class="co">#&gt;                           BB gun                      beer bottle </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;                          crowbar                      glass shard </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;              guns and explosives                     meat cleaver </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;                      metal stick                         pick-axe </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;                    piece of wood                         scissors </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;                           shovel              straight edge razor </span>
+<span class="co">#&gt;                             0.07                             0.07 </span>
+<span class="co">#&gt;                            baton                     metal object </span>
+<span class="co">#&gt;                             0.09                             0.09 </span>
+<span class="co">#&gt;                             rock                     blunt object </span>
+<span class="co">#&gt;                             0.09                             0.11 </span>
+<span class="co">#&gt;                      gun and car                     sharp object </span>
+<span class="co">#&gt;                             0.11                             0.11 </span>
+<span class="co">#&gt;                             pipe                          hatchet </span>
+<span class="co">#&gt;                             0.14                             0.18 </span>
+<span class="co">#&gt;                      screwdriver                         crossbow </span>
+<span class="co">#&gt;                             0.18                             0.21 </span>
+<span class="co">#&gt;                       box cutter                           hammer </span>
+<span class="co">#&gt;                             0.23                             0.23 </span>
+<span class="co">#&gt;                       metal pipe                     baseball bat </span>
+<span class="co">#&gt;                             0.25                             0.27 </span>
+<span class="co">#&gt;                    gun and knife                            sword </span>
+<span class="co">#&gt;                             0.34                             0.34 </span>
+<span class="co">#&gt;                            Taser                               ax </span>
+<span class="co">#&gt;                             0.41                             0.48 </span>
+<span class="co">#&gt;                          machete                   unknown weapon </span>
+<span class="co">#&gt;                             0.87                             1.26 </span>
+<span class="co">#&gt;                          vehicle                       toy weapon </span>
+<span class="co">#&gt;                             1.58                             3.55 </span>
+<span class="co">#&gt;                     undetermined                          unarmed </span>
+<span class="co">#&gt;                             4.30                             6.36 </span>
+<span class="co">#&gt;                            knife                              gun </span>
+<span class="co">#&gt;                            14.96                            55.43</span></code></pre>
+<p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. in 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with previous categories such as “hatchet and gun”.</p>
+<p>Think about how you’d graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? That’s overwhelm any plot. For a useful graph we would need to combine many of these into a single category - possible called “other weapons”. And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
+<p>Let’s keep moving and look at gender and race.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>gender) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;         F         M </span>
+<span class="co">#&gt;  4.667124 95.218485</span></code></pre>
+<p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a victim with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
+<pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>race) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)
+temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)
+temp
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     O     N     A     H     B     W </span>
+<span class="co">#&gt;  0.87  1.46  1.62 16.45 22.90 44.89</span></code></pre>
+<p>White people are the most likely to be killed by police followed by Black people and Hispanic people.</p>
+<p>We can do a simple cross-tab to see if there the relationship beteen gender and race.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>gender, shootings<span class="op">$</span>race)
+<span class="co">#&gt;    </span>
+<span class="co">#&gt;        A    B    H    N    O    W</span>
+<span class="co">#&gt;   F    3   42   21    5    3  107</span>
+<span class="co">#&gt;   M   68  959  697   59   35 1853</span></code></pre>
+<p>There doesn’t appear to be any difference by race or gender.</p>
+<p>One annoying thing with these two variables is that it doesn’t spell out the name. Instead of “Female” it has “F”. For our graphs we want to spell out the words so it is clear to viewers.</p>
+<p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre>
+<div id="graphing-a-single-variable" class="section level2">
+<h2><span class="header-section-number">17.1</span> Graphing a single variable</h2>
+<div id="numeric-variable" class="section level3">
+<h3><span class="header-section-number">17.1.1</span> Numeric variable</h3>
+<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build out way up to more complicated, or better looking, plots.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_density</span>()
+<span class="co">#&gt; Warning: Removed 182 rows containing non-finite values (stat_density).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_histogram</span>()
+<span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span>
+<span class="co">#&gt; Warning: Removed 182 rows containing non-finite values (stat_bin).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="stata" class="section level3">
-<h3><span class="header-section-number">9.1.3</span> Stata</h3>
-<p>For both the remaining three data types we’ll use the package <code>haven</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;haven&quot;</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(haven)</code></pre>
-<p><code>haven</code> follows the same syntax for each data type and is the same as with <code>read_csv()</code> - for each data type we simply include the file name (in quotes, with the extension) and designate an object to get the data.</p>
-<p>Like with <code>read_csv()</code> the functions to read data through <code>haven</code> all start with <code>read_</code> and end with the extension you’re reading in.</p>
-<ul>
-<li><code>read_dta()</code> - Stata file, extension “dta”</li>
-<li><code>read_sas()</code> - SAS file, extension “sas”</li>
-<li><code>read_sav()</code> - SPSS file, extension “sav”</li>
-</ul>
-<p>To read the data as a .dta format we can copy the code to read it as a .csv but change .csv to .dta.</p>
-<pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_dta</span>(<span class="st">&quot;data/fatal-police-shootings-data.dta&quot;</span>)
-<span class="co">#&gt; Error: &#39;data/fatal-police-shootings-data.dta&#39; does not exist in current working directory (&#39;C:/Users/user/Dropbox/R_project/r4crim&#39;).</span></code></pre>
-<p>Since we called this new data “shootings”, R overwrote that object (without warning us!). This is useful because we often want to subset or aggregate data and call it by the same name to avoid making too many objects to keep track of, but watch out for accidentally overwriting an object without noticing!</p>
-</div>
-<div id="sas" class="section level3">
-<h3><span class="header-section-number">9.1.4</span> SAS</h3>
-<pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_sas</span>(<span class="st">&quot;data/fatal-police-shootings-data.sas&quot;</span>)
-<span class="co">#&gt; Error: &#39;data/fatal-police-shootings-data.sas&#39; does not exist in current working directory (&#39;C:/Users/user/Dropbox/R_project/r4crim&#39;).</span></code></pre>
-</div>
-<div id="spss" class="section level3">
-<h3><span class="header-section-number">9.1.5</span> SPSS</h3>
-<pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_sav</span>(<span class="st">&quot;data/fatal-police-shootings-data.sav&quot;</span>)
-<span class="co">#&gt; Error: &#39;data/fatal-police-shootings-data.sav&#39; does not exist in current working directory (&#39;C:/Users/user/Dropbox/R_project/r4crim&#39;).</span></code></pre>
-</div>
-</div>
-<div id="writing-data" class="section level2">
-<h2><span class="header-section-number">9.2</span> Writing Data</h2>
-<p>When we’re done with a project (or an important section) or when we need to send data to someone, we need to save the data we’ve worked on in a suitable format. For each format we are saving the data in we will follow the same syntax of</p>
-<p>function_name(data, “file_name”)</p>
-<p>As usual we start with the function name. Then inside the parentheses we have the name of the object we are saving (as it refers to an object in R we do not use quotations) and then the file name, in quotes, ending with the extension you want.</p>
-<p>For saving an .rda file we use the <code>save()</code> function, otherwise we follow the syntax of <code>write_</code> ending with the file extension.</p>
-<ul>
-<li><code>write_csv()</code> - Excel file, extension “csv”</li>
-<li><code>write_dta()</code> - Stata file, extension “dta”</li>
-<li><code>write_sas()</code> - SAS file, extension “sas”</li>
-<li><code>write_sav()</code> - SPSS file, extension “sav”</li>
-</ul>
-<p>As with reading the data, <code>write_csv()</code> comes from the <code>readr</code> package while the other formats are from the <code>haven</code> package.</p>
-<div id="r-1" class="section level3">
-<h3><span class="header-section-number">9.2.1</span> R</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(shootings, <span class="st">&quot;data/shootings.rda&quot;</span>)
-<span class="co">#&gt; Error in save(shootings, &quot;data/shootings.rda&quot;): object &#39;data/shootings.rda&#39; not found</span></code></pre>
-</div>
-<div id="excel-1" class="section level3">
-<h3><span class="header-section-number">9.2.2</span> Excel</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(shootings, <span class="st">&quot;data/shootings.csv&quot;</span>)</code></pre>
-</div>
-<div id="stata-1" class="section level3">
-<h3><span class="header-section-number">9.2.3</span> Stata</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_dta</span>(shootings, <span class="st">&quot;data/shootings.dta&quot;</span>)</code></pre>
-</div>
-<div id="sas-1" class="section level3">
-<h3><span class="header-section-number">9.2.4</span> SAS</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_sas</span>(shootings, <span class="st">&quot;data/shootings.sas&quot;</span>)</code></pre>
-</div>
-<div id="spss-1" class="section level3">
-<h3><span class="header-section-number">9.2.5</span> SPSS</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_sav</span>(shootings, <span class="st">&quot;data/shootings.sav&quot;</span>)</code></pre>
+<div id="categorical-variable" class="section level3">
+<h3><span class="header-section-number">17.1.2</span> Categorical variable</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))
 
+<span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)
+<span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.</p>
+<pre class="sourceCode r"><code class="sourceCode r">race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))
+<span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)
+<span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))
+<span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)
+<span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can reuse this code to make a similar graph for the gender variable.</p>
+<pre class="sourceCode r"><code class="sourceCode r">race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>gender)))
+<span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> gender)) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)
+<span class="co">#&gt; Warning: Removed 5 rows containing non-finite values (stat_count).</span></code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
+</div>
+<div id="time-series" class="section level2">
+<h2><span class="header-section-number">17.2</span> Time Series</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span>
+<span class="co">#&gt; The following object is masked from &#39;package:base&#39;:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     date</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">shootings<span class="op">$</span>dummy &lt;-<span class="st"> </span><span class="dv">1</span>
+shootings<span class="op">$</span>month_year &lt;-<span class="st"> </span><span class="kw">floor_date</span>(shootings<span class="op">$</span>date, <span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>)
+shootings<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(shootings<span class="op">$</span>date)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">monthly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>month_year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(monthly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> month_year, <span class="dt">y =</span> dummy)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">yearly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(yearly_shootings[yearly_shootings<span class="op">$</span>year <span class="op">!=</span><span class="st"> </span><span class="dv">2019</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">yearly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>month_year, <span class="dt">data =</span> shootings[shootings<span class="op">$</span>armed <span class="op">==</span><span class="st"> &quot;unarmed&quot;</span>, ], <span class="dt">FUN =</span> sum)
+<span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> month_year, <span class="dt">y =</span> dummy)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<p><img src="graphing-officer-shootings_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
+
 </div>
 </div>
             </section>
@@ -500,8 +742,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="for-loops.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="scraping-data-from-pdfs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="interactive-maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="r-markdown.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -521,7 +763,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jacobkap/r4crim/edit/master/reading-writing-data.Rmd",
+"link": "https://github.com/jacobkap/r4crim/edit/master/graphing-officer-shootings.Rmd",
 "text": "Edit"
 },
 "history": {

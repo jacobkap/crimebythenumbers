@@ -1,5 +1,5 @@
 
-# (PART) Subsetting {-}
+# (PART) Clean {-}
 
 # Subsetting: Making big things small
 

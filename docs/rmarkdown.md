@@ -1,5 +1,5 @@
 
-# Using R Markdown
+# R Markdown
 
 R Markdown can help by reducing the number of things you have to think about. This guide can be used as an introduction to R Markdown, specifically for people working on a research thesis.
 
