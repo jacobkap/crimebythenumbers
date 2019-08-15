@@ -46,73 +46,38 @@ In the `head()` results there was a section about something called "epsg" and "p
 st_crs(philly_tracts)
 ```
 
+An issue with working with geographic data is that the Earth is not flat. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by "projecting" our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it. 
 
+If we look at the output of `st_crs(philly_tracts)` we can see that the EPSG is set to 4326 and the proj4string (which tells us which is "+proj=longlat +datum=WGS84 +no_defs". This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see [here](https://spatialreference.org/). If you search that site for Pennsylvania you'll see that Pennsylvania South is assigned 2272 which is what we will use to project this data properly. 
 
+If we want to get the proj4string for 2272 we can use
 
-
-
-
-
-
-
-
-
-
-
-Geographic data sets that describe locations on the surface of the earth have a "coordinate reference system" (CRS).
-
-The `proj4string` tells us that the coordinate system used to describe the Census tract boundaries is longitude/latitude. Specifically, it uses the World Geodetic System 1984 (WGS84) maintained by the United States National Geospatial-Intelligence Agency, one of several standards to aid in navigation and geography. The European Petroleum Survey Group (EPSG) maintains a catalog of different coordinate systems (should be no surprise that oil exploration has driven the development of high quality geolocation standards). They have assigned the standard longitude/latitude coordinate system to be [EPSG4326]((http://spatialreference.org/ref/epsg/4326/). You can find the full collection of coordinate systems at [spatialreference.org](http://spatialreference.org/ref/epsg/).
-
-Many of us are comfortable with the longitude/latitude angular coordinate systems. However, the distance covered by a degree of longitude shrinks as you move towards the poles and only equals the distance covered by a degree of latitude at the equator. In addition, the earth is not very spherical so the coordinate system used for computing distances on the Earth's surface might need to depend on where you are on the earth surface.
-
-Almost all web mapping tools (Google Maps, ESRI, OpenStreetMaps) use the pseudo-Mercator projection ([EPSG3857](http://spatialreference.org/ref/epsg/3857/)). Let's convert our "philly_tracts" data to that coordinate system.
-
-```{r comment="", results='hold', message=FALSE}
-philly_tracts <- st_transform(philly_tracts, crs = st_crs("+init=epsg:3857"))
-st_crs(philly_tracts)
+```{r}
+st_crs(2272)
 ```
 
-Note that the `proj4string` now indicates that this is a Mercator projection with distance measured in meters (`+units=m`). Now if we ask for the centroids of the Census tracts, we get more accurate centroids and no warnings from R.
+Note the section that says "+units=us-ft". This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area. 
 
-We can use the same projection, but modify it so that distances are measured in feet.
-
-```{r comment="", results='hold', message=FALSE}
-philly_tracts <- st_transform(philly_tracts, crs = st_crs("+init=epsg:3857 +units=us-ft"))
-st_crs(philly_tracts)
-```
-
-There is a special coordinate system for every part of the world. A useful coordinate system for the Philadelphia area is [EPSG2272](http://spatialreference.org/ref/epsg/2272/). Let's convert our philly_tracts data to that coordinate system.
+Let's convert our philly_tracts data to coordinate reference system 2272 which is the one assigned to southern Pennsylvania, an area that includes Philadelphia. 
 
 ```{r comment="", results='hold', message=FALSE}
 philly_tracts <- st_transform(philly_tracts, crs = 2272)
 st_crs(philly_tracts)
 ```
 
-This coordinate system is the Lambert Conic Conformal (LCC). This particular projection of the `philly_tracts` is tuned to provide good precision for the southern part of Pennsylvania and distances are measured in feet (note the `+units=us-ft` tag in the `proj4string`).
-
 ## Spatial joins
 
-What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can do two things. First we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. The second thing is to be able to combine the tract-level shootings with other data sets. Since some data also comes at the tract-level we can merge the data sets together and see if there is any relationship between the variables. In this lesson we will do that using Census data. 
+What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we can merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
 
-Spatial joins is the process of linking two data sources by their geography. For the case of the officer-involved shooting data, we want to know how many shootings occurred in each tract. To do this we need to drop each shooting point location into the PSA polygons and have R tell us in which polygon (in mapping terms each tract is a polygon) did each shooting land.
-
-First we need to convert our "officer_shootings_geocoded" data frame to a spatial object, communicating to R that the `lon` and `lat` columns are special. At this stage we also have to communicate in what coordinate system are the `lon` and `lat` values. We want the same coordinate system in both the shootings data and the Census tracts data.
-
-Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, "officer_shootings_geocoded". Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in "philly_tracts" earlier. 
-
-
-
-
-
-
+Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, "officer_shootings_geocoded". Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in "philly_tracts" earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.
 
 ```{r}
 officer_shootings_geocoded <- st_as_sf(officer_shootings_geocoded, 
-                                       coords = c("lon", "lat"), 
+                                       coords = c("lon", "lat"),
                                        crs = "+proj=longlat +ellps=WGS84 +no_defs")
 ```
 
-We want our shootings data in the same projection as the tracts data so we need to use `st_transform()` to change the projection. Since we want the CRS to be the same as in "philly_tracts", we can set it using `st_crs(philly_tracts)` to copy the right CRS.
+We want our shootings data in the same projection as the tracts data so we need to use `st_transform()` to change the projection. Since we want the CRS to be the same as in "philly_tracts", we can set it using `st_crs(philly_tracts)` to use the right CRS.
 
 ```{r}
 officer_shootings_geocoded <- st_transform(officer_shootings_geocoded, 

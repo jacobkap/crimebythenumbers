@@ -65,7 +65,7 @@ Right click the "table" area and click Copy then CSS Selector. That will copy wh
 
 ![](images/the-numbers_4.PNG)
 
-We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called "movie_data") and then we can paste the text we copied from thr website (putting it in quotes). 
+We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called "movie_data") and then we can paste the text we copied from the website (putting it in quotes). 
 
 Note that when doing this in Google Chrome, you follow the same steps except click "Copy selector" rather than "CSS Selector". The value copied also differs between Chrome and Firefox though the result is the same in our code. 
 
@@ -140,7 +140,7 @@ max(movie_data$Gross)
 #> [1] "$9,646,015"
 ```
 
-So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data in `View()` to see if there are any more successful movies (convienently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
+So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data in `View()` to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
 
 
 ```r
@@ -198,7 +198,7 @@ gsub(",|\\$", "", "$11,501,395")
 #> [1] "11501395"
 ```
 
-The second choce is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
+The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
 
 
 ```r
@@ -259,7 +259,7 @@ head(movie_data$Total Gross)
 #>                           ^
 ```
 
-To select it we need to put the name in between tick marks `` so R knows to include the value after the space as part of the colum name. 
+To select it we need to put the name in between tick marks `` so R knows to include the value after the space as part of the column name. 
 
 
 ```r
@@ -301,4 +301,4 @@ We have now scraped a single page of movie data. In the next lessons we will lea
 2. What was the average number of theaters that a movie played in?
   + How many more theaters did the top movie (by number of theaters) play in than average?
   + How many fewer theaters did the bottom movie (by number of theaters) play in than average?
-3. How big is the difference in theates as the mean number of theaters played in and the median? Which should we use?
+3. How big is the difference in theaters as the mean number of theaters played in and the median? Which should we use?

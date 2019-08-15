@@ -150,14 +150,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html"><i class="fa fa-check"></i>What you will learn</a><ul>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#skills"><i class="fa fa-check"></i>Skills</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#data"><i class="fa fa-check"></i>Data</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
@@ -410,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/the-numbers_3.PNG" /></p>
 <p>Right click the “table” area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and allows us grab only that part from the XML Document we made earlier.</p>
 <p><img src="images/the-numbers_4.PNG" /></p>
-<p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called “movie_data”) and then we can paste the text we copied from thr website (putting it in quotes).</p>
+<p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called “movie_data”) and then we can paste the text we copied from the website (putting it in quotes).</p>
 <p>Note that when doing this in Google Chrome, you follow the same steps except click “Copy selector” rather than “CSS Selector”. The value copied also differs between Chrome and Firefox though the result is the same in our code.</p>
 <pre class="sourceCode r"><code class="sourceCode r">movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)</code></pre>
 <p>Since we are getting data from a table, we need to tell rvest that the format of the scraped data is a table. We do with using <code>html_table()</code> and our input in the () is the the object made in the function <code>html_nodes()</code>.</p>
@@ -455,7 +456,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s look at some summary statistics and try to find which movie made the most money that day. Let’s check what the max value is in the “Gross” column which says how much the movie made on that day.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">max</span>(movie_data<span class="op">$</span>Gross)
 <span class="co">#&gt; [1] &quot;$9,646,015&quot;</span></code></pre>
-<p>So the most money a movie made is about $9.6 million. Is that right? We can check either the website or the data in <code>View()</code> to see if there are any more successful movies (convienently, the table is already sorted by how much the movie made). No! The most successful movie made $11.5 million, not $9.5 million. So why did <code>max()</code> say the top value is 9.6 million? Let’s take another look at the values in the “Gross” column.</p>
+<p>So the most money a movie made is about $9.6 million. Is that right? We can check either the website or the data in <code>View()</code> to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made $11.5 million, not $9.5 million. So why did <code>max()</code> say the top value is 9.6 million? Let’s take another look at the values in the “Gross” column.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(movie_data<span class="op">$</span>Gross)
 <span class="co">#&gt; [1] &quot;$11,501,395&quot; &quot;$9,646,015&quot;  &quot;$9,305,875&quot;  &quot;$2,577,639&quot;  &quot;$2,177,946&quot; </span>
 <span class="co">#&gt; [6] &quot;$2,093,164&quot;</span></code></pre>
@@ -479,7 +480,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Each of these <code>gsub()</code>s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the <code>|</code> operator which tells <code>gsub()</code> to replace the value on the left <strong>or</strong> right side of the <code>|</code> symbol (or both if both are present).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;,|</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;$11,501,395&quot;</span>)
 <span class="co">#&gt; [1] &quot;11501395&quot;</span></code></pre>
-<p>The second choce is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value "“$11,501,395” into an object we call “x” and then run both <code>gsub()</code> we wrote earlier, using “x” (without quotes since it is an object) as our value and saving the results back into “x”. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
+<p>The second choice is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value "“$11,501,395” into an object we call “x” and then run both <code>gsub()</code> we wrote earlier, using “x” (without quotes since it is an object) as our value and saving the results back into “x”. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> &quot;$11,501,395&quot;</span>
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;,&quot;</span>, <span class="st">&quot;&quot;</span>, x)
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, x)
@@ -508,7 +509,7 @@ movie_data<span class="op">$</span>Gross &lt;-<span class="st"> </span><span cla
 <span class="co">#&gt; Error: &lt;text&gt;:1:23: unexpected symbol</span>
 <span class="co">#&gt; 1: head(movie_data$Total Gross</span>
 <span class="co">#&gt;                           ^</span></code></pre>
-<p>To select it we need to put the name in between tick marks `` so R knows to include the value after the space as part of the colum name.</p>
+<p>To select it we need to put the name in between tick marks `` so R knows to include the value after the space as part of the column name.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(movie_data<span class="op">$</span><span class="st">`</span><span class="dt">Total Gross</span><span class="st">`</span>)
 <span class="co">#&gt; [1] &quot;$297,672,320&quot; &quot;$468,190,380&quot; &quot;$9,305,875&quot;   &quot;$26,320,689&quot; </span>
 <span class="co">#&gt; [5] &quot;$21,729,447&quot;  &quot;$120,300,214&quot;</span></code></pre>
@@ -534,7 +535,7 @@ movie_data<span class="op">$</span>Gross &lt;-<span class="st"> </span><span cla
 <li>How many fewer theaters did the bottom movie (by number of theaters) play in than average?</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li>How big is the difference in theates as the mean number of theaters played in and the median? Which should we use?</li>
+<li>How big is the difference in theaters as the mean number of theaters played in and the median? Which should we use?</li>
 </ol>
 
 </div>

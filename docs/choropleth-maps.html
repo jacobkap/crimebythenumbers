@@ -150,14 +150,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">R for Criminology</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html"><i class="fa fa-check"></i>What you will learn</a><ul>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#skills"><i class="fa fa-check"></i>Skills</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#data"><i class="fa fa-check"></i>Data</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
-<li class="chapter" data-level="" data-path="what-you-will-learn.html"><a href="what-you-will-learn.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the Author</a></li>
 <li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
@@ -434,39 +435,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span>EPSG<span class="op">:</span><span class="st"> </span><span class="dv">4326</span> 
   proj4string<span class="op">:</span><span class="st"> &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span></code></pre>
-<p>Geographic data sets that describe locations on the surface of the earth have a “coordinate reference system” (CRS).</p>
-<p>The <code>proj4string</code> tells us that the coordinate system used to describe the Census tract boundaries is longitude/latitude. Specifically, it uses the World Geodetic System 1984 (WGS84) maintained by the United States National Geospatial-Intelligence Agency, one of several standards to aid in navigation and geography. The European Petroleum Survey Group (EPSG) maintains a catalog of different coordinate systems (should be no surprise that oil exploration has driven the development of high quality geolocation standards). They have assigned the standard longitude/latitude coordinate system to be [EPSG4326]((<a href="http://spatialreference.org/ref/epsg/4326/" class="uri">http://spatialreference.org/ref/epsg/4326/</a>). You can find the full collection of coordinate systems at <a href="http://spatialreference.org/ref/epsg/">spatialreference.org</a>.</p>
-<p>Many of us are comfortable with the longitude/latitude angular coordinate systems. However, the distance covered by a degree of longitude shrinks as you move towards the poles and only equals the distance covered by a degree of latitude at the equator. In addition, the earth is not very spherical so the coordinate system used for computing distances on the Earth’s surface might need to depend on where you are on the earth surface.</p>
-<p>Almost all web mapping tools (Google Maps, ESRI, OpenStreetMaps) use the pseudo-Mercator projection (<a href="http://spatialreference.org/ref/epsg/3857/">EPSG3857</a>). Let’s convert our “philly_tracts” data to that coordinate system.</p>
-<pre class="sourceCode r"><code class="sourceCode r">philly_tracts &lt;-<span class="st"> </span><span class="kw">st_transform</span>(philly_tracts, <span class="dt">crs =</span> <span class="kw">st_crs</span>(<span class="st">&quot;+init=epsg:3857&quot;</span>))
-<span class="kw">st_crs</span>(philly_tracts)
-Coordinate Reference System<span class="op">:</span>
-<span class="st">  </span>EPSG<span class="op">:</span><span class="st"> </span><span class="dv">3857</span> 
-  proj4string<span class="op">:</span><span class="st"> &quot;+proj=merc +lon_0=0 +lat_ts=0 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +nadgrids=@null +units=m +no_defs&quot;</span></code></pre>
-<p>Note that the <code>proj4string</code> now indicates that this is a Mercator projection with distance measured in meters (<code>+units=m</code>). Now if we ask for the centroids of the Census tracts, we get more accurate centroids and no warnings from R.</p>
-<p>We can use the same projection, but modify it so that distances are measured in feet.</p>
-<pre class="sourceCode r"><code class="sourceCode r">philly_tracts &lt;-<span class="st"> </span><span class="kw">st_transform</span>(philly_tracts, <span class="dt">crs =</span> <span class="kw">st_crs</span>(<span class="st">&quot;+init=epsg:3857 +units=us-ft&quot;</span>))
-<span class="kw">st_crs</span>(philly_tracts)
-Coordinate Reference System<span class="op">:</span>
-<span class="st">  </span>No EPSG code
-  proj4string<span class="op">:</span><span class="st"> &quot;+proj=merc +lon_0=0 +lat_ts=0 +x_0=0 +y_0=0 +a=6378137 +b=6378137 +nadgrids=@null +units=us-ft +no_defs&quot;</span></code></pre>
-<p>There is a special coordinate system for every part of the world. A useful coordinate system for the Philadelphia area is <a href="http://spatialreference.org/ref/epsg/2272/">EPSG2272</a>. Let’s convert our philly_tracts data to that coordinate system.</p>
+<p>An issue with working with geographic data is that the Earth is not flat. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by “projecting” our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it.</p>
+<p>If we look at the output of <code>st_crs(philly_tracts)</code> we can see that the EPSG is set to 4326 and the proj4string (which tells us which is “+proj=longlat +datum=WGS84 +no_defs”. This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see <a href="https://spatialreference.org/">here</a>. If you search that site for Pennsylvania you’ll see that Pennsylvania South is assigned 2272 which is what we will use to project this data properly.</p>
+<p>If we want to get the proj4string for 2272 we can use</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(<span class="dv">2272</span>)
+<span class="co">#&gt; Coordinate Reference System:</span>
+<span class="co">#&gt;   EPSG: 2272 </span>
+<span class="co">#&gt;   proj4string: &quot;+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs&quot;</span></code></pre>
+<p>Note the section that says “+units=us-ft”. This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area.</p>
+<p>Let’s convert our philly_tracts data to coordinate reference system 2272 which is the one assigned to southern Pennsylvania, an area that includes Philadelphia.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_tracts &lt;-<span class="st"> </span><span class="kw">st_transform</span>(philly_tracts, <span class="dt">crs =</span> <span class="dv">2272</span>)
 <span class="kw">st_crs</span>(philly_tracts)
 Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span>EPSG<span class="op">:</span><span class="st"> </span><span class="dv">2272</span> 
   proj4string<span class="op">:</span><span class="st"> &quot;+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs&quot;</span></code></pre>
-<p>This coordinate system is the Lambert Conic Conformal (LCC). This particular projection of the <code>philly_tracts</code> is tuned to provide good precision for the southern part of Pennsylvania and distances are measured in feet (note the <code>+units=us-ft</code> tag in the <code>proj4string</code>).</p>
 <div id="spatial-joins" class="section level2">
 <h2><span class="header-section-number">15.1</span> Spatial joins</h2>
-<p>What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can do two things. First we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. The second thing is to be able to combine the tract-level shootings with other data sets. Since some data also comes at the tract-level we can merge the data sets together and see if there is any relationship between the variables. In this lesson we will do that using Census data.</p>
-<p>Spatial joins is the process of linking two data sources by their geography. For the case of the officer-involved shooting data, we want to know how many shootings occurred in each tract. To do this we need to drop each shooting point location into the PSA polygons and have R tell us in which polygon (in mapping terms each tract is a polygon) did each shooting land.</p>
-<p>First we need to convert our “officer_shootings_geocoded” data frame to a spatial object, communicating to R that the <code>lon</code> and <code>lat</code> columns are special. At this stage we also have to communicate in what coordinate system are the <code>lon</code> and <code>lat</code> values. We want the same coordinate system in both the shootings data and the Census tracts data.</p>
-<p>Right now our “officer_shootings_geocoded” data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, “officer_shootings_geocoded”. Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in “philly_tracts” earlier.</p>
+<p>What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we can merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area.</p>
+<p>Right now our “officer_shootings_geocoded” data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, “officer_shootings_geocoded”. Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in “philly_tracts” earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings_geocoded &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(officer_shootings_geocoded, 
-                                       <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>), 
+                                       <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>),
                                        <span class="dt">crs =</span> <span class="st">&quot;+proj=longlat +ellps=WGS84 +no_defs&quot;</span>)</code></pre>
-<p>We want our shootings data in the same projection as the tracts data so we need to use <code>st_transform()</code> to change the projection. Since we want the CRS to be the same as in “philly_tracts”, we can set it using <code>st_crs(philly_tracts)</code> to copy the right CRS.</p>
+<p>We want our shootings data in the same projection as the tracts data so we need to use <code>st_transform()</code> to change the projection. Since we want the CRS to be the same as in “philly_tracts”, we can set it using <code>st_crs(philly_tracts)</code> to use the right CRS.</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings_geocoded &lt;-<span class="st"> </span><span class="kw">st_transform</span>(officer_shootings_geocoded, 
                                            <span class="dt">crs =</span> <span class="kw">st_crs</span>(philly_tracts))</code></pre>
 <p>Now we can take a look at <code>head()</code> to see if it was projected.</p>
@@ -495,7 +485,7 @@ Coordinate Reference System<span class="op">:</span>
 <p>Since we have both the tracts and the shootings data let’s make a quick map to see the data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(philly_tracts<span class="op">$</span>geometry)
 <span class="kw">plot</span>(officer_shootings_geocoded<span class="op">$</span>geometry, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Our next step is to combine these two data sets to figure out how many shootings occurred in each Census tract. This will be a multi-step process so let’s plan it out before beginning. Our shooting data is one row for each shooting, our tract data is one row for each tract. Since our goal is to map at the tract-level we need to get the tract where each shooting occurred then aggregate up to the tract-level to get a count of the shootings-per-tract. Then we need to combine that with that the original tract data (since we need the “geometry” column) and we can then map it.</p>
 <ol style="list-style-type: decimal">
 <li>Find which tract each shooting happened in</li>
@@ -618,13 +608,13 @@ Coordinate Reference System<span class="op">:</span>
 <p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the “number_shootings” column and it will color the polygons (tracts) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(philly_tracts_shootings, <span class="kw">aes</span>(<span class="dt">fill =</span> number_shootings)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() </code></pre>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We have now created a choropleth map showing the number of shootings per Census tract in Philly! Based on the legend tracts that are light blue have the most shootings while tracts that are dark blue have the fewest (or none at all). Normally we’d want the opposite, with darker (or brighter) areas signifying a greater amount of whatever the map is showing.</p>
 <p>We can use <code>scale_fill_gradient()</code> to set the colors to what we want. We input a color for low value and a color for high value and it’ll make the map shading by those colors.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(philly_tracts_shootings, <span class="kw">aes</span>(<span class="dt">fill =</span> number_shootings)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) </code></pre>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This gives a much better map and clearly shows the areas where shootings are most common and where there were no shootings.</p>
 <p>To make this map easier to read and look better, let’s add a title to the map and to the legend.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(philly_tracts_shootings, <span class="kw">aes</span>(<span class="dt">fill =</span> number_shootings)) <span class="op">+</span>
@@ -633,7 +623,7 @@ Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;# of Police Shootings&quot;</span>,
        <span class="dt">title =</span> <span class="st">&quot;Police Shootings in Philadelphia by Census Tract&quot;</span>,
        <span class="dt">subtitle =</span> <span class="st">&quot;January 2007 - mid-2019&quot;</span>) </code></pre>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since the coordinates don’t add anything to the map, let’s get rid of them.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(philly_tracts_shootings, <span class="kw">aes</span>(<span class="dt">fill =</span> number_shootings)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span>
@@ -644,7 +634,7 @@ Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_blank</span>(),
         <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),
         <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>())</code></pre>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We’ll return to this data in Section <a href="interactive-maps.html#interactive-polygons">16.5</a> for the lesson on interactive maps so we need to save it.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(philly_tracts_shootings, <span class="dt">file =</span> <span class="st">&quot;data/philly_tracts_shootings.rda&quot;</span>)</code></pre>
 
