@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Dates and Times | R 4 Criminology</title>
+  <title>3 Exploratory data analysis | R 4 Criminology</title>
   <meta name="description" content="Notes for learning R for Criminology." />
   <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Dates and Times | R 4 Criminology" />
+  <meta property="og:title" content="3 Exploratory data analysis | R 4 Criminology" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://r4crim.com" />
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/r4crim" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Dates and Times | R 4 Criminology" />
+  <meta name="twitter:title" content="3 Exploratory data analysis | R 4 Criminology" />
   
   <meta name="twitter:description" content="Notes for learning R for Criminology." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="explore.html">
-<link rel="next" href="regular-expressions.html">
+<link rel="prev" href="subsetting-making-big-things-small.html">
+<link rel="next" href="dates-and-times.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -377,160 +377,282 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dates-and-times" class="section level1">
-<h1><span class="header-section-number">4</span> Dates and Times</h1>
-<div id="why-do-dates-and-times-matter" class="section level2">
-<h2><span class="header-section-number">4.1</span> Why do dates and times matter?</h2>
-<p>Before we get started with any code, let’s think about why we should care about dates and times in data. Like most things you’ll use R for in this book (and for your own research), the data you have isn’t in the format you want it to be. For simple questions like “what day has the most crime?” you’ll need to know what day each crime occurred on. For more complex questions like “did marijuana legalization affect murder?” you need to know how many crimes occurred on months or years before and after marijuana legalization. In almost every case where time matters for research (and it matters in many studies) you will have data in the <strong>wrong</strong> format to answer you question. You’ll likely want to group all the days in a month together or just take crimes that happened at a certain time (as is common in studies of outdoor lighting).</p>
-<p>Many research studies are policy analyses comparing some outcome (e.g. number of crimes) in a state before and after a policy change compared to a similar locations without that change. In these cases you want to think about what time unit your data should be in (crimes per month, crime per year) and use the following tools to get the data into the right format.</p>
+<div id="explore" class="section level1">
+<h1><span class="header-section-number">3</span> Exploratory data analysis</h1>
+<p>When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year, a unique ID code, etc.), and what columns it has. <strong>Basically you want to know if the data is capable of answering the question you are asking.</strong></p>
+<p>While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.</p>
+<ul>
+<li>What variables are available?</li>
+<li>What time period does it cover?</li>
+<li>What are the units (what does each row represent?)?</li>
+<li>Are there outliers? How many?</li>
+<li>Are there missing values? How many?</li>
+</ul>
+<p>For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We’ll return to UCR data in Chapter @ref(Uniform Crime Report (UCR) Data) when focusing on what UCR is and how to use it.</p>
+<p>First we need to load the data. Make sure your working directory is set to folder where the data is.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</code></pre>
+<p>As a first step let’s see how many rows and columns are in the data, and glance at the first several rows from each column. <code>nrow()</code> and <code>ncol()</code> tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(ucr2017)
+<span class="co">#&gt; [1] 15764</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(ucr2017)
+<span class="co">#&gt; [1] 9</span></code></pre>
+<p>The function <code>head()</code> will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017)
+<span class="co">#&gt;       ori year agency_name  state population actual_murder</span>
+<span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span>
+<span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span>
+<span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span>
+<span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span>
+<span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span>
+<span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span>
+<span class="co">#&gt;   actual_rape_total actual_robbery_total actual_assault_aggravated</span>
+<span class="co">#&gt; 1               391                  778                      2368</span>
+<span class="co">#&gt; 2                24                   40                       131</span>
+<span class="co">#&gt; 3                50                   46                       206</span>
+<span class="co">#&gt; 4                19                    0                        14</span>
+<span class="co">#&gt; 5                15                    4                        41</span>
+<span class="co">#&gt; 6                 7                    0                        52</span></code></pre>
+<p>From these results it appears that each row is a single agency’s annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we’ll see in a later lesson).</p>
+<p>Finally, we can run <code>names()</code> to print out every column name. We can already see every name from <code>head()</code> but this is useful when we have many columns.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(ucr2017)
+<span class="co">#&gt; [1] &quot;ori&quot;                       &quot;year&quot;                     </span>
+<span class="co">#&gt; [3] &quot;agency_name&quot;               &quot;state&quot;                    </span>
+<span class="co">#&gt; [5] &quot;population&quot;                &quot;actual_murder&quot;            </span>
+<span class="co">#&gt; [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span>
+<span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></code></pre>
+<div id="summary-and-table" class="section level2">
+<h2><span class="header-section-number">3.1</span> Summary and Table</h2>
+<p>An important function in understanding the data you have is <code>summary()</code> which, as discussed earlier, provides summary statistics on the numeric columns you have. Let’s take a look at the results before seeing how to do something similar for categorical columns.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ucr2017)
+<span class="co">#&gt;      ori                 year      agency_name           state          </span>
+<span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span>
+<span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span>
+<span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span>
+<span class="co">#&gt;                     Mean   :2017                                        </span>
+<span class="co">#&gt;                     3rd Qu.:2017                                        </span>
+<span class="co">#&gt;                     Max.   :2017                                        </span>
+<span class="co">#&gt;    population      actual_murder     actual_rape_total </span>
+<span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  </span>
+<span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  </span>
+<span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000  </span>
+<span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  </span>
+<span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  </span>
+<span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000  </span>
+<span class="co">#&gt;  actual_robbery_total actual_assault_aggravated</span>
+<span class="co">#&gt;  Min.   :   -1.00     Min.   :   -1.00         </span>
+<span class="co">#&gt;  1st Qu.:    0.00     1st Qu.:    1.00         </span>
+<span class="co">#&gt;  Median :    0.00     Median :    5.00         </span>
+<span class="co">#&gt;  Mean   :   19.85     Mean   :   49.98         </span>
+<span class="co">#&gt;  3rd Qu.:    4.00     3rd Qu.:   21.00         </span>
+<span class="co">#&gt;  Max.   :13995.00     Max.   :29771.00</span></code></pre>
+<p>The <code>table()</code> function returns every unique value in a category <strong>and</strong> how often that value appears. Unlike <code>summary()</code> we can’t just put the entire data set into the (), we need to specify a single column. Remember, to specify a column you use the dollar sign notation which is data$column. For nearly every function we use to examine the data set as a whole, you can do the same for a specific column.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017<span class="op">$</span>agency_name)
+<span class="co">#&gt; [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></code></pre>
+<p>There are only two columns in our data with categorical values that we can use - “year” and “state” so let’s use <code>table()</code> on both of them. The columns “ori” and “agency_name” are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>year)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  2017 </span>
+<span class="co">#&gt; 15764</span></code></pre>
+<p>We can see that every year in our data is 2017, as expected based on the data name. “year” is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has 7 murders, for example, in our data (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>state)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;              alabama               alaska              arizona </span>
+<span class="co">#&gt;                  305                   32                  107 </span>
+<span class="co">#&gt;             arkansas           california             colorado </span>
+<span class="co">#&gt;                  273                  732                  213 </span>
+<span class="co">#&gt;          connecticut             delaware district of columbia </span>
+<span class="co">#&gt;                  107                   63                    3 </span>
+<span class="co">#&gt;              florida              georgia                 guam </span>
+<span class="co">#&gt;                  603                  522                    1 </span>
+<span class="co">#&gt;               hawaii                idaho             illinois </span>
+<span class="co">#&gt;                    4                   95                  696 </span>
+<span class="co">#&gt;              indiana                 iowa               kansas </span>
+<span class="co">#&gt;                  247                  216                  309 </span>
+<span class="co">#&gt;             kentucky            louisiana                maine </span>
+<span class="co">#&gt;                  352                  192                  135 </span>
+<span class="co">#&gt;             maryland        massachusetts             michigan </span>
+<span class="co">#&gt;                  152                  346                  625 </span>
+<span class="co">#&gt;            minnesota          mississippi             missouri </span>
+<span class="co">#&gt;                  397                   71                  580 </span>
+<span class="co">#&gt;              montana             nebraska               nevada </span>
+<span class="co">#&gt;                  108                  225                   59 </span>
+<span class="co">#&gt;        new hampshire           new jersey           new mexico </span>
+<span class="co">#&gt;                  176                  576                  116 </span>
+<span class="co">#&gt;             new york       north carolina         north dakota </span>
+<span class="co">#&gt;                  532                  310                  108 </span>
+<span class="co">#&gt;                 ohio             oklahoma               oregon </span>
+<span class="co">#&gt;                  532                  409                  172 </span>
+<span class="co">#&gt;         pennsylvania         rhode island       south carolina </span>
+<span class="co">#&gt;                 1473                   49                  427 </span>
+<span class="co">#&gt;         south dakota            tennessee                texas </span>
+<span class="co">#&gt;                   92                  466                  999 </span>
+<span class="co">#&gt;                 utah              vermont             virginia </span>
+<span class="co">#&gt;                  125                   85                  407 </span>
+<span class="co">#&gt;           washington        west virginia            wisconsin </span>
+<span class="co">#&gt;                  250                  200                  433 </span>
+<span class="co">#&gt;              wyoming </span>
+<span class="co">#&gt;                   57</span></code></pre>
+<p>This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears we usually want it order by frequency. We can use the <code>sort()</code> function to order the results from <code>table()</code>. Just put the entire <code>table()</code> function inside of the () in <code>sort()</code> and make sure to include the data name in the () of <code>table()</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state))
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                 guam district of columbia               hawaii </span>
+<span class="co">#&gt;                    1                    3                    4 </span>
+<span class="co">#&gt;               alaska         rhode island              wyoming </span>
+<span class="co">#&gt;                   32                   49                   57 </span>
+<span class="co">#&gt;               nevada             delaware          mississippi </span>
+<span class="co">#&gt;                   59                   63                   71 </span>
+<span class="co">#&gt;              vermont         south dakota                idaho </span>
+<span class="co">#&gt;                   85                   92                   95 </span>
+<span class="co">#&gt;              arizona          connecticut              montana </span>
+<span class="co">#&gt;                  107                  107                  108 </span>
+<span class="co">#&gt;         north dakota           new mexico                 utah </span>
+<span class="co">#&gt;                  108                  116                  125 </span>
+<span class="co">#&gt;                maine             maryland               oregon </span>
+<span class="co">#&gt;                  135                  152                  172 </span>
+<span class="co">#&gt;        new hampshire            louisiana        west virginia </span>
+<span class="co">#&gt;                  176                  192                  200 </span>
+<span class="co">#&gt;             colorado                 iowa             nebraska </span>
+<span class="co">#&gt;                  213                  216                  225 </span>
+<span class="co">#&gt;              indiana           washington             arkansas </span>
+<span class="co">#&gt;                  247                  250                  273 </span>
+<span class="co">#&gt;              alabama               kansas       north carolina </span>
+<span class="co">#&gt;                  305                  309                  310 </span>
+<span class="co">#&gt;        massachusetts             kentucky            minnesota </span>
+<span class="co">#&gt;                  346                  352                  397 </span>
+<span class="co">#&gt;             virginia             oklahoma       south carolina </span>
+<span class="co">#&gt;                  407                  409                  427 </span>
+<span class="co">#&gt;            wisconsin            tennessee              georgia </span>
+<span class="co">#&gt;                  433                  466                  522 </span>
+<span class="co">#&gt;             new york                 ohio           new jersey </span>
+<span class="co">#&gt;                  532                  532                  576 </span>
+<span class="co">#&gt;             missouri              florida             michigan </span>
+<span class="co">#&gt;                  580                  603                  625 </span>
+<span class="co">#&gt;             illinois           california                texas </span>
+<span class="co">#&gt;                  696                  732                  999 </span>
+<span class="co">#&gt;         pennsylvania </span>
+<span class="co">#&gt;                 1473</span></code></pre>
+<p>And if we want to sort it in decreasing order of frequency, we can use the parameter <code>decreasing</code> in <code>sort()</code> and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don’t want to use the default setting in the function. This parameter, <code>decreasing</code> changes the sort from smallest to largest to be from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE (you’ll learn more about TRUE and FALSE values soon and they must always be written in all capital letters).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt;         pennsylvania                texas           california </span>
+<span class="co">#&gt;                 1473                  999                  732 </span>
+<span class="co">#&gt;             illinois             michigan              florida </span>
+<span class="co">#&gt;                  696                  625                  603 </span>
+<span class="co">#&gt;             missouri           new jersey             new york </span>
+<span class="co">#&gt;                  580                  576                  532 </span>
+<span class="co">#&gt;                 ohio              georgia            tennessee </span>
+<span class="co">#&gt;                  532                  522                  466 </span>
+<span class="co">#&gt;            wisconsin       south carolina             oklahoma </span>
+<span class="co">#&gt;                  433                  427                  409 </span>
+<span class="co">#&gt;             virginia            minnesota             kentucky </span>
+<span class="co">#&gt;                  407                  397                  352 </span>
+<span class="co">#&gt;        massachusetts       north carolina               kansas </span>
+<span class="co">#&gt;                  346                  310                  309 </span>
+<span class="co">#&gt;              alabama             arkansas           washington </span>
+<span class="co">#&gt;                  305                  273                  250 </span>
+<span class="co">#&gt;              indiana             nebraska                 iowa </span>
+<span class="co">#&gt;                  247                  225                  216 </span>
+<span class="co">#&gt;             colorado        west virginia            louisiana </span>
+<span class="co">#&gt;                  213                  200                  192 </span>
+<span class="co">#&gt;        new hampshire               oregon             maryland </span>
+<span class="co">#&gt;                  176                  172                  152 </span>
+<span class="co">#&gt;                maine                 utah           new mexico </span>
+<span class="co">#&gt;                  135                  125                  116 </span>
+<span class="co">#&gt;              montana         north dakota              arizona </span>
+<span class="co">#&gt;                  108                  108                  107 </span>
+<span class="co">#&gt;          connecticut                idaho         south dakota </span>
+<span class="co">#&gt;                  107                   95                   92 </span>
+<span class="co">#&gt;              vermont          mississippi             delaware </span>
+<span class="co">#&gt;                   85                   71                   63 </span>
+<span class="co">#&gt;               nevada              wyoming         rhode island </span>
+<span class="co">#&gt;                   59                   57                   49 </span>
+<span class="co">#&gt;               alaska               hawaii district of columbia </span>
+<span class="co">#&gt;                   32                    4                    3 </span>
+<span class="co">#&gt;                 guam </span>
+<span class="co">#&gt;                    1</span></code></pre>
 </div>
-<div id="lubridate" class="section level2">
-<h2><span class="header-section-number">4.2</span> <code>lubridate</code></h2>
-<p>To work with dates and times we will use the <code>lubridate</code> package. For a useful cheatsheet for this package click <a href="https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf">here</a> To install this package run</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</code></pre>
-<p>and R will download the package, allowing you to use it.</p>
-<p>Some Mac users have issues installing packages so if you run into an issue try changing the parameter <code>type</code> to “mac.binary” in the <code>install.packages()</code> function.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;mac.binary&quot;</span>)</code></pre>
-<p>When you use a new package you will always need to download it using <code>install.packages("package_name")</code> the first time. You only need to do it once however every session you use it (i.e. time without restarting R) you will need to run <code>library("package_name")</code> to tell R you want to use this package. Since some packages have functions with the same name as other packages this is useful so you don’t accidentally use a function you didn’t intend to use.</p>
-<p>In our case we’ll run <code>library(lubridate)</code> to be able to use the package. Note that <code>install.package()</code> has the package name in quotes and <code>library()</code> does not.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lubridate)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span>
-<span class="co">#&gt; The following object is masked from &#39;package:base&#39;:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     date</span></code></pre>
+<div id="graphing" class="section level2">
+<h2><span class="header-section-number">3.2</span> Graphing</h2>
+<p>We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more sophisticated way to make graphs (that look better!) but for now let’s use the function <code>plot()</code>.</p>
+<p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017<span class="op">$</span>actual_murder, ucr2017<span class="op">$</span>actual_robbery_total)</code></pre>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
+<p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the square bracket <code>[]</code> notation to subset. Remember it is</p>
+<p>[rows, columns]</p>
+<p>where we either say exactly which rows or columns we want or give a conditional statement and it’ll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.</p>
+<p>[ucr2017$population &gt; 1000000, ]</p>
+<p>Now our row conditional is done. We want all the columns in the data so leave the section after the comma (don’t forget to include that comma!) empty. Now our square bracket notation is done but we need to put it directly to the right of our data so we take the rows from the right data set.</p>
+<p>ucr2017[ucr2017$population &gt; 1000000, ]</p>
+<p>And let’s save the results in a new object called “ucr2017_big_cities”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ucr2017_big_cities &lt;-<span class="st"> </span>ucr2017[ucr2017<span class="op">$</span>population <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000000</span>, ]</code></pre>
+<p>Now we can do the same graph as above but using this new data set.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_assault_aggravated, ucr2017_big_cities<span class="op">$</span>actual_robbery_total)</code></pre>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
+<p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).</p>
+<ul>
+<li>xlab - X-axis label</li>
+<li>ylab - Y-axis label</li>
+<li>main - Graph title</li>
+</ul>
+<p>Like all parameters, we add them in the () of <code>plot()</code> and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_assault_aggravated, ucr2017_big_cities<span class="op">$</span>actual_robbery_total,
+     <span class="dt">xlab =</span> <span class="st">&quot;Aggravated Assaults&quot;</span>,
+     <span class="dt">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,
+     <span class="dt">main =</span> <span class="st">&quot;Relationship between assault and robbery&quot;</span>)</code></pre>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="working-with-dates" class="section level2">
-<h2><span class="header-section-number">4.3</span> Working with dates</h2>
-<p>Before using real data, we’ll start with defining useful functions and using a toy example. Below we have made the object called “dates” with three character values showing the dates August 7th for the years 2010-2012. Please note that Dates (capital D) are a special type of value that R understands and just putting what we can read as a date in quotes doesn’t make it so.</p>
-<pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;2010-08-07&quot;</span>, <span class="st">&quot;2011-08-07&quot;</span>, <span class="st">&quot;2012-08-07&quot;</span>)</code></pre>
-<p>When we look at these dates we can see that it starts with the year, then has the month, then the day. R doesn’t know that. We have to tell R what order the year, month, and day are in. This is the key part of the <code>lubridate</code> package. The functions below are the ones we’ll use to tell R which order the date is in and to convert it to a Date type.</p>
-<ul>
-<li><code>ymd()</code> Order is year-month-day</li>
-<li><code>mdy()</code> Order is month-day-year (common in crime data)</li>
-<li><code>dmy()</code> Order is day-month-year</li>
-</ul>
-<p>Year, month, and day are all abbreviated to the first letter and all lowercase. Inside the parentheses we will put the date(s) we want to convert to a Date type. Since our date are in year-month-day order, we will use <code>ymd()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd</span>(dates)
-<span class="co">#&gt; [1] &quot;2010-08-07&quot; &quot;2011-08-07&quot; &quot;2012-08-07&quot;</span></code></pre>
-<p>If you tell R the wrong order, it will not be able to read the data and will return NAs.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">myd</span>(dates)
-<span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span>
-<span class="co">#&gt; [1] NA NA NA</span></code></pre>
-<p>Some dates come with hour, minutes, and even seconds telling exactly when the event happened. In those cases you must add <code>_hm</code> to the end of your code to indicate that there are hour and minute information in the data. If there are also seconds, use <code>_hms</code>.</p>
-<ul>
-<li><code>ymd_hm()</code></li>
-<li><code>mdy_hm()</code></li>
-<li><code>dmy_hm()</code></li>
-<li><code>ymd_hms()</code></li>
-<li><code>mdy_hms()</code></li>
-<li><code>dmy_hms()</code></li>
-</ul>
-<p>Like before, telling R the wrong order will return all NAs. If the date has hours and minutes (and seconds) you must have <code>_hm</code> or it won’t work right, and if it doesn’t you must not include it.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ymd_hms</span>(dates)
-<span class="co">#&gt; Warning: All formats failed to parse. No formats found.</span>
-<span class="co">#&gt; [1] NA NA NA</span></code></pre>
-<p>Once you have the dates in the Date format, you can use a number of useful functions to extract information from these dates such as the year or month of the date, the hour if hours are available, and even the day of the month or week.</p>
-<ul>
-<li><code>year()</code></li>
-<li><code>month()</code></li>
-<li><code>day()</code> Day of year</li>
-<li><code>mday()</code> Day of month</li>
-<li><code>wday()</code> Day of week</li>
-<li><code>hour()</code></li>
-</ul>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">year</span>(dates)
-<span class="co">#&gt; [1] 2010 2011 2012</span></code></pre>
-<p>This gives us an error. Why? When we ran the code <code>ymd(dates)</code> it changed the value in “dates” to Date type and printed out those new values. But it didn’t save it anywhere so our “dates” object is still a vector of characters rather than Dates. We need to run <code>ymd(dates)</code> again and save the result somewhere. Generally, to reduce the number of objects created when you’re making a change you just save it back in the original object, overwriting it. <strong>This doesn’t change the raw data found in .csv or .rda files, only the data that is read into R. This is important because we always want to keep the raw data unchanged and have all our changes recorded in code.</strong></p>
-<pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">ymd</span>(dates)</code></pre>
-<p>Now that we have saved our changes in the “dates” object, lets try again.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">year</span>(dates)
-<span class="co">#&gt; [1] 2010 2011 2012</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates)
-<span class="co">#&gt; [1] 8 8 8</span></code></pre>
-<p>By default <code>month()</code> gives the month number rather than the name of the month. We need to set the parameter <code>label</code> to TRUE to get the month name.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates, <span class="dt">label =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; [1] Aug Aug Aug</span>
-<span class="co">#&gt; 12 Levels: Jan &lt; Feb &lt; Mar &lt; Apr &lt; May &lt; Jun &lt; Jul &lt; Aug &lt; Sep &lt; ... &lt; Dec</span></code></pre>
-<p>We can also set the parameter <code>abbr</code> to FALSE if we want the full month name rather than the abbreviation.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">month</span>(dates, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)
-<span class="co">#&gt; [1] August August August</span>
-<span class="co">#&gt; 12 Levels: January &lt; February &lt; March &lt; April &lt; May &lt; June &lt; ... &lt; December</span></code></pre>
-<p>The final useful function we will discuss is <code>floor_date()</code> which rounds down the date to the first day of the unit given. There are a number of possible units, the most common for our purposes will be “year”, “month” “week”, and “day”.</p>
-<ul>
-<li><code>floor_date()</code></li>
-</ul>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(dates, <span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>)
-<span class="co">#&gt; [1] &quot;2010-08-01&quot; &quot;2011-08-01&quot; &quot;2012-08-01&quot;</span></code></pre>
-<p>If we change the unit to “year” it’ll change the date to the first date in the year.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">floor_date</span>(dates, <span class="dt">unit =</span> <span class="st">&quot;year&quot;</span>)
-<span class="co">#&gt; [1] &quot;2010-01-01&quot; &quot;2011-01-01&quot; &quot;2012-01-01&quot;</span></code></pre>
-<p>Using <code>floor_date()</code> will be very useful when you want to find the number of crimes in each month/year/week/day as you can do this to get a single date for each time period and aggregate crimes in that time period.</p>
-</div>
-<div id="chicago-crime-data" class="section level2">
-<h2><span class="header-section-number">4.4</span> Chicago crime data</h2>
-<p>Let’s use some sample data from Chicago to be able to work with real data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/chicago.rda&quot;</span>)</code></pre>
-<p>We can use <code>head()</code> to look at the first 6 rows of dates</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(chicago<span class="op">$</span>Date)
-<span class="co">#&gt; [1] &quot;12/09/2014 11:54:00 PM&quot; &quot;12/09/2014 11:45:00 PM&quot;</span>
-<span class="co">#&gt; [3] &quot;12/09/2014 11:42:00 PM&quot; &quot;12/09/2014 11:42:00 PM&quot;</span>
-<span class="co">#&gt; [5] &quot;12/09/2014 11:40:00 PM&quot; &quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
-<p>Now let’s use the square bracket <code>[]</code> indexing to also see the first 6 rows of dates. Remember, we’re going to want a vector of numbers 1 through 6 for this. Since these numbers are sequential without any missing we can use 1:6 instead of manually making a vector <code>c(1, 2, 3, 4, 5, 6)</code>. Since we already specify we want the Date column, we don’t need any commas after the vector of numbers.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>Date[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]
-<span class="co">#&gt; [1] &quot;12/09/2014 11:54:00 PM&quot; &quot;12/09/2014 11:45:00 PM&quot;</span>
-<span class="co">#&gt; [3] &quot;12/09/2014 11:42:00 PM&quot; &quot;12/09/2014 11:42:00 PM&quot;</span>
-<span class="co">#&gt; [5] &quot;12/09/2014 11:40:00 PM&quot; &quot;12/09/2014 11:37:00 PM&quot;</span></code></pre>
-<p>As you can see, the dates include the date in month-day-year format and the time includes hours, minutes, and seconds. So we must read in the data using <code>mdy_hms()</code> to tell R the proper order of the date and that it includes time up to the second. Lets save the results in a new column called “real_date”. It’s often useful when changing a column to save it as a new column in case you make a mistake in the code - that way you don’t have to reload the data to fix it.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>real_date &lt;-<span class="st"> </span><span class="kw">mdy_hms</span>(chicago<span class="op">$</span>Date)</code></pre>
-<p>Now lets use <code>head()</code> again on our new column to see what we made.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(chicago<span class="op">$</span>real_date)
-<span class="co">#&gt; [1] &quot;2014-12-09 23:54:00 UTC&quot; &quot;2014-12-09 23:45:00 UTC&quot;</span>
-<span class="co">#&gt; [3] &quot;2014-12-09 23:42:00 UTC&quot; &quot;2014-12-09 23:42:00 UTC&quot;</span>
-<span class="co">#&gt; [5] &quot;2014-12-09 23:40:00 UTC&quot; &quot;2014-12-09 23:37:00 UTC&quot;</span></code></pre>
-<p>Lets make new columns for the year, month, and weekday for each date and then do some basic exploring on these new variables.</p>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(chicago<span class="op">$</span>real_date)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">month</span>(chicago<span class="op">$</span>real_date,<span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">chicago<span class="op">$</span>weekday &lt;-<span class="st"> </span><span class="kw">wday</span>(chicago<span class="op">$</span>real_date, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">abbr =</span> <span class="ot">FALSE</span>)</code></pre>
-<p>First we can use <code>table()</code> on each of these new columns to see how frequently each value in the category appears in our data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>year)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  2014 </span>
-<span class="co">#&gt; 10000</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>month)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   January  February     March     April       May      June      July </span>
-<span class="co">#&gt;         0         0         0         0         0         0         0 </span>
-<span class="co">#&gt;    August September   October  November  December </span>
-<span class="co">#&gt;         0         0         0      4179      5821</span></code></pre>
-<p>Our data comes entirely from November and December in 2014. This certainly limits our ability to see if crime changes across seasons or over years.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;      1260      1855      1832      1341      1092      1312      1308</span></code></pre>
-<p>It looks like there’s a difference in which days have the most crime with Monday and Tuesday being the most dangerous days. For easier interpretation let’s turn these counts into percents. A simple way is to divide the results by the total number of rows in our data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(chicago)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;    0.1260    0.1855    0.1832    0.1341    0.1092    0.1312    0.1308</span></code></pre>
-<p>This gives us proportions - we can multiple by 100 to get percents.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(chicago<span class="op">$</span>weekday) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(chicago) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday </span>
-<span class="co">#&gt;     12.60     18.55     18.32     13.41     10.92     13.12     13.08</span></code></pre>
-<p>Now we see that indeed Monday and Tuesday have a much higher percent of crime in the data than other days. Is this reasonable? Most studies find that weekends have the highest amount of crime and that Mondays and Tuesdays have relatively low crime. But remember that we’re only using a sample of 10,000 crimes across two months in a single year from Chicago. Our data is likely not representative and we shouldn’t believe it too much.</p>
-<div id="exercises" class="section level3">
-<h3><span class="header-section-number">4.4.1</span> Exercises</h3>
-<ol style="list-style-type: decimal">
-<li>What is the most common crime on Fridays?</li>
-<li>How many assaults happened on Fridays?</li>
-<li>Which weekday had the fewest assaults?
-<ul>
-<li>How many fewer assaults did it have than on Fridays?</li>
-</ul></li>
-</ol>
+<div id="aggregating-summaries-of-groups" class="section level2">
+<h2><span class="header-section-number">3.3</span> Aggregating (summaries of groups)</h2>
+<p>Right now we have the number of crimes in each agency. For many policy analyses we’d be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data we need to <strong>aggregate</strong> up to the state level. What the <code>aggregate()</code> function does is group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group.</p>
+<p>In Section <a href="subsetting-making-big-things-small.html#subset-colorado-data">2.5.3</a> we started to see if marijuana legalization affected murder in Colorado. We subsetted the data to only include agencies in Colorado from 2011-2017. Now we can continue to answer the question by aggregating to the state-level to see the total number of murders per year.</p>
+<p>Let’s think about how our data are and how we would (theoretically, before we write any code) find that out.</p>
+<p>Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2011 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2012 and add up their murders. And so on for all the years. That is essentially what <code>aggregate()</code> does. It takes each row and groups them according to the category we specify and then adds up (or does the mathematical operator we specify) each value in each group.</p>
+<p>The syntax (how we write the code) is as follows</p>
+<p>aggregate(numerical_column ~ category_column, FUN = math, data = data_set)</p>
+<p>The numerical column is the column that we are doing the mathematical operation (sum, mean, median) on. The category column is the one we are using to group (e.g. state, year). Note the ~ between the numerical and category columns. Unlike most functions where we specify a column name, in <code>aggregate()</code> we do <strong>not</strong> use quotes for the columns.</p>
+<p>FUN is the parameter where we tell <code>aggregate()</code> which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.</p>
+<p>If the last chapter we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let’s reload that data and rerun the subsetting code.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)
+colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]
+colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]
+colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</code></pre>
+<p>Now we can run <code>aggregate()</code> to get the number of murders per year.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)
+  year actual_murder
+<span class="dv">1</span> <span class="dv">2011</span>           <span class="dv">154</span>
+<span class="dv">2</span> <span class="dv">2012</span>           <span class="dv">163</span>
+<span class="dv">3</span> <span class="dv">2013</span>           <span class="dv">172</span>
+<span class="dv">4</span> <span class="dv">2014</span>           <span class="dv">148</span>
+<span class="dv">5</span> <span class="dv">2015</span>           <span class="dv">173</span>
+<span class="dv">6</span> <span class="dv">2016</span>           <span class="dv">203</span>
+<span class="dv">7</span> <span class="dv">2017</span>           <span class="dv">218</span></code></pre>
+<p>If we had more grouping categories would could add them by literally using <code>+</code> and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn’t actually change the results.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>state, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)
+  year    state actual_murder
+<span class="dv">1</span> <span class="dv">2011</span> colorado           <span class="dv">154</span>
+<span class="dv">2</span> <span class="dv">2012</span> colorado           <span class="dv">163</span>
+<span class="dv">3</span> <span class="dv">2013</span> colorado           <span class="dv">172</span>
+<span class="dv">4</span> <span class="dv">2014</span> colorado           <span class="dv">148</span>
+<span class="dv">5</span> <span class="dv">2015</span> colorado           <span class="dv">173</span>
+<span class="dv">6</span> <span class="dv">2016</span> colorado           <span class="dv">203</span>
+<span class="dv">7</span> <span class="dv">2017</span> colorado           <span class="dv">218</span></code></pre>
+<p>If we want to aggregate multiple numeric columns we would use the <code>cbind()</code> function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let’s call it “colorado_agg”.</p>
+<pre class="sourceCode r"><code class="sourceCode r">colorado_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(population, actual_murder) <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</code></pre>
+<p>To make the murder rate we simply make a new column, which we can call “murder_rate” which is the number of murders divided by population multiplied by 100,000.</p>
+<pre class="sourceCode r"><code class="sourceCode r">colorado_agg<span class="op">$</span>murder_rate &lt;-<span class="st"> </span>colorado_agg<span class="op">$</span>actual_murder <span class="op">/</span><span class="st"> </span>colorado_agg<span class="op">$</span>population <span class="op">*</span><span class="st"> </span><span class="dv">100000</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">colorado_agg
+<span class="co">#&gt;   year population actual_murder murder_rate</span>
+<span class="co">#&gt; 1 2011    5155993           154    2.986816</span>
+<span class="co">#&gt; 2 2012    5227884           163    3.117896</span>
+<span class="co">#&gt; 3 2013    5308236           172    3.240248</span>
+<span class="co">#&gt; 4 2014    5402555           148    2.739445</span>
+<span class="co">#&gt; 5 2015    5505856           173    3.142109</span>
+<span class="co">#&gt; 6 2016    5590124           203    3.631404</span>
+<span class="co">#&gt; 7 2017    5661529           218    3.850550</span></code></pre>
+<p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and that doesn’t have legal marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
 
-</div>
 </div>
 </div>
             </section>
@@ -538,8 +660,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="explore.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="regular-expressions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="subsetting-making-big-things-small.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dates-and-times.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -559,7 +681,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/jacobkap/r4crim/edit/master/dates-and-times.Rmd",
+"link": "https://github.com/jacobkap/r4crim/edit/master/exploratory-data-analysis.Rmd",
 "text": "Edit"
 },
 "history": {

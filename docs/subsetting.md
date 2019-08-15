@@ -74,7 +74,7 @@ animals[-c(1, 2, 3)]
 #> [1] "buffalo" "lion"    "snake"
 ```
 
-## Assignment values to objects (Making "things")
+## Assignment values to objects (Making "things") {#assignment}
 
 Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object "animals" with the value of each of the different animals we wrote. 
 

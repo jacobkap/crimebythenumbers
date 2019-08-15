@@ -1,5 +1,5 @@
 
-# Exploratory data analysis
+# Exploratory data analysis {#explore}
 
 When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year, a unique ID code, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 

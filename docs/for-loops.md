@@ -1,7 +1,7 @@
 
 # For loops
 
-In R we often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in \@ref(making-a-function-to-scrape-movie-data). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
+We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in Section \@ref(making-a-function-to-scrape-movie-data). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
 
 ## Basic for loops
 
@@ -26,7 +26,7 @@ for (i in 1:10) {
 
 The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the `{` and `}` squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values. 
 
-Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1:10 each iteration of the loop. It's not necessary to call it `i` but that is convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings to numbers to lists of data.frames. Especially when you're first beginning using R it could help to call the `i` something informative to you about what value it has. 
+Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1:10 each iteration of the loop. It's not necessary to call it `i` but that is convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings to numbers to lists of data.frames. Especially when you're an early learner of R it could help to call the `i` something informative to you about what value it has. 
 
 Let's go through a few examples with different names for `i` and different values it is looping through. 
 
@@ -51,19 +51,15 @@ for (a_number in 1:10) {
 
 ```r
 animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
-for (animal in 1:10) {
-   print(animals)
+for (animal in animals) {
+   print(animal)
 }
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"  
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"
+#> [1] "cat"
+#> [1] "dog"
+#> [1] "gorilla"
+#> [1] "buffalo"
+#> [1] "lion"
+#> [1] "snake"
 ```
 
 Now let's make our code a bit more complicated, adding the number 2 every loop. 
@@ -85,9 +81,9 @@ for (a_number in 1:10) {
 #> [1] 12
 ```
 
-I'm keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in "numbers" a vector we will make with the values 1:10 and replace each value with it's value plus 2.
+We're keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in "numbers" a vector we will make with the values 1:10 and replace each value with it's value plus 2.
 
-The object we're looping through is "numbers". But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in "numbers" which is very useful when being able to change that element. `length(numbers)` just finds how long the vector "numbers" is (were this a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
+The object we're looping through is "numbers". But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in "numbers" which is useful when we want to change that element. `length(numbers)` finds how long the vector "numbers" is (were this a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
 
 
 ```r
@@ -95,6 +91,12 @@ numbers <- 1:10
 for (i in 1:length(numbers)) {
   numbers[i] <- numbers[i] + 2
 }
+```
+
+
+```r
+numbers
+#>  [1]  3  4  5  6  7  8  9 10 11 12
 ```
 
 We can also include functions we made in for loops. Here's a function we made last lesson which adds 2 to each inputted number. 
@@ -117,9 +119,15 @@ for (i in 1:length(numbers)) {
 ```
 
 
+```r
+numbers
+#>  [1]  5  6  7  8  9 10 11 12 13 14
+```
+
+
 ## Scraping multiple days of movie data
 
-Below is the function copied from the previous lesson on functions where we enter a single date and it scrapes the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
+Below is the function copied from the Section \ref(#movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
 
 
 ```r
@@ -140,7 +148,7 @@ With any for loop you need to figure out what is going to be changing, in this c
 
 `seq()` produces a vector of every value between two points (either numbers or Dates) based on the increments we specify, in this case daily. 
 
-We want a year of data, from July 4th, 2017 to July 4th, 2018 so those will be our start and end points. And we want Dates returned so we will use the `ymd()` function from `lubridate` to turn those values into dates.
+We want a year of data, from January 1th, 2018 to December 31th, 2018 so those will be our start and end points. And we want Dates returned so we will use the `ymd()` function from `lubridate` to turn those values into dates.
 
 
 ```r
@@ -155,7 +163,7 @@ library(lubridate)
 
 
 ```r
-year_of_dates <- seq(ymd("2017-7-4"), ymd("2018-7-4"), by = "days")
+year_of_dates <- seq(ymd("2018-1-1"), ymd("2018-12-31"), by = "days")
 ```
 
 Check the first 6 values to see if it did it right.
@@ -163,11 +171,11 @@ Check the first 6 values to see if it did it right.
 
 ```r
 head(year_of_dates)
-#> [1] "2017-07-04" "2017-07-05" "2017-07-06" "2017-07-07" "2017-07-08"
-#> [6] "2017-07-09"
+#> [1] "2018-01-01" "2018-01-02" "2018-01-03" "2018-01-04" "2018-01-05"
+#> [6] "2018-01-06"
 ```
 
-It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object "year_of_dates" it uses "-", in the website we are scraping, it uses "/". It may seem like a minor point but if we try to use "-" instead of "/" we will have an error. Luckily, we know enough `gsub()` to quickly replace all "-" with "/".
+It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object "year_of_dates" it uses "-"; in the website we are scraping, it uses "/". It may seem like a minor point but if we try to use "-" instead of "/" we will have an error. Luckily, we know enough `gsub()` to quickly replace all "-" with "/".
 
 
 ```r
@@ -183,9 +191,9 @@ for (date in year_of_dates) {
 }
 ```
 
-Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each site, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where "something" is a descriptive word for the data. In this case we will use "movie_data_final" and "movie_data_temp".
+Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each date, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where "something" is a descriptive word for the data. In this case we will use "movie_data_final" and "movie_data_temp".
 
-We start by creating the object "movie_data_final" and saying it gets the value "data.frame()". That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the "movie_data_temp" data to "movie_data_final" for each date. We will use the function `rbind()` which lets us combine two data.frames together. Think of it like the `c()` function but for the more complex data.frame (i.e. Excel files) type of objects. So every iteration of the loop we scrape a single date then add that to the "movie_data_final" object.
+We start by creating the object "movie_data_final" and saying it gets the value `data.frame()`. That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the "movie_data_temp" data to "movie_data_final" for each date. We will use the function `rbind()` which allow us to combine two data.frames together. Think of it like the `c()` function but for data.frames. So every iteration of the loop we scrape a single date then add those results to the "movie_data_final" object.
 
 
 ```r

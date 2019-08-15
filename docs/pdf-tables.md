@@ -1,5 +1,5 @@
 
-# Scraping Tables from PDFs
+# Scraping Tables from PDFs {#scrape-table}
 
 In Chapter \@ref(scraping-data-from-pdfs) we very briefly began working on scraping data from a PDF. We read in PDFs from Philadelphia's officer-involved shooting data and grabbed only the date of each incident. That data was written up like a report, with the date of the incident followed by a description of what happened. In the majority of cases when you want data from a PDF it will be in a table rather than descriptive paragraph. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and `strsplit()` again to start handling this data. 
 

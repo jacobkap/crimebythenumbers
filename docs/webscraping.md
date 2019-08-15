@@ -3,9 +3,9 @@
 
 # Webscraping with `rvest`
 
-You may come across data online that are relevant to your interests or research (for example, past students have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Yet, patterns in the page provide a valuable way to "scrape" data from that webpage. Here, we're going to work through an example of webscraping. We're going to get data on ticket sales of every movie, for every day in a single year. 
+You may come across data online that are relevant to your interests or research (for example, past students at Penn have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Here we'll learn how to grab data from a webpage - as our example we'll be scraping data on movie ticket sales. 
 
-For our purposes we will be using the R package [`rvest`](https://github.com/tidyverse/rvest). This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.
+For our purposes we will be using the package [`rvest`](https://github.com/tidyverse/rvest). This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.
 
 If you haven't done so before, make sure to install `rvest`.
 
@@ -24,9 +24,9 @@ library(rvest)
 
 We will be scraping movie ticket data from the website [The-Numbers](http://www.the-numbers.com). This site has daily information on how much money each movie in theaters made that day. The data includes the name of the movie, the number of theaters it played in, how much it made that day, how much it made since it started playing, and how many days it has been in theaters. Conveniently, this is all found in a single table on that page.
 
-Here is a screenshot of data from July 4th, 2018 and here is a link to [that page]([http://www.the-numbers.com/box-office-chart/daily/2018/07/04](http://www.the-numbers.com/box-office-chart/daily/2018/07/04)
+Here is a screenshot of data from July 4th, 2018 and here is a link to [that page](http://www.the-numbers.com/box-office-chart/daily/2018/07/04](http://www.the-numbers.com/box-office-chart/daily/2018/07/04).
 
-![Here is a screenshot of data from July 4th, 2018](images/the-numbers_example.PNG)
+![](images/the-numbers_example.PNG)
 
 
 ## Scraping one page
@@ -57,7 +57,7 @@ Right click somewhere in the table and then click "Inspect Element".
 
 ![](images/the-numbers_2.PNG)
 
-This will open up a tab on the screen and allows you to see the building blocks on that page. When you move your cursor over parts of this tab, the parts of the page it relates to will be highlighted in blue. Want want all of the data from the table so move your cursor to where it starts with "<table". Doing so will highlight the entire table in blue. 
+This will open up a tab on the screen that allows you to see the building blocks on that page. When you move your cursor over parts of this tab, the parts of the page it relates to will be highlighted in blue. We want want all of the data from the table so move your cursor to where it starts with "<table". Doing so will highlight the entire table in blue. 
 
 ![](images/the-numbers_3.PNG)
 
@@ -74,14 +74,14 @@ Note that when doing this in Google Chrome, you follow the same steps except cli
 movie_data <- html_nodes(movie_data, "#page_filling_chart > center:nth-child(2) > table")
 ```
 
-Since we are getting data from a table, we need to tell rvest that the format of the scraped data is a table. We do with using `html_table()` and our input in the () is the the object made in the function `html_nodes()`.
+Since we are getting data from a table, we need to tell `rvest` that the format of the scraped data is a table. We do with using `html_table()` and our input in the () is the the object made in the function `html_nodes()`.
 
 
 ```r
 movie_data <- html_table(movie_data)
 ```
 
-By default, `rvest` returns a list. We prefer to work with data.frames so we're going to use double square bracket notation [[]] to just take the first object in the list, which is the data from the table we scraped. In a future lesson we will discuss more explicitly what lists are and understand what we are doing here.
+By default, `rvest` returns a list. We prefer to work with data.frames so we're going to grab the first element in this list which is the data we want. Unlike with a vector or a data.frame, we can't use normal square bracket notation `[]` for lists. Instead we need double square brackets `[[]]`. 
 
 
 ```r
@@ -132,7 +132,7 @@ We have now successfully scraped a website! The "movie_data" object is a data.fr
 
 ## Cleaning the webscraped data
 
-Let's look at some summary statistics and try to find which movie made the most money that day. Let's check what the max value is in the "Gross" column which says how much the movie made on that day. 
+Let's check what the max value is in the "Gross" column which says how much the movie made on that day. 
 
 
 ```r
@@ -140,7 +140,7 @@ max(movie_data$Gross)
 #> [1] "$9,646,015"
 ```
 
-So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data in `View()` to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
+So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data using `View()` to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
 
 
 ```r
@@ -168,11 +168,11 @@ as.numeric("11501395")
 #> [1] 11501395
 ```
 
-We can use `gsub()` which we learned earlier in \@ref(regular-expressions) to delete the dollar sign and commas from our values. After that we can use `as.numeric()` to fix that column. (alternatively we could use the function `parse_number()` from the `readr` package, but this is a good example of using regular expressions)
+We can use `gsub()` which we learned earlier in Chapter \@ref(regular-expressions) to delete the dollar sign and commas from our values. After that we can use `as.numeric()` to fix that column. (alternatively we could use the function `parse_number()` from the `readr` package, but this is a good example of using regular expressions)
 
 Remember that the syntax of `gsub()` is 
 
-gsub("find", "replace", string_to_fix)
+`gsub("find", "replace", string_to_fix)`
 
 First we will remove the comma. We want to use `gsub()` to find all commas and replace it with nothing (deleting it). To indicate nothing we just use quotes without anything in it.
 
@@ -190,7 +190,7 @@ gsub("\\$", "", "$11,501,395")
 #> [1] "11,501,395"
 ```
 
-Each of these `gsub()`s work alone. We need to combine them to remove both the dollar sign and comma. We have two choices for this. The first choice is to use the `|` operator which tells `gsub()` to replace the value on the left **or** right side of the `|` symbol (or both if both are present). 
+Each of these `gsub()`s work alone. We need to combine them to remove both the dollar sign and the comma. We have two choices for this. The first choice is to use the `|` operator which tells `gsub()` to replace the value on the left or right side of the `|` symbol (or both if both are present). 
 
 
 ```r
@@ -198,7 +198,7 @@ gsub(",|\\$", "", "$11,501,395")
 #> [1] "11501395"
 ```
 
-The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
+The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` statements we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
 
 
 ```r
@@ -299,6 +299,6 @@ We have now scraped a single page of movie data. In the next lessons we will lea
 
 1. Turn the columns "Thtrs." and "TotalGross" into numeric type.
 2. What was the average number of theaters that a movie played in?
-  + How many more theaters did the top movie (by number of theaters) play in than average?
-  + How many fewer theaters did the bottom movie (by number of theaters) play in than average?
+    + How many more theaters did the top movie (by number of theaters) play in than average?
+    + How many fewer theaters did the bottom movie (by number of theaters) play in than average?
 3. How big is the difference in theaters as the mean number of theaters played in and the median? Which should we use?
