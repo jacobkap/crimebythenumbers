@@ -24,7 +24,7 @@ library(rvest)
 
 We will be scraping movie ticket data from the website [The-Numbers](http://www.the-numbers.com). This site has daily information on how much money each movie in theaters made that day. The data includes the name of the movie, the number of theaters it played in, how much it made that day, how much it made since it started playing, and how many days it has been in theaters. Conveniently, this is all found in a single table on that page.
 
-Here is a screenshot of data from July 4th, 2018 and here is a link to [that page](http://www.the-numbers.com/box-office-chart/daily/2018/07/04](http://www.the-numbers.com/box-office-chart/daily/2018/07/04).
+Here is a screenshot of data from July 4th, 2018 and here is a link to [that page](http://www.the-numbers.com/box-office-chart/daily/2018/07/04].
 
 ![](images/the-numbers_example.PNG)
 
