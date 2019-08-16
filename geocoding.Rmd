@@ -6,7 +6,7 @@ This type of activity is common in research studying the effect of place. For ex
 
 ## Geocoding a single address
 
-In this we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use it's geocoder so we will not be using it.
+In this chapter we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use it's geocoder so we will not be using it.
 
 The URL for geocoding using ArcGIS is the following:
 
@@ -16,15 +16,13 @@ where instead of "ADDRESS" we put in the address whose coordinates we want. As a
 
 `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type`
 
-Including spaces in the address causes errors so all spaces need to be replaced with `%20`. Let's see what data we get back from this URL. Enter the URL above in your browser and see what values you get back. 
+Including spaces in the address causes errors so all spaces need to be replaced with `%20`. Let's see what data we get back from this URL. Enter the URL above in your browser and you'll see these results.
 
 ![](images/geocoding_1.PNG)
 
 It gives us a page with several important values. For our purposes we want the "lat" and "lon" sections which are the latitude and longitude parts of a location's coordinates. 
 
-This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. Many web data sources use a standardized language for providing data. JSON (JavaScript Object Notation) is quite common and both OpenStreetMap and ArcGIS use JSON. This is the point of JSON, producing data in a format that a human could understand in a small batch, but a machine could process fast and easily. 
-
-The `jsonlite` package changes this data to data.frame that we are more familiar with.
+This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. We can concert it to a data.frame that we're more familiar with using the package `jsonlite`.
 
 ```{r eval = FALSE}
 install.packages("jsonlite")
@@ -45,9 +43,9 @@ address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services
 address_coordinates$candidates
 ```
 
-The "candidates" is a data.frame which includes 12 different coordinates from our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. ArcGIS provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
+The "candidates" is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
 
-Since we are grabbing the first row of a data.frame, our square bracket notation must be [row, column]. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.
+Since we are grabbing the first row of a data.frame, our square bracket notation must be `[row, column]`. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.
 
 ```{r}
 address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
@@ -66,7 +64,7 @@ Since our end goal was to get the coordinates of an address, the data.frame in t
 
 ## Making a function
 
-We want to geocode every single address from the officer shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us. 
+We want to geocode every single address from the officer-involved shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us. 
 
 Let's start by copying the code used to geocode a single address. 
 
@@ -160,7 +158,7 @@ Let's check first how many times the word "withheld" (with the W capitalized or 
 table(officer_shootings$location %in% c("", "withheld", "Withheld"))
 ```
 
-Above we are saying "how many times do the values "", "withheld", or "Withheld" appear in the column "location". `r sum(officer_shootings$location %in% c("", "withheld", "Withheld"))` times. 
+Above we are saying "how many times do the values "", "withheld", or "Withheld" appear in the column "location". The answer is `r sum(officer_shootings$location %in% c("", "withheld", "Withheld"))` times. 
 
 We can print out the shooting number of the rows with one of those values to make it easy to check the PDF. We can use square bracket `[]` subsetting to return the rows in the "shooting_number" column where the location is one of those values above.
 
@@ -168,7 +166,7 @@ We can print out the shooting number of the rows with one of those values to mak
 officer_shootings$shooting_number[officer_shootings$location %in% c("", "withheld", "Withheld")]
 ```
 
-We will also use square bracket `[]` notation to replace the value in the "location" column with the correct address that we read manually in the PDF. Let's start with the first shooting, number "16-18" printed above. Using square bracket notation we can see which value is in the "location" column for the row whose "shooting_number" is "16-18".
+We will also use square bracket `[]` notation to replace the value in the "location" column with the correct address that we read manually in the PDF. Let's start with the first shooting in the list, number "16-18". Using square bracket notation we can see which value is in the "location" column for the row whose "shooting_number" is "16-18".
 
 ```{r}
 officer_shootings$location[officer_shootings$shooting_number == "16-18"]
@@ -222,7 +220,7 @@ officer_shootings$location <- gsub(" block of|Rear Alley of |near ", "", officer
                                    ignore.case = TRUE)
 ```
 
-We can paste the string ", Philadelphia, PA" to the end of each address so when we geocode it ArcGIS knows these addresses are in Philly.
+We must paste the string ", Philadelphia, PA" to the end of each address so when we geocode it ArcGIS knows these addresses are in Philly.
 
 ```{r}
 officer_shootings$location <- paste(officer_shootings$location, ", Philadelphia, PA",
@@ -231,11 +229,11 @@ officer_shootings$location <- paste(officer_shootings$location, ", Philadelphia,
 
 There are still some addresses that require manual fixing, such as the one reading "5700 N. Park street/5700 N. Broad street". Since this work requires reading through each address and seeing if it is accurate and can be rewritten, I won't dwell on it any further. This kind of work, manually checking data, is important even when using a programming language like R. R can only do what we tell it to do and isn't smart enough to recognize an issue that we can easily see. 
 
-Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manual inspecting and correction is important. If instead you look at crime data with millions of rows, it likely wouldn't be worth it to manual inspect so many values. 
+Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manually inspecting and correction the data is important. If instead you look at crime data with millions of rows, it likely wouldn't be worth it to manually inspect so many values. 
 
 We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame "officer_shootings" we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in "officer_shootings".
 
-We need to make columns for the coordinates in "officer_shootings" now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), the value will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
+We need to make columns for the coordinates in "officer_shootings" now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
 
 ```{r}
 officer_shootings$lon <- NA
@@ -249,7 +247,7 @@ temp <- geocode_address(officer_shootings$location[1])
 temp
 ```
 
-We can use square bracket `[]` subsetting to assign the value from the "x" column of "temp" to our "lon" column in "officers_shootings" and do the same for "y" and "lat" columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
+We can use square bracket `[]` notation to assign the value from the "x" column of "temp" to our "lon" column in "officers_shootings" and do the same for the "y" and "lat" columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
 
 ```{r}
 officer_shootings$lon[1] <- temp$x
@@ -317,19 +315,6 @@ Two shootings have inaccurate latitudes. Let's drop any latitude that is greater
 
 ```{r}
 officer_shootings <- officer_shootings[officer_shootings$lat > 39, ]
-```
-
-We'll proceed as if we're satisfied with our geocoding even though you know you have more work to do to fix some of those non-specific geocoding problems. We close this section with a basic map of the city of Philadelphia and the locations of all officer-involved shootings.
-
-```{r, message=FALSE}
-library(ggmap)
-mapPhilly <- get_map(c(-75.288486, 39.868285, -74.950965, 40.138251))
-ggmap(mapPhilly, extent = "normal") +
-   geom_point(aes(x = lon,y = lat), data = officer_shootings,
-              color = "red",
-              alpha = 0.5) +
-   theme(axis.title.x = element_blank(),
-         axis.title.y = element_blank())
 ```
 
 To finish this lesson we want to save the "officer_shootings" data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of "officer_shootings" just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as "officer_shootings" to have fewer objects to manage. 

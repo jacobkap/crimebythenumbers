@@ -45,10 +45,10 @@ head(links)
 #> [3] "/districts-units/index.html"   "/accountability/index.html"   
 #> [5] "/programs-services/index.html" "/forms/index.html"
 length(links)
-#> [1] 522
+#> [1] 521
 ```
 
-There are 522 results and of the first 6 none of them are PDFs. This makes sense as our code grabbed every single link on the page, PDF or not. We need a way to subset these links to just those that a PDFs. Since we know that every PDF will end with the text ".pdf" we can use `grep()` to subset the links to only return those which include ".pdf" in the name. Sometimes the .pdf extension is written .PDF so we will set the parameter `ignore.case` to TRUE to ignore capitalization.
+There are 521 results and of the first 6 none of them are PDFs. This makes sense as our code grabbed every single link on the page, PDF or not. We need a way to subset these links to just those that a PDFs. Since we know that every PDF will end with the text ".pdf" we can use `grep()` to subset the links to only return those which include ".pdf" in the name. Sometimes the .pdf extension is written .PDF so we will set the parameter `ignore.case` to TRUE to ignore capitalization.
 
 
 ```r

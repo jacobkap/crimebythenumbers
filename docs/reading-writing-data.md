@@ -107,7 +107,6 @@ To read the data as a .dta format we can copy the code to read it as a .csv but 
 
 ```r
 shootings <- read_dta("data/fatal-police-shootings-data.dta")
-#> Error: 'data/fatal-police-shootings-data.dta' does not exist in current working directory ('C:/Users/user/Dropbox/R_project/r4crim').
 ```
 
 Since we called this new data "shootings", R overwrote that object (without warning us!). This is useful because we often want to subset or aggregate data and call it by the same name to avoid making too many objects to keep track of, but watch out for accidentally overwriting an object without noticing! 
@@ -117,7 +116,6 @@ Since we called this new data "shootings", R overwrote that object (without warn
 
 ```r
 shootings <- read_sas("data/fatal-police-shootings-data.sas")
-#> Error: 'data/fatal-police-shootings-data.sas' does not exist in current working directory ('C:/Users/user/Dropbox/R_project/r4crim').
 ```
 
 ### SPSS
@@ -125,7 +123,6 @@ shootings <- read_sas("data/fatal-police-shootings-data.sas")
 
 ```r
 shootings <- read_sav("data/fatal-police-shootings-data.sav")
-#> Error: 'data/fatal-police-shootings-data.sav' does not exist in current working directory ('C:/Users/user/Dropbox/R_project/r4crim').
 ```
 
 ## Writing Data 
@@ -149,8 +146,7 @@ As with reading the data, `write_csv()` comes from the `readr` package while the
 
 
 ```r
-save(shootings, "data/shootings.rda")
-#> Error in save(shootings, "data/shootings.rda"): object 'data/shootings.rda' not found
+save(shootings, file =  "data/shootings.rda")
 ```
 
 ### Excel 
