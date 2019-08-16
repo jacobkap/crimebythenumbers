@@ -1,7 +1,9 @@
 
 # Scraping data from PDFs
 
-Many government agencies will public reports as PDF files with data in tables embedded within. This makes it difficult to use as we can't simply load the PDF into R and start working on the data as we've done before. We need to take the data inside the PDF and turn it into a format that R can understand, often by In Chapter \@ref(#scrape-table) we will work on grabbing a table from a PDF, in this lesson we will just grab a line of text for the PDF. For this lesson we'll use data on officer-involved shootings from the Philadelphia Police Department's website [here](http://www.phillypolice.com/ois/) . The site contains information about the shooting such as the location and date - which we will scrape from the page - as well as information inside each shooting's description PDF which we will learn to scrape here. 
+Many government agencies will release reports as PDF files with useful data included as tables in the PDF rather than in a more readily accessible form such as a .csv file. This makes it difficult to use as we can't simply load the PDF into R and start working on the data as we've done before. We need to take the data inside the PDF and turn it into a format that R can understand. In Chapter \@ref(#scrape-table) we will work on grabbing an entire table from a PDF, in this lesson we will just grab a line of text from the PDF. 
+
+For this lesson we'll use data on officer-involved shootings from the Philadelphia Police Department's website available [here](http://www.phillypolice.com/ois/). The site contains information about each shooting such as the location and date - which we will scrape from the website - as well as information inside each shooting's descriptive PDF which we will learn to scrape here. 
 
 Our goal here and in the following lessons is to see how the number of officer-involved shootings changed over time and see where in Philadelphia they occurred. For this we need two pieces of information: the date each shooting occurred, and the location of each shooting. 
 
@@ -48,7 +50,7 @@ length(links)
 #> [1] 521
 ```
 
-There are 521 results and of the first 6 none of them are PDFs. This makes sense as our code grabbed every single link on the page, PDF or not. We need a way to subset these links to just those that a PDFs. Since we know that every PDF will end with the text ".pdf" we can use `grep()` to subset the links to only return those which include ".pdf" in the name. Sometimes the .pdf extension is written .PDF so we will set the parameter `ignore.case` to TRUE to ignore capitalization.
+There are 521 results and of the first 6 none of them are PDFs. This makes sense as our code grabbed every single link on the page, PDF or not. We need a way to subset these links to just those that are PDFs. Since we know that every PDF will end with the text ".pdf" we can use `grep()` to subset the links to only return those which include ".pdf" in the name. Sometimes the .pdf extension is written .PDF so we will set the parameter `ignore.case` to TRUE to ignore capitalization.
 
 
 ```r
@@ -73,18 +75,7 @@ This looks better but there are still a few files we don't want even though they
 links <- links[grep("officer-involved-shootings", links)]
 ```
 
-
-```r
-head(links)
-#> [1] "/assets/crime-maps-stats/officer-involved-shootings/master-report-ois.pdf"             
-#> [2] "/assets/crime-maps-stats/officer-involved-shootings/master-report-explanations-ois.pdf"
-#> [3] "/assets/crime-maps-stats/officer-involved-shootings/Citywide-SV-OIS-2019-Q2.pdf"       
-#> [4] "/assets/crime-maps-stats/officer-involved-shootings/Citywide-Gun-Crime-OIS-2019-Q2.pdf"
-#> [5] "/assets/crime-maps-stats/officer-involved-shootings/ois-19-04.pdf"                     
-#> [6] "/assets/crime-maps-stats/officer-involved-shootings/19-06.pdf"
-```
-
-We don't want any of these links. Let's look at the first 10 rather than first 6 links to see when the files we want appear.
+Let's look at the first 10 links to see what files we still have.
 
 
 ```r
@@ -101,30 +92,25 @@ links[1:10]
 #> [10] "/assets/crime-maps-stats/officer-involved-shootings/19-14.pdf"
 ```
 
-The first 8 links are files that are not incident reports of a single shooting so we don't want them. Since they are the first 8 links we can simply use square bracket notation subsetting to remove them
+A few of these PDFs are general reports rather than descriptions of specific shootings. We could specifically delete these through subsetting them out but since it is only a few files we can just download them then not use them. 
 
-
-```r
-links <- links[-c(1:8)]
-```
-
-Now we have all the links we need, we can use a for loop to download them. To download files in R we will use the function `download.file()` which, as the name implies, just downloads a file from the internet to your computer. This function takes two inputs: the parameter `url` is the URL where the file to download is stored (the links in our case), and parameter `destfile` is the name we will call the file we download. 
+Now that we have all the links we need, we can use a for loop to download them. To download files in R we will use the function `download.file()` which, as the name implies, just downloads a file from the internet to your computer. This function takes two inputs: the parameter `url` is the URL where the file to download is stored (the links in our case), and parameter `destfile` is the name we will call the file we download. 
 
 The links we have do not actually have the full URL we need. Notice that they begin with "/assets" but if you click a link on the web page, the links all start "http://www.phillypolice.com/assets". In our code we can paste the "http://www.phillypolice.com" part to our link name to make a complete URL to download.
 
-Since all the files have a similar pattern, we can use `gsub()` to make the name shorter than the long link it comes in. Note that for every link the pattern is the the real file name is at the very end and there are a number of categories broken up by forward slashes. For a quick `gsub()` can use the special character "." (the period or dot) to indicate anything and the special character "*" (asterix) to indicate "0 or more of the previous character" to say find every character up to and including the forward slash and replace it with nothing.
+Since all the files have a similar pattern, we can use `gsub()` to make the name shorter than the long link it comes in. Note that for every link the pattern is the the real file name is at the very end and there are a number of categories broken up by forward slashes. For a quick `gsub()` can use the special character `.` (the period or dot) to indicate anything and the special character `*` (asterix) to indicate "0 or more of the previous character" to say find every character up to and including the forward slash and replace it with nothing.
 
 Using the very first link as an example, the `gsub()` removes everything except the very last part of the link. It replaces every character up to and including the latest forward slash with an empty string, leaving a useful file name.
 
 
 ```r
 gsub(".*/", "", links[1])
-#> [1] "19-13.pdf"
+#> [1] "master-report-ois.pdf"
 ```
 
 `download.file()`  downloads the file into the current working directory so make sure it is set to where you want the files to go (for this many files it is wise to make a new folder specifically to hold these files). We will set the parameter `mode` to "wb". This isn't strictly necessary but in some cases R has an issue downloading files and this seems to fix it. Since sometimes scraping data from the same page too often causes a download to fail, we will add the code `Sys.sleep(1)` which forces R to sleep for 1 second. This slows down the code and makes sure we don't overload the site.
 
-There are 460 files so it will take some time to download them all. 
+There are 468 files so it will take some time to download them all. 
 
 
 ```r
@@ -143,7 +129,7 @@ for (file in links) {
 
 We also want the date and address of every shooting. While that data is available in the PDFs, it isn't in a consistent format which would make it difficult to get. The webpage we downloaded the PDFs from does contain the address of each shooting in a convenient table so we will scrape the data from there. While the PDFs have the date for every shooting, starting in 2017 the date isn't in an easy to scrape format so we will scrape the date column that is present for all years starting in 2013. Since we will want to merge the location with the data from the PDF, we will also scrape the Police Shooting Number column so we have something consistent in both the PDF and the scraped data to merge by. 
 
-As before, we will start by using `read_html()` to read the page into R. We will call this object "page" as we are going to use it for scraping the location, date and the shooting number so we don't want to overwrite the object.
+As before, we will start by using `read_html()` to read the page into R. We will call this object "page" as we are going to use it for scraping the location, date, and the shooting number so we don't want to overwrite the object.
 
 
 ```r
@@ -192,7 +178,7 @@ dates <- html_nodes(page, ".span12 td:nth-child(2)")
 dates <- html_text(dates)
 ```
 
-Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 460 values for links of the PDFs we downloaded? Why is this? 7 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers. 
+Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 468 values for links of the PDFs we downloaded? Why is this? -1 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers. 
 
 ### Combining the data sets
 
@@ -207,7 +193,7 @@ officer_shootings <- data.frame(shooting_number = shooting_numbers,
 
 Trying to make a data.frame this way returns an error because while there are 467 shootings, only the shooting number and location variable have all 467 values. Since the dates don't exist for 2007-2012, we only have 148 values for that data. While there are a few ways to solve this (as is true with nearly every problem in R), we will expand the "dates" object to make it 467 values long. 
 
-The function `rep()` repeats whatever value you input as many times as you'd like.
+The function `rep()` is used to repeat values.
 
 
 ```r
@@ -237,7 +223,7 @@ rep(NA, (length(location) - length(dates)))
 #> [300] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ```
 
-To combine the "dates" object with all these repeated NA's we will use c() which combines vectors. Make sure we put "dates" first to maintain the correct order.
+To combine the "dates" object with all these repeated NA's we will use `c()` which combines vectors. Make sure we put "dates" first to maintain the correct order.
 
 
 ```r
@@ -293,7 +279,7 @@ tail(officer_shootings)
 
 ## Extracting data from PDFs
 
-We scraped dates for shootings from 2013 and more recent and now need to get the dates for 2012 and before. We will do so by scraping the PDFs and taking the line that says the data of the shooting.
+We scraped dates for shootings from 2013 and more recent and now need to get the dates for 2012 and before. We will do so by scraping the PDFs and taking the line that says the date of the shooting.
 
 For this we will use the package `pdftools` which lets R scrape PDFs.
 
@@ -350,7 +336,7 @@ split
 #> [1] "crimi" "ology"
 ```
 
-From the pattern we see in the PDF we scraped, and comparing it to the PDF we can see in Adobe Acrobat or a web browser, it is clear that we can use split at the characters "\r\n" and it will give us each line in its own element (for Mac users you may need to split at "\n" rather than "\r\n"). Let's do that and just return the first element so we don't get a list. Let's call the object we make "pdf_split".
+From the pattern we see in the PDF we scraped, and comparing it to the PDF we can see in Adobe Acrobat or a web browser, it is clear that we can use split at the characters `\r\n` and it will give us each line in its own element (for Mac users you may need to split at `\n` rather than `\r\n`). Let's do that and just return the first element so we don't get a list. Let's call the object we make "pdf_split".
 
 
 ```r
@@ -393,9 +379,9 @@ So what pattern does our date have? It is always one or two numbers followed by 
 
 So our pattern in `grep()` will be 
 
-\\^[0-9]+/[0-9]+/[0-9]+
+`^[0-9]+/[0-9]+/[0-9]+`
 
-[0-9] means any number. The + is a special character which says "one or more of the previous character" so [0-9] means "one or more numbers". Some files (such as this one) have multiple dates in the text so we want to only get rows starting with a date. The ^ is a special character saying that whatever follows it is the start of the string.
+The `^` is a special character saying that whatever follows it is the start of the string. `[0-9]` means any number. The + is a special character which says "one or more of the previous character" so `[0-9]` means "one or more numbers". Some files (such as this one) have multiple dates in the text so we want to only get rows starting with a date. 
 
 By default `grep()` will return a number indicating the element where it found a match. If we set the parameter `value` to TRUE, it will print out that element. 
 
@@ -409,7 +395,7 @@ grep("^[0-9]+/[0-9]+/[0-9]+", pdf_split, value = TRUE)
 
 Since we need to do this process for hundreds of PDFs we will make a function and then for loop through it for every PDF. Here we are following the same steps as scraping the movie data - make code work for a single file/date, turn it into a function to work for any file/date, and write a for loop so it works for every file/date we have. That's the general process you will use when writing code meant for multiple inputs. Make sure code works first in a specific case (a specific date), then make it work in the general case (any date).
 
-When making a function from code you've already written, a good method is to just copy all the code so it is together. Then start building the function. 
+When making a function from code you've already written, a good method is to just copy all the code so it is together, then start building the function. 
 
 
 ```r
@@ -421,7 +407,7 @@ grep("^[0-9]+/[0-9]+/[0-9]+", pdf_split, value = TRUE)
 #> [1] "1/07/16"
 ```
 
-Above is our code, now let's make the standard function skeleton without including any code just yet. We can call the function "get_date_from_pdf" since that is a good description for what our function will do. We want to input a file name and get a date returned. So we will call our parameter in the () "file_name" and our return object "date".
+Above is our code to scrape a specific PDF. Now let's make the standard function skeleton without including any code just yet. We can call the function "get_date_from_pdf" since that is a good description for what our function will do. We want to input a file name and get a date returned. So we will call our parameter in the () "file_name" and our return object "date".
 
 
 ```r
@@ -471,7 +457,11 @@ get_date_from_pdf("16-01.pdf")
 
 Before we write the for loop let's think about what our goal is and what we currently have. We have a data set which has a single row for every shooting and information about when and where each shooting took place. The object "officer_shootings" that we made earlier has most of that. It contains the location for every shooting and the date for all of those from 2013-2019. So we want to scrape the PDFs for years prior to 2013 to get the date of each shooting. And we made a function that gives us the date in the file we input. Since we know the dates for 2013-2019 (and 2017-2019 make it hard to get the date from the PDF), we only want to scrape the PDFs from 2007-2012. 
 
-We need to do two things now: select only PDFs from 2007-2012, and, for each PDF, figure out a way to select the right now in the "officer_shootings" object to add the date. 
+We need to do two things now: 
+
+1. Select only PDFs from 2007-2012
+
+2. For each PDF figure out a way to select the right row in the "officer_shootings" object to add the date
 
 We can take this one piece at a time. First we need to select only PDFs from 2007-2012. The function `list.files()` will provide a list of every file in the working directory. We will use it to get a list of all files in the folder we stored the PDFs and then subset it to just keep the files we want. Let's call the object "pdf_files". 
 
@@ -491,7 +481,7 @@ head(pdf_files)
 #> [5] "07-05 2800 E PACIFIC ST.pdf" "07-06 6300 DITMAN ST.pdf"
 ```
 
-There is a pattern in these names where they start with two characters indicating the year (2016 starts with "PS" then "16" though since we don't need 2016 data that doesn't affect this process). We will use this pattern to just get files that start with "0" or begin "10", "11", or "12". We will use `grep()` and make use of the ^ special character which indicates that the characters following it are the start of the string. We will also use the `|` special character which indicates "thing on left or right" of the `|` are both a match.
+There is a pattern in these names where they start with two characters indicating the year (2016 starts with "PS" then "16" though since we don't need 2016 data that doesn't affect this process). We will use this pattern to just get files that start with "0" or begin "10", "11", or "12". We will use `grep()` and make use of the `^` special character which indicates that the characters following it are the start of the string. We will also use the `|` special character which indicates "thing on left or right" of the `|` are both a match.
 
 
 ```r
@@ -536,7 +526,7 @@ head(pdf_files)
 
 Each file name starts with the same 5 character ("year-unique ID") value indicating the shooting number that we scraped from the table. The files then occasionally have the address of the shooting and end with ".pdf". This is our match. For each file we want to just keep the first 5 characters which are an exact match to the "shooting_number" column. There are a few ways to do this but we'll use the function `substr()` as it well-suited for this task.
 
-`substr()` takes a string and returns nth-mth characters in that string. Let's see how this works using the word "apple".
+`substr()` takes a string and returns nth-mth (inclusive) characters in that string. Let's see how this works using the word "apple".
 
 
 ```r
@@ -597,7 +587,7 @@ for (file in pdf_files) {
 }
 ```
 
-We have one final thing to do, make the date column Date type. The date in the "dates" column aren't in the Date format for R which means that while we can easy read it, R doesn't know that it is a date (it thinks it's just a bunch of text) and can't do any date-related functions like grabbing the year or months from it. We can use the `lubridate` package we worked with earlier to turn it into a date. Since this date is in the month-day-year order we will use the function `mdy()`.
+We have one final thing to do, make the date column Date type. The date in the "dates" column aren't in the Date format for R which means that while we can easy read it, R doesn't know that it is a date and can't do any date-related functions like grabbing the year or months from it. We can use the `lubridate` package we worked with earlier to turn it into a date. Since this date is in the month-day-year order we will use the function `mdy()`.
 
 
 ```r
@@ -621,7 +611,7 @@ Now our "officer_shootings" file contains the date and address of every officer-
 officer_shootings <- officer_shootings[officer_shootings$shooting_number != "", ]
 ```
 
-We will save the file for now and in the next lesson learn how to geocode the address into coordinates that allow us to plot the shootings onto a map of Philadelphia. 
+We will save the file for now and in Chapter \@ref(geocoding) learn how to geocode the address into coordinates that allow us to plot the shootings onto a map of Philadelphia. 
 
 
 ```r

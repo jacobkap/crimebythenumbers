@@ -1,8 +1,8 @@
 # Hotspot maps
 
-Now that we've learned how to work with `ggplot2()`, we can make a hotspot map using many of the same concepts as the graphs we have already done. Hotspot maps are heavily used to find where events (officer-involved shootings, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing.
+Hotspot maps are used to find where events (officer-involved shootings, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).
 
-However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. There clusters are also drawn fairly randomly, without taking into account context such as neighborhoods (something we'll handle in Chapter \@ref(choropleth-maps)). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
+However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without taking into account context such as neighborhoods (In Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
 
 Here, we will make hotspot maps with our officer_shootings_geocoded crime data. First we need to load the data.
 
@@ -30,7 +30,7 @@ philly_map <- ggmap(get_map(c(-75.288486, 39.868285, -74.950965, 40.138251),
 philly_map
 ```
 
-Since we saved the map output into "philly_map" we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set.
+Since we saved the map output into "philly_map" we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
 
 ```{r}
 philly_map +
@@ -65,7 +65,7 @@ philly_map +
              size  = 2)
 ```
 
-For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as as point is solid green. We want to make the dots semi-transparent so if multiple shootings happen at the same place that dot will be shaded darker than if only one shooting happens there. To do so we use the parameter "alpha = " which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
+For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple shootings happen at the same place that dot will be shaded darker than if only one shooting happened there. To do so we use the parameter "alpha = " which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
 ```{r}
 philly_map +
@@ -76,11 +76,11 @@ philly_map +
              alpha = 0.5)
 ```
 
-This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning any time trends are lost - we'll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You'll notice that it has a message saying "Removed 2 rows containing missing values (geom_point)." That just means that `ggplot()` automatically deleted 2 rows that didn't contain any longitude or latitude data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.
+This map is useful because it allows us to easily see where each officer-involved shooting in Philly happened between 2007 and early 2019. There are some limitations though. This shows all shootings in a single map, meaning that any time trends are lost - we'll address this at the end of the lesson. While you can see some clusters, it is difficult to see if there are any hot spots indicating areas with especially high or low amounts of shootings. You'll notice that it has a message saying "Removed 2 rows containing missing values (geom_point)." That just means that `ggplot()` automatically deleted 2 rows that didn't contain any longitude or latitude data. Most data will have a small number of rows missing values, that is nothing to be concerned about unless the number of missing values gets large enough to affect your data.
 
 ## What really are maps?
 
-Let's pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in a later section we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of shootings in West Philly but not around University City, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
+Let's pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter \@ref(interactive-maps) we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of shootings in West Philly but not around University City, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
 
 ```{r}
 plot(officer_shootings_geocoded$lon, officer_shootings_geocoded$lat, col = "darkred")
@@ -88,7 +88,7 @@ plot(officer_shootings_geocoded$lon, officer_shootings_geocoded$lat, col = "dark
 
 ## Making a hotspot map
 
-Now we can start making hotspot maps which help to show areas with clusters of events. We'll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function `stat_binhex()` rather than `geom_point()`. It starts the same as before with `aex(x = lon, y = lat)` (or what the longitude and latitude columns are called in your data), as well as "data = officer_shootings_geocoded" outside of the `aes()` parameter. 
+Now we can start making hotspot maps which help to show areas with clusters of events. We'll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function `stat_binhex()` rather than `geom_point()`. It starts the same as before with `aex(x = lon, y = lat)` (or whatever the longitude and latitude columns are called in your data), as well as "data = officer_shootings_geocoded" outside of the `aes()` parameter. 
 
 There are two new things we need to make the hotspot map. First we can add the parameter "bins = number_of_bins" where "number_of_bins" is a number we select. bins essentially says how large or small we want each cluster of events to be. A smaller value for "bins" says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples. 
 
@@ -104,7 +104,7 @@ philly_map +
   coord_cartesian() 
 ```
 
-From this map we can see that most areas which has a shooting has only 1-2 shootings in that area (a limitation to this map is it is unclear just how wide these "areas" are). North Philly and North-West Philly has more areas with more shootings, and more shootings overall. But look right in the middle of Center City by City Hall, an area has 8 shootings, the most of any bin. Were there really 8 shootings outside of City Hall? No. Remember those addresses that couldn't be properly located? The coordinates given to those addresses were to City Hall, causing this weird pattern in our map. 
+From this map we can see that most areas which had a shooting had 1-2 shootings in that area (a limitation to this map is it is unclear just how wide these "areas" are). North Philly and North-West Philly have more areas with more shootings, and more shootings overall. But look right in the middle of Center City by City Hall, an area has 8 shootings, the most of any bin. Were there really 8 shootings outside of City Hall? No. Remember those addresses that couldn't be properly located? The coordinates given to those addresses were to City Hall, causing this weird pattern in our map. 
 
 What happens when we drop the number of bins to 30? 
 
@@ -116,7 +116,7 @@ philly_map +
   coord_cartesian() 
 ```
 
-Each bin is much larger and covers nearly all of Philadelphia. Be careful with maps like these. This map is so broad is appears like shootings are ubiquitous across the city. We know from the map showing each shooting as a dot and that there are <500 shootings, that this is not true. Making maps like this make it easy to mislead the reader, including yourself if you are using maps to better understand your data.
+Each bin is much larger and covers nearly all of Philadelphia. Be careful with maps like these! This map is so broad that it appears that shootings are ubiquitous across the city. We know from the map showing each shooting as a dot, and that there are <500 shootings, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
 What about looking at 100 bins?
 

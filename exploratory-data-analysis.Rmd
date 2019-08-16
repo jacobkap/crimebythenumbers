@@ -10,9 +10,9 @@ While not a comprehensive list, the following is a good start for exploratory da
   + Are there outliers? How many?
   + Are there missing values? How many?
 
-For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(Uniform Crime Report (UCR) Data) when focusing on what UCR is and how to use it. 
+For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(#ucr) when focusing on what UCR is and how to use it. 
 
-First we need to load the data. Make sure your working directory is set to folder where the data is.
+First we need to load the data. Make sure your working directory is set to the folder where the data is.
 
 ```{r}
 load("data/ucr2017.rda")
@@ -36,7 +36,7 @@ head(ucr2017)
 
 From these results it appears that each row is a single agency's annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we'll see in a later lesson). 
 
-Finally, we can run `names()` to print out every column name. We can already see every name from `head()` but this is useful when we have many columns.
+Finally, we can run `names()` to print out every column name. We can already see every name from `head()` but this is useful when we have many columns and don't want to use `head()`.
 
 ```{r}
 names(ucr2017)
@@ -44,13 +44,13 @@ names(ucr2017)
 
 ## Summary and Table
 
-An important function in understanding the data you have is `summary()` which, as discussed earlier, provides summary statistics on the numeric columns you have. Let's take a look at the results before seeing how to do something similar for categorical columns.
+An important function in understanding the data you have is `summary()` which, as discussed in Section \@ref(first-steps-to-exploring-data), provides summary statistics on the numeric columns you have. Let's take a look at the results before seeing how to do something similar for categorical columns.
 
 ```{r}
 summary(ucr2017)
 ```
 
-The `table()` function returns every unique value in a category **and** how often that value appears. Unlike `summary()` we can't just put the entire data set into the (), we need to specify a single column. Remember, to specify a column you use the dollar sign notation which is data$column. For nearly every function we use to examine the data set as a whole, you can do the same for a specific column. 
+The `table()` function returns every unique value in a category **and** how often that value appears. Unlike `summary()` we can't just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation which is `data$column`. For most functions we use to examine the data as a whole, you can do the same for a specific column. 
 
 ```{r}
 head(ucr2017$agency_name)
@@ -62,19 +62,19 @@ There are only two columns in our data with categorical values that we can use -
 table(ucr2017$year)
 ```
 
-We can see that every year in our data is 2017, as expected based on the data name. "year" is a numerical column so why can we use `table()` on it? R doesn't differentiate between numbers and characters when seeing how often each value appears. If we ran `table()` on the column "actual_murder" it would tell us how many times each unique value in the column appeared in the data. That wouldn't be very useful as we don't really care how many times an agency has 7 murders, for example, in our data (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use `table()`. 
+We can see that every year in our data is 2017, as expected based on the data name. "year" is a numerical column so why can we use `table()` on it? R doesn't differentiate between numbers and characters when seeing how often each value appears. If we ran `table()` on the column "actual_murder" it would tell us how many times each unique value in the column appeared in the data. That wouldn't be very useful as we don't really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use `table()`. 
 
 ```{r}
 table(ucr2017$state)
 ```
 
-This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears we usually want it order by frequency. We can use the `sort()` function to order the results from `table()`. Just put the entire `table()` function inside of the () in `sort()` and make sure to include the data name in the () of `table()`.
+This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears we usually want it order by frequency. We can use the `sort()` function to order the results from `table()`. Just put the entire `table()` function inside of the () in `sort()`.
 
 ```{r}
 sort(table(ucr2017$state))
 ```
 
-And if we want to sort it in decreasing order of frequency, we can use the parameter `decreasing` in `sort()` and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the sort from smallest to largest to be from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE (you'll learn more about TRUE and FALSE values soon and they must always be written in all capital letters).
+And if we want to sort it in decreasing order of frequency, we can use the parameter `decreasing` in `sort()` and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the `sort()` output to print from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE.
 
 ```{r}
 sort(table(ucr2017$state), decreasing = TRUE)
@@ -82,7 +82,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 
 ## Graphing
 
-We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more sophisticated way to make graphs (that look better!) but for now let's use the function `plot()`. 
+We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter \@ref(#graphing-intro) but for now let's use the function `plot()`. 
 
 Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
@@ -94,15 +94,15 @@ Above we are telling R to plot the number of murders on the x-axis and the numbe
 
 To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket `[]` notation to subset. Remember it is 
 
-[rows, columns]
+`[rows, columns]`
 
 where we either say exactly which rows or columns we want or give a conditional statement and it'll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.
 
-[ucr2017$population > 1000000, ]
+`[ucr2017$population > 1000000, ]`
 
-Now our row conditional is done. We want all the columns in the data so leave the section after the comma (don't forget to include that comma!) empty. Now our square bracket notation is done but we need to put it directly to the right of our data so we take the rows from the right data set.
+Now our row conditional is done. We want all the columns in the data so leave the section after the comma (don't forget to include that comma!) empty. Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.
 
-ucr2017[ucr2017$population > 1000000, ]
+`ucr2017[ucr2017$population > 1000000, ]`
 
 And let's save the results in a new object called "ucr2017_big_cities".
 
@@ -113,7 +113,7 @@ ucr2017_big_cities <- ucr2017[ucr2017$population > 1000000, ]
 Now we can do the same graph as above but using this new data set.
 
 ```{r}
-plot(ucr2017_big_cities$actual_assault_aggravated, ucr2017_big_cities$actual_robbery_total)
+plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
 ```
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
@@ -127,12 +127,11 @@ To make our graph look better, we can add labels for the axes and a title (there
 Like all parameters, we add them in the () of `plot()` and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.
 
 ```{r}
-plot(ucr2017_big_cities$actual_assault_aggravated, ucr2017_big_cities$actual_robbery_total,
-     xlab = "Aggravated Assaults",
+plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
+     xlab = "Murder",
      ylab = "Robberies",
-     main = "Relationship between assault and robbery")
+     main = "Relationship between murder and robbery")
 ```
-
 
 ## Aggregating (summaries of groups)
 
@@ -146,13 +145,13 @@ Our data is a single row for each agency and we have a column indicating the yea
 
 The syntax (how we write the code) is as follows
 
-aggregate(numerical_column ~ category_column, FUN = math, data = data_set)
+`aggregate(numerical_column ~ category_column, FUN = math, data = data_set)`
 
 The numerical column is the column that we are doing the mathematical operation (sum, mean, median) on. The category column is the one we are using to group (e.g. state, year). Note the ~ between the numerical and category columns. Unlike most functions where we specify a column name, in `aggregate()` we do **not** use quotes for the columns. 
 
 FUN is the parameter where we tell `aggregate()` which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.
 
-If the last chapter we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
+In Chapter \@ref(#subsetting-intro) we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
 
 ```{r comment="", results='hold'}
 load("data/offenses_known_yearly_1960_2017.rda")
@@ -190,3 +189,24 @@ colorado_agg
 ```
 
 Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you'd need a comparison area that is similar to Colorado prior to legalization (and that doesn't have legal marijuana) and see if the murder rates changes following Colorado's legalization.
+
+We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.
+
+```{r}
+plot(x = colorado_agg$year, y = colorado_agg$murder_rate)
+```
+
+By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
+
+```{r}
+plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l")
+```
+
+We can add some labels and a title to make this graph easier to read.
+
+```{r}
+plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l",
+     xlab = "Year",
+     ylab = "Murders per 100k Population",
+     main = "Murder Rate in Colorado, 2011-2017")
+```

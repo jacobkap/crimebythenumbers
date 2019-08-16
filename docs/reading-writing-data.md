@@ -1,9 +1,11 @@
 
 # Reading and Writing Data
 
-So far in these lessons we've used data from a number of sources but which all came as .rda files which is the standard R data format. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read all of these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
+So far in these lessons we've used data from a number of sources but which all came as .rda files which is the standard R data format. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
-Fixed-width ASCII files are not very common and require a bit more effort than the other formats so we'll leave those until Chapter \ref(#nibrs) where we discuss in detail how to use this type of data.
+Fixed-width ASCII files are not very common and require a bit more effort than the other formats so we'll leave those until Chapter \@ref(#nibrs) where we discuss in detail how to use this type of data.
+
+In this lesson we'll use data about officer-involved shootings. In Chapter \@ref(#ois_graphs) we'll return to this data set to practice graphing.
 
 ## Reading Data into R
 
@@ -11,11 +13,9 @@ Fixed-width ASCII files are not very common and require a bit more effort than t
 
 As we've seen earlier, to read in data with a .rda or .rdata extension you use the function `load()` with the file name (including the extension) in quotation marks inside of the parentheses. This loads the data into R and calls the object the name it was when it was saved. Therefore we do not need to give it a name ourselves.
 
-For each of the other types of data we'll need to assign a name to the data we're reading in so it has a name. Whereas we've done `x <- 2` to say x gets the value of 2, now we'd do `x <- DATA` where DATA is the way to load in the data and x will get the entire data.frame. 
+For each of the other types of data we'll need to assign a name to the data we're reading in so it has a name. Whereas we've done `x <- 2` to say x gets the value of 2, now we'd do `x <- DATA` where DATA is the way to load in the data and x will get the entire data.frame read in. 
 
 ### Excel 
-
-Unlike reading in 
 
 To read in Excel files, those ending in .csv, we can use the function `read_csv()` from the package `readr` (the function `read.csv()` is included in R by default so doesn't require any packages but is far slower than `read_csv()` so we will not use it).
 
@@ -29,9 +29,7 @@ install.packages("readr")
 library(readr)
 ```
 
-To read in .csv files (which are a common format you'll find data in) we can use the `read.csv()` function built into R (meaning we don't need to load any packages). The input in the () is the file name ending in ".csv". As it is telling R to read a file on the computer, the whole name must be in quotes. 
-
-Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can using "shootings" as it's relatively descriptive and easy for us to write. 
+The input in the () is the file name ending in ".csv". As it is telling R to read a file on the computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can using "shootings" as it's relatively descriptive and easy for us to write. 
 
 
 ```r
@@ -82,7 +80,7 @@ shootings <- as.data.frame(shootings)
 
 ### Stata 
 
-For both the remaining three data types we'll use the package `haven`.
+For the remaining three data types we'll use the package `haven`.
 
 
 ```r
@@ -94,7 +92,7 @@ install.packages("haven")
 library(haven)
 ```
 
-`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an object to get the data.
+`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to get the data.
 
 Like with `read_csv()` the functions to read data through `haven` all start with `read_` and end with the extension you're reading in. 
 
@@ -127,9 +125,9 @@ shootings <- read_sav("data/fatal-police-shootings-data.sav")
 
 ## Writing Data 
 
-When we're done with a project (or an important section) or when we need to send data to someone, we need to save the data we've worked on in a suitable format. For each format we are saving the data in we will follow the same syntax of 
+When we're done with a project (or an important part of a project) or when we need to send data to someone, we need to save the data we've worked on in a suitable format. For each format, we are saving the data in we will follow the same syntax of 
 
-function_name(data, "file_name")
+`function_name(data, "file_name")`
 
 As usual we start with the function name. Then inside the parentheses we have the name of the object we are saving (as it refers to an object in R we do not use quotations) and then the file name, in quotes, ending with the extension you want. 
 
@@ -143,6 +141,8 @@ For saving an .rda file we use the `save()` function, otherwise we follow the sy
 As with reading the data, `write_csv()` comes from the `readr` package while the other formats are from the `haven` package. 
 
 ### R 
+
+For saving an .rda file we must set the parameter "file" to be the name we're saving. For the other types of data they use the parameter "path" rather than "file" but it is not necessary to call them explicitly.
 
 
 ```r

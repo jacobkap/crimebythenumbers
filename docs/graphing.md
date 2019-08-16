@@ -1,7 +1,7 @@
 
 # (PART) Visualize {-}
 
-# Graphing with `ggplot2`
+# Graphing with `ggplot2` {#graphing-intro}
 
 We've made some simple graphs earlier, in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
 

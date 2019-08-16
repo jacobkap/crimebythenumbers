@@ -1,4 +1,4 @@
-# More Graphing with `ggplot`
+# More Graphing with `ggplot` {#ois_graphs}
 
 In this lesson we will continue to explore graphing using `ggplot()`. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we'll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the victim of the shootings, allowing us to practice making many types of graphs. 
 
@@ -45,21 +45,21 @@ summary(shootings$date)
 summary(shootings$age)
 ```
 
-From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is contintuously updating their data but I downloaded in on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most victim's around that range. However, the youngest victim is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable. 
+From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is continuously updating their data but I downloaded in on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most victim's around that range. However, the youngest victim is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable. 
 
-Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with manne_of_death.
+Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with manner_of_death.
 
 ```{r}
 table(shootings$manner_of_death)
 ```
 
-To turn these counts into percentages we can divide the results by the number of rows in our data and miltiple by 100.
+To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.
 
 ```{r}
 table(shootings$manner_of_death) / nrow(shootings) * 100
 ```
 
-Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used Taser. As this is data on officer shooting deaths, this is unsurprising. Let's take a look at where the victim was armed.
+Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let's take a look at where the victim was armed.
 
 ```{r}
 table(shootings$armed) / nrow(shootings) * 100
@@ -95,7 +95,7 @@ temp
 
 White people are the most likely to be killed by police followed by Black people and Hispanic people. 
 
-We can do a simple cross-tab to see if there the relationship beteen gender and race.
+We can do a simple cross-tab to see if there the relationship between gender and race.
 
 ```{r}
 table(shootings$gender, shootings$race)
