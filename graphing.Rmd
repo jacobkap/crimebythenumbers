@@ -32,7 +32,7 @@ The name of the file is quite long so for convenience let's copy it to a new obj
 alcohol <- apparent_per_capita_alcohol_consumption
 ```
 
-The original data has every state, region, and the US as a whole. For this lesson we're using data subsetted to just include states. For now let's just look at Pennsylvania
+The original data has every state, region, and the US as a whole. For this lesson we're using data subsetted to just include states. For now let's just look at Pennsylvania.
 
 ```{r}
 penn_alcohol <- alcohol[alcohol$state == "pennsylvania", ]
@@ -50,39 +50,11 @@ names(penn_alcohol)
 summary(penn_alcohol)
 ```
 
-### Exercises
-
-1. What variables does this data include?
-2. How does the units affect what kind of research we can do?
-   - What kind of things can we do with this data?
-   - What can't we do?
-3. What variables would be nice to add to this data?
-  - e.g. number of people age 14+ per state-year
-
-
-Looking at the correlation between numerical variables can help us understand their relationship.
-
 ```{r}
-cor(penn_alcohol$number_of_beers,
-    penn_alcohol$number_of_glasses_wine)
+head(penn_alcohol)
 ```
 
-```{r}
-cor(penn_alcohol$number_of_beers,
-    penn_alcohol$number_of_shots_liquor)
-```
-
-```{r}
-cor(penn_alcohol$number_of_glasses_wine,
-    penn_alcohol$number_of_shots_liquor)
-```
-
-### Exercises
-1. What do these correlations tell us about the relationship between beer, wine, and liquor?
-2. Why do you think these relationships exist?
-  - Assuming you had no resource or time restrictions, how would you test your hypothesis?
-
-It's also important to look for any possible outliers by checking very large or small values in the data. However, we'll leave that until the end as it relates to our understanding of how "trustworthy" the data is.
+So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
 
 ## Graphing data 
 
@@ -180,15 +152,6 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2016)")
 ```
   
-
-### Exercises
-
-That's a lot of new info so let's stop for questions and some examples
-
-1. Make a graph using some other variable or state
-2. Add labels and a title to the graph
-
-
 Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
 
 ```{r}
@@ -198,18 +161,6 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
 ```
 
 This graph shows us that when liquor consumption increases, beer consumption also usually increases.
-
-### Exercises
-
-1. What is the relationship between beer and wine consumption?
-
-```{r}
-ggplot(penn_alcohol, aes(x = number_of_glasses_wine,
-                         y = number_of_beers)) +
-  geom_point()
-```
- 
-2. Make a scatterplot using some other pair of variables or a different state.
 
 While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.
 
@@ -273,23 +224,7 @@ Let's look at how this data was collected to see how much we should trust it.
 
 The National Institute of Health determined per capita consumption by dividing alcohol sales by people aged 14+ living in the state. So there's two pieces: alcohol sales as a measure of consumption, and people aged 14+ as a measure of those doing the consuming. Alcohol sales data comes from sales or tax data for alcohol sold in that state.
 
-### Exercises
-
-1. What assumptions are the NIH making when it comes to this data?
- - Do you believe these assumptions are the right ones to make?
-2. How would you handle alcohol use by tourists or other out-of-staters?
-
-If you have good content knowledge in the field, it's useful to skim the data to see if it matches your expectations. This is a good gut check and fast test for any weird data.
-
-Let's take a look at the states with the highest and lowest alcohol consumption
-
-```{r eval = FALSE}
-View(alcohol)
-```
-
-### Exercises
-1. Are these results what you expected?
-2. Does it make the data more or less trustworthy?
+If you have good content knowledge in the field, it's useful to skim the data to see if it matches your expectations. This is a good gut check and fast test for any weird data. 
 
 ## Color blindness
 
@@ -299,7 +234,7 @@ Please keep in mind that some people are color blind so graphs (or maps which we
 
 This site let's you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for categorical data we've used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
 
-Let's use an example of a color blind friendly colors from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
+Let's use an example of a color blind friendly color from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
 
 ```{r}
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,

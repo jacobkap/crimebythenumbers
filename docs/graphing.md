@@ -37,7 +37,7 @@ The name of the file is quite long so for convenience let's copy it to a new obj
 alcohol <- apparent_per_capita_alcohol_consumption
 ```
 
-The original data has every state, region, and the US as a whole. For this lesson we're using data subsetted to just include states. For now let's just look at Pennsylvania
+The original data has every state, region, and the US as a whole. For this lesson we're using data subsetted to just include states. For now let's just look at Pennsylvania.
 
 
 ```r
@@ -96,45 +96,40 @@ summary(penn_alcohol)
 #>  Max.   :65.49          Max.   :153.64         Max.   :509.9
 ```
 
-### Exercises
-
-1. What variables does this data include?
-2. How does the units affect what kind of research we can do?
-   - What kind of things can we do with this data?
-   - What can't we do?
-3. What variables would be nice to add to this data?
-  - e.g. number of people age 14+ per state-year
-
-
-Looking at the correlation between numerical variables can help us understand their relationship.
-
 
 ```r
-cor(penn_alcohol$number_of_beers,
-    penn_alcohol$number_of_glasses_wine)
-#> [1] 0.12204
+head(penn_alcohol)
+#>             state year ethanol_beer_gallons_per_capita
+#> 1521 pennsylvania 2016                            1.31
+#> 1522 pennsylvania 2015                            1.31
+#> 1523 pennsylvania 2014                            1.32
+#> 1524 pennsylvania 2013                            1.34
+#> 1525 pennsylvania 2012                            1.36
+#> 1526 pennsylvania 2011                            1.37
+#>      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita
+#> 1521                            0.33                              0.72
+#> 1522                            0.32                              0.70
+#> 1523                            0.32                              0.70
+#> 1524                            0.31                              0.68
+#> 1525                            0.31                              0.67
+#> 1526                            0.30                              0.66
+#>      ethanol_all_drinks_gallons_per_capita number_of_beers
+#> 1521                                  2.36        310.5185
+#> 1522                                  2.33        310.5185
+#> 1523                                  2.34        312.8889
+#> 1524                                  2.33        317.6296
+#> 1525                                  2.34        322.3704
+#> 1526                                  2.33        324.7407
+#>      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
+#> 1521               65.48837               149.4891               503.4667
+#> 1522               63.50388               145.3366               497.0667
+#> 1523               63.50388               145.3366               499.2000
+#> 1524               61.51938               141.1841               497.0667
+#> 1525               61.51938               139.1079               499.2000
+#> 1526               59.53488               137.0316               497.0667
 ```
 
-
-```r
-cor(penn_alcohol$number_of_beers,
-    penn_alcohol$number_of_shots_liquor)
-#> [1] 0.6174096
-```
-
-
-```r
-cor(penn_alcohol$number_of_glasses_wine,
-    penn_alcohol$number_of_shots_liquor)
-#> [1] 0.6151015
-```
-
-### Exercises
-1. What do these correlations tell us about the relationship between beer, wine, and liquor?
-2. Why do you think these relationships exist?
-  - Assuming you had no resource or time restrictions, how would you test your hypothesis?
-
-It's also important to look for any possible outliers by checking very large or small values in the data. However, we'll leave that until the end as it relates to our understanding of how "trustworthy" the data is.
+So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
 
 ## Graphing data 
 
@@ -168,7 +163,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want.
@@ -190,7 +185,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -198,7 +193,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can also combine different types of graphs.
 
@@ -209,7 +204,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We add this to the graphs the same as adding anything else.
 
@@ -221,7 +216,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   expand_limits(y = 0)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -233,7 +228,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 Some other useful features are changing the axis labels and the graph title.
@@ -252,17 +247,8 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2016)")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
   
-
-### Exercises
-
-That's a lot of new info so let's stop for questions and some examples
-
-1. Make a graph using some other variable or state
-2. Add labels and a title to the graph
-
-
 Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
 
 
@@ -272,24 +258,9 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 This graph shows us that when liquor consumption increases, beer consumption also usually increases.
-
-### Exercises
-
-1. What is the relationship between beer and wine consumption?
-
-
-```r
-ggplot(penn_alcohol, aes(x = number_of_glasses_wine,
-                         y = number_of_beers)) +
-  geom_point()
-```
-
-<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
- 
-2. Make a scatterplot using some other pair of variables or a different state.
 
 While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.
 
@@ -303,7 +274,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 Then include a second geom_line() with its own aes() for the second variable.
 
@@ -314,7 +285,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line(aes(x = year, y = number_of_shots_liquor))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 A problem with this is that both lines are the same color. We need to set a color for each line, and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
@@ -327,7 +298,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                 color = "number_of_shots_liquor of Liquor"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can change the legend title.
 
@@ -341,7 +312,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   labs(color = "Alcohol Type")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, a useful option to to move the legend from the side to the bottom. This will allow the graph to be larger.
 
@@ -356,7 +327,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   theme(legend.position = "bottom")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 If our data was in a different format we could set colors in a different way. The way our data is setup is how most data you'll encounter will be and, as our goal is understanding the data, this method works.
 
@@ -368,24 +339,7 @@ Let's look at how this data was collected to see how much we should trust it.
 
 The National Institute of Health determined per capita consumption by dividing alcohol sales by people aged 14+ living in the state. So there's two pieces: alcohol sales as a measure of consumption, and people aged 14+ as a measure of those doing the consuming. Alcohol sales data comes from sales or tax data for alcohol sold in that state.
 
-### Exercises
-
-1. What assumptions are the NIH making when it comes to this data?
- - Do you believe these assumptions are the right ones to make?
-2. How would you handle alcohol use by tourists or other out-of-staters?
-
-If you have good content knowledge in the field, it's useful to skim the data to see if it matches your expectations. This is a good gut check and fast test for any weird data.
-
-Let's take a look at the states with the highest and lowest alcohol consumption
-
-
-```r
-View(alcohol)
-```
-
-### Exercises
-1. Are these results what you expected?
-2. Does it make the data more or less trustworthy?
+If you have good content knowledge in the field, it's useful to skim the data to see if it matches your expectations. This is a good gut check and fast test for any weird data. 
 
 ## Color blindness
 
@@ -395,7 +349,7 @@ Please keep in mind that some people are color blind so graphs (or maps which we
 
 This site let's you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for categorical data we've used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
 
-Let's use an example of a color blind friendly colors from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
+Let's use an example of a color blind friendly color from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
 
 
 ```r
@@ -409,4 +363,4 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   scale_color_manual(values = c("#7570b3", "#d95f02"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
