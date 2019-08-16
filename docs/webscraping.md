@@ -38,7 +38,10 @@ The first step to scraping a page is to read in that page's information to R usi
 
 ```r
 read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
-#> Error in open.connection(x, "rb"): HTTP error 500.
+#> {xml_document}
+#> <html>
+#> [1] <head>\n<!-- Global site tag (gtag.js) - Google Analytics --><script ...
+#> [2] <body>\n\r\n<script>\r\n  window.fbAsyncInit = function() {\r\n    F ...
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call "movie_data" since that is our end goal. 
@@ -46,7 +49,6 @@ When running the above code, it returns an XML Document. The `rvest` package is 
 
 ```r
 movie_data <- read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
-#> Error in open.connection(x, "rb"): HTTP error 500.
 ```
 
 We now need to select only a small part of page which has the relevant information - in this case the data in the table.
@@ -70,7 +72,6 @@ Note that when doing this in Google Chrome, you follow the same steps except cli
 
 ```r
 movie_data <- html_nodes(movie_data, "#page_filling_chart > center:nth-child(2) > table")
-#> Error in html_nodes(movie_data, "#page_filling_chart > center:nth-child(2) > table"): object 'movie_data' not found
 ```
 
 Since we are getting data from a table, we need to tell `rvest` that the format of the scraped data is a table. We do with using `html_table()` and our input in the () is the the object made in the function `html_nodes()`.
@@ -78,7 +79,6 @@ Since we are getting data from a table, we need to tell `rvest` that the format 
 
 ```r
 movie_data <- html_table(movie_data)
-#> Error in html_table(movie_data): object 'movie_data' not found
 ```
 
 By default, `rvest` returns a list. We prefer to work with data.frames so we're going to grab the first element in this list which is the data we want. Unlike with a vector or a data.frame, we can't use normal square bracket notation `[]` for lists. Instead we need double square brackets `[[]]`. 
@@ -86,7 +86,6 @@ By default, `rvest` returns a list. We prefer to work with data.frames so we're 
 
 ```r
 movie_data <- movie_data[[1]]
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
 ```
 
 Take a look at the webpage and compare it to the data set you've now created. All the values should now match.
@@ -94,13 +93,39 @@ Take a look at the webpage and compare it to the data set you've now created. Al
 
 ```r
 head(movie_data)
-Error in head(movie_data): object 'movie_data' not found
+                                 Movie   Distributor       Gross Change
+1 1 (1) Jurassic World: Fallen Kingdom     Universal $11,501,395    -3%
+2 2 (2)                  Incredibles 2   Walt Disney  $9,646,015    -6%
+3 3 new                The First Purge     Universal  $9,305,875       
+4 4 (3)    Sicario: Day of the Soldado Sony Pictures  $2,577,639    n/c
+5 5 (4)                     Uncle Drew     Lionsgate  $2,177,946   -13%
+6 6 (5)                      Ocean’s 8  Warner Bros.  $2,093,164   +14%
+  Thtrs. Per Thtr.  Total Gross Days
+1  4,485    $2,564 $297,672,320   13
+2  4,410    $2,187 $468,190,380   20
+3  3,031    $3,070   $9,305,875    1
+4  3,055      $844  $26,320,689    6
+5  2,742      $794  $21,729,447    6
+6  3,426      $611 $120,300,214   27
 ```
 
 
 ```r
 tail(movie_data)
-Error in tail(movie_data): object 'movie_data' not found
+                       Movie          Distributor  Gross Change Thtrs.
+43 - (-)               Beast Roadside Attractions $1,332   -18%     14
+44 - (-)     On Chesil Beach      Bleecker Street $1,305    -2%     10
+45 - (-) Let The Sunshine In     Sundance Selects $1,098  +104%      4
+46 - (-)    Super Troopers 2     20th Century Fox   $718   -44%     21
+47 - (-)        Summer of 67     Self Distributed   $450  +254%      1
+48 - (-)      Chappaquiddick Entertainment Studi…   $445   -44%      6
+   Per Thtr. Total Gross Days
+43       $95    $798,923   55
+44      $131    $733,899   48
+45      $275    $855,165   69
+46       $34 $30,608,780   76
+47      $450      $6,196    6
+48       $74 $17,387,545   90
 ```
 
 We have now successfully scraped a website! The "movie_data" object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we've done before. 
@@ -112,7 +137,7 @@ Let's check what the max value is in the "Gross" column which says how much the 
 
 ```r
 max(movie_data$Gross)
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
+#> [1] "$9,646,015"
 ```
 
 So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data using `View()` to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
@@ -120,7 +145,8 @@ So the most money a movie made is about \$9.6 million. Is that right? We can che
 
 ```r
 head(movie_data$Gross)
-#> Error in head(movie_data$Gross): object 'movie_data' not found
+#> [1] "$11,501,395" "$9,646,015"  "$9,305,875"  "$2,577,639"  "$2,177,946" 
+#> [6] "$2,093,164"
 ```
 
 The values are not actually numeric type. If a value is numeric in R it would only have numbers, not dollar signs or commas like we see here. It also would not be in quotes, R's way of saying "this value is a character type". So what we have to do is turn these values into numeric type. 
@@ -195,9 +221,7 @@ Now we have code that works on a single value, let's do it for the entire "Gross
 
 ```r
 movie_data$Gross <- gsub(",|\\$", "", movie_data$Gross)
-#> Error in gsub(",|\\$", "", movie_data$Gross): object 'movie_data' not found
 movie_data$Gross <- as.numeric(movie_data$Gross)
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
 ```
 
 We can look at the first 6 rows in that column and check the max value to see if our code worked.
@@ -205,13 +229,13 @@ We can look at the first 6 rows in that column and check the max value to see if
 
 ```r
 head(movie_data$Gross)
-#> Error in head(movie_data$Gross): object 'movie_data' not found
+#> [1] 11501395  9646015  9305875  2577639  2177946  2093164
 ```
 
 
 ```r
 max(movie_data$Gross)
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
+#> [1] 11501395
 ```
 
 ## Fixing names
@@ -221,7 +245,8 @@ If we run `names()` on our data we will see that there is a column with a space 
 
 ```r
 names(movie_data)
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
+#>  [1] ""            ""            "Movie"       "Distributor" "Gross"      
+#>  [6] "Change"      "Thtrs."      "Per Thtr."   "Total Gross" "Days"
 ```
 
 Trying to do so using the dollar sign notation causes an error.
@@ -239,7 +264,8 @@ To select it we need to put the name in between tick marks `` so R knows to incl
 
 ```r
 head(movie_data$`Total Gross`)
-#> Error in head(movie_data$`Total Gross`): object 'movie_data' not found
+#> [1] "$297,672,320" "$468,190,380" "$9,305,875"   "$26,320,689" 
+#> [5] "$21,729,447"  "$120,300,214"
 ```
 
 An alternative is to change the column name using both `names()` and `gsub()` together to remove the space. Running `names()` returns the name of every column. If we assign something to the `names()` it will actually change the column names to whatever we assign it. What we want to do is use `gsub()` to replace all spaces in column names with something else - either with nothing or a value R understands as part of a name such as an underscore. 
@@ -247,7 +273,8 @@ An alternative is to change the column name using both `names()` and `gsub()` to
 
 ```r
 gsub(" ", "", names(movie_data))
-#> Error in gsub(" ", "", names(movie_data)): object 'movie_data' not found
+#>  [1] ""            ""            "Movie"       "Distributor" "Gross"      
+#>  [6] "Change"      "Thtrs."      "PerThtr."    "TotalGross"  "Days"
 ```
 
 If we assign the results of that `gsub()` to the `names()`, it will change the names to the values resulting from `gsub()`.
@@ -255,7 +282,6 @@ If we assign the results of that `gsub()` to the `names()`, it will change the n
 
 ```r
 names(movie_data) <- gsub(" ", "", names(movie_data))
-#> Error in gsub(" ", "", names(movie_data)): object 'movie_data' not found
 ```
 
 We can check to make sure it worked by again running `names()`.
@@ -263,7 +289,8 @@ We can check to make sure it worked by again running `names()`.
 
 ```r
 names(movie_data)
-#> Error in eval(expr, envir, enclos): object 'movie_data' not found
+#>  [1] ""            ""            "Movie"       "Distributor" "Gross"      
+#>  [6] "Change"      "Thtrs."      "PerThtr."    "TotalGross"  "Days"
 ```
 
 We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages. 

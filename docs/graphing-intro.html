@@ -284,8 +284,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>13.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="13.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>13.2</b> Graphing data</a></li>
 <li class="chapter" data-level="13.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>13.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="13.4" data-path="graphing-intro.html"><a href="graphing-intro.html#should-we-trust-this-data"><i class="fa fa-check"></i><b>13.4</b> Should we trust this data?</a></li>
-<li class="chapter" data-level="13.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>13.5</b> Color blindness</a></li>
+<li class="chapter" data-level="13.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>13.4</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>14</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="14.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>14.1</b> A simple map</a></li>
@@ -459,11 +458,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="graphing-data" class="section level2">
 <h2><span class="header-section-number">13.2</span> Graphing data</h2>
 <p>To make a simple plot using <code>ggplot()</code>, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.</p>
-<p>In many cases, the graphs you’ll make are scatterplots of two variables and time-series plots. Time-series plots just show how a variable (e.g. crime) changes over time.</p>
-</div>
-<div id="time-series-plots" class="section level2">
-<h2><span class="header-section-number">13.3</span> Time-Series Plots</h2>
-<p>In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we’re interested in. When you see a graph showing crime rates over time, this is the type of graph you’re looking at.</p>
 <p>For <code>ggplot()</code> we need to specify 4 things</p>
 <ol style="list-style-type: decimal">
 <li>The data set - this is the very first thing you’ll write</li>
@@ -473,19 +467,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>Some useful types of graphs are</p>
 <ul>
-<li>geom_point() A point graph, can be used for scatter plots</li>
-<li>geom_line() A line graph</li>
-<li>geom_smooth() Adds some regression lines</li>
-<li>geom_bar() A barplot</li>
+<li><code>geom_point()</code> - A point graph, can be used for scatter plots</li>
+<li><code>geom_line()</code> - A line graph</li>
+<li><code>geom_smooth()</code> - Adds a regression line to the graph
++<code>geom_bar()</code> - A barplot</li>
 </ul>
-<p>Let’s start with a time-series of beer consumption in Pennsylvania The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called <code>aes()</code>. <code>aes()</code> stands for aesthetic and what’s included inside here describes how the graph will look. It’s not intuitive to remember, but you need to included this.</p>
+</div>
+<div id="time-series-plots" class="section level2">
+<h2><span class="header-section-number">13.3</span> Time-Series Plots</h2>
+<p>Let’s start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we’re interested in. When you see a graph showing crime rates over time, this is the type of graph you’re looking at.</p>
+<p>The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called <code>aes()</code>. <code>aes()</code> stands for aesthetic and what’s included inside here describes how the graph will look. It’s not intuitive to remember, but you need to included this.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,
                          <span class="dt">y =</span> number_of_beers))</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want.</p>
-<p><em>YOU CANNOT START A NEW LINE WITH +</em></p>
 <p>Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the “year” column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and <code>ggplot()</code> will be smarter about printing fewer years.</p>
 <pre class="sourceCode r"><code class="sourceCode r">penn_alcohol<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(penn_alcohol<span class="op">$</span>year)</code></pre>
+<p>When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.</p>
 <p>Let’s start with point and line graphs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
@@ -498,22 +495,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>It looks like there’s a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That’s because when graphs don’t start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We add this to the graphs the same as adding anything else.</p>
+<p>It looks like there’s a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That’s because when graphs don’t start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add <code>expand_limits(y = 0)</code> to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It’s hard to say.</p>
-<p>Inside the types of graphs we can change how it is displayed</p>
+<p>Inside the types of graphs we can change how it is displayed. As with using <code>plot()</code>, we can specify the color and size of our lines or points.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>)</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Some other useful features are changing the axis labels and the graph title.</p>
+<p>Some other useful features are changing the axis labels and the graph title. Unlike in <code>plot()</code> we do not need to include it in the () of <code>ggplot()</code> but must use their own functions to add them to the graph.</p>
 <ul>
-<li>xlab() x-axis label</li>
-<li>ylab() y-axis label</li>
-<li>ggtitle() graph title</li>
+<li><code>xlab()</code> - x-axis label</li>
+<li><code>ylab()</code> - y-axis label</li>
+<li><code>ggtitle()</code> - graph title</li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>) <span class="op">+</span>
@@ -543,39 +540,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;number_of_shots_liquor of Liquor&quot;</span>))</code></pre>
+                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>))</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>We can change the legend title.</p>
+<p>We can change the legend title by using the function <code>labs()</code> and changing the value “color” to what we want the legend title to be.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;number_of_shots_liquor&quot;</span>)) <span class="op">+</span>
+                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>)</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Finally, a useful option to to move the legend from the side to the bottom. This will allow the graph to be larger.</p>
+<p>Finally, a useful option to to move the legend from the side to the bottom is setting the <code>theme()</code> function to move the “legend.position” to “bottom”. This will allow the graph to be wider.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;number_of_shots_liquor&quot;</span>)) <span class="op">+</span>
+                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
 <p><img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>If our data was in a different format we could set colors in a different way. The way our data is setup is how most data you’ll encounter will be and, as our goal is understanding the data, this method works.</p>
-</div>
-<div id="should-we-trust-this-data" class="section level2">
-<h2><span class="header-section-number">13.4</span> Should we trust this data?</h2>
-<p>Trusting data is generally based on how well the data was collected (e.g. how much data is missing, errors in the data) as well as if we believe the method of collecting data is itself good.</p>
-<p>Let’s look at how this data was collected to see how much we should trust it.</p>
-<p>The National Institute of Health determined per capita consumption by dividing alcohol sales by people aged 14+ living in the state. So there’s two pieces: alcohol sales as a measure of consumption, and people aged 14+ as a measure of those doing the consuming. Alcohol sales data comes from sales or tax data for alcohol sold in that state.</p>
-<p>If you have good content knowledge in the field, it’s useful to skim the data to see if it matches your expectations. This is a good gut check and fast test for any weird data.</p>
 </div>
 <div id="color-blindness" class="section level2">
-<h2><span class="header-section-number">13.5</span> Color blindness</h2>
+<h2><span class="header-section-number">13.4</span> Color blindness</h2>
 <p>Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose the incorrect colors. A helpful site for choosing colors for graphs is <a href="http://colorbrewer2.org">colorbrewer2.org</a></p>
 <p><img src="images/colorbrewer.PNG" /></p>
-<p>This site let’s you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for categorical data we’ve used in this lesson). In the “Only show:” section you can set it to “colorblind safe” to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is).</p>
+<p>This site let’s you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the “Only show:” section you can set it to “colorblind safe” to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is).</p>
 <p>Let’s use an example of a color blind friendly color from the “qualitative” section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We’ll use the orange and purple colors. To manually set colors in <code>ggplot()</code> we use <code>scale_color_manual(values = c())</code> and include a vector of color names or HEX codes inside the <code>c()</code>. Doing that using the orange and purple HEX codes will change our graph colors to these two colors.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
