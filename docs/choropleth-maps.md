@@ -1,7 +1,7 @@
 
 # Choropleth Maps
 
-In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in Philadelphia had the most officer-involved shootings. We made the maps in a number of ways and consistently found that shootings were most prevalent in north and west Philly. In this lesson we will make choropleth maps, which are shaded maps and each region is a known area such as a state or country. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the officer-involved shooting data and make choropleth maps shaded by the number of shootings in each Census tract (we will define this later in the lesson) in the city. 
+In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in Philadelphia had the most officer-involved shootings. We made the maps in a number of ways and consistently found that shootings were most prevalent in north and west Philly. In this lesson we will make choropleth maps, which are shaded maps where each "unit" is some known area such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the officer-involved shooting data and make choropleth maps shaded by the number of shootings in each Census tract (we will define this later in the lesson) in the city. 
 
 Since we will be working more on the geocoded version of the police shooting data, let's load it now.
 
@@ -23,7 +23,7 @@ library(sf)
 #> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 ```
 
-The way `sf` reads in the shapefiles is through the `st_read()` function. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we'll call the object "philly_tracts". 
+The way `sf` reads in the shapefiles is through the `st_read()` function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we'll call the object "philly_tracts". 
 
 
 ```r
@@ -82,9 +82,9 @@ plot(philly_tracts$geometry)
 
 <img src="choropleth-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-Here we have a map of Philadelphia broken up into little pieces. These pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census as a rough approximation of a neighborhood.
+Here we have a map of Philadelphia broken up into little pieces. These pieces are Census tracts. Census tracts are small areas in a city with about 2,500-8,000 people and are used by the U.S. Census Bureau as a rough approximation of a neighborhood.
 
-In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are very important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`.  Let's extract the CRS for `philly_tracts`.
+In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are important for working with spatial data. A way to get just those two results in the `st_crs()` function which is part of `sf`.  Let's extract the "coordinate reference system" (CRS) for `philly_tracts`.
 
 
 ```r
@@ -96,7 +96,7 @@ Coordinate Reference System:
 
 An issue with working with geographic data is that the Earth is not flat. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by "projecting" our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it. 
 
-If we look at the output of `st_crs(philly_tracts)` we can see that the EPSG is set to 4326 and the proj4string (which tells us which is "+proj=longlat +datum=WGS84 +no_defs". This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see [here](https://spatialreference.org/). If you search that site for Pennsylvania you'll see that Pennsylvania South is assigned 2272 which is what we will use to project this data properly. 
+If we look at the output of `st_crs(philly_tracts)` we can see that the EPSG is set to 4326 and the proj4string (which ittells us the current map projection) is "+proj=longlat +datum=WGS84 +no_defs". This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see [here](https://spatialreference.org/). If you search that site for Pennsylvania you'll see that Pennsylvania South is assigned 2272 which is what we will use to project this data properly. 
 
 If we want to get the proj4string for 2272 we can use
 
@@ -123,9 +123,9 @@ Coordinate Reference System:
 
 ## Spatial joins
 
-What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we can merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
+What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
 
-Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, "officer_shootings_geocoded". Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the latitude and longitude columns to convert to a GEOMETRY column like we saw in "philly_tracts" earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.
+Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, officer_shootings_geocoded. Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a "geometry" column like we saw in "philly_tracts" earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.
 
 
 ```r
@@ -184,9 +184,9 @@ plot(officer_shootings_geocoded$geometry, add = TRUE, col = "red")
 Our next step is to combine these two data sets to figure out how many shootings occurred in each Census tract. This will be a multi-step process so let's plan it out before beginning. Our shooting data is one row for each shooting, our tract data is one row for each tract. Since our goal is to map at the tract-level we need to get the tract where each shooting occurred then aggregate up to the tract-level to get a count of the shootings-per-tract. Then we need to combine that with that the original tract data (since we need the "geometry" column) and we can then map it.
 
 1. Find which tract each shooting happened in
-2. Aggregate shooting data until we get one row per tract and a sum of shootings
+2. Aggregate shooting data until we get one row per tract and a column showing the number of shootings in that tract
 3. Combine with the Census tract data
-4. Make maps
+4. Make a map
 
 We'll start by finding the tract where each shooting occurred using the function `st_join()` which is a function in `sf`. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let's call the output of this function "shootings_agg". The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the "officer_shootings_geocoded" data. In the next step we'll see why this matters. 
 
@@ -255,11 +255,11 @@ head(shootings_agg[, c("STATEFP10", "COUNTYFP10", "TRACTCE10", "GEOID10")])
 #> 7        42        101    017702 42101017702   POINT (2704596 250717)
 ```
 
-The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in their data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column "COUNTYFP10". The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.
+The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in Census data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column "COUNTYFP10". The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.
 
 For now we will use the code to aggregate the number of shootings per Census tract. Remember, the `aggregate()` command aggregates a numeric value by some categorical value. Here we aggregate the number of shootings per Census tract. So our code will be
 
-aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)
+`aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)`
 
 We actually don't have a variable with the number of shootings so we need to make that. We can simply call it "number_shootings" and give it that value of 1 since each row is only one shooting.
 
@@ -284,7 +284,7 @@ summary(shootings_agg$number_shootings)
 #>   1.000   1.000   2.000   2.152   3.000   9.000
 ```
 
-The minimum is one shooting per tract, two on average, and `max(shootings_agg$number_shootings)` in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn't get geocoded properly were given the coordinates of City Hall, likely making up that tract with  `max(shootings_agg$number_shootings)` shootings. And then let's think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.
+The minimum is one shooting per tract, two on average, and 9 in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn't get geocoded properly were given the coordinates of City Hall, likely making up that tract with  9 shootings. And then let's think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.
 
 
 ```r
@@ -302,7 +302,7 @@ nrow(philly_tracts)
 
 The shootings data is missing about 180 tracts. That is because if no shooting occurred there, there would never be a matching row in the data so that tract wouldn't appear in the shooting data. That's not going to be a major issue here but is something to keep in mind in future research. And given the sensitivity of this issue, is a good reason to carefully check your data before make any conclusions.
 
-The data is ready to merge with the "philly_tracts" data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()` it.
+The data is ready to merge with the "philly_tracts" data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()`.
 
 
 ```r
@@ -326,7 +326,7 @@ The function we will use is `left_join()` which takes two parameters, the two da
 
 `left_join(data1, data2)`
 
-This function joins these data and keeps all of the rows from the left data and every column from both data sets. It combines the data based on any matching columns (matching meaning same name) in both data sets. Since in our data sets, the column "GEOID10" exists in both, it will merge the data based on that column. 
+This function joins these data and keeps all of the rows from the left data and every column from both data sets. It combines the data based on any matching columns (matching meaning same column name) in both data sets. Since in our data sets, the column "GEOID10" exists in both, it will merge the data based on that column. 
 
 There are two other functions that are similar but differ based on which rows they keep. 
 
@@ -344,7 +344,7 @@ philly_tracts_shootings <- left_join(philly_tracts, shootings_agg)
 #> Joining, by = "GEOID10"
 ```
 
-If we look at `summary()` again for "number_shootings" we can see that there are now `sum(is.na(philly_tracts_shootings$number_shootings))` rows with NAs. These are the tracts where there were no shootings so they weren't present in the "shootings_agg" data. 
+If we look at `summary()` again for "number_shootings" we can see that there are now 180 rows with NAs. These are the tracts where there were no shootings so they weren't present in the "shootings_agg" data. 
 
 
 ```r
@@ -380,7 +380,7 @@ For these maps we are going to use `ggplot2` again so we need to load it.
 library(ggplot2)
 ```
 
-`ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Before we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()` which knows how to handle spatial data. 
+`ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()` which knows how to handle spatial data. 
 
 As usual we will start with `ggplot()`, inputting our data first. Then inside of `aes` (the aesthetics of the graph/map) we use a new parameter `fill`. In `fill` we will put in the "number_shootings" column and it will color the polygons (tracts) based on values in that column. Then we can add the `geom_sf()`. 
 
@@ -394,7 +394,7 @@ ggplot(philly_tracts_shootings, aes(fill = number_shootings)) +
 
 We have now created a choropleth map showing the number of shootings per Census tract in Philly! Based on the legend tracts that are light blue have the most shootings while tracts that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker (or brighter) areas signifying a greater amount of whatever the map is showing. 
 
-We can use `scale_fill_gradient()` to set the colors to what we want. We input a color for low value and a color for high value and it'll make the map shading by those colors. 
+We can use `scale_fill_gradient()` to set the colors to what we want. We input a color for low value and a color for high value and it'll make the map shade by those colors. 
 
 
 ```r
