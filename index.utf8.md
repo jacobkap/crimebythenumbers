@@ -1,3 +1,4 @@
+
 --- 
 knit: "bookdown::render_book"
 title: "R 4 Criminology"
@@ -14,12 +15,7 @@ site: bookdown::bookdown_site
 documentclass: book
 ---
 
-```{r setup, include=FALSE}
-options(
-  htmltools.dir.version = FALSE, formatR.indent = 1,
-  width = 55, digits = 4, warnPartialMatchAttr = FALSE, warnPartialMatchDollar = FALSE
-)
-```
+
 
 # Welcome {-}
 

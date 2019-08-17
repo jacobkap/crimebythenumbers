@@ -368,8 +368,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="ois_graphs" class="section level1">
 <h1><span class="header-section-number">17</span> More Graphing with <code>ggplot</code></h1>
-<p>In this lesson we will continue to explore graphing using <code>ggplot()</code>. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we’ll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the victim of the shootings, allowing us to practice making many types of graphs.</p>
-<p>To explore the data on their website, see <a href="https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c">here</a> . To examine their methodology, see <a href="https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b">here</a> .</p>
+<p>In this lesson we will continue to explore graphing using <code>ggplot()</code>. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we’ll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs.</p>
+<p>To explore the data on their website, see <a href="https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c">here</a>.</p>
+<p>To examine their methodology, see <a href="https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b">here</a>.</p>
 <p>The data initially comes as a .csv file so we’ll use the <code>read_csv()</code> function from the <code>readr</code> package.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/fatal-police-shootings-data.csv&quot;</span>)
@@ -429,7 +430,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(shootings<span class="op">$</span>age)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span>
 <span class="co">#&gt;    6.00   27.00   35.00   36.84   45.00   91.00     182</span></code></pre>
-<p>From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is continuously updating their data but I downloaded in on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most victim’s around that range. However, the youngest victim is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable.</p>
+<p>From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is continuously updating their data but I downloaded it on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most people around that range. However, the youngest person is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable.</p>
 <p>Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with manner_of_death.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death)
 <span class="co">#&gt; </span>
@@ -440,7 +441,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; </span>
 <span class="co">#&gt;             shot shot and Tasered </span>
 <span class="co">#&gt;        94.852437         5.147563</span></code></pre>
-<p>Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at where the victim was armed.</p>
+<p>Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at whether the victim was armed.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;                  air conditioner                               ax </span>
@@ -527,7 +528,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt;                       1.57858614                       0.02287806 </span>
 <span class="co">#&gt;                    walking stick                           wrench </span>
 <span class="co">#&gt;                       0.02287806                       0.02287806</span></code></pre>
-<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon and it doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
+<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon. It also doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
 <pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
 temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)
 temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)
@@ -617,14 +618,14 @@ temp
 <span class="co">#&gt;                             4.30                             6.36 </span>
 <span class="co">#&gt;                            knife                              gun </span>
 <span class="co">#&gt;                            14.96                            55.43</span></code></pre>
-<p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. in 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with previous categories such as “hatchet and gun”.</p>
-<p>Think about how you’d graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? That’s overwhelm any plot. For a useful graph we would need to combine many of these into a single category - possible called “other weapons”. And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
-<p>Let’s keep moving and look at gender and race.</p>
+<p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.</p>
+<p>Think about how you’d graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? That’d overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called “other weapons”. And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
+<p>Let’s keep exploring the data by looking at gender and race.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(shootings<span class="op">$</span>gender) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;         F         M </span>
 <span class="co">#&gt;  4.667124 95.218485</span></code></pre>
-<p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a victim with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
+<p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
 <pre class="sourceCode r"><code class="sourceCode r">temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>race) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
 temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)
 temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)
@@ -639,15 +640,14 @@ temp
 <span class="co">#&gt;        A    B    H    N    O    W</span>
 <span class="co">#&gt;   F    3   42   21    5    3  107</span>
 <span class="co">#&gt;   M   68  959  697   59   35 1853</span></code></pre>
-<p>There doesn’t appear to be any difference by race or gender.</p>
-<p>One annoying thing with these two variables is that it doesn’t spell out the name. Instead of “Female” it has “F”. For our graphs we want to spell out the words so it is clear to viewers.</p>
+<p>One annoying thing with these two variables is that it doesn’t spell out the name. Instead of “Female”, for example, it has “F”. For our graphs we want to spell out the words so it is clear to viewers. We’ll fix this issue, and the issue of having many weapon categories, as we graph each variable.</p>
 <p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre>
 <div id="graphing-a-single-variable" class="section level2">
 <h2><span class="header-section-number">17.1</span> Graphing a single variable</h2>
 <div id="numeric-variable" class="section level3">
 <h3><span class="header-section-number">17.1.1</span> Numeric variable</h3>
-<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build out way up to more complicated, or better looking, plots.</p>
+<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build our way up to more complicated graphs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_density</span>()
 <span class="co">#&gt; Warning: Removed 182 rows containing non-finite values (stat_density).</span></code></pre>

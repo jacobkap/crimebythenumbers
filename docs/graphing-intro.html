@@ -482,30 +482,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the “year” column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and <code>ggplot()</code> will be smarter about printing fewer years.</p>
 <pre class="sourceCode r"><code class="sourceCode r">penn_alcohol<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(penn_alcohol<span class="op">$</span>year)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,
+                         <span class="dt">y =</span> number_of_beers))</code></pre>
+<p><img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.</p>
 <p>Let’s start with point and line graphs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can also combine different types of graphs.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>It looks like there’s a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That’s because when graphs don’t start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add <code>expand_limits(y = 0)</code> to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It’s hard to say.</p>
 <p>Inside the types of graphs we can change how it is displayed. As with using <code>plot()</code>, we can specify the color and size of our lines or points.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>)</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Some other useful features are changing the axis labels and the graph title. Unlike in <code>plot()</code> we do not need to include it in the () of <code>ggplot()</code> but must use their own functions to add them to the graph.</p>
 <ul>
 <li><code>xlab()</code> - x-axis label</li>
@@ -517,31 +520,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Beers&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;PA Annual Beer Consumption Per Capita (1977-2016)&quot;</span>)</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> number_of_shots_liquor,
                          <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This graph shows us that when liquor consumption increases, beer consumption also usually increases.</p>
 <p>While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.</p>
 <p>Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let’s stick with the data we currently have and just change <code>ggplot()</code>.</p>
 <p>Start with a normal line graph, this time looking at wine.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Then include a second geom_line() with its own aes() for the second variable.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor))</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>A problem with this is that both lines are the same color. We need to set a color for each line, and do so within <code>aes()</code>. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
                 <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>))</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can change the legend title by using the function <code>labs()</code> and changing the value “color” to what we want the legend title to be.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
@@ -549,7 +552,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
                 <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>)</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Finally, a useful option to to move the legend from the side to the bottom is setting the <code>theme()</code> function to move the “legend.position” to “bottom”. This will allow the graph to be wider.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
                          <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
@@ -558,7 +561,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                 <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="color-blindness" class="section level2">
 <h2><span class="header-section-number">13.4</span> Color blindness</h2>
@@ -574,7 +577,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#7570b3&quot;</span>, <span class="st">&quot;#d95f02&quot;</span>))</code></pre>
-<p><img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
