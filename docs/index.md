@@ -49,11 +49,11 @@ Criminology has a large - and growing - number of data sets publicly available f
   * National Incident-Based Reporting System (NIBRS) - Similar to the UCR, NIBRS is published by the FBI and has agency-level crime data. This data is far more detailed than the UCR which we'll see greatly increases difficulty of use and the rewards from the data
   * Census - The Census surveys people in the United States on a wide variety of variables including demographic, economic, and geographic information. 
   
-We'll also cover a number of other data sets such a local police data from Chicago and Philadelphia, and government data on alcohol consumption in the United States.
+We'll also cover a number of other data sets such a local police data and government data on alcohol consumption in the United States.
 
 ## What you won't learn {-}
 
-This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as too large for my computer to handle) require special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. 
+This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as too large for my computer to handle) requires special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. 
 
 ## Simple vs Easy {-}
 

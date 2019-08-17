@@ -16,7 +16,7 @@ Here we have made an object called "animals" with a number of different animals 
 
 The syntax (how the code is written) goes
 
-object[index]
+`object[index]`
 
 First we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our "animals" object. In normal language we say "I want the 6th value from "animals". We say where we're looking and which value we want. 
 
@@ -89,7 +89,7 @@ You can use the `=` instead of `<-`. Again, the thing on the left gets the value
 x <- 2
 ```
 
-a now has the value of the number 2.
+x now has the value of the number 2.
 
 
 ```r
@@ -98,6 +98,8 @@ x
 ```
 
 It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work or it'll cause an error. For those reasons we will use `<-` for this class. 
+
+## Vectors (collections of "things")
 
 Note that when we made x we simple wrote `x <- 2` while when we made animals we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which combines them together. With mulitple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
 
