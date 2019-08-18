@@ -10,7 +10,11 @@ Subsetting data is a way to take a large data set and reduce it to a smaller one
 animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 ```
 
-Here we have made an object called "animals" with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it'll return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+```{r}
+animals
+```
+
+Here we have made an object called "animals" with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 
 The syntax (how the code is written) goes
 
@@ -28,13 +32,19 @@ Now let's get the third value.
 animals[3]
 ```
 
-If we want multiple values we can enter multiple numbers. Remember that if you have multiple values, you need to make a vector using `c()`. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
+If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \ref(#vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 ```{r}
 animals[c(1, 2, 3)]
 ```
 
 When making a vector of sequential integers, instead of writing them all out manually we can use first_number:last_number like so
+
+```{r}
+1:3
+```
+
+To use it in subsetting we can treat `1:3` as if we wrote `c(1, 2, 3)`.
 
 ```{r}
 animals[1:3]
@@ -62,14 +72,14 @@ animals[-c(1, 2, 3)]
 
 Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object "animals" with the value of each of the different animals we wrote. 
 
-We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had "x <- 5" the object "x" gets the value 5. We could also say "five was assigned to x". 
+We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had `x <- 5` the object "x" gets the value 5. We could also say "five was assigned to x". 
 
 The terminology is "object gets value" or "value assigned to object", both work. 
 
 You can use the `=` instead of `<-`. Again, the thing on the left gets the value of the thing on the right even when using `=`.
 
 ```{r}
-x <- 2
+x = 2
 ```
 
 x now has the value of the number 2.
@@ -78,11 +88,11 @@ x now has the value of the number 2.
 x
 ```
 
-It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work or it'll cause an error. For those reasons we will use `<-` for this class. 
+It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work properly. For those reasons we will use `<-` for this class. 
 
-## Vectors (collections of "things")
+## Vectors (collections of "things") {#vectors}
 
-Note that when we made x we simple wrote `x <- 2` while when we made animals we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which combines them together. With mulitple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
+When we made "x" we wrote `x <- 2` while when we made "animals" we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which combines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
 
 ```{r}
 x <- c(1, 2, 3)
@@ -90,7 +100,7 @@ x <- c(1, 2, 3)
 
 The result of the `c()` is called a vector and you can think of it as a collection of values. 
 
-Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type R will automatically convert it. 
+Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string  (a character type such as words or values with letters. In R they are put in quotes.). If they aren't the same type R will automatically convert it. 
 
 ```{r}
 c("cat", "dog", 2)
@@ -100,11 +110,11 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ## Logical values and operations
 
-We also frequently want to conditionally select certain values. Above we selected values by number, but that requires us to know exactly which values we want. We can conditionally selecting values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE (in R you must spell it in capital letters).
+We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE (in R you must spell it in capital letters).
 
 First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 
-We can use these values to index and it will return every element which we say is TRUE. 
+We can use these TRUE and FALSE values to index and it will return every element which we say is TRUE. 
 
 ```{r}
 animals[c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)]
@@ -118,11 +128,11 @@ For each case you are asking does the thing on the left of the conditional state
   + `%in%` Equals (one value match out of multiple comparisons)
   + `!=`   Does not equal
   + `<`    Less than
-  + `\>`   Greater than
+  + `>`   Greater than
   + `<=`   Less than or equal to
-  + `\>=`  Greater than or equal to
+  + `>=`  Greater than or equal to
   
-Since many conditionals involve numbers (especially in criminology), let's make a new object called "numbers" with the first 10 numbers to use in the examples.
+Since many conditionals involve numbers (especially in criminology), let's make a new object called "numbers" with the numbers 1-10.
 
 ```{r}
 numbers <- 1:10
@@ -175,7 +185,7 @@ animals %in% c("cat", "dog", "gorilla")
 
 Sometimes it is easier to ask what is not a match. For example, if you wanted to get every month except January, instead of writing the other 11 months, you just ask for any month that does not equal "January". 
 
-We can use `!`, which means "not". When we wanted an exact match we used `==`, if we want a not match we can use `!=` (this time it is only a single equals sign). 
+We can use `!=`, which means "not equal". When we wanted an exact match we used `==`, if we want a not match we can use `!=` (this time it is only a single equals sign). 
 
 ```{r}
 2 != 3
@@ -185,7 +195,7 @@ We can use `!`, which means "not". When we wanted an exact match we used `==`, i
 "cat" != "gorilla"
 ```
 
-Note that for matching multiple values with `%in%`, we cannot write `!%in%` but have to put the ! before the values on the left.
+Note that for matching multiple values with `%in%`, we cannot write `!%in%` but have to put the `!` before the values on the left.
 
 ```{r}
 !animals %in% c("cat", "dog", "gorilla")
@@ -219,19 +229,19 @@ numbers > 3
 
 ### Combining conditional statements - or, and
 
-In many cases when you are subsetting you will want to subset based on more than one condition. For example, let's say you have crime data from every state between 1960 and 2017. Your research question is "did Colorado's marijuana legalization affect crime in the state?" In that case you want only data from Colorado. Since legalization begin in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state column and the year column. 
+In many cases when you are subsetting you will want to subset based on more than one condition. For example, let's say you have crime data from every state between 1960 and 2017. Your research question is "did Colorado's marijuana legalization affect crime in the state?" In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year. 
 
 To make conditional statements with multiple conditions we use `|` for "or" and `&` for "and". 
 
-Condition 1 | Condition 2 
+`Condition 1 | Condition 2 `
 
 ```{r}
 2 == 3 | 2 > 1
 ```
 
-As it sounds, when using `|` either of the conditions (there can be as many conditions as we want) can be true for it to return `TRUE`. 
+As it sounds, when using `|` as long as at least one condition is true (we can include as many conditions as we like)  it will return `TRUE`. 
 
-Condition 1 & Condition 2
+`Condition 1 & Condition 2`
 
 ```{r}
 2 == 3 & 2 > 1
@@ -241,7 +251,7 @@ For `&`, all of the conditions must be true. If even one condition is not true i
 
 ## Subsetting a data.frame 
 
-Above we were just using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which is something we'll discuss in detail later on. For now you can imagine a data.frame being like an Excel file with multiple rows and columns. 
+Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which you can imagine as being like an Excel file with multiple rows and columns. 
 
 Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2017 and for every nearly every agency in the country (early years have far fewer agencies reporting than recent years).
 
@@ -249,7 +259,7 @@ Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'
 load("data/offenses_known_yearly_1960_2017.rda")
 ```
 
-Let's peak at the first 6 rows and 6 columns using the square bracket notation [] for data.frames which we'll explain more below.
+Let's peak at the first 6 rows and 6 columns using the square bracket notation `[]` for data.frames which we'll explain more below.
 
 ```{r}
 offenses_known_yearly_1960_2017[1:6, 1:6]
@@ -265,13 +275,13 @@ nrow(offenses_known_yearly_1960_2017)
 ncol(offenses_known_yearly_1960_2017)
 ```
 
-Normally we wouldn't want to print out the names of all 159 columns but let's do this here as we want to know the variables available to subset.
+This is a large file with 159 columns and nearly a million rows. Normally we wouldn't want to print out the names of all 159 columns but let's do this here as we want to know the variables available to subset.
 
 ```{r}
 names(offenses_known_yearly_1960_2017)
 ```
 
-This data has nearly a million rows and 159 columns so we certainly don't want to print everything in the console. Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?". Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
+Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?" Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
 
 We also don't need all 159 columns in the current data. Let's say we're only interested in if murder changes. We'd need the column called "actual_murder", the "state" column (as a check), the "year" column, the "population" column, the "ori" column, and the "agency_name" column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we're just using it as an example). The last two columns - ori and agency_name - aren't strictly necessary but would be useful if checking if an agency's values are reasonable when checking for outliers, a step we won't do here. 
 
@@ -279,11 +289,11 @@ Before explaining how to subset from a data.frame, let's write pseudocode (essen
 
 We want 
 
-only rows where the state equals Colorado
-only rows where the year is 2011-2017
-only the following columns: actual_murder, state, year, population, ori, agency_name
+  * Only rows where the state equals Colorado
+  * Only rows where the year is 2011-2017
+  * Only the following columns: actual_murder, state, year, population, ori, agency_name
 
-## Select a specific column
+### Select specific columns
 
 The way to select a specific column in R is called the dollar sign notation. 
 
@@ -303,17 +313,17 @@ They're all the same name because Anchorage Police reported many times and are i
 head(offenses_known_yearly_1960_2017$actual_murder)
 ```
 
-One hint is to write out the data set name in the console at hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
+One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
 
 ![](images/tab_example.png)
 
-### Select specific rows in a data.frame
+### Select specific rows
 
-In the earlier examples we used square bracket notation [] and just put a number or several numbers in the []. When dealing with data.frames, however, you need an extra step to tell R which columns to keep. The syntax in the square bracket is 
+In the earlier examples we used square bracket notation `[]` and just put a number or several numbers in the `[]`. When dealing with data.frames, however, you need an extra step to tell R which columns to keep. The syntax in the square bracket is 
 
-[row, column]
+`[row, column]`
 
-As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name. And the names must be in quotes!) of the column or columns we want. 
+As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name and putting column names in quotes.) of the column or columns we want. 
 
 The exception to this is when we use the dollar sign notation to select a single column. In that case we don't need a comma (and indeed it will give us an error!). Let's see a few examples then explain why this works the way it does. 
 
@@ -367,7 +377,7 @@ So make sure when you want a row from a data.frame you always include the comma!
 
 ### Battleships
 
-When we use square bracket [] notation on a data.frame we must include both row and column numbers (or column names in a vector `c()`) for the subset to work properly. Why? Think about the game Battleships. The board have 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows you could mean and row 7 has 10 columns. So your opponent only knows which cell you mean if you give both the column name and row number. 
+When we use square bracket `[]` notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows and row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number. 
 
 ![](images/battleships.png)
 
@@ -377,25 +387,25 @@ A data.frame is very similar to the Battleships board, with a number of rows and
 
 Finally we have the tools to subset our UCR data to just be Colorado from 2011-2017. There are three conditional statements we need to make, two for rows and one for columns.
 
-1. only rows where the state equals Colorado
-2. only rows where the year is 2011-2017
-3. only the following columns: actual_murder, state, year, population, ori, agency_name
+  * Only rows where the state equals Colorado
+  * Only rows where the year is 2011-2017
+  * Only the following columns: actual_murder, state, year, population, ori, agency_name
 
 We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called "colorado" to save the result of this subset.
 
-Remember that we want to put the object to the left of the [] to make sure it returns the data. Just having the [] will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don't need to put anything after the comma.
+Remember that we want to put the object to the left of the `[]` to make sure it returns the data. Just having the `[]` will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don't need to put anything after the comma.
 
 ```{r}
 colorado <- offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017$state == "colorado", ]
 ```
 
-Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use %in% and put the years in a vector 2011:2017. This time our primary data set is "colorado", not "offenses_known_yearly_1960_2017" since "colorado" has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
+Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector 2011:2017. This time our primary data set is "colorado", not "offenses_known_yearly_1960_2017" since "colorado" has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
 
 ```{r}
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 ```
 
-Finally we want the columns stated above and to keep every row in the current data. Since the format is [row, column] in this case we keep the "row" part blank to indicate we want every row.
+Finally we want the columns stated above and to keep every row in the current data. Since the format is `[row, column]` in this case we keep the "row" part blank to indicate we want every row.
 
 ```{r}
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
@@ -412,4 +422,4 @@ unique(colorado$state)
 unique(colorado$year)
 ```
 
-The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in the next chapter we will sum up all the murders per year and see if marijuana affected it. 
+The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \ref(#aggregate) we will sum up all the murders per year and see if marijuana affected it. 

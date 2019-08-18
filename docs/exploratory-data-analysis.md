@@ -312,7 +312,7 @@ plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
 
 <img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
-## Aggregating (summaries of groups)
+## Aggregating (summaries of groups) {#aggregate}
 
 Right now we have the number of crimes in each agency. For many policy analyses we'd be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data we need to **aggregate** up to the state level. What the `aggregate()` function does is group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group. 
 
