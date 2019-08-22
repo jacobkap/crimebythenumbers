@@ -9,7 +9,7 @@ Nearly every police agency in the United States - approximately 18,000 agencies 
 
 The data file has annual data on the number of crimes reported, the number of crimes cleared, the number cleared where all offenders are under age 18, and the number of unfounded crimes. We'll discuss each of this a bit further as we dive into the data. Agencies report the monthly number of each crime though the data we'll work with has aggregated that to annual counts. 
 
-Due to it's longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for decades) it is a popular data set for criminologists. 
+Due to it's longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for many years) it is a popular data set for criminologists. 
 
 ## Exploring the UCR data
 
@@ -199,33 +199,33 @@ The Offenses Known and Clearances by Arrest data set contains information on the
 
 The crimes are, in order by the Hierarchy Rule - 
 
-1. Homicide
-  + Murder and non-negligent manslaughter
-  + Manslaughter by negligence
-2. Rape
-  + Rape
-  + Attempted rape
-3. Robbery
-  + With a firearm
-  + With a knife of cutting instrument
-  + With a dangerous weapon not otherwise specified
-  + Unarmed - using hands, fists, feet, etc.
-4. Aggravated Assault (assault with a weapon or causing serious bodily injury)
-  + With a firearm
-  + With a knife of cutting instrument
-  + With a dangerous weapon not otherwise specified
-  + Unarmed - using hands, fists, feet, etc.
-5. Burglary
-  + With forcible entry
-  + Without forcible entry
-  + Attempted burglary with forcible entry
-6. Theft (other than of a motor vehicle)
-7. Motor Vehicle Theft
-  + Cars
-  + Trucks and buses
-  + Other vehicles
-8. Arson
-9. Simple Assault
+1. Homicide     
+  + Murder and non-negligent manslaughter   
+  + Manslaughter by negligence   
+2. Rape     
+  + Rape     
+  + Attempted rape     
+3. Robbery     
+  + With a firearm     
+  + With a knife of cutting instrument     
+  + With a dangerous weapon not otherwise specified     
+  + Unarmed - using hands, fists, feet, etc.     
+4. Aggravated Assault (assault with a weapon or causing serious bodily injury)     
+  + With a firearm     
+  + With a knife of cutting instrument     
+  + With a dangerous weapon not otherwise specified     
+  + Unarmed - using hands, fists, feet, etc.     
+5. Burglary     
+  + With forcible entry     
+  + Without forcible entry      
+  + Attempted burglary with forcible entry     
+6. Theft (other than of a motor vehicle)     
+7. Motor Vehicle Theft     
+  + Cars     
+  + Trucks and buses     
+  + Other vehicles          
+8. Arson     
+9. Simple Assault     
 
 For a full definition of each of the index crimes see the FBI's Offense Definitions page [here](https://ucrdatatool.gov/offenses.cfm).
 

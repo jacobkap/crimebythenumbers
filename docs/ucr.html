@@ -307,7 +307,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>16.2</b> Making the interactive map</a></li>
 <li class="chapter" data-level="16.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>16.3</b> Adding popup information</a></li>
 <li class="chapter" data-level="16.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>16.4</b> Dealing with too many markers</a></li>
-<li class="chapter" data-level="16.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-polygons"><i class="fa fa-check"></i><b>16.5</b> Interactive polygons</a></li>
+<li class="chapter" data-level="16.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>16.5</b> Interactive choropleth maps</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>17</b> More Graphing with <code>ggplot</code></a><ul>
 <li class="chapter" data-level="17.1" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-variable"><i class="fa fa-check"></i><b>17.1</b> Graphing a single variable</a><ul>
@@ -383,7 +383,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can read more about the UCR program and all the data sets it includes on the National Archive of Criminal Justice Data page <a href="https://www.icpsr.umich.edu/icpsrweb/content/NACJD/guides/ucr.html">here</a>. You can also check out my site <a href="http://crimedatatool.com">Crime Data Tool</a> which visualizes several of the UCR data sets and has some info in the FAQ explaining the data.</p>
 <p>Nearly every police agency in the United States - approximately 18,000 agencies including state, local (city, county, college), tribal and federal police departments - now reports their data to the FBI which compiles are releases the UCR data. This data is available since 1960 though early years have many fewer agencies reporting than do so in later years.</p>
 <p>The data file has annual data on the number of crimes reported, the number of crimes cleared, the number cleared where all offenders are under age 18, and the number of unfounded crimes. We’ll discuss each of this a bit further as we dive into the data. Agencies report the monthly number of each crime though the data we’ll work with has aggregated that to annual counts.</p>
-<p>Due to it’s longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for decades) it is a popular data set for criminologists.</p>
+<p>Due to it’s longevity (it has data since 1960) and ubiquity (almost every agency reports and has done so for many years) it is a popular data set for criminologists.</p>
 <div id="exploring-the-ucr-data" class="section level2">
 <h2><span class="header-section-number">20.1</span> Exploring the UCR data</h2>
 <p>We are going to work with the combined annual count of crimes for every year available - 1960-2017 - which I’ve made available <a href="http://doi.org/10.3886/E100707V11">here</a>. The FBI releases the data as a single file per year and each file has monthly counts of crime. This data set does some cleaning for us by aggregating yearly and making it a single file for the whole time period. The first step when working with this UCR data is loading it into R. As with loading any data, make sure that your working directory path is correctly set using <code>setwd()</code> so R knows which folder the data is in.</p>
@@ -522,56 +522,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The Offenses Known and Clearances by Arrest data set contains information on the number of “Index Crimes” (sometimes called Part I crimes) reported to each agency. Other data sets in the UCR, such as the Arrests by Age, Sex, and Race data and the Hate Crime data have more crimes reported. These index crimes are a collection of eight crimes that, for historical reasons based largely by perceived importance in the 1920’s when the UCR program was first developed, are used as the primary measure of crime today.</p>
 <p>The crimes are, in order by the Hierarchy Rule -</p>
 <ol style="list-style-type: decimal">
-<li>Homicide</li>
+<li>Homicide<br />
+</li>
 </ol>
 <ul>
-<li>Murder and non-negligent manslaughter</li>
-<li>Manslaughter by negligence</li>
+<li>Murder and non-negligent manslaughter<br />
+</li>
+<li>Manslaughter by negligence<br />
+</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Rape</li>
+<li>Rape<br />
+</li>
 </ol>
 <ul>
-<li>Rape</li>
-<li>Attempted rape</li>
+<li>Rape<br />
+</li>
+<li>Attempted rape<br />
+</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li>Robbery</li>
+<li>Robbery<br />
+</li>
 </ol>
 <ul>
-<li>With a firearm</li>
-<li>With a knife of cutting instrument</li>
-<li>With a dangerous weapon not otherwise specified</li>
-<li>Unarmed - using hands, fists, feet, etc.</li>
+<li>With a firearm<br />
+</li>
+<li>With a knife of cutting instrument<br />
+</li>
+<li>With a dangerous weapon not otherwise specified<br />
+</li>
+<li>Unarmed - using hands, fists, feet, etc.<br />
+</li>
 </ul>
 <ol start="4" style="list-style-type: decimal">
-<li>Aggravated Assault (assault with a weapon or causing serious bodily injury)</li>
+<li>Aggravated Assault (assault with a weapon or causing serious bodily injury)<br />
+</li>
 </ol>
 <ul>
-<li>With a firearm</li>
-<li>With a knife of cutting instrument</li>
-<li>With a dangerous weapon not otherwise specified</li>
-<li>Unarmed - using hands, fists, feet, etc.</li>
+<li>With a firearm<br />
+</li>
+<li>With a knife of cutting instrument<br />
+</li>
+<li>With a dangerous weapon not otherwise specified<br />
+</li>
+<li>Unarmed - using hands, fists, feet, etc.<br />
+</li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
-<li>Burglary</li>
+<li>Burglary<br />
+</li>
 </ol>
 <ul>
-<li>With forcible entry</li>
-<li>Without forcible entry</li>
-<li>Attempted burglary with forcible entry</li>
+<li>With forcible entry<br />
+</li>
+<li>Without forcible entry<br />
+</li>
+<li>Attempted burglary with forcible entry<br />
+</li>
 </ul>
 <ol start="6" style="list-style-type: decimal">
-<li>Theft (other than of a motor vehicle)</li>
-<li>Motor Vehicle Theft</li>
+<li>Theft (other than of a motor vehicle)<br />
+</li>
+<li>Motor Vehicle Theft<br />
+</li>
 </ol>
 <ul>
-<li>Cars</li>
-<li>Trucks and buses</li>
-<li>Other vehicles</li>
+<li>Cars<br />
+</li>
+<li>Trucks and buses<br />
+</li>
+<li>Other vehicles<br />
+</li>
 </ul>
 <ol start="8" style="list-style-type: decimal">
-<li>Arson</li>
+<li>Arson<br />
+</li>
 <li>Simple Assault</li>
 </ol>
 <p>For a full definition of each of the index crimes see the FBI’s Offense Definitions page <a href="https://ucrdatatool.gov/offenses.cfm">here</a>.</p>

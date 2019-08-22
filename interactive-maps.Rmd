@@ -56,72 +56,97 @@ When you run the above code it shows a world map (copied several times). Zoom in
 
 Note the `%>%` between the `leaflet()` function and the `addTiles()` function. This is called a "pipe" in R and is used like the `+` in ggplot to combine multiple functions together. This is used heavily in what is called the "tidyverse", a series of packages that are prominent in modern R and useful for data analysis. We won't be covering them in this introductory course but for more information on them you can check the  [tidyverse website](https://www.tidyverse.org/). For this lesson you need to know that each piece of the leaflet function must end with `%>%` for the next line to work. 
 
+To add the points to the graph we use the function `addMarkers()` which has two parameters, `lng` and `lat`. For both parameters we put the column in which the longitude and latitude are, respectively.
+
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addMarkers(~lon, ~lat, data = officer_shootings_geocoded)
+  addMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat)
+
 ```
 
+It now adds an icon indicating where every shooting in our data is. You can zoom in and scroll around to see more about where the shootings happen. These icons are a bit large, covering nearly all of the city and making it hard to see where shootings happen. To change the icons to circles we can change the function `addMarkers()` to `addCircleMarkers()`, keeping the rest of the code the same, 
+
 
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded)
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat)
+
 ```
 
+This makes the icon into circles but they are still large and cover most of the map. To adjust the size of our icons we use the `radius` parameter in `addMarkers()` or `addCircleMarkers()`. The larger the radius, the larger the icons. 
+
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
                    radius = 5)
 ```
 
+Setting the `radius` option to 5 shrinks the size of the icon a lot. In your own maps you'll have to fiddle with this option to get it to look the way you want. Let's move on to adding information about each icon when clicked upon. 
+
 ## Adding popup information
+
+The parameter `popup` in the `addMarkers()` or `addCircleMarkers()` functions lets you input a character value (if not already a character value it will convert it to one) and that will be shown as a popup when you click on the icon. Let's start simple here by inputting the dates column in our data and then build it up to a more complicated popup. 
 
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = officer_shootings_geocoded$dates)
 ```
 
-```{r}
-leaflet() %>% 
-  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-           attribution = '&copy; <a href="http://openstreetmap.org">
-                OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
-                   radius = 5,
-                   popup = paste("Date of Shooting:",officer_shootings_geocoded$dates))
-```
+Try clicking around and you'll see that the data of the incident you clicked on appears over the dot. Though fairly clear in this case, we usually want to have a title indicating what the value in the popup means. We can do this by using the `paste()` function to combine text explaining the value with the value itself. Let's add the words "Date of Shooting:" before the date. 
 
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
+                   radius = 5,
+                   popup = paste("Date of Shooting:",officer_shootings_geocoded$dates))
+```
+
+We don't have many other columns but we can add the location and shooting number to the popup by adding them to the `paste()` function we're using. 
+
+```{r}
+leaflet() %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "Date:", officer_shootings_geocoded$dates,
                                  "Location:", officer_shootings_geocoded$location))
 ```
 
+Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text "<br>" where we want a line break it will make one. <br> is the HTML tag for linebreak which is why it works making a new line in this case. 
+
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "<br>",
@@ -132,13 +157,17 @@ leaflet() %>%
 
 ## Dealing with too many markers
 
+Even though we shrunk the size of the circles, it is still rather hard to see any trends as there are so many inicdents and relatively large circles. One solution is to keep shrinking the size of the circles, but this quickly becomes a bad solution when using more frequent data such as a crime data set (Philadelphia data alone has about 200k crimes reported per year). The other solution is to cluster the data into groups where the dots only show if you zoom down. 
+
+If we add the code `clusterOptions = markerClusterOptions()` to our `addCircleMarkers()` it will cluster for us. 
 
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
+  addCircleMarkers(lng = officer_shootings_geocoded$lon, 
+             lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "<br>",
@@ -148,23 +177,93 @@ leaflet() %>%
                    clusterOptions = markerClusterOptions())
 ```
 
-## Interactive polygons
+Incidents close to each other are groups together in fairly arbitrary groupings and we can see how large each grouping is by moving our cursor over the circle. Click on the circle or zoom in and and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in and it will eventually show each incident as its own circle. 
+
+This method is very useful at dealing with huge amounts of data as it avoids overflowing the map with too many icons at one time. A downside, however, is that the clusters are created arbitrarily meaning that important context, such as neighborhood, can be lost. 
+
+## Interactive choropleth maps
+
+In Chapter \ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - Census tracts with the number of officer-involved shootings. 
+
+Let's load the tract-level officer-involved shooting data we made earlier. 
 
 ```{r}
-library(sf)
-library(sp)
-bins <- c(0, 10, 20, 50, 100, 200, 500, 1000, Inf)
-pal <- colorBin("YlOrRd", domain = philly_tracts$NAMELSAD10, bins = bins)
+load("data/philly_tracts_shootings.rda")
+```
 
-philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
+We'll begin the `leaflet` map similar to before but use the function `addPolygons()` and our input here is the geometry column of *philly_tracts_shootings*. 
+
+```{r error = TRUE}
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = philly_tracts$geometry,
-              fillColor = ~pal(philly_tracts$geometry),
-              col = "black",
-              weight = 2,
-              popup = philly_tracts$NAMELSAD10)
+  addPolygons(data = philly_tracts_shootings$geometry)
 ```
 
+It gives us a blank map because our polygons are projected to Philly's projection while the `leaflet` map expects the standard CRS, WGS84 which uses longitude and latitude. So we need to change our projection to that using the `st_transform()` function from the `sf` package. 
+
+```{r}
+library(sf)
+philly_tracts_shootings <- st_transform(philly_tracts_shootings,
+                                        crs = "+proj=longlat +ellps=WGS84")
+```
+
+Now let's try again. 
+
+```{r}
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry)
+```
+
+It made a map with large blue lines indicating each tract. Let's change the appearance of the graph a bit before making a popup or shading the tracts. The parameter `color` in `addPolygons()` changes the color of the lines - let's change it to black. The lines are also very large, blurring into each other and making the tracts hard to see. We can change the `weight` parameter to alter the size of these lines - smaller values are smaller lines. Let's try setting this to 1.
+
+```{r}
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              color = "black",
+              weight = 1)
+```
+That looks better and we can clearly distinguish each tract now. 
+
+As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the GEOID10 column value - the unique ID code for that tract - and the number of shootings that occurred in that tract. 
+
+```{r}
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              col = "black",
+              weight = 2,
+              popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
+                             "<br>",
+                             "Number of Shootings: ", philly_tracts_shootings$number_shootings))
+```
+
+
+
+```{r}
+pal <- colorNumeric("viridis", NULL)
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              col = "black",
+              weight = 2,
+              popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
+                             "<br>",
+                             "Number of Shootings: ", philly_tracts_shootings$number_shootings),
+              fillColor = pal(philly_tracts_shootings$number_shootings),
+              fillOpacity = 1) %>%
+              addLegend(pal = pal, values = philly_tracts_shootings$number_shootings,
+                        opacity = 1)
+
+```

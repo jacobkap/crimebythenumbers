@@ -27,3 +27,23 @@ We want a table to click Tables on the left side of the page. And we'll get data
 ![](images/social_explorer_8.PNG)
 
 Once you click "Census Tract data (CSV)" it'll download a .csv file. I have renamed the file "philly_census_tract_essentials.csv" to give it a more descriptive name. Now we are ready to work with this data and merge it with the shootings data. 
+
+
+```r
+library(readr)
+```
+
+
+```r
+tracts <- read_csv("data/philly_census_tract_essentials.csv")
+#> Warning: Duplicated column names deduplicated: 'Total Population' =>
+#> 'Total Population_1' [59], 'Area (Land)' => 'Area (Land)_1' [61], 'Total
+#> Population:' => 'Total Population:_1' [65], 'Total Population:' => 'Total
+#> Population:_2' [78]
+#> Parsed with column specification:
+#> cols(
+#>   .default = col_character()
+#> )
+#> See spec(...) for full column specifications.
+```
+
