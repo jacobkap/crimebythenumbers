@@ -17,20 +17,19 @@ R can do all of this but why should you want (or have) to learn a entirely new s
 
 ### Scale
 
+If you do a one-off project in your career such as downloading some data and making a graph out of it, it makes sense to stick with software like Excel. The cost (in time and effort) of learning R is certainly not worth it for a single (or even several) project - even one perfectly suited for using R. R (and many programming languages more generally, such as Python) has its strength in doing something fairly simple many many times. For example, itm may be quicker to downloading one file yourself than it is to write the code in R to download that file. But when it comes to downloading hundreds of files (as we'll do in Chapter \ref(scraping-data-from-pdfs) when learning about officer-involved shootings in Philadelphia), writing the R code becomes very quickly the better option than doing it by hand. 
+
+For most tasks you do in criminology when dealing with data you will end up doing many times (including doing the same task in future projects). So R offers the trade-off of spending time upfront by learning the code with the benefit of that code being able to do work at a large scale with little extra work from you. Please keep in mind this trade-off - you need to front-load the costs of learning R for the rewards of making your life easier when dealing with data - when feeling discouraged about the small returns you get early in learning R. 
+
 ### Reproducibility
 
-The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down in the code 
+The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down in the code. This is useful when collaborating with others (including your future self) as they can look at your code and follow along what you did without you having to show them every click you made as you frequently would on Excel. Your collaborator can look at your code to help you figure out a bug in the code or to add their own code to yours. 
 
-
-
-As a common example in criminology, in comparing crime between two cities you generally don't want to compare counts due to population differences. A city with a million people often has more crime than a city with 50,000 people just due to the size difference. So you'd want to compare rates of crime per population (usually per 100,000 people). To do this you just divide the count by the city's population and multiple the result by 100,000. 
-
-This concept - doing the same thing to multiple values - is important in R and will come in handy later. Imagine that we had an Excel file where a column shows the number of crimes in a given city (each row is a new city). Using the method above we can find the average number of crimes (or any other mathematical operation) easily by treating that column as the values in the `c()` above.
-
-
-In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress. 
+In the academic context specifically you want to have code to give to people to ensure that your research was done correctly and there aren't any important bugs in the code. Additionally, if you build a tool to, for example, interpret raw crime data from an agency and turn it into a map, being able to share the code so others can modify it for their city is an important contribution. 
 
 ## Using RStudio
+
+In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress.
 
 RStudio is the interface we use to work with R. It has a number of features to make it easier for us to work with R - while not strictly necessary to use, most people who use R do so through RStudio. 
 
@@ -40,7 +39,7 @@ When you open up RStudio you'll see four panels, each which play an important ro
 
 At the top right is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
-The way to keep the code you've written in a file that you can open later or share with someone else is by writing code in an R Script. An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top left of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) will be shown there too (making a plot will be shown in a different panel as we'll see soon). For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it won't do anything).
+The way to keep the code you've written in a file that you can open later or share with someone else is by writing code in an R Script (if you're familiar with Stata, an R Script is just like a .do file). An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top left of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) will be shown there too (making a plot will be shown in a different panel as we'll see soon). For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it won't do anything).
 
 The Source panel is where the R Scripts will be and is located at the top left on the image below. It is good practice to do all of your code writing in an R Script - even if you delete some lines of code later - as it eliminates the possibility of losing code or forgetting what you wrote. Having all the code in front of you in a text file also makes it easier to understand the flow of code from start to finish to a task - an issue we'll discuss more in later lessons. 
 

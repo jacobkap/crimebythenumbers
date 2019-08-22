@@ -5,9 +5,8 @@ R Markdown can help by reducing the number of things you have to think about. Th
 
 Markdown works nearly identical to Word. The major difference is that it allows R code and you have to do more formatting yourself. If you do use Markdown, the main advice is to **ignore formatting until the end!** Just ignore formatting until you absolutely need to. It is easiest to output to an HTML file until you are ready to format. HTML generally ignores formatting issues (such as figure alignment) that PDF or Word encounter. 
 
-That said, let's start with making a Markdown file in RStudio.
 
-![Opening a new R Markdown file](images/markdown1.png)
+![Opening a new R Markdown file](images/markdown1.png)d
 
 As seen above, you make a new R Markdown file using the same menu as making an R Script file, but now select `R Markdown...`. From here it'll open up a window where you select the title, author, and type of output. You can always change all three of these selections right in the Markdown file. Selecting PDF may require you to download additional software to get it to output - some OS may already have the software installed. For a nice guide to using PDF with R Markdown, see  [here](https://medium.com/@sorenlind/create-pdf-.reports-using-r-r-markdown-latex-and-knitr-on-windows-10-952b0c48bfa9). Formatting is also trickier in PDF than in HTML or Word.
 
@@ -117,7 +116,7 @@ Hornet 4 Drive       21.4     6    258   110   3.08
 Hornet Sportabout    18.7     8    360   175   3.15
 
 
-## Finally, making the output file
+## Making the output file
 
 To create the Word or PDF output click `Knit` and it will create the output in the format set in the very top. To change this format click the white down-arrow directly to the right of `Knit` and it will drop-down a menu with output options. Click the option you want and it will output it in that format and change that to the new default. Sometimes it takes a while for it to output, so be patient. And sometimes it fails so just try to output again. 
 

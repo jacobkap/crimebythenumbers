@@ -13,15 +13,13 @@ load("data/officer_shootings_geocoded.rda")
 
 ### Understanding your data
 
-The most important thing to learn from this course is that understanding your data is crucial to good research. Making interactive maps is a very useful way to better understand your data as you can immediately see geographic patterns and quickly look at characteristics of those incidents to understand them. Let's say your research looked at if marijuana dispensaries attracts crime. 
+The most important thing to learn from this course is that understanding your data is crucial to good research. Making interactive maps is a very useful way to better understand your data as you can immediately see geographic patterns and quickly look at characteristics of those incidents to understand them. 
 
-In this lesson we will be mapping each officer-involved shooting and let you click on the shooting to popup some information about it. If we see a cluster of shootings, we can click on each shooting to see if they are similar. Though it is possible to find these patterns just looking at the data, it is much easier to be able to see a geographic pattern and immediately look at information about each incident.
+In this lesson we will make a map of each officer-involved shooting that lets you click on the shooting and see some information about it. If we see a cluster of shootings, we can click on each shooting to see if they are similar. Though it is possible to find these patterns just looking at the data, it is easier to be able to see a geographic pattern and immediately look at information about each incident.
 
 ### Police departments use them
 
-Interactive maps are population in large police departments such as Philadelphia and New York City. They allow easy understanding of geographic patterns in the data and, importantly, allow such access to people who do not have the technical skills necessary to create the maps. If nothing else, learning interactive maps will help you with a future job. 
-
-
+Interactive maps are popular in large police departments such as Philadelphia and New York City. They allow easy understanding of geographic patterns in the data and, importantly, allow such access to people who do not have the technical skills necessary to create the maps. If nothing else, learning interactive maps will help you with a future job. 
 
 ## Making the interactive map 
 
@@ -31,10 +29,7 @@ As usual, let's take a look at the top 6 rows of the data.
 head(officer_shootings_geocoded)
 ```
 
-This data is fairly sparse about information regarding the shooting. All it has is the date and address (which isn't that useful as location is already covered by the map). 
-
-It has the date, time and location but  no information about the incident itself (with the exception of which crime occurred which, in this case, is murder). Though we only need the crime's coordinates to create a map, the true benefit of interactive maps is that you can click on a point and it'll show information about that specific incident. The level of detail about the crime may be sparse, but we can still create a map where you can click a crime incident dot on the map and a popup will tell you when it happened.
-
+This data is fairly sparse about information regarding the shooting. All it has is the date and address (which isn't that useful as location is already covered by the map). The level of detail about the crime may be sparse, but we can still create a map where you can click an incident dot on the map and a popup will tell you when it happened. 
 
 We will use the package `leaflet` for our interactive map. `leaflet` will produce maps similar to Google Maps with circles (or any icon we choose) for each value we add to the map. It allows you to zoom in, scroll around, and provides context to each incident that isn't available on a static map. 
 
@@ -46,14 +41,14 @@ install.packages("leaflet")
 library(leaflet)
 ```
 
-To make a leaflet map we just need to run the function `leaflet()` and add a tile to the map. A tile is simply the background on the map. This [website](https://leaflet-extras.github.io/leaflet-providers/preview/) provides a large number of potential tiles to use, though many are not relevant to our purposes of crime mapping. 
+To make a `leaflet` map we need to run the function `leaflet()` and add a tile to the map. A tile is simply the background on the map. This [website](https://leaflet-extras.github.io/leaflet-providers/preview/) provides a large number of potential tiles to use, though many are not relevant to our purposes of crime mapping. 
 
-We will use a standard tile from Open Street Maps. This tile gives street names and highlights important features such has parks and large stores which provides useful contexts for looking at the data. The `attribution` parameter isn't strictly necessary but it is good form to say where you tile is from.  
+We will use a standard tile from Open Street Maps. This tile gives street names and highlights important features such has parks and large stores which provides useful contexts for looking at the data. The `attribution` parameter isn't strictly necessary but it is good form to say where your tile is from.  
 
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors')
 ```
 
@@ -64,7 +59,7 @@ Note the `%>%` between the `leaflet()` function and the `addTiles()` function. T
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addMarkers(~lon, ~lat, data = officer_shootings_geocoded)
 ```
@@ -73,7 +68,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded)
 ```
@@ -81,7 +76,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5)
@@ -92,7 +87,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5,
@@ -102,7 +97,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5,
@@ -112,7 +107,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5,
@@ -124,7 +119,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5,
@@ -141,7 +136,7 @@ leaflet() %>%
 ```{r}
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(~lon, ~lat, data = officer_shootings_geocoded,
                    radius = 5,
@@ -164,12 +159,12 @@ pal <- colorBin("YlOrRd", domain = philly_tracts$NAMELSAD10, bins = bins)
 philly_tracts <- st_read("data/philly_census_tract/Census_Tracts_2010.shp")
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
-          attribution = '&copy; <a href="http://openstreetmap.org">
+           attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addPolygons(data = philly_tracts$geometry,
               fillColor = ~pal(philly_tracts$geometry),
               col = "black",
               weight = 2,
-                                 popup = philly_tracts$NAMELSAD10)
+              popup = philly_tracts$NAMELSAD10)
 ```
 

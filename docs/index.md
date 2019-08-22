@@ -7,8 +7,9 @@ bibliography: [packages.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
-description: "Notes for learning R for Criminology."
+description: "These notes introduce the programming language R and are meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information such as cleaning the data, graphing it, or running statistical tests on the data. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets."
 url: "https://r4crim.com"
+cover-image: "Ruby-throated_HummingBird.jpg"
 fontsize: 12pt
 github-repo: jacobkap/r4crim
 site: bookdown::bookdown_site
@@ -53,7 +54,7 @@ We'll also cover a number of other data sets such a local police data and govern
 
 ## What you won't learn {-}
 
-This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as too large for my computer to handle) requires special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. 
+This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as too large for my computer to handle) requires special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. For a comprehensive look at geographic data please see this [book](https://geocompr.robinlovelace.net/).
 
 ## Simple vs Easy {-}
 
