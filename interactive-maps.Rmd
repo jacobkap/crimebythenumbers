@@ -77,7 +77,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat)
+                   lat = officer_shootings_geocoded$lat)
 
 ```
 
@@ -89,7 +89,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5)
 ```
 
@@ -105,7 +105,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = officer_shootings_geocoded$dates)
 ```
@@ -118,7 +118,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Date of Shooting:",officer_shootings_geocoded$dates))
 ```
@@ -131,7 +131,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "Date:", officer_shootings_geocoded$dates,
@@ -146,7 +146,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "<br>",
@@ -167,7 +167,7 @@ leaflet() %>%
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
-             lat = officer_shootings_geocoded$lat,
+                   lat = officer_shootings_geocoded$lat,
                    radius = 5,
                    popup = paste("Shooting Number:", officer_shootings_geocoded$shooting_number,
                                  "<br>",
@@ -206,7 +206,7 @@ It gives us a blank map because our polygons are projected to Philly's projectio
 ```{r}
 library(sf)
 philly_tracts_shootings <- st_transform(philly_tracts_shootings,
-                                        crs = "+proj=longlat +ellps=WGS84")
+                                        crs = "+proj=longlat +datum=WGS84")
 ```
 
 Now let's try again. 
@@ -230,6 +230,7 @@ leaflet()  %>%
               color = "black",
               weight = 1)
 ```
+
 That looks better and we can clearly distinguish each tract now. 
 
 As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the GEOID10 column value - the unique ID code for that tract - and the number of shootings that occurred in that tract. 
@@ -263,7 +264,7 @@ leaflet()  %>%
                              "Number of Shootings: ", philly_tracts_shootings$number_shootings),
               fillColor = pal(philly_tracts_shootings$number_shootings),
               fillOpacity = 1) %>%
-              addLegend(pal = pal, values = philly_tracts_shootings$number_shootings,
-                        opacity = 1)
+  addLegend(pal = pal, values = philly_tracts_shootings$number_shootings,
+            opacity = 1)
 
 ```
