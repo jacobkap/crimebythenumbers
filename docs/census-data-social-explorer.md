@@ -1,10 +1,9 @@
 
-# Census Data from Social Explorer
-
-
-## Getting Census data from Social Explorer
+# Census data from Social Explorer
 
 Social Explorer is a convenient tool to let us get Census data in a relatively clean format. The tool has interactive graphs for a huge number of variables and different levels of geographies for data in the United States. For our purposes we will focus on their Tables feature which lets you select different data sets (we will focus on Census data), select the variables you want, and get an Excel file with that data. We will do this to get tract-level Census data and merge it in with the tract-level shooting data to make some basic scatterplots and correlations. 
+
+## Getting Census data from Social Explorer
 
 For students on Penn's campus you can go directly to [Social Explorer's Website](https://www.socialexplorer.com/explore-maps) since Penn pays for a license to use the site. Otherwise you can go through a link in the school's library website [here](https://franklin.library.upenn.edu/catalog/FRANKLIN_9941110333503681), click "Connect to resource." near the bottom. For those going through the library website, click "Use as guest" on the page it opens up. 
 

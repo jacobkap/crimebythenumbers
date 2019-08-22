@@ -1,5 +1,5 @@
 
-# Dates and Times
+# Dates and times
 
 ## Why do dates and times matter?
 

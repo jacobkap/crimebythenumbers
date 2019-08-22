@@ -3,7 +3,7 @@
 
 # (APPENDIX) Appendix {-}
 
-# Useful Resources
+# Useful resources
 
 ### Learning R and coding issues
 

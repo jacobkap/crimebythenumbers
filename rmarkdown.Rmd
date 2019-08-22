@@ -1,6 +1,6 @@
 # R Markdown
 
-When conducting research your end product is usually a Word Document or a PDF which report on the research you've done, often including several graphs or tables. In many cases people do the data work in R, producing the graphs or numbers for the table, and then write up the results in Word or LaTeX. While this is a good system, there are significant drawbacks, mainly that if you change the graph or table you need to change it in R **and** change it in the report. If you only do this rarely it isn't much of a problem. However, doing so many times can increase both the amount of work and the likelihood of an error occuring from forgetting to change something or changing it incorrectly. We can avoid this issue by using R Markdown, R's way of writing a document and incorporating R code within. 
+When conducting research your end product is usually a Word Document or a PDF which report on the research you've done, often including several graphs or tables. In many cases people do the data work in R, producing the graphs or numbers for the table, and then write up the results in Word or LaTeX. While this is a good system, there are significant drawbacks, mainly that if you change the graph or table you need to change it in R **and** change it in the report. If you only do this rarely it isn't much of a problem. However, doing so many times can increase both the amount of work and the likelihood of an error occurring from forgetting to change something or changing it incorrectly. We can avoid this issue by using R Markdown, R's way of writing a document and incorporating R code within. 
 
 This chapter will only briefly introduce R Markdown, for a comprehensive guide please see [this excellent book](https://bookdown.org/yihui/rmarkdown/). For a cheatsheet on R Markdown see [here](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
 
@@ -32,30 +32,23 @@ Other than the section headers, most of what you do in R Markdown is exactly the
 
 The reason R Markdown is so useful is because you can include code output in the file. In R Markdown we wrote code in what is called a "code chunk". These are simply areas in the document which R knows it should evaluate as R code. You can see three of them in the example - at lines 8-9 setting a default for the code, lines 18-20 to run the `summary()` function on the *cars* data (a data set built into R), and lines 26-27 (and cut off in the screenshot) to make a plot of the data set *pressure* (another data set built into R). 
 
+To make a chunk click Insert near the top right, then R.
+
+![](images/markdown3.PNG)
+
+It will then make an empty code chunk where your cursor is. 
+
+![](images/chunk_example.PNG)
+
 Notice the three \` at the top and bottom of the chunk. Don't touch these! They tell R that anything in it is a code chunk (i.e. that R should run the code). Inside the squiggly brackets `{}` are instructions about how the code is outputted. Here you can specify, among other things if the code will be outputted or just the output itself, captions for tables or graphs, and formatting for the output. Include all of these options after the `r` in the squiggly brackets. Multiple options must be separated by a comma (just like options in normal R functions).  
 
-If you do not have the R Markdown file in the same folder as your data, you'll need to set the working directory in a chunk before reading the data (you do so exactly like you would in an R Script). However, once a working directory is set, or the data is read, it applies for all following chunks. You will also need to run any packages (using `library()`) to use them in a chunk. It is good form to set your working directory, load any data, and load any packages you need in the first chunk to make it eaisier to keep track of what you're using. 
-
+If you do not have the R Markdown file in the same folder as your data, you'll need to set the working directory in a chunk before reading the data (you do so exactly like you would in an R Script). However, once a working directory is set, or the data is read, it applies for all following chunks. You will also need to run any packages (using `library()`) to use them in a chunk. It is good form to set your working directory, load any data, and load any packages you need in the first chunk to make it easier to keep track of what you're using. 
 
 ### Hiding code in the output
 
 When you're making a report you generally only want to keep the output, not the code you used. The second code chunk in the example has the parameter `echo` set to FALSE. This means that it did not print the code used, it only displayed the output. 
 
-![](images/markdown3.PNG)
-
-```{r}
-
-```
-
-![](images/chunk_example.PNG)
-
-
-
-![](images/markdown7.PNG)
-
 ## Making tables
-
-![](images/figure_caption.PNG)
 
 There are a number of packages that make nice tables in R Markdown. We will use the basic `knitr` package for this example. 
 

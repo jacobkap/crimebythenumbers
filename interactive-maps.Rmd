@@ -1,4 +1,4 @@
-# Interactive Maps
+# Interactive maps
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While this is important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map excels at showing individual incidents as it allows you to click on a dot and will have a popup giving information about that incident.
 
@@ -138,7 +138,7 @@ leaflet() %>%
                                  "Location:", officer_shootings_geocoded$location))
 ```
 
-Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text "<br>" where we want a line break it will make one. <br> is the HTML tag for linebreak which is why it works making a new line in this case. 
+Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text "<br>" where we want a line break it will make one. <br> is the HTML tag for line-break which is why it works making a new line in this case. 
 
 ```{r}
 leaflet() %>% 
@@ -157,7 +157,7 @@ leaflet() %>%
 
 ## Dealing with too many markers
 
-Even though we shrunk the size of the circles, it is still rather hard to see any trends as there are so many inicdents and relatively large circles. One solution is to keep shrinking the size of the circles, but this quickly becomes a bad solution when using more frequent data such as a crime data set (Philadelphia data alone has about 200k crimes reported per year). The other solution is to cluster the data into groups where the dots only show if you zoom down. 
+Even though we shrunk the size of the circles, it is still rather hard to see any trends as there are so many incidents and relatively large circles. One solution is to keep shrinking the size of the circles, but this quickly becomes a bad solution when using more frequent data such as a crime data set (Philadelphia data alone has about 200k crimes reported per year). The other solution is to cluster the data into groups where the dots only show if you zoom down. 
 
 If we add the code `clusterOptions = markerClusterOptions()` to our `addCircleMarkers()` it will cluster for us. 
 
@@ -242,7 +242,7 @@ leaflet()  %>%
                 OpenStreetMap</a> contributors') %>%
   addPolygons(data = philly_tracts_shootings$geometry,
               col = "black",
-              weight = 2,
+              weight = 1,
               popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
                              "<br>",
                              "Number of Shootings: ", philly_tracts_shootings$number_shootings))
@@ -258,7 +258,7 @@ leaflet()  %>%
                 OpenStreetMap</a> contributors') %>%
   addPolygons(data = philly_tracts_shootings$geometry,
               col = "black",
-              weight = 2,
+              weight = 1,
               popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
                              "<br>",
                              "Number of Shootings: ", philly_tracts_shootings$number_shootings),
