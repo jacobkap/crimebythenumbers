@@ -156,7 +156,7 @@ head(offenses_known_yearly_1960_2017$ori)
 #> [1] "AK00101" "AK00101" "AK00101" "AK00101" "AK00101" "AK00101"
 ```
 
-Each ORI is a 7-digit value starting with the state abbreviation (for some reason the FBI incorrectly puts the abbreviation for Nebraska as NB instead of NE) followed by 5 numbers. In the NIBRS data (another FBI data set which we'll explore in Chapter \ref({#nibrs})) the ORI uses a 9-digit code - expanding the 5 numbers to 7 numbers. When dealing with specific agencies, make sure to use the ORI rather than the agency name to avoid any mistakes. 
+Each ORI is a 7-digit value starting with the state abbreviation (for some reason the FBI incorrectly puts the abbreviation for Nebraska as NB instead of NE) followed by 5 numbers. In the NIBRS data (another FBI data set which we'll explore in Chapter \ref(nibrs)) the ORI uses a 9-digit code - expanding the 5 numbers to 7 numbers. When dealing with specific agencies, make sure to use the ORI rather than the agency name to avoid any mistakes. 
 
 For an easy way to find the ORI number of an agency, use this [site](http://crimedatatool.com/crosswalk.html). Type an agency name or an ORI code into the search section and it will return everything that is a match.
 
@@ -260,4 +260,4 @@ table(offenses_known_yearly_1960_2017$number_of_months_reported)
 #>   6416  14940 678409
 ```
 
-From our `table()` output it seems that when agencies do report, they do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to meaure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 
+From our `table()` output it seems that when agencies do report, they do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to measure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 
