@@ -54,7 +54,7 @@ In the UCR and other FBI data sets, agencies are identified using **OR**iginatin
 head(offenses_known_yearly_1960_2017$ori)
 ```
 
-Each ORI is a 7-digit value starting with the state abbreviation (for some reason the FBI incorrectly puts the abbreviation for Nebraska as NB instead of NE) followed by 5 numbers. In the NIBRS data (another FBI data set which we'll explore in Chapter \@ref(#nibrs)) the ORI uses a 9-digit code - expanding the 5 numbers to 7 numbers. When dealing with specific agencies, make sure to use the ORI rather than the agency name to avoid any mistakes. 
+Each ORI is a 7-digit value starting with the state abbreviation (for some reason the FBI incorrectly puts the abbreviation for Nebraska as NB instead of NE) followed by 5 numbers. In the NIBRS data (another FBI data set which we'll explore in Chapter \ref({#nibrs})) the ORI uses a 9-digit code - expanding the 5 numbers to 7 numbers. When dealing with specific agencies, make sure to use the ORI rather than the agency name to avoid any mistakes. 
 
 For an easy way to find the ORI number of an agency, use this [site](http://crimedatatool.com/crosswalk.html). Type an agency name or an ORI code into the search section and it will return everything that is a match.
 
@@ -114,11 +114,11 @@ The biggest problem with index crimes is that it is simply the sum of 8 (or 7 si
 
 This is especially a problem because it hide trends in violent crimes. San Francisco, as an example, has had a huge increase in index crimes in the last several years. When looking closer, that increase is driven almost entirely by the near doubling of theft since 2011. During the same years, violent crime has stayed fairly steady. So the city isn't getting more dangerous but it appears like it is due to just looking at total index crimes.
 
-While many researchers divide index crimes into violent and nonviolent categories, which helps but even this isn't entirely sufficient. Take Chicago as an example. It is a city infamous for its large number of murders. But as a fraction of index crimes, Chicago has a rounding error worth of murders. Their 653 murders in 2017 is only 0.5% of total index crimes. For violent index crimes, murder makes up 2.2%. What this means is that changes in murder are very difficult to detect. If Chicago had no murders this year, but a less serious crime (such as theft) increased slightly, we couldn't tell from looking at the number of index crimes.
+Many researchers divide index crimes into violent and nonviolent categories, which helps but is still not entirely sufficient. Take Chicago as an example. It is a city infamous for its large number of murders. But as a fraction of index crimes, Chicago has a rounding error worth of murders. Their 653 murders in 2017 is only 0.5% of total index crimes. For violent index crimes, murder makes up 2.2%. What this means is that changes in murder are very difficult to detect. If Chicago had no murders this year, but a less serious crime (such as theft) increased slightly, we couldn't tell from looking at the number of index crimes.
 
 ### Rape definition change
 
-Starting in 2013, rape has a new, broader definition in the UCR to include oral and anal penetration (by a body part or object) and allow men to be victims. The previous definition included only forcible intercourse against a woman. As this revised definition is broader than the original one, more rapes are reported ( social changes may also be partly responsible as they could encourage victims to report more). This definition change makes post-2013 rape data non-comparable to pre-2013 data. 
+Starting in 2013, rape has a new, broader definition in the UCR to include oral and anal penetration (by a body part or object) and allow men to be victims. The previous definition included only forcible intercourse against a woman. As this revised definition is broader than the original one post-2013 rape data is not comparable to pre-2013 data. 
 
 ## Actual offenses, clearances, and unfounded offenses
 
@@ -146,10 +146,10 @@ An unfounded crime is one in which a police investigation has determined that th
 
 ## Number of months reported
 
-UCR data is reported monthly though even agencies that decide to report their data, they may not do so every month. As we don't want to compare an agency which reports 12 months to one that reports fewer, the variable *number_of_months_reported* is way keep only agencies that report 12 months, or deal with those that report fewer. 
+UCR data is reported monthly though even agencies that decide to report their data may not do so every month. As we don't want to compare an agency which reports 12 months to one that reports fewer, the variable *number_of_months_reported* is way keep only agencies that report 12 months, or deal with those that report fewer. 
 
 ```{r}
 table(offenses_known_yearly_1960_2017$number_of_months_reported)
 ```
 
-From our `table()` output it seems that when agencies do report, they do so for all 12 months of the year. However, this variable is seriously flawed, and it's name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to meaure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 
+From our `table()` output it seems that when agencies do report, they do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to meaure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 
