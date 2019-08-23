@@ -1,6 +1,6 @@
 # Interactive maps
 
-While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While this is important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map excels at showing individual incidents as it allows you to click on a dot and will have a popup giving information about that incident.
+While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
 
 For this lesson we will continue to use the officer shooting data so let's load that.
 
@@ -29,9 +29,9 @@ As usual, let's take a look at the top 6 rows of the data.
 head(officer_shootings_geocoded)
 ```
 
-This data is fairly sparse about information regarding the shooting. All it has is the date and address (which isn't that useful as location is already covered by the map). The level of detail about the crime may be sparse, but we can still create a map where you can click an incident dot on the map and a popup will tell you when it happened. 
+This data is fairly sparse about information regarding the shooting. All it has is the date , shooting number, and address (which isn't that useful as location is already covered by the map). The level of detail about the crime may be sparse, but we can still create a map where you can click an incident dot on the map and a popup will tell you when it happened. 
 
-We will use the package `leaflet` for our interactive map. `leaflet` will produce maps similar to Google Maps with circles (or any icon we choose) for each value we add to the map. It allows you to zoom in, scroll around, and provides context to each incident that isn't available on a static map. 
+We will use the package `leaflet` for our interactive map. `leaflet` produces maps similar to Google Maps with circles (or any icon we choose) for each value we add to the map. It allows you to zoom in, scroll around, and provides context to each incident that isn't available on a static map. 
 
 ```{r eval = FALSE}
 install.packages("leaflet")
@@ -41,7 +41,7 @@ install.packages("leaflet")
 library(leaflet)
 ```
 
-To make a `leaflet` map we need to run the function `leaflet()` and add a tile to the map. A tile is simply the background on the map. This [website](https://leaflet-extras.github.io/leaflet-providers/preview/) provides a large number of potential tiles to use, though many are not relevant to our purposes of crime mapping. 
+To make a `leaflet` map we need to run the function `leaflet()` and add a tile to the map. A tile is simply the background of the map. This [website](https://leaflet-extras.github.io/leaflet-providers/preview/) provides a large number of potential tiles to use, though many are not relevant to our purposes of crime mapping. 
 
 We will use a standard tile from Open Street Maps. This tile gives street names and highlights important features such has parks and large stores which provides useful contexts for looking at the data. The `attribution` parameter isn't strictly necessary but it is good form to say where your tile is from.  
 
@@ -54,7 +54,7 @@ leaflet() %>%
 
 When you run the above code it shows a world map (copied several times). Zoom into it and it'll start showing relevant features of wherever you're looking.
 
-Note the `%>%` between the `leaflet()` function and the `addTiles()` function. This is called a "pipe" in R and is used like the `+` in ggplot to combine multiple functions together. This is used heavily in what is called the "tidyverse", a series of packages that are prominent in modern R and useful for data analysis. We won't be covering them in this introductory course but for more information on them you can check the  [tidyverse website](https://www.tidyverse.org/). For this lesson you need to know that each piece of the leaflet function must end with `%>%` for the next line to work. 
+Note the `%>%` between the `leaflet()` function and the `addTiles()` function. This is called a "pipe" in R and is used like the `+` in `ggplot()` to combine multiple functions together. This is used heavily in what is called the "tidyverse", a series of packages that are prominent in modern R and useful for data analysis. We won't be covering them in this book but for more information on them you can check the [tidyverse website](https://www.tidyverse.org/). For this lesson you need to know that each piece of the `leaflet` function must end with `%>%` for the next line to work. 
 
 To add the points to the graph we use the function `addMarkers()` which has two parameters, `lng` and `lat`. For both parameters we put the column in which the longitude and latitude are, respectively.
 
@@ -120,7 +120,7 @@ leaflet() %>%
   addCircleMarkers(lng = officer_shootings_geocoded$lon, 
                    lat = officer_shootings_geocoded$lat,
                    radius = 5,
-                   popup = paste("Date of Shooting:",officer_shootings_geocoded$dates))
+                   popup = paste("Date of Shooting:", officer_shootings_geocoded$dates))
 ```
 
 We don't have many other columns but we can add the location and shooting number to the popup by adding them to the `paste()` function we're using. 
@@ -138,7 +138,7 @@ leaflet() %>%
                                  "Location:", officer_shootings_geocoded$location))
 ```
 
-Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text "<br>" where we want a line break it will make one. <br> is the HTML tag for line-break which is why it works making a new line in this case. 
+Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text `<br>` where we want a line break it will make one. `<br>` is the HTML tag for line-break which is why it works making a new line in this case. 
 
 ```{r}
 leaflet() %>% 
@@ -177,13 +177,13 @@ leaflet() %>%
                    clusterOptions = markerClusterOptions())
 ```
 
-Incidents close to each other are groups together in fairly arbitrary groupings and we can see how large each grouping is by moving our cursor over the circle. Click on the circle or zoom in and and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in and it will eventually show each incident as its own circle. 
+Incidents close to each other are grouped together in fairly arbitrary groupings and we can see how large each grouping is by moving our cursor over the circle. Click on a circle or zoom in and and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in and it will eventually show each incident as its own circle. 
 
-This method is very useful at dealing with huge amounts of data as it avoids overflowing the map with too many icons at one time. A downside, however, is that the clusters are created arbitrarily meaning that important context, such as neighborhood, can be lost. 
+This method is very useful for dealing with huge amounts of data as it avoids overflowing the map with too many icons at one time. A downside, however, is that the clusters are created arbitrarily meaning that important context, such as neighborhood, can be lost. 
 
 ## Interactive choropleth maps
 
-In Chapter \ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - Census tracts with the number of officer-involved shootings. 
+In Chapter \@ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - Census tracts with the number of officer-involved shootings. 
 
 Let's load the tract-level officer-involved shooting data we made earlier. 
 
@@ -233,7 +233,7 @@ leaflet()  %>%
 
 That looks better and we can clearly distinguish each tract now. 
 
-As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the GEOID10 column value - the unique ID code for that tract - and the number of shootings that occurred in that tract. 
+As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the GEOID10 column value - the unique ID code for that tract - and the number of shootings that occurred in that tract. As before when we click on a tract a popup appears with the output we specified.
 
 ```{r}
 leaflet()  %>% 
@@ -248,10 +248,49 @@ leaflet()  %>%
                              "Number of Shootings: ", philly_tracts_shootings$number_shootings))
 ```
 
+For these types of maps we generally want to shade each polygon to indicate how frequently the event occurs in the polygon. For this process we will make a simple function which will automatically shade the tracts by the value in the column we want it shaded by - *number_shootings*. 
 
+We'll use the function `colorNumeric()` to make our colors, which takes a lot of the work out of this process. This function takes two inputs, first a color palette which we can get from the site [colorbrewer2](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3). Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd". The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_shootings*. 
+
+We will save the output of `colorNumeric("OrRd", philly_tracts_shootings$number_shootings)` as a new variable which we'll call *pal* for convenience. Then inside of `addPolygons()` we'll set the parameter `fillColor` to `pal(philly_tracts_shootings$number_shootings)`, running this function on the column. What this really does it determine which color every tract should be based on the value in the *number_shootings* column.
 
 ```{r}
-pal <- colorNumeric("viridis", NULL)
+pal <- colorNumeric("OrRd", philly_tracts_shootings$number_shootings)
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
+                             "<br>",
+                             "Number of Shootings: ", philly_tracts_shootings$number_shootings),
+              fillColor = pal(philly_tracts_shootings$number_shootings))
+```
+
+Since the tracts are transparent, it is hard to distinguish which color is shown. We can make each tract a solid color by setting the parameter `fillOpacity` inside of `addPolygons()` to 1.
+
+```{r}
+pal <- colorNumeric("OrRd", philly_tracts_shootings$number_shootings)
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
+                             "<br>",
+                             "Number of Shootings: ", philly_tracts_shootings$number_shootings),
+              fillColor = pal(philly_tracts_shootings$number_shootings),
+              fillOpacity = 1)
+```
+
+To add a legend to this we use the function `addLegend()` which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the tracts so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_shootings* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each tract is set to not be transparent at all, we'll also set this to 1. 
+
+```{r}
+pal <- colorNumeric("OrRd", philly_tracts_shootings$number_shootings)
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
@@ -264,7 +303,29 @@ leaflet()  %>%
                              "Number of Shootings: ", philly_tracts_shootings$number_shootings),
               fillColor = pal(philly_tracts_shootings$number_shootings),
               fillOpacity = 1) %>%
-  addLegend(pal = pal, values = philly_tracts_shootings$number_shootings,
+  addLegend(pal = pal, 
+            values = philly_tracts_shootings$number_shootings,
             opacity = 1)
+```
 
+Finally, we can add a title to the legend using the `title` parameter inside of `addLegend()`.
+
+```{r}
+pal <- colorNumeric("OrRd", philly_tracts_shootings$number_shootings)
+leaflet()  %>% 
+  addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+           attribution = '&copy; <a href="http://openstreetmap.org">
+                OpenStreetMap</a> contributors') %>%
+  addPolygons(data = philly_tracts_shootings$geometry,
+              col = "black",
+              weight = 1,
+              popup = paste0("Tract ID: ", philly_tracts_shootings$GEOID10,
+                             "<br>",
+                             "Number of Shootings: ", philly_tracts_shootings$number_shootings),
+              fillColor = pal(philly_tracts_shootings$number_shootings),
+              fillOpacity = 1) %>%
+  addLegend(pal = pal, 
+            values = philly_tracts_shootings$number_shootings,
+            opacity = 1,
+            title = "Police Shootings")
 ```

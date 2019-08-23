@@ -144,7 +144,7 @@ When you open SelectorGadget it allows you click on parts of the page and it wil
 
 ![](images/pdf_scrape_3.PNG)
 
-We only want the Location column for now so if we click outside that column it will begin de-selecting things. There is a bit of trial and error in the process to make sure only the parts of the page we want are selecting, so you may need to spend some time experimenting. Our goal is to have every row in the Location column for all tables be highlighted - and nothing else highlighted. 
+We only want the Location column for now so if we click outside that column it will begin de-selecting things. There is a bit of trial and error in the process to make sure only the parts of the page we want are selected, so you may need to spend some time experimenting. Our goal is to have every row in the Location column -and only the Location column - for all tables be highlighted. 
 
 ![](images/pdf_scrape_4.PNG)
 
