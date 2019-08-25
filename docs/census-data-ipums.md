@@ -34,7 +34,3 @@ In Chapter \@ref(choropleth-maps) we used the website Social Explorer to look at
 ## Cleaning the data
 
 ## Aggregating the data
-
-## Graphing the data
-
-## Mapping the data

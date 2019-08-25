@@ -25,7 +25,7 @@ Table 3 follows the same format and the new columns are number of apprehensions 
 
 ![](images/pdf_table_3.PNG)
 
-Finally, Table 4 is a bit different in it's format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information.
+Finally, Table 4 is a bit different in it's format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others we won't scrape it in this lesson - but you can use the skills you've learned to do so yourself.
 
 ![](images/pdf_table_4.PNG)
 
@@ -275,6 +275,7 @@ As we've done before, we want to take the code we wrote for the specific case of
 
 ```r
 sector_profile <- border_patrol[1]
+sector_profile <- trimws(sector_profile)
 sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
 sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
@@ -282,7 +283,7 @@ sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
-                           "apprehensions",
+                           "total_apprehensions",
                            "other_than_mexican_apprehensions", 
                            "marijuana_pounds",
                            "cocaine_pounds",
@@ -292,4 +293,126 @@ names(sector_profile) <- c("sector",
                            "deaths")
 ```
 
+Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. Finally we rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `table_list` as it is fairly descriptive. We do this as it is bad form to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object and the function doesn't have that as an input, it will work differently than we expect. 
 
+
+```r
+scrape_pdf <- function(table_list, table_number, number_columns, column_names) {
+  sector_profile <- table_list[table_number]
+  sector_profile <- trimws(sector_profile)
+  sector_profile <- strsplit(sector_profile, "\r\n")
+  sector_profile <- sector_profile[[1]]
+  sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
+  sector_profile <- str_split_fixed(sector_profile, " {2,}", number_columns)
+  sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+  names(sector_profile) <- column_names
+  
+  return(sector_profile)
+}
+```
+
+Now let's run this function for each of the three tables we want to scrape, changing the function's parameters to work for each table. To see what parameter values you need to input, look at the PDF itself or the screenshots in this lesson. 
+
+
+```r
+table_1 <- scrape_pdf(table_list = border_patrol,
+                      table_number = 1, 
+                      number_columns = 10, 
+                      column_names = c("sector",
+                                       "agent_staffing",
+                                       "total_apprehensions",
+                                       "other_than_mexican_apprehensions", 
+                                       "marijuana_pounds",
+                                       "cocaine_pounds",
+                                       "accepted_prosecutions",
+                                       "assaults",
+                                       "rescues",
+                                       "deaths"))
+table_2 <- scrape_pdf(table_list = border_patrol,
+                      table_number = 2, 
+                      number_columns = 6, 
+                      column_names = c("sector",
+                                       "accompanied_juveniles",
+                                       "unaccompanied_juveniles",
+                                       "total_juveniles", 
+                                       "total_adults",
+                                       "total_apprehensions"))
+table_3 <- scrape_pdf(table_list = border_patrol,
+                      table_number = 3, 
+                      number_columns = 4, 
+                      column_names = c("sector",
+                                       "female",
+                                       "male",
+                                       "total_apprehensions"))
+```
+
+We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterix after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. If you look carefully at the Sector column in *table_1* you'll see that each value starts with a space (this is something that is hard to see just looking at the data and is found primarily when encountering an error that forces you to search as I did here). Since the other tables do not have their values start with a space, it won't match properly in `left_join()`. We'll fix this by running `trimws()` on the column from *table_1*.
+
+
+```r
+table_1$sector <- gsub("\\*", "", table_1$sector)
+table_1$sector <- trimws(table_1$sector)
+```
+
+Now we can run `left_join()`.
+
+
+```r
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+final_data <- left_join(table_1, table_2)
+#> Joining, by = c("sector", "total_apprehensions")
+final_data <- left_join(final_data, table_3)
+#> Joining, by = c("sector", "total_apprehensions")
+```
+
+Let's take a look at the `head()` of this combined data.
+
+
+```r
+head(final_data)
+#>                         sector agent_staffing total_apprehensions
+#> 1                        Miami            111               2,280
+#> 2                  New Orleans             63                 920
+#> 3                        Ramey             38                 388
+#> 4 Coastal Border Sectors Total            212               3,588
+#> 5                       Blaine            296                 288
+#> 6                      Buffalo            277                 447
+#>   other_than_mexican_apprehensions marijuana_pounds cocaine_pounds
+#> 1                            1,646            2,253            231
+#> 2                              528               21              6
+#> 3                              387                3          2,932
+#> 4                            2,561            2,277          3,169
+#> 5                              237                0              0
+#> 6                              293              228              2
+#>   accepted_prosecutions assaults           rescues deaths
+#> 1                   292        1               N/A    N/A
+#> 2                    10        0               N/A    N/A
+#> 3                    89        0               N/A    N/A
+#> 4                   391        1 N/A **** N/A ****       
+#> 5                     9        0               N/A    N/A
+#> 6                    37        2               N/A    N/A
+#>   accompanied_juveniles unaccompanied_juveniles total_juveniles
+#> 1                    19                      42              61
+#> 2                     1                      22              23
+#> 3                     7                       1               8
+#> 4                    27                      65              92
+#> 5                    29                       7              36
+#> 6                     3                       3               6
+#>   total_adults female  male
+#> 1        2,219    219 2,061
+#> 2          897     92   828
+#> 3          380     65   323
+#> 4        3,496    376 3,212
+#> 5          252     97   191
+#> 6          441     69   378
+```
+
+In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove columns then using `as.numeric()`  or the `parse_numeric()` function from `readr` on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  
