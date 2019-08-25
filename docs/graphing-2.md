@@ -449,8 +449,6 @@ ggplot(shootings, aes(x = gender)) +
 
 ## Boxplot
 
-## Scatterplot
-
 ## Time Series
 
 
