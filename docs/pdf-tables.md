@@ -1,11 +1,11 @@
 
 # Scraping Tables from PDFs {#scrape-table}
 
-In Chapter \@ref(scraping-data-from-pdfs) we began working on scraping data from a PDF. We read in PDFs from Philadelphia's officer-involved shooting data and grabbed a single line of text from each PDF. That data was written up like a report, with the date of the incident followed by a description of what happened. In the majority of cases when you want data from a PDF it will be in a table rather than descriptive paragraph. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and `strsplit()` again to handle this data. 
+In Chapter \@ref(scraping-data-from-pdfs) we began working on scraping data from a PDF. We read in PDFs from Philadelphia's officer-involved shooting data and grabbed a single line of text from each PDF. That data was written up like a report, with the date of the incident followed by a description of what happened. In the majority of cases when you want data from a PDF it will be in a table rather than a descriptive paragraph. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and `strsplit()` again to handle this data. 
 
-Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be looking at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
+Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
-We will be using the Sector Profile 2017 PDF which has information in four tables which we'll scrape and then combine together. The data was downloaded on the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
+We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
 
 The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has four tables in the PDF. Let's take a look at them one at a time, understanding what variable are available, and what units each row is in. Then we'll start scraping the tables.
 
@@ -13,11 +13,11 @@ The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30
 
 ![](images/pdf_table_1.PNG)
 
-Now if we look more at the table we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also available as rows. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
+Now if we look more at the table we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
 There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
 
-Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is a duplicated column as in Table 1.
+Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 
 ![](images/pdf_table_2.PNG)
 
@@ -31,14 +31,14 @@ Finally, Table 4 is a bit different in it's format. The rows are now variables a
 
 ## Scraping the first table
 
-We've now seen all four of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is similar (particularly Tables 1-3), meaning we can reuse code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. As earlier, we will use the `pdf_text()` function from the `pdftools` package to scrape the PDFs. 
+We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning we can reuse some code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. As earlier, we will use the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
 
 
 ```r
 library(pdftools)
 ```
 
-We can save the output of the `pdf_text()` function as "border_patrol" and we'll use it for each table.
+We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table.
 
 
 ```r
@@ -72,7 +72,7 @@ border_patrol[1]
 #> [1] "                                                            United States Border Patrol\r\n                                                             Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n                                                  Agent                              Other Than Mexican           Marijuana          Cocaine         Accepted\r\n              SECTOR                            Staffing*\r\n                                                             Apprehensions\r\n                                                                                       Apprehensions                (pounds)          (pounds)    Prosecutions\r\n                                                                                                                                                                      Assaults Rescues       Deaths\r\n Miami                                             111               2,280                    1,646                   2,253             231              292               1           N/A     N/A\r\n New Orleans                                        63                920                      528                      21                6               10               0           N/A     N/A\r\n Ramey                                              38                388                      387                       3             2,932              89               0           N/A     N/A\r\n Coastal Border Sectors Total                      212               3,588                    2,561                   2,277            3,169             391               1        N/A **** N/A ****\r\n Blaine                                            296                288                      237                       0                0                9               0           N/A     N/A\r\n Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A\r\n Detroit                                           408               1,070                     322                     124               0                85               1           N/A     N/A\r\n Grand Forks                                       189                496                      202                       0                0               40               2           N/A     N/A\r\n Havre                                             183                 39                       28                      98                0                2               0           N/A     N/A\r\n Houlton                                           173                 30                       30                      17                0                2               0           N/A     N/A\r\n Spokane                                           230                208                       67                      68                0               24               0           N/A     N/A\r\n Swanton                                           292                449                      359                     531                1              103               6           N/A     N/A\r\n Northern Border Sectors Total                    2,048              3,027                    1,538                   1,066               3              302              11        N/A **** N/A ****\r\n Big Bend (formerly Marfa)                         500               6,002                   3,346                   40,852              45             2,847             11            26      1\r\n Del Rio                                          1,391             13,476                    6,156                   9,482              62             8,022             12            99     18\r\n El Centro                                         870              18,633                    5,812                   5,554             484             1,413             34             4      2\r\n El Paso                                          2,182             25,193                   15,337                  34,189             140             6,996             54            44      8\r\n Laredo                                           1,666             25,460                    7,891                  69,535             757             6,119             31          1,054    83\r\n Rio Grande Valley (formerly McAllen)             3,130            137,562                  107,909                260,020             1,192            7,979            422          1,190   104\r\n San Diego                                        2,199             26,086                    7,060                  10,985            2,903            3,099             84            48      4\r\n Tucson                                           3,691             38,657                   12,328                397,090              331            20,963             93           750     72\r\n Yuma                                              859              12,847                   10,139                  30,181             261             2,367             33             6      2\r\n Southwest Border Sectors Total**                16,605            303,916                  175,978                857,888             6,174           59,805            774          3,221   294\r\n Nationwide Total***                             19,437            310,531                  180,077                861,231             9,346           60,498            786          3,221   294\r\n* Agent staffing statistics depict FY17 on-board personnel data as of 9/30/2017\r\n** Southwest Border Sectors staffing statistics include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, Yuma, and the Special Operations Group.\r\n*** Nationwide staffing statistics include: All on-board Border Patrol agents in CBP\r\n**** Rescue and Death statistics are not tracked for Northern and Coastal Border Sectors.\r\n"
 ```
 
-And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\r\n` indicating that there should be a new line. As we did last time, we want to use `strsplit()` to split at the `\n`. Let's save a new object with the value in the first element of "border_patrol", calling it "sector_profile" as that's the name of that table, and then using `strsplit()` on it. `strsplit()` returns a list so we will also want to keep just the first element of that using double square bracket [[]] notation.
+And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\r\n` indicating that there should be a new line. As we did last time, we want to use `strsplit()` to split at the `\r\n`. Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
 
 
 ```r
@@ -179,7 +179,7 @@ head(sector_profile)
 #> [6] "Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A"
 ```
 
-The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do. When looking at this data it is clear that where the division between columns is a bunch of white space. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make "sector_profile" into a data.frame. 
+The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do. When looking at this data it is clear that where the division between columns is a bunch of white space. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 
 We will use the function `str_split_fixed()` from the `stringr` package. This function is very similar to `strsplit()` except you can tell it how many columns to expect. We could have used this package earlier in Section \@ref(scraping-data-from-pdfs) but chose not to to avoid introducing too many new packages in one lesson. 
 
@@ -238,7 +238,7 @@ names(sector_profile) <- c("sector",
                            "deaths")
 ```
 
-We have now take a table from a PDF and successfully scraped it using R to make a data.frame with all of it's information. 
+We have now taken a table from a PDF and successfully scraped it to a data.frame in R. Now we can work on it as we would any other data set we've used previously. 
 
 
 ```r
@@ -266,7 +266,7 @@ head(sector_profile)
 #> 6                    37        2               N/A    N/A
 ```
 
-To really be able to work on this we'll want to clean the columns to turn the values to numeric type but we can leave that until later. For now let's write a function that replicates much of this work for the next tables. 
+To really be able to use this data we'll want to clean the columns to turn the values to numeric type but we can leave that until later. For now let's write a function that replicates much of this work for the next tables. 
 
 ## Making a function
 
@@ -293,21 +293,21 @@ names(sector_profile) <- c("sector",
                            "deaths")
 ```
 
-Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. Finally we rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `table_list` as it is fairly descriptive. We do this as it is bad form to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object and the function doesn't have that as an input, it will work differently than we expect. 
+Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. We do this as it is bad form to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
 
 
 ```r
-scrape_pdf <- function(table_list, table_number, number_columns, column_names) {
-  sector_profile <- table_list[table_number]
-  sector_profile <- trimws(sector_profile)
-  sector_profile <- strsplit(sector_profile, "\r\n")
-  sector_profile <- sector_profile[[1]]
-  sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
-  sector_profile <- str_split_fixed(sector_profile, " {2,}", number_columns)
-  sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
-  names(sector_profile) <- column_names
+scrape_pdf <- function(list_of_tables, table_number, number_columns, column_names) {
+  data <- list_of_tables[table_number]
+  data <- trimws(data)
+  data <- strsplit(data, "\r\n")
+  data <- data[[1]]
+  data <- data[grep("Miami", data):grep("Nationwide Total", data)]
+  data <- str_split_fixed(data, " {2,}", number_columns)
+  data <- data.frame(data, stringsAsFactors = FALSE)
+  names(data) <- column_names
   
-  return(sector_profile)
+  return(data)
 }
 ```
 
@@ -315,7 +315,7 @@ Now let's run this function for each of the three tables we want to scrape, chan
 
 
 ```r
-table_1 <- scrape_pdf(table_list = border_patrol,
+table_1 <- scrape_pdf(list_of_tables = border_patrol,
                       table_number = 1, 
                       number_columns = 10, 
                       column_names = c("sector",
@@ -328,7 +328,7 @@ table_1 <- scrape_pdf(table_list = border_patrol,
                                        "assaults",
                                        "rescues",
                                        "deaths"))
-table_2 <- scrape_pdf(table_list = border_patrol,
+table_2 <- scrape_pdf(list_of_tables = border_patrol,
                       table_number = 2, 
                       number_columns = 6, 
                       column_names = c("sector",
@@ -337,7 +337,7 @@ table_2 <- scrape_pdf(table_list = border_patrol,
                                        "total_juveniles", 
                                        "total_adults",
                                        "total_apprehensions"))
-table_3 <- scrape_pdf(table_list = border_patrol,
+table_3 <- scrape_pdf(list_of_tables = border_patrol,
                       table_number = 3, 
                       number_columns = 4, 
                       column_names = c("sector",
@@ -415,4 +415,4 @@ head(final_data)
 #> 6          441     69   378
 ```
 
-In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove columns then using `as.numeric()`  or the `parse_numeric()` function from `readr` on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  
+In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove commas then using `as.numeric()`  (or the `parse_numeric()` function from `readr`) on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  
