@@ -1,7 +1,7 @@
 
 # More graphing with `ggplot` {#ois_graphs}
 
-In this lesson we will continue to explore graphing using `ggplot()`. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we'll turn to a new data set. The data we will use is a data base of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. 
+In this lesson we will continue to explore graphing using `ggplot()`. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we'll turn to a new data set. The data we will use is a database of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. 
 
 To explore the data on their website, see [here](https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c). 
 
@@ -42,8 +42,6 @@ Since `read_csv()` reads files into a tibble object, we'll turn it into a data.f
 ```r
 shootings <- as.data.frame(shootings)
 ```
-
-
 
 Now that we have the data read in, let's look at it.
 
@@ -359,9 +357,7 @@ We've spent some time looking at the data so now we're ready to make the graphs.
 library(ggplot2)
 ```
 
-## Graphing a single variable
-
-### Numeric variable
+## Density plot
 
 As a reminder, the benefit of using `ggplot()` is we can start with a simple plot and build our way up to more complicated graphs. 
 
@@ -374,6 +370,8 @@ ggplot(shootings, aes(x = age)) +
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
+## Histogram
+
 
 ```r
 ggplot(shootings, aes(x = age)) + 
@@ -384,7 +382,7 @@ ggplot(shootings, aes(x = age)) +
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
-### Categorical variable
+## Bar graph
 
 
 ```r
@@ -405,7 +403,6 @@ ggplot(shootings, aes(x = race)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
-
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.
 
@@ -435,7 +432,6 @@ ggplot(shootings, aes(x = race)) +
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
-
 We can reuse this code to make a similar graph for the gender variable.
 
 
@@ -451,6 +447,9 @@ ggplot(shootings, aes(x = gender)) +
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
+## Boxplot
+
+## Scatterplot
 
 ## Time Series
 
