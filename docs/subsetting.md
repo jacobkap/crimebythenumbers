@@ -193,7 +193,7 @@ numbers == 2
 #>  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
-This also works with characters such as the animals in the object we made earlier. "gorilla" is the third animal in our object, so if we check animals == "gorilla" we expect the third value to be `TRUE` and all others to be `FALSE`. Make sure the match is spelled correctly (including capitalization) and is in quotes. 
+This also works with characters such as the animals in the object we made earlier. "gorilla" is the third animal in our object, so if we check animals == "gorilla" we expect the third value to be `TRUE` and all others to be `FALSE`. Make sure that the match is spelled correctly (including capitalization) and is in quotes. 
 
 
 ```r
@@ -213,7 +213,7 @@ The R operator `%in%` asks each value on the left whether or not it is a member 
 #> [1] TRUE
 ```
 
-For our *animals* object, if we check if they are in the vector c("cat", "dog", "gorilla"), now all three of those animals will return `TRUE`.
+For our *animals* object, if we check if they are in the vector `c("cat", "dog", "gorilla")`, now all three of those animals will return `TRUE`.
 
 
 ```r
@@ -250,7 +250,7 @@ Note that for matching multiple values with `%in%`, we cannot write `!%in%` but 
 
 ### Greater than or less than
 
-We can use R to compare values using greater than or less than symbols. We can also express "greater than or equal to" or "less than or equal to." These will evaluate to `TRUE` or `FALSE` depending, of course, on whether the statement is true or false.
+We can use R to compare values using greater than or less than symbols. We can also express "greater than or equal to" or "less than or equal to."
 
 
 ```r
@@ -276,7 +276,7 @@ We can use R to compare values using greater than or less than symbols. We can a
 #> [1] TRUE
 ```
 
-When used on our object *numbers* it will return 10 values (since *numbers* is 10 elements long) with a `TRUE` if the condition is true for the element and `FALSE` otherwise. Let's run numbers > 3. We expect the first 3 values to be `FALSE` as 1, 2, and 3 and not larger than 3.
+When used on our object *numbers* it will return 10 values (since *numbers* is 10 elements long) with a `TRUE` if the condition is true for the element and `FALSE` otherwise. Let's run `numbers > 3`. We expect the first 3 values to be `FALSE` as 1, 2, and 3 are not larger than 3.
 
 
 ```r
@@ -314,7 +314,7 @@ For `&`, all of the conditions must be true. If even one condition is not true i
 
 Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which you can imagine as being like an Excel file with multiple rows and columns. 
 
-Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2017 and for every nearly every agency in the country (early years have far fewer agencies reporting than recent years).
+Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2017 and for nearly every agency in the country.
 
 
 ```r
@@ -454,7 +454,7 @@ The way to select a specific column in R is called the dollar sign notation.
 
 `data$column`
 
-We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
+We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the `data$column` exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
 
 We can do this for the column "agency_name" in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
 
@@ -482,9 +482,9 @@ In the earlier examples we used square bracket notation `[]` and just put a numb
 
 `[row, column]`
 
-As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name and putting column names in quotes.) of the column or columns we want. 
+As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name and putting column names in quotes) of the column or columns we want. 
 
-The exception to this is when we use the dollar sign notation to select a single column. In that case we don't need a comma (and indeed it will give us an error!). Let's see a few examples then explain why this works the way it does. 
+The exception to this is when we use the dollar sign notation to select a single column. In that case we don't need a comma (and indeed it will give us an error!). Let's see a few examples and then explain why this works the way it does. 
 
 
 
@@ -663,7 +663,7 @@ offenses_known_yearly_1960_2017[1 1]
 #>                                       ^
 ```
 
-If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We'll wrap it in `head()` to it doesn't print out a million rows.
+If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We'll wrap it in `head()` so it doesn't print out a million rows.
 
 
 ```r
@@ -677,7 +677,7 @@ head(offenses_known_yearly_1960_2017[1])
 #> 6 AK00101
 ```
 
-Since R thinks you are requesting a columns, and we only have 159 columns in the data, asking for any number above 159 will return an error.
+Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.
 
 
 ```r
@@ -689,7 +689,7 @@ So make sure when you want a row from a data.frame you always include the comma!
 
 ### Battleships
 
-When we use square bracket `[]` notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows and row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number. 
+When we use square bracket `[]` notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows and Row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number. 
 
 ![](images/battleships.png)
 
@@ -703,7 +703,7 @@ Finally we have the tools to subset our UCR data to just be Colorado from 2011-2
   * Only rows where the year is 2011-2017
   * Only the following columns: actual_murder, state, year, population, ori, agency_name
 
-We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called "colorado" to save the result of this subset.
+We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called *colorado* to save the result of this subset.
 
 Remember that we want to put the object to the left of the `[]` to make sure it returns the data. Just having the `[]` will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don't need to put anything after the comma.
 
@@ -712,7 +712,7 @@ Remember that we want to put the object to the left of the `[]` to make sure it 
 colorado <- offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017$state == "colorado", ]
 ```
 
-Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector 2011:2017. This time our primary data set is "colorado", not "offenses_known_yearly_1960_2017" since "colorado" has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
+Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector `2011:2017`. This time our primary data set is *colorado*, not *offenses_known_yearly_1960_2017* since *colorado* has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
 
 
 ```r
@@ -741,4 +741,4 @@ unique(colorado$year)
 #> [1] 2017 2016 2015 2014 2013 2012 2011
 ```
 
-The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \ref(#aggregate) we will sum up all the murders per year and see if marijuana affected it. 
+The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \@ref(aggregate) we will sum up all the murders per year and see if marijuana affected it. 

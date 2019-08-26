@@ -446,7 +446,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>And it works when we have multiple numbers on the left side, such as our object called <em>numbers</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">numbers <span class="op">==</span><span class="st"> </span><span class="dv">2</span>
 <span class="co">#&gt;  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></code></pre>
-<p>This also works with characters such as the animals in the object we made earlier. “gorilla” is the third animal in our object, so if we check animals == “gorilla” we expect the third value to be <code>TRUE</code> and all others to be <code>FALSE</code>. Make sure the match is spelled correctly (including capitalization) and is in quotes.</p>
+<p>This also works with characters such as the animals in the object we made earlier. “gorilla” is the third animal in our object, so if we check animals == “gorilla” we expect the third value to be <code>TRUE</code> and all others to be <code>FALSE</code>. Make sure that the match is spelled correctly (including capitalization) and is in quotes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">animals <span class="op">==</span><span class="st"> &quot;gorilla&quot;</span>
 <span class="co">#&gt; [1] FALSE FALSE  TRUE FALSE FALSE FALSE</span></code></pre>
 <p>The <code>==</code> only works when there is one thing on the right hand side. In criminology we often want to know if there is a match for multiple things - is the crime one of the following crimes…, did the crime happen in one of these months…, is the victim a member of these demographic groups…? So we need a way to check if a value is one of many values.</p>
@@ -456,7 +456,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The R operator <code>%in%</code> asks each value on the left whether or not it is a member of the set on the right. It asks, is the single value on the left hand side (even when there are multiple values such as our <em>animals</em> object, it goes through them one at a time) a match with any of the values on the right hand side? It only has to match with one of the right hand side values to be a match.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) 
 <span class="co">#&gt; [1] TRUE</span></code></pre>
-<p>For our <em>animals</em> object, if we check if they are in the vector c(“cat”, “dog”, “gorilla”), now all three of those animals will return <code>TRUE</code>.</p>
+<p>For our <em>animals</em> object, if we check if they are in the vector <code>c("cat", "dog", "gorilla")</code>, now all three of those animals will return <code>TRUE</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">animals <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>)
 <span class="co">#&gt; [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></code></pre>
 </div>
@@ -474,7 +474,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="greater-than-or-less-than" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Greater than or less than</h3>
-<p>We can use R to compare values using greater than or less than symbols. We can also express “greater than or equal to” or “less than or equal to.” These will evaluate to <code>TRUE</code> or <code>FALSE</code> depending, of course, on whether the statement is true or false.</p>
+<p>We can use R to compare values using greater than or less than symbols. We can also express “greater than or equal to” or “less than or equal to.”</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">6</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span>
@@ -483,7 +483,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; [1] TRUE</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="dv">5</span> <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre>
-<p>When used on our object <em>numbers</em> it will return 10 values (since <em>numbers</em> is 10 elements long) with a <code>TRUE</code> if the condition is true for the element and <code>FALSE</code> otherwise. Let’s run numbers &gt; 3. We expect the first 3 values to be <code>FALSE</code> as 1, 2, and 3 and not larger than 3.</p>
+<p>When used on our object <em>numbers</em> it will return 10 values (since <em>numbers</em> is 10 elements long) with a <code>TRUE</code> if the condition is true for the element and <code>FALSE</code> otherwise. Let’s run <code>numbers &gt; 3</code>. We expect the first 3 values to be <code>FALSE</code> as 1, 2, and 3 are not larger than 3.</p>
 <pre class="sourceCode r"><code class="sourceCode r">numbers <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>
 <span class="co">#&gt;  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></code></pre>
 </div>
@@ -504,7 +504,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="subsetting-a-data.frame" class="section level2">
 <h2><span class="header-section-number">2.5</span> Subsetting a data.frame</h2>
 <p>Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a “data.frame” which you can imagine as being like an Excel file with multiple rows and columns.</p>
-<p>Let’s load in data from the Uniform Crime Report (UCR), an FBI data set that we’ll work on in a later lesson. This data has crime data every year from 1960-2017 and for every nearly every agency in the country (early years have far fewer agencies reporting than recent years).</p>
+<p>Let’s load in data from the Uniform Crime Report (UCR), an FBI data set that we’ll work on in a later lesson. This data has crime data every year from 1960-2017 and for nearly every agency in the country.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</code></pre>
 <p>Let’s peak at the first 6 rows and 6 columns using the square bracket notation <code>[]</code> for data.frames which we’ll explain more below.</p>
 <pre class="sourceCode r"><code class="sourceCode r">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]
@@ -615,7 +615,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.5.1</span> Select specific columns</h3>
 <p>The way to select a specific column in R is called the dollar sign notation.</p>
 <p><code>data$column</code></p>
-<p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the data$column exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
+<p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the <code>data$column</code> exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
 <p>We can do this for the column “agency_name” in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in <code>head()</code> so it only displays the first 6 rows of the column rather than printing the entire column.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name)
 <span class="co">#&gt; [1] &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot;</span></code></pre>
@@ -629,8 +629,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.5.2</span> Select specific rows</h3>
 <p>In the earlier examples we used square bracket notation <code>[]</code> and just put a number or several numbers in the <code>[]</code>. When dealing with data.frames, however, you need an extra step to tell R which columns to keep. The syntax in the square bracket is</p>
 <p><code>[row, column]</code></p>
-<p>As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using <code>c()</code> if more than one name and putting column names in quotes.) of the column or columns we want.</p>
-<p>The exception to this is when we use the dollar sign notation to select a single column. In that case we don’t need a comma (and indeed it will give us an error!). Let’s see a few examples then explain why this works the way it does.</p>
+<p>As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using <code>c()</code> if more than one name and putting column names in quotes) of the column or columns we want.</p>
+<p>The exception to this is when we use the dollar sign notation to select a single column. In that case we don’t need a comma (and indeed it will give us an error!). Let’s see a few examples and then explain why this works the way it does.</p>
 <pre class="sourceCode r"><code class="sourceCode r">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>, <span class="dv">1</span>]
 <span class="co">#&gt; [1] &quot;AK00101&quot;</span></code></pre>
 <p>If we input multiple numbers we can get multiple rows and columns.</p>
@@ -780,7 +780,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; Error: &lt;text&gt;:1:35: unexpected numeric constant</span>
 <span class="co">#&gt; 1: offenses_known_yearly_1960_2017[1 1</span>
 <span class="co">#&gt;                                       ^</span></code></pre>
-<p>If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We’ll wrap it in <code>head()</code> to it doesn’t print out a million rows.</p>
+<p>If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We’ll wrap it in <code>head()</code> so it doesn’t print out a million rows.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>])
 <span class="co">#&gt;       ori</span>
 <span class="co">#&gt; 1 AK00101</span>
@@ -789,14 +789,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; 4 AK00101</span>
 <span class="co">#&gt; 5 AK00101</span>
 <span class="co">#&gt; 6 AK00101</span></code></pre>
-<p>Since R thinks you are requesting a columns, and we only have 159 columns in the data, asking for any number above 159 will return an error.</p>
+<p>Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1000</span>])
 <span class="co">#&gt; Error in `[.data.frame`(offenses_known_yearly_1960_2017, 1000): undefined columns selected</span></code></pre>
 <p>So make sure when you want a row from a data.frame you always include the comma!</p>
 </div>
 <div id="battleships" class="section level3">
 <h3><span class="header-section-number">2.5.3</span> Battleships</h3>
-<p>When we use square bracket <code>[]</code> notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn’t make sense. Column A has 10 rows and row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number.</p>
+<p>When we use square bracket <code>[]</code> notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn’t make sense. Column A has 10 rows and Row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number.</p>
 <p><img src="images/battleships.png" /></p>
 <p>A data.frame is very similar to the Battleships board, with a number of rows and columns. You need to specify both the row(s) and column(s) you want to subset (hit) for R to understand what it is you want.</p>
 </div>
@@ -808,10 +808,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Only rows where the year is 2011-2017</li>
 <li>Only the following columns: actual_murder, state, year, population, ori, agency_name</li>
 </ul>
-<p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let’s make a new object called “colorado” to save the result of this subset.</p>
+<p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let’s make a new object called <em>colorado</em> to save the result of this subset.</p>
 <p>Remember that we want to put the object to the left of the <code>[]</code> to make sure it returns the data. Just having the <code>[]</code> will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don’t need to put anything after the comma.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</code></pre>
-<p>Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use <code>%in%</code> and put the years in a vector 2011:2017. This time our primary data set is “colorado”, not “offenses_known_yearly_1960_2017” since “colorado” has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want.</p>
+<p>Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use <code>%in%</code> and put the years in a vector <code>2011:2017</code>. This time our primary data set is <em>colorado</em>, not <em>offenses_known_yearly_1960_2017</em> since <em>colorado</em> has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]</code></pre>
 <p>Finally we want the columns stated above and to keep every row in the current data. Since the format is <code>[row, column]</code> in this case we keep the “row” part blank to indicate we want every row.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</code></pre>
@@ -820,7 +820,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; [1] &quot;colorado&quot;</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(colorado<span class="op">$</span>year)
 <span class="co">#&gt; [1] 2017 2016 2015 2014 2013 2012 2011</span></code></pre>
-<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section (#aggregate) we will sum up all the murders per year and see if marijuana affected it.</p>
+<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section <a href="explore.html#aggregate">3.3</a> we will sum up all the murders per year and see if marijuana affected it.</p>
 
 </div>
 </div>
