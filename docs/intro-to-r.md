@@ -3,43 +3,45 @@
 
 ## Why learn to program?
 
-With the exception of some more advanced techniques like scraping data from websites or from PDFs, nearly everything we do here can be done through Excel, a software you're probably more familiar with. The basic steps for research projects are generally 
+With the exception of some more advanced techniques like scraping data from websites or from PDFs, nearly everything we do here can be done through Excel, a software you're probably more familiar with. The basic steps for research projects are generally: 
 
 1. Open up a data set - which frequently comes as an Excel file!
-2. Change some values - misspellings or too specific categories are very common in crime data
+2. Change some values - misspellings or too specific categories for our purposes are very common in crime data
 3. Delete some values - such as states you won't be studying
 4. Make some graphs
 5. Calculate some values - such as number of crimes per year
-6. Sometimes do a statistical analysis depending on type of project
+6. Sometimes do a statistical analysis depending on the type of project
 7. Write up what you find 
 
 R can do all of this but why should you want (or have) to learn a entirely new skill just to do something you can already do? R is useful for two main reasons: scale and reproducibility.
 
 ### Scale
 
-If you do a one-off project in your career such as downloading some data and making a graph out of it, it makes sense to stick with software like Excel. The cost (in time and effort) of learning R is certainly not worth it for a single (or even several) project - even one perfectly suited for using R. R (and many programming languages more generally, such as Python) has its strength in doing something fairly simple many many times. For example, itm may be quicker to downloading one file yourself than it is to write the code in R to download that file. But when it comes to downloading hundreds of files (as we'll do in Chapter \ref(scraping-data-from-pdfs) when learning about officer-involved shootings in Philadelphia), writing the R code becomes very quickly the better option than doing it by hand. 
+If you do a one-off project in your career such as downloading some data and making a graph out of it, it makes sense to stick with software like Excel. The cost (in time and effort) of learning R is certainly not worth it for a single (or even several) project - even one perfectly suited for using R. R (and many programming languages more generally, such as Python) has its strength in doing something fairly simple many many times. For example, it may be quicker to download one file yourself than it is to write the code in R to download that file. But when it comes to downloading hundreds of files (as we'll do in Chapter \@ref(scraping-data-from-pdfs) when learning about officer-involved shootings in Philadelphia), writing the R code becomes very quickly the better option than doing it by hand. 
 
-For most tasks you do in criminology when dealing with data you will end up doing many times (including doing the same task in future projects). So R offers the trade-off of spending time upfront by learning the code with the benefit of that code being able to do work at a large scale with little extra work from you. Please keep in mind this trade-off - you need to front-load the costs of learning R for the rewards of making your life easier when dealing with data - when feeling discouraged about the small returns you get early in learning R. 
+For most tasks you do in criminology when dealing with data you will end up them doing many times (including doing the same task in future projects). So R offers the trade-off of spending time upfront by learning the code with the benefit of that code being able to do work at a large scale with little extra work from you. Please keep in mind this trade-off - you need to front-load the costs of learning R for the rewards of making your life easier when dealing with data - when feeling discouraged about the small returns you get early in learning R. 
 
 ### Reproducibility
 
-The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down in the code. This is useful when collaborating with others (including your future self) as they can look at your code and follow along what you did without you having to show them every click you made as you frequently would on Excel. Your collaborator can look at your code to help you figure out a bug in the code or to add their own code to yours. 
+The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down. This is useful when collaborating with others (including your future self) as they can look at your code and follow along what you did without you having to show them every click you made as you frequently would on Excel. Your collaborator can look at your code to help you figure out a bug in the code or to add their own code to yours. 
 
-In the academic context specifically you want to have code to give to people to ensure that your research was done correctly and there aren't any important bugs in the code. Additionally, if you build a tool to, for example, interpret raw crime data from an agency and turn it into a map, being able to share the code so others can modify it for their city is an important contribution. 
+In the research context specifically you want to have code to give to people to ensure that your research was done correctly and there aren't any important bugs in the code. Additionally, if you build a tool to, for example, interpret raw crime data from an agency and turn it into a map, being able to share the code so others can modify it for their city is an important contribution. 
 
 ## Using RStudio
 
 In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress.
 
-RStudio is the interface we use to work with R. It has a number of features to make it easier for us to work with R - while not strictly necessary to use, most people who use R do so through RStudio. 
+RStudio is the interface we use to work with R. It has a number of features to make it easier for us to work with R - while not strictly necessary to use, most people who use R do so through RStudio. We'll spend some time right now looking at RStudio and the options you can change to make it easier to use (and to suit your personal preferences with appearance) as this will make all of the work we do in this book easier. 
 
-When you open up RStudio you'll see four panels, each which play an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon. 
+When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
 ![](images/rstudio_1.PNG)
 
 At the top right is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
-The way to keep the code you've written in a file that you can open later or share with someone else is by writing code in an R Script (if you're familiar with Stata, an R Script is just like a .do file). An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top left of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) will be shown there too (making a plot will be shown in a different panel as we'll see soon). For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it won't do anything).
+The way to keep the code you've written in a file that you can open later or share with someone else is by writing code in an R Script (if you're familiar with Stata, an R Script is just like a .do file). An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top right of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) will be shown there too (making a plot will be shown in a different panel as we'll see soon). 
+
+For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it won't do anything). These comments should explain the code you wrote (if not otherwise obvious).
 
 The Source panel is where the R Scripts will be and is located at the top left on the image below. It is good practice to do all of your code writing in an R Script - even if you delete some lines of code later - as it eliminates the possibility of losing code or forgetting what you wrote. Having all the code in front of you in a text file also makes it easier to understand the flow of code from start to finish to a task - an issue we'll discuss more in later lessons. 
 
@@ -47,7 +49,7 @@ While the Source and Console panels are the ones that are of most use, there are
 
 ### Opening an R Script
 
-When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available R Presentation which can make Powerpoints, R Markdown which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \ref(using-r-markdown)), and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this but keep in mind the wide capabilities of R if you have another task to do. 
+When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available: R Presentation which can make Powerpoints, R Markdown which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \@ref(r-markdown)), and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this but keep in mind the wide capabilities of R if you have another task to do. 
 
 ![](images/rstudio_2.PNG)
 
@@ -55,11 +57,11 @@ When you want to open up a new R Script you can click File on the very top left,
 
 Many research projects incorporate data that someone else (such as the FBI or a local police agency) has put together. In these cases we need to load the data into R to be able to use it. In a little bit we'll load a data set into R and start working on it but let's take a step back now and think about how to even load data. First we'll need to get the data onto our computer somehow, probably by downloading it from an agency's website. Let's be specific - we don't download it to our computer, we download it to a specific folder on our computer (usually defaulted to the Downloads folder on a Windows machine). So let's say you wanted to load a file called "data" into R. If you have a file called "data" in both your Desktop and your Downloads folder, R wouldn't know which one you wanted. And unless your data was in the folder R searches by default (which may not be where the file is downloaded by default), R won't know which file to load.
 
-We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" or the "Folders where I want you, R, to look for my data" in more simple terms. To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. 
+We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" (or the "Folders where I want you, R, to look for my data" in more simple terms). To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. 
 
 ![](images/rstudio_3.PNG)
 
-And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. So copy that line of code that says `setwd()` (which stands for "set working directory"), including everything in the parentheses, to your R Script when you start working. 
+After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. So copy that line of code that says `setwd()` (which stands for "set working directory"), including everything in the parentheses, to your R Script when you start working. 
 
 ### Changing RStudio
 
@@ -91,9 +93,9 @@ The Appearance tab lets you change the background, color, and size of text. Chan
 
 #### Pane Layout
 
-The final tab we'll look at is Pane Layout. This lets you move around the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, it doesn't remove it from RStudio) and we'll talk about three of them. The Environment tab shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment tab If it is there, you have loaded the file correctly. 
+The final tab we'll look at is Pane Layout. This lets you move around the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, it doesn't remove it from RStudio) and we'll talk about three of them. The Environment tab shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment tab. If it is there, you have loaded the file correctly. 
 
-As we'll discuss more in Section \ref(finding-help-about-functions), the Help tab will open up to show you a help page for a function you want more information on. The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
+As we'll discuss more in Section \@ref(finding-help-about-functions), the Help tab will open up to show you a help page for a function you want more information on. The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
 
 ![](images/rstudio_9.PNG)
 
@@ -105,13 +107,13 @@ RStudio also includes a number of links to helpful cheatsheets for a few importa
 
 ## Reading data into R
 
-For many research projects you'll have data produced by some outside group (FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
+For many research projects you'll have data produced by some outside group (FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \@ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
 
 ### Loading data
 
-As we learned above in Section \ref(Setting the working directory) we need to set out working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.
+As we learned above in Section \@ref(setting-the-working-directory) we need to set our working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.
 
-The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (something we will discuss in detail in Section \ref(#assignment)) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see in Chapter \ref(reading-and-writing-data). 
+The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (something we will discuss in detail in Section \@ref(#assignment)) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see in Chapter \@ref(reading-and-writing-data). 
 
 
 ```r
@@ -120,7 +122,7 @@ load("data/ucr2017.rda")
 
 ## First steps to exploring data
 
-The object we loaded is called `ucr2017`. We'll explore this data more thoroughly in the Chapter \ref(#explore) but for now let's use four simple (and important) functions to get a sense of what the data holds. For each of these functions write the name of the data set (without quotes since we don't need quotes for an object already made in R) inside the (). 
+The object we loaded is called `ucr2017`. We'll explore this data more thoroughly in the Chapter \@ref({#explore}) but for now let's use four simple (and important) functions to get a sense of what the data holds. For each of these functions write the name of the data set (without quotes since we don't need quotes for an object already made in R) inside the (). 
 
   * `head()`
   * `summary()`
@@ -150,7 +152,7 @@ head(ucr2017)
 #> 6                 7                    0                        52
 ```
 
-The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers), it'll say what type of data it is.
+The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
 
 The six values it returns for numeric and Date columns are
 
@@ -190,7 +192,7 @@ summary(ucr2017)
 
 The `plot()` function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we'll make a scatterplot seeing the relationship between a city's number of murders and their number of aggravated assaults (assault with a weapon or that causes serious bodily injury).
 
-To do so we must specify which column is displayed on the x-axis and which one is displayed on the y-axis. In Section \ref(select-a-specific-column) we'll talk explicitly about how to select specific columns from our data. For now all you need to know is to select a column you write the data name followed by dollar sign `$` followed by the column name. Do not include any quotations or spaces (technically spaces can be included but make it a bit harder to read and are against conventional style when writing R code so we'll exclude them). Inside of `plot()` we say that "x = ucr2017\$actual_murder" so that column goes on the x-axis and "y = ucr2017\$actual_assault_aggravated" so aggravated assault goes on the y-axis. And that's all it takes to make a simple graph. 
+To do so we must specify which column is displayed on the x-axis and which one is displayed on the y-axis. In Section \@ref(select-specific-columns) we'll talk explicitly about how to select specific columns from our data. For now all you need to know is to select a column you write the data set name followed by dollar sign `$` followed by the column name. Do not include any quotations or spaces (technically spaces can be included but make it a bit harder to read and are against conventional style when writing R code so we'll exclude them). Inside of `plot()` we say that "x = ucr2017\$actual_murder" so that column goes on the x-axis and "y = ucr2017\$actual_assault_aggravated" so aggravated assault goes on the y-axis. And that's all it takes to make a simple graph. 
 
 
 ```r
@@ -208,8 +210,8 @@ View(ucr2017)
 
 ## Finding help about functions
 
-If you are having trouble understanding what a function does, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
+If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
 
-If we wrote `help(c)` to figure out what the `c()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `c()`) are optional.
+If we wrote `help(plot)` to figure out what the `plot()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `plot()`) are optional.
 
 ![](images/help_page.PNG)
