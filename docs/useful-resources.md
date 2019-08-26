@@ -12,7 +12,6 @@
 
 [Stack Overflow](http://stackoverflow.com/) - Stack Overflow is a website that answers programming-related questions. It's like the Yahoo Answers of programming. That said, a lot of the answer are bad. Some answers are overly confusing or provide code that you may not understand. You can use this source, but don't rely too heavily on it. Its search function isn't great so it's better to Google your question and choose the stackoverflow.com result. 
 
-
 ## Data
 
 [National Archive of Criminal Justice Data (NACJD) - Crime Data](https://www.icpsr.umich.edu/icpsrweb/content/NACJD/index.html) - NACJD is a site where you can download crime data, including many of the data sets we've worked on throughout this book. Nearly all FBI and BJS data sets are available on this site. If you need data for a research question, NACJD is a good place to start looking. 
