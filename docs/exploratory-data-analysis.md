@@ -11,7 +11,7 @@ While not a comprehensive list, the following is a good start for exploratory da
   + Are there outliers? How many?
   + Are there missing values? How many?
 
-For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(#ucr) when focusing on what UCR is and how to use it. 
+For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(ucr) when focusing on what UCR is and how to use it. 
 
 First we need to load the data. Make sure your working directory is set to the folder where the data is.
 
@@ -251,7 +251,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 
 ## Graphing
 
-We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter \@ref(#graphing-intro) but for now let's use the function `plot()`. 
+We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter \@ref(graphing-intro) but for now let's use the function `plot()`. 
 
 Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
@@ -330,7 +330,7 @@ The numerical column is the column that we are doing the mathematical operation 
 
 FUN is the parameter where we tell `aggregate()` which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.
 
-In Chapter \@ref(#subsetting-intro) we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
+In Chapter \@ref(subsetting-intro) we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
 
 
 ```r

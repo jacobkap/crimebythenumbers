@@ -1,7 +1,7 @@
 
 # For loops
 
-We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in Section \@ref(#movie_function). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
+We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in Section \@ref(movie_function). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
 
 ## Basic for loops
 
@@ -127,7 +127,7 @@ numbers
 
 ## Scraping multiple days of movie data
 
-Below is the function copied from the Section \@ref(#movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
+Below is the function copied from the Section \@ref(movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
 
 
 ```r
