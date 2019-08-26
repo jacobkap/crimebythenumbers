@@ -92,7 +92,7 @@ add_2(2, times_5 = TRUE)
 #> [1] 20
 ```
 
-## Making a function to scrape movie data {#movie_function}
+## Making a function to scrape movie data {#movie-function}
 
 In Section \@ref(scraping-one-page) we wrote some code to scrape data from the website [The-Numbers](/www.the-numbers.com) for a single day. We are going to turn that code into a function here. The benefit is that our input to the function will be a date and then it returns the scraped data for that date. If we want multiple dates (and for webscraping you usually do), we just change the date we input without changing the code at all.
 
