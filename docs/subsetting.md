@@ -18,13 +18,13 @@ animals
 #> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"
 ```
 
-Here we have made an object called "animals" with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in "animals" so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in "animals" so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+Here we have made an object called *animals* with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 
 The syntax (how the code is written) goes
 
 `object[index]`
 
-First we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our "animals" object. In normal language we say "I want the 6th value from "animals". We say where we're looking and which value we want. 
+First we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our *animals* object. In normal language we say "I want the 6th value from *animals*. We say where we're looking and which value we want. 
 
 
 ```r
@@ -40,7 +40,7 @@ animals[3]
 #> [1] "gorilla"
 ```
 
-If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \ref(#vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
+If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(#vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 
 ```r
@@ -48,7 +48,7 @@ animals[c(1, 2, 3)]
 #> [1] "cat"     "dog"     "gorilla"
 ```
 
-When making a vector of sequential integers, instead of writing them all out manually we can use first_number:last_number like so
+When making a vector of sequential integers, instead of writing them all out manually we can use `first_number:last_number` like so
 
 
 ```r
@@ -64,7 +64,7 @@ animals[1:3]
 #> [1] "cat"     "dog"     "gorilla"
 ```
 
-The order we enter the numbers determines the order of values it returns. Let's get the third index, the fourth index, and the first index, in that order.
+The order we enter the numbers determines the order of the values it returns. Let's get the third index, the fourth index, and the first index, in that order.
 
 
 ```r
@@ -72,7 +72,7 @@ animals[c(3, 4, 1)]
 #> [1] "gorilla" "buffalo" "cat"
 ```
 
-Putting a negative number inside the `[]` will return all values **except** for that index, essentially deleting it. Let's remove "cat" from "animals". Since it is the 1st item in "animals" we can remove it like this 
+Putting a negative number inside the `[]` will return all values **except** for that index, essentially deleting it. Let's remove "cat" from *animals*. Since it is the 1st item in *animals* we can remove it like this 
 
 
 ```r
@@ -90,9 +90,9 @@ animals[-c(1, 2, 3)]
 
 ## Assignment values to objects (Making "things") {#assignment}
 
-Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object "animals" with the value of each of the different animals we wrote. 
+Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object *animals* with the value of each of the different animals we wrote. 
 
-We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had `x <- 5` the object "x" gets the value 5. We could also say "five was assigned to x". 
+We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had `x <- 5` the object *x* gets the value 5. We could also say "five was assigned to x". 
 
 The terminology is "object gets value" or "value assigned to object", both work. 
 
@@ -103,7 +103,7 @@ You can use the `=` instead of `<-`. Again, the thing on the left gets the value
 x = 2
 ```
 
-x now has the value of the number 2.
+*x* now has the value of the number 2.
 
 
 ```r
@@ -115,7 +115,7 @@ It is the convention in R to use `<-` instead of `=` and in some cases the `=` w
 
 ## Vectors (collections of "things") {#vectors}
 
-When we made "x" we wrote `x <- 2` while when we made "animals" we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which combines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
+When we made *x* we wrote `x <- 2` while when we made *animals* we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which **c**ombines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
 
 
 ```r
@@ -132,11 +132,11 @@ c("cat", "dog", 2)
 #> [1] "cat" "dog" "2"
 ```
 
-Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type R automatically converted the 2 to a string of "2".
+Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type, R automatically converted the 2 to a string of "2".
 
 ## Logical values and operations
 
-We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE (in R you must spell it in capital letters).
+We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in capital letters.
 
 First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 
@@ -150,7 +150,7 @@ animals[c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)]
 
 This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (data in a single state (or multiple states), at a certain time, at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn't. There are a number of different ways to make conditional statements. First let's go through some special characters involved and then show examples of each one.
 
-For each case you are asking does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right. 
+For each case you are asking: does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right. 
 
   + `==`   Equals (compared to a single value)
   + `%in%` Equals (one value match out of multiple comparisons)
@@ -160,7 +160,7 @@ For each case you are asking does the thing on the left of the conditional state
   + `<=`   Less than or equal to
   + `>=`  Greater than or equal to
   
-Since many conditionals involve numbers (especially in criminology), let's make a new object called "numbers" with the numbers 1-10.
+Since many conditionals involve numbers (especially in criminology), let's make a new object called *numbers* with the numbers 1-10.
 
 
 ```r
@@ -185,7 +185,7 @@ This gives `TRUE` as we know that 2 does equal 2. If we change either value, it 
 #> [1] FALSE
 ```
 
-And it works when we have multiple numbers on the left side, such as our object called "numbers".
+And it works when we have multiple numbers on the left side, such as our object called *numbers*.
 
 
 ```r
@@ -205,7 +205,7 @@ The `==` only works when there is one thing on the right hand side. In criminolo
 
 ### Matching multiple values
 
-The R operator `%in%` asks each value on the left whether or not it is a member of the set on the right. It asks, is the single value on the left hand side (even when there are multiple values such as our "animals" object, it goes through them one at a time) a match with any of the values on the right hand side? It only has to match with one of the right hand side values to be a match.
+The R operator `%in%` asks each value on the left whether or not it is a member of the set on the right. It asks, is the single value on the left hand side (even when there are multiple values such as our *animals* object, it goes through them one at a time) a match with any of the values on the right hand side? It only has to match with one of the right hand side values to be a match.
 
 
 ```r
@@ -213,7 +213,7 @@ The R operator `%in%` asks each value on the left whether or not it is a member 
 #> [1] TRUE
 ```
 
-For our "animals" object, if we check if they are in the vector c("cat", "dog", "gorilla"), now all three of those animals will return `TRUE`.
+For our *animals* object, if we check if they are in the vector c("cat", "dog", "gorilla"), now all three of those animals will return `TRUE`.
 
 
 ```r
@@ -276,7 +276,7 @@ We can use R to compare values using greater than or less than symbols. We can a
 #> [1] TRUE
 ```
 
-When used on our object "numbers" it will return 10 values (since "numbers" is 10 elements long) with a `TRUE` if the condition is true for the element and `FALSE` otherwise. Let's run numbers > 3. We expect the first 3 values to be `FALSE` as 1, 2, and 3 and not larger than 3.
+When used on our object *numbers* it will return 10 values (since *numbers* is 10 elements long) with a `TRUE` if the condition is true for the element and `FALSE` otherwise. Let's run numbers > 3. We expect the first 3 values to be `FALSE` as 1, 2, and 3 and not larger than 3.
 
 
 ```r
