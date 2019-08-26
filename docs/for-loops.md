@@ -127,7 +127,7 @@ numbers
 
 ## Scraping multiple days of movie data
 
-Below is the function copied from the Section \ref(#movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
+Below is the function copied from the Section \@ref(#movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
 
 
 ```r

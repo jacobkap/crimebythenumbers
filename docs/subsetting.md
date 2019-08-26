@@ -40,7 +40,7 @@ animals[3]
 #> [1] "gorilla"
 ```
 
-If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(#vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
+If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 
 ```r
