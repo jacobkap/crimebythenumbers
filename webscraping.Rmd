@@ -35,7 +35,7 @@ The first step to scraping a page is to read in that page's information to R usi
 read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
 ```
 
-When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call "movie_data" since that is our end goal. 
+When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *movie_data* since that is our end goal. 
 
 ```{r}
 movie_data <- read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
@@ -55,7 +55,7 @@ Right click the "table" area and click Copy then CSS Selector. That will copy wh
 
 ![](images/the-numbers_4.PNG)
 
-We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called "movie_data") and then we can paste the text we copied from the website (putting it in quotes). 
+We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *movie_data*) and then we can paste the text we copied from the website (putting it in quotes). 
 
 Note that when doing this in Google Chrome, you follow the same steps except click "Copy selector" rather than "CSS Selector". The value copied also differs between Chrome and Firefox though the result is the same in our code. 
 
@@ -85,7 +85,7 @@ head(movie_data)
 tail(movie_data)
 ```
 
-We have now successfully scraped a website! The "movie_data" object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we've done before. 
+We have now successfully scraped a website! The *movie_data* object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we've done before. 
 
 ## Cleaning the webscraped data
 
@@ -139,7 +139,7 @@ Each of these `gsub()`s work alone. We need to combine them to remove both the d
 gsub(",|\\$", "", "$11,501,395")
 ```
 
-The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value ""$11,501,395" into an object we call "x" and then run both `gsub()` statements we wrote earlier, using "x" (without quotes since it is an object) as our value and saving the results back into "x". For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
+The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value "$11,501,395" into an object we call *x* and then run both `gsub()` statements we wrote earlier, using *x* (without quotes since it is an object) as our value and saving the results back into *x*. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
 
 ```{r}
 x <- "$11,501,395"
@@ -155,6 +155,7 @@ as.numeric(x)
 ```
 
 Now we have code that works on a single value, let's do it for the entire "Gross" column and turn it numeric. 
+
 ```{r}
 movie_data$Gross <- gsub(",|\\$", "", movie_data$Gross)
 movie_data$Gross <- as.numeric(movie_data$Gross)
@@ -209,11 +210,3 @@ names(movie_data)
 ```
 
 We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages. 
-
-### Exercises
-
-1. Turn the columns "Thtrs." and "TotalGross" into numeric type.
-2. What was the average number of theaters that a movie played in?
-    + How many more theaters did the top movie (by number of theaters) play in than average?
-    + How many fewer theaters did the bottom movie (by number of theaters) play in than average?
-3. How big is the difference in theaters as the mean number of theaters played in and the median? Which should we use?

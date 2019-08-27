@@ -81,9 +81,9 @@ for (a_number in 1:10) {
 #> [1] 12
 ```
 
-We're keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in "numbers" a vector we will make with the values 1:10 and replace each value with it's value plus 2.
+We're keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in *numbers* a vector we will make with the values 1:10 and replace each value with it's value plus 2.
 
-The object we're looping through is "numbers". But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in "numbers" which is useful when we want to change that element. `length(numbers)` finds how long the vector "numbers" is (were this a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
+The object we're looping through is *numbers*. But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in *numbers* which is useful when we want to change that element. `length(numbers)` finds how long the vector *numbers* is (were this a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
 
 
 ```r
@@ -124,10 +124,9 @@ numbers
 #>  [1]  5  6  7  8  9 10 11 12 13 14
 ```
 
-
 ## Scraping multiple days of movie data
 
-Below is the function copied from the Section \@ref(movie_function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
+Below is the function copied from Section \@ref(movie-function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
 
 
 ```r
@@ -175,14 +174,14 @@ head(year_of_dates)
 #> [6] "2018-01-06"
 ```
 
-It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object "year_of_dates" it uses "-"; in the website we are scraping, it uses "/". It may seem like a minor point but if we try to use "-" instead of "/" we will have an error. Luckily, we know enough `gsub()` to quickly replace all "-" with "/".
+It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object *year_of_dates* it uses "-"; in the website we are scraping, it uses "/". It may seem like a minor point but if we try to use "-" instead of "/" we will have an error. Luckily, we know enough `gsub()` to quickly replace all "-" with "/".
 
 
 ```r
 year_of_dates <- gsub("-", "/", year_of_dates)
 ```
 
-Now we can write the for loop to go through every single date in "year_of_dates" and use the function `scrape_movie_data` we made to scrape data for that date.
+Now we can write the for loop to go through every single date in *year_of_dates* and use the function `scrape_movie_data` we made to scrape data for that date.
 
 
 ```r
@@ -191,9 +190,9 @@ for (date in year_of_dates) {
 }
 ```
 
-Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each date, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop something_final and the object that gets overwritten something_temp, where "something" is a descriptive word for the data. In this case we will use "movie_data_final" and "movie_data_temp".
+Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each date, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop *something_final* and the object that gets overwritten *something_temp*, where "something" is a descriptive word for the data. In this case we will use *movie_data_final* and *movie_data_temp.*
 
-We start by creating the object "movie_data_final" and saying it gets the value `data.frame()`. That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the "movie_data_temp" data to "movie_data_final" for each date. We will use the function `rbind()` which allow us to combine two data.frames together. Think of it like the `c()` function but for data.frames. So every iteration of the loop we scrape a single date then add those results to the "movie_data_final" object.
+We start by creating the object "movie_data_final" and saying it gets the value `data.frame()`. That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the *movie_data_temp* data to *movie_data_final* for each date. We will use the function `rbind()` which allow us to combine two data.frames together. Think of it like the `c()` function but for data.frames. So every iteration of the loop we scrape a single date then add those results to the *movie_data_final* object.
 
 
 ```r
@@ -207,7 +206,7 @@ for (date in year_of_dates) {
 }
 ```
 
-The second issue is that there is no variable indicating what day it that was scraped. When adding many days together, we need a variable to be able to distinguish the day. This can easily be fixed by making a column in the data which says the date. When we used `gsub()` on "year_of_dates" we changed it from a Date type to a character type. Let's change it back in the new variable we made by putting it in `ymd()` before saving to to the column.
+The second issue is that there is no variable indicating what day it that was scraped. When adding many days together, we need a variable to be able to distinguish the day. This can easily be fixed by making a column in the data which says the date. When we used `gsub()` on *year_of_dates* we changed it from a Date type to a character type. Let's change it back in the new variable we made by putting it in `ymd()` before saving to to the column.
 
 
 ```r

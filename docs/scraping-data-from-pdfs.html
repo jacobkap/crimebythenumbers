@@ -231,9 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>6</b> Webscraping with <code>rvest</code></a><ul>
 <li class="chapter" data-level="6.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>6.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="6.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>6.2</b> Cleaning the webscraped data</a></li>
-<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
-</ul></li>
+<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>7</b> Functions</a><ul>
 <li class="chapter" data-level="7.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>7.1</b> A simple function</a></li>
@@ -370,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; Loading required package: xml2</span></code></pre>
 <p>The last time we used <code>rvest</code> we did so to get information about movie ticket sales by grabbing data from a table on the page. In this case we are using it for two purposes: to get the link of each PDF on the page to download and to get the address of each incident. Each year of data has its own table with a link to the PDF and the street address of where the shooting took place. For years after 2012 it also includes some useful information about the shooting but we will not be using that information in this lesson.</p>
 <p>First we need to get the links of each PDF to download. Since links are simply a special type of text on the page, we can use a similar method to webscraping movie data to get all of the links.</p>
-<p>Again we start with using <code>read_html()</code> to read in the page to R and we will save that in an object called “links” since that is what we want to end up with.</p>
+<p>Again we start with using <code>read_html()</code> to read in the page to R and we will save that in an object called <em>links</em> since that is what we want to end up with.</p>
 <pre class="sourceCode r"><code class="sourceCode r">links &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;http://www.phillypolice.com/ois/&quot;</span>)</code></pre>
 <p>In this case we don’t need to look on the site to determine the CSS selector, we simply use “a” which will find all links on the page. <code>html_attr("href")</code> converts the XML code for the links to text which we can understand.</p>
 <pre class="sourceCode r"><code class="sourceCode r">links &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(links, <span class="st">&quot;a&quot;</span>)
@@ -426,7 +424,7 @@ links &lt;-<span class="st"> </span><span class="kw">html_attr</span>(links, <sp
 <div id="scraping-information-from-the-page" class="section level2">
 <h2><span class="header-section-number">10.2</span> Scraping information from the page</h2>
 <p>We also want the date and address of every shooting. While that data is available in the PDFs, it isn’t in a consistent format which would make it difficult to get. The webpage we downloaded the PDFs from does contain the address of each shooting in a convenient table so we will scrape the data from there. While the PDFs have the date for every shooting, starting in 2017 the date isn’t in an easy to scrape format so we will scrape the date column that is present for all years starting in 2013. Since we will want to merge the location with the data from the PDF, we will also scrape the Police Shooting Number column so we have something consistent in both the PDF and the scraped data to merge by.</p>
-<p>As before, we will start by using <code>read_html()</code> to read the page into R. We will call this object “page” as we are going to use it for scraping the location, date, and the shooting number so we don’t want to overwrite the object.</p>
+<p>As before, we will start by using <code>read_html()</code> to read the page into R. We will call this object <em>page</em> as we are going to use it for scraping the location, date, and the shooting number so we don’t want to overwrite the object.</p>
 <pre class="sourceCode r"><code class="sourceCode r">page &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;http://www.phillypolice.com/ois/&quot;</span>)</code></pre>
 <p>We need to find just which parts of the page to scrape. To do so we’ll use the helper tool <a href="https://selectorgadget.com/">SelectorGadget</a>, a Google Chrome extension that lets you click on parts of the page to get the CSS selector code that we’ll use. Install that extension in Chrome and go to the <a href="http://www.phillypolice.com/ois/">officer-involved shooting page</a>.</p>
 <p><img src="images/pdf_scrape_2.PNG" /></p>
@@ -448,7 +446,7 @@ shooting_numbers &lt;-<span class="st"> </span><span class="kw">html_text</span>
 <p>Finally we can get the date information. Be careful when selecting date, if you just click on a row in the Date column, it will include the Location column for years 2007-2012. This is because SelectorGadget knows you clicked the second column in a table, but doesn’t know that that means Date in certain tables in Location in others. Click one of the highlighted Location rows in 2007-2012 tables to deselect them.</p>
 <pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(page, <span class="st">&quot;.span12 td:nth-child(2)&quot;</span>)
 dates &lt;-<span class="st"> </span><span class="kw">html_text</span>(dates)</code></pre>
-<p>Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 468 values for links of the PDFs we downloaded? Why is this? -1 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers.</p>
+<p>Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 468 values for links of the PDFs we downloaded? Why is this? 1 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers.</p>
 <div id="combining-the-data-sets" class="section level3">
 <h3><span class="header-section-number">10.2.1</span> Combining the data sets</h3>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">shooting_number =</span> shooting_numbers,
@@ -456,12 +454,12 @@ dates &lt;-<span class="st"> </span><span class="kw">html_text</span>(dates)</co
                                 <span class="dt">dates           =</span> date,
                                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 <span class="co">#&gt; Error in as.data.frame.default(x[[i]], optional = TRUE): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</span></code></pre>
-<p>Trying to make a data.frame this way returns an error because while there are 467 shootings, only the shooting number and location variable have all 467 values. Since the dates don’t exist for 2007-2012, we only have 148 values for that data. While there are a few ways to solve this (as is true with nearly every problem in R), we will expand the “dates” object to make it 467 values long.</p>
+<p>Trying to make a data.frame this way returns an error because while there are 467 shootings, only the shooting number and location variable have all 467 values. Since the dates don’t exist for 2007-2012, we only have 148 values for that data. While there are a few ways to solve this (as is true with nearly every problem in R), we will expand the <em>dates</em> object to make it 467 values long.</p>
 <p>The function <code>rep()</code> is used to repeat values.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="st">&quot;hello&quot;</span>, <span class="dv">10</span>)
 <span class="co">#&gt;  [1] &quot;hello&quot; &quot;hello&quot; &quot;hello&quot; &quot;hello&quot; &quot;hello&quot; &quot;hello&quot; &quot;hello&quot; &quot;hello&quot;</span>
 <span class="co">#&gt;  [9] &quot;hello&quot; &quot;hello&quot;</span></code></pre>
-<p>Above we repeated the word “hello” 10 times. To solve our issue we need to repeat some value 319 times and add that to the end of the “dates” object to make it 467 values long. For our value we will use NA to indicate that those values are missing.</p>
+<p>Above we repeated the word “hello” 10 times. To solve our issue we need to repeat some value 319 times and add that to the end of the <em>dates</em> object to make it 467 values long. For our value we will use NA to indicate that those values are missing.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rep</span>(<span class="ot">NA</span>, (<span class="kw">length</span>(location) <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(dates)))
 <span class="co">#&gt;   [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span>
 <span class="co">#&gt;  [24] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span>
@@ -477,12 +475,12 @@ dates &lt;-<span class="st"> </span><span class="kw">html_text</span>(dates)</co
 <span class="co">#&gt; [254] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span>
 <span class="co">#&gt; [277] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span>
 <span class="co">#&gt; [300] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</span></code></pre>
-<p>To combine the “dates” object with all these repeated NA’s we will use <code>c()</code> which combines vectors. Make sure we put “dates” first to maintain the correct order.</p>
+<p>To combine the <em>dates</em> object with all these repeated NA’s we will use <code>c()</code> which combines vectors. Make sure we put <em>dates</em> first to maintain the correct order.</p>
 <pre class="sourceCode r"><code class="sourceCode r">dates &lt;-<span class="st"> </span><span class="kw">c</span>(dates, <span class="kw">rep</span>(<span class="ot">NA</span>, (<span class="kw">length</span>(location) <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(dates))))</code></pre>
-<p>And we can now check the length of “dates”.</p>
+<p>And we can now check the length of <em>dates</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(dates)
 <span class="co">#&gt; [1] 467</span></code></pre>
-<p>Since “dates” is 467 values long now, let’s try making the data.frame again.</p>
+<p>Since <em>dates</em> is 467 values long now, let’s try making the data.frame again.</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">shooting_number =</span> shooting_numbers,
                                 <span class="dt">location        =</span> location,
                                 <span class="dt">dates           =</span> dates,
@@ -611,13 +609,13 @@ pdf_split &lt;-<span class="st"> </span>pdf_split[[<span class="dv">1</span>]]
 </div>
 <div id="looping-through-every-pdf" class="section level3">
 <h3><span class="header-section-number">10.3.3</span> Looping through every PDF</h3>
-<p>Before we write the for loop let’s think about what our goal is and what we currently have. We have a data set which has a single row for every shooting and information about when and where each shooting took place. The object “officer_shootings” that we made earlier has most of that. It contains the location for every shooting and the date for all of those from 2013-2019. So we want to scrape the PDFs for years prior to 2013 to get the date of each shooting. And we made a function that gives us the date in the file we input. Since we know the dates for 2013-2019 (and 2017-2019 make it hard to get the date from the PDF), we only want to scrape the PDFs from 2007-2012.</p>
+<p>Before we write the for loop let’s think about what our goal is and what we currently have. We have a data set which has a single row for every shooting and information about when and where each shooting took place. The object <em>officer_shootings</em> that we made earlier has most of that. It contains the location for every shooting and the date for all of those from 2013-2019. So we want to scrape the PDFs for years prior to 2013 to get the date of each shooting. And we made a function that gives us the date in the file we input. Since we know the dates for 2013-2019 (and 2017-2019 make it hard to get the date from the PDF), we only want to scrape the PDFs from 2007-2012.</p>
 <p>We need to do two things now:</p>
 <ol style="list-style-type: decimal">
 <li><p>Select only PDFs from 2007-2012</p></li>
-<li><p>For each PDF figure out a way to select the right row in the “officer_shootings” object to add the date</p></li>
+<li><p>For each PDF figure out a way to select the right row in the <em>officer_shootings</em> object to add the date</p></li>
 </ol>
-<p>We can take this one piece at a time. First we need to select only PDFs from 2007-2012. The function <code>list.files()</code> will provide a list of every file in the working directory. We will use it to get a list of all files in the folder we stored the PDFs and then subset it to just keep the files we want. Let’s call the object “pdf_files”.</p>
+<p>We can take this one piece at a time. First we need to select only PDFs from 2007-2012. The function <code>list.files()</code> will provide a list of every file in the working directory. We will use it to get a list of all files in the folder we stored the PDFs and then subset it to just keep the files we want. Let’s call the object <em>pdf_files</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;data/philly_officer_shootings&quot;</span>)
 pdf_files &lt;-<span class="st"> </span><span class="kw">list.files</span>()</code></pre>
 <p>Looking at <code>head()</code> we can see it is a vector of file names.</p>
@@ -646,9 +644,9 @@ pdf_files &lt;-<span class="st"> </span><span class="kw">list.files</span>()</co
 <span class="co">#&gt; [273] 273 274 275 276 277 278 279 280 281 282 283 284 285 286 287 288 289</span>
 <span class="co">#&gt; [290] 290 291 292 293 294 295 296 297 298 299 300 301 302 303 304 305 306</span>
 <span class="co">#&gt; [307] 307 308 309 310 311 312 313 314 315 316 317</span></code></pre>
-<p>This prints out a list of which elements in “pdf_files” are a match. We can use square bracket notation <code>[]</code> subsetting to just keep the elements in “pdf_files” that we want. And let’s save that object as “pdf_files”, overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of.</p>
+<p>This prints out a list of which elements in <em>pdf_files</em> are a match. We can use square bracket notation <code>[]</code> subsetting to just keep the elements in <em>pdf_files</em> that we want. And let’s save that object as <em>pdf_files</em>, overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pdf_files &lt;-<span class="st"> </span>pdf_files[<span class="kw">grep</span>(<span class="st">&quot;^0|^10|^11|^12&quot;</span>, pdf_files)]</code></pre>
-<p>We have accomplished our first task, getting just the PDFs from 2007-2012. Now we need to find a way to match the correct row in “officer_shootings” with each file. Let’s think again about patterns in the file names.</p>
+<p>We have accomplished our first task, getting just the PDFs from 2007-2012. Now we need to find a way to match the correct row in <em>officer_shootings</em> with each file. Let’s think again about patterns in the file names.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(pdf_files)
 <span class="co">#&gt; [1] &quot;07-01 4400 N 17 ST.pdf&quot;      &quot;07-02 2400 N 10 ST.pdf&quot;     </span>
 <span class="co">#&gt; [3] &quot;07-03 1700 N 59 ST.pdf&quot;      &quot;07-04 900 MARKET ST.pdf&quot;    </span>
@@ -660,12 +658,12 @@ pdf_files &lt;-<span class="st"> </span><span class="kw">list.files</span>()</co
 <p>Here we input the word “apple” and set the parameter <code>start</code> to 1 and <code>stop</code> to 3. This says, take the word “apple” and return the 1st through the 3rd element (i.e. letter) in that string. This is very useful for taking only a small piece of a string. In our case we just want the first 5 characters in the PDF file name.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">substr</span>(pdf_files[<span class="dv">1</span>], <span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">stop =</span> <span class="dv">5</span>)
 <span class="co">#&gt; [1] &quot;07-01&quot;</span></code></pre>
-<p>And here we have the officer shooting number for the first PDF which we can use to match with the correct row in the “officer_shootings” file.</p>
+<p>And here we have the officer shooting number for the first PDF which we can use to match with the correct row in the <em>officer_shootings</em> file.</p>
 <p>We can now create the for loop. Let’s start with a skeleton of the for loop then slowly add our code.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (file <span class="cf">in</span> pdf_files) {
    
 }</code></pre>
-<p>For loops take the form “for x in some group of x, do this thing”. In our case our “group of x” is the “pdf_files” object, a group of file names. We want the loop to go through every file in “pdf_files”, find the police shooting number from the file name to match with the correct row in “officer_shootings”, get the date from the file, and then put the date in the right row.</p>
+<p>For loops take the form “for x in some group of x, do this thing”. In our case our “group of x” is the <em>pdf_files</em> object, a group of file names. We want the loop to go through every file in <em>pdf_files</em>, find the police shooting number from the file name to match with the correct row in <em>officer_shootings</em>, get the date from the file, and then put the date in the right row.</p>
 <p>We can add in the code we wrote to get the police shooting number.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (file <span class="cf">in</span> pdf_files) {
    police_shooting_number &lt;-<span class="st"> </span><span class="kw">substr</span>(file, <span class="dt">start =</span> <span class="dv">1</span>, <span class="dt">stop =</span> <span class="dv">5</span>)
@@ -690,7 +688,7 @@ pdf_files &lt;-<span class="st"> </span><span class="kw">list.files</span>()</co
 <span class="co">#&gt; </span>
 <span class="co">#&gt;     date</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings<span class="op">$</span>dates &lt;-<span class="st"> </span><span class="kw">mdy</span>(officer_shootings<span class="op">$</span>dates)</code></pre>
-<p>Now our “officer_shootings” file contains the date and address of every officer-involved shooting in Philadelphia from 2007 to early 2019. 3 of the shootings do not have a PDF associated with it. Let’s remove them since we are unable to verify information on the table. These rows have a value of "" in the “shooting_number” column so we’ll subset the “officer_shootings” data.frame to keep only rows where the shooting number is not "".</p>
+<p>Now our <em>officer_shootings</em> data contains the date and address of every officer-involved shooting in Philadelphia from 2007 to early 2019. 3 of the shootings do not have a PDF associated with it. Let’s remove them since we are unable to verify information on the table. These rows have a value of "" in the “shooting_number” column so we’ll subset the <em>officer_shootings</em> data.frame to keep only rows where the shooting number is not "".</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings &lt;-<span class="st"> </span>officer_shootings[officer_shootings<span class="op">$</span>shooting_number <span class="op">!=</span><span class="st"> &quot;&quot;</span>, ]</code></pre>
 <p>We will save the file for now and in Chapter <a href="geocoding.html#geocoding">12</a> learn how to geocode the address into coordinates that allow us to plot the shootings onto a map of Philadelphia.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>))

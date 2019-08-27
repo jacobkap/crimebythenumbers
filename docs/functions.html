@@ -231,9 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>6</b> Webscraping with <code>rvest</code></a><ul>
 <li class="chapter" data-level="6.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>6.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="6.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>6.2</b> Cleaning the webscraped data</a></li>
-<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
-</ul></li>
+<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>7</b> Functions</a><ul>
 <li class="chapter" data-level="7.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>7.1</b> A simple function</a></li>
@@ -406,10 +404,10 @@ return(output)<br />
   
   <span class="kw">return</span>(number)
 }</code></pre>
-<p>Now our code says if the parameter “times_5” is TRUE, then do the thing in the squiggly brackets {} below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let’s try out our function.</p>
+<p>Now our code says if the parameter <code>times_5</code> is TRUE, then do the thing in the squiggly brackets {} below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let’s try out our function.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">2</span>)
 <span class="co">#&gt; [1] 4</span></code></pre>
-<p>It returns 4, as expected. Since the parameter “times_t” is defaulted to FALSE, we don’t need to specify that parameter if we want it to stay FALSE. When we don’t tell the function that we want it to be TRUE, the code in our “if statement” doesn’t run. When we set “times_t” to TRUE, it runs that code.</p>
+<p>It returns 4, as expected. Since the parameter <code>times_5</code> is defaulted to FALSE, we don’t need to specify that parameter if we want it to stay FALSE. When we don’t tell the function that we want it to be TRUE, the code in our “if statement” doesn’t run. When we set <code>times_5</code> to TRUE, it runs that code.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">add_2</span>(<span class="dv">2</span>, <span class="dt">times_5 =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; [1] 20</span></code></pre>
 </div>
@@ -419,12 +417,12 @@ return(output)<br />
 <p>We used the <code>rvest</code> package so we need to tell R want to use it again.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
 <span class="co">#&gt; Loading required package: xml2</span></code></pre>
-<p>Let’s start by writing a shell of the function - everything but the code. We can call it “scrape_movie_data” (though any name would work), add in the “&lt;- function()” and put “date” (without quotes) in the () as our input for the function is a date. We want the function to return the movie data for that date so we include <code>return(movie_data)</code>. And don’t forget the “{” after the end of the <code>function()</code> and “}” at the very end of the function.</p>
+<p>Let’s start by writing a shell of the function - everything but the code. We can call it <em>scrape_movie_data</em> (though any name would work), add in the “&lt;- function()” and put “date” (without quotes) in the () as our input for the function is a date. We want the function to return the movie data for that date so we include <code>return(movie_data)</code>. And don’t forget the “{” after the end of the <code>function()</code> and “}” at the very end of the function.</p>
 <pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
   
   <span class="kw">return</span>(movie_data)
 }</code></pre>
-<p>Now we need to add the code that takes the date, scrapes the website, and saves that data into an object called “movie_data”. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
+<p>Now we need to add the code that takes the date, scrapes the website, and saves that data into an object called <em>movie_data</em>. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
 <pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
   
   movie_data &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span>)
@@ -441,10 +439,10 @@ return(output)<br />
 <p>And now let’s make variables with these values.</p>
 <pre class="sourceCode r"><code class="sourceCode r">Constant &lt;-<span class="st"> &quot;http://www.the-numbers.com/box-office-chart/daily/&quot;</span>
 Changes  &lt;-<span class="st"> &quot;2018/07/04&quot;</span></code></pre>
-<p>We can use <code>paste()</code> to combine these two and set the parameter <code>sep</code> to "" so there are no spaces between the url and the date (the function <code>paste0()</code> is the same as <code>paste()</code> but defaults <code>set</code> to "" so we could use that if we wanted). We will save the result of <code>paste()</code> as an object called “url_date” but it doesn’t matter what we name it.</p>
+<p>We can use <code>paste()</code> to combine these two and set the parameter <code>sep</code> to "" so there are no spaces between the url and the date (the function <code>paste0()</code> is the same as <code>paste()</code> but defaults <code>set</code> to "" so we could use that if we wanted). We will save the result of <code>paste()</code> as an object called <em>url_date</em> but it doesn’t matter what we name it.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">paste</span>(Constant, Changes, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
 <span class="co">#&gt; [1] &quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span></code></pre>
-<p>Inside our function code we need to make the “Constant” variable but let’s rename it “url” since that better describes what it is. Since the date is what is inputted into the function, we don’t need to make that variable. Our <code>paste()</code> function is the same as above but with with these new variable names - since the parameter inputted is called “date” that is the variable name we need to include in the <code>paste()</code>. And we can call it a new name - “url_date” - in the code just to simplify things. Then put this variable in the () of <code>read_html()</code> and it will go to the proper page based on the date we input.</p>
+<p>Inside our function code we need to make the “Constant” variable but let’s rename it “url” since that better describes what it is. Since the date is what is inputted into the function, we don’t need to make that variable. Our <code>paste()</code> function is the same as above but with with these new variable names - since the parameter inputted is called <code>date</code> that is the variable name we need to include in the <code>paste()</code>. And we can call it a new name - <code>url_date</code> - in the code just to simplify things. Then put this variable in the () of <code>read_html()</code> and it will go to the proper page based on the date we input.</p>
 <pre class="sourceCode r"><code class="sourceCode r">scrape_movie_data &lt;-<span class="st"> </span><span class="cf">function</span>(date) {
   url &lt;-<span class="st"> &quot;http://www.the-numbers.com/box-office-chart/daily/&quot;</span>
   url_date &lt;-<span class="st"> </span><span class="kw">paste</span>(url, date, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)
@@ -456,7 +454,7 @@ Changes  &lt;-<span class="st"> &quot;2018/07/04&quot;</span></code></pre>
   
   <span class="kw">return</span>(movie_data)
 }</code></pre>
-<p>Now we can try it for a new date, let’s say July 4th, 2015. We will save it in the object “july_2015” just to avoid it printing out every single row when the function is done.</p>
+<p>Now we can try it for a new date, let’s say July 4th, 2015. We will save it in the object <em>july_2015</em> just to avoid it printing out every single row when the function is done.</p>
 <pre class="sourceCode r"><code class="sourceCode r">july_<span class="dv">2015</span> &lt;-<span class="st"> </span><span class="kw">scrape_movie_data</span>(<span class="st">&quot;2015/7/4&quot;</span>)
 <span class="kw">head</span>(july_<span class="dv">2015</span>)
 <span class="co">#&gt;                       Movie        Distributor      Gross Change Thtrs.</span>

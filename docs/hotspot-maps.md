@@ -65,7 +65,7 @@ philly_map
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
-Since we saved the map output into "philly_map" we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
+Since we saved the map output into *philly_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
 
 
 ```r
@@ -77,7 +77,7 @@ philly_map +
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
-If we wanted to color the dots we can use "color = " and then select a color. Let's try it with "forestgreen".
+If we wanted to color the dots we can use `color = ` and then select a color. Let's try it with "forestgreen".
 
 
 ```r
@@ -90,7 +90,7 @@ philly_map +
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-As with other graphs we can change the size of the dot using "size = ".
+As with other graphs we can change the size of the dot using `size = `.
 
 
 ```r
@@ -116,7 +116,7 @@ philly_map +
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
-For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple shootings happen at the same place that dot will be shaded darker than if only one shooting happened there. To do so we use the parameter "alpha = " which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
+For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple shootings happen at the same place that dot will be shaded darker than if only one shooting happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
 
 ```r
@@ -146,9 +146,9 @@ plot(officer_shootings_geocoded$lon, officer_shootings_geocoded$lat, col = "dark
 
 ## Making a hotspot map
 
-Now we can start making hotspot maps which help to show areas with clusters of events. We'll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function `stat_binhex()` rather than `geom_point()`. It starts the same as before with `aex(x = lon, y = lat)` (or whatever the longitude and latitude columns are called in your data), as well as "data = officer_shootings_geocoded" outside of the `aes()` parameter. 
+Now we can start making hotspot maps which help to show areas with clusters of events. We'll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function `stat_binhex()` rather than `geom_point()`. It starts the same as before with `aex(x = lon, y = lat)` (or whatever the longitude and latitude columns are called in your data), as well as `data = officer_shootings_geocoded` outside of the `aes()` parameter. 
 
-There are two new things we need to make the hotspot map. First we can add the parameter "bins = number_of_bins" where "number_of_bins" is a number we select. bins essentially says how large or small we want each cluster of events to be. A smaller value for "bins" says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples. 
+There are two new things we need to make the hotspot map. First we can add the parameter `bins = number_of_bins` where "number_of_bins" is a number we select. bins essentially says how large or small we want each cluster of events to be. A smaller value for `bins` says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples. 
 
 The second thing is to add the function `coord_cartesian()` which just tells `ggplot()` we are going to do some spatial analysis in the making of the bins. We don't need to add any parameters in this.
 

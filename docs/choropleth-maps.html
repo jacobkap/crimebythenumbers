@@ -231,9 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>6</b> Webscraping with <code>rvest</code></a><ul>
 <li class="chapter" data-level="6.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>6.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="6.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>6.2</b> Cleaning the webscraped data</a></li>
-<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
-</ul></li>
+<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>7</b> Functions</a><ul>
 <li class="chapter" data-level="7.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>7.1</b> A simple function</a></li>
@@ -366,7 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
 <span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</span></code></pre>
-<p>The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we’ll call the object “philly_tracts”.</p>
+<p>The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we’ll call the object <em>philly_tracts</em>".</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_tracts &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/philly_census_tract/Census_Tracts_2010.shp&quot;</span>)
 <span class="co">#&gt; Reading layer `Census_Tracts_2010&#39; from data source `C:\Users\user\Dropbox\R_project\r4crim\data\philly_census_tract\Census_Tracts_2010.shp&#39; using driver `ESRI Shapefile&#39;</span>
 <span class="co">#&gt; Simple feature collection with 384 features and 14 fields</span>
@@ -431,11 +429,11 @@ Coordinate Reference System<span class="op">:</span>
 <div id="spatial-joins" class="section level2">
 <h2><span class="header-section-number">15.1</span> Spatial joins</h2>
 <p>What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area.</p>
-<p>Right now our “officer_shootings_geocoded” data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, officer_shootings_geocoded. Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a “geometry” column like we saw in “philly_tracts” earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.</p>
+<p>Right now our <em>officer_shootings_geocoded</em> data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, <em>officer_shootings_geocoded.</em> Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a “geometry” column like we saw in <em>philly_tracts</em> earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings_geocoded &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(officer_shootings_geocoded, 
                                        <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;lon&quot;</span>, <span class="st">&quot;lat&quot;</span>),
                                        <span class="dt">crs =</span> <span class="st">&quot;+proj=longlat +ellps=WGS84 +no_defs&quot;</span>)</code></pre>
-<p>We want our shootings data in the same projection as the tracts data so we need to use <code>st_transform()</code> to change the projection. Since we want the CRS to be the same as in “philly_tracts”, we can set it using <code>st_crs(philly_tracts)</code> to use the right CRS.</p>
+<p>We want our shootings data in the same projection as the tracts data so we need to use <code>st_transform()</code> to change the projection. Since we want the CRS to be the same as in <em>philly_tracts</em>, we can set it using <code>st_crs(philly_tracts)</code> to use the right CRS.</p>
 <pre class="sourceCode r"><code class="sourceCode r">officer_shootings_geocoded &lt;-<span class="st"> </span><span class="kw">st_transform</span>(officer_shootings_geocoded, 
                                            <span class="dt">crs =</span> <span class="kw">st_crs</span>(philly_tracts))</code></pre>
 <p>Now we can take a look at <code>head()</code> to see if it was projected.</p>
@@ -460,7 +458,7 @@ Coordinate Reference System<span class="op">:</span>
 <span class="co">#&gt; 5 POINT (2694910 246343.1)</span>
 <span class="co">#&gt; 6 POINT (2706666 253839.1)</span>
 <span class="co">#&gt; 7   POINT (2704596 250717)</span></code></pre>
-<p>We can see it is now a “simple feature collection” with the correct projection. And we can see there is a new column called “geometry” just like in “philly_tracts”. The type of data in “geometry” is POINT since our data is just a single location instead of a polygon like in the tracts data.</p>
+<p>We can see it is now a “simple feature collection” with the correct projection. And we can see there is a new column called “geometry” just like in <em>philly_tracts</em>. The type of data in “geometry” is POINT since our data is just a single location instead of a polygon like in the tracts data.</p>
 <p>Since we have both the tracts and the shootings data let’s make a quick map to see the data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(philly_tracts<span class="op">$</span>geometry)
 <span class="kw">plot</span>(officer_shootings_geocoded<span class="op">$</span>geometry, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
@@ -472,7 +470,7 @@ Coordinate Reference System<span class="op">:</span>
 <li>Combine with the Census tract data</li>
 <li>Make a map</li>
 </ol>
-<p>We’ll start by finding the tract where each shooting occurred using the function <code>st_join()</code> which is a function in <code>sf</code>. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let’s call the output of this function “shootings_agg”. The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the “officer_shootings_geocoded” data. In the next step we’ll see why this matters.</p>
+<p>We’ll start by finding the tract where each shooting occurred using the function <code>st_join()</code> which is a function in <code>sf</code>. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let’s call the output of this function <em>shootings_agg</em>. The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the <em>officer_shootings_geocoded</em> data. In the next step we’ll see why this matters.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings_agg &lt;-<span class="st"> </span><span class="kw">st_join</span>(officer_shootings_geocoded, philly_tracts)</code></pre>
 <p>Let’s look at the first 6 rows.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(shootings_agg)
@@ -510,7 +508,7 @@ Coordinate Reference System<span class="op">:</span>
 <span class="co">#&gt; 5 -075.1506932    10694 POINT (2694910 246343.1)</span>
 <span class="co">#&gt; 6 -075.1150648    10519 POINT (2706666 253839.1)</span>
 <span class="co">#&gt; 7 -075.1231399    10509   POINT (2704596 250717)</span></code></pre>
-<p>There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the “philly_tracts” data. Let’s look specifically at the “GEOID10” variable since that is actually important and common in dealing with Census data. And let’s also print out the columns “STATEFP10”, “COUNTYFP10”, and “TRACTCE10”.</p>
+<p>There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the <em>philly_tracts</em> data. Let’s look specifically at the “GEOID10” variable since that is actually important and common in dealing with Census data. And let’s also print out the columns “STATEFP10”, “COUNTYFP10”, and “TRACTCE10”.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(shootings_agg[, <span class="kw">c</span>(<span class="st">&quot;STATEFP10&quot;</span>, <span class="st">&quot;COUNTYFP10&quot;</span>, <span class="st">&quot;TRACTCE10&quot;</span>, <span class="st">&quot;GEOID10&quot;</span>)])
 <span class="co">#&gt; Simple feature collection with 6 features and 4 fields</span>
 <span class="co">#&gt; geometry type:  POINT</span>
@@ -528,22 +526,22 @@ Coordinate Reference System<span class="op">:</span>
 <p>The GEOID10 column is a unique identifier for the Census tracts in Philly. It is made up by a few other identifiers at higher geographic levels. All of the GEOID10s here start with the numbers 42 followed by 101. The first two numbers are the state identifiers code, 42, based on Census FIPS codes. FIPS stands for Federal Information Processing Standard and are unique geographic identifiers used in Census data. These codes are used to merge different data sets (e.g. FBI crime data and Census data) together, a task that would be impossible (or very difficult) without a unique ID code in both data sets. The 101 is the county code, as seen in the column “COUNTYFP10”. The remaining numbers vary and indicate which tract it is. When combined it makes an 11 number code that is not repeated for any Census tract in the country. We will return to this code when combining this data with Census data.</p>
 <p>For now we will use the code to aggregate the number of shootings per Census tract. Remember, the <code>aggregate()</code> command aggregates a numeric value by some categorical value. Here we aggregate the number of shootings per Census tract. So our code will be</p>
 <p><code>aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)</code></p>
-<p>We actually don’t have a variable with the number of shootings so we need to make that. We can simply call it “number_shootings” and give it that value of 1 since each row is only one shooting.</p>
+<p>We actually don’t have a variable with the number of shootings so we need to make that. We can simply call it <em>number_shootings</em> and give it that value of 1 since each row is only one shooting.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings_agg<span class="op">$</span>number_shootings &lt;-<span class="st"> </span><span class="dv">1</span></code></pre>
-<p>Now we can write the <code>aggregate()</code> code and save the results back into “shootings_agg”.</p>
+<p>Now we can write the <code>aggregate()</code> code and save the results back into <em>shootings_agg</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(number_shootings <span class="op">~</span><span class="st"> </span>GEOID10, <span class="dt">data =</span> shootings_agg, <span class="dt">FUN =</span> sum)</code></pre>
-<p>Let’s check a summary of the “number_shootings” variable we made.</p>
+<p>Let’s check a summary of the <em>number_shootings</em> variable we made.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(shootings_agg<span class="op">$</span>number_shootings)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;   1.000   1.000   2.000   2.152   3.000   9.000</span></code></pre>
 <p>The minimum is one shooting per tract, two on average, and 9 in the tract with the most shootings. So what do we make of this data? Well, there are some data issues that cause problems in these results. First, we know that shootings that didn’t get geocoded properly were given the coordinates of City Hall, likely making up that tract with 9 shootings. And then let’s think about the minimum value. Did every single tract in the city have at least one shooting? No, take a look at the number of rows in this data, keeping in mind there should be one row per tract.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(shootings_agg)
 <span class="co">#&gt; [1] 204</span></code></pre>
-<p>And let’s compare it to the “philly_tracts” data.</p>
+<p>And let’s compare it to the <em>philly_tracts</em> data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(philly_tracts)
 <span class="co">#&gt; [1] 384</span></code></pre>
 <p>The shootings data is missing about 180 tracts. That is because if no shooting occurred there, there would never be a matching row in the data so that tract wouldn’t appear in the shooting data. That’s not going to be a major issue here but is something to keep in mind in future research. And given the sensitivity of this issue, is a good reason to carefully check your data before make any conclusions.</p>
-<p>The data is ready to merge with the “philly_tracts” data. We’ll introduce a new function that makes merging data simple. This function comes from the <code>dplyr</code> package so we need to install and tell R we want to use it using <code>library()</code>.</p>
+<p>The data is ready to merge with the <em>philly_tracts</em> data. We’ll introduce a new function that makes merging data simple. This function comes from the <code>dplyr</code> package so we need to install and tell R we want to use it using <code>library()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 <span class="co">#&gt; </span>
@@ -564,14 +562,14 @@ Coordinate Reference System<span class="op">:</span>
 <li>full_join - All rows and all columns from Left and Right data</li>
 </ul>
 <p>We could alternatively use the <code>merge()</code> function which is built into R but that function is slower than the <code>dplyr</code> functions and requires us to manually set the matching columns.</p>
-<p>We want to keep all rows in “philly_tracts” (keep all tracts) so we can use <code>left_join(philly_tracts, shootings_agg)</code>. Let’s save the results into a new data.frame called “philly_tracts_shootings”.</p>
+<p>We want to keep all rows in <em>philly_tracts</em> (keep all tracts) so we can use <code>left_join(philly_tracts, shootings_agg)</code>. Let’s save the results into a new data.frame called <em>philly_tracts</em>_shootings".</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_tracts_shootings &lt;-<span class="st"> </span><span class="kw">left_join</span>(philly_tracts, shootings_agg)
 <span class="co">#&gt; Joining, by = &quot;GEOID10&quot;</span></code></pre>
-<p>If we look at <code>summary()</code> again for “number_shootings” we can see that there are now 180 rows with NAs. These are the tracts where there were no shootings so they weren’t present in the “shootings_agg” data.</p>
+<p>If we look at <code>summary()</code> again for <em>number_shootings</em> we can see that there are now 180 rows with NAs. These are the tracts where there were no shootings so they weren’t present in the <em>shootings_agg</em> data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(philly_tracts_shootings<span class="op">$</span>number_shootings)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span>
 <span class="co">#&gt;   1.000   1.000   2.000   2.152   3.000   9.000     180</span></code></pre>
-<p>We need to convert these values to 0. We will use the <code>is.na()</code> function to conditionally find all rows with a NA value in the “number_shootings” column and use square bracket notation to change the value to 0.</p>
+<p>We need to convert these values to 0. We will use the <code>is.na()</code> function to conditionally find all rows with a NA value in the <em>number_shootings</em> column and use square bracket notation to change the value to 0.</p>
 <pre class="sourceCode r"><code class="sourceCode r">philly_tracts_shootings<span class="op">$</span>number_shootings[<span class="kw">is.na</span>(philly_tracts_shootings<span class="op">$</span>number_shootings)] &lt;-<span class="st"> </span><span class="dv">0</span></code></pre>
 <p>Checking it again we see that the minimum is now 0 and the mean number of shootings drops to about 1.1 per tract.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(philly_tracts_shootings<span class="op">$</span>number_shootings)
@@ -584,7 +582,7 @@ Coordinate Reference System<span class="op">:</span>
 <p>For these maps we are going to use <code>ggplot2</code> again so we need to load it.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre>
 <p><code>ggplot2</code>’s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier we used functions such as <code>geom_line()</code> for line graphs and <code>geom_point()</code> for scatter plots. For mapping these polygons we will use <code>geom_sf()</code> which knows how to handle spatial data.</p>
-<p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the “number_shootings” column and it will color the polygons (tracts) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
+<p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the <em>number_shootings</em> column and it will color the polygons (tracts) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(philly_tracts_shootings, <span class="kw">aes</span>(<span class="dt">fill =</span> number_shootings)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() </code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>

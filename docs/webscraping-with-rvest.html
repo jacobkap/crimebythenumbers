@@ -231,9 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>6</b> Webscraping with <code>rvest</code></a><ul>
 <li class="chapter" data-level="6.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>6.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="6.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>6.2</b> Cleaning the webscraped data</a></li>
-<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#exercises-1"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
-</ul></li>
+<li class="chapter" data-level="6.3" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#fixing-names"><i class="fa fa-check"></i><b>6.3</b> Fixing names</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>7</b> Functions</a><ul>
 <li class="chapter" data-level="7.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>7.1</b> A simple function</a></li>
@@ -378,7 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; &lt;html&gt;</span>
 <span class="co">#&gt; [1] &lt;head&gt;\n&lt;!-- Global site tag (gtag.js) - Google Analytics --&gt;&lt;script ...</span>
 <span class="co">#&gt; [2] &lt;body&gt;\n\r\n&lt;script&gt;\r\n  window.fbAsyncInit = function() {\r\n    F ...</span></code></pre>
-<p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of <code>read_html()</code> into an object which we’ll call “movie_data” since that is our end goal.</p>
+<p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of <code>read_html()</code> into an object which we’ll call <em>movie_data</em> since that is our end goal.</p>
 <pre class="sourceCode r"><code class="sourceCode r">movie_data &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;http://www.the-numbers.com/box-office-chart/daily/2018/07/04&quot;</span>)</code></pre>
 <p>We now need to select only a small part of page which has the relevant information - in this case the data in the table.</p>
 <p>Right click somewhere in the table and then click “Inspect Element”.</p>
@@ -387,7 +385,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/the-numbers_3.PNG" /></p>
 <p>Right click the “table” area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and allows us grab only that part from the XML Document we made earlier.</p>
 <p><img src="images/the-numbers_4.PNG" /></p>
-<p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called “movie_data”) and then we can paste the text we copied from the website (putting it in quotes).</p>
+<p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called <em>movie_data</em>) and then we can paste the text we copied from the website (putting it in quotes).</p>
 <p>Note that when doing this in Google Chrome, you follow the same steps except click “Copy selector” rather than “CSS Selector”. The value copied also differs between Chrome and Firefox though the result is the same in our code.</p>
 <pre class="sourceCode r"><code class="sourceCode r">movie_data &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(movie_data, <span class="st">&quot;#page_filling_chart &gt; center:nth-child(2) &gt; table&quot;</span>)</code></pre>
 <p>Since we are getting data from a table, we need to tell <code>rvest</code> that the format of the scraped data is a table. We do with using <code>html_table()</code> and our input in the () is the the object made in the function <code>html_nodes()</code>.</p>
@@ -425,7 +423,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="dv">46</span>       <span class="op">$</span><span class="dv">34</span> <span class="op">$</span><span class="dv">30</span>,<span class="dv">608</span>,<span class="dv">780</span>   <span class="dv">76</span>
 <span class="dv">47</span>      <span class="op">$</span><span class="dv">450</span>      <span class="op">$</span><span class="dv">6</span>,<span class="dv">196</span>    <span class="dv">6</span>
 <span class="dv">48</span>       <span class="op">$</span><span class="dv">74</span> <span class="op">$</span><span class="dv">17</span>,<span class="dv">387</span>,<span class="dv">545</span>   <span class="dv">90</span></code></pre>
-<p>We have now successfully scraped a website! The “movie_data” object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we’ve done before.</p>
+<p>We have now successfully scraped a website! The <em>movie_data</em> object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we’ve done before.</p>
 </div>
 <div id="cleaning-the-webscraped-data" class="section level2">
 <h2><span class="header-section-number">6.2</span> Cleaning the webscraped data</h2>
@@ -456,7 +454,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Each of these <code>gsub()</code>s work alone. We need to combine them to remove both the dollar sign and the comma. We have two choices for this. The first choice is to use the <code>|</code> operator which tells <code>gsub()</code> to replace the value on the left or right side of the <code>|</code> symbol (or both if both are present).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;,|</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;$11,501,395&quot;</span>)
 <span class="co">#&gt; [1] &quot;11501395&quot;</span></code></pre>
-<p>The second choice is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value "“$11,501,395” into an object we call “x” and then run both <code>gsub()</code> statements we wrote earlier, using “x” (without quotes since it is an object) as our value and saving the results back into “x”. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
+<p>The second choice is to do them separately and save the results into an object that we use in the second <code>gsub()</code>. Let’s first save our value “$11,501,395” into an object we call <em>x</em> and then run both <code>gsub()</code> statements we wrote earlier, using <em>x</em> (without quotes since it is an object) as our value and saving the results back into <em>x</em>. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler <code>gsub()</code> expressions than above.</p>
 <pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> &quot;$11,501,395&quot;</span>
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;,&quot;</span>, <span class="st">&quot;&quot;</span>, x)
 x &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\\</span><span class="st">$&quot;</span>, <span class="st">&quot;&quot;</span>, x)
@@ -500,19 +498,7 @@ movie_data<span class="op">$</span>Gross &lt;-<span class="st"> </span><span cla
 <span class="co">#&gt;  [1] &quot;&quot;            &quot;&quot;            &quot;Movie&quot;       &quot;Distributor&quot; &quot;Gross&quot;      </span>
 <span class="co">#&gt;  [6] &quot;Change&quot;      &quot;Thtrs.&quot;      &quot;PerThtr.&quot;    &quot;TotalGross&quot;  &quot;Days&quot;</span></code></pre>
 <p>We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages.</p>
-<div id="exercises-1" class="section level3">
-<h3><span class="header-section-number">6.3.1</span> Exercises</h3>
-<ol style="list-style-type: decimal">
-<li>Turn the columns “Thtrs.” and “TotalGross” into numeric type.</li>
-<li>What was the average number of theaters that a movie played in?
-<ul>
-<li>How many more theaters did the top movie (by number of theaters) play in than average?</li>
-<li>How many fewer theaters did the bottom movie (by number of theaters) play in than average?</li>
-</ul></li>
-<li>How big is the difference in theaters as the mean number of theaters played in and the median? Which should we use?</li>
-</ol>
 
-</div>
 </div>
 </div>
             </section>

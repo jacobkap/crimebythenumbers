@@ -304,7 +304,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
 
 <img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
-We can change the legend title by using the function `labs()` and changing the value "color" to what we want the legend title to be.
+We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
 
 ```r
@@ -318,7 +318,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
 
 <img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
-Finally, a useful option to to move the legend from the side to the bottom is setting the `theme()` function to move the "legend.position" to "bottom". This will allow the graph to be wider.
+Finally, a useful option to to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
 
 ```r

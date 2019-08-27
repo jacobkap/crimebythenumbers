@@ -23,7 +23,7 @@ The last time we used `rvest` we did so to get information about movie ticket sa
 
 First we need to get the links of each PDF to download. Since links are simply a special type of text on the page, we can use a similar method to webscraping movie data to get all of the links.
 
-Again we start with using `read_html()` to read in the page to R and we will save that in an object called "links" since that is what we want to end up with. 
+Again we start with using `read_html()` to read in the page to R and we will save that in an object called *links* since that is what we want to end up with. 
 
 
 ```r
@@ -129,7 +129,7 @@ for (file in links) {
 
 We also want the date and address of every shooting. While that data is available in the PDFs, it isn't in a consistent format which would make it difficult to get. The webpage we downloaded the PDFs from does contain the address of each shooting in a convenient table so we will scrape the data from there. While the PDFs have the date for every shooting, starting in 2017 the date isn't in an easy to scrape format so we will scrape the date column that is present for all years starting in 2013. Since we will want to merge the location with the data from the PDF, we will also scrape the Police Shooting Number column so we have something consistent in both the PDF and the scraped data to merge by. 
 
-As before, we will start by using `read_html()` to read the page into R. We will call this object "page" as we are going to use it for scraping the location, date, and the shooting number so we don't want to overwrite the object.
+As before, we will start by using `read_html()` to read the page into R. We will call this object *page* as we are going to use it for scraping the location, date, and the shooting number so we don't want to overwrite the object.
 
 
 ```r
@@ -186,7 +186,7 @@ dates <- html_nodes(page, ".span12 td:nth-child(2)")
 dates <- html_text(dates)
 ```
 
-Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 468 values for links of the PDFs we downloaded? Why is this? -1 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers. 
+Note that there are 467 values for location and shooting_numbers, 148 values for dates, and 468 values for links of the PDFs we downloaded? Why is this? 1 of the shootings do not have a PDF associated with the shooting so there is no link to that PDF to download. As data from 2007-2012 do not have dates on the table, there is nothing to scrape, leading to many fewer values than the location or shooting_numbers. 
 
 ### Combining the data sets
 
@@ -199,7 +199,7 @@ officer_shootings <- data.frame(shooting_number = shooting_numbers,
 #> Error in as.data.frame.default(x[[i]], optional = TRUE): cannot coerce class '"function"' to a data.frame
 ```
 
-Trying to make a data.frame this way returns an error because while there are 467 shootings, only the shooting number and location variable have all 467 values. Since the dates don't exist for 2007-2012, we only have 148 values for that data. While there are a few ways to solve this (as is true with nearly every problem in R), we will expand the "dates" object to make it 467 values long. 
+Trying to make a data.frame this way returns an error because while there are 467 shootings, only the shooting number and location variable have all 467 values. Since the dates don't exist for 2007-2012, we only have 148 values for that data. While there are a few ways to solve this (as is true with nearly every problem in R), we will expand the *dates* object to make it 467 values long. 
 
 The function `rep()` is used to repeat values.
 
@@ -210,7 +210,7 @@ rep("hello", 10)
 #>  [9] "hello" "hello"
 ```
 
-Above we repeated the word "hello" 10 times. To solve our issue we need to repeat some value 319 times and add that to the end of the "dates" object to make it 467 values long. For our value we will use NA to indicate that those values are missing.
+Above we repeated the word "hello" 10 times. To solve our issue we need to repeat some value 319 times and add that to the end of the *dates* object to make it 467 values long. For our value we will use NA to indicate that those values are missing.
 
 
 ```r
@@ -231,14 +231,14 @@ rep(NA, (length(location) - length(dates)))
 #> [300] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ```
 
-To combine the "dates" object with all these repeated NA's we will use `c()` which combines vectors. Make sure we put "dates" first to maintain the correct order.
+To combine the *dates* object with all these repeated NA's we will use `c()` which combines vectors. Make sure we put *dates* first to maintain the correct order.
 
 
 ```r
 dates <- c(dates, rep(NA, (length(location) - length(dates))))
 ```
 
-And we can now check the length of "dates".
+And we can now check the length of *dates*.
 
 
 ```r
@@ -246,7 +246,7 @@ length(dates)
 #> [1] 467
 ```
 
-Since "dates" is 467 values long now, let's try making the data.frame again.
+Since *dates* is 467 values long now, let's try making the data.frame again.
 
 
 ```r
@@ -463,15 +463,15 @@ get_date_from_pdf("16-01.pdf")
 
 ### Looping through every PDF
 
-Before we write the for loop let's think about what our goal is and what we currently have. We have a data set which has a single row for every shooting and information about when and where each shooting took place. The object "officer_shootings" that we made earlier has most of that. It contains the location for every shooting and the date for all of those from 2013-2019. So we want to scrape the PDFs for years prior to 2013 to get the date of each shooting. And we made a function that gives us the date in the file we input. Since we know the dates for 2013-2019 (and 2017-2019 make it hard to get the date from the PDF), we only want to scrape the PDFs from 2007-2012. 
+Before we write the for loop let's think about what our goal is and what we currently have. We have a data set which has a single row for every shooting and information about when and where each shooting took place. The object *officer_shootings* that we made earlier has most of that. It contains the location for every shooting and the date for all of those from 2013-2019. So we want to scrape the PDFs for years prior to 2013 to get the date of each shooting. And we made a function that gives us the date in the file we input. Since we know the dates for 2013-2019 (and 2017-2019 make it hard to get the date from the PDF), we only want to scrape the PDFs from 2007-2012. 
 
 We need to do two things now: 
 
 1. Select only PDFs from 2007-2012
 
-2. For each PDF figure out a way to select the right row in the "officer_shootings" object to add the date
+2. For each PDF figure out a way to select the right row in the *officer_shootings* object to add the date
 
-We can take this one piece at a time. First we need to select only PDFs from 2007-2012. The function `list.files()` will provide a list of every file in the working directory. We will use it to get a list of all files in the folder we stored the PDFs and then subset it to just keep the files we want. Let's call the object "pdf_files". 
+We can take this one piece at a time. First we need to select only PDFs from 2007-2012. The function `list.files()` will provide a list of every file in the working directory. We will use it to get a list of all files in the folder we stored the PDFs and then subset it to just keep the files we want. Let's call the object *pdf_files*. 
 
 
 ```r
@@ -515,14 +515,14 @@ grep("^0|^10|^11|^12", pdf_files)
 #> [307] 307 308 309 310 311 312 313 314 315 316 317
 ```
 
-This prints out a list of which elements in "pdf_files" are a match. We can use square bracket notation `[]` subsetting to just keep the elements in "pdf_files" that we want. And let's save that object as "pdf_files", overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of. 
+This prints out a list of which elements in *pdf_files* are a match. We can use square bracket notation `[]` subsetting to just keep the elements in *pdf_files* that we want. And let's save that object as *pdf_files*, overwriting our initial object with just the values we want. This way we minimize the number of objects we need to keep track of. 
 
 
 ```r
 pdf_files <- pdf_files[grep("^0|^10|^11|^12", pdf_files)]
 ```
 
-We have accomplished our first task, getting just the PDFs from 2007-2012. Now we need to find a way to match the correct row in "officer_shootings" with each file. Let's think again about patterns in the file names.
+We have accomplished our first task, getting just the PDFs from 2007-2012. Now we need to find a way to match the correct row in *officer_shootings* with each file. Let's think again about patterns in the file names.
 
 
 ```r
@@ -550,7 +550,7 @@ substr(pdf_files[1], start = 1, stop = 5)
 #> [1] "07-01"
 ```
 
-And here we have the officer shooting number for the first PDF which we can use to match with the correct row in the "officer_shootings" file.
+And here we have the officer shooting number for the first PDF which we can use to match with the correct row in the *officer_shootings* file.
 
 We can now create the for loop. Let's start with a skeleton of the for loop then slowly add our code.
 
@@ -561,7 +561,7 @@ for (file in pdf_files) {
 }
 ```
 
-For loops take the form "for x in some group of x, do this thing". In our case our "group of x" is the "pdf_files" object, a group of file names. We want the loop to go through every file in "pdf_files", find the police shooting number from the file name to match with the correct row in "officer_shootings", get the date from the file, and then put the date in the right row. 
+For loops take the form "for x in some group of x, do this thing". In our case our "group of x" is the *pdf_files* object, a group of file names. We want the loop to go through every file in *pdf_files*, find the police shooting number from the file name to match with the correct row in *officer_shootings*, get the date from the file, and then put the date in the right row. 
 
 We can add in the code we wrote to get the police shooting number.
 
@@ -612,7 +612,7 @@ library(lubridate)
 officer_shootings$dates <- mdy(officer_shootings$dates)
 ```
 
-Now our "officer_shootings" file contains the date and address of every officer-involved shooting in Philadelphia from 2007 to early 2019. 3 of the shootings do not have a PDF associated with it. Let's remove them since we are unable to verify information on the table. These rows have a value of "" in the "shooting_number" column so we'll subset the "officer_shootings" data.frame to keep only rows where the shooting number is not "".
+Now our *officer_shootings* data contains the date and address of every officer-involved shooting in Philadelphia from 2007 to early 2019. 3 of the shootings do not have a PDF associated with it. Let's remove them since we are unable to verify information on the table. These rows have a value of "" in the "shooting_number" column so we'll subset the *officer_shootings* data.frame to keep only rows where the shooting number is not "".
 
 
 ```r

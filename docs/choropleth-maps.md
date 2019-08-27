@@ -23,7 +23,7 @@ library(sf)
 #> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 ```
 
-The way `sf` reads in the shapefiles is through the `st_read()` function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we'll call the object "philly_tracts". 
+The way `sf` reads in the shapefiles is through the `st_read()` function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains Census tracts for Philly so we'll call the object *philly_tracts*". 
 
 
 ```r
@@ -125,7 +125,7 @@ Coordinate Reference System:
 
 What we want to do with these Census tracts is to find out which tract each shooting occurred in and sum up the number of shootings per tract. Once we do that we can make a more accurate hotspot map by mapping at the Census tract level and being able to measure shootings-per-tract. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
 
-Right now our "officer_shootings_geocoded" data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, officer_shootings_geocoded. Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a "geometry" column like we saw in "philly_tracts" earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.
+Right now our *officer_shootings_geocoded* data is in a data.frame with some info on each shootings and the longitude and latitude of the shooting in separate columns. We want to turn this data.frame into a spatial object to allow us to find which tract each shooting happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, *officer_shootings_geocoded.* Then in the `coords` parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a "geometry" column like we saw in *philly_tracts* earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the Census tract data has.
 
 
 ```r
@@ -134,7 +134,7 @@ officer_shootings_geocoded <- st_as_sf(officer_shootings_geocoded,
                                        crs = "+proj=longlat +ellps=WGS84 +no_defs")
 ```
 
-We want our shootings data in the same projection as the tracts data so we need to use `st_transform()` to change the projection. Since we want the CRS to be the same as in "philly_tracts", we can set it using `st_crs(philly_tracts)` to use the right CRS.
+We want our shootings data in the same projection as the tracts data so we need to use `st_transform()` to change the projection. Since we want the CRS to be the same as in *philly_tracts*, we can set it using `st_crs(philly_tracts)` to use the right CRS.
 
 
 ```r
@@ -169,7 +169,7 @@ head(officer_shootings_geocoded)
 #> 7   POINT (2704596 250717)
 ```
 
-We can see it is now a "simple feature collection" with the correct projection. And we can see there is a new column called "geometry" just like in "philly_tracts". The type of data in "geometry" is POINT since our data is just a single location instead of a polygon like in the tracts data. 
+We can see it is now a "simple feature collection" with the correct projection. And we can see there is a new column called "geometry" just like in *philly_tracts*. The type of data in "geometry" is POINT since our data is just a single location instead of a polygon like in the tracts data. 
 
 Since we have both the tracts and the shootings data let's make a quick map to see the data.
 
@@ -188,7 +188,7 @@ Our next step is to combine these two data sets to figure out how many shootings
 3. Combine with the Census tract data
 4. Make a map
 
-We'll start by finding the tract where each shooting occurred using the function `st_join()` which is a function in `sf`. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let's call the output of this function "shootings_agg". The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the "officer_shootings_geocoded" data. In the next step we'll see why this matters. 
+We'll start by finding the tract where each shooting occurred using the function `st_join()` which is a function in `sf`. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let's call the output of this function *shootings_agg*. The order in the () is important! For our aggregation we want the output to be at the shooting-level so we start with the *officer_shootings_geocoded* data. In the next step we'll see why this matters. 
 
 
 ```r
@@ -236,7 +236,7 @@ head(shootings_agg)
 #> 7 -075.1231399    10509   POINT (2704596 250717)
 ```
 
-There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the "philly_tracts" data. Let's look specifically at the "GEOID10" variable since that is actually important and common in dealing with Census data. And let's also print out the columns "STATEFP10", "COUNTYFP10", and "TRACTCE10". 
+There are now columns from the Census tracts data which says which tract the shooting happened in. Now we can aggregate up to the tract-level. We just need to aggregate by a unique variable indicating which tract it is, we will then use this to merge with the *philly_tracts* data. Let's look specifically at the "GEOID10" variable since that is actually important and common in dealing with Census data. And let's also print out the columns "STATEFP10", "COUNTYFP10", and "TRACTCE10". 
 
 ```r
 head(shootings_agg[, c("STATEFP10", "COUNTYFP10", "TRACTCE10", "GEOID10")])
@@ -261,21 +261,21 @@ For now we will use the code to aggregate the number of shootings per Census tra
 
 `aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)`
 
-We actually don't have a variable with the number of shootings so we need to make that. We can simply call it "number_shootings" and give it that value of 1 since each row is only one shooting.
+We actually don't have a variable with the number of shootings so we need to make that. We can simply call it *number_shootings* and give it that value of 1 since each row is only one shooting.
 
 
 ```r
 shootings_agg$number_shootings <- 1
 ```
 
-Now we can write the `aggregate()` code and save the results back into "shootings_agg". 
+Now we can write the `aggregate()` code and save the results back into *shootings_agg*. 
 
 
 ```r
 shootings_agg <- aggregate(number_shootings ~ GEOID10, data = shootings_agg, FUN = sum)
 ```
 
-Let's check a summary of the "number_shootings" variable we made.
+Let's check a summary of the *number_shootings* variable we made.
 
 
 ```r
@@ -292,7 +292,7 @@ nrow(shootings_agg)
 #> [1] 204
 ```
 
-And let's compare it to the "philly_tracts" data.
+And let's compare it to the *philly_tracts* data.
 
 
 ```r
@@ -302,7 +302,7 @@ nrow(philly_tracts)
 
 The shootings data is missing about 180 tracts. That is because if no shooting occurred there, there would never be a matching row in the data so that tract wouldn't appear in the shooting data. That's not going to be a major issue here but is something to keep in mind in future research. And given the sensitivity of this issue, is a good reason to carefully check your data before make any conclusions.
 
-The data is ready to merge with the "philly_tracts" data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()`.
+The data is ready to merge with the *philly_tracts* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()`.
 
 
 ```r
@@ -336,7 +336,7 @@ There are two other functions that are similar but differ based on which rows th
 
 We could alternatively use the `merge()` function which is built into R but that function is slower than the `dplyr` functions and requires us to manually set the matching columns. 
 
-We want to keep all rows in "philly_tracts" (keep all tracts) so we can use `left_join(philly_tracts, shootings_agg)`. Let's save the results into a new data.frame called "philly_tracts_shootings". 
+We want to keep all rows in *philly_tracts* (keep all tracts) so we can use `left_join(philly_tracts, shootings_agg)`. Let's save the results into a new data.frame called *philly_tracts*_shootings". 
 
 
 ```r
@@ -344,7 +344,7 @@ philly_tracts_shootings <- left_join(philly_tracts, shootings_agg)
 #> Joining, by = "GEOID10"
 ```
 
-If we look at `summary()` again for "number_shootings" we can see that there are now 180 rows with NAs. These are the tracts where there were no shootings so they weren't present in the "shootings_agg" data. 
+If we look at `summary()` again for *number_shootings* we can see that there are now 180 rows with NAs. These are the tracts where there were no shootings so they weren't present in the *shootings_agg* data. 
 
 
 ```r
@@ -353,7 +353,7 @@ summary(philly_tracts_shootings$number_shootings)
 #>   1.000   1.000   2.000   2.152   3.000   9.000     180
 ```
 
-We need to convert these values to 0. We will use the `is.na()` function to conditionally find all rows with a NA value in the "number_shootings" column and use square bracket notation to change the value to 0.
+We need to convert these values to 0. We will use the `is.na()` function to conditionally find all rows with a NA value in the *number_shootings* column and use square bracket notation to change the value to 0.
 
 
 ```r
@@ -382,7 +382,7 @@ library(ggplot2)
 
 `ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()` which knows how to handle spatial data. 
 
-As usual we will start with `ggplot()`, inputting our data first. Then inside of `aes` (the aesthetics of the graph/map) we use a new parameter `fill`. In `fill` we will put in the "number_shootings" column and it will color the polygons (tracts) based on values in that column. Then we can add the `geom_sf()`. 
+As usual we will start with `ggplot()`, inputting our data first. Then inside of `aes` (the aesthetics of the graph/map) we use a new parameter `fill`. In `fill` we will put in the *number_shootings* column and it will color the polygons (tracts) based on values in that column. Then we can add the `geom_sf()`. 
 
 
 ```r

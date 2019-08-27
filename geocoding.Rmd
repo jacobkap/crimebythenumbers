@@ -36,14 +36,14 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 ```
 
 
-It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called "candidates". To avoid having a very long line of code, let's call the list `fromJSON()` returns "address_coordinate" and grab the "candidates" object from that list. 
+It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns "address_coordinate" and grab the *candidates* object from that list. 
 
 ```{r}
 address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
 address_coordinates$candidates
 ```
 
-The "candidates" is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
+The *candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
 
 Since we are grabbing the first row of a data.frame, our square bracket notation must be `[row, column]`. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.
 
@@ -231,9 +231,9 @@ There are still some addresses that require manual fixing, such as the one readi
 
 Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manually inspecting and correction the data is important. If instead you look at crime data with millions of rows, it likely wouldn't be worth it to manually inspect so many values. 
 
-We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame "officer_shootings" we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in "officer_shootings".
+We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame *officer_shootings* we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in *officer_shootings*.
 
-We need to make columns for the coordinates in "officer_shootings" now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
+We need to make columns for the coordinates in *officer_shootings* now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
 
 ```{r}
 officer_shootings$lon <- NA
@@ -317,7 +317,7 @@ Two shootings have inaccurate latitudes. Let's drop any latitude that is greater
 officer_shootings <- officer_shootings[officer_shootings$lat > 39, ]
 ```
 
-To finish this lesson we want to save the "officer_shootings" data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of "officer_shootings" just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as "officer_shootings" to have fewer objects to manage. 
+To finish this lesson we want to save the *officer_shootings* data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of *officer_shootings* just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as *officer_shootings* to have fewer objects to manage. 
 
 ```{r}
 officer_shootings_geocoded <- officer_shootings

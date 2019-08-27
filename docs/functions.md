@@ -76,7 +76,7 @@ add_2 <- function(number, times_5 = FALSE) {
 }
 ```
 
-Now our code says if the parameter "times_5" is TRUE, then do the thing in the squiggly brackets {} below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let's try out our function.
+Now our code says if the parameter `times_5` is TRUE, then do the thing in the squiggly brackets {} below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let's try out our function.
 
 
 ```r
@@ -84,7 +84,7 @@ add_2(2)
 #> [1] 4
 ```
 
-It returns 4, as expected. Since the parameter "times_t" is defaulted to FALSE, we don't need to specify that parameter if we want it to stay FALSE. When we don't tell the function that we want it to be TRUE, the code in our "if statement" doesn't run. When we set "times_t" to TRUE, it runs that code. 
+It returns 4, as expected. Since the parameter `times_5` is defaulted to FALSE, we don't need to specify that parameter if we want it to stay FALSE. When we don't tell the function that we want it to be TRUE, the code in our "if statement" doesn't run. When we set `times_5` to TRUE, it runs that code. 
 
 
 ```r
@@ -104,7 +104,7 @@ library(rvest)
 #> Loading required package: xml2
 ```
 
-Let's start by writing a shell of the function - everything but the code. We can call it "scrape_movie_data" (though any name would work), add in the "<- function()" and put "date" (without quotes) in the () as our input for the function is a date. We want the function to return the movie data for that date so we include `return(movie_data)`. And don't forget the "{" after the end of the `function()` and "}" at the very end of the function. 
+Let's start by writing a shell of the function - everything but the code. We can call it *scrape_movie_data* (though any name would work), add in the "<- function()" and put "date" (without quotes) in the () as our input for the function is a date. We want the function to return the movie data for that date so we include `return(movie_data)`. And don't forget the "{" after the end of the `function()` and "}" at the very end of the function. 
 
 
 ```r
@@ -114,7 +114,7 @@ scrape_movie_data <- function(date) {
 }
 ```
 
-Now we need to add the code that takes the date, scrapes the website, and saves that data into an object called "movie_data". Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.
+Now we need to add the code that takes the date, scrapes the website, and saves that data into an object called *movie_data*. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.
 
 
 ```r
@@ -145,7 +145,7 @@ Constant <- "http://www.the-numbers.com/box-office-chart/daily/"
 Changes  <- "2018/07/04"
 ```
 
-We can use `paste()` to combine these two and set the parameter `sep` to "" so there are no spaces between the url and the date (the function `paste0()` is the same as `paste()` but defaults `set` to "" so we could use that if we wanted). We will save the result of `paste()` as an object called "url_date" but it doesn't matter what we name it.
+We can use `paste()` to combine these two and set the parameter `sep` to "" so there are no spaces between the url and the date (the function `paste0()` is the same as `paste()` but defaults `set` to "" so we could use that if we wanted). We will save the result of `paste()` as an object called *url_date* but it doesn't matter what we name it.
 
 
 ```r
@@ -153,7 +153,7 @@ paste(Constant, Changes, sep = "")
 #> [1] "http://www.the-numbers.com/box-office-chart/daily/2018/07/04"
 ```
 
-Inside our function code we need to make the "Constant" variable but let's rename it "url" since that better describes what it is. Since the date is what is inputted into the function, we don't need to make that variable. Our `paste()` function is the same as above but with with these new variable names - since the parameter inputted is called "date" that is the variable name we need to include in the `paste()`. And we can call it a new name - "url_date" - in the code just to simplify things. Then put this variable in the () of `read_html()` and it will go to the proper page based on the date we input. 
+Inside our function code we need to make the "Constant" variable but let's rename it "url" since that better describes what it is. Since the date is what is inputted into the function, we don't need to make that variable. Our `paste()` function is the same as above but with with these new variable names - since the parameter inputted is called `date` that is the variable name we need to include in the `paste()`. And we can call it a new name - `url_date` - in the code just to simplify things. Then put this variable in the () of `read_html()` and it will go to the proper page based on the date we input. 
 
 
 ```r
@@ -170,7 +170,7 @@ scrape_movie_data <- function(date) {
 }
 ```
 
-Now we can try it for a new date, let's say July 4th, 2015. We will save it in the object "july_2015" just to avoid it printing out every single row when the function is done.
+Now we can try it for a new date, let's say July 4th, 2015. We will save it in the object *july_2015* just to avoid it printing out every single row when the function is done.
 
 
 ```r
