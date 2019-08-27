@@ -1,17 +1,18 @@
 
 --- 
 knit: "bookdown::render_book"
-title: "R 4 Criminology"
-author: ["Jacob Kaplan"]
+title: "R for Criminology"
+date: "2019-08-27"
+author: "Jacob Kaplan"
 bibliography: [packages.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
-description: "These notes introduce the programming language R and are meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information such as cleaning the data, graphing it, or running statistical tests on the data. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets."
+description: "This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets."
 url: "https://r4crim.com"
 cover-image: "Ruby-throated_HummingBird.jpg"
 fontsize: 12pt
-github-repo: jacobkap/r4crim
+github-repo: "jacobkap/r4crim"
 site: bookdown::bookdown_site
 documentclass: book
 ---
@@ -20,7 +21,7 @@ documentclass: book
 
 # Welcome {-}
 
-This book introduce the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information such as cleaning the data, graphing it, or running statistical tests on the data. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
+This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
 
 This book is based off of the lessons I took as a Master's student in criminology at Penn from [Dr. Greg Ridgeway](https://crim.sas.upenn.edu/people/greg-ridgeway). This book covers much of the same material as well as a focus basic philosophy of teaching by example and a focus on the fundamentals of R (and programming in general) as Dr. Ridgeway's lessons. For his lessons, please see [here](https://github.com/gregridgeway/R4crim) .
 
