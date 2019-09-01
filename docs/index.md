@@ -2,7 +2,7 @@
 --- 
 knit: "bookdown::render_book"
 title: "R for Criminology"
-date: "2019-08-27"
+date: "2019-08-31"
 author: "Jacob Kaplan"
 bibliography: [packages.bib]
 biblio-style: apalike
