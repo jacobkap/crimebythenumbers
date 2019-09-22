@@ -152,16 +152,70 @@ Note that `grep()` (and `gsub()`) is case sensitive so you must capitalize prope
 
 
 ```r
-grep("theft", crimes)
-#> integer(0)
+grep("theft", value = TRUE, crimes)
+#> character(0)
 ```
 
 Setting the parameter `ignore.case` to be TRUE makes `grep()` ignore capitalization.
 
 
 ```r
-grep("theft", crimes, ignore.case = TRUE)
-#> [1] 20 26 27
+grep("theft", crimes, value = TRUE, ignore.case = TRUE)
+#> [1] "Larceny Theft"        "Motor Vehicle Theft"  "Motor Vehicle Theft?"
+```
+
+If we want to find values which do *not* match with "theft", we can set the parameter `invert` to TRUE.
+
+
+```r
+grep("theft", crimes, value = TRUE, ignore.case = TRUE, invert = TRUE)
+#>  [1] "Arson"                                     
+#>  [2] "Assault"                                   
+#>  [3] "Burglary"                                  
+#>  [4] "Case Closure"                              
+#>  [5] "Civil Sidewalks"                           
+#>  [6] "Courtesy Report"                           
+#>  [7] "Disorderly Conduct"                        
+#>  [8] "Drug Offense"                              
+#>  [9] "Drug Violation"                            
+#> [10] "Embezzlement"                              
+#> [11] "Family Offense"                            
+#> [12] "Fire Report"                               
+#> [13] "Forgery And Counterfeiting"                
+#> [14] "Fraud"                                     
+#> [15] "Gambling"                                  
+#> [16] "Homicide"                                  
+#> [17] "Human Trafficking (A), Commercial Sex Acts"
+#> [18] "Human Trafficking, Commercial Sex Acts"    
+#> [19] "Juvenile Offenses"                         
+#> [20] "Liquor Laws"                               
+#> [21] "Lost Property"                             
+#> [22] "Malicious Mischief"                        
+#> [23] "Miscellaneous Investigation"               
+#> [24] "Missing Person"                            
+#> [25] "Non-Criminal"                              
+#> [26] "Offences Against The Family And Children"  
+#> [27] "Other"                                     
+#> [28] "Other Miscellaneous"                       
+#> [29] "Other Offenses"                            
+#> [30] "Prostitution"                              
+#> [31] "Rape"                                      
+#> [32] "Recovered Vehicle"                         
+#> [33] "Robbery"                                   
+#> [34] "Sex Offense"                               
+#> [35] "Stolen Property"                           
+#> [36] "Suicide"                                   
+#> [37] "Suspicious"                                
+#> [38] "Suspicious Occ"                            
+#> [39] "Traffic Collision"                         
+#> [40] "Traffic Violation Arrest"                  
+#> [41] "Vandalism"                                 
+#> [42] "Vehicle Impounded"                         
+#> [43] "Vehicle Misplaced"                         
+#> [44] "Warrant"                                   
+#> [45] "Weapons Carrying Etc"                      
+#> [46] "Weapons Offence"                           
+#> [47] "Weapons Offense"
 ```
 
 ## Finding and replacing patterns in text with `gsub()`
@@ -531,120 +585,9 @@ grep("[aeiou]{3,}", crimes, value = TRUE)
 #> [5] "Suspicious Occ"
 ```
 
-### Start of string and "not" `^`
+### Start of string 
 
-The `^` symbol (called a caret) has two meanings. When the `^` is within square brackets `[]`, it means "not" any of the following characters in the square brackets. Let's use it for the pattern "Theft". Here we want `grep()` to return any string that does **not** have the pattern "Theft" in it.
-
-
-```r
-grep("[^Theft]", crimes, value = TRUE)
-#>  [1] "Arson"                                     
-#>  [2] "Assault"                                   
-#>  [3] "Burglary"                                  
-#>  [4] "Case Closure"                              
-#>  [5] "Civil Sidewalks"                           
-#>  [6] "Courtesy Report"                           
-#>  [7] "Disorderly Conduct"                        
-#>  [8] "Drug Offense"                              
-#>  [9] "Drug Violation"                            
-#> [10] "Embezzlement"                              
-#> [11] "Family Offense"                            
-#> [12] "Fire Report"                               
-#> [13] "Forgery And Counterfeiting"                
-#> [14] "Fraud"                                     
-#> [15] "Gambling"                                  
-#> [16] "Homicide"                                  
-#> [17] "Human Trafficking (A), Commercial Sex Acts"
-#> [18] "Human Trafficking, Commercial Sex Acts"    
-#> [19] "Juvenile Offenses"                         
-#> [20] "Larceny Theft"                             
-#> [21] "Liquor Laws"                               
-#> [22] "Lost Property"                             
-#> [23] "Malicious Mischief"                        
-#> [24] "Miscellaneous Investigation"               
-#> [25] "Missing Person"                            
-#> [26] "Motor Vehicle Theft"                       
-#> [27] "Motor Vehicle Theft?"                      
-#> [28] "Non-Criminal"                              
-#> [29] "Offences Against The Family And Children"  
-#> [30] "Other"                                     
-#> [31] "Other Miscellaneous"                       
-#> [32] "Other Offenses"                            
-#> [33] "Prostitution"                              
-#> [34] "Rape"                                      
-#> [35] "Recovered Vehicle"                         
-#> [36] "Robbery"                                   
-#> [37] "Sex Offense"                               
-#> [38] "Stolen Property"                           
-#> [39] "Suicide"                                   
-#> [40] "Suspicious"                                
-#> [41] "Suspicious Occ"                            
-#> [42] "Traffic Collision"                         
-#> [43] "Traffic Violation Arrest"                  
-#> [44] "Vandalism"                                 
-#> [45] "Vehicle Impounded"                         
-#> [46] "Vehicle Misplaced"                         
-#> [47] "Warrant"                                   
-#> [48] "Weapons Carrying Etc"                      
-#> [49] "Weapons Offence"                           
-#> [50] "Weapons Offense"
-```
-
-As expected it returns all the crimes other than ones with the word "Theft" in it. This method is similar to the parameter `invert` which returns all values that do not meet the pattern.
-
-
-```r
-grep("Theft", crimes, invert = TRUE, value = TRUE)
-#>  [1] "Arson"                                     
-#>  [2] "Assault"                                   
-#>  [3] "Burglary"                                  
-#>  [4] "Case Closure"                              
-#>  [5] "Civil Sidewalks"                           
-#>  [6] "Courtesy Report"                           
-#>  [7] "Disorderly Conduct"                        
-#>  [8] "Drug Offense"                              
-#>  [9] "Drug Violation"                            
-#> [10] "Embezzlement"                              
-#> [11] "Family Offense"                            
-#> [12] "Fire Report"                               
-#> [13] "Forgery And Counterfeiting"                
-#> [14] "Fraud"                                     
-#> [15] "Gambling"                                  
-#> [16] "Homicide"                                  
-#> [17] "Human Trafficking (A), Commercial Sex Acts"
-#> [18] "Human Trafficking, Commercial Sex Acts"    
-#> [19] "Juvenile Offenses"                         
-#> [20] "Liquor Laws"                               
-#> [21] "Lost Property"                             
-#> [22] "Malicious Mischief"                        
-#> [23] "Miscellaneous Investigation"               
-#> [24] "Missing Person"                            
-#> [25] "Non-Criminal"                              
-#> [26] "Offences Against The Family And Children"  
-#> [27] "Other"                                     
-#> [28] "Other Miscellaneous"                       
-#> [29] "Other Offenses"                            
-#> [30] "Prostitution"                              
-#> [31] "Rape"                                      
-#> [32] "Recovered Vehicle"                         
-#> [33] "Robbery"                                   
-#> [34] "Sex Offense"                               
-#> [35] "Stolen Property"                           
-#> [36] "Suicide"                                   
-#> [37] "Suspicious"                                
-#> [38] "Suspicious Occ"                            
-#> [39] "Traffic Collision"                         
-#> [40] "Traffic Violation Arrest"                  
-#> [41] "Vandalism"                                 
-#> [42] "Vehicle Impounded"                         
-#> [43] "Vehicle Misplaced"                         
-#> [44] "Warrant"                                   
-#> [45] "Weapons Carrying Etc"                      
-#> [46] "Weapons Offence"                           
-#> [47] "Weapons Offense"
-```
-
-The second use of `^` signifies that what follows it is the start of the string. We put the `^` at the beginning of the quotes and then anything that follows it must be the very start of the string. As an example let's search for "Family". Our data has both the "Family Offense" crime and the "Offences Against The Family And Children" crime (which likely are the same crime written differently). If we use `^` then we should only have the first one returned.
+The `^` symbol (called a caret) signifies that what follows it is the start of the string. We put the `^` at the beginning of the quotes and then anything that follows it must be the very start of the string. As an example let's search for "Family". Our data has both the "Family Offense" crime and the "Offences Against The Family And Children" crime (which likely are the same crime written differently). If we use `^` then we should only have the first one returned.
 
 
 ```r

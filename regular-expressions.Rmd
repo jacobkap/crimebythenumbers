@@ -113,13 +113,19 @@ grep("Theft", crimes, value = TRUE)
 Note that `grep()` (and `gsub()`) is case sensitive so you must capitalize properly.
 
 ```{r}
-grep("theft", crimes)
+grep("theft", value = TRUE, crimes)
 ```
 
 Setting the parameter `ignore.case` to be TRUE makes `grep()` ignore capitalization.
 
 ```{r}
-grep("theft", crimes, ignore.case = TRUE)
+grep("theft", crimes, value = TRUE, ignore.case = TRUE)
+```
+
+If we want to find values which do *not* match with "theft", we can set the parameter `invert` to TRUE.
+
+```{r}
+grep("theft", crimes, value = TRUE, ignore.case = TRUE, invert = TRUE)
 ```
 
 ## Finding and replacing patterns in text with `gsub()`
@@ -241,21 +247,9 @@ And the same works for leaving m blank but it will be "present at least n times"
 grep("[aeiou]{3,}", crimes, value = TRUE)
 ```
 
-### Start of string and "not" `^`
+### Start of string 
 
-The `^` symbol (called a caret) has two meanings. When the `^` is within square brackets `[]`, it means "not" any of the following characters in the square brackets. Let's use it for the pattern "Theft". Here we want `grep()` to return any string that does **not** have the pattern "Theft" in it.
-
-```{r}
-grep("[^Theft]", crimes, value = TRUE)
-```
-
-As expected it returns all the crimes other than ones with the word "Theft" in it. This method is similar to the parameter `invert` which returns all values that do not meet the pattern.
-
-```{r}
-grep("Theft", crimes, invert = TRUE, value = TRUE)
-```
-
-The second use of `^` signifies that what follows it is the start of the string. We put the `^` at the beginning of the quotes and then anything that follows it must be the very start of the string. As an example let's search for "Family". Our data has both the "Family Offense" crime and the "Offences Against The Family And Children" crime (which likely are the same crime written differently). If we use `^` then we should only have the first one returned.
+The `^` symbol (called a caret) signifies that what follows it is the start of the string. We put the `^` at the beginning of the quotes and then anything that follows it must be the very start of the string. As an example let's search for "Family". Our data has both the "Family Offense" crime and the "Offences Against The Family And Children" crime (which likely are the same crime written differently). If we use `^` then we should only have the first one returned.
 
 ```{r}
 grep("^Family", crimes, value = TRUE)
