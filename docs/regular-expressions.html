@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-01" />
+<meta name="date" content="2019-09-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -601,109 +601,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">5.3.1</span> Multiple characters <code>[]</code></h3>
 <p>To search for multiple matches we can put the pattern we want to search for inside square brackets <code>[]</code> (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain vowels.</p>
 <p>The <code>grep()</code> searches if any of the letters inside of the <code>[]</code> are present in our “crimes” vector.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[aeiou]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
-<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
-<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
-<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
-<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
-<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
-<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
-<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
-<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
-<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
-<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
-<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
-<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
-<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
-<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
-<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
-<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
-<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
-<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
-<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
-<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
-<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
-<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
-<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
-<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
-<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
-<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
-<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
-<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
-<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
-<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
-<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
-<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
-<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
-<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
-<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
-<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
-<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
-<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
-<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
-<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
-<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
-<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
-<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
-<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
-<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
-<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
-<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
-<span class="co">#&gt; [49] &quot;Weapons Offence&quot;                           </span>
-<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[xyz]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [2] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [3] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [4] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt;  [6] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt;  [7] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt;  [8] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt;  [9] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [10] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [11] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [12] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [13] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [14] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [15] &quot;Weapons Carrying Etc&quot;</span></code></pre>
 <p>As it searches for any letter inside of the square brackets, the order does not matter.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[uoiea]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span>
-<span class="co">#&gt;  [2] &quot;Assault&quot;                                   </span>
-<span class="co">#&gt;  [3] &quot;Burglary&quot;                                  </span>
-<span class="co">#&gt;  [4] &quot;Case Closure&quot;                              </span>
-<span class="co">#&gt;  [5] &quot;Civil Sidewalks&quot;                           </span>
-<span class="co">#&gt;  [6] &quot;Courtesy Report&quot;                           </span>
-<span class="co">#&gt;  [7] &quot;Disorderly Conduct&quot;                        </span>
-<span class="co">#&gt;  [8] &quot;Drug Offense&quot;                              </span>
-<span class="co">#&gt;  [9] &quot;Drug Violation&quot;                            </span>
-<span class="co">#&gt; [10] &quot;Embezzlement&quot;                              </span>
-<span class="co">#&gt; [11] &quot;Family Offense&quot;                            </span>
-<span class="co">#&gt; [12] &quot;Fire Report&quot;                               </span>
-<span class="co">#&gt; [13] &quot;Forgery And Counterfeiting&quot;                </span>
-<span class="co">#&gt; [14] &quot;Fraud&quot;                                     </span>
-<span class="co">#&gt; [15] &quot;Gambling&quot;                                  </span>
-<span class="co">#&gt; [16] &quot;Homicide&quot;                                  </span>
-<span class="co">#&gt; [17] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
-<span class="co">#&gt; [18] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
-<span class="co">#&gt; [19] &quot;Juvenile Offenses&quot;                         </span>
-<span class="co">#&gt; [20] &quot;Larceny Theft&quot;                             </span>
-<span class="co">#&gt; [21] &quot;Liquor Laws&quot;                               </span>
-<span class="co">#&gt; [22] &quot;Lost Property&quot;                             </span>
-<span class="co">#&gt; [23] &quot;Malicious Mischief&quot;                        </span>
-<span class="co">#&gt; [24] &quot;Miscellaneous Investigation&quot;               </span>
-<span class="co">#&gt; [25] &quot;Missing Person&quot;                            </span>
-<span class="co">#&gt; [26] &quot;Motor Vehicle Theft&quot;                       </span>
-<span class="co">#&gt; [27] &quot;Motor Vehicle Theft?&quot;                      </span>
-<span class="co">#&gt; [28] &quot;Non-Criminal&quot;                              </span>
-<span class="co">#&gt; [29] &quot;Offences Against The Family And Children&quot;  </span>
-<span class="co">#&gt; [30] &quot;Other&quot;                                     </span>
-<span class="co">#&gt; [31] &quot;Other Miscellaneous&quot;                       </span>
-<span class="co">#&gt; [32] &quot;Other Offenses&quot;                            </span>
-<span class="co">#&gt; [33] &quot;Prostitution&quot;                              </span>
-<span class="co">#&gt; [34] &quot;Rape&quot;                                      </span>
-<span class="co">#&gt; [35] &quot;Recovered Vehicle&quot;                         </span>
-<span class="co">#&gt; [36] &quot;Robbery&quot;                                   </span>
-<span class="co">#&gt; [37] &quot;Sex Offense&quot;                               </span>
-<span class="co">#&gt; [38] &quot;Stolen Property&quot;                           </span>
-<span class="co">#&gt; [39] &quot;Suicide&quot;                                   </span>
-<span class="co">#&gt; [40] &quot;Suspicious&quot;                                </span>
-<span class="co">#&gt; [41] &quot;Suspicious Occ&quot;                            </span>
-<span class="co">#&gt; [42] &quot;Traffic Collision&quot;                         </span>
-<span class="co">#&gt; [43] &quot;Traffic Violation Arrest&quot;                  </span>
-<span class="co">#&gt; [44] &quot;Vandalism&quot;                                 </span>
-<span class="co">#&gt; [45] &quot;Vehicle Impounded&quot;                         </span>
-<span class="co">#&gt; [46] &quot;Vehicle Misplaced&quot;                         </span>
-<span class="co">#&gt; [47] &quot;Warrant&quot;                                   </span>
-<span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
-<span class="co">#&gt; [49] &quot;Weapons Offence&quot;                           </span>
-<span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[zyx]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;Burglary&quot;                                  </span>
+<span class="co">#&gt;  [2] &quot;Courtesy Report&quot;                           </span>
+<span class="co">#&gt;  [3] &quot;Disorderly Conduct&quot;                        </span>
+<span class="co">#&gt;  [4] &quot;Embezzlement&quot;                              </span>
+<span class="co">#&gt;  [5] &quot;Family Offense&quot;                            </span>
+<span class="co">#&gt;  [6] &quot;Forgery And Counterfeiting&quot;                </span>
+<span class="co">#&gt;  [7] &quot;Human Trafficking (A), Commercial Sex Acts&quot;</span>
+<span class="co">#&gt;  [8] &quot;Human Trafficking, Commercial Sex Acts&quot;    </span>
+<span class="co">#&gt;  [9] &quot;Larceny Theft&quot;                             </span>
+<span class="co">#&gt; [10] &quot;Lost Property&quot;                             </span>
+<span class="co">#&gt; [11] &quot;Offences Against The Family And Children&quot;  </span>
+<span class="co">#&gt; [12] &quot;Robbery&quot;                                   </span>
+<span class="co">#&gt; [13] &quot;Sex Offense&quot;                               </span>
+<span class="co">#&gt; [14] &quot;Stolen Property&quot;                           </span>
+<span class="co">#&gt; [15] &quot;Weapons Carrying Etc&quot;</span></code></pre>
 <p>This also works for numbers though we do not have any numbers in the data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[01234567890]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt; character(0)</span></code></pre>
