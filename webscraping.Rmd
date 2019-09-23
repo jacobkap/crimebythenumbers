@@ -2,7 +2,7 @@
 
 # Webscraping with `rvest`
 
-You may come across data online that are relevant to your interests or research (for example, past students at Penn have scraped data from sex offender registries and sporting information from Wikipedia). Not all online data is in a tidy, downloadable format such as a .csv or .rda file. Here we'll learn how to grab data from a webpage - as our example we'll be scraping data on movie ticket sales. 
+If I ever stop working in the field of criminology, I would certainly be a baker. So for the next few chapters we are going to work working with "data" on baking. What we'll learn to do is find a recipe from the website [All Recipes](https://www.allrecipes.com/) and webscrape the ingredients and directions of that recipe.     
 
 For our purposes we will be using the package [`rvest`](https://github.com/tidyverse/rvest). This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.
 
@@ -18,195 +18,130 @@ And every time you start R, if you want to use `rvest` you must tell R so by usi
 library(rvest)
 ```
 
-We will be scraping movie ticket data from the website [The-Numbers](http://www.the-numbers.com). This site has daily information on how much money each movie in theaters made that day. The data includes the name of the movie, the number of theaters it played in, how much it made that day, how much it made since it started playing, and how many days it has been in theaters. Conveniently, this is all found in a single table on that page.
+Here is a screenshot of the recipe for "MMMMM... Brownies" (an excellent brownies recipe) [that page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
-Here is a screenshot of data from July 4th, 2018 and here is a link to [that page](http://www.the-numbers.com/box-office-chart/daily/2018/07/04).
+![](images/brownies_1.PNG)
 
-![](images/the-numbers_example.PNG)
+![](images/brownies_2.PNG)
 
 
 ## Scraping one page
 
-In later lessons we'll learn how to scrape an entire year of data from this site. For now, we'll focus on just getting data from July 4th, 2018.
+In later lessons we'll learn how to scrape the ingredients of any recipe of the site. For now, we'll focus on just getting data for our brownies recipe.
 
 The first step to scraping a page is to read in that page's information to R using the function `read_html()` from the `rvest` package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages. 
 
 ```{r}
-read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
+read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 ```
 
-When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *movie_data* since that is our end goal. 
+When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *brownies* since that is our end goal. 
 
 ```{r}
-movie_data <- read_html("http://www.the-numbers.com/box-office-chart/daily/2018/07/04")
+brownies <- read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 ```
 
-We now need to select only a small part of page which has the relevant information - in this case the data in the table.
+We now need to select only a small part of page which has the relevant information - in this case the ingredients and directions.
 
-Right click somewhere in the table and then click "Inspect Element".
+We need to find just which parts of the page to scrape. To do so we'll use the helper tool [SelectorGadget](https://selectorgadget.com/), a Google Chrome extension that lets you click on parts of the page to get the CSS selector code that we'll use. Install that extension in Chrome and go to the [brownie recipe page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
-![](images/the-numbers_2.PNG)
+When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - "1/2 cup white sugar". Every ingredient is highlighted in yellow as (to oversimplify this explaination) these ingredients are the same "type" in the page. It also highlighted the text "Add all ingredients to list" which we don't want. As it is always the last line of text in ingredients, we'll leave it in for now and practice subsetting data through R to remove it.
 
-This will open up a tab on the screen that allows you to see the building blocks on that page. When you move your cursor over parts of this tab, the parts of the page it relates to will be highlighted in blue. We want want all of the data from the table so move your cursor to where it starts with "<table". Doing so will highlight the entire table in blue. 
+![](images/brownies_3.PNG)
 
-![](images/the-numbers_3.PNG)
+Note that in the bottom right of the screen, the SelectorGadget bar now has the text ".added". This is the CSS selector code we can use to get all of the ingredients. 
 
-Right click the "table" area and click Copy then CSS Selector. That will copy what we need. Essentially this says which part of the page is the table and allows us grab only that part from the XML Document we made earlier. 
+![](images/brownies_4.PNG)
 
-![](images/the-numbers_4.PNG)
-
-We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *movie_data*) and then we can paste the text we copied from the website (putting it in quotes). 
-
-Note that when doing this in Google Chrome, you follow the same steps except click "Copy selector" rather than "CSS Selector". The value copied also differs between Chrome and Firefox though the result is the same in our code. 
+We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *brownies*) and then we can paste the CSS selector text - in this case, ".added". We'll save the resulting object as *ingredients* since we want to use *brownies* to also get the directions. 
 
 ```{r}
-movie_data <- html_nodes(movie_data, "#page_filling_chart > center:nth-child(2) > table")
+ingredients <- html_nodes(brownies, ".added")
 ```
 
-Since we are getting data from a table, we need to tell `rvest` that the format of the scraped data is a table. We do with using `html_table()` and our input in the () is the the object made in the function `html_nodes()`.
+Since we are getting data that is a text format, we need to tell `rvest` that the format of the scraped data is text. We do with using `html_text()` and our input in the () is the the object made in the function `html_text()`.  
 
 ```{r}
-movie_data <- html_table(movie_data)
+ingredients <- html_text(ingredients)
 ```
 
-By default, `rvest` returns a list. We prefer to work with data.frames so we're going to grab the first element in this list which is the data we want. Unlike with a vector or a data.frame, we can't use normal square bracket notation `[]` for lists. Instead we need double square brackets `[[]]`. 
+Now let's check what we got. 
 
 ```{r}
-movie_data <- movie_data[[1]]
+ingredients
 ```
 
-Take a look at the webpage and compare it to the data set you've now created. All the values should now match.
+We have successfully scraped the ingreidents for this brownies recipes - plus the "Add all ingredients to list" (copied twice for some reason). 
 
-```{r comment="", results='hold'}
-head(movie_data)
+Now let's do the same process to get the directions for baking. 
+
+In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions. It'll highlight all three directions as they're all of the same "type" (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section of ingredients, the section on directions, the section on reviews. So in this case we selected a "text" type in the section on directions and SelectorGadget then selected all "text" types inside of that section.). 
+
+![](images/brownies_5.PNG)
+
+The CSS selector code this time is ".recipe-directions__list--item" so we can put that inside of `html_nodes()`. Let's save the output as *directions*.
+
+```{r}
+directions <- html_nodes(brownies, ".recipe-directions__list--item")
+directions <- html_text(directions)
 ```
 
-```{r comment="", results='hold'}
-tail(movie_data)
+Did it work?
+
+```{r}
+directions
 ```
 
-We have now successfully scraped a website! The *movie_data* object is a data.frame object that we are familiar with from looking at the Chicago and UCR data so we can subset and manipulate it like we've done before. 
+Yes! The final value in our vector is blank so we will have to remove that. 
 
 ## Cleaning the webscraped data
 
-Let's check what the max value is in the "Gross" column which says how much the movie made on that day. 
+We only have three things to do to clean the data. First, we need to remove the "Add all ingredients to list" from the *ingredients* object. Second, we will remove the blank value ("") from the *directions* object. For both tasks we'll do conditional subsetting to keep all values that do *not* equal those values. Finally, the directions print out with the text `\n` at the end. This indicates that it is the end of the line but we'll want to remove that, which we can do using `gsub()`. 
+
+For let's try out the condition of *ingredients* that do not equal the string "Add all ingredients to list".
 
 ```{r}
-max(movie_data$Gross)
+ingredients != "Add all ingredients to list"
 ```
 
-So the most money a movie made is about \$9.6 million. Is that right? We can check either the website or the data using `View()` to see if there are any more successful movies (conveniently, the table is already sorted by how much the movie made). No! The most successful movie made \$11.5 million, not \$9.5 million. So why did `max()` say the top value is 9.6 million? Let's take another look at the values in the "Gross" column.
+It returns TRUE for all values except the last two, the ones which do equal "Add all ingredients to list". Let's only keep the elements without this string. 
 
 ```{r}
-head(movie_data$Gross)
+ingredients <- ingredients[ingredients != "Add all ingredients to list"]
 ```
 
-The values are not actually numeric type. If a value is numeric in R it would only have numbers, not dollar signs or commas like we see here. It also would not be in quotes, R's way of saying "this value is a character type". So what we have to do is turn these values into numeric type. 
-
-The way to convert a character type into a numeric type is the function `as.numeric()`. Let's take a look at the very first value in that column, "$11,501,395".
+And we can do the same thing for the empty string in *directions*.
 
 ```{r}
-as.numeric("$11,501,395")
+directions <- directions[directions != ""]
 ```
 
-Running `as.numeric()` on that value returns NA because it doesn't know how to handle the dollar sign and comma. If we remove those, it will work as expected.
+To remove the `\n` we simple find that in `gsub()` and replace it with a blank string. 
 
 ```{r}
-as.numeric("11501395")
+directions <- gsub("\n", "", directions)
 ```
 
-We can use `gsub()` which we learned earlier in Chapter \@ref(regular-expressions) to delete the dollar sign and commas from our values. After that we can use `as.numeric()` to fix that column. (alternatively we could use the function `parse_number()` from the `readr` package, but this is a good example of using regular expressions)
-
-Remember that the syntax of `gsub()` is 
-
-`gsub("find", "replace", string_to_fix)`
-
-First we will remove the comma. We want to use `gsub()` to find all commas and replace it with nothing (deleting it). To indicate nothing we just use quotes without anything in it.
+And let's print out both objects to make sure it worked. 
 
 ```{r}
-gsub(",", "", "$11,501,395")
+ingredients
+directions
 ```
 
-Now to do the dollar sign. Remember that in `gsub()` and `grep()` the \$ is a special character indicating that whatever precedes it is the last character. To tell R we want the \$ literally, we use two backslashes before it - this is how to deal with all special characters, not just dollar signs.
+Now *ingredients* is as it should be but *directions* has a bunch of space at the end of the string. Let's use `gsub()` again to remove multiple spaces.
+
+We'll search for anything with two or more spaces and replace that with an empty string.
 
 ```{r}
-gsub("\\$", "", "$11,501,395")
+directions <- gsub(" {2,}", "", directions)
 ```
 
-Each of these `gsub()`s work alone. We need to combine them to remove both the dollar sign and the comma. We have two choices for this. The first choice is to use the `|` operator which tells `gsub()` to replace the value on the left or right side of the `|` symbol (or both if both are present). 
+And one final check to make sure it worked.
 
 ```{r}
-gsub(",|\\$", "", "$11,501,395")
+directions
 ```
 
-The second choice is to do them separately and save the results into an object that we use in the second `gsub()`. Let's first save our value "$11,501,395" into an object we call *x* and then run both `gsub()` statements we wrote earlier, using *x* (without quotes since it is an object) as our value and saving the results back into *x*. For those not very comfortable with regular expressions, this is the better way of doing it as you can deal with simpler `gsub()` expressions than above. 
 
-```{r}
-x <- "$11,501,395"
-x <- gsub(",", "", x)
-x <- gsub("\\$", "", x)
-x
-```
-
-Finally we can use `as.numeric()` on the result to turn it into a numeric type.
-
-```{r}
-as.numeric(x)
-```
-
-Now we have code that works on a single value, let's do it for the entire "Gross" column and turn it numeric. 
-
-```{r}
-movie_data$Gross <- gsub(",|\\$", "", movie_data$Gross)
-movie_data$Gross <- as.numeric(movie_data$Gross)
-```
-
-We can look at the first 6 rows in that column and check the max value to see if our code worked.
-
-```{r}
-head(movie_data$Gross)
-```
-
-```{r}
-max(movie_data$Gross)
-```
-
-## Fixing names
-
-If we run `names()` on our data we will see that there is a column with a space in the name "Total Gross". This is an issue because it is difficult to select a function with a space in the name. 
-
-```{r}
-names(movie_data)
-```
-
-Trying to do so using the dollar sign notation causes an error.
-
-```{r error = TRUE}
-head(movie_data$Total Gross)
-```
-
-To select it we need to put the name in between tick marks `` so R knows to include the value after the space as part of the column name. 
-
-```{r}
-head(movie_data$`Total Gross`)
-```
-
-An alternative is to change the column name using both `names()` and `gsub()` together to remove the space. Running `names()` returns the name of every column. If we assign something to the `names()` it will actually change the column names to whatever we assign it. What we want to do is use `gsub()` to replace all spaces in column names with something else - either with nothing or a value R understands as part of a name such as an underscore. 
-
-```{r}
-gsub(" ", "", names(movie_data))
-```
-
-If we assign the results of that `gsub()` to the `names()`, it will change the names to the values resulting from `gsub()`.
-
-```{r}
-names(movie_data) <- gsub(" ", "", names(movie_data))
-```
-
-We can check to make sure it worked by again running `names()`.
-
-```{r}
-names(movie_data)
-```
-
-We have now scraped a single page of movie data. In the next lessons we will learn how to scrape multiple pages. 
+In your own research, you will want to create a data.frame (or equivalent) for nearly all data - this is also the way most statistical analysis packages expect data. In our case it doesn't make sense to do so. We'll keep them separate for now and in Chapter \@ref(functions) we'll learn to make a function to scrape any recipe using just the URL and to print the ingredients and directions in the console.  

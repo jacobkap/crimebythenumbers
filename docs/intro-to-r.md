@@ -1,32 +1,6 @@
 
 # Introduction to R and RStudio
 
-## Why learn to program?
-
-With the exception of some more advanced techniques like scraping data from websites or from PDFs, nearly everything we do here can be done through Excel, a software you're probably more familiar with. The basic steps for research projects are generally: 
-
-1. Open up a data set - which frequently comes as an Excel file!
-2. Change some values - misspellings or too specific categories for our purposes are very common in crime data
-3. Delete some values - such as states you won't be studying
-4. Make some graphs
-5. Calculate some values - such as number of crimes per year
-6. Sometimes do a statistical analysis depending on the type of project
-7. Write up what you find 
-
-R can do all of this but why should you want (or have) to learn a entirely new skill just to do something you can already do? R is useful for two main reasons: scale and reproducibility.
-
-### Scale
-
-If you do a one-off project in your career such as downloading some data and making a graph out of it, it makes sense to stick with software like Excel. The cost (in time and effort) of learning R is certainly not worth it for a single (or even several) project - even one perfectly suited for using R. R (and many programming languages more generally, such as Python) has its strength in doing something fairly simple many many times. For example, it may be quicker to download one file yourself than it is to write the code in R to download that file. But when it comes to downloading hundreds of files (as we'll do in Chapter \@ref(scraping-data-from-pdfs) when learning about officer-involved shootings in Philadelphia), writing the R code becomes very quickly the better option than doing it by hand. 
-
-For most tasks you do in criminology when dealing with data you will end up them doing many times (including doing the same task in future projects). So R offers the trade-off of spending time upfront by learning the code with the benefit of that code being able to do work at a large scale with little extra work from you. Please keep in mind this trade-off - you need to front-load the costs of learning R for the rewards of making your life easier when dealing with data - when feeling discouraged about the small returns you get early in learning R. 
-
-### Reproducibility
-
-The second major benefit of using R over something like Excel is that R is reproducible. Every action you take is written down. This is useful when collaborating with others (including your future self) as they can look at your code and follow along what you did without you having to show them every click you made as you frequently would on Excel. Your collaborator can look at your code to help you figure out a bug in the code or to add their own code to yours. 
-
-In the research context specifically you want to have code to give to people to ensure that your research was done correctly and there aren't any important bugs in the code. Additionally, if you build a tool to, for example, interpret raw crime data from an agency and turn it into a map, being able to share the code so others can modify it for their city is an important contribution. 
-
 ## Using RStudio
 
 In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress.

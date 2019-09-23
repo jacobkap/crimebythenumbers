@@ -687,14 +687,6 @@ head(offenses_known_yearly_1960_2017[1000])
 
 So make sure when you want a row from a data.frame you always include the comma!
 
-### Battleships
-
-When we use square bracket `[]` notation on a data.frame we must include both row and column numbers (or column names) for the subset to work properly. Why? Think about the game Battleships. The board has 10 rows and 10 columns making for 100 cells. When you select a target to fire at you tell the opponent the row and the column, such as A7. Saying you attack A or attack 7 doesn't make sense. Column A has 10 rows and Row 7 has 10 columns so it is not clear which cell you mean. So your opponent only knows which cell you mean if you give both the column name and row number. 
-
-![](images/battleships.png)
-
-A data.frame is very similar to the Battleships board, with a number of rows and columns. You need to specify both the row(s) and column(s) you want to subset (hit) for R to understand what it is you want. 
-
 ### Subset Colorado data
 
 Finally we have the tools to subset our UCR data to just be Colorado from 2011-2017. There are three conditional statements we need to make, two for rows and one for columns.

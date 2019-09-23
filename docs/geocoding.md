@@ -13,9 +13,9 @@ The URL for geocoding using ArcGIS is the following:
 
 `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
 
-where instead of "ADDRESS" we put in the address whose coordinates we want. As an example, let's look at Penn's McNeil Building.
+where instead of "ADDRESS" we put in the address whose coordinates we want. As an example, let's look at Food Network's Corporate office where they film many of their shows. The address is 75 9th Ave, New York, NY 10011.
 
-`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type`
+`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type`
 
 Including spaces in the address causes errors so all spaces need to be replaced with `%20`. Let's see what data we get back from this URL. Enter the URL above in your browser and you'll see these results.
 
@@ -35,7 +35,7 @@ We will use the `fromJSON()` function and enter in the URL right in the ().
 
 ```r
 library(jsonlite)
-fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 #> $spatialReference
 #> $spatialReference$wkid
 #> [1] 4326
@@ -45,62 +45,24 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> 
 #> 
 #> $candidates
-#>                                                           address
-#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
-#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
-#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
-#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12                     Walnut St, Middleport, Pennsylvania, 17953
-#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
-#>    location.x location.y score
-#> 1   -75.19868   39.95362 99.61
-#> 2   -75.16610   39.94957 89.84
-#> 3   -75.15921   39.94872 89.84
-#> 4   -75.22944   39.95745 89.84
-#> 5   -75.19633   39.95332 89.84
-#> 6   -75.14852   39.94737 89.84
-#> 7   -75.17449   39.95063 89.84
-#> 8   -75.70560   39.84894 88.18
-#> 9   -75.70500   39.84917 88.18
-#> 10  -75.32272   40.33865 87.85
-#> 11  -74.97302   40.06046 87.54
-#> 12  -76.08395   40.72661 87.25
-#> 13  -75.70581   39.87566 87.23
-#>                                             attributes.Match_addr
-#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
-#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
-#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
-#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12                     Walnut St, Middleport, Pennsylvania, 17953
-#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
-#>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1             StreetInt   -75.19968    39.95262   -75.19768    39.95462
-#> 2            StreetName   -75.16710    39.94857   -75.16510    39.95057
-#> 3            StreetName   -75.16021    39.94772   -75.15821    39.94972
-#> 4            StreetName   -75.23044    39.95645   -75.22844    39.95845
-#> 5            StreetName   -75.19733    39.95232   -75.19533    39.95432
-#> 6            StreetName   -75.14952    39.94637   -75.14752    39.94837
-#> 7            StreetName   -75.17549    39.94963   -75.17349    39.95163
-#> 8             StreetInt   -75.70660    39.84794   -75.70460    39.84994
-#> 9             StreetInt   -75.70600    39.84817   -75.70400    39.85017
-#> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
-#> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
-#> 12           StreetName   -76.08495    40.72561   -76.08295    40.72761
-#> 13            StreetInt   -75.70681    39.87466   -75.70481    39.87666
+#>                       address location.x location.y  score
+#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218 100.00
+#> 2    9th Ave, New York, 10001  -73.99833   40.75060  96.16
+#> 3    9th Ave, New York, 10036  -73.99148   40.76000  96.16
+#> 4    9th Ave, New York, 10018  -73.99446   40.75591  96.16
+#> 5    9th Ave, New York, 10014  -74.00592   40.74018  96.16
+#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#> 2    9th Ave, New York, 10001           StreetName   -73.99933    40.74960
+#> 3    9th Ave, New York, 10036           StreetName   -73.99248    40.75900
+#> 4    9th Ave, New York, 10018           StreetName   -73.99546    40.75491
+#> 5    9th Ave, New York, 10014           StreetName   -74.00692    40.73918
+#>   extent.xmax extent.ymax
+#> 1   -74.00366    40.74322
+#> 2   -73.99733    40.75160
+#> 3   -73.99048    40.76100
+#> 4   -73.99346    40.75691
+#> 5   -74.00492    40.74118
 ```
 
 
@@ -108,64 +70,26 @@ It returns a list of objects. This is a named list meaning that we can grab the 
 
 
 ```r
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates$candidates
-#>                                                           address
-#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
-#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
-#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
-#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12                     Walnut St, Middleport, Pennsylvania, 17953
-#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
-#>    location.x location.y score
-#> 1   -75.19868   39.95362 99.61
-#> 2   -75.16610   39.94957 89.84
-#> 3   -75.15921   39.94872 89.84
-#> 4   -75.22944   39.95745 89.84
-#> 5   -75.19633   39.95332 89.84
-#> 6   -75.14852   39.94737 89.84
-#> 7   -75.17449   39.95063 89.84
-#> 8   -75.70560   39.84894 88.18
-#> 9   -75.70500   39.84917 88.18
-#> 10  -75.32272   40.33865 87.85
-#> 11  -74.97302   40.06046 87.54
-#> 12  -76.08395   40.72661 87.25
-#> 13  -75.70581   39.87566 87.23
-#>                                             attributes.Match_addr
-#> 1        S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#> 2                    Walnut St, Philadelphia, Pennsylvania, 19102
-#> 3                    Walnut St, Philadelphia, Pennsylvania, 19107
-#> 4                    Walnut St, Philadelphia, Pennsylvania, 19139
-#> 5                    Walnut St, Philadelphia, Pennsylvania, 19104
-#> 6                    Walnut St, Philadelphia, Pennsylvania, 19106
-#> 7                    Walnut St, Philadelphia, Pennsylvania, 19103
-#> 8   E State St & N Walnut St, Kennett Square, Pennsylvania, 19348
-#> 9   E State St & S Walnut St, Kennett Square, Pennsylvania, 19348
-#> 10             State Rd & Walnut Ln, Telford, Pennsylvania, 18969
-#> 11         State Rd & Walnut Ave E, Bensalem, Pennsylvania, 19020
-#> 12                     Walnut St, Middleport, Pennsylvania, 17953
-#> 13 E Street Rd & N Walnut Rd, Kennett Square, Pennsylvania, 19348
-#>    attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1             StreetInt   -75.19968    39.95262   -75.19768    39.95462
-#> 2            StreetName   -75.16710    39.94857   -75.16510    39.95057
-#> 3            StreetName   -75.16021    39.94772   -75.15821    39.94972
-#> 4            StreetName   -75.23044    39.95645   -75.22844    39.95845
-#> 5            StreetName   -75.19733    39.95232   -75.19533    39.95432
-#> 6            StreetName   -75.14952    39.94637   -75.14752    39.94837
-#> 7            StreetName   -75.17549    39.94963   -75.17349    39.95163
-#> 8             StreetInt   -75.70660    39.84794   -75.70460    39.84994
-#> 9             StreetInt   -75.70600    39.84817   -75.70400    39.85017
-#> 10            StreetInt   -75.32372    40.33765   -75.32172    40.33965
-#> 11            StreetInt   -74.97402    40.05946   -74.97202    40.06146
-#> 12           StreetName   -76.08495    40.72561   -76.08295    40.72761
-#> 13            StreetInt   -75.70681    39.87466   -75.70481    39.87666
+#>                       address location.x location.y  score
+#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218 100.00
+#> 2    9th Ave, New York, 10001  -73.99833   40.75060  96.16
+#> 3    9th Ave, New York, 10036  -73.99148   40.76000  96.16
+#> 4    9th Ave, New York, 10018  -73.99446   40.75591  96.16
+#> 5    9th Ave, New York, 10014  -74.00592   40.74018  96.16
+#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#> 2    9th Ave, New York, 10001           StreetName   -73.99933    40.74960
+#> 3    9th Ave, New York, 10036           StreetName   -73.99248    40.75900
+#> 4    9th Ave, New York, 10018           StreetName   -73.99546    40.75491
+#> 5    9th Ave, New York, 10014           StreetName   -74.00692    40.73918
+#>   extent.xmax extent.ymax
+#> 1   -74.00366    40.74322
+#> 2   -73.99733    40.75160
+#> 3   -73.99048    40.76100
+#> 4   -73.99346    40.75691
+#> 5   -74.00492    40.74118
 ```
 
 The *candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
@@ -174,18 +98,16 @@ Since we are grabbing the first row of a data.frame, our square bracket notation
 
 
 ```r
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates
-#>                                                    address location.x
-#> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104  -75.19868
-#>   location.y score
-#> 1   39.95362 99.61
-#>                                      attributes.Match_addr
-#> 1 S 38th St & Walnut St, Philadelphia, Pennsylvania, 19104
-#>   attributes.Addr_type extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1            StreetInt   -75.19968    39.95262   -75.19768    39.95462
+#>                       address location.x location.y score
+#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218   100
+#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#>   extent.xmax extent.ymax
+#> 1   -74.00366    40.74322
 ```
 
 This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
@@ -194,7 +116,7 @@ This data.frame has something we've never seen before. It has columns that are t
 ```r
 address_coordinates$location
 #>           x        y
-#> 1 -75.19868 39.95362
+#> 1 -74.00456 40.74218
 ```
 
 Since our end goal was to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
@@ -207,12 +129,12 @@ Let's start by copying the code used to geocode a single address.
 
 
 ```r
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates$location
 #>           x        y
-#> 1 -75.19868 39.95362
+#> 1 -74.00456 40.74218
 ```
 
 Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
@@ -232,7 +154,7 @@ Now we can add the code.
 
 ```r
 geocode_address <- function(address) {
-   address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA&outFields=Match_addr,Addr_type")
+   address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
    address_coordinates <- address_coordinates$candidates
    address_coordinates <- address_coordinates[1, ]
    address_coordinates$location
@@ -248,12 +170,12 @@ Since the URL is in the form
 
 we can use the `paste()` function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with `%20`. We can do that using `gsub()` which is perfect for replacing characters. Let's try a simple example using `gsub()` before including it in our function. We just want to find every " " and replace it with "%20". 
 
-We will use the address for the McNeil Building as the example.
+We will use the address for the Food Network's Corporate office as our example.
 
 
 ```r
-gsub(" ", "%20", "38th St and Walnut St, Philadelphia, PA")
-#> [1] "38th%20St%20and%20Walnut%20St,%20Philadelphia,%20PA"
+gsub(" ", "%20", "75 9th Ave, New York, NY 10011")
+#> [1] "75%209th%20Ave,%20New%20York,%20NY%2010011"
 ```
 
 It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First we do the `paste()`, saving it in an object we can call "url", and then use "url" as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
@@ -276,275 +198,234 @@ geocode_address <- function(address) {
 }
 ```
 
-We can try it using the same address we did earlier, "38th St and Walnut St, Philadelphia, PA", the address of Penn's McNeil Building.
+We can try it using the same address we did earlier, "75 9th Ave, New York, NY 10011".
 
 
 ```r
-geocode_address("38th St and Walnut St, Philadelphia, PA")
+geocode_address("75 9th Ave, New York, NY 10011")
 #>           x        y
-#> 1 -75.19868 39.95362
+#> 1 -74.00456 40.74218
 ```
 
 It returns the same data.frame as earlier so our function works!
 
-## Geocoding officer shooting locations
+## Geocoding San Francisco marijuana dispensary locations
 
-We now have a function capable of returning the coordinates of every location in our officer-involved shooting data. We can write a for loop to go through every row of data and get the coordinates for that row's location. 
+We now have a function capable of returning the coordinates of every location in our marijuana dispensary data. We can write a for loop to go through every row of data and get the coordinates for that row's location. 
 
-Let's load in the officer shooting data we made earlier.
+Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*.
 
 
 ```r
 setwd(here::here("data"))
-load("officer_shootings.rda")
+library(readr)
+marijuana <- read_csv("san_francisco_active_marijuana_retailers.csv")
+#> Parsed with column specification:
+#> cols(
+#>   `License Number` = col_character(),
+#>   `License Type` = col_character(),
+#>   `Business Owner` = col_character(),
+#>   `Business Contact Information` = col_character(),
+#>   `Business Structure` = col_character(),
+#>   `Premise Address` = col_character(),
+#>   Status = col_character(),
+#>   `Issue Date` = col_character(),
+#>   `Expiration Date` = col_character(),
+#>   Activities = col_character(),
+#>   `Adult-Use/Medicinal` = col_character()
+#> )
+marijuana <- as.data.frame(marijuana)
 ```
 
-Before we do that we need to fix some issues in the locations column. The main issue is that several of the shootings have the location labeled as "withheld" in the table we scraped but the address does exist inside the PDF itself. 
-
-Let's check first how many times the word "withheld" (with the W capitalized or not) or an empty string "" exists in the "location" column.
+Let's look at the top 6 rows. 
 
 
 ```r
-table(officer_shootings$location %in% c("", "withheld", "Withheld"))
-#> 
-#> FALSE  TRUE 
-#>   449    15
+head(marijuana)
+#>    License Number                License Type   Business Owner
+#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+#>                                                                                                           Business Contact Information
+#> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
+#> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
+#> 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com
+#> 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com
+#> 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com
+#> 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com
+#>          Business Structure
+#> 1 Limited Liability Company
+#> 2               Corporation
+#> 3               Corporation
+#> 4               Corporation
+#> 5 Limited Liability Company
+#> 6 Limited Liability Company
+#>                                                 Premise Address Status
+#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active
+#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active
+#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active
+#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active
+#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active
+#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active
+#>   Issue Date Expiration Date                Activities Adult-Use/Medicinal
+#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 ```
 
-Above we are saying "how many times do the values "", "withheld", or "Withheld" appear in the column "location". The answer is 15 times. 
-
-We can print out the shooting number of the rows with one of those values to make it easy to check the PDF. We can use square bracket `[]` subsetting to return the rows in the "shooting_number" column where the location is one of those values above.
+So the column with the address is called "Premise Address". Since it's easier to deal with columns that don't have spacing, we will using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
 
 
 ```r
-officer_shootings$shooting_number[officer_shootings$location %in% c("", "withheld", "Withheld")]
-#>  [1] "16-18" "16-26" "10-06" "09-25" "09-27" "09-76" "08-06" "08-18"
-#>  [9] "08-30" "08-35" "08-40" "08-60" "08-70" "08-74" "07-27"
+names(marijuana) <- gsub(" ", "_", names(marijuana))
 ```
 
-We will also use square bracket `[]` notation to replace the value in the "location" column with the correct address that we read manually in the PDF. Let's start with the first shooting in the list, number "16-18". Using square bracket notation we can see which value is in the "location" column for the row whose "shooting_number" is "16-18".
+Since the address issue is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
+ 
+
+```r
+marijuana$Premise_Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise_Address)
+```
+
+Now let's make sure we did it right.
 
 
 ```r
-officer_shootings$location[officer_shootings$shooting_number == "16-18"]
-#> [1] "withheld"
+names(marijuana)
+#>  [1] "License_Number"               "License_Type"                
+#>  [3] "Business_Owner"               "Business_Contact_Information"
+#>  [5] "Business_Structure"           "Premise_Address"             
+#>  [7] "Status"                       "Issue_Date"                  
+#>  [9] "Expiration_Date"              "Activities"                  
+#> [11] "Adult-Use/Medicinal"
+head(marijuana$Premise_Address)
+#> [1] "2165 IRVING ST san francisco, CA 94122" 
+#> [2] "122 10TH ST SAN FRANCISCO, CA 941032605"
+#> [3] "843 Howard ST SAN FRANCISCO, CA 94103"  
+#> [4] "70 SECOND ST SAN FRANCISCO, CA 94105"   
+#> [5] "527 Howard ST San Francisco, CA 94105"  
+#> [6] "2414 Lombard ST San Francisco, CA 94123"
 ```
 
-Looking into the PDF we can see that the correct address is "3200 block of Wellington Street". Let's assign that address to the "location" column in the row for that shooting.
+
+We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame *marijuana* we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in *marijuana*.
+
+We need to make columns for the coordinates in *marijuana* now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
 
 
 ```r
-officer_shootings$location[officer_shootings$shooting_number == "16-18"] <- "3200 block of Wellington Street"
-```
-
-And we can check if it worked.
-
-
-```r
-officer_shootings$location[officer_shootings$shooting_number == "16-18"]
-#> [1] "3200 block of Wellington Street"
-```
-
-We need to do the same for the other 14 values with missing locations. Several of these text descriptions of the incidents contain the location information. Let's fill those in.
-
-
-```r
-
-officer_shootings$location[officer_shootings$shooting_number == "08-06"] <- "200 block of Clapier Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-18"] <- "900 block of E. Slocum Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-30"] <- "700 block of W. Rockland Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-40"] <- "5400 Jefferson Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-60"] <- "3000 Memphis Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-70"] <- "1300 block of S. 29th Street"
-officer_shootings$location[officer_shootings$shooting_number == "08-74"] <- "5600 block of N. Mascher Street"
-officer_shootings$location[officer_shootings$shooting_number == "10-06"] <- "Howard and Grange Street"
-```
-
-Six shootings ("07-27", "08-35", "09-25", "09-27", "09-76", "16-26") do not have an address in the PDF so we can't fix them. 
-
-Shooting number "17-08" is a strange one. The description says that there were shootings at two locations because the suspect fled after the first shooting. Since the second shooting was in Delaware, we will use the address of the first shooting, "5600 Whitby Avenue".
-
-
-```r
-officer_shootings$location[officer_shootings$shooting_number == "17-08"] <- "5600 Whitby Avenue"
-```
-
-Shooting number "15-06" is unusual as it has quotes around the "A". This will cause issues when geocoding so we need to remove those quotes. The "A" probably refers to A Street so we can replace it as such.
-
-
-```r
-officer_shootings$location[officer_shootings$shooting_number == "15-06"] <- "A Street & Somerset Street"
-```
-
-There are a few more issues we can use `gsub()` to fix. Some of the addresses say "xxx block of ". We need to remove " block of" from the text. A few addresses also say "Rear Alley of" or "near" an address. We can delete those words as well. We can do this using three separate `gsub()`s or in a single `gsub()` using the `|` which stands for "or". The `|` says look for things on the left or right of the `|`. For all our values we want to replace them with nothing, or in `gsub()` terms, an empty string "".
-
-
-```r
-officer_shootings$location <- gsub(" block of|Rear Alley of |near ", "", officer_shootings$location, 
-                                   ignore.case = TRUE)
-```
-
-We must paste the string ", Philadelphia, PA" to the end of each address so when we geocode it ArcGIS knows these addresses are in Philly.
-
-
-```r
-officer_shootings$location <- paste(officer_shootings$location, ", Philadelphia, PA",
-                                    sep = "")
-```
-
-There are still some addresses that require manual fixing, such as the one reading "5700 N. Park street/5700 N. Broad street". Since this work requires reading through each address and seeing if it is accurate and can be rewritten, I won't dwell on it any further. This kind of work, manually checking data, is important even when using a programming language like R. R can only do what we tell it to do and isn't smart enough to recognize an issue that we can easily see. 
-
-Since I am not going to clean the remaining street issues, we will likely not be able to geocode those addresses. How big of an issue is this? In an example like this where we have fewer than 500 events, it can be important if we fail to geocode even a few dozen shootings. So this kind of data would mean manually inspecting and correction the data is important. If instead you look at crime data with millions of rows, it likely wouldn't be worth it to manually inspect so many values. 
-
-We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame *officer_shootings* we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in *officer_shootings*.
-
-We need to make columns for the coordinates in *officer_shootings* now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
-
-
-```r
-officer_shootings$lon <- NA
-officer_shootings$lat <- NA
+marijuana$lon <- NA
+marijuana$lat <- NA
 ```
 
 Let's start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let's now save that output to an object we call "temp".
 
 
 ```r
-temp <- geocode_address(officer_shootings$location[1])
+temp <- geocode_address(marijuana$Premise_Address[1])
 temp
 #>           x        y
-#> 1 -75.22087 39.95046
+#> 1 -122.4811 37.76337
 ```
 
 We can use square bracket `[]` notation to assign the value from the "x" column of "temp" to our "lon" column in "officers_shootings" and do the same for the "y" and "lat" columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
 
 
 ```r
-officer_shootings$lon[1] <- temp$x
-officer_shootings$lat[1] <- temp$y
+marijuana$lon[1] <- temp$x
+marijuana$lat[1] <- temp$y
 ```
 
 And we can check the first 6 rows to make sure the first row is the only one with values in these new columns.
 
 
 ```r
-head(officer_shootings)
-#>   shooting_number                                              location
-#> 1           19-04                   4900 Hazel Avenue, Philadelphia, PA
-#> 2           19-06                   1300 Kater Street, Philadelphia, PA
-#> 3           19-09 Bridge Street & Roosevelt Boulevard, Philadelphia, PA
-#> 4           19 11                  2100 Taney Terrace, Philadelphia, PA
-#> 5           19-13                1800 N. Broad Street, Philadelphia, PA
-#> 6           19 14                       3400 G Street, Philadelphia, PA
-#>        dates       lon      lat
-#> 1 2019-03-06 -75.22087 39.95046
-#> 2 2019-03-28        NA       NA
-#> 3 2019-04-20        NA       NA
-#> 4 2019-04-25        NA       NA
-#> 5 2019-05-11        NA       NA
-#> 6 2019-05-20        NA       NA
+head(marijuana)
+#>    License_Number                License_Type   Business_Owner
+#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+#>                                                                                                           Business_Contact_Information
+#> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
+#> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
+#> 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com
+#> 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com
+#> 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com
+#> 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com
+#>          Business_Structure                         Premise_Address Status
+#> 1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active
+#> 2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active
+#> 3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active
+#> 4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active
+#> 5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active
+#> 6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active
+#>   Issue_Date Expiration_Date                Activities Adult-Use/Medicinal
+#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#>         lon      lat
+#> 1 -122.4811 37.76337
+#> 2        NA       NA
+#> 3        NA       NA
+#> 4        NA       NA
+#> 5        NA       NA
+#> 6        NA       NA
 ```
 
 Since we are geocoding a lot of addresses, this may take some time. 
 
 
 ```r
-for (i in 1:nrow(officer_shootings)) {
-   temp <- geocode_address(officer_shootings$location[i])
-   officer_shootings$lon[i] <- temp$x
-   officer_shootings$lat[i] <- temp$y
+for (i in 1:nrow(marijuana)) {
+   temp <- geocode_address(marijuana$Premise_Address[i])
+   marijuana$lon[i] <- temp$x
+   marijuana$lat[i] <- temp$y
 }
 ```
 
-Now it appears that we have longitude and latitude for every incident. We should check that they all look sensible.
+Now it appears that we have longitude and latitude for every dispensary We should check that they all look sensible.
 
 
 ```r
-summary(officer_shootings$lat)
+summary(marijuana$lat)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -20.57   39.96   39.99   39.80   40.02   53.61
+#>   37.71   37.76   37.77   37.77   37.78   37.80
 ```
 
 
 ```r
-summary(officer_shootings$lon)
+summary(marijuana$lon)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#> -122.86  -75.19  -75.16  -73.62  -75.13  121.05
+#>  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4
 ```
 
-What is odd about these results? There are no NA values in either column! That does not make sense because we know some of the rows have non-addresses such as "withheld". What happened is that when ArcGIS couldn't find an address match it just gave us the generic coordinates for the city of Philly. Normally we would need to remove those rows but we will keep them in for now and look at the strange pattern caused by this in the section on mapping.
-
-Another check is to make a simple scatterplot of the data. Since all the shootings occurred in Philly, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
+Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
 
 
 ```r
-plot(officer_shootings$lon, officer_shootings$lat)
+plot(marijuana$lon, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
-Most points are clustered around 39-40 degrees latitude and -75 degrees longitude with some exceptions. This is likely due to a geocoding issue with our geocoder finding the wrong address. For your own research, and considering the small number of values in this data, you should check the address to try to get them all geocoded properly. Here, we will simply remove all rows outside this -75 longitude and 39-40 latitude range. 
+Most points are within a very narrow range so it appears that our geocoding worked properly. 
 
-Let's keep only rows with a latitude lower than 45 and a longitude less than -70 and higher than -76
+To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since tihs data is now geocoded and it is specificially for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
 
 
 ```r
-officer_shootings <- officer_shootings[officer_shootings$lat < 45, ]
-officer_shootings <- officer_shootings[officer_shootings$lon < -70, ]
-officer_shootings <- officer_shootings[officer_shootings$lon > -76, ]
-```
-
-Now we can check the `summary()` function again to see if all the values are in their normal ranges.
-
-
-```r
-summary(officer_shootings$lat)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   39.89   39.97   39.99   39.99   40.02   40.10
-summary(officer_shootings$lon)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -75.30  -75.19  -75.16  -75.16  -75.13  -74.98
-```
-
-These values look correct. We can make another scatterplot as a second check.
-
-
-```r
-plot(officer_shootings$lon, officer_shootings$lat)
-```
-
-<img src="geocoding_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
-
-Two shootings have inaccurate latitudes. Let's drop any latitude that is greater than 39.
-
-
-```r
-officer_shootings <- officer_shootings[officer_shootings$lat > 39, ]
-```
-
-To finish this lesson we want to save the *officer_shootings* data.frame to use in future lessons. I am going to make a new object called "officer_shootings_geocoded" that is a copy of *officer_shootings* just so I can rerun this lesson and it will work properly (as it should start without any geocoded values). If this was a real project you would likely just save the object as *officer_shootings* to have fewer objects to manage. 
-
-
-```r
-officer_shootings_geocoded <- officer_shootings
 setwd(here::here("data"))
-save(officer_shootings_geocoded, file = "officer_shootings_geocoded.rda")
+write_csv(marijuana, path = "san_francisco_marijuana_geocoded.csv")
 ```
-
-In the next lesson we'll start mapping these shootings. For now, here is a map of every shooting we managed to geocode. 
-
-
-
-```r
-library(ggmap)
-philly_map <- ggmap(get_map(c(-75.288486, 39.868285, -74.950965, 40.138251), source = "stamen"))
-philly_map +
-  geom_point(aes(x = lon, y = lat),
-             data  = officer_shootings,
-             alpha = 0.5,
-             color = "darkred",
-             size  = 1)
-#> Warning: Removed 2 rows containing missing values (geom_point).
-```
-
-<img src="geocoding_files/figure-html/unnamed-chunk-37-1.png" width="90%" style="display: block; margin: auto;" />

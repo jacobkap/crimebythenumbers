@@ -124,101 +124,54 @@ numbers
 #>  [1]  5  6  7  8  9 10 11 12 13 14
 ```
 
-## Scraping multiple days of movie data
+## Scraping multiple recipes
 
-Below is the function copied from Section \@ref(movie-function) where we made a function that took a single date and scraped the site [The-Numbers](https://www.the-numbers.com/) for movie ticket sales data for that day. If we wanted to get data from multiple days, we would need to run the function multiple times. Here we will use a for loop to get data for an entire year. 
+Below is the function copied from Section \@ref(recipes-function) where we made a function that took a single URL and scraped the site [All Recipes](https://www.allrecipes.com/) for that recipe. It printed the ingredients and directions to cook that recipe in the console. If we wanted to get data for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. 
 
 
 ```r
-scrape_movie_data <- function(date) {
-  url <- "http://www.the-numbers.com/box-office-chart/daily/"
-  url_date <- paste(url, date, sep = "")
+scrape_recipes <- function(URL) {
   
-  movie_data <- read_html(url_date)
-  movie_data <- html_nodes(movie_data, "#page_filling_chart > center:nth-child(2) > table")
-  movie_data <- html_table(movie_data)
-  movie_data <- movie_data[[1]]
+  brownies <- read_html(URL)
   
-  return(movie_data)
+  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_text(ingredients)
+  
+  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_text(directions)
+  
+  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
+  directions  <- directions[directions != ""]
+  directions  <- gsub("\n", "", directions)
+  directions  <- gsub(" {2,}", "", directions)
+  
+  print(ingredients)
+  print(directions)
 }
 ```
 
-With any for loop you need to figure out what is going to be changing, in this case it is the date. And since we want a year's worth of movie data, we need to make an object with an entire year of dates. We can use the function `seq()` in association with the `lubridate` package to make that object.
+With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple, we need to make an object with the URLs of all the recipes we want.
 
-`seq()` produces a vector of every value between two points (either numbers or Dates) based on the increments we specify, in this case daily. 
-
-We want a year of data, from January 1th, 2018 to December 31th, 2018 so those will be our start and end points. And we want Dates returned so we will use the `ymd()` function from `lubridate` to turn those values into dates.
+Here I am making a vector called *recipe_urls* with the URLs of several recipes that I like on the site. The way I got the URLs was to go to each recipe's page and copy and paste the URL.
 
 
 ```r
-library(lubridate)
-#> 
-#> Attaching package: 'lubridate'
-#> The following object is masked from 'package:base':
-#> 
-#>     date
+recipe_urls <- c("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/",
+                 "https://www.allrecipes.com/recipe/27188/crepes/",
+                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/",
+                 "https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/",
+                 "https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/",
+                 "https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/",
+                 "https://www.allrecipes.com/recipe/189058/super-simple-salmon/")
 ```
 
 
-
-```r
-year_of_dates <- seq(ymd("2018-1-1"), ymd("2018-12-31"), by = "days")
-```
-
-Check the first 6 values to see if it did it right.
+Now we can write the for loop to go through every single URL in *recipe_urls* and use the function `scrape_recipes` on that URL.
 
 
 ```r
-head(year_of_dates)
-#> [1] "2018-01-01" "2018-01-02" "2018-01-03" "2018-01-04" "2018-01-05"
-#> [6] "2018-01-06"
-```
-
-It worked. However, there is one important problem. We need to make sure the url is exactly correct for the page we want to scrape. In the object *year_of_dates* it uses "-"; in the website we are scraping, it uses "/". It may seem like a minor point but if we try to use "-" instead of "/" we will have an error. Luckily, we know enough `gsub()` to quickly replace all "-" with "/".
-
-
-```r
-year_of_dates <- gsub("-", "/", year_of_dates)
-```
-
-Now we can write the for loop to go through every single date in *year_of_dates* and use the function `scrape_movie_data` we made to scrape data for that date.
-
-
-```r
-for (date in year_of_dates) {
-  movie_data <- scrape_movie_data(date)
+for (recipe_url in recipe_urls) {
+  scrape_recipes(recipe_url)
 }
+#> Error in read_html(URL): could not find function "read_html"
 ```
-
-Don't run this yet because there are two issues remaining. The first is that if we run it as it is, it will will scrape the website for each date, save the results into the object "movie_data" and keep overwriting this object for each date. We need to create an object that doesn't get overwritten every iteration of the loop. A solution is to create an object outside of the for loop and every time the for loop iterates (in our case runs for a single date) we add the data scraped that time to this object. I prefer to call the object outside the loop *something_final* and the object that gets overwritten *something_temp*, where "something" is a descriptive word for the data. In this case we will use *movie_data_final* and *movie_data_temp.*
-
-We start by creating the object "movie_data_final" and saying it gets the value `data.frame()`. That's just a way to say it is a data.frame type but is empty (hence the () being empty). Now we need some way to add the *movie_data_temp* data to *movie_data_final* for each date. We will use the function `rbind()` which allow us to combine two data.frames together. Think of it like the `c()` function but for data.frames. So every iteration of the loop we scrape a single date then add those results to the *movie_data_final* object.
-
-
-```r
-
-movie_data_final <- data.frame()
-for (date in year_of_dates) {
-  
-  movie_data_temp <- scrape_movie_data(date)
-  movie_data_final <- rbind(movie_data_final, movie_data_temp)
-
-}
-```
-
-The second issue is that there is no variable indicating what day it that was scraped. When adding many days together, we need a variable to be able to distinguish the day. This can easily be fixed by making a column in the data which says the date. When we used `gsub()` on *year_of_dates* we changed it from a Date type to a character type. Let's change it back in the new variable we made by putting it in `ymd()` before saving to to the column.
-
-
-```r
-
-movie_data_final <- data.frame()
-for (date in year_of_dates) {
-  
-  movie_data_temp <- scrape_movie_data(date)
-  movie_data_temp$date <- ymd(date)
-  
-  movie_data_final <- rbind(movie_data_final, movie_data_temp)
-}
-```
-
-Now we are ready to run the for loop and get movie data for an entire year.
