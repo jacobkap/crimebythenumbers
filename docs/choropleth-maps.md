@@ -437,4 +437,10 @@ ggplot(sf_neighborhoods_suicides, aes(fill = number_suicides)) +
 
 <img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
 
+We'll use this data in Chapter \@ref(interactive-maps) to make interactive choropleth maps so let's save it.
+
+
+```r
+save(sf_neighborhoods_suicides, file = "data/sf_neighborhoods_suicides.rda")
+```
 

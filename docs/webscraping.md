@@ -22,7 +22,7 @@ library(rvest)
 #> Loading required package: xml2
 ```
 
-Here is a screenshot of the recipe for "MMMMM... Brownies" (an excellent brownies recipe) [that page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
+Here is a screenshot of the recipe for "MMMMM... Brownies" (an excellent brownies recipe) [page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
 ![](images/brownies_1.PNG)
 
