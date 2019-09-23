@@ -1,6 +1,6 @@
 # Scraping Tables from PDFs {#scrape-table}
 
-In Chapter \@ref(scraping-data-from-pdfs) we began working on scraping data from a PDF. We read in PDFs from Philadelphia's officer-involved shooting data and grabbed a single line of text from each PDF. That data was written up like a report, with the date of the incident followed by a description of what happened. In the majority of cases when you want data from a PDF it will be in a table rather than a descriptive paragraph. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and `strsplit()` again to handle this data. 
+In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
 
 Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
@@ -112,7 +112,7 @@ head(sector_profile)
 
 The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do. When looking at this data it is clear that where the division between columns is a bunch of white space. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 
-We will use the function `str_split_fixed()` from the `stringr` package. This function is very similar to `strsplit()` except you can tell it how many columns to expect. We could have used this package earlier in Chapter \@ref(scraping-data-from-pdfs) but chose not to to avoid introducing too many new packages in one lesson. 
+We will use the function `str_split_fixed()` from the `stringr` package. This function is very similar to `strsplit()` except you can tell it how many columns to expect. 
 
 ```{r eval = FALSE}
 install.packages("stringr")

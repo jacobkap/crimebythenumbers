@@ -116,9 +116,9 @@ Did it work?
 
 ```r
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                                    Watch Now\n                            "                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                                    Watch Now\n                            "
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                                    Watch Now\n                            "                                                                                                                                                                                       
+#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                            "                                                                                                                                                                                                                                
+#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                            "
+#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                            "                                                                                                                                                                                       
 #> [4] ""
 ```
 
@@ -172,9 +172,9 @@ ingredients
 #> [8] "1/4 teaspoon baking soda"            
 #> [9] "1/2 teaspoon salt"
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                    Watch Now                            "                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                                    Watch Now                            "
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                                    Watch Now                            "
+#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                            "                                                                                                                                                                                                                                
+#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                            "
+#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                            "
 ```
 
 Now *ingredients* is as it should be but *directions* has a bunch of space at the end of the string. Let's use `gsub()` again to remove multiple spaces.
@@ -191,9 +191,9 @@ And one final check to make sure it worked.
 
 ```r
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.Watch Now"                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.Watch Now"
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.Watch Now"
+#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan."                                                                                                                                                                                                                                
+#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."
+#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
 ```
 
 

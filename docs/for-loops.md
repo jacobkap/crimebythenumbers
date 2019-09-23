@@ -1,7 +1,7 @@
 
 # For loops
 
-We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing information on movies. We did so for a single date, if we wanted to get movie data for a week or a years-worth of data, typing out each date would be excessively slow, even with the function we made in Section \@ref(movie-function). In this lesson we will use a for loop to scrape movie data for a an entire year of dates. 
+We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. On effective way to do this is through "for loops". Earlier in this course we learned how to scrape a website containing tasty recipes. We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section \@ref(making-a-function-to-scrape-recipes). In this lesson we will use a for loop to scrape multiple recipes very quickly. 
 
 ## Basic for loops
 
