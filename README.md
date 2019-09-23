@@ -2,7 +2,6 @@
 
 This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
 
-This book is based off of the lessons I took as a Master's student in criminology at Penn from [Dr. Greg Ridgeway](https://crim.sas.upenn.edu/people/greg-ridgeway). This book covers much of the same material as well as a focus basic philosophy of teaching by example and a focus on the fundamentals of R (and programming in general) as Dr. Ridgeway's lessons. For his lessons, please see [here](https://github.com/gregridgeway/R4crim) .
 
 For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (The free version)](https://www.rstudio.com/products/rstudio/download/) . We'll get into what R and RStudio are soon but please have them installed to be able to follow along with each chapter. I highly recommend following along with the code for each lesson and trying to use the lessons learned on a data set you are interested in. To download the data used in this book please see [here](https://github.com/jacobkap/r4crimz/tree/master/data).
 
