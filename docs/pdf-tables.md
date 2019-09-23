@@ -1,5 +1,5 @@
 
-# Scraping Tables from PDFs {#scrape-table}
+# Scraping tables from PDFs {#scrape-table}
 
 In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
 
