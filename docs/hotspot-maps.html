@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-23" />
+<meta name="date" content="2019-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -338,7 +338,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">7</span> Hotspot maps</h1>
 <p>Hotspot maps are used to find where events (marijuana dispensaries, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).</p>
 <p>However, there are significant flaws with these kinds of maps. As we’ll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without taking into account context such as neighborhoods (In Chapter <a href="choropleth-maps.html#choropleth-maps">8</a> we’ll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We’ll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps.</p>
-<p>Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First we need to read the data, which is called “san_francisco_suicide_2003_2017.csv”. We can cause the object we make <em>suicide</em>.</p>
+<p>Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First we need to read the data, which is called “san_francisco_suicide_2003_2017.csv”. We can name the object we make <em>suicide</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
 suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
@@ -397,7 +397,9 @@ suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suic
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span>
 <span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></code></pre>
-<p>We’ll start by making the background to our map, showing San Francisco We do so using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coorinates that connect to make a rectangle, used for determining where in the world to show.</p>
+<p>We’ll start by making the background to our map, showing San Francisco. We do so using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coorinates that connect to make a rectangle, used for determining where in the world to show.</p>
+<p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box</a>. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste”, change the dropdown box to “CSV”. In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
+<p><img src="images/bounding_box.PNG" /></p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="op">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), 
                             <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))
 <span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span>
@@ -411,8 +413,6 @@ suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suic
 <span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span>
 sf_map</code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box</a>. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste”, change the dropdown box to “CSV”. In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
-<p><img src="images/bounding_box.PNG" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the shootings from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
@@ -441,7 +441,7 @@ sf_map</code></pre>
              <span class="dt">size  =</span> <span class="dv">2</span>)
 <span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple shootings happen at the same place that dot will be shaded darker than if only one shooting happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
+<p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
              <span class="dt">data  =</span> suicide,
@@ -450,18 +450,18 @@ sf_map</code></pre>
              <span class="dt">alpha =</span> <span class="fl">0.5</span>)
 <span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all shootings in a single map, meaning that any time trends are lost.</p>
+<p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost.</p>
 </div>
 <div id="what-really-are-maps" class="section level2">
 <h2><span class="header-section-number">7.2</span> What really are maps?</h2>
-<p>Let’s pause for a moment to think about what a map really is. Below I made a simple scatterplot of our data with one dot per shooting (minus the two without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps">9</a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;darkred&quot;</span>)</code></pre>
+<p>Let’s pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps">9</a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</code></pre>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="making-a-hotspot-map" class="section level2">
 <h2><span class="header-section-number">7.3</span> Making a hotspot map</h2>
 <p>Now we can start making hotspot maps which help to show areas with clusters of events. We’ll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function <code>stat_binhex()</code> rather than <code>geom_point()</code>. It starts the same as before with <code>aex(x = X, y = Y)</code> (or whatever the longitude and latitude columns are called in your data), as well as <code>data = suicide</code> outside of the <code>aes()</code> parameter.</p>
-<p>There are two new things we need to make the hotspot map. First we can add the parameter <code>bins = number_of_bins</code> where “number_of_bins” is a number we select. bins essentially says how large or small we want each cluster of events to be. A smaller value for <code>bins</code> says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples.</p>
+<p>There are two new things we need to make the hotspot map. First we add the parameter <code>bins = number_of_bins</code> where “number_of_bins” is a number we select. <code>bins</code> essentially says how large or small we want each cluster of events to be. A smaller value for <code>bins</code> says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples.</p>
 <p>The second thing is to add the function <code>coord_cartesian()</code> which just tells <code>ggplot()</code> we are going to do some spatial analysis in the making of the bins. We don’t need to add any parameters in this.</p>
 <p>Let’s start with 60 bins and then try some other number of bins to see how it changes the map.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>

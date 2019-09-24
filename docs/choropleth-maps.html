@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-23" />
+<meta name="date" content="2019-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -336,7 +336,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="choropleth-maps" class="section level1">
 <h1><span class="header-section-number">8</span> Choropleth maps</h1>
-<p>In Chapter <a href="hotspot-maps.html#hotspot-maps">7</a> we made hotspot maps to show which areas in Philadelphia had the most officer-involved suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in north and west Philly. In this lesson we will make choropleth maps, which are shaded maps where each “unit” is some known area such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the lesson) in the city.</p>
+<p>In Chapter <a href="hotspot-maps.html#hotspot-maps">7</a> we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in north and west Philly. In this lesson we will make choropleth maps, which are shaded maps where each “unit” is some known area such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the lesson) in the city.</p>
 <p>Since we will be working more on the suicide data from San Francisco, let’s read it in now.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
 suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)
@@ -358,11 +358,12 @@ suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <span class="co">#&gt;   year = col_double()</span>
 <span class="co">#&gt; )</span>
 suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suicide)</code></pre>
-<p>The package that we will use to handle geographic data and do most of the work in this lesson is <code>sf</code>. <code>sf</code> is a sophisticated package and does far more than we will cover in this lesson. For more information about the package’s features please see the website for it <a href="http://r-spatial.github.io/sf/">here</a>.</p>
+<p>The package that we will use to handle geographic data and do most of the work in this lesson is <code>sf</code>. <code>sf</code> is a sophisticated package and does far more than what we will cover in this lesson. For more information about the package’s features please see the website for it <a href="http://r-spatial.github.io/sf/">here</a>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
 <span class="co">#&gt; Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3</span></code></pre>
-<p>The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. A shapefile is simialr to a data.frame but has information on how to draw a geographic boundary such as a state. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we’ll call the object <em>sf_neighborhoods</em>".</p>
+<p>For this lesson we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco. A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we’ll call the object <em>sf_neighborhoods</em>.</p>
+<p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to understand file names so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/san_francisco_neighborhoods.shp&quot;</span>)
 <span class="co">#&gt; Reading layer `san_francisco_neighborhoods&#39; from data source `C:\Users\user\Dropbox\R_project\r4crim\data\san_francisco_neighborhoods.shp&#39; using driver `ESRI Shapefile&#39;</span>
 <span class="co">#&gt; Simple feature collection with 41 features and 1 field</span>
@@ -371,7 +372,6 @@ suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suic
 <span class="co">#&gt; bbox:           xmin: -122.5149 ymin: 37.70813 xmax: -122.357 ymax: 37.8333</span>
 <span class="co">#&gt; epsg (SRID):    4326</span>
 <span class="co">#&gt; proj4string:    +proj=longlat +ellps=WGS84 +no_defs</span></code></pre>
-<p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to understand file names so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
 <p>As usual when dealing with a new data set, let’s look at the first 6 rows.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(sf_neighborhoods)
 <span class="co">#&gt; Simple feature collection with 6 features and 1 field</span>
@@ -387,23 +387,23 @@ suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suic
 <span class="co">#&gt; 4                      Chinatown MULTIPOLYGON (((-122.4062 3...</span>
 <span class="co">#&gt; 5                      Excelsior MULTIPOLYGON (((-122.424 37...</span>
 <span class="co">#&gt; 6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...</span></code></pre>
-<p>The last column is important. In shapefiles the “geometry” column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the “geometry” column in each row have a list of coordinates which, if connected in order, make up that neighborhood. Since the “geometry” column contains the instructions to map, we can <code>plot()</code> it to show a map of the data.</p>
+<p>The last column is important. In shapefiles, the “geometry” column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the “geometry” column in each row has a list of coordinates which, if connected in order, make up that neighborhood. Since the “geometry” column contains the instructions to map, we can <code>plot()</code> it to show a map of the data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(sf_neighborhoods<span class="op">$</span>geometry)</code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city’s attempt to create definitions of neighborhoods. Indeed, you’re likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a> but know that this, like all geographic designated have some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind.</p>
-<p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string”. Let’s talk about that specifically since they are important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Let’s exneighborhood the “coordinate reference system” (CRS) for <code>sf_neighborhoods</code>.</p>
+<p>Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city’s attempt to create definitions of neighborhoods. Indeed, you’re likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a> but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind.</p>
+<p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string”. Let’s talk about that specifically since they are important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Let’s look at the “coordinate reference system” (CRS) for <code>sf_neighborhoods</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(sf_neighborhoods)
 Coordinate Reference System<span class="op">:</span>
 <span class="st">  </span>EPSG<span class="op">:</span><span class="st"> </span><span class="dv">4326</span> 
   proj4string<span class="op">:</span><span class="st"> &quot;+proj=longlat +ellps=WGS84 +no_defs&quot;</span></code></pre>
-<p>An issue with working with geographic data is that the Earth is not flat. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by “projecting” our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both absneighborhoodly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it.</p>
-<p>If we look at the output of <code>st_crs(sf_neighborhoods)</code> we can see that the EPSG is set to 4326 and the proj4string (which ittells us the current map projection) is “+proj=longlat +datum=WGS84 +no_defs”. This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see <a href="https://spatialreference.org/">here</a>. If you search that site for “California” you’ll see that California is broken into 6 zones. The site isn’t that helpful on which zones are which but some Googling can often find state or region maps with the zones depicted there. We want California zone 3 which has the EPSG code 2227. We’ll use this code to project this data properly.</p>
+<p>An issue with working with geographic data is that <a href="https://en.wikipedia.org/wiki/Spherical_Earth">the Earth is not flat</a>. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by “projecting” our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it.</p>
+<p>If we look at the output of <code>st_crs(sf_neighborhoods)</code> we can see that the EPSG is set to 4326 and the proj4string (which tells us the current map projection) is “+proj=longlat +datum=WGS84 +no_defs”. This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see <a href="https://spatialreference.org/">here</a>. If you search that site for “California” you’ll see that California is broken into 6 zones. The site isn’t that helpful on which zones are which but some Googling can often find state or region maps with the zones depicted there. We want California zone 3 which has the EPSG code 2227. We’ll use this code to project this data properly.</p>
 <p>If we want to get the proj4string for 2227 we can use</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_crs</span>(<span class="dv">2227</span>)
 <span class="co">#&gt; Coordinate Reference System:</span>
 <span class="co">#&gt;   EPSG: 2227 </span>
 <span class="co">#&gt;   proj4string: &quot;+proj=lcc +lat_1=38.43333333333333 +lat_2=37.06666666666667 +lat_0=36.5 +lon_0=-120.5 +x_0=2000000.0001016 +y_0=500000.0001016001 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs&quot;</span></code></pre>
-<p>Note the section that says “+units=us-ft”. This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area.</p>
+<p>Note the text in “prj4string” that says “+units=us-ft”. This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area.</p>
 <p>Let’s convert our sf_neighborhoods data to coordinate reference system 2227.</p>
 <pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods &lt;-<span class="st"> </span><span class="kw">st_transform</span>(sf_neighborhoods, <span class="dt">crs =</span> <span class="dv">2227</span>)
 <span class="kw">st_crs</span>(sf_neighborhoods)
@@ -412,8 +412,8 @@ Coordinate Reference System<span class="op">:</span>
   proj4string<span class="op">:</span><span class="st"> &quot;+proj=lcc +lat_1=38.43333333333333 +lat_2=37.06666666666667 +lat_0=36.5 +lon_0=-120.5 +x_0=2000000.0001016 +y_0=500000.0001016001 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs&quot;</span></code></pre>
 <div id="spatial-joins" class="section level2">
 <h2><span class="header-section-number">8.1</span> Spatial joins</h2>
-<p>What we want to do with these neighborhoods is to find out which neighborhood each suicide occurred in and sum up the number of suicides per neighborhood. Once we do that we can make a more accurate hotspot map by mapping at the neighborhood level and being able to measure suicides-per-neighborhood. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area.</p>
-<p>Right now our <em>suicide</em> data is in a data.frame with some info on each suicides and the longitude and latitude of the suicide in separate columns. We want to turn this data.frame into a spatial object to allow us to find which neighborhood each suicide happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, <em>suicide.</em> Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a “geometry” column like we saw in <em>sf_neighborhoods</em> earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the neighborhood data has.</p>
+<p>What we want to do with these neighborhoods is to find out which neighborhood each suicide occurred in and sum up the number of suicides per neighborhood. Once we do that we can make a map at the neighborhood level and be able to measure suicides-per-neighborhood. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area.</p>
+<p>Right now our <em>suicide</em> data is in a data.frame with some info on each suicide and the longitude and latitude of the suicide in separate columns. We want to turn this data.frame into a spatial object to allow us to find which neighborhood each suicide happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, <em>suicide.</em> Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns are the longitude and latitude columns to convert to a “geometry” column like we saw in <em>sf_neighborhoods</em> earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the neighborhood data has.</p>
 <pre class="sourceCode r"><code class="sourceCode r">suicide &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(suicide, 
                     <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>),
                     <span class="dt">crs =</span> <span class="st">&quot;+proj=longlat +ellps=WGS84 +no_defs&quot;</span>)</code></pre>
@@ -468,10 +468,10 @@ Coordinate Reference System<span class="op">:</span>
 <li>Combine with the neighborhood data</li>
 <li>Make a map</li>
 </ol>
-<p>We’ll start by finding the neighborhood where each suicide occurred using the function <code>st_join()</code> which is a function in <code>sf</code>. This does a spatial join and finds the polygon where each point is located in. Since we will be aggregating the data let’s call the output of this function <em>suicides_agg</em>. The order in the () is important! For our aggregation we want the output to be at the suicide-level so we start with the <em>suicide</em> data. In the next step we’ll see why this matters.</p>
-<pre class="sourceCode r"><code class="sourceCode r">suicides_agg &lt;-<span class="st"> </span><span class="kw">st_join</span>(suicide, sf_neighborhoods)</code></pre>
+<p>We’ll start by finding the neighborhood where each suicide occurred using the function <code>st_join()</code> which is a function in <code>sf</code>. This does a spatial join and finds the polygon (neighborhood in our case) where each point is located in. Since we will be aggregating the data, let’s call the output of this function <em>suicide_agg</em>. The order in the () is important! For our aggregation we want the output to be at the suicide-level so we start with the <em>suicide</em> data. In the next step we’ll see why this matters.</p>
+<pre class="sourceCode r"><code class="sourceCode r">suicide_agg &lt;-<span class="st"> </span><span class="kw">st_join</span>(suicide, sf_neighborhoods)</code></pre>
 <p>Let’s look at the first 6 rows.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(suicides_agg)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(suicide_agg)
 <span class="co">#&gt; Simple feature collection with 6 features and 13 fields</span>
 <span class="co">#&gt; geometry type:  POINT</span>
 <span class="co">#&gt; dimension:      XY</span>
@@ -506,24 +506,24 @@ Coordinate Reference System<span class="op">:</span>
 <span class="co">#&gt; 4 Financial District/South Beach POINT (6013739 2117180)</span>
 <span class="co">#&gt; 5             West of Twin Peaks POINT (5993921 2093059)</span>
 <span class="co">#&gt; 6                 Outer Richmond POINT (5986822 2113584)</span></code></pre>
-<p>There is now the “nhood” column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level.
+<p>There is now the <em>nhood</em> column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level.
 For now we will use the code to aggregate the number of suicides per neighborhood. Remember, the <code>aggregate()</code> command aggregates a numeric value by some categorical value. Here we aggregate the number of suicides per neighborhood. So our code will be</p>
-<p><code>aggregate(number_suicides ~ nhood, data = suicides_agg, FUN = sum)</code></p>
+<p><code>aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)</code></p>
 <p>We actually don’t have a variable with the number of suicides so we need to make that. We can simply call it <em>number_suicides</em> and give it that value of 1 since each row is only one suicide.</p>
-<pre class="sourceCode r"><code class="sourceCode r">suicides_agg<span class="op">$</span>number_suicides &lt;-<span class="st"> </span><span class="dv">1</span></code></pre>
-<p>Now we can write the <code>aggregate()</code> code and save the results back into <em>suicides_agg</em>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">suicides_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(number_suicides <span class="op">~</span><span class="st"> </span>nhood, <span class="dt">data =</span> suicides_agg, <span class="dt">FUN =</span> sum)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">suicide_agg<span class="op">$</span>number_suicides &lt;-<span class="st"> </span><span class="dv">1</span></code></pre>
+<p>Now we can write the <code>aggregate()</code> code and save the results back into <em>suicide_agg</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">suicide_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(number_suicides <span class="op">~</span><span class="st"> </span>nhood, <span class="dt">data =</span> suicide_agg, <span class="dt">FUN =</span> sum)</code></pre>
 <p>Let’s check a summary of the <em>number_suicides</em> variable we made.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(suicides_agg<span class="op">$</span>number_suicides)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(suicide_agg<span class="op">$</span>number_suicides)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;    1.00   15.00   24.00   33.08   38.50  141.00</span></code></pre>
-<p>The minimum is one suicide per neighborhood, 33 on average, and 141 in the neighborhood with the most suicides. So what do we make of this data? Well, there are some data issues that cause problems in these results. Let’s think about the minimum value. Did every single neighborhood in the city have at least one suicide? No, take a look at the number of rows in this data, keeping in mind there should be one row per neighborhood.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(suicides_agg)
+<p>The minimum is one suicide per neighborhood, 33 on average, and 141 in the neighborhood with the most suicides. So what do we make of this data? Well, there are some data issues that cause problems in these results. Let’s think about the minimum value. Did every single neighborhood in the city have at least one suicide? No. Take a look at the number of rows in this data, keeping in mind there should be one row per neighborhood.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(suicide_agg)
 <span class="co">#&gt; [1] 39</span></code></pre>
 <p>And let’s compare it to the <em>sf_neighborhoods</em> data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(sf_neighborhoods)
 <span class="co">#&gt; [1] 41</span></code></pre>
-<p>The suicides data is missing 2 neighborhoods. That is because if no suicide occurred there, there would never be a matching row in the data so that neighborhood wouldn’t appear in the suicide data. That’s not going to be a major issue here but is something to keep in mind in future research.</p>
+<p>The suicides data is missing 2 neighborhoods. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn’t appear in the suicide data. That’s not going to be a major issue here but is something to keep in mind in future research.</p>
 <p>The data is ready to merge with the <em>sf_neighborhoods</em> data. We’ll introduce a new function that makes merging data simple. This function comes from the <code>dplyr</code> package so we need to install and tell R we want to use it using <code>library()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
@@ -537,25 +537,25 @@ For now we will use the code to aggregate the number of suicides per neighborhoo
 <span class="co">#&gt;     intersect, setdiff, setequal, union</span></code></pre>
 <p>The function we will use is <code>left_join()</code> which takes two parameters, the two data sets to join together.</p>
 <p><code>left_join(data1, data2)</code></p>
-<p>This function joins these data and keeps all of the rows from the left data and every column from both data sets. It combines the data based on any matching columns (matching meaning same column name) in both data sets. Since in our data sets, the column “nhood” exists in both, it will merge the data based on that column.</p>
+<p>This function joins these data and keeps all of the rows from the left data and every column from both data sets. It combines the data based on any matching columns (matching meaning same column name) in both data sets. Since in our data sets, the column <em>nhood</em> exists in both, it will merge the data based on that column.</p>
 <p>There are two other functions that are similar but differ based on which rows they keep.</p>
 <ul>
-<li>left_join - All rows from Left data and all columns from Left and Right data</li>
-<li>right_join - All rows from Right data and all columns from Left and Right data</li>
-<li>full_join - All rows and all columns from Left and Right data</li>
+<li><code>left_join()</code> - All rows from Left data and all columns from Left and Right data</li>
+<li><code>right_join()</code> - All rows from Right data and all columns from Left and Right data</li>
+<li><code>full_join()</code> - All rows and all columns from Left and Right data</li>
 </ul>
 <p>We could alternatively use the <code>merge()</code> function which is built into R but that function is slower than the <code>dplyr</code> functions and requires us to manually set the matching columns.</p>
-<p>We want to keep all rows in <em>sf_neighborhoods</em> (keep all neighborhoods) so we can use <code>left_join(sf_neighborhoods, suicides_agg)</code>. Let’s save the results into a new data.frame called <em>sf_neighborhoods</em>_suicides".</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods_suicides &lt;-<span class="st"> </span><span class="kw">left_join</span>(sf_neighborhoods, suicides_agg)
+<p>We want to keep all rows in <em>sf_neighborhoods</em> (keep all neighborhoods) so we can use <code>left_join(sf_neighborhoods, suicide_agg)</code>. Let’s save the results into a new data.frame called <em>sf_neighborhoods_suicide</em>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods_suicide &lt;-<span class="st"> </span><span class="kw">left_join</span>(sf_neighborhoods, suicide_agg)
 <span class="co">#&gt; Joining, by = &quot;nhood&quot;</span></code></pre>
-<p>If we look at <code>summary()</code> again for <em>number_suicides</em> we can see that there are now 2 rows with NAs. These are the neighborhoods where there were no suicides so they weren’t present in the <em>suicides_agg</em> data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(sf_neighborhoods_suicides<span class="op">$</span>number_suicides)
+<p>If we look at <code>summary()</code> again for <em>number_suicides</em> we can see that there are now 2 rows with NAs. These are the neighborhoods where there were no suicides so they weren’t present in the <em>suicide_agg</em> data.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(sf_neighborhoods_suicide<span class="op">$</span>number_suicides)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span>
 <span class="co">#&gt;    1.00   15.00   24.00   33.08   38.50  141.00       2</span></code></pre>
-<p>We need to convert these values to 0. We will use the <code>is.na()</code> function to conditionally find all rows with a NA value in the <em>number_suicides</em> column and use square bracket notation to change the value to 0.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods_suicides<span class="op">$</span>number_suicides[<span class="kw">is.na</span>(sf_neighborhoods_suicides<span class="op">$</span>number_suicides)] &lt;-<span class="st"> </span><span class="dv">0</span></code></pre>
+<p>We need to convert these values to 0. We will use the <code>is.na()</code> function to conditionally find all rows with an NA value in the <em>number_suicides</em> column and use square bracket notation to change the value to 0.</p>
+<pre class="sourceCode r"><code class="sourceCode r">sf_neighborhoods_suicide<span class="op">$</span>number_suicides[<span class="kw">is.na</span>(sf_neighborhoods_suicide<span class="op">$</span>number_suicides)] &lt;-<span class="st"> </span><span class="dv">0</span></code></pre>
 <p>Checking it again we see that the minimum is now 0 and the mean number of suicides decreases a bit to about 31.5 per neighborhood.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(sf_neighborhoods_suicides<span class="op">$</span>number_suicides)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(sf_neighborhoods_suicide<span class="op">$</span>number_suicides)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="co">#&gt;    0.00   12.00   23.00   31.46   36.00  141.00</span></code></pre>
 </div>
@@ -564,20 +564,20 @@ For now we will use the code to aggregate the number of suicides per neighborhoo
 <p><strong>Finally</strong> we are ready to make some choropleth maps.</p>
 <p>For these maps we are going to use <code>ggplot2</code> again so we need to load it.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre>
-<p><code>ggplot2</code>’s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier we used functions such as <code>geom_line()</code> for line graphs and <code>geom_point()</code> for scatter plots. For mapping these polygons we will use <code>geom_sf()</code> which knows how to handle spatial data.</p>
+<p><code>ggplot2</code>’s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as <code>geom_line()</code> for line graphs and <code>geom_point()</code> for scatter plots. For mapping these polygons we will use <code>geom_sf()</code> which knows how to handle spatial data.</p>
 <p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the <em>number_suicides</em> column and it will color the polygons (neighborhoods) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicides, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicide, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() </code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we’d want the opposite, with darker (or brighter) areas signifying a greater amount of whatever the map is showing.</p>
+<p>We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we’d want the opposite, with darker areas signifying a greater amount of whatever the map is showing.</p>
 <p>We can use <code>scale_fill_gradient()</code> to set the colors to what we want. We input a color for low value and a color for high value and it’ll make the map shade by those colors.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicides, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicide, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) </code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.</p>
 <p>To make this map easier to read and look better, let’s add a title to the map and to the legend.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicides, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicide, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;# of suicides&quot;</span>,
@@ -585,7 +585,7 @@ For now we will use the code to aggregate the number of suicides per neighborhoo
        <span class="dt">subtitle =</span> <span class="st">&quot;2003 - 2017&quot;</span>) </code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since the coordinates don’t add anything to the map, let’s get rid of them.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicides, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(sf_neighborhoods_suicide, <span class="kw">aes</span>(<span class="dt">fill =</span> number_suicides)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_sf</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill =</span> <span class="st">&quot;# of suicides&quot;</span>,
@@ -595,9 +595,9 @@ For now we will use the code to aggregate the number of suicides per neighborhoo
         <span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),
         <span class="dt">axis.ticks =</span> <span class="kw">element_blank</span>())</code></pre>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when make a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we’d really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn’t really correct) to control for population differences.</p>
+<p>So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we’d really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn’t really correct) to control for population differences.</p>
 <p>We’ll use this data in Chapter <a href="interactive-maps.html#interactive-maps">9</a> to make interactive choropleth maps so let’s save it.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(sf_neighborhoods_suicides, <span class="dt">file =</span> <span class="st">&quot;data/sf_neighborhoods_suicides.rda&quot;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(sf_neighborhoods_suicide, <span class="dt">file =</span> <span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</code></pre>
 
 </div>
 </div>

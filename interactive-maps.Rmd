@@ -2,7 +2,7 @@
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
 
-For this lesson we will be using data on every marijuana dispensary in San Francisco that have an active dispensary license as of late September 2019. The file is called "san_francisco_marijuana_geocoded.csv".
+For this lesson we will be using data on every marijuana dispensary in San Francisco that has an active dispensary license as of late September 2019. The file is called "san_francisco_marijuana_geocoded.csv".
 
 When downloaded from California's Bureau of Cannabis Control ([here](https://aca5.accela.com/bcc/customization/bcc/cap/licenseSearch.aspx) if you're interested) the data contains the address of each dispensary but does not have coordinates. Without coordinates we are unable to map points, meaning we need to 
 geocode them. Geocoding is the process of taking an address and getting the longitude and latitude of that address for mapping. For this lesson I've already geocoded the data and we'll learn how to do so in Chapter \@ref(geocoding).
@@ -20,7 +20,7 @@ marijuana <- as.data.frame(marijuana)
 
 The most important thing to learn from this course is that understanding your data is crucial to good research. Making interactive maps is a very useful way to better understand your data as you can immediately see geographic patterns and quickly look at characteristics of those incidents to understand them. 
 
-In this lesson we will make a map of each officer-involved shooting that lets you click on the shooting and see some information about it. If we see a cluster of shootings, we can click on each shooting to see if they are similar. Though it is possible to find these patterns just looking at the data, it is easier to be able to see a geographic pattern and immediately look at information about each incident.
+In this lesson we will make a map of each marijuana dispensary in San Francisco that lets you click on the dispensary and see some information about it. If we see a cluster of dispensaries, we can click on each one to see if they are similar - for example if owned by the same person. Though it is possible to find these patterns just looking at the data, it is easier to be able to see a geographic pattern and immediately look at information about each incident.
 
 ### Police departments use them
 
@@ -187,7 +187,7 @@ This method is very useful for dealing with huge amounts of data as it avoids ov
 
 ## Interactive choropleth maps
 
-In Chapter \@ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - Census neighborhoods with the number of officer-involved shootings. 
+In Chapter \@ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - neighborhoods shaded by the number of suicides. 
 
 Let's load the San Francisco suicides-by-neighborhood data that we made earlier. 
 
@@ -205,7 +205,7 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicides$geometry)
 ```
 
-It gives us a blank map because our polygons are projected to Philly's projection while the `leaflet` map expects the standard CRS, WGS84 which uses longitude and latitude. So we need to change our projection to that using the `st_transform()` function from the `sf` package. 
+It gives us a blank map because our polygons are projected to San Francisco's projection while the `leaflet` map expects the standard CRS, WGS84 which uses longitude and latitude. So we need to change our projection to that using the `st_transform()` function from the `sf` package. 
 
 ```{r}
 library(sf)
@@ -237,7 +237,7 @@ leaflet()  %>%
 
 That looks better and we can clearly distinguish each neighborhood now. 
 
-As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the "nhood" column value - the unique ID code for that neighborhood - and the number of shootings that occurred in that neighborhood. As before when we click on a neighborhood a popup appears with the output we specified.
+As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case `addPolygons()`. Let's add the *nhood* column value - the name of that neighborhood - and the number of suicides that occurred in that neighborhood. As before, when we click on a neighborhood a popup appears with the output we specified.
 
 ```{r}
 leaflet()  %>% 
@@ -249,7 +249,7 @@ leaflet()  %>%
               weight = 1,
               popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
                              "<br>",
-                             "Number of Shootings: ", sf_neighborhoods_suicides$number_suicides))
+                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides))
 ```
 
 For these types of maps we generally want to shade each polygon to indicate how frequently the event occured in the polygon. We'll use the function `colorNumeric()` which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette which we can get from the site [colorbrewer2](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3). Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd". The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
@@ -267,7 +267,7 @@ leaflet()  %>%
               weight = 1,
               popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
                              "<br>",
-                             "Number of Shootings: ", sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
               fillColor = pal(sf_neighborhoods_suicides$number_suicides))
 ```
 
@@ -284,12 +284,12 @@ leaflet()  %>%
               weight = 1,
               popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
                              "<br>",
-                             "Number of Shootings: ", sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
               fillColor = pal(sf_neighborhoods_suicides$number_suicides),
               fillOpacity = 1)
 ```
 
-To add a legend to this we use the function `addLegend()` which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_suicides* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we'll also set this to 1. 
+To add a legend to this we use the function `addLegend()` which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_suicides* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we'll also set this to 1 to be consistent. 
 
 ```{r}
 pal <- colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)
@@ -302,7 +302,7 @@ leaflet()  %>%
               weight = 1,
               popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
                              "<br>",
-                             "Number of Shootings: ", sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
               fillColor = pal(sf_neighborhoods_suicides$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 
@@ -323,7 +323,7 @@ leaflet()  %>%
               weight = 1,
               popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
                              "<br>",
-                             "Number of Shootings: ", sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
               fillColor = pal(sf_neighborhoods_suicides$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 
