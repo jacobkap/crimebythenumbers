@@ -437,6 +437,8 @@ ggplot(sf_neighborhoods_suicides, aes(fill = number_suicides)) +
 
 <img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
 
+So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when make a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
+
 We'll use this data in Chapter \@ref(interactive-maps) to make interactive choropleth maps so let's save it.
 
 
