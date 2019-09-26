@@ -16,9 +16,7 @@ library(ggplot2)
 
 When working with new data, It's often useful to quickly graph the data to try to understand what you're working with. It is also useful when understanding how much to trust the data.
 
-The data we will work on is data about alcohol consumption in U.S. states from 1977-2016 from the National Institute of Health. It contains the per capita alcohol consumption for each state for every year. More details on the data are available [here](https://www.openicpsr.org/openicpsr/project/105583/version/V2/view).
-
-Their method to determine per capita consumption is amount of alcohol sold / number of people aged 14+ living in the state. We'll return to this method at the end to discuss how much we trust the data.
+The data we will work on is data about alcohol consumption in U.S. states from 1977-2017 from the National Institute of Health. It contains the per capita alcohol consumption for each state for every year. Their method to determine per capita consumption is amount of alcohol sold / number of people aged 14+ living in the state. More details on the data are available [here](https://www.openicpsr.org/openicpsr/project/105583/version/V2/view).
 
 Now we need to load the data. 
 
@@ -26,7 +24,7 @@ Now we need to load the data.
 load("data/apparent_per_capita_alcohol_consumption.rda")
 ```
 
-The name of the file is quite long so for convenience let's copy it to a new object with a better name.
+The name of the data is quite long so for convenience let's copy it to a new object with a better name, *alcohol*.
 
 ```{r}
 alcohol <- apparent_per_capita_alcohol_consumption
@@ -54,15 +52,15 @@ summary(penn_alcohol)
 head(penn_alcohol)
 ```
 
-So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
+So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
 
 ## Graphing data 
 
-To make a simple plot using `ggplot()`, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.
+To make a plot using `ggplot()`, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.
 
 For `ggplot()` we need to specify 4 things
 
-1. The data set - this is the very first thing you'll write
+1. The data set
 2. The x-axis variable
 3. The y-axis variable
 4. The type of graph - e.g. line, point, etc.
@@ -72,7 +70,7 @@ Some useful types of graphs are
   + `geom_point()` - A point graph, can be used for scatter plots
   + `geom_line()` - A line graph
   + `geom_smooth()` - Adds a regression line to the graph
-  +` geom_bar()` - A barplot
+  + `geom_bar()` - A barplot
 
  
 ## Time-Series Plots
@@ -119,7 +117,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it makes small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
+It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
 ```{r}
 ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
@@ -137,8 +135,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-
-Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not need to include it in the () of `ggplot()` but must use their own functions to add them to the graph.
+Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not need to include it in the () of `ggplot()` but use their own functions to add them to the graph.
 
   + `xlab()` - x-axis label
   + `ylab()` - y-axis label
@@ -150,20 +147,8 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3) +
   xlab("Year") +
   ylab("Number of Beers") +
-  ggtitle("PA Annual Beer Consumption Per Capita (1977-2016)")
+  ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
 ```
-  
-Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
-
-```{r}
-ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
-                         y = number_of_beers)) +
-  geom_point()
-```
-
-This graph shows us that when liquor consumption increases, beer consumption also usually increases.
-
-While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.
 
 Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let's stick with the data we currently have and just change `ggplot()`.
 
@@ -214,6 +199,20 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   labs(color = "Alcohol Type") +
   theme(legend.position = "bottom")
 ```
+
+## Scatter Plots
+
+Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
+
+```{r}
+ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
+                         y = number_of_beers)) +
+  geom_point()
+```
+
+This graph shows us that when liquor consumption increases, beer consumption also tends to increase.
+
+While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.
 
 ## Color blindness
 

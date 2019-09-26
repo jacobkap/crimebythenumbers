@@ -1,16 +1,16 @@
 # Exploratory data analysis {#explore}
 
-When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year, a unique ID code, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
+When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
 While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.
 
+  + What are the units (what does each row represent?)?
   + What variables are available?
   + What time period does it cover?
-  + What are the units (what does each row represent?)?
   + Are there outliers? How many?
   + Are there missing values? How many?
 
-For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(ucr) when focusing on what UCR is and how to use it. 
+For this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We'll return to UCR data in Chapter \@ref(ucr) when focusing on what the UCR is and how to use it. 
 
 First we need to load the data. Make sure your working directory is set to the folder where the data is.
 
@@ -18,7 +18,7 @@ First we need to load the data. Make sure your working directory is set to the f
 load("data/ucr2017.rda")
 ```
 
-As a first step let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
+As a first step, let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
 
 ```{r}
 nrow(ucr2017)
@@ -56,13 +56,13 @@ The `table()` function returns every unique value in a category **and** how ofte
 head(ucr2017$agency_name)
 ```
 
-There are only two columns in our data with categorical values that we can use - "year" and "state" so let's use `table()` on both of them. The columns "ori" and "agency_name" are also categorical but as each row of data has a unique ORI and name, running `table()` on those columns would not be helpful.
+There are only two columns in our data with categorical values that we can use - *year* and *state* so let's use `table()` on both of them. The columns *ori* and *agency_name* are also categorical but as each row of data has a unique ORI and name, running `table()` on those columns would not be helpful.
 
 ```{r}
 table(ucr2017$year)
 ```
 
-We can see that every year in our data is 2017, as expected based on the data name. "year" is a numerical column so why can we use `table()` on it? R doesn't differentiate between numbers and characters when seeing how often each value appears. If we ran `table()` on the column "actual_murder" it would tell us how many times each unique value in the column appeared in the data. That wouldn't be very useful as we don't really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use `table()`. 
+We can see that every year in our data is 2017, as expected based on the data name. *year* is a numerical column so why can we use `table()` on it? R doesn't differentiate between numbers and characters when seeing how often each value appears. If we ran `table()` on the column "actual_murder" it would tell us how many times each unique value in the column appeared in the data. That wouldn't be very useful as we don't really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use `table()`. 
 
 ```{r}
 table(ucr2017$state)
@@ -90,7 +90,7 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 ```
 
-Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
+Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
 To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket `[]` notation to subset. Remember it is 
 
@@ -100,7 +100,7 @@ where we either say exactly which rows or columns we want or give a conditional 
 
 `[ucr2017$population > 1000000, ]`
 
-Now our row conditional is done. We want all the columns in the data so leave the section after the comma (don't forget to include that comma!) empty. Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.
+Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don't forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.
 
 `ucr2017[ucr2017$population > 1000000, ]`
 
@@ -172,13 +172,13 @@ If we had more grouping categories would could add them by literally using `+` a
 aggregate(actual_murder ~ year + state, FUN = sum, data = colorado)
 ```
 
-If we want to aggregate multiple numeric columns we would use the `cbind()` function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let's call it "colorado_agg".
+If we want to aggregate multiple numeric columns we would use the `cbind()` function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let's call it *colorado_agg*.
 
 ```{r comment="", results='hold'}
 colorado_agg <- aggregate(cbind(population, actual_murder) ~ year, FUN = sum, data = colorado)
 ```
 
-To make the murder rate we simply make a new column, which we can call "murder_rate" which is the number of murders divided by population multiplied by 100,000.
+To make the murder rate we simply make a new column, which we can call *murder_rate* which is the number of murders divided by population multiplied by 100,000.
 
 ```{r}
 colorado_agg$murder_rate <- colorado_agg$actual_murder / colorado_agg$population * 100000
@@ -188,7 +188,7 @@ colorado_agg$murder_rate <- colorado_agg$actual_murder / colorado_agg$population
 colorado_agg
 ```
 
-Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you'd need a comparison area that is similar to Colorado prior to legalization (and that doesn't have legal marijuana) and see if the murder rates changes following Colorado's legalization.
+Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you'd need a comparison area that is similar to Colorado prior to legalization (and didn't legalize marijuana) and see if the murder rates changes following Colorado's legalization.
 
 We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.
 

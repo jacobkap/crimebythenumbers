@@ -5,7 +5,7 @@ Several recent studies have looked at the effect of marijuana dispensaries on cr
 
 ## Geocoding a single address
 
-In this chapter we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use it's geocoder so we will not be using it.
+In this chapter we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use its geocoder so we will not be using it.
 
 The URL for geocoding using ArcGIS is the following:
 
@@ -63,8 +63,7 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> 5   -74.00492    40.74118
 ```
 
-
-It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns "address_coordinate" and grab the *candidates* object from that list. 
+It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns *address_coordinate* and grab the *candidates* object from that list. 
 
 
 ```r
@@ -117,7 +116,7 @@ address_coordinates$location
 #> 1 -74.00456 40.74218
 ```
 
-Since our end goal was to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
+Since our end goal is to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
 
 ## Making a function
 
@@ -137,7 +136,7 @@ address_coordinates$location
 
 Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
 
-We can call the function "geocode_address", the input "address" and the returning value "address_coordinates" just to stay consistent with the code we already wrote.
+We can call the function *geocode_address*, the input *address* and the returning value *address_coordinates* just to stay consistent with the code we already wrote.
 
 
 ```r
@@ -166,7 +165,7 @@ Since the URL is in the form
 
 `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
 
-we can use the `paste()` function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with `%20`. We can do that using `gsub()` which is perfect for replacing characters. Let's try a simple example using `gsub()` before including it in our function. We just want to find every " " and replace it with "%20". 
+we can use the `paste()` function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with `%20`. We can do that using `gsub()` which is perfect for replacing characters. Let's try a simple example using `gsub()` before including it in our function. We just want to find every `" "` and replace it with `"%20"`. 
 
 We will use the address for the Food Network's Corporate office as our example.
 
@@ -176,7 +175,7 @@ gsub(" ", "%20", "75 9th Ave, New York, NY 10011")
 #> [1] "75%209th%20Ave,%20New%20York,%20NY%2010011"
 ```
 
-It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First we do the `paste()`, saving it in an object we can call "url", and then use "url" as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
+It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First we do the `paste()`, saving it in an object we can call *url*, and then use *url* as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
 
 
 ```r
@@ -277,7 +276,7 @@ head(marijuana)
 #> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 ```
 
-So the column with the address is called "Premise Address". Since it's easier to deal with columns that don't have spacing, we will using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
+So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
 
 
 ```r
@@ -314,7 +313,7 @@ head(marijuana$Premise_Address)
 
 We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame *marijuana* we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in *marijuana*.
 
-We need to make columns for the coordinates in *marijuana* now to be filled in during the for loop. We can call them "lon" and "lat" for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good assign to start by assigning the column NA. That way any row that you don't fill in the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
+We need to make columns for the coordinates in *marijuana* now to be filled in during the for loop. We can call them *lon* and *lat* for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good idea to start by assigning the column NA. That way any row that you don't fill in during the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
 
 
 ```r
@@ -322,7 +321,7 @@ marijuana$lon <- NA
 marijuana$lat <- NA
 ```
 
-Let's start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let's now save that output to an object we call "temp".
+Let's start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let's now save that output to an object we'll call *temp*.
 
 
 ```r
@@ -332,7 +331,7 @@ temp
 #> 1 -122.4811 37.76337
 ```
 
-We can use square bracket `[]` notation to assign the value from the "x" column of "temp" to our "lon" column in "officers_shootings" and do the same for the "y" and "lat" columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
+We can use square bracket `[]` notation to assign the value from the *x* column of *temp* to our *lon* column in *marijuana* and do the same for the *y* and *lat* columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
 
 
 ```r
@@ -382,7 +381,7 @@ head(marijuana)
 #> 6        NA       NA
 ```
 
-Since we are geocoding a lot of addresses, this may take some time. 
+Since we are geocoding a few dozen of addresses, this may take some time. 
 
 
 ```r
@@ -393,7 +392,7 @@ for (i in 1:nrow(marijuana)) {
 }
 ```
 
-Now it appears that we have longitude and latitude for every dispensary We should check that they all look sensible.
+Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.
 
 
 ```r
@@ -420,7 +419,7 @@ plot(marijuana$lon, marijuana$lat)
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 
-To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since tihs data is now geocoded and it is specificially for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
+To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since this data is now geocoded and it is specifically for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
 
 
 ```r

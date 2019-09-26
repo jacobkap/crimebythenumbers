@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-24" />
+<meta name="date" content="2019-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,7 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.4</b> Color blindness</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
@@ -336,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="subsetting-intro" class="section level1">
 <h1><span class="header-section-number">2</span> Subsetting: Making big things small</h1>
-<p>Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn’t relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.</p>
+<p>Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn’t relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you’d subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.</p>
 <div id="select-specific-values" class="section level2">
 <h2><span class="header-section-number">2.1</span> Select specific values</h2>
 <pre class="sourceCode r"><code class="sourceCode r">animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</code></pre>
@@ -381,6 +382,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="sourceCode r"><code class="sourceCode r">x
 <span class="co">#&gt; [1] 2</span></code></pre>
 <p>It is the convention in R to use <code>&lt;-</code> instead of <code>=</code> and in some cases the <code>=</code> will not work properly. For those reasons we will use <code>&lt;-</code> for this class.</p>
+<p>Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, <code>animals[-1]</code> prints every value in th <em>animals</em> except for the first value.</p>
+<pre class="sourceCode r"><code class="sourceCode r">animals[<span class="op">-</span><span class="dv">1</span>]
+<span class="co">#&gt; [1] &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></code></pre>
+<p>However, it doesn’t actually remove anything from <em>animals</em>. Let’s print <em>animals</em> and see which values it returns.</p>
+<pre class="sourceCode r"><code class="sourceCode r">animals
+<span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></code></pre>
+<p>Now the first value, “cats”, is back. Why? To make changes in R you need to tell R very explicitly that you are making the change. If you don’t save the result of your code (by assigning an object to it), R will run that code and simply print the results in the console panel without making any changes.</p>
+<p>This is an important point that a lot of students struggle with. R doesn’t know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If <em>x</em> is an object with a value of 2, and you write <code>x + 2</code>, it would print out 4 because 2 + 2 = 4. But that won’t change the value of <em>x</em>. <em>x</em> will remain as 2 until you explicitly tell R to change it’s value. If you want to update <em>x</em> you need to run <code>x &lt;- somevalue</code> where “somevalue” is whatever you want to change <em>x</em> to.</p>
+<p>So to return to our <em>animals</em> example, if we wanted to delete the first value and keep it removed, we’d need to write <code>animals &lt;- animals[1]</code>. Which is essentially making a new object, also called <em>animals</em> (to avoid having many, slightly different objects that are hard to keep track of we’ll reuse the name) with the same values as the original <em>animals</em> except this time excluding the first value, “cats”.</p>
 </div>
 <div id="vectors" class="section level2">
 <h2><span class="header-section-number">2.3</span> Vectors (collections of “things”)</h2>
@@ -394,7 +404,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="logical-values-and-operations" class="section level2">
 <h2><span class="header-section-number">2.4</span> Logical values and operations</h2>
-<p>We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. “this value is lower than the number 100”) and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in capital letters.</p>
+<p>We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. “this value is lower than the number 100”) and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in all capital letters.</p>
 <p>First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.</p>
 <p>We can use these TRUE and FALSE values to index and it will return every element which we say is TRUE.</p>
 <pre class="sourceCode r"><code class="sourceCode r">animals[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)]
@@ -580,23 +590,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; [157] &quot;unfound_index_violent&quot;          &quot;unfound_index_property&quot;        </span>
 <span class="co">#&gt; [159] &quot;unfound_index_total&quot;</span></code></pre>
 <p>Now let’s discuss how to subset this data into a smaller data set to answer a specific question. Let’s subset the data to answer our above question of “did Colorado’s marijuana legalization affect crime in the state?” Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity.</p>
-<p>We also don’t need all 159 columns in the current data. Let’s say we’re only interested in if murder changes. We’d need the column called “actual_murder”, the “state” column (as a check), the “year” column, the “population” column, the “ori” column, and the “agency_name” column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we’re just using it as an example). The last two columns - ori and agency_name - aren’t strictly necessary but would be useful if checking if an agency’s values are reasonable when checking for outliers, a step we won’t do here.</p>
+<p>We also don’t need all 159 columns in the current data. Let’s say we’re only interested in if murder changes. We’d need the column called <em>actual_murder</em>, the <em>state</em> column (as a check to make sure we subset only Colorado), the <em>year</em> column, the <em>population</em> column, the <em>ori</em> column, and the <em>agency_name</em> column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we’re just using it as an example). The last two columns - <em>ori</em> and <em>agency_name</em> - aren’t strictly necessary but would be useful if checking if an agency’s values are reasonable when checking for outliers, a step we won’t do here.</p>
 <p>Before explaining how to subset from a data.frame, let’s write pseudocode (essentially a description of what we are going to do that is readable to people but isn’t real code) for our subset.</p>
 <p>We want</p>
 <ul>
 <li>Only rows where the state equals Colorado</li>
 <li>Only rows where the year is 2011-2017</li>
-<li>Only the following columns: actual_murder, state, year, population, ori, agency_name</li>
+<li>Only the following columns: <em>actual_murder</em>, <em>state</em>, <em>year</em>, <em>population</em>, <em>ori</em>, <em>agency_name</em></li>
 </ul>
 <div id="select-specific-columns" class="section level3">
 <h3><span class="header-section-number">2.5.1</span> Select specific columns</h3>
 <p>The way to select a specific column in R is called the dollar sign notation.</p>
 <p><code>data$column</code></p>
 <p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the <code>data$column</code> exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
-<p>We can do this for the column “agency_name” in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in <code>head()</code> so it only displays the first 6 rows of the column rather than printing the entire column.</p>
+<p>We can do this for the column <em>agency_name</em> in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in <code>head()</code> so it only displays the first 6 rows of the column rather than printing the entire column.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name)
 <span class="co">#&gt; [1] &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot;</span></code></pre>
-<p>They’re all the same name because Anchorage Police reported many times and are in the data set multiple times. Let’s look at the column “actual_murder” which shows the annual number of murders in that agency.</p>
+<p>They’re all the same name because Anchorage Police reported many times and are in the data set multiple times. Let’s look at the column <em>actual_murder</em> which shows the annual number of murders in that agency.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>actual_murder)
 <span class="co">#&gt; [1] 27 28 26 12 14 15</span></code></pre>
 <p>One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.</p>
@@ -769,6 +779,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1000</span>])
 <span class="co">#&gt; Error in `[.data.frame`(offenses_known_yearly_1960_2017, 1000): undefined columns selected</span></code></pre>
+<p>If you already specify a column using dollar sign notation <code>$</code>, you do not need to indicate any column in the square brackets<code>[]</code>. All you need to do is say which row or rows you want.</p>
+<pre class="sourceCode r"><code class="sourceCode r">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name[<span class="dv">15</span>]
+<span class="co">#&gt; [1] &quot;anchorage&quot;</span></code></pre>
 <p>So make sure when you want a row from a data.frame you always include the comma!</p>
 </div>
 <div id="subset-colorado-data" class="section level3">
@@ -780,18 +793,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Only the following columns: actual_murder, state, year, population, ori, agency_name</li>
 </ul>
 <p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let’s make a new object called <em>colorado</em> to save the result of this subset.</p>
-<p>Remember that we want to put the object to the left of the <code>[]</code> to make sure it returns the data. Just having the <code>[]</code> will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don’t need to put anything after the comma.</p>
+<p>Remember that we want to put the object to the left of the <code>[]</code> (and touching the <code>[]</code>) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns we don’t need to put anything after the comma (but we must include the comma!).</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</code></pre>
 <p>Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use <code>%in%</code> and put the years in a vector <code>2011:2017</code>. This time our primary data set is <em>colorado</em>, not <em>offenses_known_yearly_1960_2017</em> since <em>colorado</em> has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]</code></pre>
-<p>Finally we want the columns stated above and to keep every row in the current data. Since the format is <code>[row, column]</code> in this case we keep the “row” part blank to indicate we want every row.</p>
+<p>Finally we want the columns stated above and to keep every row in the current data. Since the format is <code>[row, column]</code> in this case we keep the “row” part blank to indicate that we want every row.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</code></pre>
-<p>We can do a quick check using the <code>unique()</code> function. The <code>unique()</code> prints all the unique values in a category, such as a column. We will use it on the “state” and “year” columns to make sure only the values we want are present.</p>
+<p>We can do a quick check using the <code>unique()</code> function. The <code>unique()</code> prints all the unique values in a category, such as a column. We will use it on the <em>state</em> and <em>year</em> columns to make sure only the values that we want are present.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(colorado<span class="op">$</span>state)
 <span class="co">#&gt; [1] &quot;colorado&quot;</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(colorado<span class="op">$</span>year)
 <span class="co">#&gt; [1] 2017 2016 2015 2014 2013 2012 2011</span></code></pre>
-<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section <a href="explore.html#aggregate">3.3</a> we will sum up all the murders per year and see if marijuana affected it.</p>
+<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section <a href="explore.html#aggregate">3.3</a> we will sum up all the murders per year and see if marijuana legalization affected it.</p>
 
 </div>
 </div>

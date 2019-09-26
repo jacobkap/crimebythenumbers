@@ -192,24 +192,24 @@ In Chapter \@ref(choropleth-maps) we worked on choropleth maps which are maps wi
 Let's load the San Francisco suicides-by-neighborhood data that we made earlier. 
 
 ```{r}
-load("data/sf_neighborhoods_suicides.rda")
+load("data/sf_neighborhoods_suicide.rda")
 ```
 
-We'll begin the `leaflet` map similar to before but use the function `addPolygons()` and our input here is the geometry column of *sf_neighborhoods_suicides*. 
+We'll begin the `leaflet` map similar to before but use the function `addPolygons()` and our input here is the geometry column of *sf_neighborhoods_suicide*. 
 
 ```{r error = TRUE}
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry)
+  addPolygons(data = sf_neighborhoods_suicide$geometry)
 ```
 
 It gives us a blank map because our polygons are projected to San Francisco's projection while the `leaflet` map expects the standard CRS, WGS84 which uses longitude and latitude. So we need to change our projection to that using the `st_transform()` function from the `sf` package. 
 
 ```{r}
 library(sf)
-sf_neighborhoods_suicides <- st_transform(sf_neighborhoods_suicides,
+sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide,
                                         crs = "+proj=longlat +datum=WGS84")
 ```
 
@@ -220,7 +220,7 @@ leaflet()  %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry)
+  addPolygons(data = sf_neighborhoods_suicide$geometry)
 ```
 
 It made a map with large blue lines indicating each neighborhood. Let's change the appearance of the graph a bit before making a popup or shading the neighborhoods The parameter `color` in `addPolygons()` changes the color of the lines - let's change it to black. The lines are also very large, blurring into each other and making the neighborhoods hard to see. We can change the `weight` parameter to alter the size of these lines - smaller values are smaller lines. Let's try setting this to 1.
@@ -230,7 +230,7 @@ leaflet()  %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               color = "black",
               weight = 1)
 ```
@@ -244,90 +244,90 @@ leaflet()  %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
+              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides))
+                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides))
 ```
 
-For these types of maps we generally want to shade each polygon to indicate how frequently the event occured in the polygon. We'll use the function `colorNumeric()` which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette which we can get from the site [colorbrewer2](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3). Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd". The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
+For these types of maps we generally want to shade each polygon to indicate how frequently the event occurred in the polygon. We'll use the function `colorNumeric()` which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette which we can get from the site [colorbrewer2](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3). Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd". The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
 
-We will save the output of `colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)` as a new variable which we'll call *pal* for convenience. Then inside of `addPolygons()` we'll set the parameter `fillColor` to `pal(sf_neighborhoods_suicides$number_suicides)`, running this function on the column. What this really does is determine which color every neighborhood should be based on the value in the *number_suicides* column.
+We will save the output of `colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)` as a new variable which we'll call *pal* for convenience. Then inside of `addPolygons()` we'll set the parameter `fillColor` to `pal(sf_neighborhoods_suicide$number_suicides)`, running this function on the column. What this really does is determine which color every neighborhood should be based on the value in the *number_suicides* column.
 
 ```{r}
-pal <- colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)
+pal <- colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
+              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
-              fillColor = pal(sf_neighborhoods_suicides$number_suicides))
+                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides))
 ```
 
 Since the neighborhoods are transparent, it is hard to distinguish which color is shown. We can make each neighborhood a solid color by setting the parameter `fillOpacity` inside of `addPolygons()` to 1.
 
 ```{r}
-pal <- colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)
+pal <- colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
+              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
-              fillColor = pal(sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1)
 ```
 
 To add a legend to this we use the function `addLegend()` which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_suicides* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we'll also set this to 1 to be consistent. 
 
 ```{r}
-pal <- colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)
+pal <- colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
+              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
-              fillColor = pal(sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 
-            values = sf_neighborhoods_suicides$number_suicides,
+            values = sf_neighborhoods_suicide$number_suicides,
             opacity = 1)
 ```
 
 Finally, we can add a title to the legend using the `title` parameter inside of `addLegend()`.
 
 ```{r}
-pal <- colorNumeric("OrRd", sf_neighborhoods_suicides$number_suicides)
+pal <- colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addPolygons(data = sf_neighborhoods_suicides$geometry,
+  addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicides$nhood,
+              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicides$number_suicides),
-              fillColor = pal(sf_neighborhoods_suicides$number_suicides),
+                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+              fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 
-            values = sf_neighborhoods_suicides$number_suicides,
+            values = sf_neighborhoods_suicide$number_suicides,
             opacity = 1,
             title = "Suicides")
 ```

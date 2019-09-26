@@ -13,11 +13,11 @@ In this lesson we'll use data about officer-involved shootings.
 
 As we've seen earlier, to read in data with a .rda or .rdata extension you use the function `load()` with the file name (including the extension) in quotation marks inside of the parentheses. This loads the data into R and calls the object the name it was when it was saved. Therefore we do not need to give it a name ourselves.
 
-For each of the other types of data we'll need to assign a name to the data we're reading in so it has a name. Whereas we've done `x <- 2` to say x gets the value of 2, now we'd do `x <- DATA` where DATA is the way to load in the data and x will get the entire data.frame read in. 
+For each of the other types of data we'll need to assign a name to the data we're reading in so it has a name. Whereas we've done `x <- 2` to say *x* gets the value of 2, now we'd do `x <- DATA` where DATA is the way to load in the data and *x* will get the entire data.frame that is read in. 
 
 ### Excel 
 
-To read in Excel files, those ending in .csv, we can use the function `read_csv()` from the package `readr` (the function `read.csv()` is included in R by default so doesn't require any packages but is far slower than `read_csv()` so we will not use it).
+To read in Excel files, those ending in .csv, we can use the function `read_csv()` from the package `readr` (the function `read.csv()` is included in R by default so it doesn't require any packages but is far slower than `read_csv()` so we will not use it).
 
 
 ```r
@@ -29,7 +29,7 @@ install.packages("readr")
 library(readr)
 ```
 
-The input in the () is the file name ending in ".csv". As it is telling R to read a file on the computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can using *shootings* as it's relatively descriptive and easy for us to write. 
+The input in the () is the file name ending in ".csv". As it is telling R to read a file that is stored on your on the computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can use the name *shootings* as it's relatively descriptive and easy for us to write. 
 
 
 ```r
@@ -92,7 +92,7 @@ install.packages("haven")
 library(haven)
 ```
 
-`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to get the data.
+`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.
 
 Like with `read_csv()` the functions to read data through `haven` all start with `read_` and end with the extension you're reading in. 
 

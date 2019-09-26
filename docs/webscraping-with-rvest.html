@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-24" />
+<meta name="date" content="2019-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,7 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.4</b> Color blindness</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
@@ -336,36 +337,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="webscraping-with-rvest" class="section level1">
 <h1><span class="header-section-number">11</span> Webscraping with <code>rvest</code></h1>
-<p>If I ever stop working in the field of criminology, I would certainly be a baker. So for the next few chapters we are going to work working with “data” on baking. What we’ll learn to do is find a recipe from the website <a href="https://www.allrecipes.com/">All Recipes</a> and webscrape the ingredients and directions of that recipe.</p>
+<p>If I ever stop working in the field of criminology, I would certainly be a baker. So for the next few chapters we are going to work with “data” on baking. What we’ll learn to do is find a recipe from the website <a href="https://www.allrecipes.com/">All Recipes</a> and webscrape the ingredients and directions of that recipe.</p>
 <p>For our purposes we will be using the package <a href="https://github.com/tidyverse/rvest"><code>rvest</code></a>. This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.</p>
 <p>If you haven’t done so before, make sure to install <code>rvest</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;rvest&quot;</span>)</code></pre>
 <p>And every time you start R, if you want to use <code>rvest</code> you must tell R so by using <code>library()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rvest)
 <span class="co">#&gt; Loading required package: xml2</span></code></pre>
-<p>Here is a screenshot of the recipe for “MMMMM… Brownies” (an excellent brownies recipe) <a href="https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&amp;referringContentType=Search">page</a>.</p>
+<p>Here is a screenshot of the recipe for the “MMMMM… Brownies” (an excellent brownies recipe) <a href="https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&amp;referringContentType=Search">page</a>.</p>
 <p><img src="images/brownies_1.PNG" /></p>
 <p><img src="images/brownies_2.PNG" /></p>
 <div id="scraping-one-page" class="section level2">
 <h2><span class="header-section-number">11.1</span> Scraping one page</h2>
-<p>In later lessons we’ll learn how to scrape the ingredients of any recipe of the site. For now, we’ll focus on just getting data for our brownies recipe.</p>
+<p>In later lessons we’ll learn how to scrape the ingredients of any recipe on the site. For now, we’ll focus on just getting data for our brownies recipe.</p>
 <p>The first step to scraping a page is to read in that page’s information to R using the function <code>read_html()</code> from the <code>rvest</code> package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)
 <span class="co">#&gt; {xml_document}</span>
 <span class="co">#&gt; &lt;html lang=&quot;en-us&quot;&gt;</span>
 <span class="co">#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset= ...</span>
 <span class="co">#&gt; [2] &lt;body ng-app=&quot;allrecipes&quot; data-scoby-impression=&#39;{&quot;id&quot;: &quot;25080&quot;, &quot;ev ...</span></code></pre>
-<p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of <code>read_html()</code> into an object which we’ll call <em>brownies</em> since that is our end goal.</p>
+<p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of <code>read_html()</code> into an object which we’ll call <em>brownies</em> since that is the recipe we are currently scraping.</p>
 <pre class="sourceCode r"><code class="sourceCode r">brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</code></pre>
 <p>We now need to select only a small part of page which has the relevant information - in this case the ingredients and directions.</p>
 <p>We need to find just which parts of the page to scrape. To do so we’ll use the helper tool <a href="https://selectorgadget.com/">SelectorGadget</a>, a Google Chrome extension that lets you click on parts of the page to get the CSS selector code that we’ll use. Install that extension in Chrome and go to the <a href="https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&amp;referringContentType=Search">brownie recipe page</a>.</p>
-<p>When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - “1/2 cup white sugar”. Every ingredient is highlighted in yellow as (to oversimplify this explaination) these ingredients are the same “type” in the page. It also highlighted the text “Add all ingredients to list” which we don’t want. As it is always the last line of text in ingredients, we’ll leave it in for now and practice subsetting data through R to remove it.</p>
+<p>When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - “1/2 cup white sugar”. Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same “type” in the page. It also highlighted the text “Add all ingredients to list” which we don’t want. As it is always the last line of text in ingredients, we’ll leave it in for now and practice subsetting data through R to remove it.</p>
 <p><img src="images/brownies_3.PNG" /></p>
 <p>Note that in the bottom right of the screen, the SelectorGadget bar now has the text “.added”. This is the CSS selector code we can use to get all of the ingredients.</p>
 <p><img src="images/brownies_4.PNG" /></p>
 <p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called <em>brownies</em>) and then we can paste the CSS selector text - in this case, “.added”. We’ll save the resulting object as <em>ingredients</em> since we want to use <em>brownies</em> to also get the directions.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</code></pre>
-<p>Since we are getting data that is a text format, we need to tell <code>rvest</code> that the format of the scraped data is text. We do with using <code>html_text()</code> and our input in the () is the the object made in the function <code>html_text()</code>.</p>
+<p>Since we are getting data that is a text format, we need to tell <code>rvest</code> that the format of the scraped data is text. We do with using <code>html_text()</code> and our input in the () is the object made in the function <code>html_text()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</code></pre>
 <p>Now let’s check what we got.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ingredients
@@ -380,9 +381,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt;  [9] &quot;1/2 teaspoon salt&quot;                   </span>
 <span class="co">#&gt; [10] &quot;Add all ingredients to list&quot;         </span>
 <span class="co">#&gt; [11] &quot;Add all ingredients to list&quot;</span></code></pre>
-<p>We have successfully scraped the ingreidents for this brownies recipes - plus the “Add all ingredients to list” (copied twice for some reason).</p>
+<p>We have successfully scraped the ingredients for this brownies recipes - plus the “Add all ingredients to list” (copied twice for some reason).</p>
 <p>Now let’s do the same process to get the directions for baking.</p>
-<p>In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions. It’ll highlight all three directions as they’re all of the same “type” (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section of ingredients, the section on directions, the section on reviews. So in this case we selected a “text” type in the section on directions and SelectorGadget then selected all “text” types inside of that section.).</p>
+<p>In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions. It’ll highlight all three directions as they’re all of the same “type” (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a “text” type in the section on directions and SelectorGadget then selected all “text” types inside of that section.).</p>
 <p><img src="images/brownies_5.PNG" /></p>
 <p>The CSS selector code this time is ".recipe-directions__list–item" so we can put that inside of <code>html_nodes()</code>. Let’s save the output as <em>directions</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)
@@ -398,7 +399,7 @@ directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(direc
 <div id="cleaning-the-webscraped-data" class="section level2">
 <h2><span class="header-section-number">11.2</span> Cleaning the webscraped data</h2>
 <p>We only have three things to do to clean the data. First, we need to remove the “Add all ingredients to list” from the <em>ingredients</em> object. Second, we will remove the blank value ("") from the <em>directions</em> object. For both tasks we’ll do conditional subsetting to keep all values that do <em>not</em> equal those values. Finally, the directions print out with the text <code>\n</code> at the end. This indicates that it is the end of the line but we’ll want to remove that, which we can do using <code>gsub()</code>.</p>
-<p>For let’s try out the condition of <em>ingredients</em> that do not equal the string “Add all ingredients to list”.</p>
+<p>First let’s try out the condition of <em>ingredients</em> that do not equal the string “Add all ingredients to list”.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>
 <span class="co">#&gt;  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></code></pre>
 <p>It returns TRUE for all values except the last two, the ones which do equal “Add all ingredients to list”. Let’s only keep the elements without this string.</p>
@@ -430,7 +431,7 @@ directions
 <span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.&quot;                                                                                                                                                                                                                                </span>
 <span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.&quot;</span>
 <span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.&quot;</span></code></pre>
-<p>In your own research, you will want to create a data.frame (or equivalent) for nearly all data - this is also the way most statistical analysis packages expect data. In our case it doesn’t make sense to do so. We’ll keep them separate for now and in Chapter <a href="functions.html#functions">12</a> we’ll learn to make a function to scrape any recipe using just the URL and to print the ingredients and directions in the console.</p>
+<p>In your own research, you will want to create a data.frame for nearly all data - this is also the way most statistical analysis packages expect data. In our case it doesn’t make sense to do so. We’ll keep them separate for now and in Chapter <a href="functions.html#functions">12</a> we’ll learn to make a function to scrape any recipe using just the URL and to print the ingredients and directions to the console.</p>
 
 </div>
 </div>

@@ -1,6 +1,6 @@
 # Scraping tables from PDFs {#scrape-table}
 
-In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we did before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
+In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
 
 Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
@@ -24,13 +24,13 @@ Table 3 follows the same format and the new columns are number of apprehensions 
 
 ![](images/pdf_table_3.PNG)
 
-Finally, Table 4 is a bit different in it's format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others we won't scrape it in this lesson - but you can use the skills you've learned to do so yourself.
+Finally, Table 4 is a bit different in it's format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
 ![](images/pdf_table_4.PNG)
 
 ## Scraping the first table
 
-We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning we can reuse some code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. As earlier, we will use the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
+We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning we can reuse some code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. We will use the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
 
 ```{r}
 library(pdftools)
@@ -48,7 +48,7 @@ We can take a look at the `head()` of the result.
 head(border_patrol)
 ```
 
-If you look closely in this huge amount of text output, you can see that it is a vector with each element being an element in the vector. We can see this further by checking the `length()` of "border_patrol" and just looking at the first element.
+If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol" and just looking at the first element.
 
 ```{r}
 length(border_patrol)
@@ -60,7 +60,16 @@ It is four elements long, one for each table.
 border_patrol[1]
 ```
 
-And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\r\n` indicating that there should be a new line. As we did last time, we want to use `strsplit()` to split at the `\r\n`. Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
+And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\r\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\r\n`. 
+
+The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
+
+```{r}
+strsplit("criminology", split = "n")
+```
+Note that it deletes whatever value is used to break up the string. 
+
+Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
 
 ```{r}
 sector_profile <- border_patrol[1]

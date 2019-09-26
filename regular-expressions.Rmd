@@ -5,11 +5,11 @@ Many word processing programs like Microsoft Word or Google Docs let you search 
   * `grep()` - Find
   * `gsub()` - Find and Replace
 
-The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern (basically which row has a match). `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is substitute text with new text. 
+The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern (in a data.frame this tells you which row has a match). `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is substitute text with new text. 
 
 A useful cheat sheet on regular expressions is available [here](https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf).
 
-For this lesson we will use a vector of 50 crime categories. These are all of the crimes in San Francisco Police data. As you'll see, there are some issues with the crime names that we need to fix.
+For this lesson we will use a vector of 50 crime categories. These are all of the crimes in San Francisco Police data. As we'll see, there are some issues with the crime names that we need to fix.
 
 ```{r }
 crimes <- c(
@@ -70,17 +70,17 @@ When looking closely at these crimes it is clear that some may overlap in certai
 
 ## Finding patterns in text with `grep()`
 
-We'll start with `grep()` which allows us to search a vector of data (in R columns in a data.frame operate the same as a vector) and find where there is a match for the pattern we want to look for. 
+We'll start with `grep()` which allows us to search a vector of data (in R, columns in a data.frame operate the same as a vector) and find where there is a match for the pattern we want to look for. 
 
 The syntax for `grep()` is 
 
 `grep("pattern", data)`
 
-Where pattern is the pattern you are searching for, such as "a" if you want to find all values with the letter a. The pattern must always be in quotes. data is a vector of strings (such as "crimes" we made above or a column in a data.frame) that you are searching in to find the pattern. 
+Where pattern is the pattern you are searching for, such as "a" if you want to find all values with the letter a. The pattern must always be in quotes. data is a vector of strings (such as *crimes* we made above or a column in a data.frame) that you are searching in to find the pattern. 
 
 The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and no other elements do. It is essentially returning the index where the conditional statement "is this pattern present" is true.
 
-So since our data is "crimes" our `grep()` function will be `grep("", crimes)`. What we put in the "" is the pattern we want to search for.
+So since our data is *crimes* our `grep()` function will be `grep("", crimes)`. What we put in the "" is the pattern we want to search for.
 
 Let's start with the letter "a".
 
@@ -88,7 +88,7 @@ Let's start with the letter "a".
 grep("a", crimes)
 ```
 
-It gives us a bunch of numbers where the letter "a" is present in that element of "crimes". What this is useful for is subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 
+It gives us a bunch of numbers where the letter "a" is present in that element of *crimes*. What this is useful for is subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 
 
 ```{r}
 crimes[grep("a", crimes)]
@@ -162,7 +162,7 @@ We can use `gsub()` to replace some issues in the crimes data such as "Offense" 
 gsub("Offence", "Offense", crimes)
 ```
 
-A useful pattern is an empty string "" which says replace whatever the find_pattern is with nothing, deleting it. Let's delete the letter "a" from the data. 
+A useful pattern is an empty string "" which says replace whatever the find_pattern is with nothing, deleting it. Let's delete the letter "a" (lowercase only) from the data. 
 
 ```{r}
 gsub("a", "", crimes)
@@ -174,9 +174,9 @@ So far we have just searched for a single character or word and expected a retur
 
 ### Multiple characters `[]`
 
-To search for multiple matches we can put the pattern we want to search for inside square brackets `[]` (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain vowels. 
+To search for multiple matches we can put the pattern we want to search for inside square brackets `[]` (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain the letters "x", "y", or "z". 
 
-The `grep()` searches if any of the letters inside of the `[]` are present in our "crimes" vector.
+The `grep()` searches if any of the letters inside of the `[]` are present in our *crimes* vector.
 
 ```{r }
 grep("[xyz]", crimes, value = TRUE)

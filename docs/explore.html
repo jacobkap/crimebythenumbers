@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-24" />
+<meta name="date" content="2019-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,7 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.4</b> Color blindness</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
@@ -336,19 +337,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="explore" class="section level1">
 <h1><span class="header-section-number">3</span> Exploratory data analysis</h1>
-<p>When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender, crime in a city over a day/month/year, a unique ID code, etc.), and what columns it has. <strong>Basically you want to know if the data is capable of answering the question you are asking.</strong></p>
+<p>When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. <strong>Basically you want to know if the data is capable of answering the question you are asking.</strong></p>
 <p>While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.</p>
 <ul>
+<li>What are the units (what does each row represent?)?</li>
 <li>What variables are available?</li>
 <li>What time period does it cover?</li>
-<li>What are the units (what does each row represent?)?</li>
 <li>Are there outliers? How many?</li>
 <li>Are there missing values? How many?</li>
 </ul>
-<p>For this lesson we will use a data set of FBI Uniform Crime Data (UCR) for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We’ll return to UCR data in Chapter <a href="ucr.html#ucr">17</a> when focusing on what UCR is and how to use it.</p>
+<p>For this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We’ll return to UCR data in Chapter <a href="ucr.html#ucr">17</a> when focusing on what the UCR is and how to use it.</p>
 <p>First we need to load the data. Make sure your working directory is set to the folder where the data is.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</code></pre>
-<p>As a first step let’s see how many rows and columns are in the data, and glance at the first several rows from each column. <code>nrow()</code> and <code>ncol()</code> tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).</p>
+<p>As a first step, let’s see how many rows and columns are in the data, and glance at the first several rows from each column. <code>nrow()</code> and <code>ncol()</code> tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(ucr2017)
 <span class="co">#&gt; [1] 15764</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(ucr2017)
@@ -405,12 +406,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>table()</code> function returns every unique value in a category <strong>and</strong> how often that value appears. Unlike <code>summary()</code> we can’t just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation which is <code>data$column</code>. For most functions we use to examine the data as a whole, you can do the same for a specific column.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017<span class="op">$</span>agency_name)
 <span class="co">#&gt; [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></code></pre>
-<p>There are only two columns in our data with categorical values that we can use - “year” and “state” so let’s use <code>table()</code> on both of them. The columns “ori” and “agency_name” are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
+<p>There are only two columns in our data with categorical values that we can use - <em>year</em> and <em>state</em> so let’s use <code>table()</code> on both of them. The columns <em>ori</em> and <em>agency_name</em> are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>year)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  2017 </span>
 <span class="co">#&gt; 15764</span></code></pre>
-<p>We can see that every year in our data is 2017, as expected based on the data name. “year” is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
+<p>We can see that every year in our data is 2017, as expected based on the data name. <em>year</em> is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>state)
 <span class="co">#&gt; </span>
 <span class="co">#&gt;              alabama               alaska              arizona </span>
@@ -534,12 +535,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017<span class="op">$</span>actual_murder, ucr2017<span class="op">$</span>actual_robbery_total)</code></pre>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
+<p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
 <p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the square bracket <code>[]</code> notation to subset. Remember it is</p>
 <p><code>[rows, columns]</code></p>
 <p>where we either say exactly which rows or columns we want or give a conditional statement and it’ll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.</p>
 <p><code>[ucr2017$population &gt; 1000000, ]</code></p>
-<p>Now our row conditional is done. We want all the columns in the data so leave the section after the comma (don’t forget to include that comma!) empty. Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.</p>
+<p>Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don’t forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.</p>
 <p><code>ucr2017[ucr2017$population &gt; 1000000, ]</code></p>
 <p>And let’s save the results in a new object called “ucr2017_big_cities”.</p>
 <pre class="sourceCode r"><code class="sourceCode r">ucr2017_big_cities &lt;-<span class="st"> </span>ucr2017[ucr2017<span class="op">$</span>population <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000000</span>, ]</code></pre>
@@ -595,9 +596,9 @@ colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<sp
 <span class="dv">5</span> <span class="dv">2015</span> colorado           <span class="dv">173</span>
 <span class="dv">6</span> <span class="dv">2016</span> colorado           <span class="dv">203</span>
 <span class="dv">7</span> <span class="dv">2017</span> colorado           <span class="dv">218</span></code></pre>
-<p>If we want to aggregate multiple numeric columns we would use the <code>cbind()</code> function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let’s call it “colorado_agg”.</p>
+<p>If we want to aggregate multiple numeric columns we would use the <code>cbind()</code> function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let’s call it <em>colorado_agg</em>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(population, actual_murder) <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</code></pre>
-<p>To make the murder rate we simply make a new column, which we can call “murder_rate” which is the number of murders divided by population multiplied by 100,000.</p>
+<p>To make the murder rate we simply make a new column, which we can call <em>murder_rate</em> which is the number of murders divided by population multiplied by 100,000.</p>
 <pre class="sourceCode r"><code class="sourceCode r">colorado_agg<span class="op">$</span>murder_rate &lt;-<span class="st"> </span>colorado_agg<span class="op">$</span>actual_murder <span class="op">/</span><span class="st"> </span>colorado_agg<span class="op">$</span>population <span class="op">*</span><span class="st"> </span><span class="dv">100000</span></code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">colorado_agg
 <span class="co">#&gt;   year population actual_murder murder_rate</span>
@@ -608,7 +609,7 @@ colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<sp
 <span class="co">#&gt; 5 2015    5505856           173    3.142109</span>
 <span class="co">#&gt; 6 2016    5590124           203    3.631404</span>
 <span class="co">#&gt; 7 2017    5661529           218    3.850550</span></code></pre>
-<p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and that doesn’t have legal marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
+<p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and didn’t legalize marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
 <p>We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate)</code></pre>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>

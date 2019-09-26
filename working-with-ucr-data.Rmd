@@ -1,10 +1,10 @@
 # Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest {#ucr}
 
-The Uniform Crime Report (UCR) are an collection of agency-level crime data published by the FBI. There are a number of different data sets included in the UCR including data on crime, arrests, hate crimes, arson, and stolen property. We'll be using the Offenses Known and Clearances by Arrest data set (the "crime" data set), which is the most commonly used data set in the UCR and is sometimes used as a shorthand for UCR data. In this lesson we'll use "UCR" and "Offenses Known and Clearances by Arrest" interchangeably but keep in mind that doing so is technically incorrect. 
+The Uniform Crime Report (UCR) Program Data are an collection of agency-level crime data published by the FBI. There are a number of different data sets included in the UCR including data on crime, arrests, hate crimes, arson, and stolen property. We'll be using the Offenses Known and Clearances by Arrest data set (the "crime" data set), which is the most commonly used data set in the UCR and is sometimes used as a shorthand for UCR data. In this lesson we'll use "UCR" and "Offenses Known and Clearances by Arrest" interchangeably but keep in mind that doing so is technically incorrect. 
 
-You can read more about the UCR program and all of the data sets it includes on the National Archive of Criminal Justice Data page [here](https://www.icpsr.umich.edu/icpsrweb/content/NACJD/guides/ucr.html). You can also check out my site [Crime Data Tool](http://crimedatatool.com) which visualizes several of the UCR data sets and has info in the [FAQ page](http://crimedatatool.com/faq.html)explaining the data.
+You can read more about the UCR program and all of the data sets it includes on the National Archive of Criminal Justice Data (NACJD) page [here](https://www.icpsr.umich.edu/icpsrweb/content/NACJD/guides/ucr.html). You can also check out my site [Crime Data Tool](http://crimedatatool.com) which visualizes several of the UCR data sets and has info in the [FAQ page](http://crimedatatool.com/faq.html) explaining the data.
 
-Nearly every police agency in the United States - approximately 18,000 agencies including state, local (city, county, college), tribal, and federal police departments - now report their data to the FBI which compiles and releases the UCR data (some states have their agencies report to a state department which then sends the data to the FBI). This data is available since 1960 though early years have many fewer agencies reporting than do so in later years. 
+Nearly every police agency in the United States - approximately 18,000 agencies - now report their data to the FBI which compiles and releases the UCR data (some states have their agencies report to a state department which then sends the data to the FBI). This data is available since 1960 though early years have many fewer agencies reporting than do so in later years. 
 
 The data file has annual data on the number of crimes reported, the number of crimes cleared, the number cleared where all offenders are under age 18, and the number of unfounded crimes. We'll discuss each of these a bit further as we dive into the data. Agencies report the monthly number of each crime though the data we'll work with has aggregated that to annual counts. 
 
@@ -38,7 +38,7 @@ We can see this is a very big file - 159 columns and nearly a million rows! Norm
 View(offenses_known_yearly_1960_2017)
 ```
 
-From looking at the data in `View()` we can see that the units are agency-years. Each row is a single agency for a single year. This is useful because it tells us we will have crime in agencies over time, which is a very common type of crime data. Let's take a look at how many agencies report each year using the `table()` function which says how many times each value occurs for the column we select. This is also a useful check on if every year from 1960 to 2017 is actually available - don't just trust that the data has what it says it has!
+From looking at the data in `View()` we can see that the units are agency-years. Each row is a single agency for a single year. This is useful because it tells us we will have crime in agencies over time, which is a very common unit of crime data. Let's take a look at how many agencies report each year using the `table()` function which says how many times each value occurs for the column we select. This is also a useful check on if every year from 1960 to 2017 is actually available - don't just trust that the data has what it says it has!
 
 ```{r}
 table(offenses_known_yearly_1960_2017$year)
@@ -48,7 +48,7 @@ From these results it's clear that there are huge differences in how many agenci
 
 ## ORIs - Unique agency identifiers
 
-In the UCR and other FBI data sets, agencies are identified using **OR**iginating Agency **I**dentifiers or ORIs. These are unique ID codes used to identify an agency. If we used the agency's normal name we'd end up with some duplicates For example, if you looked for the Philadelphia Police Department using the agency name, you'd find both the "Philadelphia Police Department" in Pennsylvania and the one in Mississippi. 
+In the UCR and other FBI data sets, agencies are identified using **OR**iginating Agency **I**dentifiers or ORIs. These are unique ID codes used to identify an agency. If we used the agency's name we'd end up with some duplicates For example, if you looked for the Philadelphia Police Department using the agency name, you'd find both the "Philadelphia Police Department" in Pennsylvania and the one in Mississippi. 
 
 ```{r}
 head(offenses_known_yearly_1960_2017$ori)
@@ -66,7 +66,7 @@ How much does this affect our data in practice? Actually very little. Though the
 
 ## Which crimes are included
 
-If you look back at the output when we ran `names(offenses_known_yearly_1960_2017)` you'll see that it produced five broad categories of columns. The first was information about the agency including population and geographic info, then came four columns with the same values except starting with "actual", "tot_clr", "clr_18", and "unfound". Following these starting values was 30 crime categories. We'll discuss what each of those starting values mean in a bit, let's first talk about which crimes are included and what that means for research. 
+If you look back at the output when we ran `names(offenses_known_yearly_1960_2017)` you'll see that it produced five broad categories of columns. The first was information about the agency including population and geographic info, then came four columns with the same values except starting with "actual", "tot_clr", "clr_18", and "unfound". Following these starting values were 30 crime categories. We'll discuss what each of those starting values mean in a bit, let's first talk about which crimes are included and what that means for research. 
 
 ### Index Crimes
 
@@ -118,7 +118,7 @@ Many researchers divide index crimes into violent and nonviolent categories, whi
 
 ### Rape definition change
 
-Starting in 2013, rape has a new, broader definition in the UCR to include oral and anal penetration (by a body part or object) and allow men to be victims. The previous definition included only forcible intercourse against a woman. As this revised definition is broader than the original one post-2013 rape data is not comparable to pre-2013 data. 
+Starting in 2013, rape has a new, broader definition in the UCR to include oral and anal penetration (by a body part or object) and to allow men to be victims. The previous definition included only forcible intercourse against a woman. As this revised definition is broader than the original one post-2013, rape data is not comparable to pre-2013 data. 
 
 ## Actual offenses, clearances, and unfounded offenses
 
@@ -152,4 +152,4 @@ UCR data is reported monthly though even agencies that decide to report their da
 table(offenses_known_yearly_1960_2017$number_of_months_reported)
 ```
 
-From our `table()` output it seems that when agencies do report, they do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to measure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 
+From our `table()` output it seems that when agencies do report, they tend to do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to measure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 

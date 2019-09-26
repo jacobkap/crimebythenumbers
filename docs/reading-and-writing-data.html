@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-24" />
+<meta name="date" content="2019-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,7 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.4</b> Color blindness</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
@@ -344,14 +345,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="r" class="section level3">
 <h3><span class="header-section-number">5.1.1</span> R</h3>
 <p>As we’ve seen earlier, to read in data with a .rda or .rdata extension you use the function <code>load()</code> with the file name (including the extension) in quotation marks inside of the parentheses. This loads the data into R and calls the object the name it was when it was saved. Therefore we do not need to give it a name ourselves.</p>
-<p>For each of the other types of data we’ll need to assign a name to the data we’re reading in so it has a name. Whereas we’ve done <code>x &lt;- 2</code> to say x gets the value of 2, now we’d do <code>x &lt;- DATA</code> where DATA is the way to load in the data and x will get the entire data.frame read in.</p>
+<p>For each of the other types of data we’ll need to assign a name to the data we’re reading in so it has a name. Whereas we’ve done <code>x &lt;- 2</code> to say <em>x</em> gets the value of 2, now we’d do <code>x &lt;- DATA</code> where DATA is the way to load in the data and <em>x</em> will get the entire data.frame that is read in.</p>
 </div>
 <div id="excel" class="section level3">
 <h3><span class="header-section-number">5.1.2</span> Excel</h3>
-<p>To read in Excel files, those ending in .csv, we can use the function <code>read_csv()</code> from the package <code>readr</code> (the function <code>read.csv()</code> is included in R by default so doesn’t require any packages but is far slower than <code>read_csv()</code> so we will not use it).</p>
+<p>To read in Excel files, those ending in .csv, we can use the function <code>read_csv()</code> from the package <code>readr</code> (the function <code>read.csv()</code> is included in R by default so it doesn’t require any packages but is far slower than <code>read_csv()</code> so we will not use it).</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;readr&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)</code></pre>
-<p>The input in the () is the file name ending in “.csv”. As it is telling R to read a file on the computer, the whole name must be in quotes. Unlike loading an .rda file using <code>load()</code>, there is no name for the object that gets read in so we must assign the data a name. We can using <em>shootings</em> as it’s relatively descriptive and easy for us to write.</p>
+<p>The input in the () is the file name ending in “.csv”. As it is telling R to read a file that is stored on your on the computer, the whole name must be in quotes. Unlike loading an .rda file using <code>load()</code>, there is no name for the object that gets read in so we must assign the data a name. We can use the name <em>shootings</em> as it’s relatively descriptive and easy for us to write.</p>
 <pre class="sourceCode r"><code class="sourceCode r">shootings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/fatal-police-shootings-data.csv&quot;</span>)
 <span class="co">#&gt; Parsed with column specification:</span>
 <span class="co">#&gt; cols(</span>
@@ -391,7 +392,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For the remaining three data types we’ll use the package <code>haven</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;haven&quot;</span>)</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(haven)</code></pre>
-<p><code>haven</code> follows the same syntax for each data type and is the same as with <code>read_csv()</code> - for each data type we simply include the file name (in quotes, with the extension) and designate an name to get the data.</p>
+<p><code>haven</code> follows the same syntax for each data type and is the same as with <code>read_csv()</code> - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.</p>
 <p>Like with <code>read_csv()</code> the functions to read data through <code>haven</code> all start with <code>read_</code> and end with the extension you’re reading in.</p>
 <ul>
 <li><code>read_dta()</code> - Stata file, extension “dta”</li>

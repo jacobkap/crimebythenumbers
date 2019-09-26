@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-09-24" />
+<meta name="date" content="2019-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,7 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
-<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.4</b> Color blindness</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
@@ -341,9 +342,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>grep()</code> - Find</li>
 <li><code>gsub()</code> - Find and Replace</li>
 </ul>
-<p>The <code>grep()</code> function lets you find a pattern in the text and it will return a number saying which element has the pattern (basically which row has a match). <code>gsub()</code> lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because <code>gsub()</code> has the word “sub” in it and what it does is substitute text with new text.</p>
+<p>The <code>grep()</code> function lets you find a pattern in the text and it will return a number saying which element has the pattern (in a data.frame this tells you which row has a match). <code>gsub()</code> lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because <code>gsub()</code> has the word “sub” in it and what it does is substitute text with new text.</p>
 <p>A useful cheat sheet on regular expressions is available <a href="https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf">here</a>.</p>
-<p>For this lesson we will use a vector of 50 crime categories. These are all of the crimes in San Francisco Police data. As you’ll see, there are some issues with the crime names that we need to fix.</p>
+<p>For this lesson we will use a vector of 50 crime categories. These are all of the crimes in San Francisco Police data. As we’ll see, there are some issues with the crime names that we need to fix.</p>
 <pre class="sourceCode r"><code class="sourceCode r">crimes &lt;-<span class="st"> </span><span class="kw">c</span>(
   <span class="st">&quot;Arson&quot;</span>,
   <span class="st">&quot;Assault&quot;</span>,                                  
@@ -399,17 +400,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>When looking closely at these crimes it is clear that some may overlap in certain categories such as theft, and there are several duplicates with slight differences in spelling. For example the last two crimes are “Weapons Offence” and “Weapons Offense”. These should be the same crime but the first one spelled “offense” wrong. And take a look at “motor vehicle theft”. There are two crimes here because one of them adds a question mark at the end for some reason.</p>
 <div id="finding-patterns-in-text-with-grep" class="section level2">
 <h2><span class="header-section-number">4.1</span> Finding patterns in text with <code>grep()</code></h2>
-<p>We’ll start with <code>grep()</code> which allows us to search a vector of data (in R columns in a data.frame operate the same as a vector) and find where there is a match for the pattern we want to look for.</p>
+<p>We’ll start with <code>grep()</code> which allows us to search a vector of data (in R, columns in a data.frame operate the same as a vector) and find where there is a match for the pattern we want to look for.</p>
 <p>The syntax for <code>grep()</code> is</p>
 <p><code>grep("pattern", data)</code></p>
-<p>Where pattern is the pattern you are searching for, such as “a” if you want to find all values with the letter a. The pattern must always be in quotes. data is a vector of strings (such as “crimes” we made above or a column in a data.frame) that you are searching in to find the pattern.</p>
+<p>Where pattern is the pattern you are searching for, such as “a” if you want to find all values with the letter a. The pattern must always be in quotes. data is a vector of strings (such as <em>crimes</em> we made above or a column in a data.frame) that you are searching in to find the pattern.</p>
 <p>The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and no other elements do. It is essentially returning the index where the conditional statement “is this pattern present” is true.</p>
-<p>So since our data is “crimes” our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
+<p>So since our data is <em>crimes</em> our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
 <p>Let’s start with the letter “a”.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)
 <span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47</span>
 <span class="co">#&gt; [24] 48 49 50</span></code></pre>
-<p>It gives us a bunch of numbers where the letter “a” is present in that element of “crimes”. What this is useful for is subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values.</p>
+<p>It gives us a bunch of numbers where the letter “a” is present in that element of <em>crimes</em>. What this is useful for is subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values.</p>
 <pre class="sourceCode r"><code class="sourceCode r">crimes[<span class="kw">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)]
 <span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span>
 <span class="co">#&gt;  [2] &quot;Burglary&quot;                                  </span>
@@ -568,7 +569,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="co">#&gt; [48] &quot;Weapons Carrying Etc&quot;                      </span>
 <span class="co">#&gt; [49] &quot;Weapons Offense&quot;                           </span>
 <span class="co">#&gt; [50] &quot;Weapons Offense&quot;</span></code></pre>
-<p>A useful pattern is an empty string "" which says replace whatever the find_pattern is with nothing, deleting it. Let’s delete the letter “a” from the data.</p>
+<p>A useful pattern is an empty string "" which says replace whatever the find_pattern is with nothing, deleting it. Let’s delete the letter “a” (lowercase only) from the data.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gsub</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;&quot;</span>, crimes)
 <span class="co">#&gt;  [1] &quot;Arson&quot;                                  </span>
 <span class="co">#&gt;  [2] &quot;Assult&quot;                                 </span>
@@ -626,8 +627,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>So far we have just searched for a single character or word and expected a return only if an exact match was found. Now we’ll discuss a number of characters called “special characters” that allow us to make more complex <code>grep()</code> and <code>gsub()</code> pattern searches.</p>
 <div id="multiple-characters" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> Multiple characters <code>[]</code></h3>
-<p>To search for multiple matches we can put the pattern we want to search for inside square brackets <code>[]</code> (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain vowels.</p>
-<p>The <code>grep()</code> searches if any of the letters inside of the <code>[]</code> are present in our “crimes” vector.</p>
+<p>To search for multiple matches we can put the pattern we want to search for inside square brackets <code>[]</code> (note that we use the same square brackets for subsetting but they operate very differently in this context). For example, we can find all the crimes that contain the letters “x”, “y”, or “z”.</p>
+<p>The <code>grep()</code> searches if any of the letters inside of the <code>[]</code> are present in our <em>crimes</em> vector.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">grep</span>(<span class="st">&quot;[xyz]&quot;</span>, crimes, <span class="dt">value =</span> <span class="ot">TRUE</span>)
 <span class="co">#&gt;  [1] &quot;Burglary&quot;                                  </span>
 <span class="co">#&gt;  [2] &quot;Courtesy Report&quot;                           </span>

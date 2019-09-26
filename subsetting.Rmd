@@ -2,7 +2,7 @@
 
 # Subsetting: Making big things small {#subsetting-intro}
 
-Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.
+Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you'd subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R. 
 
 ## Select specific values
 
@@ -90,6 +90,24 @@ x
 
 It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work properly. For those reasons we will use `<-` for this class. 
 
+Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, `animals[-1]` prints every value in th *animals* except for the first value.
+
+```{r}
+animals[-1]
+```
+
+However, it doesn't actually remove anything from *animals*. Let's print *animals* and see which values it returns.
+
+```{r}
+animals
+```
+
+Now the first value, "cats", is back. Why? To make changes in R you need to tell R very explicitly that you are making the change. If you don't save the result of your code (by assigning an object to it), R will run that code and simply print the results in the console panel without making any changes. 
+
+This is an important point that a lot of students struggle with. R doesn't know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If *x* is an object with a value of 2, and you write `x + 2`, it would print out 4 because 2 + 2 = 4. But that won't change the value of *x*. *x* will remain as 2 until you explicitly tell R to change it's value. If you want to update *x* you need to run `x <- somevalue` where "somevalue" is whatever you want to change *x* to. 
+
+So to return to our *animals* example, if we wanted to delete the first value and keep it removed, we'd need to write `animals <- animals[1]`. Which is essentially making a new object, also called *animals* (to avoid having many, slightly different objects that are hard to keep track of we'll reuse the name) with the same values as the original *animals* except this time excluding the first value, "cats".
+
 ## Vectors (collections of "things") {#vectors}
 
 When we made *x* we wrote `x <- 2` while when we made *animals* we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which **c**ombines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
@@ -110,7 +128,7 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ## Logical values and operations
 
-We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in capital letters.
+We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in all capital letters.
 
 First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 
@@ -124,13 +142,13 @@ This is the basis of conditional subsetting. If we have a large data set and onl
 
 For each case you are asking: does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right. 
 
-  + `==`   Equals (compared to a single value)
+  + `==  ` Equals (compared to a single value)
   + `%in%` Equals (one value match out of multiple comparisons)
-  + `!=`   Does not equal
-  + `<`    Less than
-  + `>`   Greater than
-  + `<=`   Less than or equal to
-  + `>=`  Greater than or equal to
+  + `!=  ` Does not equal
+  + `<   ` Less than
+  + `>   ` Greater than
+  + `<=  ` Less than or equal to
+  + `>=  ` Greater than or equal to
   
 Since many conditionals involve numbers (especially in criminology), let's make a new object called *numbers* with the numbers 1-10.
 
@@ -283,7 +301,7 @@ names(offenses_known_yearly_1960_2017)
 
 Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?" Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
 
-We also don't need all 159 columns in the current data. Let's say we're only interested in if murder changes. We'd need the column called "actual_murder", the "state" column (as a check), the "year" column, the "population" column, the "ori" column, and the "agency_name" column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we're just using it as an example). The last two columns - ori and agency_name - aren't strictly necessary but would be useful if checking if an agency's values are reasonable when checking for outliers, a step we won't do here. 
+We also don't need all 159 columns in the current data. Let's say we're only interested in if murder changes. We'd need the column called *actual_murder*, the *state* column (as a check to make sure we subset only Colorado), the *year* column, the *population* column, the *ori* column, and the *agency_name* column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we're just using it as an example). The last two columns - *ori* and *agency_name* - aren't strictly necessary but would be useful if checking if an agency's values are reasonable when checking for outliers, a step we won't do here. 
 
 Before explaining how to subset from a data.frame, let's write pseudocode (essentially a description of what we are going to do that is readable to people but isn't real code) for our subset.
 
@@ -291,7 +309,7 @@ We want
 
   * Only rows where the state equals Colorado
   * Only rows where the year is 2011-2017
-  * Only the following columns: actual_murder, state, year, population, ori, agency_name
+  * Only the following columns: *actual_murder*, *state*, *year*, *population*, *ori*, *agency_name*
 
 ### Select specific columns
 
@@ -301,13 +319,13 @@ The way to select a specific column in R is called the dollar sign notation.
 
 We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the `data$column` exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
 
-We can do this for the column "agency_name" in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
+We can do this for the column *agency_name* in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
 
 ```{r}
 head(offenses_known_yearly_1960_2017$agency_name)
 ```
 
-They're all the same name because Anchorage Police reported many times and are in the data set multiple times. Let's look at the column "actual_murder" which shows the annual number of murders in that agency. 
+They're all the same name because Anchorage Police reported many times and are in the data set multiple times. Let's look at the column *actual_murder* which shows the annual number of murders in that agency. 
 
 ```{r}
 head(offenses_known_yearly_1960_2017$actual_murder)
@@ -373,6 +391,12 @@ Since R thinks you are requesting a column, and we only have 159 columns in the 
 head(offenses_known_yearly_1960_2017[1000])
 ```
 
+If you already specify a column using dollar sign notation `$`, you do not need to indicate any column in the square brackets`[]`. All you need to do is say which row or rows you want. 
+
+```{r}
+offenses_known_yearly_1960_2017$agency_name[15]
+```
+
 So make sure when you want a row from a data.frame you always include the comma!
 
 ### Subset Colorado data
@@ -385,7 +409,7 @@ Finally we have the tools to subset our UCR data to just be Colorado from 2011-2
 
 We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called *colorado* to save the result of this subset.
 
-Remember that we want to put the object to the left of the `[]` to make sure it returns the data. Just having the `[]` will only return TRUE or FALSE values based on the conditional statement. Since we want all columns we don't need to put anything after the comma.
+Remember that we want to put the object to the left of the `[]` (and touching the `[]`) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns we don't need to put anything after the comma (but we must include the comma!).
 
 ```{r}
 colorado <- offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017$state == "colorado", ]
@@ -397,21 +421,20 @@ Now we want to get all the rows where the year is 2011-2017. Since we want to ch
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 ```
 
-Finally we want the columns stated above and to keep every row in the current data. Since the format is `[row, column]` in this case we keep the "row" part blank to indicate we want every row.
+Finally we want the columns stated above and to keep every row in the current data. Since the format is `[row, column]` in this case we keep the "row" part blank to indicate that we want every row.
 
 ```{r}
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
 ```
 
-We can do a quick check using the `unique()` function. The `unique()` prints all the unique values in a category, such as a column. We will use it on the "state" and "year" columns to make sure only the values we want are present.
+We can do a quick check using the `unique()` function. The `unique()` prints all the unique values in a category, such as a column. We will use it on the *state* and *year* columns to make sure only the values that we want are present.
 
 ```{r}
 unique(colorado$state)
 ```
 
-
 ```{r}
 unique(colorado$year)
 ```
 
-The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \@ref(aggregate) we will sum up all the murders per year and see if marijuana affected it. 
+The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \@ref(aggregate) we will sum up all the murders per year and see if marijuana legalization affected it. 
