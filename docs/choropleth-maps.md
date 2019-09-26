@@ -49,7 +49,7 @@ I downloaded this data from San Francisco's Open Data site [here](https://data.s
 
 ```r
 sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp")
-#> Reading layer `san_francisco_neighborhoods' from data source `C:\Users\user\Dropbox\R_project\r4crim\data\san_francisco_neighborhoods.shp' using driver `ESRI Shapefile'
+#> Reading layer `san_francisco_neighborhoods' from data source `C:\Users\user\Dropbox\R_project\crimebythenumbers\data\san_francisco_neighborhoods.shp' using driver `ESRI Shapefile'
 #> Simple feature collection with 41 features and 1 field
 #> geometry type:  MULTIPOLYGON
 #> dimension:      XY
