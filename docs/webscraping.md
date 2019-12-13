@@ -38,7 +38,7 @@ The first step to scraping a page is to read in that page's information to R usi
 
 ```r
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
-#> {xml_document}
+#> {html_document}
 #> <html lang="en-us">
 #> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset= ...
 #> [2] <body ng-app="allrecipes" data-scoby-impression='{"id": "25080", "ev ...

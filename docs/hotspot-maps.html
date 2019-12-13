@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7 Hotspot maps | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7 Hotspot maps | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-10-01" />
+<meta name="date" content="2019-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="graphing-intro.html">
-<link rel="next" href="choropleth-maps.html">
+<link rel="prev" href="graphing-intro.html"/>
+<link rel="next" href="choropleth-maps.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,7 +48,9 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
@@ -77,7 +80,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -340,123 +342,123 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Hotspot maps are used to find where events (marijuana dispensaries, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).</p>
 <p>However, there are significant flaws with these kinds of maps. As we’ll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without taking into account context such as neighborhoods (In Chapter <a href="choropleth-maps.html#choropleth-maps">8</a> we’ll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We’ll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps.</p>
 <p>Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First we need to read the data, which is called “san_francisco_suicide_2003_2017.csv”. We can name the object we make <em>suicide</em>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
-suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)
-<span class="co">#&gt; Parsed with column specification:</span>
-<span class="co">#&gt; cols(</span>
-<span class="co">#&gt;   IncidntNum = col_double(),</span>
-<span class="co">#&gt;   Category = col_character(),</span>
-<span class="co">#&gt;   Descript = col_character(),</span>
-<span class="co">#&gt;   DayOfWeek = col_character(),</span>
-<span class="co">#&gt;   Date = col_character(),</span>
-<span class="co">#&gt;   Time = col_time(format = &quot;&quot;),</span>
-<span class="co">#&gt;   PdDistrict = col_character(),</span>
-<span class="co">#&gt;   Resolution = col_character(),</span>
-<span class="co">#&gt;   Address = col_character(),</span>
-<span class="co">#&gt;   X = col_double(),</span>
-<span class="co">#&gt;   Y = col_double(),</span>
-<span class="co">#&gt;   Location = col_character(),</span>
-<span class="co">#&gt;   PdId = col_double(),</span>
-<span class="co">#&gt;   year = col_double()</span>
-<span class="co">#&gt; )</span>
-suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suicide)</code></pre>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1"><span class="kw">library</span>(readr)</a>
+<a class="sourceLine" id="cb159-2" title="2">suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb159-3" title="3"><span class="co">#&gt; Parsed with column specification:</span></a>
+<a class="sourceLine" id="cb159-4" title="4"><span class="co">#&gt; cols(</span></a>
+<a class="sourceLine" id="cb159-5" title="5"><span class="co">#&gt;   IncidntNum = col_double(),</span></a>
+<a class="sourceLine" id="cb159-6" title="6"><span class="co">#&gt;   Category = col_character(),</span></a>
+<a class="sourceLine" id="cb159-7" title="7"><span class="co">#&gt;   Descript = col_character(),</span></a>
+<a class="sourceLine" id="cb159-8" title="8"><span class="co">#&gt;   DayOfWeek = col_character(),</span></a>
+<a class="sourceLine" id="cb159-9" title="9"><span class="co">#&gt;   Date = col_character(),</span></a>
+<a class="sourceLine" id="cb159-10" title="10"><span class="co">#&gt;   Time = col_time(format = &quot;&quot;),</span></a>
+<a class="sourceLine" id="cb159-11" title="11"><span class="co">#&gt;   PdDistrict = col_character(),</span></a>
+<a class="sourceLine" id="cb159-12" title="12"><span class="co">#&gt;   Resolution = col_character(),</span></a>
+<a class="sourceLine" id="cb159-13" title="13"><span class="co">#&gt;   Address = col_character(),</span></a>
+<a class="sourceLine" id="cb159-14" title="14"><span class="co">#&gt;   X = col_double(),</span></a>
+<a class="sourceLine" id="cb159-15" title="15"><span class="co">#&gt;   Y = col_double(),</span></a>
+<a class="sourceLine" id="cb159-16" title="16"><span class="co">#&gt;   Location = col_character(),</span></a>
+<a class="sourceLine" id="cb159-17" title="17"><span class="co">#&gt;   PdId = col_double(),</span></a>
+<a class="sourceLine" id="cb159-18" title="18"><span class="co">#&gt;   year = col_double()</span></a>
+<a class="sourceLine" id="cb159-19" title="19"><span class="co">#&gt; )</span></a>
+<a class="sourceLine" id="cb159-20" title="20">suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suicide)</a></code></pre></div>
 <p>This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. The columns X and Y are our longitude and latitude columns which we will use to graph the data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(suicide)
-<span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span>
-<span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span>
-<span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span>
-<span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span>
-<span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span>
-<span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span>
-<span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span>
-<span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span>
-<span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span>
-<span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span>
-<span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span>
-<span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span>
-<span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span>
-<span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span>
-<span class="co">#&gt;           X        Y                                       Location</span>
-<span class="co">#&gt; 1 -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315)</span>
-<span class="co">#&gt; 2 -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792)</span>
-<span class="co">#&gt; 3 -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736)</span>
-<span class="co">#&gt; 4 -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039)</span>
-<span class="co">#&gt; 5 -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551)</span>
-<span class="co">#&gt; 6 -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265)</span>
-<span class="co">#&gt;           PdId year</span>
-<span class="co">#&gt; 1 1.803189e+13 2018</span>
-<span class="co">#&gt; 2 1.803155e+13 2018</span>
-<span class="co">#&gt; 3 1.802957e+13 2018</span>
-<span class="co">#&gt; 4 1.802637e+13 2018</span>
-<span class="co">#&gt; 5 1.802355e+13 2018</span>
-<span class="co">#&gt; 6 1.802365e+13 2018</span></code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1"><span class="kw">head</span>(suicide)</a>
+<a class="sourceLine" id="cb160-2" title="2"><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></a>
+<a class="sourceLine" id="cb160-3" title="3"><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></a>
+<a class="sourceLine" id="cb160-4" title="4"><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></a>
+<a class="sourceLine" id="cb160-5" title="5"><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></a>
+<a class="sourceLine" id="cb160-6" title="6"><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></a>
+<a class="sourceLine" id="cb160-7" title="7"><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></a>
+<a class="sourceLine" id="cb160-8" title="8"><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></a>
+<a class="sourceLine" id="cb160-9" title="9"><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></a>
+<a class="sourceLine" id="cb160-10" title="10"><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></a>
+<a class="sourceLine" id="cb160-11" title="11"><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></a>
+<a class="sourceLine" id="cb160-12" title="12"><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></a>
+<a class="sourceLine" id="cb160-13" title="13"><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></a>
+<a class="sourceLine" id="cb160-14" title="14"><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></a>
+<a class="sourceLine" id="cb160-15" title="15"><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></a>
+<a class="sourceLine" id="cb160-16" title="16"><span class="co">#&gt;           X        Y                                       Location</span></a>
+<a class="sourceLine" id="cb160-17" title="17"><span class="co">#&gt; 1 -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315)</span></a>
+<a class="sourceLine" id="cb160-18" title="18"><span class="co">#&gt; 2 -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792)</span></a>
+<a class="sourceLine" id="cb160-19" title="19"><span class="co">#&gt; 3 -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736)</span></a>
+<a class="sourceLine" id="cb160-20" title="20"><span class="co">#&gt; 4 -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039)</span></a>
+<a class="sourceLine" id="cb160-21" title="21"><span class="co">#&gt; 5 -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551)</span></a>
+<a class="sourceLine" id="cb160-22" title="22"><span class="co">#&gt; 6 -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265)</span></a>
+<a class="sourceLine" id="cb160-23" title="23"><span class="co">#&gt;           PdId year</span></a>
+<a class="sourceLine" id="cb160-24" title="24"><span class="co">#&gt; 1 1.803189e+13 2018</span></a>
+<a class="sourceLine" id="cb160-25" title="25"><span class="co">#&gt; 2 1.803155e+13 2018</span></a>
+<a class="sourceLine" id="cb160-26" title="26"><span class="co">#&gt; 3 1.802957e+13 2018</span></a>
+<a class="sourceLine" id="cb160-27" title="27"><span class="co">#&gt; 4 1.802637e+13 2018</span></a>
+<a class="sourceLine" id="cb160-28" title="28"><span class="co">#&gt; 5 1.802355e+13 2018</span></a>
+<a class="sourceLine" id="cb160-29" title="29"><span class="co">#&gt; 6 1.802365e+13 2018</span></a></code></pre></div>
 <div id="a-simple-map" class="section level2">
 <h2><span class="header-section-number">7.1</span> A simple map</h2>
 <p>To make these maps we will use the package <code>ggmap</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ggmap&quot;</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggmap)
-<span class="co">#&gt; Loading required package: ggplot2</span>
-<span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span>
-<span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></code></pre>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;ggmap&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">library</span>(ggmap)</a>
+<a class="sourceLine" id="cb162-2" title="2"><span class="co">#&gt; Loading required package: ggplot2</span></a>
+<a class="sourceLine" id="cb162-3" title="3"><span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span></a>
+<a class="sourceLine" id="cb162-4" title="4"><span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></a></code></pre></div>
 <p>We’ll start by making the background to our map, showing San Francisco. We do so using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show.</p>
 <p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box</a>. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste”, change the dropdown box to “CSV”. In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
 <p><img src="images/bounding_box.PNG" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="op">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), 
-                            <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1582.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1582.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1583.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1583.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1583.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1584.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1584.png</span>
-<span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span>
-sf_map</code></pre>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1">sf_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="op">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), </a>
+<a class="sourceLine" id="cb163-2" title="2">                            <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))</a>
+<a class="sourceLine" id="cb163-3" title="3"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span></a>
+<a class="sourceLine" id="cb163-4" title="4"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1582.png</span></a>
+<a class="sourceLine" id="cb163-5" title="5"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1582.png</span></a>
+<a class="sourceLine" id="cb163-6" title="6"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1583.png</span></a>
+<a class="sourceLine" id="cb163-7" title="7"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1583.png</span></a>
+<a class="sourceLine" id="cb163-8" title="8"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1583.png</span></a>
+<a class="sourceLine" id="cb163-9" title="9"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1584.png</span></a>
+<a class="sourceLine" id="cb163-10" title="10"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1584.png</span></a>
+<a class="sourceLine" id="cb163-11" title="11"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span></a>
+<a class="sourceLine" id="cb163-12" title="12">sf_map</a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the shootings from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-             <span class="dt">data  =</span> suicide)
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb164-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb164-3" title="3">             <span class="dt">data  =</span> suicide)</a>
+<a class="sourceLine" id="cb164-4" title="4"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>If we wanted to color the dots we can use <code>color =</code> and then select a color. Let’s try it with “forestgreen”.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-             <span class="dt">data  =</span> suicide,
-             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>)
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb165-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb165-3" title="3">             <span class="dt">data  =</span> suicide,</a>
+<a class="sourceLine" id="cb165-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>)</a>
+<a class="sourceLine" id="cb165-5" title="5"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>As with other graphs we can change the size of the dot using <code>size =</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-             <span class="dt">data  =</span> suicide,
-             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,
-             <span class="dt">size  =</span> <span class="fl">0.5</span>)
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb166-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb166-3" title="3">             <span class="dt">data  =</span> suicide,</a>
+<a class="sourceLine" id="cb166-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
+<a class="sourceLine" id="cb166-5" title="5">             <span class="dt">size  =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb166-6" title="6"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-             <span class="dt">data  =</span> suicide,
-             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,
-             <span class="dt">size  =</span> <span class="dv">2</span>)
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb167-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb167-3" title="3">             <span class="dt">data  =</span> suicide,</a>
+<a class="sourceLine" id="cb167-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
+<a class="sourceLine" id="cb167-5" title="5">             <span class="dt">size  =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb167-6" title="6"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-             <span class="dt">data  =</span> suicide,
-             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,
-             <span class="dt">size  =</span> <span class="dv">2</span>,
-             <span class="dt">alpha =</span> <span class="fl">0.5</span>)
-<span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></code></pre>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb168-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb168-3" title="3">             <span class="dt">data  =</span> suicide,</a>
+<a class="sourceLine" id="cb168-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
+<a class="sourceLine" id="cb168-5" title="5">             <span class="dt">size  =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb168-6" title="6">             <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb168-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost.</p>
 </div>
 <div id="what-really-are-maps" class="section level2">
 <h2><span class="header-section-number">7.2</span> What really are maps?</h2>
 <p>Let’s pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps">9</a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="making-a-hotspot-map" class="section level2">
@@ -465,59 +467,59 @@ sf_map</code></pre>
 <p>There are two new things we need to make the hotspot map. First we add the parameter <code>bins = number_of_bins</code> where “number_of_bins” is a number we select. <code>bins</code> essentially says how large or small we want each cluster of events to be. A smaller value for <code>bins</code> says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples.</p>
 <p>The second thing is to add the function <code>coord_cartesian()</code> which just tells <code>ggplot()</code> we are going to do some spatial analysis in the making of the bins. We don’t need to add any parameters in this.</p>
 <p>Let’s start with 60 bins and then try some other number of bins to see how it changes the map.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-              <span class="dt">bins =</span> <span class="dv">60</span>,
-              <span class="dt">data =</span> suicide) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() 
-<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></code></pre>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb170-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb170-3" title="3">              <span class="dt">bins =</span> <span class="dv">60</span>,</a>
+<a class="sourceLine" id="cb170-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
+<a class="sourceLine" id="cb170-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
+<a class="sourceLine" id="cb170-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
+<a class="sourceLine" id="cb170-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.</p>
 <p>What happens when we drop the number of bins to 30?</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-              <span class="dt">bins =</span> <span class="dv">30</span>,
-              <span class="dt">data =</span> suicide) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() 
-<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></code></pre>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb171-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb171-3" title="3">              <span class="dt">bins =</span> <span class="dv">30</span>,</a>
+<a class="sourceLine" id="cb171-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
+<a class="sourceLine" id="cb171-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
+<a class="sourceLine" id="cb171-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
+<a class="sourceLine" id="cb171-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are &lt;1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!</p>
 <p>What about looking at 100 bins?</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-              <span class="dt">bins =</span> <span class="dv">100</span>,
-              <span class="dt">data =</span> suicide) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() 
-<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></code></pre>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb172-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb172-3" title="3">              <span class="dt">bins =</span> <span class="dv">100</span>,</a>
+<a class="sourceLine" id="cb172-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
+<a class="sourceLine" id="cb172-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
+<a class="sourceLine" id="cb172-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
+<a class="sourceLine" id="cb172-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself.</p>
 <div id="colors" class="section level3">
 <h3><span class="header-section-number">7.3.1</span> Colors</h3>
 <p>To change the bin colors we can use the parameter <code>scale_fill_gradient()</code>. This accepts a color for “low” which is when the events are rare and “high” for the bins with frequent events. We’ll use colors from <a href="http://colorbrewer2.org">ColorBrewer</a>, selecting the yellow-reddish theme (“3-class YlOrRd”) from the Multi-hue section of the “sequential” data on the page.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-              <span class="dt">bins  =</span> <span class="dv">60</span>,
-              <span class="dt">data =</span> suicide) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,
-                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)
-<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></code></pre>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb173-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb173-3" title="3">              <span class="dt">bins  =</span> <span class="dv">60</span>,</a>
+<a class="sourceLine" id="cb173-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
+<a class="sourceLine" id="cb173-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb173-6" title="6"><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</a>
+<a class="sourceLine" id="cb173-7" title="7">                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</a>
+<a class="sourceLine" id="cb173-8" title="8"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
+<a class="sourceLine" id="cb173-9" title="9"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>By default it labels the legend as “count”. Since we know these are counts of suicides let’s relabel that as such.</p>
-<pre class="sourceCode r"><code class="sourceCode r">sf_map <span class="op">+</span>
-<span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),
-              <span class="dt">bins  =</span> <span class="dv">60</span>,
-              <span class="dt">data =</span> suicide) <span class="op">+</span>
-<span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Suicides&#39;</span>,
-                      <span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,
-                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)
-<span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span>
-<span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></code></pre>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">sf_map <span class="op">+</span></a>
+<a class="sourceLine" id="cb174-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
+<a class="sourceLine" id="cb174-3" title="3">              <span class="dt">bins  =</span> <span class="dv">60</span>,</a>
+<a class="sourceLine" id="cb174-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
+<a class="sourceLine" id="cb174-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb174-6" title="6"><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Suicides&#39;</span>,</a>
+<a class="sourceLine" id="cb174-7" title="7">                      <span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</a>
+<a class="sourceLine" id="cb174-8" title="8">                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</a>
+<a class="sourceLine" id="cb174-9" title="9"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
+<a class="sourceLine" id="cb174-10" title="10"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -534,11 +536,13 @@ sf_map</code></pre>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

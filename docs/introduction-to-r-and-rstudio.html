@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>1 Introduction to R and RStudio | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="1 Introduction to R and RStudio | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-10-01" />
+<meta name="date" content="2019-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="about-the-author.html">
-<link rel="next" href="subsetting-intro.html">
+<link rel="prev" href="about-the-author.html"/>
+<link rel="next" href="subsetting-intro.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,7 +48,9 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
@@ -77,7 +80,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -401,7 +403,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">1.2.1</span> Loading data</h3>
 <p>As we learned above in Section <a href="introduction-to-r-and-rstudio.html#setting-the-working-directory">1.1.2</a> we need to set our working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.</p>
 <p>The <code>load()</code> function lets us load data already in the R format. These files will end in the extension “.rda” or sometimes “.Rda” or “.RData”. Since we are telling R to load a specific file we need to have that file name in quotes and include the file extension “.rda”. With R data, the object inside the data already has a name so we don’t need to assign (something we will discuss in detail in Section <a href="subsetting-intro.html#assignment">2.2</a>) a name to the data. With other forms of data such as .csv files we will need to do that as we’ll see in Chapter <a href="reading-and-writing-data.html#reading-and-writing-data">5</a>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="first-steps-to-exploring-data" class="section level2">
@@ -415,21 +417,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>Note that the first three functions are lowercase while <code>View()</code> is capitalized. That is simply because older functions in R were often capitalized while newer ones use all lowercase letters. R is case sensitive so using <code>view()</code> will not work.</p>
 <p>The <code>head()</code> function prints the first 6 rows of each column of the data to the console. This is useful to get a quick glance at the data but has some important drawbacks. When using data with a large number of columns it can be quickly overwhelming by printing too much. There may also be differences in the first 6 rows with other rows. For example if the rows are ordered chronologically (as is the case with most crime data) the first 6 rows will be the most recent. If data collection methods or the quality of collection changed over time, these 6 rows won’t be representative of the data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017)
-<span class="co">#&gt;       ori year agency_name  state population actual_murder</span>
-<span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span>
-<span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span>
-<span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span>
-<span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span>
-<span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span>
-<span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span>
-<span class="co">#&gt;   actual_rape_total actual_robbery_total actual_assault_aggravated</span>
-<span class="co">#&gt; 1               391                  778                      2368</span>
-<span class="co">#&gt; 2                24                   40                       131</span>
-<span class="co">#&gt; 3                50                   46                       206</span>
-<span class="co">#&gt; 4                19                    0                        14</span>
-<span class="co">#&gt; 5                15                    4                        41</span>
-<span class="co">#&gt; 6                 7                    0                        52</span></code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">head</span>(ucr2017)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt;       ori year agency_name  state population actual_murder</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;   actual_rape_total actual_robbery_total actual_assault_aggravated</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; 1               391                  778                      2368</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt; 2                24                   40                       131</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt; 3                50                   46                       206</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt; 4                19                    0                        14</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt; 5                15                    4                        41</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt; 6                 7                    0                        52</span></a></code></pre></div>
 <p>The <code>summary()</code> function gives a six number summary of each numeric or Date column in the data. For other types of data, such as “character” types (which are just columns with words rather than numbers or dates), it’ll say what type of data it is.</p>
 <p>The six values it returns for numeric and Date columns are</p>
 <ul>
@@ -441,34 +443,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>The max value</li>
 <li>In cases where there are NAs, it will say how many NAs there are. An NA value is a missing value. Think of it like an empty cell in an Excel file. NA values will cause issues when doing math such as finding the mean of a column as R doesn’t know how to handle a NA value in these situations. We’ll learn how to deal with this later.</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ucr2017)
-<span class="co">#&gt;      ori                 year      agency_name           state          </span>
-<span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span>
-<span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span>
-<span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span>
-<span class="co">#&gt;                     Mean   :2017                                        </span>
-<span class="co">#&gt;                     3rd Qu.:2017                                        </span>
-<span class="co">#&gt;                     Max.   :2017                                        </span>
-<span class="co">#&gt;    population      actual_murder     actual_rape_total </span>
-<span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  </span>
-<span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  </span>
-<span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000  </span>
-<span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  </span>
-<span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  </span>
-<span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000  </span>
-<span class="co">#&gt;  actual_robbery_total actual_assault_aggravated</span>
-<span class="co">#&gt;  Min.   :   -1.00     Min.   :   -1.00         </span>
-<span class="co">#&gt;  1st Qu.:    0.00     1st Qu.:    1.00         </span>
-<span class="co">#&gt;  Median :    0.00     Median :    5.00         </span>
-<span class="co">#&gt;  Mean   :   19.85     Mean   :   49.98         </span>
-<span class="co">#&gt;  3rd Qu.:    4.00     3rd Qu.:   21.00         </span>
-<span class="co">#&gt;  Max.   :13995.00     Max.   :29771.00</span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">summary</span>(ucr2017)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt;      ori                 year      agency_name           state          </span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt;                     Mean   :2017                                        </span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt;                     3rd Qu.:2017                                        </span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt;                     Max.   :2017                                        </span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt;    population      actual_murder     actual_rape_total </span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  </span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  </span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000  </span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  </span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  </span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000  </span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt;  actual_robbery_total actual_assault_aggravated</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;  Min.   :   -1.00     Min.   :   -1.00         </span></a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt;  1st Qu.:    0.00     1st Qu.:    1.00         </span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt;  Median :    0.00     Median :    5.00         </span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt;  Mean   :   19.85     Mean   :   49.98         </span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt;  3rd Qu.:    4.00     3rd Qu.:   21.00         </span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt;  Max.   :13995.00     Max.   :29771.00</span></a></code></pre></div>
 <p>The <code>plot()</code> function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we’ll make a scatterplot seeing the relationship between a city’s number of murders and their number of aggravated assaults (assault with a weapon or that causes serious bodily injury).</p>
 <p>To do so we must specify which column is displayed on the x-axis and which one is displayed on the y-axis. In Section <a href="subsetting-intro.html#select-specific-columns">2.5.1</a> we’ll talk explicitly about how to select specific columns from our data. For now all you need to know is to select a column you write the data set name followed by dollar sign <code>$</code> followed by the column name. Do not include any quotations or spaces (technically spaces can be included but make it a bit harder to read and are against conventional style when writing R code so we’ll exclude them). Inside of <code>plot()</code> we say that “x = ucr2017$actual_murder” so that column goes on the x-axis and “y = ucr2017$actual_assault_aggravated” so aggravated assault goes on the y-axis. And that’s all it takes to make a simple graph.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">x =</span> ucr2017<span class="op">$</span>actual_murder, <span class="dt">y =</span> ucr2017<span class="op">$</span>actual_assault_aggravated)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">plot</span>(<span class="dt">x =</span> ucr2017<span class="op">$</span>actual_murder, <span class="dt">y =</span> ucr2017<span class="op">$</span>actual_assault_aggravated)</a></code></pre></div>
 <p><img src="intro-to-r_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Finally, <code>View()</code> opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">View</span>(ucr2017)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">View</span>(ucr2017)</a></code></pre></div>
 </div>
 <div id="finding-help-about-functions" class="section level2">
 <h2><span class="header-section-number">1.4</span> Finding help about functions</h2>
@@ -492,11 +494,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

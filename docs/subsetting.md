@@ -133,7 +133,7 @@ Now the first value, "cats", is back. Why? To make changes in R you need to tell
 
 This is an important point that a lot of students struggle with. R doesn't know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If *x* is an object with a value of 2, and you write `x + 2`, it would print out 4 because 2 + 2 = 4. But that won't change the value of *x*. *x* will remain as 2 until you explicitly tell R to change it's value. If you want to update *x* you need to run `x <- somevalue` where "somevalue" is whatever you want to change *x* to. 
 
-So to return to our *animals* example, if we wanted to delete the first value and keep it removed, we'd need to write `animals <- animals[1]`. Which is essentially making a new object, also called *animals* (to avoid having many, slightly different objects that are hard to keep track of we'll reuse the name) with the same values as the original *animals* except this time excluding the first value, "cats".
+So to return to our *animals* example, if we wanted to delete the first value and keep it removed, we'd need to write `animals <- animals[-1]`. Which is essentially making a new object, also called *animals* (to avoid having many, slightly different objects that are hard to keep track of we'll reuse the name) with the same values as the original *animals* except this time excluding the first value, "cats".
 
 ## Vectors (collections of "things") {#vectors}
 

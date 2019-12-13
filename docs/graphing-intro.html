@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Graphing with ggplot2 | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Graphing with ggplot2 | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-10-01" />
+<meta name="date" content="2019-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="reading-and-writing-data.html">
-<link rel="next" href="hotspot-maps.html">
+<link rel="prev" href="reading-and-writing-data.html"/>
+<link rel="next" href="hotspot-maps.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,7 +48,9 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
@@ -77,7 +80,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -339,88 +341,88 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">6</span> Graphing with <code>ggplot2</code></h1>
 <p>We’ve made some simple graphs earlier, in this lesson we will use the package <code>ggplot2</code> to make simple and elegant looking graphs.</p>
 <p>The ‘gg’ part of <code>ggplot2</code> stands for ‘grammar of graphics’ which is the idea that most graphs can be made using the same few ‘pieces’. We’ll get into those pieces during this lesson. For a useful cheatsheet for this package see <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">here</a></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" title="1"><span class="kw">library</span>(ggplot2)</a></code></pre></div>
 <p>When working with new data, It’s often useful to quickly graph the data to try to understand what you’re working with. It is also useful when understanding how much to trust the data.</p>
 <p>The data we will work on is data about alcohol consumption in U.S. states from 1977-2017 from the National Institute of Health. It contains the per capita alcohol consumption for each state for every year. Their method to determine per capita consumption is amount of alcohol sold / number of people aged 14+ living in the state. More details on the data are available <a href="https://www.openicpsr.org/openicpsr/project/105583/version/V2/view">here</a>.</p>
 <p>Now we need to load the data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/apparent_per_capita_alcohol_consumption.rda&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" title="1"><span class="kw">load</span>(<span class="st">&quot;data/apparent_per_capita_alcohol_consumption.rda&quot;</span>)</a></code></pre></div>
 <p>The name of the data is quite long so for convenience let’s copy it to a new object with a better name, <em>alcohol</em>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">alcohol &lt;-<span class="st"> </span>apparent_per_capita_alcohol_consumption</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" title="1">alcohol &lt;-<span class="st"> </span>apparent_per_capita_alcohol_consumption</a></code></pre></div>
 <p>The original data has every state, region, and the US as a whole. For this lesson we’re using data subsetted to just include states. For now let’s just look at Pennsylvania.</p>
-<pre class="sourceCode r"><code class="sourceCode r">penn_alcohol &lt;-<span class="st"> </span>alcohol[alcohol<span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;pennsylvania&quot;</span>, ]</code></pre>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" title="1">penn_alcohol &lt;-<span class="st"> </span>alcohol[alcohol<span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;pennsylvania&quot;</span>, ]</a></code></pre></div>
 <div id="what-does-the-data-look-like" class="section level2">
 <h2><span class="header-section-number">6.1</span> What does the data look like?</h2>
 <p>Before graphing, it’s helpful to see what the data includes. An important thing to check is what variables are available and the units of these variables.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(penn_alcohol)
-<span class="co">#&gt;  [1] &quot;state&quot;                                </span>
-<span class="co">#&gt;  [2] &quot;year&quot;                                 </span>
-<span class="co">#&gt;  [3] &quot;ethanol_beer_gallons_per_capita&quot;      </span>
-<span class="co">#&gt;  [4] &quot;ethanol_wine_gallons_per_capita&quot;      </span>
-<span class="co">#&gt;  [5] &quot;ethanol_spirit_gallons_per_capita&quot;    </span>
-<span class="co">#&gt;  [6] &quot;ethanol_all_drinks_gallons_per_capita&quot;</span>
-<span class="co">#&gt;  [7] &quot;number_of_beers&quot;                      </span>
-<span class="co">#&gt;  [8] &quot;number_of_glasses_wine&quot;               </span>
-<span class="co">#&gt;  [9] &quot;number_of_shots_liquor&quot;               </span>
-<span class="co">#&gt; [10] &quot;number_of_drinks_total&quot;</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(penn_alcohol)
-<span class="co">#&gt;     state               year           ethanol_beer_gallons_per_capita</span>
-<span class="co">#&gt;  Length:41          Length:41          Min.   :1.210                  </span>
-<span class="co">#&gt;  Class :character   Class :character   1st Qu.:1.310                  </span>
-<span class="co">#&gt;  Mode  :character   Mode  :character   Median :1.350                  </span>
-<span class="co">#&gt;                                        Mean   :1.344                  </span>
-<span class="co">#&gt;                                        3rd Qu.:1.380                  </span>
-<span class="co">#&gt;                                        Max.   :1.450                  </span>
-<span class="co">#&gt;  ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span>
-<span class="co">#&gt;  Min.   :0.1700                  Min.   :0.4500                   </span>
-<span class="co">#&gt;  1st Qu.:0.1900                  1st Qu.:0.5100                   </span>
-<span class="co">#&gt;  Median :0.2100                  Median :0.6100                   </span>
-<span class="co">#&gt;  Mean   :0.2276                  Mean   :0.5939                   </span>
-<span class="co">#&gt;  3rd Qu.:0.2500                  3rd Qu.:0.6800                   </span>
-<span class="co">#&gt;  Max.   :0.3300                  Max.   :0.7400                   </span>
-<span class="co">#&gt;  ethanol_all_drinks_gallons_per_capita number_of_beers</span>
-<span class="co">#&gt;  Min.   :1.850                         Min.   :286.8  </span>
-<span class="co">#&gt;  1st Qu.:2.040                         1st Qu.:310.5  </span>
-<span class="co">#&gt;  Median :2.220                         Median :320.0  </span>
-<span class="co">#&gt;  Mean   :2.167                         Mean   :318.7  </span>
-<span class="co">#&gt;  3rd Qu.:2.330                         3rd Qu.:327.1  </span>
-<span class="co">#&gt;  Max.   :2.390                         Max.   :343.7  </span>
-<span class="co">#&gt;  number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span>
-<span class="co">#&gt;  Min.   :33.74          Min.   : 93.43         Min.   :394.7         </span>
-<span class="co">#&gt;  1st Qu.:37.71          1st Qu.:105.89         1st Qu.:435.2         </span>
-<span class="co">#&gt;  Median :41.67          Median :126.65         Median :473.6         </span>
-<span class="co">#&gt;  Mean   :45.16          Mean   :123.31         Mean   :462.3         </span>
-<span class="co">#&gt;  3rd Qu.:49.61          3rd Qu.:141.18         3rd Qu.:497.1         </span>
-<span class="co">#&gt;  Max.   :65.49          Max.   :153.64         Max.   :509.9</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(penn_alcohol)
-<span class="co">#&gt;             state year ethanol_beer_gallons_per_capita</span>
-<span class="co">#&gt; 1559 pennsylvania 2017                            1.29</span>
-<span class="co">#&gt; 1560 pennsylvania 2016                            1.31</span>
-<span class="co">#&gt; 1561 pennsylvania 2015                            1.31</span>
-<span class="co">#&gt; 1562 pennsylvania 2014                            1.32</span>
-<span class="co">#&gt; 1563 pennsylvania 2013                            1.34</span>
-<span class="co">#&gt; 1564 pennsylvania 2012                            1.36</span>
-<span class="co">#&gt;      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span>
-<span class="co">#&gt; 1559                            0.33                              0.71</span>
-<span class="co">#&gt; 1560                            0.33                              0.72</span>
-<span class="co">#&gt; 1561                            0.32                              0.70</span>
-<span class="co">#&gt; 1562                            0.32                              0.70</span>
-<span class="co">#&gt; 1563                            0.31                              0.68</span>
-<span class="co">#&gt; 1564                            0.31                              0.67</span>
-<span class="co">#&gt;      ethanol_all_drinks_gallons_per_capita number_of_beers</span>
-<span class="co">#&gt; 1559                                  2.34        305.7778</span>
-<span class="co">#&gt; 1560                                  2.36        310.5185</span>
-<span class="co">#&gt; 1561                                  2.33        310.5185</span>
-<span class="co">#&gt; 1562                                  2.34        312.8889</span>
-<span class="co">#&gt; 1563                                  2.33        317.6296</span>
-<span class="co">#&gt; 1564                                  2.34        322.3704</span>
-<span class="co">#&gt;      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span>
-<span class="co">#&gt; 1559               65.48837               147.4128               499.2000</span>
-<span class="co">#&gt; 1560               65.48837               149.4891               503.4667</span>
-<span class="co">#&gt; 1561               63.50388               145.3366               497.0667</span>
-<span class="co">#&gt; 1562               63.50388               145.3366               499.2000</span>
-<span class="co">#&gt; 1563               61.51938               141.1841               497.0667</span>
-<span class="co">#&gt; 1564               61.51938               139.1079               499.2000</span></code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" title="1"><span class="kw">names</span>(penn_alcohol)</a>
+<a class="sourceLine" id="cb140-2" title="2"><span class="co">#&gt;  [1] &quot;state&quot;                                </span></a>
+<a class="sourceLine" id="cb140-3" title="3"><span class="co">#&gt;  [2] &quot;year&quot;                                 </span></a>
+<a class="sourceLine" id="cb140-4" title="4"><span class="co">#&gt;  [3] &quot;ethanol_beer_gallons_per_capita&quot;      </span></a>
+<a class="sourceLine" id="cb140-5" title="5"><span class="co">#&gt;  [4] &quot;ethanol_wine_gallons_per_capita&quot;      </span></a>
+<a class="sourceLine" id="cb140-6" title="6"><span class="co">#&gt;  [5] &quot;ethanol_spirit_gallons_per_capita&quot;    </span></a>
+<a class="sourceLine" id="cb140-7" title="7"><span class="co">#&gt;  [6] &quot;ethanol_all_drinks_gallons_per_capita&quot;</span></a>
+<a class="sourceLine" id="cb140-8" title="8"><span class="co">#&gt;  [7] &quot;number_of_beers&quot;                      </span></a>
+<a class="sourceLine" id="cb140-9" title="9"><span class="co">#&gt;  [8] &quot;number_of_glasses_wine&quot;               </span></a>
+<a class="sourceLine" id="cb140-10" title="10"><span class="co">#&gt;  [9] &quot;number_of_shots_liquor&quot;               </span></a>
+<a class="sourceLine" id="cb140-11" title="11"><span class="co">#&gt; [10] &quot;number_of_drinks_total&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" title="1"><span class="kw">summary</span>(penn_alcohol)</a>
+<a class="sourceLine" id="cb141-2" title="2"><span class="co">#&gt;     state               year           ethanol_beer_gallons_per_capita</span></a>
+<a class="sourceLine" id="cb141-3" title="3"><span class="co">#&gt;  Length:41          Length:41          Min.   :1.210                  </span></a>
+<a class="sourceLine" id="cb141-4" title="4"><span class="co">#&gt;  Class :character   Class :character   1st Qu.:1.310                  </span></a>
+<a class="sourceLine" id="cb141-5" title="5"><span class="co">#&gt;  Mode  :character   Mode  :character   Median :1.350                  </span></a>
+<a class="sourceLine" id="cb141-6" title="6"><span class="co">#&gt;                                        Mean   :1.344                  </span></a>
+<a class="sourceLine" id="cb141-7" title="7"><span class="co">#&gt;                                        3rd Qu.:1.380                  </span></a>
+<a class="sourceLine" id="cb141-8" title="8"><span class="co">#&gt;                                        Max.   :1.450                  </span></a>
+<a class="sourceLine" id="cb141-9" title="9"><span class="co">#&gt;  ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span></a>
+<a class="sourceLine" id="cb141-10" title="10"><span class="co">#&gt;  Min.   :0.1700                  Min.   :0.4500                   </span></a>
+<a class="sourceLine" id="cb141-11" title="11"><span class="co">#&gt;  1st Qu.:0.1900                  1st Qu.:0.5100                   </span></a>
+<a class="sourceLine" id="cb141-12" title="12"><span class="co">#&gt;  Median :0.2100                  Median :0.6100                   </span></a>
+<a class="sourceLine" id="cb141-13" title="13"><span class="co">#&gt;  Mean   :0.2276                  Mean   :0.5939                   </span></a>
+<a class="sourceLine" id="cb141-14" title="14"><span class="co">#&gt;  3rd Qu.:0.2500                  3rd Qu.:0.6800                   </span></a>
+<a class="sourceLine" id="cb141-15" title="15"><span class="co">#&gt;  Max.   :0.3300                  Max.   :0.7400                   </span></a>
+<a class="sourceLine" id="cb141-16" title="16"><span class="co">#&gt;  ethanol_all_drinks_gallons_per_capita number_of_beers</span></a>
+<a class="sourceLine" id="cb141-17" title="17"><span class="co">#&gt;  Min.   :1.850                         Min.   :286.8  </span></a>
+<a class="sourceLine" id="cb141-18" title="18"><span class="co">#&gt;  1st Qu.:2.040                         1st Qu.:310.5  </span></a>
+<a class="sourceLine" id="cb141-19" title="19"><span class="co">#&gt;  Median :2.220                         Median :320.0  </span></a>
+<a class="sourceLine" id="cb141-20" title="20"><span class="co">#&gt;  Mean   :2.167                         Mean   :318.7  </span></a>
+<a class="sourceLine" id="cb141-21" title="21"><span class="co">#&gt;  3rd Qu.:2.330                         3rd Qu.:327.1  </span></a>
+<a class="sourceLine" id="cb141-22" title="22"><span class="co">#&gt;  Max.   :2.390                         Max.   :343.7  </span></a>
+<a class="sourceLine" id="cb141-23" title="23"><span class="co">#&gt;  number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span></a>
+<a class="sourceLine" id="cb141-24" title="24"><span class="co">#&gt;  Min.   :33.74          Min.   : 93.43         Min.   :394.7         </span></a>
+<a class="sourceLine" id="cb141-25" title="25"><span class="co">#&gt;  1st Qu.:37.71          1st Qu.:105.89         1st Qu.:435.2         </span></a>
+<a class="sourceLine" id="cb141-26" title="26"><span class="co">#&gt;  Median :41.67          Median :126.65         Median :473.6         </span></a>
+<a class="sourceLine" id="cb141-27" title="27"><span class="co">#&gt;  Mean   :45.16          Mean   :123.31         Mean   :462.3         </span></a>
+<a class="sourceLine" id="cb141-28" title="28"><span class="co">#&gt;  3rd Qu.:49.61          3rd Qu.:141.18         3rd Qu.:497.1         </span></a>
+<a class="sourceLine" id="cb141-29" title="29"><span class="co">#&gt;  Max.   :65.49          Max.   :153.64         Max.   :509.9</span></a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" title="1"><span class="kw">head</span>(penn_alcohol)</a>
+<a class="sourceLine" id="cb142-2" title="2"><span class="co">#&gt;             state year ethanol_beer_gallons_per_capita</span></a>
+<a class="sourceLine" id="cb142-3" title="3"><span class="co">#&gt; 1559 pennsylvania 2017                            1.29</span></a>
+<a class="sourceLine" id="cb142-4" title="4"><span class="co">#&gt; 1560 pennsylvania 2016                            1.31</span></a>
+<a class="sourceLine" id="cb142-5" title="5"><span class="co">#&gt; 1561 pennsylvania 2015                            1.31</span></a>
+<a class="sourceLine" id="cb142-6" title="6"><span class="co">#&gt; 1562 pennsylvania 2014                            1.32</span></a>
+<a class="sourceLine" id="cb142-7" title="7"><span class="co">#&gt; 1563 pennsylvania 2013                            1.34</span></a>
+<a class="sourceLine" id="cb142-8" title="8"><span class="co">#&gt; 1564 pennsylvania 2012                            1.36</span></a>
+<a class="sourceLine" id="cb142-9" title="9"><span class="co">#&gt;      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span></a>
+<a class="sourceLine" id="cb142-10" title="10"><span class="co">#&gt; 1559                            0.33                              0.71</span></a>
+<a class="sourceLine" id="cb142-11" title="11"><span class="co">#&gt; 1560                            0.33                              0.72</span></a>
+<a class="sourceLine" id="cb142-12" title="12"><span class="co">#&gt; 1561                            0.32                              0.70</span></a>
+<a class="sourceLine" id="cb142-13" title="13"><span class="co">#&gt; 1562                            0.32                              0.70</span></a>
+<a class="sourceLine" id="cb142-14" title="14"><span class="co">#&gt; 1563                            0.31                              0.68</span></a>
+<a class="sourceLine" id="cb142-15" title="15"><span class="co">#&gt; 1564                            0.31                              0.67</span></a>
+<a class="sourceLine" id="cb142-16" title="16"><span class="co">#&gt;      ethanol_all_drinks_gallons_per_capita number_of_beers</span></a>
+<a class="sourceLine" id="cb142-17" title="17"><span class="co">#&gt; 1559                                  2.34        305.7778</span></a>
+<a class="sourceLine" id="cb142-18" title="18"><span class="co">#&gt; 1560                                  2.36        310.5185</span></a>
+<a class="sourceLine" id="cb142-19" title="19"><span class="co">#&gt; 1561                                  2.33        310.5185</span></a>
+<a class="sourceLine" id="cb142-20" title="20"><span class="co">#&gt; 1562                                  2.34        312.8889</span></a>
+<a class="sourceLine" id="cb142-21" title="21"><span class="co">#&gt; 1563                                  2.33        317.6296</span></a>
+<a class="sourceLine" id="cb142-22" title="22"><span class="co">#&gt; 1564                                  2.34        322.3704</span></a>
+<a class="sourceLine" id="cb142-23" title="23"><span class="co">#&gt;      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span></a>
+<a class="sourceLine" id="cb142-24" title="24"><span class="co">#&gt; 1559               65.48837               147.4128               499.2000</span></a>
+<a class="sourceLine" id="cb142-25" title="25"><span class="co">#&gt; 1560               65.48837               149.4891               503.4667</span></a>
+<a class="sourceLine" id="cb142-26" title="26"><span class="co">#&gt; 1561               63.50388               145.3366               497.0667</span></a>
+<a class="sourceLine" id="cb142-27" title="27"><span class="co">#&gt; 1562               63.50388               145.3366               499.2000</span></a>
+<a class="sourceLine" id="cb142-28" title="28"><span class="co">#&gt; 1563               61.51938               141.1841               497.0667</span></a>
+<a class="sourceLine" id="cb142-29" title="29"><span class="co">#&gt; 1564               61.51938               139.1079               499.2000</span></a></code></pre></div>
 <p>So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!</p>
 </div>
 <div id="graphing-data" class="section level2">
@@ -445,37 +447,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">6.3</span> Time-Series Plots</h2>
 <p>Let’s start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we’re interested in. When you see a graph showing crime rates over time, this is the type of graph you’re looking at.</p>
 <p>The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called <code>aes()</code>. <code>aes()</code> stands for aesthetic and what’s included inside here describes how the graph will look. It’s not intuitive to remember, but you need to included this.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,
-                         <span class="dt">y =</span> number_of_beers))</code></pre>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb143-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,</a>
+<a class="sourceLine" id="cb143-2" title="2">                         <span class="dt">y =</span> number_of_beers))</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the “year” column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and <code>ggplot()</code> will be smarter about printing fewer years.</p>
-<pre class="sourceCode r"><code class="sourceCode r">penn_alcohol<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(penn_alcohol<span class="op">$</span>year)</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,
-                         <span class="dt">y =</span> number_of_beers))</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" title="1">penn_alcohol<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(penn_alcohol<span class="op">$</span>year)</a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year,</a>
+<a class="sourceLine" id="cb145-2" title="2">                         <span class="dt">y =</span> number_of_beers))</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.</p>
 <p>Let’s start with point and line graphs.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb146-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb147-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can also combine different types of graphs.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb148-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>It looks like there’s a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That’s because when graphs don’t start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add <code>expand_limits(y = 0)</code> to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</code></pre>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb149-4" title="4"><span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">y =</span> <span class="dv">0</span>)</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It’s hard to say.</p>
 <p>Inside the types of graphs we can change how it is displayed. As with using <code>plot()</code>, we can specify the color and size of our lines or points.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>)</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb150-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>)</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Some other useful features are changing the axis labels and the graph title. Unlike in <code>plot()</code> we do not need to include it in the () of <code>ggplot()</code> but use their own functions to add them to the graph.</p>
 <ul>
@@ -483,53 +485,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>ylab()</code> - y-axis label</li>
 <li><code>ggtitle()</code> - graph title</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Beers&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;PA Annual Beer Consumption Per Capita (1977-2017)&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb151-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="dt">size =</span> <span class="fl">1.3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb151-3" title="3"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb151-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Number of Beers&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb151-5" title="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;PA Annual Beer Consumption Per Capita (1977-2017)&quot;</span>)</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let’s stick with the data we currently have and just change <code>ggplot()</code>.</p>
 <p>Start with a normal line graph, this time looking at wine.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>()</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb152-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>()</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Then include a second geom_line() with its own aes() for the second variable.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor))</code></pre>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb153-2" title="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb153-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor))</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>A problem with this is that both lines are the same color. We need to set a color for each line, and do so within <code>aes()</code>. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
-                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>))</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,</a>
+<a class="sourceLine" id="cb154-2" title="2">                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb154-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb154-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,</a>
+<a class="sourceLine" id="cb154-5" title="5">                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>))</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can change the legend title by using the function <code>labs()</code> and changing the value <code>color</code> to what we want the legend title to be.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
-                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,</a>
+<a class="sourceLine" id="cb155-2" title="2">                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb155-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb155-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,</a>
+<a class="sourceLine" id="cb155-5" title="5">                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb155-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>)</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Finally, a useful option to to move the legend from the side to the bottom is setting the <code>theme()</code> function to move the <code>legend.position</code> to “bottom”. This will allow the graph to be wider.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
-                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,</a>
+<a class="sourceLine" id="cb156-2" title="2">                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,</a>
+<a class="sourceLine" id="cb156-5" title="5">                <span class="dt">color =</span> <span class="st">&quot;Shots of of Liquor&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb156-7" title="7"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="scatter-plots" class="section level2">
 <h2><span class="header-section-number">6.4</span> Scatter Plots</h2>
 <p>Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> number_of_shots_liquor,
-                         <span class="dt">y =</span> number_of_beers)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_point</span>()</code></pre>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> number_of_shots_liquor,</a>
+<a class="sourceLine" id="cb157-2" title="2">                         <span class="dt">y =</span> number_of_beers)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb157-3" title="3"><span class="st">  </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This graph shows us that when liquor consumption increases, beer consumption also tends to increase.</p>
 <p>While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.</p>
@@ -540,14 +542,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/colorbrewer.PNG" /></p>
 <p>This site let’s you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the “Only show:” section you can set it to “colorblind safe” to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is).</p>
 <p>Let’s use an example of a color blind friendly color from the “qualitative” section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We’ll use the orange and purple colors. To manually set colors in <code>ggplot()</code> we use <code>scale_color_manual(values = c())</code> and include a vector of color names or HEX codes inside the <code>c()</code>. Doing that using the orange and purple HEX codes will change our graph colors to these two colors.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,
-                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,
-                <span class="dt">color =</span> <span class="st">&quot;number_of_shots_liquor&quot;</span>)) <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#7570b3&quot;</span>, <span class="st">&quot;#d95f02&quot;</span>))</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" title="1"><span class="kw">ggplot</span>(penn_alcohol, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_glasses_wine,</a>
+<a class="sourceLine" id="cb158-2" title="2">                         <span class="dt">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-3" title="3"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> number_of_shots_liquor,</a>
+<a class="sourceLine" id="cb158-5" title="5">                <span class="dt">color =</span> <span class="st">&quot;number_of_shots_liquor&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-6" title="6"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-7" title="7"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb158-8" title="8"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;#7570b3&quot;</span>, <span class="st">&quot;#d95f02&quot;</span>))</a></code></pre></div>
 <p><img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -563,11 +565,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

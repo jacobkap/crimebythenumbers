@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Exploratory data analysis | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Exploratory data analysis | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-10-01" />
+<meta name="date" content="2019-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="subsetting-intro.html">
-<link rel="next" href="regular-expressions.html">
+<link rel="prev" href="subsetting-intro.html"/>
+<link rel="next" href="regular-expressions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,7 +48,9 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+
+
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
@@ -77,7 +80,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -348,192 +350,192 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>For this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We’ll return to UCR data in Chapter <a href="ucr.html#ucr">17</a> when focusing on what the UCR is and how to use it.</p>
 <p>First we need to load the data. Make sure your working directory is set to the folder where the data is.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</a></code></pre></div>
 <p>As a first step, let’s see how many rows and columns are in the data, and glance at the first several rows from each column. <code>nrow()</code> and <code>ncol()</code> tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(ucr2017)
-<span class="co">#&gt; [1] 15764</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ncol</span>(ucr2017)
-<span class="co">#&gt; [1] 9</span></code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">nrow</span>(ucr2017)</a>
+<a class="sourceLine" id="cb61-2" title="2"><span class="co">#&gt; [1] 15764</span></a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" title="1"><span class="kw">ncol</span>(ucr2017)</a>
+<a class="sourceLine" id="cb62-2" title="2"><span class="co">#&gt; [1] 9</span></a></code></pre></div>
 <p>The function <code>head()</code> will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017)
-<span class="co">#&gt;       ori year agency_name  state population actual_murder</span>
-<span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span>
-<span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span>
-<span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span>
-<span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span>
-<span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span>
-<span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span>
-<span class="co">#&gt;   actual_rape_total actual_robbery_total actual_assault_aggravated</span>
-<span class="co">#&gt; 1               391                  778                      2368</span>
-<span class="co">#&gt; 2                24                   40                       131</span>
-<span class="co">#&gt; 3                50                   46                       206</span>
-<span class="co">#&gt; 4                19                    0                        14</span>
-<span class="co">#&gt; 5                15                    4                        41</span>
-<span class="co">#&gt; 6                 7                    0                        52</span></code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">head</span>(ucr2017)</a>
+<a class="sourceLine" id="cb63-2" title="2"><span class="co">#&gt;       ori year agency_name  state population actual_murder</span></a>
+<a class="sourceLine" id="cb63-3" title="3"><span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span></a>
+<a class="sourceLine" id="cb63-4" title="4"><span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span></a>
+<a class="sourceLine" id="cb63-5" title="5"><span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span></a>
+<a class="sourceLine" id="cb63-6" title="6"><span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span></a>
+<a class="sourceLine" id="cb63-7" title="7"><span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span></a>
+<a class="sourceLine" id="cb63-8" title="8"><span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span></a>
+<a class="sourceLine" id="cb63-9" title="9"><span class="co">#&gt;   actual_rape_total actual_robbery_total actual_assault_aggravated</span></a>
+<a class="sourceLine" id="cb63-10" title="10"><span class="co">#&gt; 1               391                  778                      2368</span></a>
+<a class="sourceLine" id="cb63-11" title="11"><span class="co">#&gt; 2                24                   40                       131</span></a>
+<a class="sourceLine" id="cb63-12" title="12"><span class="co">#&gt; 3                50                   46                       206</span></a>
+<a class="sourceLine" id="cb63-13" title="13"><span class="co">#&gt; 4                19                    0                        14</span></a>
+<a class="sourceLine" id="cb63-14" title="14"><span class="co">#&gt; 5                15                    4                        41</span></a>
+<a class="sourceLine" id="cb63-15" title="15"><span class="co">#&gt; 6                 7                    0                        52</span></a></code></pre></div>
 <p>From these results it appears that each row is a single agency’s annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we’ll see in a later lesson).</p>
 <p>Finally, we can run <code>names()</code> to print out every column name. We can already see every name from <code>head()</code> but this is useful when we have many columns and don’t want to use <code>head()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(ucr2017)
-<span class="co">#&gt; [1] &quot;ori&quot;                       &quot;year&quot;                     </span>
-<span class="co">#&gt; [3] &quot;agency_name&quot;               &quot;state&quot;                    </span>
-<span class="co">#&gt; [5] &quot;population&quot;                &quot;actual_murder&quot;            </span>
-<span class="co">#&gt; [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span>
-<span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" title="1"><span class="kw">names</span>(ucr2017)</a>
+<a class="sourceLine" id="cb64-2" title="2"><span class="co">#&gt; [1] &quot;ori&quot;                       &quot;year&quot;                     </span></a>
+<a class="sourceLine" id="cb64-3" title="3"><span class="co">#&gt; [3] &quot;agency_name&quot;               &quot;state&quot;                    </span></a>
+<a class="sourceLine" id="cb64-4" title="4"><span class="co">#&gt; [5] &quot;population&quot;                &quot;actual_murder&quot;            </span></a>
+<a class="sourceLine" id="cb64-5" title="5"><span class="co">#&gt; [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></a>
+<a class="sourceLine" id="cb64-6" title="6"><span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></a></code></pre></div>
 <div id="summary-and-table" class="section level2">
 <h2><span class="header-section-number">3.1</span> Summary and Table</h2>
 <p>An important function in understanding the data you have is <code>summary()</code> which, as discussed in Section <a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data">1.3</a>, provides summary statistics on the numeric columns you have. Let’s take a look at the results before seeing how to do something similar for categorical columns.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ucr2017)
-<span class="co">#&gt;      ori                 year      agency_name           state          </span>
-<span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span>
-<span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span>
-<span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span>
-<span class="co">#&gt;                     Mean   :2017                                        </span>
-<span class="co">#&gt;                     3rd Qu.:2017                                        </span>
-<span class="co">#&gt;                     Max.   :2017                                        </span>
-<span class="co">#&gt;    population      actual_murder     actual_rape_total </span>
-<span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  </span>
-<span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  </span>
-<span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000  </span>
-<span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  </span>
-<span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  </span>
-<span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000  </span>
-<span class="co">#&gt;  actual_robbery_total actual_assault_aggravated</span>
-<span class="co">#&gt;  Min.   :   -1.00     Min.   :   -1.00         </span>
-<span class="co">#&gt;  1st Qu.:    0.00     1st Qu.:    1.00         </span>
-<span class="co">#&gt;  Median :    0.00     Median :    5.00         </span>
-<span class="co">#&gt;  Mean   :   19.85     Mean   :   49.98         </span>
-<span class="co">#&gt;  3rd Qu.:    4.00     3rd Qu.:   21.00         </span>
-<span class="co">#&gt;  Max.   :13995.00     Max.   :29771.00</span></code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">summary</span>(ucr2017)</a>
+<a class="sourceLine" id="cb65-2" title="2"><span class="co">#&gt;      ori                 year      agency_name           state          </span></a>
+<a class="sourceLine" id="cb65-3" title="3"><span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span></a>
+<a class="sourceLine" id="cb65-4" title="4"><span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span></a>
+<a class="sourceLine" id="cb65-5" title="5"><span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span></a>
+<a class="sourceLine" id="cb65-6" title="6"><span class="co">#&gt;                     Mean   :2017                                        </span></a>
+<a class="sourceLine" id="cb65-7" title="7"><span class="co">#&gt;                     3rd Qu.:2017                                        </span></a>
+<a class="sourceLine" id="cb65-8" title="8"><span class="co">#&gt;                     Max.   :2017                                        </span></a>
+<a class="sourceLine" id="cb65-9" title="9"><span class="co">#&gt;    population      actual_murder     actual_rape_total </span></a>
+<a class="sourceLine" id="cb65-10" title="10"><span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  </span></a>
+<a class="sourceLine" id="cb65-11" title="11"><span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  </span></a>
+<a class="sourceLine" id="cb65-12" title="12"><span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000  </span></a>
+<a class="sourceLine" id="cb65-13" title="13"><span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  </span></a>
+<a class="sourceLine" id="cb65-14" title="14"><span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  </span></a>
+<a class="sourceLine" id="cb65-15" title="15"><span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000  </span></a>
+<a class="sourceLine" id="cb65-16" title="16"><span class="co">#&gt;  actual_robbery_total actual_assault_aggravated</span></a>
+<a class="sourceLine" id="cb65-17" title="17"><span class="co">#&gt;  Min.   :   -1.00     Min.   :   -1.00         </span></a>
+<a class="sourceLine" id="cb65-18" title="18"><span class="co">#&gt;  1st Qu.:    0.00     1st Qu.:    1.00         </span></a>
+<a class="sourceLine" id="cb65-19" title="19"><span class="co">#&gt;  Median :    0.00     Median :    5.00         </span></a>
+<a class="sourceLine" id="cb65-20" title="20"><span class="co">#&gt;  Mean   :   19.85     Mean   :   49.98         </span></a>
+<a class="sourceLine" id="cb65-21" title="21"><span class="co">#&gt;  3rd Qu.:    4.00     3rd Qu.:   21.00         </span></a>
+<a class="sourceLine" id="cb65-22" title="22"><span class="co">#&gt;  Max.   :13995.00     Max.   :29771.00</span></a></code></pre></div>
 <p>The <code>table()</code> function returns every unique value in a category <strong>and</strong> how often that value appears. Unlike <code>summary()</code> we can’t just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation which is <code>data$column</code>. For most functions we use to examine the data as a whole, you can do the same for a specific column.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(ucr2017<span class="op">$</span>agency_name)
-<span class="co">#&gt; [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" title="1"><span class="kw">head</span>(ucr2017<span class="op">$</span>agency_name)</a>
+<a class="sourceLine" id="cb66-2" title="2"><span class="co">#&gt; [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></a></code></pre></div>
 <p>There are only two columns in our data with categorical values that we can use - <em>year</em> and <em>state</em> so let’s use <code>table()</code> on both of them. The columns <em>ori</em> and <em>agency_name</em> are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>year)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  2017 </span>
-<span class="co">#&gt; 15764</span></code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1"><span class="kw">table</span>(ucr2017<span class="op">$</span>year)</a>
+<a class="sourceLine" id="cb67-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb67-3" title="3"><span class="co">#&gt;  2017 </span></a>
+<a class="sourceLine" id="cb67-4" title="4"><span class="co">#&gt; 15764</span></a></code></pre></div>
 <p>We can see that every year in our data is 2017, as expected based on the data name. <em>year</em> is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(ucr2017<span class="op">$</span>state)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;              alabama               alaska              arizona </span>
-<span class="co">#&gt;                  305                   32                  107 </span>
-<span class="co">#&gt;             arkansas           california             colorado </span>
-<span class="co">#&gt;                  273                  732                  213 </span>
-<span class="co">#&gt;          connecticut             delaware district of columbia </span>
-<span class="co">#&gt;                  107                   63                    3 </span>
-<span class="co">#&gt;              florida              georgia                 guam </span>
-<span class="co">#&gt;                  603                  522                    1 </span>
-<span class="co">#&gt;               hawaii                idaho             illinois </span>
-<span class="co">#&gt;                    4                   95                  696 </span>
-<span class="co">#&gt;              indiana                 iowa               kansas </span>
-<span class="co">#&gt;                  247                  216                  309 </span>
-<span class="co">#&gt;             kentucky            louisiana                maine </span>
-<span class="co">#&gt;                  352                  192                  135 </span>
-<span class="co">#&gt;             maryland        massachusetts             michigan </span>
-<span class="co">#&gt;                  152                  346                  625 </span>
-<span class="co">#&gt;            minnesota          mississippi             missouri </span>
-<span class="co">#&gt;                  397                   71                  580 </span>
-<span class="co">#&gt;              montana             nebraska               nevada </span>
-<span class="co">#&gt;                  108                  225                   59 </span>
-<span class="co">#&gt;        new hampshire           new jersey           new mexico </span>
-<span class="co">#&gt;                  176                  576                  116 </span>
-<span class="co">#&gt;             new york       north carolina         north dakota </span>
-<span class="co">#&gt;                  532                  310                  108 </span>
-<span class="co">#&gt;                 ohio             oklahoma               oregon </span>
-<span class="co">#&gt;                  532                  409                  172 </span>
-<span class="co">#&gt;         pennsylvania         rhode island       south carolina </span>
-<span class="co">#&gt;                 1473                   49                  427 </span>
-<span class="co">#&gt;         south dakota            tennessee                texas </span>
-<span class="co">#&gt;                   92                  466                  999 </span>
-<span class="co">#&gt;                 utah              vermont             virginia </span>
-<span class="co">#&gt;                  125                   85                  407 </span>
-<span class="co">#&gt;           washington        west virginia            wisconsin </span>
-<span class="co">#&gt;                  250                  200                  433 </span>
-<span class="co">#&gt;              wyoming </span>
-<span class="co">#&gt;                   57</span></code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" title="1"><span class="kw">table</span>(ucr2017<span class="op">$</span>state)</a>
+<a class="sourceLine" id="cb68-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb68-3" title="3"><span class="co">#&gt;              alabama               alaska              arizona </span></a>
+<a class="sourceLine" id="cb68-4" title="4"><span class="co">#&gt;                  305                   32                  107 </span></a>
+<a class="sourceLine" id="cb68-5" title="5"><span class="co">#&gt;             arkansas           california             colorado </span></a>
+<a class="sourceLine" id="cb68-6" title="6"><span class="co">#&gt;                  273                  732                  213 </span></a>
+<a class="sourceLine" id="cb68-7" title="7"><span class="co">#&gt;          connecticut             delaware district of columbia </span></a>
+<a class="sourceLine" id="cb68-8" title="8"><span class="co">#&gt;                  107                   63                    3 </span></a>
+<a class="sourceLine" id="cb68-9" title="9"><span class="co">#&gt;              florida              georgia                 guam </span></a>
+<a class="sourceLine" id="cb68-10" title="10"><span class="co">#&gt;                  603                  522                    1 </span></a>
+<a class="sourceLine" id="cb68-11" title="11"><span class="co">#&gt;               hawaii                idaho             illinois </span></a>
+<a class="sourceLine" id="cb68-12" title="12"><span class="co">#&gt;                    4                   95                  696 </span></a>
+<a class="sourceLine" id="cb68-13" title="13"><span class="co">#&gt;              indiana                 iowa               kansas </span></a>
+<a class="sourceLine" id="cb68-14" title="14"><span class="co">#&gt;                  247                  216                  309 </span></a>
+<a class="sourceLine" id="cb68-15" title="15"><span class="co">#&gt;             kentucky            louisiana                maine </span></a>
+<a class="sourceLine" id="cb68-16" title="16"><span class="co">#&gt;                  352                  192                  135 </span></a>
+<a class="sourceLine" id="cb68-17" title="17"><span class="co">#&gt;             maryland        massachusetts             michigan </span></a>
+<a class="sourceLine" id="cb68-18" title="18"><span class="co">#&gt;                  152                  346                  625 </span></a>
+<a class="sourceLine" id="cb68-19" title="19"><span class="co">#&gt;            minnesota          mississippi             missouri </span></a>
+<a class="sourceLine" id="cb68-20" title="20"><span class="co">#&gt;                  397                   71                  580 </span></a>
+<a class="sourceLine" id="cb68-21" title="21"><span class="co">#&gt;              montana             nebraska               nevada </span></a>
+<a class="sourceLine" id="cb68-22" title="22"><span class="co">#&gt;                  108                  225                   59 </span></a>
+<a class="sourceLine" id="cb68-23" title="23"><span class="co">#&gt;        new hampshire           new jersey           new mexico </span></a>
+<a class="sourceLine" id="cb68-24" title="24"><span class="co">#&gt;                  176                  576                  116 </span></a>
+<a class="sourceLine" id="cb68-25" title="25"><span class="co">#&gt;             new york       north carolina         north dakota </span></a>
+<a class="sourceLine" id="cb68-26" title="26"><span class="co">#&gt;                  532                  310                  108 </span></a>
+<a class="sourceLine" id="cb68-27" title="27"><span class="co">#&gt;                 ohio             oklahoma               oregon </span></a>
+<a class="sourceLine" id="cb68-28" title="28"><span class="co">#&gt;                  532                  409                  172 </span></a>
+<a class="sourceLine" id="cb68-29" title="29"><span class="co">#&gt;         pennsylvania         rhode island       south carolina </span></a>
+<a class="sourceLine" id="cb68-30" title="30"><span class="co">#&gt;                 1473                   49                  427 </span></a>
+<a class="sourceLine" id="cb68-31" title="31"><span class="co">#&gt;         south dakota            tennessee                texas </span></a>
+<a class="sourceLine" id="cb68-32" title="32"><span class="co">#&gt;                   92                  466                  999 </span></a>
+<a class="sourceLine" id="cb68-33" title="33"><span class="co">#&gt;                 utah              vermont             virginia </span></a>
+<a class="sourceLine" id="cb68-34" title="34"><span class="co">#&gt;                  125                   85                  407 </span></a>
+<a class="sourceLine" id="cb68-35" title="35"><span class="co">#&gt;           washington        west virginia            wisconsin </span></a>
+<a class="sourceLine" id="cb68-36" title="36"><span class="co">#&gt;                  250                  200                  433 </span></a>
+<a class="sourceLine" id="cb68-37" title="37"><span class="co">#&gt;              wyoming </span></a>
+<a class="sourceLine" id="cb68-38" title="38"><span class="co">#&gt;                   57</span></a></code></pre></div>
 <p>This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears we usually want it order by frequency. We can use the <code>sort()</code> function to order the results from <code>table()</code>. Just put the entire <code>table()</code> function inside of the () in <code>sort()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state))
-<span class="co">#&gt; </span>
-<span class="co">#&gt;                 guam district of columbia               hawaii </span>
-<span class="co">#&gt;                    1                    3                    4 </span>
-<span class="co">#&gt;               alaska         rhode island              wyoming </span>
-<span class="co">#&gt;                   32                   49                   57 </span>
-<span class="co">#&gt;               nevada             delaware          mississippi </span>
-<span class="co">#&gt;                   59                   63                   71 </span>
-<span class="co">#&gt;              vermont         south dakota                idaho </span>
-<span class="co">#&gt;                   85                   92                   95 </span>
-<span class="co">#&gt;              arizona          connecticut              montana </span>
-<span class="co">#&gt;                  107                  107                  108 </span>
-<span class="co">#&gt;         north dakota           new mexico                 utah </span>
-<span class="co">#&gt;                  108                  116                  125 </span>
-<span class="co">#&gt;                maine             maryland               oregon </span>
-<span class="co">#&gt;                  135                  152                  172 </span>
-<span class="co">#&gt;        new hampshire            louisiana        west virginia </span>
-<span class="co">#&gt;                  176                  192                  200 </span>
-<span class="co">#&gt;             colorado                 iowa             nebraska </span>
-<span class="co">#&gt;                  213                  216                  225 </span>
-<span class="co">#&gt;              indiana           washington             arkansas </span>
-<span class="co">#&gt;                  247                  250                  273 </span>
-<span class="co">#&gt;              alabama               kansas       north carolina </span>
-<span class="co">#&gt;                  305                  309                  310 </span>
-<span class="co">#&gt;        massachusetts             kentucky            minnesota </span>
-<span class="co">#&gt;                  346                  352                  397 </span>
-<span class="co">#&gt;             virginia             oklahoma       south carolina </span>
-<span class="co">#&gt;                  407                  409                  427 </span>
-<span class="co">#&gt;            wisconsin            tennessee              georgia </span>
-<span class="co">#&gt;                  433                  466                  522 </span>
-<span class="co">#&gt;             new york                 ohio           new jersey </span>
-<span class="co">#&gt;                  532                  532                  576 </span>
-<span class="co">#&gt;             missouri              florida             michigan </span>
-<span class="co">#&gt;                  580                  603                  625 </span>
-<span class="co">#&gt;             illinois           california                texas </span>
-<span class="co">#&gt;                  696                  732                  999 </span>
-<span class="co">#&gt;         pennsylvania </span>
-<span class="co">#&gt;                 1473</span></code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state))</a>
+<a class="sourceLine" id="cb69-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb69-3" title="3"><span class="co">#&gt;                 guam district of columbia               hawaii </span></a>
+<a class="sourceLine" id="cb69-4" title="4"><span class="co">#&gt;                    1                    3                    4 </span></a>
+<a class="sourceLine" id="cb69-5" title="5"><span class="co">#&gt;               alaska         rhode island              wyoming </span></a>
+<a class="sourceLine" id="cb69-6" title="6"><span class="co">#&gt;                   32                   49                   57 </span></a>
+<a class="sourceLine" id="cb69-7" title="7"><span class="co">#&gt;               nevada             delaware          mississippi </span></a>
+<a class="sourceLine" id="cb69-8" title="8"><span class="co">#&gt;                   59                   63                   71 </span></a>
+<a class="sourceLine" id="cb69-9" title="9"><span class="co">#&gt;              vermont         south dakota                idaho </span></a>
+<a class="sourceLine" id="cb69-10" title="10"><span class="co">#&gt;                   85                   92                   95 </span></a>
+<a class="sourceLine" id="cb69-11" title="11"><span class="co">#&gt;              arizona          connecticut              montana </span></a>
+<a class="sourceLine" id="cb69-12" title="12"><span class="co">#&gt;                  107                  107                  108 </span></a>
+<a class="sourceLine" id="cb69-13" title="13"><span class="co">#&gt;         north dakota           new mexico                 utah </span></a>
+<a class="sourceLine" id="cb69-14" title="14"><span class="co">#&gt;                  108                  116                  125 </span></a>
+<a class="sourceLine" id="cb69-15" title="15"><span class="co">#&gt;                maine             maryland               oregon </span></a>
+<a class="sourceLine" id="cb69-16" title="16"><span class="co">#&gt;                  135                  152                  172 </span></a>
+<a class="sourceLine" id="cb69-17" title="17"><span class="co">#&gt;        new hampshire            louisiana        west virginia </span></a>
+<a class="sourceLine" id="cb69-18" title="18"><span class="co">#&gt;                  176                  192                  200 </span></a>
+<a class="sourceLine" id="cb69-19" title="19"><span class="co">#&gt;             colorado                 iowa             nebraska </span></a>
+<a class="sourceLine" id="cb69-20" title="20"><span class="co">#&gt;                  213                  216                  225 </span></a>
+<a class="sourceLine" id="cb69-21" title="21"><span class="co">#&gt;              indiana           washington             arkansas </span></a>
+<a class="sourceLine" id="cb69-22" title="22"><span class="co">#&gt;                  247                  250                  273 </span></a>
+<a class="sourceLine" id="cb69-23" title="23"><span class="co">#&gt;              alabama               kansas       north carolina </span></a>
+<a class="sourceLine" id="cb69-24" title="24"><span class="co">#&gt;                  305                  309                  310 </span></a>
+<a class="sourceLine" id="cb69-25" title="25"><span class="co">#&gt;        massachusetts             kentucky            minnesota </span></a>
+<a class="sourceLine" id="cb69-26" title="26"><span class="co">#&gt;                  346                  352                  397 </span></a>
+<a class="sourceLine" id="cb69-27" title="27"><span class="co">#&gt;             virginia             oklahoma       south carolina </span></a>
+<a class="sourceLine" id="cb69-28" title="28"><span class="co">#&gt;                  407                  409                  427 </span></a>
+<a class="sourceLine" id="cb69-29" title="29"><span class="co">#&gt;            wisconsin            tennessee              georgia </span></a>
+<a class="sourceLine" id="cb69-30" title="30"><span class="co">#&gt;                  433                  466                  522 </span></a>
+<a class="sourceLine" id="cb69-31" title="31"><span class="co">#&gt;             new york                 ohio           new jersey </span></a>
+<a class="sourceLine" id="cb69-32" title="32"><span class="co">#&gt;                  532                  532                  576 </span></a>
+<a class="sourceLine" id="cb69-33" title="33"><span class="co">#&gt;             missouri              florida             michigan </span></a>
+<a class="sourceLine" id="cb69-34" title="34"><span class="co">#&gt;                  580                  603                  625 </span></a>
+<a class="sourceLine" id="cb69-35" title="35"><span class="co">#&gt;             illinois           california                texas </span></a>
+<a class="sourceLine" id="cb69-36" title="36"><span class="co">#&gt;                  696                  732                  999 </span></a>
+<a class="sourceLine" id="cb69-37" title="37"><span class="co">#&gt;         pennsylvania </span></a>
+<a class="sourceLine" id="cb69-38" title="38"><span class="co">#&gt;                 1473</span></a></code></pre></div>
 <p>And if we want to sort it in decreasing order of frequency, we can use the parameter <code>decreasing</code> in <code>sort()</code> and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don’t want to use the default setting in the function. This parameter, <code>decreasing</code> changes the <code>sort()</code> output to print from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;         pennsylvania                texas           california </span>
-<span class="co">#&gt;                 1473                  999                  732 </span>
-<span class="co">#&gt;             illinois             michigan              florida </span>
-<span class="co">#&gt;                  696                  625                  603 </span>
-<span class="co">#&gt;             missouri           new jersey             new york </span>
-<span class="co">#&gt;                  580                  576                  532 </span>
-<span class="co">#&gt;                 ohio              georgia            tennessee </span>
-<span class="co">#&gt;                  532                  522                  466 </span>
-<span class="co">#&gt;            wisconsin       south carolina             oklahoma </span>
-<span class="co">#&gt;                  433                  427                  409 </span>
-<span class="co">#&gt;             virginia            minnesota             kentucky </span>
-<span class="co">#&gt;                  407                  397                  352 </span>
-<span class="co">#&gt;        massachusetts       north carolina               kansas </span>
-<span class="co">#&gt;                  346                  310                  309 </span>
-<span class="co">#&gt;              alabama             arkansas           washington </span>
-<span class="co">#&gt;                  305                  273                  250 </span>
-<span class="co">#&gt;              indiana             nebraska                 iowa </span>
-<span class="co">#&gt;                  247                  225                  216 </span>
-<span class="co">#&gt;             colorado        west virginia            louisiana </span>
-<span class="co">#&gt;                  213                  200                  192 </span>
-<span class="co">#&gt;        new hampshire               oregon             maryland </span>
-<span class="co">#&gt;                  176                  172                  152 </span>
-<span class="co">#&gt;                maine                 utah           new mexico </span>
-<span class="co">#&gt;                  135                  125                  116 </span>
-<span class="co">#&gt;              montana         north dakota              arizona </span>
-<span class="co">#&gt;                  108                  108                  107 </span>
-<span class="co">#&gt;          connecticut                idaho         south dakota </span>
-<span class="co">#&gt;                  107                   95                   92 </span>
-<span class="co">#&gt;              vermont          mississippi             delaware </span>
-<span class="co">#&gt;                   85                   71                   63 </span>
-<span class="co">#&gt;               nevada              wyoming         rhode island </span>
-<span class="co">#&gt;                   59                   57                   49 </span>
-<span class="co">#&gt;               alaska               hawaii district of columbia </span>
-<span class="co">#&gt;                   32                    4                    3 </span>
-<span class="co">#&gt;                 guam </span>
-<span class="co">#&gt;                    1</span></code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" title="1"><span class="kw">sort</span>(<span class="kw">table</span>(ucr2017<span class="op">$</span>state), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb70-2" title="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb70-3" title="3"><span class="co">#&gt;         pennsylvania                texas           california </span></a>
+<a class="sourceLine" id="cb70-4" title="4"><span class="co">#&gt;                 1473                  999                  732 </span></a>
+<a class="sourceLine" id="cb70-5" title="5"><span class="co">#&gt;             illinois             michigan              florida </span></a>
+<a class="sourceLine" id="cb70-6" title="6"><span class="co">#&gt;                  696                  625                  603 </span></a>
+<a class="sourceLine" id="cb70-7" title="7"><span class="co">#&gt;             missouri           new jersey             new york </span></a>
+<a class="sourceLine" id="cb70-8" title="8"><span class="co">#&gt;                  580                  576                  532 </span></a>
+<a class="sourceLine" id="cb70-9" title="9"><span class="co">#&gt;                 ohio              georgia            tennessee </span></a>
+<a class="sourceLine" id="cb70-10" title="10"><span class="co">#&gt;                  532                  522                  466 </span></a>
+<a class="sourceLine" id="cb70-11" title="11"><span class="co">#&gt;            wisconsin       south carolina             oklahoma </span></a>
+<a class="sourceLine" id="cb70-12" title="12"><span class="co">#&gt;                  433                  427                  409 </span></a>
+<a class="sourceLine" id="cb70-13" title="13"><span class="co">#&gt;             virginia            minnesota             kentucky </span></a>
+<a class="sourceLine" id="cb70-14" title="14"><span class="co">#&gt;                  407                  397                  352 </span></a>
+<a class="sourceLine" id="cb70-15" title="15"><span class="co">#&gt;        massachusetts       north carolina               kansas </span></a>
+<a class="sourceLine" id="cb70-16" title="16"><span class="co">#&gt;                  346                  310                  309 </span></a>
+<a class="sourceLine" id="cb70-17" title="17"><span class="co">#&gt;              alabama             arkansas           washington </span></a>
+<a class="sourceLine" id="cb70-18" title="18"><span class="co">#&gt;                  305                  273                  250 </span></a>
+<a class="sourceLine" id="cb70-19" title="19"><span class="co">#&gt;              indiana             nebraska                 iowa </span></a>
+<a class="sourceLine" id="cb70-20" title="20"><span class="co">#&gt;                  247                  225                  216 </span></a>
+<a class="sourceLine" id="cb70-21" title="21"><span class="co">#&gt;             colorado        west virginia            louisiana </span></a>
+<a class="sourceLine" id="cb70-22" title="22"><span class="co">#&gt;                  213                  200                  192 </span></a>
+<a class="sourceLine" id="cb70-23" title="23"><span class="co">#&gt;        new hampshire               oregon             maryland </span></a>
+<a class="sourceLine" id="cb70-24" title="24"><span class="co">#&gt;                  176                  172                  152 </span></a>
+<a class="sourceLine" id="cb70-25" title="25"><span class="co">#&gt;                maine                 utah           new mexico </span></a>
+<a class="sourceLine" id="cb70-26" title="26"><span class="co">#&gt;                  135                  125                  116 </span></a>
+<a class="sourceLine" id="cb70-27" title="27"><span class="co">#&gt;              montana         north dakota              arizona </span></a>
+<a class="sourceLine" id="cb70-28" title="28"><span class="co">#&gt;                  108                  108                  107 </span></a>
+<a class="sourceLine" id="cb70-29" title="29"><span class="co">#&gt;          connecticut                idaho         south dakota </span></a>
+<a class="sourceLine" id="cb70-30" title="30"><span class="co">#&gt;                  107                   95                   92 </span></a>
+<a class="sourceLine" id="cb70-31" title="31"><span class="co">#&gt;              vermont          mississippi             delaware </span></a>
+<a class="sourceLine" id="cb70-32" title="32"><span class="co">#&gt;                   85                   71                   63 </span></a>
+<a class="sourceLine" id="cb70-33" title="33"><span class="co">#&gt;               nevada              wyoming         rhode island </span></a>
+<a class="sourceLine" id="cb70-34" title="34"><span class="co">#&gt;                   59                   57                   49 </span></a>
+<a class="sourceLine" id="cb70-35" title="35"><span class="co">#&gt;               alaska               hawaii district of columbia </span></a>
+<a class="sourceLine" id="cb70-36" title="36"><span class="co">#&gt;                   32                    4                    3 </span></a>
+<a class="sourceLine" id="cb70-37" title="37"><span class="co">#&gt;                 guam </span></a>
+<a class="sourceLine" id="cb70-38" title="38"><span class="co">#&gt;                    1</span></a></code></pre></div>
 </div>
 <div id="graphing" class="section level2">
 <h2><span class="header-section-number">3.2</span> Graphing</h2>
 <p>We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter <a href="graphing-intro.html#graphing-intro">6</a> but for now let’s use the function <code>plot()</code>.</p>
 <p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017<span class="op">$</span>actual_murder, ucr2017<span class="op">$</span>actual_robbery_total)</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1"><span class="kw">plot</span>(ucr2017<span class="op">$</span>actual_murder, ucr2017<span class="op">$</span>actual_robbery_total)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
 <p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the square bracket <code>[]</code> notation to subset. Remember it is</p>
@@ -543,9 +545,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don’t forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.</p>
 <p><code>ucr2017[ucr2017$population &gt; 1000000, ]</code></p>
 <p>And let’s save the results in a new object called “ucr2017_big_cities”.</p>
-<pre class="sourceCode r"><code class="sourceCode r">ucr2017_big_cities &lt;-<span class="st"> </span>ucr2017[ucr2017<span class="op">$</span>population <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000000</span>, ]</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" title="1">ucr2017_big_cities &lt;-<span class="st"> </span>ucr2017[ucr2017<span class="op">$</span>population <span class="op">&gt;</span><span class="st"> </span><span class="dv">1000000</span>, ]</a></code></pre></div>
 <p>Now we can do the same graph as above but using this new data set.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_murder, ucr2017_big_cities<span class="op">$</span>actual_robbery_total)</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_murder, ucr2017_big_cities<span class="op">$</span>actual_robbery_total)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
 <p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).</p>
@@ -555,10 +557,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>main - Graph title</li>
 </ul>
 <p>Like all parameters, we add them in the () of <code>plot()</code> and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_murder, ucr2017_big_cities<span class="op">$</span>actual_robbery_total,
-     <span class="dt">xlab =</span> <span class="st">&quot;Murder&quot;</span>,
-     <span class="dt">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,
-     <span class="dt">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" title="1"><span class="kw">plot</span>(ucr2017_big_cities<span class="op">$</span>actual_murder, ucr2017_big_cities<span class="op">$</span>actual_robbery_total,</a>
+<a class="sourceLine" id="cb74-2" title="2">     <span class="dt">xlab =</span> <span class="st">&quot;Murder&quot;</span>,</a>
+<a class="sourceLine" id="cb74-3" title="3">     <span class="dt">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</a>
+<a class="sourceLine" id="cb74-4" title="4">     <span class="dt">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="aggregate" class="section level2">
@@ -572,55 +574,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The numerical column is the column that we are doing the mathematical operation (sum, mean, median) on. The category column is the one we are using to group (e.g. state, year). Note the ~ between the numerical and category columns. Unlike most functions where we specify a column name, in <code>aggregate()</code> we do <strong>not</strong> use quotes for the columns.</p>
 <p>FUN is the parameter where we tell <code>aggregate()</code> which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.</p>
 <p>In Chapter <a href="subsetting-intro.html#subsetting-intro">2</a> we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let’s reload that data and rerun the subsetting code.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)
-colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]
-colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]
-colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</a>
+<a class="sourceLine" id="cb75-2" title="2">colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</a>
+<a class="sourceLine" id="cb75-3" title="3">colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]</a>
+<a class="sourceLine" id="cb75-4" title="4">colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</a></code></pre></div>
 <p>Now we can run <code>aggregate()</code> to get the number of murders per year.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)
-  year actual_murder
-<span class="dv">1</span> <span class="dv">2011</span>           <span class="dv">154</span>
-<span class="dv">2</span> <span class="dv">2012</span>           <span class="dv">163</span>
-<span class="dv">3</span> <span class="dv">2013</span>           <span class="dv">172</span>
-<span class="dv">4</span> <span class="dv">2014</span>           <span class="dv">148</span>
-<span class="dv">5</span> <span class="dv">2015</span>           <span class="dv">173</span>
-<span class="dv">6</span> <span class="dv">2016</span>           <span class="dv">203</span>
-<span class="dv">7</span> <span class="dv">2017</span>           <span class="dv">218</span></code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" title="1"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</a>
+<a class="sourceLine" id="cb76-2" title="2">  year actual_murder</a>
+<a class="sourceLine" id="cb76-3" title="3"><span class="dv">1</span> <span class="dv">2011</span>           <span class="dv">154</span></a>
+<a class="sourceLine" id="cb76-4" title="4"><span class="dv">2</span> <span class="dv">2012</span>           <span class="dv">163</span></a>
+<a class="sourceLine" id="cb76-5" title="5"><span class="dv">3</span> <span class="dv">2013</span>           <span class="dv">172</span></a>
+<a class="sourceLine" id="cb76-6" title="6"><span class="dv">4</span> <span class="dv">2014</span>           <span class="dv">148</span></a>
+<a class="sourceLine" id="cb76-7" title="7"><span class="dv">5</span> <span class="dv">2015</span>           <span class="dv">173</span></a>
+<a class="sourceLine" id="cb76-8" title="8"><span class="dv">6</span> <span class="dv">2016</span>           <span class="dv">203</span></a>
+<a class="sourceLine" id="cb76-9" title="9"><span class="dv">7</span> <span class="dv">2017</span>           <span class="dv">218</span></a></code></pre></div>
 <p>If we had more grouping categories would could add them by literally using <code>+</code> and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn’t actually change the results.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>state, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)
-  year    state actual_murder
-<span class="dv">1</span> <span class="dv">2011</span> colorado           <span class="dv">154</span>
-<span class="dv">2</span> <span class="dv">2012</span> colorado           <span class="dv">163</span>
-<span class="dv">3</span> <span class="dv">2013</span> colorado           <span class="dv">172</span>
-<span class="dv">4</span> <span class="dv">2014</span> colorado           <span class="dv">148</span>
-<span class="dv">5</span> <span class="dv">2015</span> colorado           <span class="dv">173</span>
-<span class="dv">6</span> <span class="dv">2016</span> colorado           <span class="dv">203</span>
-<span class="dv">7</span> <span class="dv">2017</span> colorado           <span class="dv">218</span></code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1"><span class="kw">aggregate</span>(actual_murder <span class="op">~</span><span class="st"> </span>year <span class="op">+</span><span class="st"> </span>state, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</a>
+<a class="sourceLine" id="cb77-2" title="2">  year    state actual_murder</a>
+<a class="sourceLine" id="cb77-3" title="3"><span class="dv">1</span> <span class="dv">2011</span> colorado           <span class="dv">154</span></a>
+<a class="sourceLine" id="cb77-4" title="4"><span class="dv">2</span> <span class="dv">2012</span> colorado           <span class="dv">163</span></a>
+<a class="sourceLine" id="cb77-5" title="5"><span class="dv">3</span> <span class="dv">2013</span> colorado           <span class="dv">172</span></a>
+<a class="sourceLine" id="cb77-6" title="6"><span class="dv">4</span> <span class="dv">2014</span> colorado           <span class="dv">148</span></a>
+<a class="sourceLine" id="cb77-7" title="7"><span class="dv">5</span> <span class="dv">2015</span> colorado           <span class="dv">173</span></a>
+<a class="sourceLine" id="cb77-8" title="8"><span class="dv">6</span> <span class="dv">2016</span> colorado           <span class="dv">203</span></a>
+<a class="sourceLine" id="cb77-9" title="9"><span class="dv">7</span> <span class="dv">2017</span> colorado           <span class="dv">218</span></a></code></pre></div>
 <p>If we want to aggregate multiple numeric columns we would use the <code>cbind()</code> function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let’s call it <em>colorado_agg</em>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">colorado_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(population, actual_murder) <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" title="1">colorado_agg &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="kw">cbind</span>(population, actual_murder) <span class="op">~</span><span class="st"> </span>year, <span class="dt">FUN =</span> sum, <span class="dt">data =</span> colorado)</a></code></pre></div>
 <p>To make the murder rate we simply make a new column, which we can call <em>murder_rate</em> which is the number of murders divided by population multiplied by 100,000.</p>
-<pre class="sourceCode r"><code class="sourceCode r">colorado_agg<span class="op">$</span>murder_rate &lt;-<span class="st"> </span>colorado_agg<span class="op">$</span>actual_murder <span class="op">/</span><span class="st"> </span>colorado_agg<span class="op">$</span>population <span class="op">*</span><span class="st"> </span><span class="dv">100000</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">colorado_agg
-<span class="co">#&gt;   year population actual_murder murder_rate</span>
-<span class="co">#&gt; 1 2011    5155993           154    2.986816</span>
-<span class="co">#&gt; 2 2012    5227884           163    3.117896</span>
-<span class="co">#&gt; 3 2013    5308236           172    3.240248</span>
-<span class="co">#&gt; 4 2014    5402555           148    2.739445</span>
-<span class="co">#&gt; 5 2015    5505856           173    3.142109</span>
-<span class="co">#&gt; 6 2016    5590124           203    3.631404</span>
-<span class="co">#&gt; 7 2017    5661529           218    3.850550</span></code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1">colorado_agg<span class="op">$</span>murder_rate &lt;-<span class="st"> </span>colorado_agg<span class="op">$</span>actual_murder <span class="op">/</span><span class="st"> </span>colorado_agg<span class="op">$</span>population <span class="op">*</span><span class="st"> </span><span class="dv">100000</span></a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" title="1">colorado_agg</a>
+<a class="sourceLine" id="cb80-2" title="2"><span class="co">#&gt;   year population actual_murder murder_rate</span></a>
+<a class="sourceLine" id="cb80-3" title="3"><span class="co">#&gt; 1 2011    5155993           154    2.986816</span></a>
+<a class="sourceLine" id="cb80-4" title="4"><span class="co">#&gt; 2 2012    5227884           163    3.117896</span></a>
+<a class="sourceLine" id="cb80-5" title="5"><span class="co">#&gt; 3 2013    5308236           172    3.240248</span></a>
+<a class="sourceLine" id="cb80-6" title="6"><span class="co">#&gt; 4 2014    5402555           148    2.739445</span></a>
+<a class="sourceLine" id="cb80-7" title="7"><span class="co">#&gt; 5 2015    5505856           173    3.142109</span></a>
+<a class="sourceLine" id="cb80-8" title="8"><span class="co">#&gt; 6 2016    5590124           203    3.631404</span></a>
+<a class="sourceLine" id="cb80-9" title="9"><span class="co">#&gt; 7 2017    5661529           218    3.850550</span></a></code></pre></div>
 <p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and didn’t legalize marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
 <p>We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate)</code></pre>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>By default <code>plot()</code> makes a scatterplot. If we set the parameter <code>type</code> to “l” it will be a <strong>l</strong>ine plot.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" title="1"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can add some labels and a title to make this graph easier to read.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,
-     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,
-     <span class="dt">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,
-     <span class="dt">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1"><span class="kw">plot</span>(<span class="dt">x =</span> colorado_agg<span class="op">$</span>year, <span class="dt">y =</span> colorado_agg<span class="op">$</span>murder_rate, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb83-2" title="2">     <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>,</a>
+<a class="sourceLine" id="cb83-3" title="3">     <span class="dt">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</a>
+<a class="sourceLine" id="cb83-4" title="4">     <span class="dt">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</a></code></pre></div>
 <p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -636,11 +638,13 @@ colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<sp
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({

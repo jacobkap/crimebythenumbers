@@ -43,24 +43,12 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> 
 #> 
 #> $candidates
-#>                       address location.x location.y  score
-#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218 100.00
-#> 2    9th Ave, New York, 10001  -73.99833   40.75060  96.16
-#> 3    9th Ave, New York, 10036  -73.99148   40.76000  96.16
-#> 4    9th Ave, New York, 10018  -73.99446   40.75591  96.16
-#> 5    9th Ave, New York, 10014  -74.00592   40.74018  96.16
+#>                       address location.x location.y score
+#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
-#> 2    9th Ave, New York, 10001           StreetName   -73.99933    40.74960
-#> 3    9th Ave, New York, 10036           StreetName   -73.99248    40.75900
-#> 4    9th Ave, New York, 10018           StreetName   -73.99546    40.75491
-#> 5    9th Ave, New York, 10014           StreetName   -74.00692    40.73918
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74322
-#> 2   -73.99733    40.75160
-#> 3   -73.99048    40.76100
-#> 4   -73.99346    40.75691
-#> 5   -74.00492    40.74118
+#> 1   -74.00366    40.74323
 ```
 
 It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns *address_coordinate* and grab the *candidates* object from that list. 
@@ -69,24 +57,12 @@ It returns a list of objects. This is a named list meaning that we can grab the 
 ```r
 address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates$candidates
-#>                       address location.x location.y  score
-#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218 100.00
-#> 2    9th Ave, New York, 10001  -73.99833   40.75060  96.16
-#> 3    9th Ave, New York, 10036  -73.99148   40.76000  96.16
-#> 4    9th Ave, New York, 10018  -73.99446   40.75591  96.16
-#> 5    9th Ave, New York, 10014  -74.00592   40.74018  96.16
+#>                       address location.x location.y score
+#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
-#> 2    9th Ave, New York, 10001           StreetName   -73.99933    40.74960
-#> 3    9th Ave, New York, 10036           StreetName   -73.99248    40.75900
-#> 4    9th Ave, New York, 10018           StreetName   -73.99546    40.75491
-#> 5    9th Ave, New York, 10014           StreetName   -74.00692    40.73918
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74322
-#> 2   -73.99733    40.75160
-#> 3   -73.99048    40.76100
-#> 4   -73.99346    40.75691
-#> 5   -74.00492    40.74118
+#> 1   -74.00366    40.74323
 ```
 
 The *candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
@@ -100,11 +76,11 @@ address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates
 #>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00456   40.74218   100
+#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74322
+#> 1   -74.00366    40.74323
 ```
 
 This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
@@ -113,7 +89,7 @@ This data.frame has something we've never seen before. It has columns that are t
 ```r
 address_coordinates$location
 #>           x        y
-#> 1 -74.00456 40.74218
+#> 1 -74.00457 40.74215
 ```
 
 Since our end goal is to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
@@ -131,7 +107,7 @@ address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates$location
 #>           x        y
-#> 1 -74.00456 40.74218
+#> 1 -74.00457 40.74215
 ```
 
 Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
@@ -201,7 +177,7 @@ We can try it using the same address we did earlier, "75 9th Ave, New York, NY 1
 ```r
 geocode_address("75 9th Ave, New York, NY 10011")
 #>           x        y
-#> 1 -74.00456 40.74218
+#> 1 -74.00457 40.74215
 ```
 
 It returns the same data.frame as earlier so our function works!
@@ -328,7 +304,7 @@ Let's start with an example using the first row. Inputting the address from the 
 temp <- geocode_address(marijuana$Premise_Address[1])
 temp
 #>           x        y
-#> 1 -122.4811 37.76337
+#> 1 -122.4811 37.76315
 ```
 
 We can use square bracket `[]` notation to assign the value from the *x* column of *temp* to our *lon* column in *marijuana* and do the same for the *y* and *lat* columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
@@ -373,7 +349,7 @@ head(marijuana)
 #> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
 #> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 #>         lon      lat
-#> 1 -122.4811 37.76337
+#> 1 -122.4811 37.76315
 #> 2        NA       NA
 #> 3        NA       NA
 #> 4        NA       NA
