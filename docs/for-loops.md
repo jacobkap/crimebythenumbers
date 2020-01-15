@@ -231,6 +231,6 @@ for (recipe_url in recipe_urls) {
 #> [1] "1 tablespoon garlic powder" "1 tablespoon dried basil"  
 #> [3] "1/2 teaspoon salt"          "4 (6 ounce) salmon"        
 #> [5] "2 tablespoons butter"       "4 lemon wedges"            
-#> [1] "Stir together the garlic powder, basil, and salt in a small bowl; rub in equal amounts onto the salmon fillets."                                                               
-#> [2] "Melt the butter in a skillet over medium heat; cook the salmon in the butter until browned and flaky, about 5 minutes per side. Serve each piece of salmon with a lemon wedge."
+#> [1] "Stir together the garlic powder, basil, and salt in a small bowl; rub in equal amounts onto the salmon fillets.Watch Now"                                                               
+#> [2] "Melt the butter in a skillet over medium heat; cook the salmon in the butter until browned and flaky, about 5 minutes per side. Serve each piece of salmon with a lemon wedge.Watch Now"
 ```
