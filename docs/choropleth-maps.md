@@ -158,20 +158,20 @@ head(suicide)
 #> bbox:           xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> epsg (SRID):    2227
 #> proj4string:    +proj=lcc +lat_1=38.43333333333333 +lat_2=37.06666666666667 +lat_0=36.5 +lon_0=-120.5 +x_0=2000000.0001016 +y_0=500000.0001016001 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs
-#>   IncidntNum Category                           Descript DayOfWeek
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
-#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
-#>         Date     Time PdDistrict Resolution                 Address
-#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
-#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
-#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
-#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
-#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
-#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>   IncidntNum Category                           Descript DayOfWeek       Date
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+#>       Time PdDistrict Resolution                 Address
+#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
 #>                                         Location         PdId year
 #> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
 #> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
@@ -225,20 +225,20 @@ head(suicide_agg)
 #> bbox:           xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> epsg (SRID):    2227
 #> proj4string:    +proj=lcc +lat_1=38.43333333333333 +lat_2=37.06666666666667 +lat_0=36.5 +lon_0=-120.5 +x_0=2000000.0001016 +y_0=500000.0001016001 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs
-#>   IncidntNum Category                           Descript DayOfWeek
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
-#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
-#>         Date     Time PdDistrict Resolution                 Address
-#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
-#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
-#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
-#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
-#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
-#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>   IncidntNum Category                           Descript DayOfWeek       Date
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+#>       Time PdDistrict Resolution                 Address
+#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
 #>                                         Location         PdId year
 #> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
 #> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018

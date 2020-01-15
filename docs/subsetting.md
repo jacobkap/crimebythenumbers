@@ -88,7 +88,7 @@ animals[-c(1, 2, 3)]
 #> [1] "buffalo" "lion"    "snake"
 ```
 
-## Assignment values to objects (Making "things") {#assignment}
+## Assigning values to objects (Making "things") {#assignment}
 
 Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object *animals* with the value of each of the different animals we wrote. 
 
@@ -551,24 +551,20 @@ Here is every column in the first row.
 
 ```r
 offenses_known_yearly_1960_2017[1, ]
-#>       ori      ori9 agency_name  state state_abb year
-#> 1 AK00101 AK0010100   anchorage alaska        AK 2017
-#>   number_of_months_reported fips_state_code fips_county_code
-#> 1                        12              02              020
-#>   fips_state_county_code fips_place_code fips_state_place_code
-#> 1                  02020           03000               0203000
-#>               agency_type agency_subtype_1 agency_subtype_2
-#> 1 local police department   not applicable   not applicable
-#>         crosswalk_agency_name            census_name population
-#> 1 anchorage police department anchorage municipality     296188
-#>            population_group country_division juvenile_age
-#> 1 city 250,000 thru 499,999          pacific           18
+#>       ori      ori9 agency_name  state state_abb year number_of_months_reported
+#> 1 AK00101 AK0010100   anchorage alaska        AK 2017                        12
+#>   fips_state_code fips_county_code fips_state_county_code fips_place_code
+#> 1              02              020                  02020           03000
+#>   fips_state_place_code             agency_type agency_subtype_1
+#> 1               0203000 local police department   not applicable
+#>   agency_subtype_2       crosswalk_agency_name            census_name
+#> 1   not applicable anchorage police department anchorage municipality
+#>   population          population_group country_division juvenile_age
+#> 1     296188 city 250,000 thru 499,999          pacific           18
 #>   core_city_indication last_update fbi_field_office followup_indication
 #> 1     core city of msa       42094             3030    send a follow-up
-#>   zip_code covered_by_ori agency_count date_of_last_update
-#> 1    99507           <NA>            1              120717
-#>   month_included_in
-#> 1                 0
+#>   zip_code covered_by_ori agency_count date_of_last_update month_included_in
+#> 1    99507           <NA>            1              120717                 0
 #>                                                              special_mailing_group
 #> 1 the agency is a contributor but not on the mailing list,they are not sent forms.
 #>         special_mailing_address first_line_of_mailing_address
@@ -599,78 +595,70 @@ offenses_known_yearly_1960_2017[1, ]
 #> 1                        971                        199             23688
 #>   actual_assault_aggravated actual_index_violent actual_index_property
 #> 1                      2368                 3564                 16041
-#>   actual_index_total tot_clr_murder tot_clr_manslaughter
-#> 1              19605             28                    0
-#>   tot_clr_rape_total tot_clr_rape_by_force tot_clr_rape_attempted
-#> 1                 58                    48                     10
-#>   tot_clr_robbery_total tot_clr_robbery_with_a_gun
-#> 1                   216                         47
-#>   tot_clr_robbery_with_a_knife tot_clr_robbery_other_weapon
-#> 1                           22                           37
-#>   tot_clr_robbery_unarmed tot_clr_assault_total tot_clr_assault_with_a_gun
-#> 1                     110                  3576                        249
-#>   tot_clr_assault_with_a_knife tot_clr_assault_other_weapon
-#> 1                          250                          413
-#>   tot_clr_assault_unarmed tot_clr_assault_simple tot_clr_burg_total
-#> 1                     436                   2228                250
-#>   tot_clr_burg_force_entry tot_clr_burg_nonforce_entry
-#> 1                      129                         114
+#>   actual_index_total tot_clr_murder tot_clr_manslaughter tot_clr_rape_total
+#> 1              19605             28                    0                 58
+#>   tot_clr_rape_by_force tot_clr_rape_attempted tot_clr_robbery_total
+#> 1                    48                     10                   216
+#>   tot_clr_robbery_with_a_gun tot_clr_robbery_with_a_knife
+#> 1                         47                           22
+#>   tot_clr_robbery_other_weapon tot_clr_robbery_unarmed tot_clr_assault_total
+#> 1                           37                     110                  3576
+#>   tot_clr_assault_with_a_gun tot_clr_assault_with_a_knife
+#> 1                        249                          250
+#>   tot_clr_assault_other_weapon tot_clr_assault_unarmed tot_clr_assault_simple
+#> 1                          413                     436                   2228
+#>   tot_clr_burg_total tot_clr_burg_force_entry tot_clr_burg_nonforce_entry
+#> 1                250                      129                         114
 #>   tot_clr_burg_attempted tot_clr_theft_total tot_clr_mtr_veh_theft_total
 #> 1                      7                1358                         497
 #>   tot_clr_mtr_veh_theft_car tot_clr_mtr_veh_theft_truck
 #> 1                       335                         145
-#>   tot_clr_mtr_veh_theft_other tot_clr_all_crimes
-#> 1                          17               5983
-#>   tot_clr_assault_aggravated tot_clr_index_violent tot_clr_index_property
-#> 1                       1348                  1650                   2105
-#>   tot_clr_index_total clr_18_murder clr_18_manslaughter clr_18_rape_total
-#> 1                3755             1                   0                 5
-#>   clr_18_rape_by_force clr_18_rape_attempted clr_18_robbery_total
-#> 1                    4                     1                    9
-#>   clr_18_robbery_with_a_gun clr_18_robbery_with_a_knife
-#> 1                         1                           1
-#>   clr_18_robbery_other_weapon clr_18_robbery_unarmed clr_18_assault_total
-#> 1                           0                      7                  277
-#>   clr_18_assault_with_a_gun clr_18_assault_with_a_knife
-#> 1                        37                          17
-#>   clr_18_assault_other_weapon clr_18_assault_unarmed clr_18_assault_simple
-#> 1                          19                     17                   187
-#>   clr_18_burg_total clr_18_burg_force_entry clr_18_burg_nonforce_entry
-#> 1                 8                       4                          2
-#>   clr_18_burg_attempted clr_18_theft_total clr_18_mtr_veh_theft_total
-#> 1                     2                107                         22
-#>   clr_18_mtr_veh_theft_car clr_18_mtr_veh_theft_truck
-#> 1                       17                          2
-#>   clr_18_mtr_veh_theft_other clr_18_all_crimes clr_18_assault_aggravated
-#> 1                          3               429                        90
-#>   clr_18_index_violent clr_18_index_property clr_18_index_total
-#> 1                  105                   137                242
-#>   unfound_murder unfound_manslaughter unfound_rape_total
-#> 1              5                    0                 16
+#>   tot_clr_mtr_veh_theft_other tot_clr_all_crimes tot_clr_assault_aggravated
+#> 1                          17               5983                       1348
+#>   tot_clr_index_violent tot_clr_index_property tot_clr_index_total
+#> 1                  1650                   2105                3755
+#>   clr_18_murder clr_18_manslaughter clr_18_rape_total clr_18_rape_by_force
+#> 1             1                   0                 5                    4
+#>   clr_18_rape_attempted clr_18_robbery_total clr_18_robbery_with_a_gun
+#> 1                     1                    9                         1
+#>   clr_18_robbery_with_a_knife clr_18_robbery_other_weapon
+#> 1                           1                           0
+#>   clr_18_robbery_unarmed clr_18_assault_total clr_18_assault_with_a_gun
+#> 1                      7                  277                        37
+#>   clr_18_assault_with_a_knife clr_18_assault_other_weapon
+#> 1                          17                          19
+#>   clr_18_assault_unarmed clr_18_assault_simple clr_18_burg_total
+#> 1                     17                   187                 8
+#>   clr_18_burg_force_entry clr_18_burg_nonforce_entry clr_18_burg_attempted
+#> 1                       4                          2                     2
+#>   clr_18_theft_total clr_18_mtr_veh_theft_total clr_18_mtr_veh_theft_car
+#> 1                107                         22                       17
+#>   clr_18_mtr_veh_theft_truck clr_18_mtr_veh_theft_other clr_18_all_crimes
+#> 1                          2                          3               429
+#>   clr_18_assault_aggravated clr_18_index_violent clr_18_index_property
+#> 1                        90                  105                   137
+#>   clr_18_index_total unfound_murder unfound_manslaughter unfound_rape_total
+#> 1                242              5                    0                 16
 #>   unfound_rape_by_force unfound_rape_attempted unfound_robbery_total
 #> 1                    16                      0                     1
 #>   unfound_robbery_with_a_gun unfound_robbery_with_a_knife
 #> 1                          1                            0
-#>   unfound_robbery_other_weapon unfound_robbery_unarmed
-#> 1                            0                       0
-#>   unfound_assault_total unfound_assault_with_a_gun
-#> 1                     6                          0
-#>   unfound_assault_with_a_knife unfound_assault_other_weapon
-#> 1                            1                            1
-#>   unfound_assault_unarmed unfound_assault_simple unfound_burg_total
-#> 1                       0                      4                  0
-#>   unfound_burg_force_entry unfound_burg_nonforce_entry
-#> 1                        0                           0
+#>   unfound_robbery_other_weapon unfound_robbery_unarmed unfound_assault_total
+#> 1                            0                       0                     6
+#>   unfound_assault_with_a_gun unfound_assault_with_a_knife
+#> 1                          0                            1
+#>   unfound_assault_other_weapon unfound_assault_unarmed unfound_assault_simple
+#> 1                            1                       0                      4
+#>   unfound_burg_total unfound_burg_force_entry unfound_burg_nonforce_entry
+#> 1                  0                        0                           0
 #>   unfound_burg_attempted unfound_theft_total unfound_mtr_veh_theft_total
 #> 1                      0                  40                          70
 #>   unfound_mtr_veh_theft_car unfound_mtr_veh_theft_truck
 #> 1                        53                          16
-#>   unfound_mtr_veh_theft_other unfound_all_crimes
-#> 1                           1                138
-#>   unfound_assault_aggravated unfound_index_violent unfound_index_property
-#> 1                          2                    24                    110
-#>   unfound_index_total
-#> 1                 134
+#>   unfound_mtr_veh_theft_other unfound_all_crimes unfound_assault_aggravated
+#> 1                           1                138                          2
+#>   unfound_index_violent unfound_index_property unfound_index_total
+#> 1                    24                    110                 134
 ```
 
 Since there are 159 columns in our data, normally we'd want to avoid printing out all of them. And in most cases we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 

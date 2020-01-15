@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>11 Webscraping with rvest | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="11 Webscraping with rvest | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,16 +24,17 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-12-16" />
+<meta name="date" content="2020-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="r-markdown.html"/>
+<link rel="prev" href="part-collect.html"/>
 <link rel="next" href="functions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -57,7 +58,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -75,25 +76,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -102,9 +104,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -153,12 +155,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">Crime by the Numbers</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
 </ul></li>
@@ -167,46 +172,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
-<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
-<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a><ul>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
 <li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
 <li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
 <li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheatsheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful cheatsheets</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
 </ul></li>
-<li class="part"><span><b>I Clean</b></span></li>
-<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="" data-path="part-clean.html"><a href="part-clean.html"><i class="fa fa-check"></i>(PART) Clean</a></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
-<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assignment values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
 <li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
-<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
 <li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
 <li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
 <li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
 <li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a><ul>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
 <li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
 <li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
 <li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
 <li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
 <li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
 <li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
-<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
 <li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
 <li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
@@ -221,15 +235,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a><ul>
-<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
 <li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
 <li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
 <li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
 <li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
 <li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
 <li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
@@ -237,27 +254,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Visualize</b></span></li>
-<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="" data-path="part-visualize.html"><a href="part-visualize.html"><i class="fa fa-check"></i>(PART) Visualize</a></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
 <li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
 <li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
 <li class="chapter" data-level="7.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>7.2</b> What really are maps?</a></li>
-<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a><ul>
+<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>7.3.1</b> Colors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a><ul>
+<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>8.1</b> Spatial joins</a></li>
 <li class="chapter" data-level="8.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>8.2</b> Making choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a><ul>
-<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>9.1.1</b> Understanding your data</a></li>
 <li class="chapter" data-level="9.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>9.1.2</b> Police departments use them</a></li>
 </ul></li>
@@ -266,48 +289,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>9.4</b> Dealing with too many markers</a></li>
 <li class="chapter" data-level="9.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>9.5</b> Interactive choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a><ul>
-<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a><ul>
+<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>10.1.1</b> Hiding code in the output</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>10.2</b> Tables</a></li>
 <li class="chapter" data-level="10.3" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>10.3</b> Making the output file</a></li>
 </ul></li>
-<li class="part"><span><b>III Collect</b></span></li>
-<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="" data-path="part-collect.html"><a href="part-collect.html"><i class="fa fa-check"></i>(PART) Collect</a></li>
+<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>11.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="11.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>11.2</b> Cleaning the webscraped data</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a><ul>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>12.1</b> A simple function</a></li>
 <li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>12.2</b> Adding parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>12.3</b> Making a function to scrape recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a><ul>
+<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>13.1</b> Basic for loops</a></li>
 <li class="chapter" data-level="13.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>13.2</b> Scraping multiple recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a><ul>
+<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>14.1</b> Scraping the first table</a></li>
 <li class="chapter" data-level="14.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a><ul>
+<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>15.1</b> Geocoding a single address</a></li>
 <li class="chapter" data-level="15.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
 <li class="chapter" data-level="15.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>15.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
 </ul></li>
-<li class="part"><span><b>IV Data</b></span></li>
+<li class="chapter" data-level="" data-path="part-data.html"><a href="part-data.html"><i class="fa fa-check"></i>(PART) Data</a></li>
 <li class="chapter" data-level="16" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>16</b> Introduction</a></li>
-<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a><ul>
+<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
 <li class="chapter" data-level="17.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>17.1</b> Exploring the UCR data</a></li>
 <li class="chapter" data-level="17.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>17.2</b> ORIs - Unique agency identifiers</a></li>
 <li class="chapter" data-level="17.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>17.3</b> Hierarchy Rule</a></li>
-<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a><ul>
+<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a>
+<ul>
 <li class="chapter" data-level="17.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>17.4.1</b> Index Crimes</a></li>
 <li class="chapter" data-level="17.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>17.4.2</b> The problem with using index crimes</a></li>
 <li class="chapter" data-level="17.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>17.4.3</b> Rape definition change</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a><ul>
+<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
 <li class="chapter" data-level="17.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>17.5.1</b> Actual</a></li>
 <li class="chapter" data-level="17.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>17.5.2</b> Total Cleared</a></li>
 <li class="chapter" data-level="17.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>17.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
@@ -315,10 +348,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="17.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>17.6</b> Number of months reported</a></li>
 </ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a><ul>
-<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
-<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+<li class="chapter" data-level="" data-path="appendix-appendix.html"><a href="appendix-appendix.html"><i class="fa fa-check"></i>(APPENDIX) Appendix</a></li>
+<li class="chapter" data-level="18" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>18</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>18.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="18.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
 </ul></li>
 </ul>
 
@@ -337,29 +371,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="webscraping-with-rvest" class="section level1">
-<h1><span class="header-section-number">11</span> Webscraping with <code>rvest</code></h1>
+<div id="webscraping-with-rvest" class="section level1" number="11">
+<h1 number="11"><span class="header-section-number">11</span> Webscraping with <code>rvest</code></h1>
 <p>If I ever stop working in the field of criminology, I would certainly be a baker. So for the next few chapters we are going to work with “data” on baking. What we’ll learn to do is find a recipe from the website <a href="https://www.allrecipes.com/">All Recipes</a> and webscrape the ingredients and directions of that recipe.</p>
 <p>For our purposes we will be using the package <a href="https://github.com/tidyverse/rvest"><code>rvest</code></a>. This package makes it relatively easy to scrape data from websites, especially when that data is already in a table on the page as our data will be.</p>
 <p>If you haven’t done so before, make sure to install <code>rvest</code>.</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;rvest&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="webscraping-with-rvest.html#cb231-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;rvest&quot;</span>)</span></code></pre></div>
 <p>And every time you start R, if you want to use <code>rvest</code> you must tell R so by using <code>library()</code>.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" title="1"><span class="kw">library</span>(rvest)</a>
-<a class="sourceLine" id="cb232-2" title="2"><span class="co">#&gt; Loading required package: xml2</span></a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="webscraping-with-rvest.html#cb232-1"></a><span class="kw">library</span>(rvest)</span>
+<span id="cb232-2"><a href="webscraping-with-rvest.html#cb232-2"></a><span class="co">#&gt; Warning: package &#39;rvest&#39; was built under R version 3.6.2</span></span>
+<span id="cb232-3"><a href="webscraping-with-rvest.html#cb232-3"></a><span class="co">#&gt; Loading required package: xml2</span></span></code></pre></div>
 <p>Here is a screenshot of the recipe for the “MMMMM… Brownies” (an excellent brownies recipe) <a href="https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&amp;referringContentType=Search">page</a>.</p>
 <p><img src="images/brownies_1.PNG" /></p>
 <p><img src="images/brownies_2.PNG" /></p>
-<div id="scraping-one-page" class="section level2">
-<h2><span class="header-section-number">11.1</span> Scraping one page</h2>
+<div id="scraping-one-page" class="section level2" number="11.1">
+<h2 number="11.1"><span class="header-section-number">11.1</span> Scraping one page</h2>
 <p>In later lessons we’ll learn how to scrape the ingredients of any recipe on the site. For now, we’ll focus on just getting data for our brownies recipe.</p>
 <p>The first step to scraping a page is to read in that page’s information to R using the function <code>read_html()</code> from the <code>rvest</code> package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages.</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" title="1"><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</a>
-<a class="sourceLine" id="cb233-2" title="2"><span class="co">#&gt; {html_document}</span></a>
-<a class="sourceLine" id="cb233-3" title="3"><span class="co">#&gt; &lt;html lang=&quot;en-us&quot;&gt;</span></a>
-<a class="sourceLine" id="cb233-4" title="4"><span class="co">#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset= ...</span></a>
-<a class="sourceLine" id="cb233-5" title="5"><span class="co">#&gt; [2] &lt;body ng-app=&quot;allrecipes&quot; data-scoby-impression=&#39;{&quot;id&quot;: &quot;25080&quot;, &quot;ev ...</span></a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="webscraping-with-rvest.html#cb233-1"></a><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
+<span id="cb233-2"><a href="webscraping-with-rvest.html#cb233-2"></a><span class="co">#&gt; {html_document}</span></span>
+<span id="cb233-3"><a href="webscraping-with-rvest.html#cb233-3"></a><span class="co">#&gt; &lt;html lang=&quot;en-us&quot;&gt;</span></span>
+<span id="cb233-4"><a href="webscraping-with-rvest.html#cb233-4"></a><span class="co">#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...</span></span>
+<span id="cb233-5"><a href="webscraping-with-rvest.html#cb233-5"></a><span class="co">#&gt; [2] &lt;body ng-app=&quot;allrecipes&quot; data-scoby-impression=&#39;{&quot;id&quot;: &quot;25080&quot;, &quot;eventTy ...</span></span></code></pre></div>
 <p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of <code>read_html()</code> into an object which we’ll call <em>brownies</em> since that is the recipe we are currently scraping.</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" title="1">brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="webscraping-with-rvest.html#cb234-1"></a>brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span></code></pre></div>
 <p>We now need to select only a small part of page which has the relevant information - in this case the ingredients and directions.</p>
 <p>We need to find just which parts of the page to scrape. To do so we’ll use the helper tool <a href="https://selectorgadget.com/">SelectorGadget</a>, a Google Chrome extension that lets you click on parts of the page to get the CSS selector code that we’ll use. Install that extension in Chrome and go to the <a href="https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&amp;referringContentType=Search">brownie recipe page</a>.</p>
 <p>When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - “1/2 cup white sugar”. Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same “type” in the page. It also highlighted the text “Add all ingredients to list” which we don’t want. As it is always the last line of text in ingredients, we’ll leave it in for now and practice subsetting data through R to remove it.</p>
@@ -367,73 +402,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that in the bottom right of the screen, the SelectorGadget bar now has the text “.added”. This is the CSS selector code we can use to get all of the ingredients.</p>
 <p><img src="images/brownies_4.PNG" /></p>
 <p>We will use the function <code>html_nodes()</code> to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from <code>read_html()</code> (which we called <em>brownies</em>) and then we can paste the CSS selector text - in this case, “.added”. We’ll save the resulting object as <em>ingredients</em> since we want to use <em>brownies</em> to also get the directions.</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb235-1" title="1">ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="webscraping-with-rvest.html#cb235-1"></a>ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span></code></pre></div>
 <p>Since we are getting data that is a text format, we need to tell <code>rvest</code> that the format of the scraped data is text. We do with using <code>html_text()</code> and our input in the () is the object made in the function <code>html_text()</code>.</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" title="1">ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</a></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="webscraping-with-rvest.html#cb236-1"></a>ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</span></code></pre></div>
 <p>Now let’s check what we got.</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb237-1" title="1">ingredients</a>
-<a class="sourceLine" id="cb237-2" title="2"><span class="co">#&gt;  [1] &quot;1/2 cup white sugar&quot;                 </span></a>
-<a class="sourceLine" id="cb237-3" title="3"><span class="co">#&gt;  [2] &quot;2 tablespoons butter&quot;                </span></a>
-<a class="sourceLine" id="cb237-4" title="4"><span class="co">#&gt;  [3] &quot;2 tablespoons water&quot;                 </span></a>
-<a class="sourceLine" id="cb237-5" title="5"><span class="co">#&gt;  [4] &quot;1 1/2 cups semisweet chocolate chips&quot;</span></a>
-<a class="sourceLine" id="cb237-6" title="6"><span class="co">#&gt;  [5] &quot;2 eggs&quot;                              </span></a>
-<a class="sourceLine" id="cb237-7" title="7"><span class="co">#&gt;  [6] &quot;1/2 teaspoon vanilla extract&quot;        </span></a>
-<a class="sourceLine" id="cb237-8" title="8"><span class="co">#&gt;  [7] &quot;2/3 cup all-purpose flour&quot;           </span></a>
-<a class="sourceLine" id="cb237-9" title="9"><span class="co">#&gt;  [8] &quot;1/4 teaspoon baking soda&quot;            </span></a>
-<a class="sourceLine" id="cb237-10" title="10"><span class="co">#&gt;  [9] &quot;1/2 teaspoon salt&quot;                   </span></a>
-<a class="sourceLine" id="cb237-11" title="11"><span class="co">#&gt; [10] &quot;Add all ingredients to list&quot;         </span></a>
-<a class="sourceLine" id="cb237-12" title="12"><span class="co">#&gt; [11] &quot;Add all ingredients to list&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="webscraping-with-rvest.html#cb237-1"></a>ingredients</span>
+<span id="cb237-2"><a href="webscraping-with-rvest.html#cb237-2"></a><span class="co">#&gt;  [1] &quot;1/2 cup white sugar&quot;                 </span></span>
+<span id="cb237-3"><a href="webscraping-with-rvest.html#cb237-3"></a><span class="co">#&gt;  [2] &quot;2 tablespoons butter&quot;                </span></span>
+<span id="cb237-4"><a href="webscraping-with-rvest.html#cb237-4"></a><span class="co">#&gt;  [3] &quot;2 tablespoons water&quot;                 </span></span>
+<span id="cb237-5"><a href="webscraping-with-rvest.html#cb237-5"></a><span class="co">#&gt;  [4] &quot;1 1/2 cups semisweet chocolate chips&quot;</span></span>
+<span id="cb237-6"><a href="webscraping-with-rvest.html#cb237-6"></a><span class="co">#&gt;  [5] &quot;2 eggs&quot;                              </span></span>
+<span id="cb237-7"><a href="webscraping-with-rvest.html#cb237-7"></a><span class="co">#&gt;  [6] &quot;1/2 teaspoon vanilla extract&quot;        </span></span>
+<span id="cb237-8"><a href="webscraping-with-rvest.html#cb237-8"></a><span class="co">#&gt;  [7] &quot;2/3 cup all-purpose flour&quot;           </span></span>
+<span id="cb237-9"><a href="webscraping-with-rvest.html#cb237-9"></a><span class="co">#&gt;  [8] &quot;1/4 teaspoon baking soda&quot;            </span></span>
+<span id="cb237-10"><a href="webscraping-with-rvest.html#cb237-10"></a><span class="co">#&gt;  [9] &quot;1/2 teaspoon salt&quot;                   </span></span>
+<span id="cb237-11"><a href="webscraping-with-rvest.html#cb237-11"></a><span class="co">#&gt; [10] &quot;Add all ingredients to list&quot;         </span></span>
+<span id="cb237-12"><a href="webscraping-with-rvest.html#cb237-12"></a><span class="co">#&gt; [11] &quot;Add all ingredients to list&quot;</span></span></code></pre></div>
 <p>We have successfully scraped the ingredients for this brownies recipes - plus the “Add all ingredients to list” (copied twice for some reason).</p>
 <p>Now let’s do the same process to get the directions for baking.</p>
 <p>In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions. It’ll highlight all three directions as they’re all of the same “type” (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a “text” type in the section on directions and SelectorGadget then selected all “text” types inside of that section.).</p>
 <p><img src="images/brownies_5.PNG" /></p>
 <p>The CSS selector code this time is ".recipe-directions__list–item" so we can put that inside of <code>html_nodes()</code>. Let’s save the output as <em>directions</em>.</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" title="1">directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</a>
-<a class="sourceLine" id="cb238-2" title="2">directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</a></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="webscraping-with-rvest.html#cb238-1"></a>directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
+<span id="cb238-2"><a href="webscraping-with-rvest.html#cb238-2"></a>directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</span></code></pre></div>
 <p>Did it work?</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" title="1">directions</a>
-<a class="sourceLine" id="cb239-2" title="2"><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                            &quot;                                                                                                                                                                                                                                </span></a>
-<a class="sourceLine" id="cb239-3" title="3"><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                            &quot;</span></a>
-<a class="sourceLine" id="cb239-4" title="4"><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                            &quot;                                                                                                                                                                                       </span></a>
-<a class="sourceLine" id="cb239-5" title="5"><span class="co">#&gt; [4] &quot;&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="webscraping-with-rvest.html#cb239-1"></a>directions</span>
+<span id="cb239-2"><a href="webscraping-with-rvest.html#cb239-2"></a><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                            &quot;                                                                                                                                                                                                                                </span></span>
+<span id="cb239-3"><a href="webscraping-with-rvest.html#cb239-3"></a><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                            &quot;</span></span>
+<span id="cb239-4"><a href="webscraping-with-rvest.html#cb239-4"></a><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                            &quot;                                                                                                                                                                                       </span></span>
+<span id="cb239-5"><a href="webscraping-with-rvest.html#cb239-5"></a><span class="co">#&gt; [4] &quot;&quot;</span></span></code></pre></div>
 <p>Yes! The final value in our vector is blank so we will have to remove that.</p>
 </div>
-<div id="cleaning-the-webscraped-data" class="section level2">
-<h2><span class="header-section-number">11.2</span> Cleaning the webscraped data</h2>
+<div id="cleaning-the-webscraped-data" class="section level2" number="11.2">
+<h2 number="11.2"><span class="header-section-number">11.2</span> Cleaning the webscraped data</h2>
 <p>We only have three things to do to clean the data. First, we need to remove the “Add all ingredients to list” from the <em>ingredients</em> object. Second, we will remove the blank value ("") from the <em>directions</em> object. For both tasks we’ll do conditional subsetting to keep all values that do <em>not</em> equal those values. Finally, the directions print out with the text <code>\n</code> at the end. This indicates that it is the end of the line but we’ll want to remove that, which we can do using <code>gsub()</code>.</p>
 <p>First let’s try out the condition of <em>ingredients</em> that do not equal the string “Add all ingredients to list”.</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" title="1">ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span></a>
-<a class="sourceLine" id="cb240-2" title="2"><span class="co">#&gt;  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="webscraping-with-rvest.html#cb240-1"></a>ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span></span>
+<span id="cb240-2"><a href="webscraping-with-rvest.html#cb240-2"></a><span class="co">#&gt;  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE</span></span></code></pre></div>
 <p>It returns TRUE for all values except the last two, the ones which do equal “Add all ingredients to list”. Let’s only keep the elements without this string.</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb241-1" title="1">ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="webscraping-with-rvest.html#cb241-1"></a>ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</span></code></pre></div>
 <p>And we can do the same thing for the empty string in <em>directions</em>.</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" title="1">directions &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="webscraping-with-rvest.html#cb242-1"></a>directions &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</span></code></pre></div>
 <p>To remove the <code>\n</code> we simple find that in <code>gsub()</code> and replace it with a blank string.</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb243-1" title="1">directions &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</a></code></pre></div>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="webscraping-with-rvest.html#cb243-1"></a>directions &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span></code></pre></div>
 <p>And let’s print out both objects to make sure it worked.</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" title="1">ingredients</a>
-<a class="sourceLine" id="cb244-2" title="2"><span class="co">#&gt; [1] &quot;1/2 cup white sugar&quot;                 </span></a>
-<a class="sourceLine" id="cb244-3" title="3"><span class="co">#&gt; [2] &quot;2 tablespoons butter&quot;                </span></a>
-<a class="sourceLine" id="cb244-4" title="4"><span class="co">#&gt; [3] &quot;2 tablespoons water&quot;                 </span></a>
-<a class="sourceLine" id="cb244-5" title="5"><span class="co">#&gt; [4] &quot;1 1/2 cups semisweet chocolate chips&quot;</span></a>
-<a class="sourceLine" id="cb244-6" title="6"><span class="co">#&gt; [5] &quot;2 eggs&quot;                              </span></a>
-<a class="sourceLine" id="cb244-7" title="7"><span class="co">#&gt; [6] &quot;1/2 teaspoon vanilla extract&quot;        </span></a>
-<a class="sourceLine" id="cb244-8" title="8"><span class="co">#&gt; [7] &quot;2/3 cup all-purpose flour&quot;           </span></a>
-<a class="sourceLine" id="cb244-9" title="9"><span class="co">#&gt; [8] &quot;1/4 teaspoon baking soda&quot;            </span></a>
-<a class="sourceLine" id="cb244-10" title="10"><span class="co">#&gt; [9] &quot;1/2 teaspoon salt&quot;</span></a>
-<a class="sourceLine" id="cb244-11" title="11">directions</a>
-<a class="sourceLine" id="cb244-12" title="12"><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                            &quot;                                                                                                                                                                                                                                </span></a>
-<a class="sourceLine" id="cb244-13" title="13"><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                            &quot;</span></a>
-<a class="sourceLine" id="cb244-14" title="14"><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                            &quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="webscraping-with-rvest.html#cb244-1"></a>ingredients</span>
+<span id="cb244-2"><a href="webscraping-with-rvest.html#cb244-2"></a><span class="co">#&gt; [1] &quot;1/2 cup white sugar&quot;                 </span></span>
+<span id="cb244-3"><a href="webscraping-with-rvest.html#cb244-3"></a><span class="co">#&gt; [2] &quot;2 tablespoons butter&quot;                </span></span>
+<span id="cb244-4"><a href="webscraping-with-rvest.html#cb244-4"></a><span class="co">#&gt; [3] &quot;2 tablespoons water&quot;                 </span></span>
+<span id="cb244-5"><a href="webscraping-with-rvest.html#cb244-5"></a><span class="co">#&gt; [4] &quot;1 1/2 cups semisweet chocolate chips&quot;</span></span>
+<span id="cb244-6"><a href="webscraping-with-rvest.html#cb244-6"></a><span class="co">#&gt; [5] &quot;2 eggs&quot;                              </span></span>
+<span id="cb244-7"><a href="webscraping-with-rvest.html#cb244-7"></a><span class="co">#&gt; [6] &quot;1/2 teaspoon vanilla extract&quot;        </span></span>
+<span id="cb244-8"><a href="webscraping-with-rvest.html#cb244-8"></a><span class="co">#&gt; [7] &quot;2/3 cup all-purpose flour&quot;           </span></span>
+<span id="cb244-9"><a href="webscraping-with-rvest.html#cb244-9"></a><span class="co">#&gt; [8] &quot;1/4 teaspoon baking soda&quot;            </span></span>
+<span id="cb244-10"><a href="webscraping-with-rvest.html#cb244-10"></a><span class="co">#&gt; [9] &quot;1/2 teaspoon salt&quot;</span></span>
+<span id="cb244-11"><a href="webscraping-with-rvest.html#cb244-11"></a>directions</span>
+<span id="cb244-12"><a href="webscraping-with-rvest.html#cb244-12"></a><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                            &quot;                                                                                                                                                                                                                                </span></span>
+<span id="cb244-13"><a href="webscraping-with-rvest.html#cb244-13"></a><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                            &quot;</span></span>
+<span id="cb244-14"><a href="webscraping-with-rvest.html#cb244-14"></a><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                            &quot;</span></span></code></pre></div>
 <p>Now <em>ingredients</em> is as it should be but <em>directions</em> has a bunch of space at the end of the string. Let’s use <code>gsub()</code> again to remove multiple spaces.</p>
 <p>We’ll search for anything with two or more spaces and replace that with an empty string.</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" title="1">directions &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</a></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="webscraping-with-rvest.html#cb245-1"></a>directions &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span></code></pre></div>
 <p>And one final check to make sure it worked.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" title="1">directions</a>
-<a class="sourceLine" id="cb246-2" title="2"><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.&quot;                                                                                                                                                                                                                                </span></a>
-<a class="sourceLine" id="cb246-3" title="3"><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.&quot;</span></a>
-<a class="sourceLine" id="cb246-4" title="4"><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.&quot;</span></a></code></pre></div>
-<p>In your own research, you will want to create a data.frame for nearly all data - this is also the way most statistical analysis packages expect data. In our case it doesn’t make sense to do so. We’ll keep them separate for now and in Chapter <a href="functions.html#functions">12</a> we’ll learn to make a function to scrape any recipe using just the URL and to print the ingredients and directions to the console.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="webscraping-with-rvest.html#cb246-1"></a>directions</span>
+<span id="cb246-2"><a href="webscraping-with-rvest.html#cb246-2"></a><span class="co">#&gt; [1] &quot;Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.&quot;                                                                                                                                                                                                                                </span></span>
+<span id="cb246-3"><a href="webscraping-with-rvest.html#cb246-3"></a><span class="co">#&gt; [2] &quot;In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.&quot;</span></span>
+<span id="cb246-4"><a href="webscraping-with-rvest.html#cb246-4"></a><span class="co">#&gt; [3] &quot;Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.&quot;</span></span></code></pre></div>
+<p>In your own research, you will want to create a data.frame for nearly all data - this is also the way most statistical analysis packages expect data. In our case it doesn’t make sense to do so. We’ll keep them separate for now and in Chapter <a href="functions.html#functions"><strong>??</strong></a> we’ll learn to make a function to scrape any recipe using just the URL and to print the ingredients and directions to the console.</p>
 
 </div>
 </div>
@@ -442,7 +477,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="r-markdown.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part-collect.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -469,6 +504,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

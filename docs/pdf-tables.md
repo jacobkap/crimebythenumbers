@@ -36,6 +36,7 @@ We've now seen all three of the tables that we want to scrape so we can begin th
 
 ```r
 library(pdftools)
+#> Warning: package 'pdftools' was built under R version 3.6.2
 ```
 
 We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table.
@@ -217,20 +218,20 @@ If we check the `head()` we can see that we have the proper columns now but this
 
 ```r
 head(sector_profile)
-#>      [,1]                           [,2]  [,3]    [,4]    [,5]    [,6]   
-#> [1,] "Miami"                        "111" "2,280" "1,646" "2,253" "231"  
-#> [2,] "New Orleans"                  "63"  "920"   "528"   "21"    "6"    
-#> [3,] "Ramey"                        "38"  "388"   "387"   "3"     "2,932"
-#> [4,] "Coastal Border Sectors Total" "212" "3,588" "2,561" "2,277" "3,169"
-#> [5,] "Blaine"                       "296" "288"   "237"   "0"     "0"    
-#> [6,] "Buffalo"                      "277" "447"   "293"   "228"   "2"    
-#>      [,7]  [,8] [,9]                [,10]
-#> [1,] "292" "1"  "N/A"               "N/A"
-#> [2,] "10"  "0"  "N/A"               "N/A"
-#> [3,] "89"  "0"  "N/A"               "N/A"
-#> [4,] "391" "1"  "N/A **** N/A ****" ""   
-#> [5,] "9"   "0"  "N/A"               "N/A"
-#> [6,] "37"  "2"  "N/A"               "N/A"
+#>      [,1]                           [,2]  [,3]    [,4]    [,5]    [,6]    [,7] 
+#> [1,] "Miami"                        "111" "2,280" "1,646" "2,253" "231"   "292"
+#> [2,] "New Orleans"                  "63"  "920"   "528"   "21"    "6"     "10" 
+#> [3,] "Ramey"                        "38"  "388"   "387"   "3"     "2,932" "89" 
+#> [4,] "Coastal Border Sectors Total" "212" "3,588" "2,561" "2,277" "3,169" "391"
+#> [5,] "Blaine"                       "296" "288"   "237"   "0"     "0"     "9"  
+#> [6,] "Buffalo"                      "277" "447"   "293"   "228"   "2"     "37" 
+#>      [,8] [,9]                [,10]
+#> [1,] "1"  "N/A"               "N/A"
+#> [2,] "0"  "N/A"               "N/A"
+#> [3,] "0"  "N/A"               "N/A"
+#> [4,] "1"  "N/A **** N/A ****" ""   
+#> [5,] "0"  "N/A"               "N/A"
+#> [6,] "2"  "N/A"               "N/A"
 ```
 
 We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
@@ -404,27 +405,20 @@ head(final_data)
 #> 4                            2,561            2,277          3,169
 #> 5                              237                0              0
 #> 6                              293              228              2
-#>   accepted_prosecutions assaults           rescues deaths
-#> 1                   292        1               N/A    N/A
-#> 2                    10        0               N/A    N/A
-#> 3                    89        0               N/A    N/A
-#> 4                   391        1 N/A **** N/A ****       
-#> 5                     9        0               N/A    N/A
-#> 6                    37        2               N/A    N/A
-#>   accompanied_juveniles unaccompanied_juveniles total_juveniles
-#> 1                    19                      42              61
-#> 2                     1                      22              23
-#> 3                     7                       1               8
-#> 4                    27                      65              92
-#> 5                    29                       7              36
-#> 6                     3                       3               6
-#>   total_adults female  male
-#> 1        2,219    219 2,061
-#> 2          897     92   828
-#> 3          380     65   323
-#> 4        3,496    376 3,212
-#> 5          252     97   191
-#> 6          441     69   378
+#>   accepted_prosecutions assaults           rescues deaths accompanied_juveniles
+#> 1                   292        1               N/A    N/A                    19
+#> 2                    10        0               N/A    N/A                     1
+#> 3                    89        0               N/A    N/A                     7
+#> 4                   391        1 N/A **** N/A ****                           27
+#> 5                     9        0               N/A    N/A                    29
+#> 6                    37        2               N/A    N/A                     3
+#>   unaccompanied_juveniles total_juveniles total_adults female  male
+#> 1                      42              61        2,219    219 2,061
+#> 2                      22              23          897     92   828
+#> 3                       1               8          380     65   323
+#> 4                      65              92        3,496    376 3,212
+#> 5                       7              36          252     97   191
+#> 6                       3               6          441     69   378
 ```
 
 In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove commas then using `as.numeric()`  (or the `parse_numeric()` function from `readr`) on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  

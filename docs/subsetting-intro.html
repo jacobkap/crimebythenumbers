@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Subsetting: Making big things small | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Subsetting: Making big things small | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,16 +24,17 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-12-16" />
+<meta name="date" content="2020-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="introduction-to-r-and-rstudio.html"/>
+<link rel="prev" href="part-clean.html"/>
 <link rel="next" href="explore.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -57,7 +58,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -75,25 +76,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -102,9 +104,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -153,12 +155,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">Crime by the Numbers</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
 </ul></li>
@@ -167,46 +172,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
-<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
-<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a><ul>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
 <li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
 <li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
 <li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheatsheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful cheatsheets</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
 </ul></li>
-<li class="part"><span><b>I Clean</b></span></li>
-<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="" data-path="part-clean.html"><a href="part-clean.html"><i class="fa fa-check"></i>(PART) Clean</a></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
-<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assignment values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
 <li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
-<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
 <li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
 <li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
 <li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
 <li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a><ul>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
 <li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
 <li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
 <li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
 <li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
 <li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
 <li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
-<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
 <li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
 <li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
@@ -221,15 +235,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a><ul>
-<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
 <li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
 <li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
 <li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
 <li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
 <li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
 <li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
@@ -237,27 +254,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Visualize</b></span></li>
-<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="" data-path="part-visualize.html"><a href="part-visualize.html"><i class="fa fa-check"></i>(PART) Visualize</a></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
 <li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
 <li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
 <li class="chapter" data-level="7.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>7.2</b> What really are maps?</a></li>
-<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a><ul>
+<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>7.3.1</b> Colors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a><ul>
+<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>8.1</b> Spatial joins</a></li>
 <li class="chapter" data-level="8.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>8.2</b> Making choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a><ul>
-<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>9.1.1</b> Understanding your data</a></li>
 <li class="chapter" data-level="9.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>9.1.2</b> Police departments use them</a></li>
 </ul></li>
@@ -266,48 +289,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>9.4</b> Dealing with too many markers</a></li>
 <li class="chapter" data-level="9.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>9.5</b> Interactive choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a><ul>
-<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a><ul>
+<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>10.1.1</b> Hiding code in the output</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>10.2</b> Tables</a></li>
 <li class="chapter" data-level="10.3" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>10.3</b> Making the output file</a></li>
 </ul></li>
-<li class="part"><span><b>III Collect</b></span></li>
-<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="" data-path="part-collect.html"><a href="part-collect.html"><i class="fa fa-check"></i>(PART) Collect</a></li>
+<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>11.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="11.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>11.2</b> Cleaning the webscraped data</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a><ul>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>12.1</b> A simple function</a></li>
 <li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>12.2</b> Adding parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>12.3</b> Making a function to scrape recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a><ul>
+<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>13.1</b> Basic for loops</a></li>
 <li class="chapter" data-level="13.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>13.2</b> Scraping multiple recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a><ul>
+<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>14.1</b> Scraping the first table</a></li>
 <li class="chapter" data-level="14.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a><ul>
+<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>15.1</b> Geocoding a single address</a></li>
 <li class="chapter" data-level="15.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
 <li class="chapter" data-level="15.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>15.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
 </ul></li>
-<li class="part"><span><b>IV Data</b></span></li>
+<li class="chapter" data-level="" data-path="part-data.html"><a href="part-data.html"><i class="fa fa-check"></i>(PART) Data</a></li>
 <li class="chapter" data-level="16" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>16</b> Introduction</a></li>
-<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a><ul>
+<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
 <li class="chapter" data-level="17.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>17.1</b> Exploring the UCR data</a></li>
 <li class="chapter" data-level="17.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>17.2</b> ORIs - Unique agency identifiers</a></li>
 <li class="chapter" data-level="17.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>17.3</b> Hierarchy Rule</a></li>
-<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a><ul>
+<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a>
+<ul>
 <li class="chapter" data-level="17.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>17.4.1</b> Index Crimes</a></li>
 <li class="chapter" data-level="17.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>17.4.2</b> The problem with using index crimes</a></li>
 <li class="chapter" data-level="17.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>17.4.3</b> Rape definition change</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a><ul>
+<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
 <li class="chapter" data-level="17.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>17.5.1</b> Actual</a></li>
 <li class="chapter" data-level="17.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>17.5.2</b> Total Cleared</a></li>
 <li class="chapter" data-level="17.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>17.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
@@ -315,10 +348,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="17.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>17.6</b> Number of months reported</a></li>
 </ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a><ul>
-<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
-<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+<li class="chapter" data-level="" data-path="appendix-appendix.html"><a href="appendix-appendix.html"><i class="fa fa-check"></i>(APPENDIX) Appendix</a></li>
+<li class="chapter" data-level="18" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>18</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>18.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="18.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
 </ul></li>
 </ul>
 
@@ -337,80 +371,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="subsetting-intro" class="section level1">
-<h1><span class="header-section-number">2</span> Subsetting: Making big things small</h1>
+<div id="subsetting-intro" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Subsetting: Making big things small</h1>
 <p>Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn’t relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you’d subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R.</p>
-<div id="select-specific-values" class="section level2">
-<h2><span class="header-section-number">2.1</span> Select specific values</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">animals</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></a></code></pre></div>
+<div id="select-specific-values" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Select specific values</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="subsetting-intro.html#cb6-1"></a>animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="subsetting-intro.html#cb7-1"></a>animals</span>
+<span id="cb7-2"><a href="subsetting-intro.html#cb7-2"></a><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></span></code></pre></div>
 <p>Here we have made an object called <em>animals</em> with a number of different animals in it (we’ll explain what it really means to “make an object” soon). In R, we will use square brackets <code>[]</code> to select specific values in that object, something called “indexing”. Put a number (or numbers) in the square bracket and it will return the value at that “index”. The index is just the place number where each value is. “cat” is the first value in <em>animals</em> so it is at the first index, “dog” is the second value so it is the second index or index 2. “snake” is our last value and is the 6th value in <em>animals</em> so it is index 6 (some languages use “zero indexing” which means the first index is index 0, the second is index 1. So in our example “cat” would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).</p>
 <p>The syntax (how the code is written) goes</p>
 <p><code>object[index]</code></p>
 <p>First we have the object and then we put the square bracket <code>[]</code>. We need both the object and the <code>[]</code> for subsetting to work. Let’s say we wanted to choose just the “snake” from our <em>animals</em> object. In normal language we say "I want the 6th value from <em>animals</em>. We say where we’re looking and which value we want.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">animals[<span class="dv">6</span>]</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="co">#&gt; [1] &quot;snake&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="subsetting-intro.html#cb8-1"></a>animals[<span class="dv">6</span>]</span>
+<span id="cb8-2"><a href="subsetting-intro.html#cb8-2"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
 <p>Now let’s get the third value.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">animals[<span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="co">#&gt; [1] &quot;gorilla&quot;</span></a></code></pre></div>
-<p>If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using <code>c()</code> and put the numbers inside the parentheses separated by a comma. We’ll learn more about vectors and using <code>c()</code> in Section <a href="subsetting-intro.html#vectors">2.3</a> shortly. If we wanted values 1-3 we could use <code>c(1, 2, 3)</code>, with each number separated by a comma.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">animals[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)]</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="subsetting-intro.html#cb9-1"></a>animals[<span class="dv">3</span>]</span>
+<span id="cb9-2"><a href="subsetting-intro.html#cb9-2"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span></code></pre></div>
+<p>If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using <code>c()</code> and put the numbers inside the parentheses separated by a comma. We’ll learn more about vectors and using <code>c()</code> in Section <a href="subsetting-intro.html#vectors"><strong>??</strong></a> shortly. If we wanted values 1-3 we could use <code>c(1, 2, 3)</code>, with each number separated by a comma.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="subsetting-intro.html#cb10-1"></a>animals[<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)]</span>
+<span id="cb10-2"><a href="subsetting-intro.html#cb10-2"></a><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot;</span></span></code></pre></div>
 <p>When making a vector of sequential integers, instead of writing them all out manually we can use <code>first_number:last_number</code> like so</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="co">#&gt; [1] 1 2 3</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="subsetting-intro.html#cb11-1"></a><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></span>
+<span id="cb11-2"><a href="subsetting-intro.html#cb11-2"></a><span class="co">#&gt; [1] 1 2 3</span></span></code></pre></div>
 <p>To use it in subsetting we can treat <code>1:3</code> as if we wrote <code>c(1, 2, 3)</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">animals[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="subsetting-intro.html#cb12-1"></a>animals[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span>
+<span id="cb12-2"><a href="subsetting-intro.html#cb12-2"></a><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot;</span></span></code></pre></div>
 <p>The order we enter the numbers determines the order of the values it returns. Let’s get the third index, the fourth index, and the first index, in that order.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">animals[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>)]</a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [1] &quot;gorilla&quot; &quot;buffalo&quot; &quot;cat&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="subsetting-intro.html#cb13-1"></a>animals[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>)]</span>
+<span id="cb13-2"><a href="subsetting-intro.html#cb13-2"></a><span class="co">#&gt; [1] &quot;gorilla&quot; &quot;buffalo&quot; &quot;cat&quot;</span></span></code></pre></div>
 <p>Putting a negative number inside the <code>[]</code> will return all values <strong>except</strong> for that index, essentially deleting it. Let’s remove “cat” from <em>animals</em>. Since it is the 1st item in <em>animals</em> we can remove it like this</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">animals[<span class="op">-</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; [1] &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="subsetting-intro.html#cb14-1"></a>animals[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb14-2"><a href="subsetting-intro.html#cb14-2"></a><span class="co">#&gt; [1] &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></span></code></pre></div>
 <p>Now let’s remove multiple values, the first 3.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">animals[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)]</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="co">#&gt; [1] &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="subsetting-intro.html#cb15-1"></a>animals[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)]</span>
+<span id="cb15-2"><a href="subsetting-intro.html#cb15-2"></a><span class="co">#&gt; [1] &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></span></code></pre></div>
 </div>
-<div id="assignment" class="section level2">
-<h2><span class="header-section-number">2.2</span> Assignment values to objects (Making “things”)</h2>
+<div id="assignment" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Assigning values to objects (Making “things”)</h2>
 <p>Earlier we wrote <code>animals &lt;- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")</code> to make the object <em>animals</em> with the value of each of the different animals we wrote.</p>
 <p>We say<code>&lt;-</code> as “gets”. So above “animals gets the values cat, dog, etc.”. This is read from left to right as thing on left (the name of the object) “gets” the value of the thing on the right of the <code>&lt;-</code>. The proper terminology is that the “thing” on the left is an “object”. So if we had <code>x &lt;- 5</code> the object <em>x</em> gets the value 5. We could also say “five was assigned to x”.</p>
 <p>The terminology is “object gets value” or “value assigned to object”, both work.</p>
 <p>You can use the <code>=</code> instead of <code>&lt;-</code>. Again, the thing on the left gets the value of the thing on the right even when using <code>=</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">x =<span class="st"> </span><span class="dv">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="subsetting-intro.html#cb16-1"></a>x =<span class="st"> </span><span class="dv">2</span></span></code></pre></div>
 <p><em>x</em> now has the value of the number 2.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">x</a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="co">#&gt; [1] 2</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="subsetting-intro.html#cb17-1"></a>x</span>
+<span id="cb17-2"><a href="subsetting-intro.html#cb17-2"></a><span class="co">#&gt; [1] 2</span></span></code></pre></div>
 <p>It is the convention in R to use <code>&lt;-</code> instead of <code>=</code> and in some cases the <code>=</code> will not work properly. For those reasons we will use <code>&lt;-</code> for this class.</p>
 <p>Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, <code>animals[-1]</code> prints every value in th <em>animals</em> except for the first value.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">animals[<span class="op">-</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="co">#&gt; [1] &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="subsetting-intro.html#cb18-1"></a>animals[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb18-2"><a href="subsetting-intro.html#cb18-2"></a><span class="co">#&gt; [1] &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></span></code></pre></div>
 <p>However, it doesn’t actually remove anything from <em>animals</em>. Let’s print <em>animals</em> and see which values it returns.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">animals</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="subsetting-intro.html#cb19-1"></a>animals</span>
+<span id="cb19-2"><a href="subsetting-intro.html#cb19-2"></a><span class="co">#&gt; [1] &quot;cat&quot;     &quot;dog&quot;     &quot;gorilla&quot; &quot;buffalo&quot; &quot;lion&quot;    &quot;snake&quot;</span></span></code></pre></div>
 <p>Now the first value, “cats”, is back. Why? To make changes in R you need to tell R very explicitly that you are making the change. If you don’t save the result of your code (by assigning an object to it), R will run that code and simply print the results in the console panel without making any changes.</p>
 <p>This is an important point that a lot of students struggle with. R doesn’t know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If <em>x</em> is an object with a value of 2, and you write <code>x + 2</code>, it would print out 4 because 2 + 2 = 4. But that won’t change the value of <em>x</em>. <em>x</em> will remain as 2 until you explicitly tell R to change it’s value. If you want to update <em>x</em> you need to run <code>x &lt;- somevalue</code> where “somevalue” is whatever you want to change <em>x</em> to.</p>
 <p>So to return to our <em>animals</em> example, if we wanted to delete the first value and keep it removed, we’d need to write <code>animals &lt;- animals[-1]</code>. Which is essentially making a new object, also called <em>animals</em> (to avoid having many, slightly different objects that are hard to keep track of we’ll reuse the name) with the same values as the original <em>animals</em> except this time excluding the first value, “cats”.</p>
 </div>
-<div id="vectors" class="section level2">
-<h2><span class="header-section-number">2.3</span> Vectors (collections of “things”)</h2>
+<div id="vectors" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Vectors (collections of “things”)</h2>
 <p>When we made <em>x</em> we wrote <code>x &lt;- 2</code> while when we made <em>animals</em> we wrote <code>animals &lt;- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")</code>. The important difference is that when assigning multiple values to an object we must use the function <code>c()</code> which <strong>c</strong>ombines them together. With multiple values we follow the same pattern of <code>object &lt;- value</code> but put the value inside of <code>c()</code> and separate each value by a comma.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="subsetting-intro.html#cb20-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
 <p>The result of the <code>c()</code> is called a vector and you can think of it as a collection of values.</p>
 <p>Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string (a character type such as words or values with letters. In R they are put in quotes.). If they aren’t the same type R will automatically convert it.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot; &quot;dog&quot; &quot;2&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="subsetting-intro.html#cb21-1"></a><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="dv">2</span>)</span>
+<span id="cb21-2"><a href="subsetting-intro.html#cb21-2"></a><span class="co">#&gt; [1] &quot;cat&quot; &quot;dog&quot; &quot;2&quot;</span></span></code></pre></div>
 <p>Above we made a vector with the values “cat”, “dog” and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type, R automatically converted the 2 to a string of “2”.</p>
 </div>
-<div id="logical-values-and-operations" class="section level2">
-<h2><span class="header-section-number">2.4</span> Logical values and operations</h2>
+<div id="logical-values-and-operations" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Logical values and operations</h2>
 <p>We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. “this value is lower than the number 100”) and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in all capital letters.</p>
 <p>First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.</p>
 <p>We can use these TRUE and FALSE values to index and it will return every element which we say is TRUE.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">animals[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)]</a>
-<a class="sourceLine" id="cb22-2" title="2"><span class="co">#&gt; [1] &quot;cat&quot; &quot;dog&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="subsetting-intro.html#cb22-1"></a>animals[<span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>)]</span>
+<span id="cb22-2"><a href="subsetting-intro.html#cb22-2"></a><span class="co">#&gt; [1] &quot;cat&quot; &quot;dog&quot;</span></span></code></pre></div>
 <p>This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (data in a single state (or multiple states), at a certain time, at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn’t. There are a number of different ways to make conditional statements. First let’s go through some special characters involved and then show examples of each one.</p>
 <p>For each case you are asking: does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right.</p>
 <ul>
@@ -423,174 +457,174 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>&gt;=</code> Greater than or equal to</li>
 </ul>
 <p>Since many conditionals involve numbers (especially in criminology), let’s make a new object called <em>numbers</em> with the numbers 1-10.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">numbers &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
-<div id="matching-a-single-value" class="section level3">
-<h3><span class="header-section-number">2.4.1</span> Matching a single value</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="subsetting-intro.html#cb23-1"></a>numbers &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span></code></pre></div>
+<div id="matching-a-single-value" class="section level3" number="2.4.1">
+<h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Matching a single value</h3>
 <p>The conditional <code>==</code> asks if the thing on the left equals the thing on the right. Note that it uses two equal signs. If we used only one equal sign it would assign the thing on the left the value of the thing on the right (as if we did <code>&lt;-</code>).</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb24-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="subsetting-intro.html#cb24-1"></a><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb24-2"><a href="subsetting-intro.html#cb24-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>This gives <code>TRUE</code> as we know that 2 does equal 2. If we change either value, it would give us <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb25-2" title="2"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="subsetting-intro.html#cb25-1"></a><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span></span>
+<span id="cb25-2"><a href="subsetting-intro.html#cb25-2"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>And it works when we have multiple numbers on the left side, such as our object called <em>numbers</em>.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1">numbers <span class="op">==</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb26-2" title="2"><span class="co">#&gt;  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="subsetting-intro.html#cb26-1"></a>numbers <span class="op">==</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb26-2"><a href="subsetting-intro.html#cb26-2"></a><span class="co">#&gt;  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span></code></pre></div>
 <p>This also works with characters such as the animals in the object we made earlier. “gorilla” is the third animal in our object, so if we check animals == “gorilla” we expect the third value to be <code>TRUE</code> and all others to be <code>FALSE</code>. Make sure that the match is spelled correctly (including capitalization) and is in quotes.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">animals <span class="op">==</span><span class="st"> &quot;gorilla&quot;</span></a>
-<a class="sourceLine" id="cb27-2" title="2"><span class="co">#&gt; [1] FALSE FALSE  TRUE FALSE FALSE FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="subsetting-intro.html#cb27-1"></a>animals <span class="op">==</span><span class="st"> &quot;gorilla&quot;</span></span>
+<span id="cb27-2"><a href="subsetting-intro.html#cb27-2"></a><span class="co">#&gt; [1] FALSE FALSE  TRUE FALSE FALSE FALSE</span></span></code></pre></div>
 <p>The <code>==</code> only works when there is one thing on the right hand side. In criminology we often want to know if there is a match for multiple things - is the crime one of the following crimes…, did the crime happen in one of these months…, is the victim a member of these demographic groups…? So we need a way to check if a value is one of many values.</p>
 </div>
-<div id="matching-multiple-values" class="section level3">
-<h3><span class="header-section-number">2.4.2</span> Matching multiple values</h3>
+<div id="matching-multiple-values" class="section level3" number="2.4.2">
+<h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Matching multiple values</h3>
 <p>The R operator <code>%in%</code> asks each value on the left whether or not it is a member of the set on the right. It asks, is the single value on the left hand side (even when there are multiple values such as our <em>animals</em> object, it goes through them one at a time) a match with any of the values on the right hand side? It only has to match with one of the right hand side values to be a match.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="dv">2</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) </a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="subsetting-intro.html#cb28-1"></a><span class="dv">2</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) </span>
+<span id="cb28-2"><a href="subsetting-intro.html#cb28-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>For our <em>animals</em> object, if we check if they are in the vector <code>c("cat", "dog", "gorilla")</code>, now all three of those animals will return <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">animals <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>)</a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="co">#&gt; [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="subsetting-intro.html#cb29-1"></a>animals <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>)</span>
+<span id="cb29-2"><a href="subsetting-intro.html#cb29-2"></a><span class="co">#&gt; [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE</span></span></code></pre></div>
 </div>
-<div id="does-not-match" class="section level3">
-<h3><span class="header-section-number">2.4.3</span> Does not match</h3>
+<div id="does-not-match" class="section level3" number="2.4.3">
+<h3 number="2.4.3"><span class="header-section-number">2.4.3</span> Does not match</h3>
 <p>Sometimes it is easier to ask what is not a match. For example, if you wanted to get every month except January, instead of writing the other 11 months, you just ask for any month that does not equal “January”.</p>
 <p>We can use <code>!=</code>, which means “not equal”. When we wanted an exact match we used <code>==</code>, if we want a not match we can use <code>!=</code> (this time it is only a single equals sign).</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="dv">2</span> <span class="op">!=</span><span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="st">&quot;cat&quot;</span> <span class="op">!=</span><span class="st"> &quot;gorilla&quot;</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="subsetting-intro.html#cb30-1"></a><span class="dv">2</span> <span class="op">!=</span><span class="st"> </span><span class="dv">3</span></span>
+<span id="cb30-2"><a href="subsetting-intro.html#cb30-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="subsetting-intro.html#cb31-1"></a><span class="st">&quot;cat&quot;</span> <span class="op">!=</span><span class="st"> &quot;gorilla&quot;</span></span>
+<span id="cb31-2"><a href="subsetting-intro.html#cb31-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>Note that for matching multiple values with <code>%in%</code>, we cannot write <code>!%in%</code> but have to put the <code>!</code> before the values on the left.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="op">!</span>animals <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>)</a>
-<a class="sourceLine" id="cb32-2" title="2"><span class="co">#&gt; [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="subsetting-intro.html#cb32-1"></a><span class="op">!</span>animals <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>)</span>
+<span id="cb32-2"><a href="subsetting-intro.html#cb32-2"></a><span class="co">#&gt; [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE</span></span></code></pre></div>
 </div>
-<div id="greater-than-or-less-than" class="section level3">
-<h3><span class="header-section-number">2.4.4</span> Greater than or less than</h3>
+<div id="greater-than-or-less-than" class="section level3" number="2.4.4">
+<h3 number="2.4.4"><span class="header-section-number">2.4.4</span> Greater than or less than</h3>
 <p>We can use R to compare values using greater than or less than symbols. We can also express “greater than or equal to” or “less than or equal to.”</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="dv">6</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb34-2" title="2"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="dv">6</span> <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb35-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="dv">5</span> <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb36-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="subsetting-intro.html#cb33-1"></a><span class="dv">6</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb33-2"><a href="subsetting-intro.html#cb33-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="subsetting-intro.html#cb34-1"></a><span class="dv">6</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb34-2"><a href="subsetting-intro.html#cb34-2"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="subsetting-intro.html#cb35-1"></a><span class="dv">6</span> <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb35-2"><a href="subsetting-intro.html#cb35-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="subsetting-intro.html#cb36-1"></a><span class="dv">5</span> <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb36-2"><a href="subsetting-intro.html#cb36-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>When used on our object <em>numbers</em> it will return 10 values (since <em>numbers</em> is 10 elements long) with a <code>TRUE</code> if the condition is true for the element and <code>FALSE</code> otherwise. Let’s run <code>numbers &gt; 3</code>. We expect the first 3 values to be <code>FALSE</code> as 1, 2, and 3 are not larger than 3.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">numbers <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb37-2" title="2"><span class="co">#&gt;  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="subsetting-intro.html#cb37-1"></a>numbers <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span></span>
+<span id="cb37-2"><a href="subsetting-intro.html#cb37-2"></a><span class="co">#&gt;  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span></span></code></pre></div>
 </div>
-<div id="combining-conditional-statements---or-and" class="section level3">
-<h3><span class="header-section-number">2.4.5</span> Combining conditional statements - or, and</h3>
+<div id="combining-conditional-statements---or-and" class="section level3" number="2.4.5">
+<h3 number="2.4.5"><span class="header-section-number">2.4.5</span> Combining conditional statements - or, and</h3>
 <p>In many cases when you are subsetting you will want to subset based on more than one condition. For example, let’s say you have crime data from every state between 1960 and 2017. Your research question is “did Colorado’s marijuana legalization affect crime in the state?” In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn’t need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year.</p>
 <p>To make conditional statements with multiple conditions we use <code>|</code> for “or” and <code>&amp;</code> for “and”.</p>
 <p><code>Condition 1 | Condition 2</code></p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">|</span><span class="st"> </span><span class="dv">2</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb38-2" title="2"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="subsetting-intro.html#cb38-1"></a><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">|</span><span class="st"> </span><span class="dv">2</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb38-2"><a href="subsetting-intro.html#cb38-2"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>As it sounds, when using <code>|</code> as long as at least one condition is true (we can include as many conditions as we like) it will return <code>TRUE</code>.</p>
 <p><code>Condition 1 &amp; Condition 2</code></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span><span class="dv">2</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb39-2" title="2"><span class="co">#&gt; [1] FALSE</span></a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="subsetting-intro.html#cb39-1"></a><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span><span class="dv">2</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb39-2"><a href="subsetting-intro.html#cb39-2"></a><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
 <p>For <code>&amp;</code>, all of the conditions must be true. If even one condition is not true it will return <code>FALSE</code>.</p>
 </div>
 </div>
-<div id="subsetting-a-data.frame" class="section level2">
-<h2><span class="header-section-number">2.5</span> Subsetting a data.frame</h2>
+<div id="subsetting-a-data.frame" class="section level2" number="2.5">
+<h2 number="2.5"><span class="header-section-number">2.5</span> Subsetting a data.frame</h2>
 <p>Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a “data.frame” which you can imagine as being like an Excel file with multiple rows and columns.</p>
 <p>Let’s load in data from the Uniform Crime Report (UCR), an FBI data set that we’ll work on in a later lesson. This data has crime data every year from 1960-2017 and for nearly every agency in the country.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="subsetting-intro.html#cb40-1"></a><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</span></code></pre></div>
 <p>Let’s peak at the first 6 rows and 6 columns using the square bracket notation <code>[]</code> for data.frames which we’ll explain more below.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</a>
-<a class="sourceLine" id="cb41-2" title="2"><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year</span></a>
-<a class="sourceLine" id="cb41-3" title="3"><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017</span></a>
-<a class="sourceLine" id="cb41-4" title="4"><span class="co">#&gt; 2 AK00101 AK0010100   anchorage alaska        AK 2016</span></a>
-<a class="sourceLine" id="cb41-5" title="5"><span class="co">#&gt; 3 AK00101 AK0010100   anchorage alaska        AK 2015</span></a>
-<a class="sourceLine" id="cb41-6" title="6"><span class="co">#&gt; 4 AK00101 AK0010100   anchorage alaska        AK 2014</span></a>
-<a class="sourceLine" id="cb41-7" title="7"><span class="co">#&gt; 5 AK00101 AK0010100   anchorage alaska        AK 2013</span></a>
-<a class="sourceLine" id="cb41-8" title="8"><span class="co">#&gt; 6 AK00101 AK0010100   anchorage alaska        AK 2012</span></a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="subsetting-intro.html#cb41-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</span>
+<span id="cb41-2"><a href="subsetting-intro.html#cb41-2"></a><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year</span></span>
+<span id="cb41-3"><a href="subsetting-intro.html#cb41-3"></a><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017</span></span>
+<span id="cb41-4"><a href="subsetting-intro.html#cb41-4"></a><span class="co">#&gt; 2 AK00101 AK0010100   anchorage alaska        AK 2016</span></span>
+<span id="cb41-5"><a href="subsetting-intro.html#cb41-5"></a><span class="co">#&gt; 3 AK00101 AK0010100   anchorage alaska        AK 2015</span></span>
+<span id="cb41-6"><a href="subsetting-intro.html#cb41-6"></a><span class="co">#&gt; 4 AK00101 AK0010100   anchorage alaska        AK 2014</span></span>
+<span id="cb41-7"><a href="subsetting-intro.html#cb41-7"></a><span class="co">#&gt; 5 AK00101 AK0010100   anchorage alaska        AK 2013</span></span>
+<span id="cb41-8"><a href="subsetting-intro.html#cb41-8"></a><span class="co">#&gt; 6 AK00101 AK0010100   anchorage alaska        AK 2012</span></span></code></pre></div>
 <p>The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2017-2012. For good measure let’s check how many rows and columns are in this data. This will give us some guidance on subsetting which we’ll see below. <code>nrow()</code> gives us the number of rows and <code>ncol()</code> gives us the number of columns.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">nrow</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb42-2" title="2"><span class="co">#&gt; [1] 959010</span></a></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb43-2" title="2"><span class="co">#&gt; [1] 159</span></a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="subsetting-intro.html#cb42-1"></a><span class="kw">nrow</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb42-2"><a href="subsetting-intro.html#cb42-2"></a><span class="co">#&gt; [1] 959010</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="subsetting-intro.html#cb43-1"></a><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb43-2"><a href="subsetting-intro.html#cb43-2"></a><span class="co">#&gt; [1] 159</span></span></code></pre></div>
 <p>This is a large file with 159 columns and nearly a million rows. Normally we wouldn’t want to print out the names of all 159 columns but let’s do this here as we want to know the variables available to subset.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw">names</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb44-2" title="2"><span class="co">#&gt;   [1] &quot;ori&quot;                            &quot;ori9&quot;                          </span></a>
-<a class="sourceLine" id="cb44-3" title="3"><span class="co">#&gt;   [3] &quot;agency_name&quot;                    &quot;state&quot;                         </span></a>
-<a class="sourceLine" id="cb44-4" title="4"><span class="co">#&gt;   [5] &quot;state_abb&quot;                      &quot;year&quot;                          </span></a>
-<a class="sourceLine" id="cb44-5" title="5"><span class="co">#&gt;   [7] &quot;number_of_months_reported&quot;      &quot;fips_state_code&quot;               </span></a>
-<a class="sourceLine" id="cb44-6" title="6"><span class="co">#&gt;   [9] &quot;fips_county_code&quot;               &quot;fips_state_county_code&quot;        </span></a>
-<a class="sourceLine" id="cb44-7" title="7"><span class="co">#&gt;  [11] &quot;fips_place_code&quot;                &quot;fips_state_place_code&quot;         </span></a>
-<a class="sourceLine" id="cb44-8" title="8"><span class="co">#&gt;  [13] &quot;agency_type&quot;                    &quot;agency_subtype_1&quot;              </span></a>
-<a class="sourceLine" id="cb44-9" title="9"><span class="co">#&gt;  [15] &quot;agency_subtype_2&quot;               &quot;crosswalk_agency_name&quot;         </span></a>
-<a class="sourceLine" id="cb44-10" title="10"><span class="co">#&gt;  [17] &quot;census_name&quot;                    &quot;population&quot;                    </span></a>
-<a class="sourceLine" id="cb44-11" title="11"><span class="co">#&gt;  [19] &quot;population_group&quot;               &quot;country_division&quot;              </span></a>
-<a class="sourceLine" id="cb44-12" title="12"><span class="co">#&gt;  [21] &quot;juvenile_age&quot;                   &quot;core_city_indication&quot;          </span></a>
-<a class="sourceLine" id="cb44-13" title="13"><span class="co">#&gt;  [23] &quot;last_update&quot;                    &quot;fbi_field_office&quot;              </span></a>
-<a class="sourceLine" id="cb44-14" title="14"><span class="co">#&gt;  [25] &quot;followup_indication&quot;            &quot;zip_code&quot;                      </span></a>
-<a class="sourceLine" id="cb44-15" title="15"><span class="co">#&gt;  [27] &quot;covered_by_ori&quot;                 &quot;agency_count&quot;                  </span></a>
-<a class="sourceLine" id="cb44-16" title="16"><span class="co">#&gt;  [29] &quot;date_of_last_update&quot;            &quot;month_included_in&quot;             </span></a>
-<a class="sourceLine" id="cb44-17" title="17"><span class="co">#&gt;  [31] &quot;special_mailing_group&quot;          &quot;special_mailing_address&quot;       </span></a>
-<a class="sourceLine" id="cb44-18" title="18"><span class="co">#&gt;  [33] &quot;first_line_of_mailing_address&quot;  &quot;second_line_of_mailing_address&quot;</span></a>
-<a class="sourceLine" id="cb44-19" title="19"><span class="co">#&gt;  [35] &quot;third_line_of_mailing_address&quot;  &quot;fourth_line_of_mailing_address&quot;</span></a>
-<a class="sourceLine" id="cb44-20" title="20"><span class="co">#&gt;  [37] &quot;officers_killed_by_felony&quot;      &quot;officers_killed_by_accident&quot;   </span></a>
-<a class="sourceLine" id="cb44-21" title="21"><span class="co">#&gt;  [39] &quot;officers_assaulted&quot;             &quot;actual_murder&quot;                 </span></a>
-<a class="sourceLine" id="cb44-22" title="22"><span class="co">#&gt;  [41] &quot;actual_manslaughter&quot;            &quot;actual_rape_total&quot;             </span></a>
-<a class="sourceLine" id="cb44-23" title="23"><span class="co">#&gt;  [43] &quot;actual_rape_by_force&quot;           &quot;actual_rape_attempted&quot;         </span></a>
-<a class="sourceLine" id="cb44-24" title="24"><span class="co">#&gt;  [45] &quot;actual_robbery_total&quot;           &quot;actual_robbery_with_a_gun&quot;     </span></a>
-<a class="sourceLine" id="cb44-25" title="25"><span class="co">#&gt;  [47] &quot;actual_robbery_with_a_knife&quot;    &quot;actual_robbery_other_weapon&quot;   </span></a>
-<a class="sourceLine" id="cb44-26" title="26"><span class="co">#&gt;  [49] &quot;actual_robbery_unarmed&quot;         &quot;actual_assault_total&quot;          </span></a>
-<a class="sourceLine" id="cb44-27" title="27"><span class="co">#&gt;  [51] &quot;actual_assault_with_a_gun&quot;      &quot;actual_assault_with_a_knife&quot;   </span></a>
-<a class="sourceLine" id="cb44-28" title="28"><span class="co">#&gt;  [53] &quot;actual_assault_other_weapon&quot;    &quot;actual_assault_unarmed&quot;        </span></a>
-<a class="sourceLine" id="cb44-29" title="29"><span class="co">#&gt;  [55] &quot;actual_assault_simple&quot;          &quot;actual_burg_total&quot;             </span></a>
-<a class="sourceLine" id="cb44-30" title="30"><span class="co">#&gt;  [57] &quot;actual_burg_force_entry&quot;        &quot;actual_burg_nonforce_entry&quot;    </span></a>
-<a class="sourceLine" id="cb44-31" title="31"><span class="co">#&gt;  [59] &quot;actual_burg_attempted&quot;          &quot;actual_theft_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-32" title="32"><span class="co">#&gt;  [61] &quot;actual_mtr_veh_theft_total&quot;     &quot;actual_mtr_veh_theft_car&quot;      </span></a>
-<a class="sourceLine" id="cb44-33" title="33"><span class="co">#&gt;  [63] &quot;actual_mtr_veh_theft_truck&quot;     &quot;actual_mtr_veh_theft_other&quot;    </span></a>
-<a class="sourceLine" id="cb44-34" title="34"><span class="co">#&gt;  [65] &quot;actual_all_crimes&quot;              &quot;actual_assault_aggravated&quot;     </span></a>
-<a class="sourceLine" id="cb44-35" title="35"><span class="co">#&gt;  [67] &quot;actual_index_violent&quot;           &quot;actual_index_property&quot;         </span></a>
-<a class="sourceLine" id="cb44-36" title="36"><span class="co">#&gt;  [69] &quot;actual_index_total&quot;             &quot;tot_clr_murder&quot;                </span></a>
-<a class="sourceLine" id="cb44-37" title="37"><span class="co">#&gt;  [71] &quot;tot_clr_manslaughter&quot;           &quot;tot_clr_rape_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-38" title="38"><span class="co">#&gt;  [73] &quot;tot_clr_rape_by_force&quot;          &quot;tot_clr_rape_attempted&quot;        </span></a>
-<a class="sourceLine" id="cb44-39" title="39"><span class="co">#&gt;  [75] &quot;tot_clr_robbery_total&quot;          &quot;tot_clr_robbery_with_a_gun&quot;    </span></a>
-<a class="sourceLine" id="cb44-40" title="40"><span class="co">#&gt;  [77] &quot;tot_clr_robbery_with_a_knife&quot;   &quot;tot_clr_robbery_other_weapon&quot;  </span></a>
-<a class="sourceLine" id="cb44-41" title="41"><span class="co">#&gt;  [79] &quot;tot_clr_robbery_unarmed&quot;        &quot;tot_clr_assault_total&quot;         </span></a>
-<a class="sourceLine" id="cb44-42" title="42"><span class="co">#&gt;  [81] &quot;tot_clr_assault_with_a_gun&quot;     &quot;tot_clr_assault_with_a_knife&quot;  </span></a>
-<a class="sourceLine" id="cb44-43" title="43"><span class="co">#&gt;  [83] &quot;tot_clr_assault_other_weapon&quot;   &quot;tot_clr_assault_unarmed&quot;       </span></a>
-<a class="sourceLine" id="cb44-44" title="44"><span class="co">#&gt;  [85] &quot;tot_clr_assault_simple&quot;         &quot;tot_clr_burg_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-45" title="45"><span class="co">#&gt;  [87] &quot;tot_clr_burg_force_entry&quot;       &quot;tot_clr_burg_nonforce_entry&quot;   </span></a>
-<a class="sourceLine" id="cb44-46" title="46"><span class="co">#&gt;  [89] &quot;tot_clr_burg_attempted&quot;         &quot;tot_clr_theft_total&quot;           </span></a>
-<a class="sourceLine" id="cb44-47" title="47"><span class="co">#&gt;  [91] &quot;tot_clr_mtr_veh_theft_total&quot;    &quot;tot_clr_mtr_veh_theft_car&quot;     </span></a>
-<a class="sourceLine" id="cb44-48" title="48"><span class="co">#&gt;  [93] &quot;tot_clr_mtr_veh_theft_truck&quot;    &quot;tot_clr_mtr_veh_theft_other&quot;   </span></a>
-<a class="sourceLine" id="cb44-49" title="49"><span class="co">#&gt;  [95] &quot;tot_clr_all_crimes&quot;             &quot;tot_clr_assault_aggravated&quot;    </span></a>
-<a class="sourceLine" id="cb44-50" title="50"><span class="co">#&gt;  [97] &quot;tot_clr_index_violent&quot;          &quot;tot_clr_index_property&quot;        </span></a>
-<a class="sourceLine" id="cb44-51" title="51"><span class="co">#&gt;  [99] &quot;tot_clr_index_total&quot;            &quot;clr_18_murder&quot;                 </span></a>
-<a class="sourceLine" id="cb44-52" title="52"><span class="co">#&gt; [101] &quot;clr_18_manslaughter&quot;            &quot;clr_18_rape_total&quot;             </span></a>
-<a class="sourceLine" id="cb44-53" title="53"><span class="co">#&gt; [103] &quot;clr_18_rape_by_force&quot;           &quot;clr_18_rape_attempted&quot;         </span></a>
-<a class="sourceLine" id="cb44-54" title="54"><span class="co">#&gt; [105] &quot;clr_18_robbery_total&quot;           &quot;clr_18_robbery_with_a_gun&quot;     </span></a>
-<a class="sourceLine" id="cb44-55" title="55"><span class="co">#&gt; [107] &quot;clr_18_robbery_with_a_knife&quot;    &quot;clr_18_robbery_other_weapon&quot;   </span></a>
-<a class="sourceLine" id="cb44-56" title="56"><span class="co">#&gt; [109] &quot;clr_18_robbery_unarmed&quot;         &quot;clr_18_assault_total&quot;          </span></a>
-<a class="sourceLine" id="cb44-57" title="57"><span class="co">#&gt; [111] &quot;clr_18_assault_with_a_gun&quot;      &quot;clr_18_assault_with_a_knife&quot;   </span></a>
-<a class="sourceLine" id="cb44-58" title="58"><span class="co">#&gt; [113] &quot;clr_18_assault_other_weapon&quot;    &quot;clr_18_assault_unarmed&quot;        </span></a>
-<a class="sourceLine" id="cb44-59" title="59"><span class="co">#&gt; [115] &quot;clr_18_assault_simple&quot;          &quot;clr_18_burg_total&quot;             </span></a>
-<a class="sourceLine" id="cb44-60" title="60"><span class="co">#&gt; [117] &quot;clr_18_burg_force_entry&quot;        &quot;clr_18_burg_nonforce_entry&quot;    </span></a>
-<a class="sourceLine" id="cb44-61" title="61"><span class="co">#&gt; [119] &quot;clr_18_burg_attempted&quot;          &quot;clr_18_theft_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-62" title="62"><span class="co">#&gt; [121] &quot;clr_18_mtr_veh_theft_total&quot;     &quot;clr_18_mtr_veh_theft_car&quot;      </span></a>
-<a class="sourceLine" id="cb44-63" title="63"><span class="co">#&gt; [123] &quot;clr_18_mtr_veh_theft_truck&quot;     &quot;clr_18_mtr_veh_theft_other&quot;    </span></a>
-<a class="sourceLine" id="cb44-64" title="64"><span class="co">#&gt; [125] &quot;clr_18_all_crimes&quot;              &quot;clr_18_assault_aggravated&quot;     </span></a>
-<a class="sourceLine" id="cb44-65" title="65"><span class="co">#&gt; [127] &quot;clr_18_index_violent&quot;           &quot;clr_18_index_property&quot;         </span></a>
-<a class="sourceLine" id="cb44-66" title="66"><span class="co">#&gt; [129] &quot;clr_18_index_total&quot;             &quot;unfound_murder&quot;                </span></a>
-<a class="sourceLine" id="cb44-67" title="67"><span class="co">#&gt; [131] &quot;unfound_manslaughter&quot;           &quot;unfound_rape_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-68" title="68"><span class="co">#&gt; [133] &quot;unfound_rape_by_force&quot;          &quot;unfound_rape_attempted&quot;        </span></a>
-<a class="sourceLine" id="cb44-69" title="69"><span class="co">#&gt; [135] &quot;unfound_robbery_total&quot;          &quot;unfound_robbery_with_a_gun&quot;    </span></a>
-<a class="sourceLine" id="cb44-70" title="70"><span class="co">#&gt; [137] &quot;unfound_robbery_with_a_knife&quot;   &quot;unfound_robbery_other_weapon&quot;  </span></a>
-<a class="sourceLine" id="cb44-71" title="71"><span class="co">#&gt; [139] &quot;unfound_robbery_unarmed&quot;        &quot;unfound_assault_total&quot;         </span></a>
-<a class="sourceLine" id="cb44-72" title="72"><span class="co">#&gt; [141] &quot;unfound_assault_with_a_gun&quot;     &quot;unfound_assault_with_a_knife&quot;  </span></a>
-<a class="sourceLine" id="cb44-73" title="73"><span class="co">#&gt; [143] &quot;unfound_assault_other_weapon&quot;   &quot;unfound_assault_unarmed&quot;       </span></a>
-<a class="sourceLine" id="cb44-74" title="74"><span class="co">#&gt; [145] &quot;unfound_assault_simple&quot;         &quot;unfound_burg_total&quot;            </span></a>
-<a class="sourceLine" id="cb44-75" title="75"><span class="co">#&gt; [147] &quot;unfound_burg_force_entry&quot;       &quot;unfound_burg_nonforce_entry&quot;   </span></a>
-<a class="sourceLine" id="cb44-76" title="76"><span class="co">#&gt; [149] &quot;unfound_burg_attempted&quot;         &quot;unfound_theft_total&quot;           </span></a>
-<a class="sourceLine" id="cb44-77" title="77"><span class="co">#&gt; [151] &quot;unfound_mtr_veh_theft_total&quot;    &quot;unfound_mtr_veh_theft_car&quot;     </span></a>
-<a class="sourceLine" id="cb44-78" title="78"><span class="co">#&gt; [153] &quot;unfound_mtr_veh_theft_truck&quot;    &quot;unfound_mtr_veh_theft_other&quot;   </span></a>
-<a class="sourceLine" id="cb44-79" title="79"><span class="co">#&gt; [155] &quot;unfound_all_crimes&quot;             &quot;unfound_assault_aggravated&quot;    </span></a>
-<a class="sourceLine" id="cb44-80" title="80"><span class="co">#&gt; [157] &quot;unfound_index_violent&quot;          &quot;unfound_index_property&quot;        </span></a>
-<a class="sourceLine" id="cb44-81" title="81"><span class="co">#&gt; [159] &quot;unfound_index_total&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="subsetting-intro.html#cb44-1"></a><span class="kw">names</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb44-2"><a href="subsetting-intro.html#cb44-2"></a><span class="co">#&gt;   [1] &quot;ori&quot;                            &quot;ori9&quot;                          </span></span>
+<span id="cb44-3"><a href="subsetting-intro.html#cb44-3"></a><span class="co">#&gt;   [3] &quot;agency_name&quot;                    &quot;state&quot;                         </span></span>
+<span id="cb44-4"><a href="subsetting-intro.html#cb44-4"></a><span class="co">#&gt;   [5] &quot;state_abb&quot;                      &quot;year&quot;                          </span></span>
+<span id="cb44-5"><a href="subsetting-intro.html#cb44-5"></a><span class="co">#&gt;   [7] &quot;number_of_months_reported&quot;      &quot;fips_state_code&quot;               </span></span>
+<span id="cb44-6"><a href="subsetting-intro.html#cb44-6"></a><span class="co">#&gt;   [9] &quot;fips_county_code&quot;               &quot;fips_state_county_code&quot;        </span></span>
+<span id="cb44-7"><a href="subsetting-intro.html#cb44-7"></a><span class="co">#&gt;  [11] &quot;fips_place_code&quot;                &quot;fips_state_place_code&quot;         </span></span>
+<span id="cb44-8"><a href="subsetting-intro.html#cb44-8"></a><span class="co">#&gt;  [13] &quot;agency_type&quot;                    &quot;agency_subtype_1&quot;              </span></span>
+<span id="cb44-9"><a href="subsetting-intro.html#cb44-9"></a><span class="co">#&gt;  [15] &quot;agency_subtype_2&quot;               &quot;crosswalk_agency_name&quot;         </span></span>
+<span id="cb44-10"><a href="subsetting-intro.html#cb44-10"></a><span class="co">#&gt;  [17] &quot;census_name&quot;                    &quot;population&quot;                    </span></span>
+<span id="cb44-11"><a href="subsetting-intro.html#cb44-11"></a><span class="co">#&gt;  [19] &quot;population_group&quot;               &quot;country_division&quot;              </span></span>
+<span id="cb44-12"><a href="subsetting-intro.html#cb44-12"></a><span class="co">#&gt;  [21] &quot;juvenile_age&quot;                   &quot;core_city_indication&quot;          </span></span>
+<span id="cb44-13"><a href="subsetting-intro.html#cb44-13"></a><span class="co">#&gt;  [23] &quot;last_update&quot;                    &quot;fbi_field_office&quot;              </span></span>
+<span id="cb44-14"><a href="subsetting-intro.html#cb44-14"></a><span class="co">#&gt;  [25] &quot;followup_indication&quot;            &quot;zip_code&quot;                      </span></span>
+<span id="cb44-15"><a href="subsetting-intro.html#cb44-15"></a><span class="co">#&gt;  [27] &quot;covered_by_ori&quot;                 &quot;agency_count&quot;                  </span></span>
+<span id="cb44-16"><a href="subsetting-intro.html#cb44-16"></a><span class="co">#&gt;  [29] &quot;date_of_last_update&quot;            &quot;month_included_in&quot;             </span></span>
+<span id="cb44-17"><a href="subsetting-intro.html#cb44-17"></a><span class="co">#&gt;  [31] &quot;special_mailing_group&quot;          &quot;special_mailing_address&quot;       </span></span>
+<span id="cb44-18"><a href="subsetting-intro.html#cb44-18"></a><span class="co">#&gt;  [33] &quot;first_line_of_mailing_address&quot;  &quot;second_line_of_mailing_address&quot;</span></span>
+<span id="cb44-19"><a href="subsetting-intro.html#cb44-19"></a><span class="co">#&gt;  [35] &quot;third_line_of_mailing_address&quot;  &quot;fourth_line_of_mailing_address&quot;</span></span>
+<span id="cb44-20"><a href="subsetting-intro.html#cb44-20"></a><span class="co">#&gt;  [37] &quot;officers_killed_by_felony&quot;      &quot;officers_killed_by_accident&quot;   </span></span>
+<span id="cb44-21"><a href="subsetting-intro.html#cb44-21"></a><span class="co">#&gt;  [39] &quot;officers_assaulted&quot;             &quot;actual_murder&quot;                 </span></span>
+<span id="cb44-22"><a href="subsetting-intro.html#cb44-22"></a><span class="co">#&gt;  [41] &quot;actual_manslaughter&quot;            &quot;actual_rape_total&quot;             </span></span>
+<span id="cb44-23"><a href="subsetting-intro.html#cb44-23"></a><span class="co">#&gt;  [43] &quot;actual_rape_by_force&quot;           &quot;actual_rape_attempted&quot;         </span></span>
+<span id="cb44-24"><a href="subsetting-intro.html#cb44-24"></a><span class="co">#&gt;  [45] &quot;actual_robbery_total&quot;           &quot;actual_robbery_with_a_gun&quot;     </span></span>
+<span id="cb44-25"><a href="subsetting-intro.html#cb44-25"></a><span class="co">#&gt;  [47] &quot;actual_robbery_with_a_knife&quot;    &quot;actual_robbery_other_weapon&quot;   </span></span>
+<span id="cb44-26"><a href="subsetting-intro.html#cb44-26"></a><span class="co">#&gt;  [49] &quot;actual_robbery_unarmed&quot;         &quot;actual_assault_total&quot;          </span></span>
+<span id="cb44-27"><a href="subsetting-intro.html#cb44-27"></a><span class="co">#&gt;  [51] &quot;actual_assault_with_a_gun&quot;      &quot;actual_assault_with_a_knife&quot;   </span></span>
+<span id="cb44-28"><a href="subsetting-intro.html#cb44-28"></a><span class="co">#&gt;  [53] &quot;actual_assault_other_weapon&quot;    &quot;actual_assault_unarmed&quot;        </span></span>
+<span id="cb44-29"><a href="subsetting-intro.html#cb44-29"></a><span class="co">#&gt;  [55] &quot;actual_assault_simple&quot;          &quot;actual_burg_total&quot;             </span></span>
+<span id="cb44-30"><a href="subsetting-intro.html#cb44-30"></a><span class="co">#&gt;  [57] &quot;actual_burg_force_entry&quot;        &quot;actual_burg_nonforce_entry&quot;    </span></span>
+<span id="cb44-31"><a href="subsetting-intro.html#cb44-31"></a><span class="co">#&gt;  [59] &quot;actual_burg_attempted&quot;          &quot;actual_theft_total&quot;            </span></span>
+<span id="cb44-32"><a href="subsetting-intro.html#cb44-32"></a><span class="co">#&gt;  [61] &quot;actual_mtr_veh_theft_total&quot;     &quot;actual_mtr_veh_theft_car&quot;      </span></span>
+<span id="cb44-33"><a href="subsetting-intro.html#cb44-33"></a><span class="co">#&gt;  [63] &quot;actual_mtr_veh_theft_truck&quot;     &quot;actual_mtr_veh_theft_other&quot;    </span></span>
+<span id="cb44-34"><a href="subsetting-intro.html#cb44-34"></a><span class="co">#&gt;  [65] &quot;actual_all_crimes&quot;              &quot;actual_assault_aggravated&quot;     </span></span>
+<span id="cb44-35"><a href="subsetting-intro.html#cb44-35"></a><span class="co">#&gt;  [67] &quot;actual_index_violent&quot;           &quot;actual_index_property&quot;         </span></span>
+<span id="cb44-36"><a href="subsetting-intro.html#cb44-36"></a><span class="co">#&gt;  [69] &quot;actual_index_total&quot;             &quot;tot_clr_murder&quot;                </span></span>
+<span id="cb44-37"><a href="subsetting-intro.html#cb44-37"></a><span class="co">#&gt;  [71] &quot;tot_clr_manslaughter&quot;           &quot;tot_clr_rape_total&quot;            </span></span>
+<span id="cb44-38"><a href="subsetting-intro.html#cb44-38"></a><span class="co">#&gt;  [73] &quot;tot_clr_rape_by_force&quot;          &quot;tot_clr_rape_attempted&quot;        </span></span>
+<span id="cb44-39"><a href="subsetting-intro.html#cb44-39"></a><span class="co">#&gt;  [75] &quot;tot_clr_robbery_total&quot;          &quot;tot_clr_robbery_with_a_gun&quot;    </span></span>
+<span id="cb44-40"><a href="subsetting-intro.html#cb44-40"></a><span class="co">#&gt;  [77] &quot;tot_clr_robbery_with_a_knife&quot;   &quot;tot_clr_robbery_other_weapon&quot;  </span></span>
+<span id="cb44-41"><a href="subsetting-intro.html#cb44-41"></a><span class="co">#&gt;  [79] &quot;tot_clr_robbery_unarmed&quot;        &quot;tot_clr_assault_total&quot;         </span></span>
+<span id="cb44-42"><a href="subsetting-intro.html#cb44-42"></a><span class="co">#&gt;  [81] &quot;tot_clr_assault_with_a_gun&quot;     &quot;tot_clr_assault_with_a_knife&quot;  </span></span>
+<span id="cb44-43"><a href="subsetting-intro.html#cb44-43"></a><span class="co">#&gt;  [83] &quot;tot_clr_assault_other_weapon&quot;   &quot;tot_clr_assault_unarmed&quot;       </span></span>
+<span id="cb44-44"><a href="subsetting-intro.html#cb44-44"></a><span class="co">#&gt;  [85] &quot;tot_clr_assault_simple&quot;         &quot;tot_clr_burg_total&quot;            </span></span>
+<span id="cb44-45"><a href="subsetting-intro.html#cb44-45"></a><span class="co">#&gt;  [87] &quot;tot_clr_burg_force_entry&quot;       &quot;tot_clr_burg_nonforce_entry&quot;   </span></span>
+<span id="cb44-46"><a href="subsetting-intro.html#cb44-46"></a><span class="co">#&gt;  [89] &quot;tot_clr_burg_attempted&quot;         &quot;tot_clr_theft_total&quot;           </span></span>
+<span id="cb44-47"><a href="subsetting-intro.html#cb44-47"></a><span class="co">#&gt;  [91] &quot;tot_clr_mtr_veh_theft_total&quot;    &quot;tot_clr_mtr_veh_theft_car&quot;     </span></span>
+<span id="cb44-48"><a href="subsetting-intro.html#cb44-48"></a><span class="co">#&gt;  [93] &quot;tot_clr_mtr_veh_theft_truck&quot;    &quot;tot_clr_mtr_veh_theft_other&quot;   </span></span>
+<span id="cb44-49"><a href="subsetting-intro.html#cb44-49"></a><span class="co">#&gt;  [95] &quot;tot_clr_all_crimes&quot;             &quot;tot_clr_assault_aggravated&quot;    </span></span>
+<span id="cb44-50"><a href="subsetting-intro.html#cb44-50"></a><span class="co">#&gt;  [97] &quot;tot_clr_index_violent&quot;          &quot;tot_clr_index_property&quot;        </span></span>
+<span id="cb44-51"><a href="subsetting-intro.html#cb44-51"></a><span class="co">#&gt;  [99] &quot;tot_clr_index_total&quot;            &quot;clr_18_murder&quot;                 </span></span>
+<span id="cb44-52"><a href="subsetting-intro.html#cb44-52"></a><span class="co">#&gt; [101] &quot;clr_18_manslaughter&quot;            &quot;clr_18_rape_total&quot;             </span></span>
+<span id="cb44-53"><a href="subsetting-intro.html#cb44-53"></a><span class="co">#&gt; [103] &quot;clr_18_rape_by_force&quot;           &quot;clr_18_rape_attempted&quot;         </span></span>
+<span id="cb44-54"><a href="subsetting-intro.html#cb44-54"></a><span class="co">#&gt; [105] &quot;clr_18_robbery_total&quot;           &quot;clr_18_robbery_with_a_gun&quot;     </span></span>
+<span id="cb44-55"><a href="subsetting-intro.html#cb44-55"></a><span class="co">#&gt; [107] &quot;clr_18_robbery_with_a_knife&quot;    &quot;clr_18_robbery_other_weapon&quot;   </span></span>
+<span id="cb44-56"><a href="subsetting-intro.html#cb44-56"></a><span class="co">#&gt; [109] &quot;clr_18_robbery_unarmed&quot;         &quot;clr_18_assault_total&quot;          </span></span>
+<span id="cb44-57"><a href="subsetting-intro.html#cb44-57"></a><span class="co">#&gt; [111] &quot;clr_18_assault_with_a_gun&quot;      &quot;clr_18_assault_with_a_knife&quot;   </span></span>
+<span id="cb44-58"><a href="subsetting-intro.html#cb44-58"></a><span class="co">#&gt; [113] &quot;clr_18_assault_other_weapon&quot;    &quot;clr_18_assault_unarmed&quot;        </span></span>
+<span id="cb44-59"><a href="subsetting-intro.html#cb44-59"></a><span class="co">#&gt; [115] &quot;clr_18_assault_simple&quot;          &quot;clr_18_burg_total&quot;             </span></span>
+<span id="cb44-60"><a href="subsetting-intro.html#cb44-60"></a><span class="co">#&gt; [117] &quot;clr_18_burg_force_entry&quot;        &quot;clr_18_burg_nonforce_entry&quot;    </span></span>
+<span id="cb44-61"><a href="subsetting-intro.html#cb44-61"></a><span class="co">#&gt; [119] &quot;clr_18_burg_attempted&quot;          &quot;clr_18_theft_total&quot;            </span></span>
+<span id="cb44-62"><a href="subsetting-intro.html#cb44-62"></a><span class="co">#&gt; [121] &quot;clr_18_mtr_veh_theft_total&quot;     &quot;clr_18_mtr_veh_theft_car&quot;      </span></span>
+<span id="cb44-63"><a href="subsetting-intro.html#cb44-63"></a><span class="co">#&gt; [123] &quot;clr_18_mtr_veh_theft_truck&quot;     &quot;clr_18_mtr_veh_theft_other&quot;    </span></span>
+<span id="cb44-64"><a href="subsetting-intro.html#cb44-64"></a><span class="co">#&gt; [125] &quot;clr_18_all_crimes&quot;              &quot;clr_18_assault_aggravated&quot;     </span></span>
+<span id="cb44-65"><a href="subsetting-intro.html#cb44-65"></a><span class="co">#&gt; [127] &quot;clr_18_index_violent&quot;           &quot;clr_18_index_property&quot;         </span></span>
+<span id="cb44-66"><a href="subsetting-intro.html#cb44-66"></a><span class="co">#&gt; [129] &quot;clr_18_index_total&quot;             &quot;unfound_murder&quot;                </span></span>
+<span id="cb44-67"><a href="subsetting-intro.html#cb44-67"></a><span class="co">#&gt; [131] &quot;unfound_manslaughter&quot;           &quot;unfound_rape_total&quot;            </span></span>
+<span id="cb44-68"><a href="subsetting-intro.html#cb44-68"></a><span class="co">#&gt; [133] &quot;unfound_rape_by_force&quot;          &quot;unfound_rape_attempted&quot;        </span></span>
+<span id="cb44-69"><a href="subsetting-intro.html#cb44-69"></a><span class="co">#&gt; [135] &quot;unfound_robbery_total&quot;          &quot;unfound_robbery_with_a_gun&quot;    </span></span>
+<span id="cb44-70"><a href="subsetting-intro.html#cb44-70"></a><span class="co">#&gt; [137] &quot;unfound_robbery_with_a_knife&quot;   &quot;unfound_robbery_other_weapon&quot;  </span></span>
+<span id="cb44-71"><a href="subsetting-intro.html#cb44-71"></a><span class="co">#&gt; [139] &quot;unfound_robbery_unarmed&quot;        &quot;unfound_assault_total&quot;         </span></span>
+<span id="cb44-72"><a href="subsetting-intro.html#cb44-72"></a><span class="co">#&gt; [141] &quot;unfound_assault_with_a_gun&quot;     &quot;unfound_assault_with_a_knife&quot;  </span></span>
+<span id="cb44-73"><a href="subsetting-intro.html#cb44-73"></a><span class="co">#&gt; [143] &quot;unfound_assault_other_weapon&quot;   &quot;unfound_assault_unarmed&quot;       </span></span>
+<span id="cb44-74"><a href="subsetting-intro.html#cb44-74"></a><span class="co">#&gt; [145] &quot;unfound_assault_simple&quot;         &quot;unfound_burg_total&quot;            </span></span>
+<span id="cb44-75"><a href="subsetting-intro.html#cb44-75"></a><span class="co">#&gt; [147] &quot;unfound_burg_force_entry&quot;       &quot;unfound_burg_nonforce_entry&quot;   </span></span>
+<span id="cb44-76"><a href="subsetting-intro.html#cb44-76"></a><span class="co">#&gt; [149] &quot;unfound_burg_attempted&quot;         &quot;unfound_theft_total&quot;           </span></span>
+<span id="cb44-77"><a href="subsetting-intro.html#cb44-77"></a><span class="co">#&gt; [151] &quot;unfound_mtr_veh_theft_total&quot;    &quot;unfound_mtr_veh_theft_car&quot;     </span></span>
+<span id="cb44-78"><a href="subsetting-intro.html#cb44-78"></a><span class="co">#&gt; [153] &quot;unfound_mtr_veh_theft_truck&quot;    &quot;unfound_mtr_veh_theft_other&quot;   </span></span>
+<span id="cb44-79"><a href="subsetting-intro.html#cb44-79"></a><span class="co">#&gt; [155] &quot;unfound_all_crimes&quot;             &quot;unfound_assault_aggravated&quot;    </span></span>
+<span id="cb44-80"><a href="subsetting-intro.html#cb44-80"></a><span class="co">#&gt; [157] &quot;unfound_index_violent&quot;          &quot;unfound_index_property&quot;        </span></span>
+<span id="cb44-81"><a href="subsetting-intro.html#cb44-81"></a><span class="co">#&gt; [159] &quot;unfound_index_total&quot;</span></span></code></pre></div>
 <p>Now let’s discuss how to subset this data into a smaller data set to answer a specific question. Let’s subset the data to answer our above question of “did Colorado’s marijuana legalization affect crime in the state?” Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity.</p>
 <p>We also don’t need all 159 columns in the current data. Let’s say we’re only interested in if murder changes. We’d need the column called <em>actual_murder</em>, the <em>state</em> column (as a check to make sure we subset only Colorado), the <em>year</em> column, the <em>population</em> column, the <em>ori</em> column, and the <em>agency_name</em> column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we’re just using it as an example). The last two columns - <em>ori</em> and <em>agency_name</em> - aren’t strictly necessary but would be useful if checking if an agency’s values are reasonable when checking for outliers, a step we won’t do here.</p>
 <p>Before explaining how to subset from a data.frame, let’s write pseudocode (essentially a description of what we are going to do that is readable to people but isn’t real code) for our subset.</p>
@@ -600,194 +634,182 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Only rows where the year is 2011-2017</li>
 <li>Only the following columns: <em>actual_murder</em>, <em>state</em>, <em>year</em>, <em>population</em>, <em>ori</em>, <em>agency_name</em></li>
 </ul>
-<div id="select-specific-columns" class="section level3">
-<h3><span class="header-section-number">2.5.1</span> Select specific columns</h3>
+<div id="select-specific-columns" class="section level3" number="2.5.1">
+<h3 number="2.5.1"><span class="header-section-number">2.5.1</span> Select specific columns</h3>
 <p>The way to select a specific column in R is called the dollar sign notation.</p>
 <p><code>data$column</code></p>
 <p>We write the data name followed by a <code>$</code> and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the <code>data$column</code> exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name.</p>
 <p>We can do this for the column <em>agency_name</em> in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in <code>head()</code> so it only displays the first 6 rows of the column rather than printing the entire column.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name)</a>
-<a class="sourceLine" id="cb45-2" title="2"><span class="co">#&gt; [1] &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="subsetting-intro.html#cb45-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name)</span>
+<span id="cb45-2"><a href="subsetting-intro.html#cb45-2"></a><span class="co">#&gt; [1] &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot; &quot;anchorage&quot;</span></span></code></pre></div>
 <p>They’re all the same name because Anchorage Police reported many times and are in the data set multiple times. Let’s look at the column <em>actual_murder</em> which shows the annual number of murders in that agency.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" title="1"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>actual_murder)</a>
-<a class="sourceLine" id="cb46-2" title="2"><span class="co">#&gt; [1] 27 28 26 12 14 15</span></a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="subsetting-intro.html#cb46-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>actual_murder)</span>
+<span id="cb46-2"><a href="subsetting-intro.html#cb46-2"></a><span class="co">#&gt; [1] 27 28 26 12 14 15</span></span></code></pre></div>
 <p>One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.</p>
 <p><img src="images/tab_example.png" /></p>
 </div>
-<div id="select-specific-rows" class="section level3">
-<h3><span class="header-section-number">2.5.2</span> Select specific rows</h3>
+<div id="select-specific-rows" class="section level3" number="2.5.2">
+<h3 number="2.5.2"><span class="header-section-number">2.5.2</span> Select specific rows</h3>
 <p>In the earlier examples we used square bracket notation <code>[]</code> and just put a number or several numbers in the <code>[]</code>. When dealing with data.frames, however, you need an extra step to tell R which columns to keep. The syntax in the square bracket is</p>
 <p><code>[row, column]</code></p>
 <p>As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using <code>c()</code> if more than one name and putting column names in quotes) of the column or columns we want.</p>
 <p>The exception to this is when we use the dollar sign notation to select a single column. In that case we don’t need a comma (and indeed it will give us an error!). Let’s see a few examples and then explain why this works the way it does.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>, <span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb47-2" title="2"><span class="co">#&gt; [1] &quot;AK00101&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="subsetting-intro.html#cb47-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb47-2"><a href="subsetting-intro.html#cb47-2"></a><span class="co">#&gt; [1] &quot;AK00101&quot;</span></span></code></pre></div>
 <p>If we input multiple numbers we can get multiple rows and columns.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</a>
-<a class="sourceLine" id="cb48-2" title="2"><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year</span></a>
-<a class="sourceLine" id="cb48-3" title="3"><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017</span></a>
-<a class="sourceLine" id="cb48-4" title="4"><span class="co">#&gt; 2 AK00101 AK0010100   anchorage alaska        AK 2016</span></a>
-<a class="sourceLine" id="cb48-5" title="5"><span class="co">#&gt; 3 AK00101 AK0010100   anchorage alaska        AK 2015</span></a>
-<a class="sourceLine" id="cb48-6" title="6"><span class="co">#&gt; 4 AK00101 AK0010100   anchorage alaska        AK 2014</span></a>
-<a class="sourceLine" id="cb48-7" title="7"><span class="co">#&gt; 5 AK00101 AK0010100   anchorage alaska        AK 2013</span></a>
-<a class="sourceLine" id="cb48-8" title="8"><span class="co">#&gt; 6 AK00101 AK0010100   anchorage alaska        AK 2012</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="subsetting-intro.html#cb48-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]</span>
+<span id="cb48-2"><a href="subsetting-intro.html#cb48-2"></a><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year</span></span>
+<span id="cb48-3"><a href="subsetting-intro.html#cb48-3"></a><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017</span></span>
+<span id="cb48-4"><a href="subsetting-intro.html#cb48-4"></a><span class="co">#&gt; 2 AK00101 AK0010100   anchorage alaska        AK 2016</span></span>
+<span id="cb48-5"><a href="subsetting-intro.html#cb48-5"></a><span class="co">#&gt; 3 AK00101 AK0010100   anchorage alaska        AK 2015</span></span>
+<span id="cb48-6"><a href="subsetting-intro.html#cb48-6"></a><span class="co">#&gt; 4 AK00101 AK0010100   anchorage alaska        AK 2014</span></span>
+<span id="cb48-7"><a href="subsetting-intro.html#cb48-7"></a><span class="co">#&gt; 5 AK00101 AK0010100   anchorage alaska        AK 2013</span></span>
+<span id="cb48-8"><a href="subsetting-intro.html#cb48-8"></a><span class="co">#&gt; 6 AK00101 AK0010100   anchorage alaska        AK 2012</span></span></code></pre></div>
 <p>The column section also accepts a vector of the names of the columns. These names must be spelled correctly and in quotes.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="kw">c</span>(<span class="st">&quot;ori&quot;</span>, <span class="st">&quot;year&quot;</span>)]</a>
-<a class="sourceLine" id="cb49-2" title="2"><span class="co">#&gt;       ori year</span></a>
-<a class="sourceLine" id="cb49-3" title="3"><span class="co">#&gt; 1 AK00101 2017</span></a>
-<a class="sourceLine" id="cb49-4" title="4"><span class="co">#&gt; 2 AK00101 2016</span></a>
-<a class="sourceLine" id="cb49-5" title="5"><span class="co">#&gt; 3 AK00101 2015</span></a>
-<a class="sourceLine" id="cb49-6" title="6"><span class="co">#&gt; 4 AK00101 2014</span></a>
-<a class="sourceLine" id="cb49-7" title="7"><span class="co">#&gt; 5 AK00101 2013</span></a>
-<a class="sourceLine" id="cb49-8" title="8"><span class="co">#&gt; 6 AK00101 2012</span></a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="subsetting-intro.html#cb49-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="kw">c</span>(<span class="st">&quot;ori&quot;</span>, <span class="st">&quot;year&quot;</span>)]</span>
+<span id="cb49-2"><a href="subsetting-intro.html#cb49-2"></a><span class="co">#&gt;       ori year</span></span>
+<span id="cb49-3"><a href="subsetting-intro.html#cb49-3"></a><span class="co">#&gt; 1 AK00101 2017</span></span>
+<span id="cb49-4"><a href="subsetting-intro.html#cb49-4"></a><span class="co">#&gt; 2 AK00101 2016</span></span>
+<span id="cb49-5"><a href="subsetting-intro.html#cb49-5"></a><span class="co">#&gt; 3 AK00101 2015</span></span>
+<span id="cb49-6"><a href="subsetting-intro.html#cb49-6"></a><span class="co">#&gt; 4 AK00101 2014</span></span>
+<span id="cb49-7"><a href="subsetting-intro.html#cb49-7"></a><span class="co">#&gt; 5 AK00101 2013</span></span>
+<span id="cb49-8"><a href="subsetting-intro.html#cb49-8"></a><span class="co">#&gt; 6 AK00101 2012</span></span></code></pre></div>
 <p>In cases where we want every row or every column, we just don’t put a number. By default R will return every row/column if you don’t specify which ones you want. However you will still need to include the comma.</p>
 <p>Here is every column in the first row.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>, ]</a>
-<a class="sourceLine" id="cb50-2" title="2"><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year</span></a>
-<a class="sourceLine" id="cb50-3" title="3"><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017</span></a>
-<a class="sourceLine" id="cb50-4" title="4"><span class="co">#&gt;   number_of_months_reported fips_state_code fips_county_code</span></a>
-<a class="sourceLine" id="cb50-5" title="5"><span class="co">#&gt; 1                        12              02              020</span></a>
-<a class="sourceLine" id="cb50-6" title="6"><span class="co">#&gt;   fips_state_county_code fips_place_code fips_state_place_code</span></a>
-<a class="sourceLine" id="cb50-7" title="7"><span class="co">#&gt; 1                  02020           03000               0203000</span></a>
-<a class="sourceLine" id="cb50-8" title="8"><span class="co">#&gt;               agency_type agency_subtype_1 agency_subtype_2</span></a>
-<a class="sourceLine" id="cb50-9" title="9"><span class="co">#&gt; 1 local police department   not applicable   not applicable</span></a>
-<a class="sourceLine" id="cb50-10" title="10"><span class="co">#&gt;         crosswalk_agency_name            census_name population</span></a>
-<a class="sourceLine" id="cb50-11" title="11"><span class="co">#&gt; 1 anchorage police department anchorage municipality     296188</span></a>
-<a class="sourceLine" id="cb50-12" title="12"><span class="co">#&gt;            population_group country_division juvenile_age</span></a>
-<a class="sourceLine" id="cb50-13" title="13"><span class="co">#&gt; 1 city 250,000 thru 499,999          pacific           18</span></a>
-<a class="sourceLine" id="cb50-14" title="14"><span class="co">#&gt;   core_city_indication last_update fbi_field_office followup_indication</span></a>
-<a class="sourceLine" id="cb50-15" title="15"><span class="co">#&gt; 1     core city of msa       42094             3030    send a follow-up</span></a>
-<a class="sourceLine" id="cb50-16" title="16"><span class="co">#&gt;   zip_code covered_by_ori agency_count date_of_last_update</span></a>
-<a class="sourceLine" id="cb50-17" title="17"><span class="co">#&gt; 1    99507           &lt;NA&gt;            1              120717</span></a>
-<a class="sourceLine" id="cb50-18" title="18"><span class="co">#&gt;   month_included_in</span></a>
-<a class="sourceLine" id="cb50-19" title="19"><span class="co">#&gt; 1                 0</span></a>
-<a class="sourceLine" id="cb50-20" title="20"><span class="co">#&gt;                                                              special_mailing_group</span></a>
-<a class="sourceLine" id="cb50-21" title="21"><span class="co">#&gt; 1 the agency is a contributor but not on the mailing list,they are not sent forms.</span></a>
-<a class="sourceLine" id="cb50-22" title="22"><span class="co">#&gt;         special_mailing_address first_line_of_mailing_address</span></a>
-<a class="sourceLine" id="cb50-23" title="23"><span class="co">#&gt; 1 not a special mailing address               chief of police</span></a>
-<a class="sourceLine" id="cb50-24" title="24"><span class="co">#&gt;   second_line_of_mailing_address third_line_of_mailing_address</span></a>
-<a class="sourceLine" id="cb50-25" title="25"><span class="co">#&gt; 1    anchorage police department                4501 elmore rd</span></a>
-<a class="sourceLine" id="cb50-26" title="26"><span class="co">#&gt;   fourth_line_of_mailing_address officers_killed_by_felony</span></a>
-<a class="sourceLine" id="cb50-27" title="27"><span class="co">#&gt; 1                  anchorage, ak                         0</span></a>
-<a class="sourceLine" id="cb50-28" title="28"><span class="co">#&gt;   officers_killed_by_accident officers_assaulted actual_murder</span></a>
-<a class="sourceLine" id="cb50-29" title="29"><span class="co">#&gt; 1                           0                426            27</span></a>
-<a class="sourceLine" id="cb50-30" title="30"><span class="co">#&gt;   actual_manslaughter actual_rape_total actual_rape_by_force</span></a>
-<a class="sourceLine" id="cb50-31" title="31"><span class="co">#&gt; 1                   3               391                  350</span></a>
-<a class="sourceLine" id="cb50-32" title="32"><span class="co">#&gt;   actual_rape_attempted actual_robbery_total actual_robbery_with_a_gun</span></a>
-<a class="sourceLine" id="cb50-33" title="33"><span class="co">#&gt; 1                    41                  778                       249</span></a>
-<a class="sourceLine" id="cb50-34" title="34"><span class="co">#&gt;   actual_robbery_with_a_knife actual_robbery_other_weapon</span></a>
-<a class="sourceLine" id="cb50-35" title="35"><span class="co">#&gt; 1                          69                         116</span></a>
-<a class="sourceLine" id="cb50-36" title="36"><span class="co">#&gt;   actual_robbery_unarmed actual_assault_total actual_assault_with_a_gun</span></a>
-<a class="sourceLine" id="cb50-37" title="37"><span class="co">#&gt; 1                    344                 6448                       621</span></a>
-<a class="sourceLine" id="cb50-38" title="38"><span class="co">#&gt;   actual_assault_with_a_knife actual_assault_other_weapon</span></a>
-<a class="sourceLine" id="cb50-39" title="39"><span class="co">#&gt; 1                         392                         704</span></a>
-<a class="sourceLine" id="cb50-40" title="40"><span class="co">#&gt;   actual_assault_unarmed actual_assault_simple actual_burg_total</span></a>
-<a class="sourceLine" id="cb50-41" title="41"><span class="co">#&gt; 1                    651                  4080              2216</span></a>
-<a class="sourceLine" id="cb50-42" title="42"><span class="co">#&gt;   actual_burg_force_entry actual_burg_nonforce_entry actual_burg_attempted</span></a>
-<a class="sourceLine" id="cb50-43" title="43"><span class="co">#&gt; 1                    1537                        521                   158</span></a>
-<a class="sourceLine" id="cb50-44" title="44"><span class="co">#&gt;   actual_theft_total actual_mtr_veh_theft_total actual_mtr_veh_theft_car</span></a>
-<a class="sourceLine" id="cb50-45" title="45"><span class="co">#&gt; 1              10721                       3104                     1934</span></a>
-<a class="sourceLine" id="cb50-46" title="46"><span class="co">#&gt;   actual_mtr_veh_theft_truck actual_mtr_veh_theft_other actual_all_crimes</span></a>
-<a class="sourceLine" id="cb50-47" title="47"><span class="co">#&gt; 1                        971                        199             23688</span></a>
-<a class="sourceLine" id="cb50-48" title="48"><span class="co">#&gt;   actual_assault_aggravated actual_index_violent actual_index_property</span></a>
-<a class="sourceLine" id="cb50-49" title="49"><span class="co">#&gt; 1                      2368                 3564                 16041</span></a>
-<a class="sourceLine" id="cb50-50" title="50"><span class="co">#&gt;   actual_index_total tot_clr_murder tot_clr_manslaughter</span></a>
-<a class="sourceLine" id="cb50-51" title="51"><span class="co">#&gt; 1              19605             28                    0</span></a>
-<a class="sourceLine" id="cb50-52" title="52"><span class="co">#&gt;   tot_clr_rape_total tot_clr_rape_by_force tot_clr_rape_attempted</span></a>
-<a class="sourceLine" id="cb50-53" title="53"><span class="co">#&gt; 1                 58                    48                     10</span></a>
-<a class="sourceLine" id="cb50-54" title="54"><span class="co">#&gt;   tot_clr_robbery_total tot_clr_robbery_with_a_gun</span></a>
-<a class="sourceLine" id="cb50-55" title="55"><span class="co">#&gt; 1                   216                         47</span></a>
-<a class="sourceLine" id="cb50-56" title="56"><span class="co">#&gt;   tot_clr_robbery_with_a_knife tot_clr_robbery_other_weapon</span></a>
-<a class="sourceLine" id="cb50-57" title="57"><span class="co">#&gt; 1                           22                           37</span></a>
-<a class="sourceLine" id="cb50-58" title="58"><span class="co">#&gt;   tot_clr_robbery_unarmed tot_clr_assault_total tot_clr_assault_with_a_gun</span></a>
-<a class="sourceLine" id="cb50-59" title="59"><span class="co">#&gt; 1                     110                  3576                        249</span></a>
-<a class="sourceLine" id="cb50-60" title="60"><span class="co">#&gt;   tot_clr_assault_with_a_knife tot_clr_assault_other_weapon</span></a>
-<a class="sourceLine" id="cb50-61" title="61"><span class="co">#&gt; 1                          250                          413</span></a>
-<a class="sourceLine" id="cb50-62" title="62"><span class="co">#&gt;   tot_clr_assault_unarmed tot_clr_assault_simple tot_clr_burg_total</span></a>
-<a class="sourceLine" id="cb50-63" title="63"><span class="co">#&gt; 1                     436                   2228                250</span></a>
-<a class="sourceLine" id="cb50-64" title="64"><span class="co">#&gt;   tot_clr_burg_force_entry tot_clr_burg_nonforce_entry</span></a>
-<a class="sourceLine" id="cb50-65" title="65"><span class="co">#&gt; 1                      129                         114</span></a>
-<a class="sourceLine" id="cb50-66" title="66"><span class="co">#&gt;   tot_clr_burg_attempted tot_clr_theft_total tot_clr_mtr_veh_theft_total</span></a>
-<a class="sourceLine" id="cb50-67" title="67"><span class="co">#&gt; 1                      7                1358                         497</span></a>
-<a class="sourceLine" id="cb50-68" title="68"><span class="co">#&gt;   tot_clr_mtr_veh_theft_car tot_clr_mtr_veh_theft_truck</span></a>
-<a class="sourceLine" id="cb50-69" title="69"><span class="co">#&gt; 1                       335                         145</span></a>
-<a class="sourceLine" id="cb50-70" title="70"><span class="co">#&gt;   tot_clr_mtr_veh_theft_other tot_clr_all_crimes</span></a>
-<a class="sourceLine" id="cb50-71" title="71"><span class="co">#&gt; 1                          17               5983</span></a>
-<a class="sourceLine" id="cb50-72" title="72"><span class="co">#&gt;   tot_clr_assault_aggravated tot_clr_index_violent tot_clr_index_property</span></a>
-<a class="sourceLine" id="cb50-73" title="73"><span class="co">#&gt; 1                       1348                  1650                   2105</span></a>
-<a class="sourceLine" id="cb50-74" title="74"><span class="co">#&gt;   tot_clr_index_total clr_18_murder clr_18_manslaughter clr_18_rape_total</span></a>
-<a class="sourceLine" id="cb50-75" title="75"><span class="co">#&gt; 1                3755             1                   0                 5</span></a>
-<a class="sourceLine" id="cb50-76" title="76"><span class="co">#&gt;   clr_18_rape_by_force clr_18_rape_attempted clr_18_robbery_total</span></a>
-<a class="sourceLine" id="cb50-77" title="77"><span class="co">#&gt; 1                    4                     1                    9</span></a>
-<a class="sourceLine" id="cb50-78" title="78"><span class="co">#&gt;   clr_18_robbery_with_a_gun clr_18_robbery_with_a_knife</span></a>
-<a class="sourceLine" id="cb50-79" title="79"><span class="co">#&gt; 1                         1                           1</span></a>
-<a class="sourceLine" id="cb50-80" title="80"><span class="co">#&gt;   clr_18_robbery_other_weapon clr_18_robbery_unarmed clr_18_assault_total</span></a>
-<a class="sourceLine" id="cb50-81" title="81"><span class="co">#&gt; 1                           0                      7                  277</span></a>
-<a class="sourceLine" id="cb50-82" title="82"><span class="co">#&gt;   clr_18_assault_with_a_gun clr_18_assault_with_a_knife</span></a>
-<a class="sourceLine" id="cb50-83" title="83"><span class="co">#&gt; 1                        37                          17</span></a>
-<a class="sourceLine" id="cb50-84" title="84"><span class="co">#&gt;   clr_18_assault_other_weapon clr_18_assault_unarmed clr_18_assault_simple</span></a>
-<a class="sourceLine" id="cb50-85" title="85"><span class="co">#&gt; 1                          19                     17                   187</span></a>
-<a class="sourceLine" id="cb50-86" title="86"><span class="co">#&gt;   clr_18_burg_total clr_18_burg_force_entry clr_18_burg_nonforce_entry</span></a>
-<a class="sourceLine" id="cb50-87" title="87"><span class="co">#&gt; 1                 8                       4                          2</span></a>
-<a class="sourceLine" id="cb50-88" title="88"><span class="co">#&gt;   clr_18_burg_attempted clr_18_theft_total clr_18_mtr_veh_theft_total</span></a>
-<a class="sourceLine" id="cb50-89" title="89"><span class="co">#&gt; 1                     2                107                         22</span></a>
-<a class="sourceLine" id="cb50-90" title="90"><span class="co">#&gt;   clr_18_mtr_veh_theft_car clr_18_mtr_veh_theft_truck</span></a>
-<a class="sourceLine" id="cb50-91" title="91"><span class="co">#&gt; 1                       17                          2</span></a>
-<a class="sourceLine" id="cb50-92" title="92"><span class="co">#&gt;   clr_18_mtr_veh_theft_other clr_18_all_crimes clr_18_assault_aggravated</span></a>
-<a class="sourceLine" id="cb50-93" title="93"><span class="co">#&gt; 1                          3               429                        90</span></a>
-<a class="sourceLine" id="cb50-94" title="94"><span class="co">#&gt;   clr_18_index_violent clr_18_index_property clr_18_index_total</span></a>
-<a class="sourceLine" id="cb50-95" title="95"><span class="co">#&gt; 1                  105                   137                242</span></a>
-<a class="sourceLine" id="cb50-96" title="96"><span class="co">#&gt;   unfound_murder unfound_manslaughter unfound_rape_total</span></a>
-<a class="sourceLine" id="cb50-97" title="97"><span class="co">#&gt; 1              5                    0                 16</span></a>
-<a class="sourceLine" id="cb50-98" title="98"><span class="co">#&gt;   unfound_rape_by_force unfound_rape_attempted unfound_robbery_total</span></a>
-<a class="sourceLine" id="cb50-99" title="99"><span class="co">#&gt; 1                    16                      0                     1</span></a>
-<a class="sourceLine" id="cb50-100" title="100"><span class="co">#&gt;   unfound_robbery_with_a_gun unfound_robbery_with_a_knife</span></a>
-<a class="sourceLine" id="cb50-101" title="101"><span class="co">#&gt; 1                          1                            0</span></a>
-<a class="sourceLine" id="cb50-102" title="102"><span class="co">#&gt;   unfound_robbery_other_weapon unfound_robbery_unarmed</span></a>
-<a class="sourceLine" id="cb50-103" title="103"><span class="co">#&gt; 1                            0                       0</span></a>
-<a class="sourceLine" id="cb50-104" title="104"><span class="co">#&gt;   unfound_assault_total unfound_assault_with_a_gun</span></a>
-<a class="sourceLine" id="cb50-105" title="105"><span class="co">#&gt; 1                     6                          0</span></a>
-<a class="sourceLine" id="cb50-106" title="106"><span class="co">#&gt;   unfound_assault_with_a_knife unfound_assault_other_weapon</span></a>
-<a class="sourceLine" id="cb50-107" title="107"><span class="co">#&gt; 1                            1                            1</span></a>
-<a class="sourceLine" id="cb50-108" title="108"><span class="co">#&gt;   unfound_assault_unarmed unfound_assault_simple unfound_burg_total</span></a>
-<a class="sourceLine" id="cb50-109" title="109"><span class="co">#&gt; 1                       0                      4                  0</span></a>
-<a class="sourceLine" id="cb50-110" title="110"><span class="co">#&gt;   unfound_burg_force_entry unfound_burg_nonforce_entry</span></a>
-<a class="sourceLine" id="cb50-111" title="111"><span class="co">#&gt; 1                        0                           0</span></a>
-<a class="sourceLine" id="cb50-112" title="112"><span class="co">#&gt;   unfound_burg_attempted unfound_theft_total unfound_mtr_veh_theft_total</span></a>
-<a class="sourceLine" id="cb50-113" title="113"><span class="co">#&gt; 1                      0                  40                          70</span></a>
-<a class="sourceLine" id="cb50-114" title="114"><span class="co">#&gt;   unfound_mtr_veh_theft_car unfound_mtr_veh_theft_truck</span></a>
-<a class="sourceLine" id="cb50-115" title="115"><span class="co">#&gt; 1                        53                          16</span></a>
-<a class="sourceLine" id="cb50-116" title="116"><span class="co">#&gt;   unfound_mtr_veh_theft_other unfound_all_crimes</span></a>
-<a class="sourceLine" id="cb50-117" title="117"><span class="co">#&gt; 1                           1                138</span></a>
-<a class="sourceLine" id="cb50-118" title="118"><span class="co">#&gt;   unfound_assault_aggravated unfound_index_violent unfound_index_property</span></a>
-<a class="sourceLine" id="cb50-119" title="119"><span class="co">#&gt; 1                          2                    24                    110</span></a>
-<a class="sourceLine" id="cb50-120" title="120"><span class="co">#&gt;   unfound_index_total</span></a>
-<a class="sourceLine" id="cb50-121" title="121"><span class="co">#&gt; 1                 134</span></a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="subsetting-intro.html#cb50-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>, ]</span>
+<span id="cb50-2"><a href="subsetting-intro.html#cb50-2"></a><span class="co">#&gt;       ori      ori9 agency_name  state state_abb year number_of_months_reported</span></span>
+<span id="cb50-3"><a href="subsetting-intro.html#cb50-3"></a><span class="co">#&gt; 1 AK00101 AK0010100   anchorage alaska        AK 2017                        12</span></span>
+<span id="cb50-4"><a href="subsetting-intro.html#cb50-4"></a><span class="co">#&gt;   fips_state_code fips_county_code fips_state_county_code fips_place_code</span></span>
+<span id="cb50-5"><a href="subsetting-intro.html#cb50-5"></a><span class="co">#&gt; 1              02              020                  02020           03000</span></span>
+<span id="cb50-6"><a href="subsetting-intro.html#cb50-6"></a><span class="co">#&gt;   fips_state_place_code             agency_type agency_subtype_1</span></span>
+<span id="cb50-7"><a href="subsetting-intro.html#cb50-7"></a><span class="co">#&gt; 1               0203000 local police department   not applicable</span></span>
+<span id="cb50-8"><a href="subsetting-intro.html#cb50-8"></a><span class="co">#&gt;   agency_subtype_2       crosswalk_agency_name            census_name</span></span>
+<span id="cb50-9"><a href="subsetting-intro.html#cb50-9"></a><span class="co">#&gt; 1   not applicable anchorage police department anchorage municipality</span></span>
+<span id="cb50-10"><a href="subsetting-intro.html#cb50-10"></a><span class="co">#&gt;   population          population_group country_division juvenile_age</span></span>
+<span id="cb50-11"><a href="subsetting-intro.html#cb50-11"></a><span class="co">#&gt; 1     296188 city 250,000 thru 499,999          pacific           18</span></span>
+<span id="cb50-12"><a href="subsetting-intro.html#cb50-12"></a><span class="co">#&gt;   core_city_indication last_update fbi_field_office followup_indication</span></span>
+<span id="cb50-13"><a href="subsetting-intro.html#cb50-13"></a><span class="co">#&gt; 1     core city of msa       42094             3030    send a follow-up</span></span>
+<span id="cb50-14"><a href="subsetting-intro.html#cb50-14"></a><span class="co">#&gt;   zip_code covered_by_ori agency_count date_of_last_update month_included_in</span></span>
+<span id="cb50-15"><a href="subsetting-intro.html#cb50-15"></a><span class="co">#&gt; 1    99507           &lt;NA&gt;            1              120717                 0</span></span>
+<span id="cb50-16"><a href="subsetting-intro.html#cb50-16"></a><span class="co">#&gt;                                                              special_mailing_group</span></span>
+<span id="cb50-17"><a href="subsetting-intro.html#cb50-17"></a><span class="co">#&gt; 1 the agency is a contributor but not on the mailing list,they are not sent forms.</span></span>
+<span id="cb50-18"><a href="subsetting-intro.html#cb50-18"></a><span class="co">#&gt;         special_mailing_address first_line_of_mailing_address</span></span>
+<span id="cb50-19"><a href="subsetting-intro.html#cb50-19"></a><span class="co">#&gt; 1 not a special mailing address               chief of police</span></span>
+<span id="cb50-20"><a href="subsetting-intro.html#cb50-20"></a><span class="co">#&gt;   second_line_of_mailing_address third_line_of_mailing_address</span></span>
+<span id="cb50-21"><a href="subsetting-intro.html#cb50-21"></a><span class="co">#&gt; 1    anchorage police department                4501 elmore rd</span></span>
+<span id="cb50-22"><a href="subsetting-intro.html#cb50-22"></a><span class="co">#&gt;   fourth_line_of_mailing_address officers_killed_by_felony</span></span>
+<span id="cb50-23"><a href="subsetting-intro.html#cb50-23"></a><span class="co">#&gt; 1                  anchorage, ak                         0</span></span>
+<span id="cb50-24"><a href="subsetting-intro.html#cb50-24"></a><span class="co">#&gt;   officers_killed_by_accident officers_assaulted actual_murder</span></span>
+<span id="cb50-25"><a href="subsetting-intro.html#cb50-25"></a><span class="co">#&gt; 1                           0                426            27</span></span>
+<span id="cb50-26"><a href="subsetting-intro.html#cb50-26"></a><span class="co">#&gt;   actual_manslaughter actual_rape_total actual_rape_by_force</span></span>
+<span id="cb50-27"><a href="subsetting-intro.html#cb50-27"></a><span class="co">#&gt; 1                   3               391                  350</span></span>
+<span id="cb50-28"><a href="subsetting-intro.html#cb50-28"></a><span class="co">#&gt;   actual_rape_attempted actual_robbery_total actual_robbery_with_a_gun</span></span>
+<span id="cb50-29"><a href="subsetting-intro.html#cb50-29"></a><span class="co">#&gt; 1                    41                  778                       249</span></span>
+<span id="cb50-30"><a href="subsetting-intro.html#cb50-30"></a><span class="co">#&gt;   actual_robbery_with_a_knife actual_robbery_other_weapon</span></span>
+<span id="cb50-31"><a href="subsetting-intro.html#cb50-31"></a><span class="co">#&gt; 1                          69                         116</span></span>
+<span id="cb50-32"><a href="subsetting-intro.html#cb50-32"></a><span class="co">#&gt;   actual_robbery_unarmed actual_assault_total actual_assault_with_a_gun</span></span>
+<span id="cb50-33"><a href="subsetting-intro.html#cb50-33"></a><span class="co">#&gt; 1                    344                 6448                       621</span></span>
+<span id="cb50-34"><a href="subsetting-intro.html#cb50-34"></a><span class="co">#&gt;   actual_assault_with_a_knife actual_assault_other_weapon</span></span>
+<span id="cb50-35"><a href="subsetting-intro.html#cb50-35"></a><span class="co">#&gt; 1                         392                         704</span></span>
+<span id="cb50-36"><a href="subsetting-intro.html#cb50-36"></a><span class="co">#&gt;   actual_assault_unarmed actual_assault_simple actual_burg_total</span></span>
+<span id="cb50-37"><a href="subsetting-intro.html#cb50-37"></a><span class="co">#&gt; 1                    651                  4080              2216</span></span>
+<span id="cb50-38"><a href="subsetting-intro.html#cb50-38"></a><span class="co">#&gt;   actual_burg_force_entry actual_burg_nonforce_entry actual_burg_attempted</span></span>
+<span id="cb50-39"><a href="subsetting-intro.html#cb50-39"></a><span class="co">#&gt; 1                    1537                        521                   158</span></span>
+<span id="cb50-40"><a href="subsetting-intro.html#cb50-40"></a><span class="co">#&gt;   actual_theft_total actual_mtr_veh_theft_total actual_mtr_veh_theft_car</span></span>
+<span id="cb50-41"><a href="subsetting-intro.html#cb50-41"></a><span class="co">#&gt; 1              10721                       3104                     1934</span></span>
+<span id="cb50-42"><a href="subsetting-intro.html#cb50-42"></a><span class="co">#&gt;   actual_mtr_veh_theft_truck actual_mtr_veh_theft_other actual_all_crimes</span></span>
+<span id="cb50-43"><a href="subsetting-intro.html#cb50-43"></a><span class="co">#&gt; 1                        971                        199             23688</span></span>
+<span id="cb50-44"><a href="subsetting-intro.html#cb50-44"></a><span class="co">#&gt;   actual_assault_aggravated actual_index_violent actual_index_property</span></span>
+<span id="cb50-45"><a href="subsetting-intro.html#cb50-45"></a><span class="co">#&gt; 1                      2368                 3564                 16041</span></span>
+<span id="cb50-46"><a href="subsetting-intro.html#cb50-46"></a><span class="co">#&gt;   actual_index_total tot_clr_murder tot_clr_manslaughter tot_clr_rape_total</span></span>
+<span id="cb50-47"><a href="subsetting-intro.html#cb50-47"></a><span class="co">#&gt; 1              19605             28                    0                 58</span></span>
+<span id="cb50-48"><a href="subsetting-intro.html#cb50-48"></a><span class="co">#&gt;   tot_clr_rape_by_force tot_clr_rape_attempted tot_clr_robbery_total</span></span>
+<span id="cb50-49"><a href="subsetting-intro.html#cb50-49"></a><span class="co">#&gt; 1                    48                     10                   216</span></span>
+<span id="cb50-50"><a href="subsetting-intro.html#cb50-50"></a><span class="co">#&gt;   tot_clr_robbery_with_a_gun tot_clr_robbery_with_a_knife</span></span>
+<span id="cb50-51"><a href="subsetting-intro.html#cb50-51"></a><span class="co">#&gt; 1                         47                           22</span></span>
+<span id="cb50-52"><a href="subsetting-intro.html#cb50-52"></a><span class="co">#&gt;   tot_clr_robbery_other_weapon tot_clr_robbery_unarmed tot_clr_assault_total</span></span>
+<span id="cb50-53"><a href="subsetting-intro.html#cb50-53"></a><span class="co">#&gt; 1                           37                     110                  3576</span></span>
+<span id="cb50-54"><a href="subsetting-intro.html#cb50-54"></a><span class="co">#&gt;   tot_clr_assault_with_a_gun tot_clr_assault_with_a_knife</span></span>
+<span id="cb50-55"><a href="subsetting-intro.html#cb50-55"></a><span class="co">#&gt; 1                        249                          250</span></span>
+<span id="cb50-56"><a href="subsetting-intro.html#cb50-56"></a><span class="co">#&gt;   tot_clr_assault_other_weapon tot_clr_assault_unarmed tot_clr_assault_simple</span></span>
+<span id="cb50-57"><a href="subsetting-intro.html#cb50-57"></a><span class="co">#&gt; 1                          413                     436                   2228</span></span>
+<span id="cb50-58"><a href="subsetting-intro.html#cb50-58"></a><span class="co">#&gt;   tot_clr_burg_total tot_clr_burg_force_entry tot_clr_burg_nonforce_entry</span></span>
+<span id="cb50-59"><a href="subsetting-intro.html#cb50-59"></a><span class="co">#&gt; 1                250                      129                         114</span></span>
+<span id="cb50-60"><a href="subsetting-intro.html#cb50-60"></a><span class="co">#&gt;   tot_clr_burg_attempted tot_clr_theft_total tot_clr_mtr_veh_theft_total</span></span>
+<span id="cb50-61"><a href="subsetting-intro.html#cb50-61"></a><span class="co">#&gt; 1                      7                1358                         497</span></span>
+<span id="cb50-62"><a href="subsetting-intro.html#cb50-62"></a><span class="co">#&gt;   tot_clr_mtr_veh_theft_car tot_clr_mtr_veh_theft_truck</span></span>
+<span id="cb50-63"><a href="subsetting-intro.html#cb50-63"></a><span class="co">#&gt; 1                       335                         145</span></span>
+<span id="cb50-64"><a href="subsetting-intro.html#cb50-64"></a><span class="co">#&gt;   tot_clr_mtr_veh_theft_other tot_clr_all_crimes tot_clr_assault_aggravated</span></span>
+<span id="cb50-65"><a href="subsetting-intro.html#cb50-65"></a><span class="co">#&gt; 1                          17               5983                       1348</span></span>
+<span id="cb50-66"><a href="subsetting-intro.html#cb50-66"></a><span class="co">#&gt;   tot_clr_index_violent tot_clr_index_property tot_clr_index_total</span></span>
+<span id="cb50-67"><a href="subsetting-intro.html#cb50-67"></a><span class="co">#&gt; 1                  1650                   2105                3755</span></span>
+<span id="cb50-68"><a href="subsetting-intro.html#cb50-68"></a><span class="co">#&gt;   clr_18_murder clr_18_manslaughter clr_18_rape_total clr_18_rape_by_force</span></span>
+<span id="cb50-69"><a href="subsetting-intro.html#cb50-69"></a><span class="co">#&gt; 1             1                   0                 5                    4</span></span>
+<span id="cb50-70"><a href="subsetting-intro.html#cb50-70"></a><span class="co">#&gt;   clr_18_rape_attempted clr_18_robbery_total clr_18_robbery_with_a_gun</span></span>
+<span id="cb50-71"><a href="subsetting-intro.html#cb50-71"></a><span class="co">#&gt; 1                     1                    9                         1</span></span>
+<span id="cb50-72"><a href="subsetting-intro.html#cb50-72"></a><span class="co">#&gt;   clr_18_robbery_with_a_knife clr_18_robbery_other_weapon</span></span>
+<span id="cb50-73"><a href="subsetting-intro.html#cb50-73"></a><span class="co">#&gt; 1                           1                           0</span></span>
+<span id="cb50-74"><a href="subsetting-intro.html#cb50-74"></a><span class="co">#&gt;   clr_18_robbery_unarmed clr_18_assault_total clr_18_assault_with_a_gun</span></span>
+<span id="cb50-75"><a href="subsetting-intro.html#cb50-75"></a><span class="co">#&gt; 1                      7                  277                        37</span></span>
+<span id="cb50-76"><a href="subsetting-intro.html#cb50-76"></a><span class="co">#&gt;   clr_18_assault_with_a_knife clr_18_assault_other_weapon</span></span>
+<span id="cb50-77"><a href="subsetting-intro.html#cb50-77"></a><span class="co">#&gt; 1                          17                          19</span></span>
+<span id="cb50-78"><a href="subsetting-intro.html#cb50-78"></a><span class="co">#&gt;   clr_18_assault_unarmed clr_18_assault_simple clr_18_burg_total</span></span>
+<span id="cb50-79"><a href="subsetting-intro.html#cb50-79"></a><span class="co">#&gt; 1                     17                   187                 8</span></span>
+<span id="cb50-80"><a href="subsetting-intro.html#cb50-80"></a><span class="co">#&gt;   clr_18_burg_force_entry clr_18_burg_nonforce_entry clr_18_burg_attempted</span></span>
+<span id="cb50-81"><a href="subsetting-intro.html#cb50-81"></a><span class="co">#&gt; 1                       4                          2                     2</span></span>
+<span id="cb50-82"><a href="subsetting-intro.html#cb50-82"></a><span class="co">#&gt;   clr_18_theft_total clr_18_mtr_veh_theft_total clr_18_mtr_veh_theft_car</span></span>
+<span id="cb50-83"><a href="subsetting-intro.html#cb50-83"></a><span class="co">#&gt; 1                107                         22                       17</span></span>
+<span id="cb50-84"><a href="subsetting-intro.html#cb50-84"></a><span class="co">#&gt;   clr_18_mtr_veh_theft_truck clr_18_mtr_veh_theft_other clr_18_all_crimes</span></span>
+<span id="cb50-85"><a href="subsetting-intro.html#cb50-85"></a><span class="co">#&gt; 1                          2                          3               429</span></span>
+<span id="cb50-86"><a href="subsetting-intro.html#cb50-86"></a><span class="co">#&gt;   clr_18_assault_aggravated clr_18_index_violent clr_18_index_property</span></span>
+<span id="cb50-87"><a href="subsetting-intro.html#cb50-87"></a><span class="co">#&gt; 1                        90                  105                   137</span></span>
+<span id="cb50-88"><a href="subsetting-intro.html#cb50-88"></a><span class="co">#&gt;   clr_18_index_total unfound_murder unfound_manslaughter unfound_rape_total</span></span>
+<span id="cb50-89"><a href="subsetting-intro.html#cb50-89"></a><span class="co">#&gt; 1                242              5                    0                 16</span></span>
+<span id="cb50-90"><a href="subsetting-intro.html#cb50-90"></a><span class="co">#&gt;   unfound_rape_by_force unfound_rape_attempted unfound_robbery_total</span></span>
+<span id="cb50-91"><a href="subsetting-intro.html#cb50-91"></a><span class="co">#&gt; 1                    16                      0                     1</span></span>
+<span id="cb50-92"><a href="subsetting-intro.html#cb50-92"></a><span class="co">#&gt;   unfound_robbery_with_a_gun unfound_robbery_with_a_knife</span></span>
+<span id="cb50-93"><a href="subsetting-intro.html#cb50-93"></a><span class="co">#&gt; 1                          1                            0</span></span>
+<span id="cb50-94"><a href="subsetting-intro.html#cb50-94"></a><span class="co">#&gt;   unfound_robbery_other_weapon unfound_robbery_unarmed unfound_assault_total</span></span>
+<span id="cb50-95"><a href="subsetting-intro.html#cb50-95"></a><span class="co">#&gt; 1                            0                       0                     6</span></span>
+<span id="cb50-96"><a href="subsetting-intro.html#cb50-96"></a><span class="co">#&gt;   unfound_assault_with_a_gun unfound_assault_with_a_knife</span></span>
+<span id="cb50-97"><a href="subsetting-intro.html#cb50-97"></a><span class="co">#&gt; 1                          0                            1</span></span>
+<span id="cb50-98"><a href="subsetting-intro.html#cb50-98"></a><span class="co">#&gt;   unfound_assault_other_weapon unfound_assault_unarmed unfound_assault_simple</span></span>
+<span id="cb50-99"><a href="subsetting-intro.html#cb50-99"></a><span class="co">#&gt; 1                            1                       0                      4</span></span>
+<span id="cb50-100"><a href="subsetting-intro.html#cb50-100"></a><span class="co">#&gt;   unfound_burg_total unfound_burg_force_entry unfound_burg_nonforce_entry</span></span>
+<span id="cb50-101"><a href="subsetting-intro.html#cb50-101"></a><span class="co">#&gt; 1                  0                        0                           0</span></span>
+<span id="cb50-102"><a href="subsetting-intro.html#cb50-102"></a><span class="co">#&gt;   unfound_burg_attempted unfound_theft_total unfound_mtr_veh_theft_total</span></span>
+<span id="cb50-103"><a href="subsetting-intro.html#cb50-103"></a><span class="co">#&gt; 1                      0                  40                          70</span></span>
+<span id="cb50-104"><a href="subsetting-intro.html#cb50-104"></a><span class="co">#&gt;   unfound_mtr_veh_theft_car unfound_mtr_veh_theft_truck</span></span>
+<span id="cb50-105"><a href="subsetting-intro.html#cb50-105"></a><span class="co">#&gt; 1                        53                          16</span></span>
+<span id="cb50-106"><a href="subsetting-intro.html#cb50-106"></a><span class="co">#&gt;   unfound_mtr_veh_theft_other unfound_all_crimes unfound_assault_aggravated</span></span>
+<span id="cb50-107"><a href="subsetting-intro.html#cb50-107"></a><span class="co">#&gt; 1                           1                138                          2</span></span>
+<span id="cb50-108"><a href="subsetting-intro.html#cb50-108"></a><span class="co">#&gt;   unfound_index_violent unfound_index_property unfound_index_total</span></span>
+<span id="cb50-109"><a href="subsetting-intro.html#cb50-109"></a><span class="co">#&gt; 1                    24                    110                 134</span></span></code></pre></div>
 <p>Since there are 159 columns in our data, normally we’d want to avoid printing out all of them. And in most cases we would save the output of subsets to a new object to be used later rather than just printing the output in the console.</p>
 <p>What happens if we forget the comma? If we put in numbers for both rows and columns but don’t include a comma between them it will have an error.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span> <span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb51-2" title="2"><span class="co">#&gt; Error: &lt;text&gt;:1:35: unexpected numeric constant</span></a>
-<a class="sourceLine" id="cb51-3" title="3"><span class="co">#&gt; 1: offenses_known_yearly_1960_2017[1 1</span></a>
-<a class="sourceLine" id="cb51-4" title="4"><span class="co">#&gt;                                       ^</span></a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="subsetting-intro.html#cb51-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span> <span class="dv">1</span>]</span>
+<span id="cb51-2"><a href="subsetting-intro.html#cb51-2"></a><span class="co">#&gt; Error: &lt;text&gt;:1:35: unexpected numeric constant</span></span>
+<span id="cb51-3"><a href="subsetting-intro.html#cb51-3"></a><span class="co">#&gt; 1: offenses_known_yearly_1960_2017[1 1</span></span>
+<span id="cb51-4"><a href="subsetting-intro.html#cb51-4"></a><span class="co">#&gt;                                       ^</span></span></code></pre></div>
 <p>If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We’ll wrap it in <code>head()</code> so it doesn’t print out a million rows.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb52-2" title="2"><span class="co">#&gt;       ori</span></a>
-<a class="sourceLine" id="cb52-3" title="3"><span class="co">#&gt; 1 AK00101</span></a>
-<a class="sourceLine" id="cb52-4" title="4"><span class="co">#&gt; 2 AK00101</span></a>
-<a class="sourceLine" id="cb52-5" title="5"><span class="co">#&gt; 3 AK00101</span></a>
-<a class="sourceLine" id="cb52-6" title="6"><span class="co">#&gt; 4 AK00101</span></a>
-<a class="sourceLine" id="cb52-7" title="7"><span class="co">#&gt; 5 AK00101</span></a>
-<a class="sourceLine" id="cb52-8" title="8"><span class="co">#&gt; 6 AK00101</span></a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="subsetting-intro.html#cb52-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1</span>])</span>
+<span id="cb52-2"><a href="subsetting-intro.html#cb52-2"></a><span class="co">#&gt;       ori</span></span>
+<span id="cb52-3"><a href="subsetting-intro.html#cb52-3"></a><span class="co">#&gt; 1 AK00101</span></span>
+<span id="cb52-4"><a href="subsetting-intro.html#cb52-4"></a><span class="co">#&gt; 2 AK00101</span></span>
+<span id="cb52-5"><a href="subsetting-intro.html#cb52-5"></a><span class="co">#&gt; 3 AK00101</span></span>
+<span id="cb52-6"><a href="subsetting-intro.html#cb52-6"></a><span class="co">#&gt; 4 AK00101</span></span>
+<span id="cb52-7"><a href="subsetting-intro.html#cb52-7"></a><span class="co">#&gt; 5 AK00101</span></span>
+<span id="cb52-8"><a href="subsetting-intro.html#cb52-8"></a><span class="co">#&gt; 6 AK00101</span></span></code></pre></div>
 <p>Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1000</span>])</a>
-<a class="sourceLine" id="cb53-2" title="2"><span class="co">#&gt; Error in `[.data.frame`(offenses_known_yearly_1960_2017, 1000): undefined columns selected</span></a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="subsetting-intro.html#cb53-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[<span class="dv">1000</span>])</span>
+<span id="cb53-2"><a href="subsetting-intro.html#cb53-2"></a><span class="co">#&gt; Error in `[.data.frame`(offenses_known_yearly_1960_2017, 1000): undefined columns selected</span></span></code></pre></div>
 <p>If you already specify a column using dollar sign notation <code>$</code>, you do not need to indicate any column in the square brackets<code>[]</code>. All you need to do is say which row or rows you want.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1">offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name[<span class="dv">15</span>]</a>
-<a class="sourceLine" id="cb54-2" title="2"><span class="co">#&gt; [1] &quot;anchorage&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="subsetting-intro.html#cb54-1"></a>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>agency_name[<span class="dv">15</span>]</span>
+<span id="cb54-2"><a href="subsetting-intro.html#cb54-2"></a><span class="co">#&gt; [1] &quot;anchorage&quot;</span></span></code></pre></div>
 <p>So make sure when you want a row from a data.frame you always include the comma!</p>
 </div>
-<div id="subset-colorado-data" class="section level3">
-<h3><span class="header-section-number">2.5.3</span> Subset Colorado data</h3>
+<div id="subset-colorado-data" class="section level3" number="2.5.3">
+<h3 number="2.5.3"><span class="header-section-number">2.5.3</span> Subset Colorado data</h3>
 <p>Finally we have the tools to subset our UCR data to just be Colorado from 2011-2017. There are three conditional statements we need to make, two for rows and one for columns.</p>
 <ul>
 <li>Only rows where the state equals Colorado</li>
@@ -796,17 +818,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p>We could use the <code>&amp;</code> operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals “colorado” (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let’s make a new object called <em>colorado</em> to save the result of this subset.</p>
 <p>Remember that we want to put the object to the left of the <code>[]</code> (and touching the <code>[]</code>) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns we don’t need to put anything after the comma (but we must include the comma!).</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1">colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="subsetting-intro.html#cb55-1"></a>colorado &lt;-<span class="st"> </span>offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>[offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>state <span class="op">==</span><span class="st"> &quot;colorado&quot;</span>, ]</span></code></pre></div>
 <p>Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use <code>%in%</code> and put the years in a vector <code>2011:2017</code>. This time our primary data set is <em>colorado</em>, not <em>offenses_known_yearly_1960_2017</em> since <em>colorado</em> has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1">colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="subsetting-intro.html#cb56-1"></a>colorado &lt;-<span class="st"> </span>colorado[colorado<span class="op">$</span>year <span class="op">%in%</span><span class="st"> </span><span class="dv">2011</span><span class="op">:</span><span class="dv">2017</span>, ]</span></code></pre></div>
 <p>Finally we want the columns stated above and to keep every row in the current data. Since the format is <code>[row, column]</code> in this case we keep the “row” part blank to indicate that we want every row.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1">colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="subsetting-intro.html#cb57-1"></a>colorado &lt;-<span class="st"> </span>colorado[ , <span class="kw">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</span></code></pre></div>
 <p>We can do a quick check using the <code>unique()</code> function. The <code>unique()</code> prints all the unique values in a category, such as a column. We will use it on the <em>state</em> and <em>year</em> columns to make sure only the values that we want are present.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1"><span class="kw">unique</span>(colorado<span class="op">$</span>state)</a>
-<a class="sourceLine" id="cb58-2" title="2"><span class="co">#&gt; [1] &quot;colorado&quot;</span></a></code></pre></div>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="kw">unique</span>(colorado<span class="op">$</span>year)</a>
-<a class="sourceLine" id="cb59-2" title="2"><span class="co">#&gt; [1] 2017 2016 2015 2014 2013 2012 2011</span></a></code></pre></div>
-<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section <a href="explore.html#aggregate">3.3</a> we will sum up all the murders per year and see if marijuana legalization affected it.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="subsetting-intro.html#cb58-1"></a><span class="kw">unique</span>(colorado<span class="op">$</span>state)</span>
+<span id="cb58-2"><a href="subsetting-intro.html#cb58-2"></a><span class="co">#&gt; [1] &quot;colorado&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="subsetting-intro.html#cb59-1"></a><span class="kw">unique</span>(colorado<span class="op">$</span>year)</span>
+<span id="cb59-2"><a href="subsetting-intro.html#cb59-2"></a><span class="co">#&gt; [1] 2017 2016 2015 2014 2013 2012 2011</span></span></code></pre></div>
+<p>The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section <a href="explore.html#aggregate"><strong>??</strong></a> we will sum up all the murders per year and see if marijuana legalization affected it.</p>
 
 </div>
 </div>
@@ -816,7 +838,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="introduction-to-r-and-rstudio.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="part-clean.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="explore.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -843,6 +865,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

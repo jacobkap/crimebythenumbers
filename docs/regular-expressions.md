@@ -89,8 +89,8 @@ Let's start with the letter "a".
 
 ```r
 grep("a", crimes)
-#>  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47
-#> [24] 48 49 50
+#>  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47 48 49
+#> [26] 50
 ```
 
 It gives us a bunch of numbers where the letter "a" is present in that element of *crimes*. What this is useful for is subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 

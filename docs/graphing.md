@@ -78,20 +78,20 @@ summary(penn_alcohol)
 #>  Mean   :0.2276                  Mean   :0.5939                   
 #>  3rd Qu.:0.2500                  3rd Qu.:0.6800                   
 #>  Max.   :0.3300                  Max.   :0.7400                   
-#>  ethanol_all_drinks_gallons_per_capita number_of_beers
-#>  Min.   :1.850                         Min.   :286.8  
-#>  1st Qu.:2.040                         1st Qu.:310.5  
-#>  Median :2.220                         Median :320.0  
-#>  Mean   :2.167                         Mean   :318.7  
-#>  3rd Qu.:2.330                         3rd Qu.:327.1  
-#>  Max.   :2.390                         Max.   :343.7  
-#>  number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
-#>  Min.   :33.74          Min.   : 93.43         Min.   :394.7         
-#>  1st Qu.:37.71          1st Qu.:105.89         1st Qu.:435.2         
-#>  Median :41.67          Median :126.65         Median :473.6         
-#>  Mean   :45.16          Mean   :123.31         Mean   :462.3         
-#>  3rd Qu.:49.61          3rd Qu.:141.18         3rd Qu.:497.1         
-#>  Max.   :65.49          Max.   :153.64         Max.   :509.9
+#>  ethanol_all_drinks_gallons_per_capita number_of_beers number_of_glasses_wine
+#>  Min.   :1.850                         Min.   :286.8   Min.   :33.74         
+#>  1st Qu.:2.040                         1st Qu.:310.5   1st Qu.:37.71         
+#>  Median :2.220                         Median :320.0   Median :41.67         
+#>  Mean   :2.167                         Mean   :318.7   Mean   :45.16         
+#>  3rd Qu.:2.330                         3rd Qu.:327.1   3rd Qu.:49.61         
+#>  Max.   :2.390                         Max.   :343.7   Max.   :65.49         
+#>  number_of_shots_liquor number_of_drinks_total
+#>  Min.   : 93.43         Min.   :394.7         
+#>  1st Qu.:105.89         1st Qu.:435.2         
+#>  Median :126.65         Median :473.6         
+#>  Mean   :123.31         Mean   :462.3         
+#>  3rd Qu.:141.18         3rd Qu.:497.1         
+#>  Max.   :153.64         Max.   :509.9
 ```
 
 

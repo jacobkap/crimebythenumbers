@@ -19,6 +19,7 @@ And every time you start R, if you want to use `rvest` you must tell R so by usi
 
 ```r
 library(rvest)
+#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 ```
 
@@ -40,8 +41,8 @@ The first step to scraping a page is to read in that page's information to R usi
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 #> {html_document}
 #> <html lang="en-us">
-#> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset= ...
-#> [2] <body ng-app="allrecipes" data-scoby-impression='{"id": "25080", "ev ...
+#> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+#> [2] <body ng-app="allrecipes" data-scoby-impression='{"id": "25080", "eventTy ...
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *brownies* since that is the recipe we are currently scraping. 

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>7 Hotspot maps | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="7 Hotspot maps | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-12-16" />
+<meta name="date" content="2020-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,6 +34,7 @@
 <link rel="prev" href="graphing-intro.html"/>
 <link rel="next" href="choropleth-maps.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -57,7 +58,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -75,25 +76,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -102,9 +104,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -153,12 +155,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">Crime by the Numbers</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
 </ul></li>
@@ -167,46 +172,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
-<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
-<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a><ul>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
 <li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
 <li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
 <li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheatsheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful cheatsheets</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
 </ul></li>
-<li class="part"><span><b>I Clean</b></span></li>
-<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="" data-path="part-clean.html"><a href="part-clean.html"><i class="fa fa-check"></i>(PART) Clean</a></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
-<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assignment values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
 <li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
-<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
 <li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
 <li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
 <li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
 <li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a><ul>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
 <li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
 <li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
 <li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
 <li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
 <li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
 <li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
-<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
 <li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
 <li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
@@ -221,15 +235,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a><ul>
-<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
 <li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
 <li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
 <li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
 <li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
 <li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
 <li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
@@ -237,27 +254,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Visualize</b></span></li>
-<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="" data-path="part-visualize.html"><a href="part-visualize.html"><i class="fa fa-check"></i>(PART) Visualize</a></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
 <li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
 <li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
 <li class="chapter" data-level="7.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>7.2</b> What really are maps?</a></li>
-<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a><ul>
+<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>7.3.1</b> Colors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a><ul>
+<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>8.1</b> Spatial joins</a></li>
 <li class="chapter" data-level="8.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>8.2</b> Making choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a><ul>
-<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>9.1.1</b> Understanding your data</a></li>
 <li class="chapter" data-level="9.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>9.1.2</b> Police departments use them</a></li>
 </ul></li>
@@ -266,48 +289,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>9.4</b> Dealing with too many markers</a></li>
 <li class="chapter" data-level="9.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>9.5</b> Interactive choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a><ul>
-<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a><ul>
+<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>10.1.1</b> Hiding code in the output</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>10.2</b> Tables</a></li>
 <li class="chapter" data-level="10.3" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>10.3</b> Making the output file</a></li>
 </ul></li>
-<li class="part"><span><b>III Collect</b></span></li>
-<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="" data-path="part-collect.html"><a href="part-collect.html"><i class="fa fa-check"></i>(PART) Collect</a></li>
+<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>11.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="11.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>11.2</b> Cleaning the webscraped data</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a><ul>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>12.1</b> A simple function</a></li>
 <li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>12.2</b> Adding parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>12.3</b> Making a function to scrape recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a><ul>
+<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>13.1</b> Basic for loops</a></li>
 <li class="chapter" data-level="13.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>13.2</b> Scraping multiple recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a><ul>
+<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>14.1</b> Scraping the first table</a></li>
 <li class="chapter" data-level="14.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a><ul>
+<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>15.1</b> Geocoding a single address</a></li>
 <li class="chapter" data-level="15.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
 <li class="chapter" data-level="15.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>15.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
 </ul></li>
-<li class="part"><span><b>IV Data</b></span></li>
+<li class="chapter" data-level="" data-path="part-data.html"><a href="part-data.html"><i class="fa fa-check"></i>(PART) Data</a></li>
 <li class="chapter" data-level="16" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>16</b> Introduction</a></li>
-<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a><ul>
+<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
 <li class="chapter" data-level="17.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>17.1</b> Exploring the UCR data</a></li>
 <li class="chapter" data-level="17.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>17.2</b> ORIs - Unique agency identifiers</a></li>
 <li class="chapter" data-level="17.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>17.3</b> Hierarchy Rule</a></li>
-<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a><ul>
+<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a>
+<ul>
 <li class="chapter" data-level="17.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>17.4.1</b> Index Crimes</a></li>
 <li class="chapter" data-level="17.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>17.4.2</b> The problem with using index crimes</a></li>
 <li class="chapter" data-level="17.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>17.4.3</b> Rape definition change</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a><ul>
+<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
 <li class="chapter" data-level="17.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>17.5.1</b> Actual</a></li>
 <li class="chapter" data-level="17.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>17.5.2</b> Total Cleared</a></li>
 <li class="chapter" data-level="17.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>17.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
@@ -315,10 +348,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="17.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>17.6</b> Number of months reported</a></li>
 </ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a><ul>
-<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
-<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+<li class="chapter" data-level="" data-path="appendix-appendix.html"><a href="appendix-appendix.html"><i class="fa fa-check"></i>(APPENDIX) Appendix</a></li>
+<li class="chapter" data-level="18" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>18</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>18.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="18.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
 </ul></li>
 </ul>
 
@@ -337,189 +371,182 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="hotspot-maps" class="section level1">
-<h1><span class="header-section-number">7</span> Hotspot maps</h1>
+<div id="hotspot-maps" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> Hotspot maps</h1>
 <p>Hotspot maps are used to find where events (marijuana dispensaries, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).</p>
-<p>However, there are significant flaws with these kinds of maps. As we’ll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without taking into account context such as neighborhoods (In Chapter <a href="choropleth-maps.html#choropleth-maps">8</a> we’ll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We’ll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps.</p>
+<p>However, there are significant flaws with these kinds of maps. As we’ll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without taking into account context such as neighborhoods (In Chapter <a href="choropleth-maps.html#choropleth-maps"><strong>??</strong></a> we’ll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We’ll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps.</p>
 <p>Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First we need to read the data, which is called “san_francisco_suicide_2003_2017.csv”. We can name the object we make <em>suicide</em>.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb159-1" title="1"><span class="kw">library</span>(readr)</a>
-<a class="sourceLine" id="cb159-2" title="2">suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</a>
-<a class="sourceLine" id="cb159-3" title="3"><span class="co">#&gt; Parsed with column specification:</span></a>
-<a class="sourceLine" id="cb159-4" title="4"><span class="co">#&gt; cols(</span></a>
-<a class="sourceLine" id="cb159-5" title="5"><span class="co">#&gt;   IncidntNum = col_double(),</span></a>
-<a class="sourceLine" id="cb159-6" title="6"><span class="co">#&gt;   Category = col_character(),</span></a>
-<a class="sourceLine" id="cb159-7" title="7"><span class="co">#&gt;   Descript = col_character(),</span></a>
-<a class="sourceLine" id="cb159-8" title="8"><span class="co">#&gt;   DayOfWeek = col_character(),</span></a>
-<a class="sourceLine" id="cb159-9" title="9"><span class="co">#&gt;   Date = col_character(),</span></a>
-<a class="sourceLine" id="cb159-10" title="10"><span class="co">#&gt;   Time = col_time(format = &quot;&quot;),</span></a>
-<a class="sourceLine" id="cb159-11" title="11"><span class="co">#&gt;   PdDistrict = col_character(),</span></a>
-<a class="sourceLine" id="cb159-12" title="12"><span class="co">#&gt;   Resolution = col_character(),</span></a>
-<a class="sourceLine" id="cb159-13" title="13"><span class="co">#&gt;   Address = col_character(),</span></a>
-<a class="sourceLine" id="cb159-14" title="14"><span class="co">#&gt;   X = col_double(),</span></a>
-<a class="sourceLine" id="cb159-15" title="15"><span class="co">#&gt;   Y = col_double(),</span></a>
-<a class="sourceLine" id="cb159-16" title="16"><span class="co">#&gt;   Location = col_character(),</span></a>
-<a class="sourceLine" id="cb159-17" title="17"><span class="co">#&gt;   PdId = col_double(),</span></a>
-<a class="sourceLine" id="cb159-18" title="18"><span class="co">#&gt;   year = col_double()</span></a>
-<a class="sourceLine" id="cb159-19" title="19"><span class="co">#&gt; )</span></a>
-<a class="sourceLine" id="cb159-20" title="20">suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suicide)</a></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="hotspot-maps.html#cb159-1"></a><span class="kw">library</span>(readr)</span>
+<span id="cb159-2"><a href="hotspot-maps.html#cb159-2"></a>suicide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</span>
+<span id="cb159-3"><a href="hotspot-maps.html#cb159-3"></a><span class="co">#&gt; Parsed with column specification:</span></span>
+<span id="cb159-4"><a href="hotspot-maps.html#cb159-4"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb159-5"><a href="hotspot-maps.html#cb159-5"></a><span class="co">#&gt;   IncidntNum = col_double(),</span></span>
+<span id="cb159-6"><a href="hotspot-maps.html#cb159-6"></a><span class="co">#&gt;   Category = col_character(),</span></span>
+<span id="cb159-7"><a href="hotspot-maps.html#cb159-7"></a><span class="co">#&gt;   Descript = col_character(),</span></span>
+<span id="cb159-8"><a href="hotspot-maps.html#cb159-8"></a><span class="co">#&gt;   DayOfWeek = col_character(),</span></span>
+<span id="cb159-9"><a href="hotspot-maps.html#cb159-9"></a><span class="co">#&gt;   Date = col_character(),</span></span>
+<span id="cb159-10"><a href="hotspot-maps.html#cb159-10"></a><span class="co">#&gt;   Time = col_time(format = &quot;&quot;),</span></span>
+<span id="cb159-11"><a href="hotspot-maps.html#cb159-11"></a><span class="co">#&gt;   PdDistrict = col_character(),</span></span>
+<span id="cb159-12"><a href="hotspot-maps.html#cb159-12"></a><span class="co">#&gt;   Resolution = col_character(),</span></span>
+<span id="cb159-13"><a href="hotspot-maps.html#cb159-13"></a><span class="co">#&gt;   Address = col_character(),</span></span>
+<span id="cb159-14"><a href="hotspot-maps.html#cb159-14"></a><span class="co">#&gt;   X = col_double(),</span></span>
+<span id="cb159-15"><a href="hotspot-maps.html#cb159-15"></a><span class="co">#&gt;   Y = col_double(),</span></span>
+<span id="cb159-16"><a href="hotspot-maps.html#cb159-16"></a><span class="co">#&gt;   Location = col_character(),</span></span>
+<span id="cb159-17"><a href="hotspot-maps.html#cb159-17"></a><span class="co">#&gt;   PdId = col_double(),</span></span>
+<span id="cb159-18"><a href="hotspot-maps.html#cb159-18"></a><span class="co">#&gt;   year = col_double()</span></span>
+<span id="cb159-19"><a href="hotspot-maps.html#cb159-19"></a><span class="co">#&gt; )</span></span>
+<span id="cb159-20"><a href="hotspot-maps.html#cb159-20"></a>suicide &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(suicide)</span></code></pre></div>
 <p>This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. The columns X and Y are our longitude and latitude columns which we will use to graph the data.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" title="1"><span class="kw">head</span>(suicide)</a>
-<a class="sourceLine" id="cb160-2" title="2"><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></a>
-<a class="sourceLine" id="cb160-3" title="3"><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></a>
-<a class="sourceLine" id="cb160-4" title="4"><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></a>
-<a class="sourceLine" id="cb160-5" title="5"><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></a>
-<a class="sourceLine" id="cb160-6" title="6"><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></a>
-<a class="sourceLine" id="cb160-7" title="7"><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></a>
-<a class="sourceLine" id="cb160-8" title="8"><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></a>
-<a class="sourceLine" id="cb160-9" title="9"><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></a>
-<a class="sourceLine" id="cb160-10" title="10"><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></a>
-<a class="sourceLine" id="cb160-11" title="11"><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></a>
-<a class="sourceLine" id="cb160-12" title="12"><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></a>
-<a class="sourceLine" id="cb160-13" title="13"><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></a>
-<a class="sourceLine" id="cb160-14" title="14"><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></a>
-<a class="sourceLine" id="cb160-15" title="15"><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></a>
-<a class="sourceLine" id="cb160-16" title="16"><span class="co">#&gt;           X        Y                                       Location</span></a>
-<a class="sourceLine" id="cb160-17" title="17"><span class="co">#&gt; 1 -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315)</span></a>
-<a class="sourceLine" id="cb160-18" title="18"><span class="co">#&gt; 2 -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792)</span></a>
-<a class="sourceLine" id="cb160-19" title="19"><span class="co">#&gt; 3 -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736)</span></a>
-<a class="sourceLine" id="cb160-20" title="20"><span class="co">#&gt; 4 -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039)</span></a>
-<a class="sourceLine" id="cb160-21" title="21"><span class="co">#&gt; 5 -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551)</span></a>
-<a class="sourceLine" id="cb160-22" title="22"><span class="co">#&gt; 6 -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265)</span></a>
-<a class="sourceLine" id="cb160-23" title="23"><span class="co">#&gt;           PdId year</span></a>
-<a class="sourceLine" id="cb160-24" title="24"><span class="co">#&gt; 1 1.803189e+13 2018</span></a>
-<a class="sourceLine" id="cb160-25" title="25"><span class="co">#&gt; 2 1.803155e+13 2018</span></a>
-<a class="sourceLine" id="cb160-26" title="26"><span class="co">#&gt; 3 1.802957e+13 2018</span></a>
-<a class="sourceLine" id="cb160-27" title="27"><span class="co">#&gt; 4 1.802637e+13 2018</span></a>
-<a class="sourceLine" id="cb160-28" title="28"><span class="co">#&gt; 5 1.802355e+13 2018</span></a>
-<a class="sourceLine" id="cb160-29" title="29"><span class="co">#&gt; 6 1.802365e+13 2018</span></a></code></pre></div>
-<div id="a-simple-map" class="section level2">
-<h2><span class="header-section-number">7.1</span> A simple map</h2>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="hotspot-maps.html#cb160-1"></a><span class="kw">head</span>(suicide)</span>
+<span id="cb160-2"><a href="hotspot-maps.html#cb160-2"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek       Date</span></span>
+<span id="cb160-3"><a href="hotspot-maps.html#cb160-3"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018</span></span>
+<span id="cb160-4"><a href="hotspot-maps.html#cb160-4"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018</span></span>
+<span id="cb160-5"><a href="hotspot-maps.html#cb160-5"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018</span></span>
+<span id="cb160-6"><a href="hotspot-maps.html#cb160-6"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018</span></span>
+<span id="cb160-7"><a href="hotspot-maps.html#cb160-7"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018</span></span>
+<span id="cb160-8"><a href="hotspot-maps.html#cb160-8"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018</span></span>
+<span id="cb160-9"><a href="hotspot-maps.html#cb160-9"></a><span class="co">#&gt;       Time PdDistrict Resolution                 Address         X        Y</span></span>
+<span id="cb160-10"><a href="hotspot-maps.html#cb160-10"></a><span class="co">#&gt; 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV -122.4517 37.72218</span></span>
+<span id="cb160-11"><a href="hotspot-maps.html#cb160-11"></a><span class="co">#&gt; 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST -122.4288 37.77620</span></span>
+<span id="cb160-12"><a href="hotspot-maps.html#cb160-12"></a><span class="co">#&gt; 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST -122.4546 37.78818</span></span>
+<span id="cb160-13"><a href="hotspot-maps.html#cb160-13"></a><span class="co">#&gt; 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST -122.3964 37.79414</span></span>
+<span id="cb160-14"><a href="hotspot-maps.html#cb160-14"></a><span class="co">#&gt; 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679</span></span>
+<span id="cb160-15"><a href="hotspot-maps.html#cb160-15"></a><span class="co">#&gt; 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV -122.4893 37.78274</span></span>
+<span id="cb160-16"><a href="hotspot-maps.html#cb160-16"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
+<span id="cb160-17"><a href="hotspot-maps.html#cb160-17"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb160-18"><a href="hotspot-maps.html#cb160-18"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb160-19"><a href="hotspot-maps.html#cb160-19"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb160-20"><a href="hotspot-maps.html#cb160-20"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb160-21"><a href="hotspot-maps.html#cb160-21"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb160-22"><a href="hotspot-maps.html#cb160-22"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span></code></pre></div>
+<div id="a-simple-map" class="section level2" number="7.1">
+<h2 number="7.1"><span class="header-section-number">7.1</span> A simple map</h2>
 <p>To make these maps we will use the package <code>ggmap</code>.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb161-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;ggmap&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" title="1"><span class="kw">library</span>(ggmap)</a>
-<a class="sourceLine" id="cb162-2" title="2"><span class="co">#&gt; Loading required package: ggplot2</span></a>
-<a class="sourceLine" id="cb162-3" title="3"><span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span></a>
-<a class="sourceLine" id="cb162-4" title="4"><span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></a></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="hotspot-maps.html#cb161-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;ggmap&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="hotspot-maps.html#cb162-1"></a><span class="kw">library</span>(ggmap)</span>
+<span id="cb162-2"><a href="hotspot-maps.html#cb162-2"></a><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span id="cb162-3"><a href="hotspot-maps.html#cb162-3"></a><span class="co">#&gt; Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.</span></span>
+<span id="cb162-4"><a href="hotspot-maps.html#cb162-4"></a><span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></span></code></pre></div>
 <p>We’ll start by making the background to our map, showing San Francisco. We do so using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show.</p>
 <p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box</a>. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste”, change the dropdown box to “CSV”. In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
 <p><img src="images/bounding_box.PNG" /></p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb163-1" title="1">sf_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="op">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), </a>
-<a class="sourceLine" id="cb163-2" title="2">                            <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))</a>
-<a class="sourceLine" id="cb163-3" title="3"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span></a>
-<a class="sourceLine" id="cb163-4" title="4"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1582.png</span></a>
-<a class="sourceLine" id="cb163-5" title="5"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1582.png</span></a>
-<a class="sourceLine" id="cb163-6" title="6"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1583.png</span></a>
-<a class="sourceLine" id="cb163-7" title="7"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1583.png</span></a>
-<a class="sourceLine" id="cb163-8" title="8"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1583.png</span></a>
-<a class="sourceLine" id="cb163-9" title="9"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1584.png</span></a>
-<a class="sourceLine" id="cb163-10" title="10"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1584.png</span></a>
-<a class="sourceLine" id="cb163-11" title="11"><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span></a>
-<a class="sourceLine" id="cb163-12" title="12">sf_map</a></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="hotspot-maps.html#cb163-1"></a>sf_map &lt;-<span class="st"> </span><span class="kw">ggmap</span>(<span class="kw">get_map</span>(<span class="kw">c</span>(<span class="op">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="op">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), </span>
+<span id="cb163-2"><a href="hotspot-maps.html#cb163-2"></a>                            <span class="dt">source =</span> <span class="st">&quot;stamen&quot;</span>))</span>
+<span id="cb163-3"><a href="hotspot-maps.html#cb163-3"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span></span>
+<span id="cb163-4"><a href="hotspot-maps.html#cb163-4"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1582.png</span></span>
+<span id="cb163-5"><a href="hotspot-maps.html#cb163-5"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1582.png</span></span>
+<span id="cb163-6"><a href="hotspot-maps.html#cb163-6"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1583.png</span></span>
+<span id="cb163-7"><a href="hotspot-maps.html#cb163-7"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1583.png</span></span>
+<span id="cb163-8"><a href="hotspot-maps.html#cb163-8"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1583.png</span></span>
+<span id="cb163-9"><a href="hotspot-maps.html#cb163-9"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1584.png</span></span>
+<span id="cb163-10"><a href="hotspot-maps.html#cb163-10"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1584.png</span></span>
+<span id="cb163-11"><a href="hotspot-maps.html#cb163-11"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span></span>
+<span id="cb163-12"><a href="hotspot-maps.html#cb163-12"></a>sf_map</span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the shootings from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb164-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb164-3" title="3">             <span class="dt">data  =</span> suicide)</a>
-<a class="sourceLine" id="cb164-4" title="4"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="hotspot-maps.html#cb164-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb164-2"><a href="hotspot-maps.html#cb164-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb164-3"><a href="hotspot-maps.html#cb164-3"></a>             <span class="dt">data  =</span> suicide)</span>
+<span id="cb164-4"><a href="hotspot-maps.html#cb164-4"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>If we wanted to color the dots we can use <code>color =</code> and then select a color. Let’s try it with “forestgreen”.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb165-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb165-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb165-3" title="3">             <span class="dt">data  =</span> suicide,</a>
-<a class="sourceLine" id="cb165-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>)</a>
-<a class="sourceLine" id="cb165-5" title="5"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="hotspot-maps.html#cb165-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb165-2"><a href="hotspot-maps.html#cb165-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb165-3"><a href="hotspot-maps.html#cb165-3"></a>             <span class="dt">data  =</span> suicide,</span>
+<span id="cb165-4"><a href="hotspot-maps.html#cb165-4"></a>             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>)</span>
+<span id="cb165-5"><a href="hotspot-maps.html#cb165-5"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>As with other graphs we can change the size of the dot using <code>size =</code>.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb166-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb166-3" title="3">             <span class="dt">data  =</span> suicide,</a>
-<a class="sourceLine" id="cb166-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
-<a class="sourceLine" id="cb166-5" title="5">             <span class="dt">size  =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb166-6" title="6"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="hotspot-maps.html#cb166-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb166-2"><a href="hotspot-maps.html#cb166-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb166-3"><a href="hotspot-maps.html#cb166-3"></a>             <span class="dt">data  =</span> suicide,</span>
+<span id="cb166-4"><a href="hotspot-maps.html#cb166-4"></a>             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
+<span id="cb166-5"><a href="hotspot-maps.html#cb166-5"></a>             <span class="dt">size  =</span> <span class="fl">0.5</span>)</span>
+<span id="cb166-6"><a href="hotspot-maps.html#cb166-6"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb167-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb167-3" title="3">             <span class="dt">data  =</span> suicide,</a>
-<a class="sourceLine" id="cb167-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
-<a class="sourceLine" id="cb167-5" title="5">             <span class="dt">size  =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb167-6" title="6"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="hotspot-maps.html#cb167-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb167-2"><a href="hotspot-maps.html#cb167-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb167-3"><a href="hotspot-maps.html#cb167-3"></a>             <span class="dt">data  =</span> suicide,</span>
+<span id="cb167-4"><a href="hotspot-maps.html#cb167-4"></a>             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
+<span id="cb167-5"><a href="hotspot-maps.html#cb167-5"></a>             <span class="dt">size  =</span> <span class="dv">2</span>)</span>
+<span id="cb167-6"><a href="hotspot-maps.html#cb167-6"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb168-2" title="2"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb168-3" title="3">             <span class="dt">data  =</span> suicide,</a>
-<a class="sourceLine" id="cb168-4" title="4">             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</a>
-<a class="sourceLine" id="cb168-5" title="5">             <span class="dt">size  =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb168-6" title="6">             <span class="dt">alpha =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb168-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></a></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="hotspot-maps.html#cb168-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb168-2"><a href="hotspot-maps.html#cb168-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb168-3"><a href="hotspot-maps.html#cb168-3"></a>             <span class="dt">data  =</span> suicide,</span>
+<span id="cb168-4"><a href="hotspot-maps.html#cb168-4"></a>             <span class="dt">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
+<span id="cb168-5"><a href="hotspot-maps.html#cb168-5"></a>             <span class="dt">size  =</span> <span class="dv">2</span>,</span>
+<span id="cb168-6"><a href="hotspot-maps.html#cb168-6"></a>             <span class="dt">alpha =</span> <span class="fl">0.5</span>)</span>
+<span id="cb168-7"><a href="hotspot-maps.html#cb168-7"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost.</p>
 </div>
-<div id="what-really-are-maps" class="section level2">
-<h2><span class="header-section-number">7.2</span> What really are maps?</h2>
-<p>Let’s pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps">9</a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" title="1"><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</a></code></pre></div>
+<div id="what-really-are-maps" class="section level2" number="7.2">
+<h2 number="7.2"><span class="header-section-number">7.2</span> What really are maps?</h2>
+<p>Let’s pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps"><strong>??</strong></a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="hotspot-maps.html#cb169-1"></a><span class="kw">plot</span>(suicide<span class="op">$</span>X, suicide<span class="op">$</span>Y, <span class="dt">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="making-a-hotspot-map" class="section level2">
-<h2><span class="header-section-number">7.3</span> Making a hotspot map</h2>
+<div id="making-a-hotspot-map" class="section level2" number="7.3">
+<h2 number="7.3"><span class="header-section-number">7.3</span> Making a hotspot map</h2>
 <p>Now we can start making hotspot maps which help to show areas with clusters of events. We’ll do this using hexagonal bins which are an efficient way of showing clusters of events on a map. Our syntax will be similar to the map above but now we want to use the function <code>stat_binhex()</code> rather than <code>geom_point()</code>. It starts the same as before with <code>aex(x = X, y = Y)</code> (or whatever the longitude and latitude columns are called in your data), as well as <code>data = suicide</code> outside of the <code>aes()</code> parameter.</p>
 <p>There are two new things we need to make the hotspot map. First we add the parameter <code>bins = number_of_bins</code> where “number_of_bins” is a number we select. <code>bins</code> essentially says how large or small we want each cluster of events to be. A smaller value for <code>bins</code> says we want more events clustered together, making larger bins. A larger value for bins has each bin be smaller on the map and capture fewer events. This will become more clear with examples.</p>
 <p>The second thing is to add the function <code>coord_cartesian()</code> which just tells <code>ggplot()</code> we are going to do some spatial analysis in the making of the bins. We don’t need to add any parameters in this.</p>
 <p>Let’s start with 60 bins and then try some other number of bins to see how it changes the map.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb170-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb170-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb170-3" title="3">              <span class="dt">bins =</span> <span class="dv">60</span>,</a>
-<a class="sourceLine" id="cb170-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
-<a class="sourceLine" id="cb170-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
-<a class="sourceLine" id="cb170-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
-<a class="sourceLine" id="cb170-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="hotspot-maps.html#cb170-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb170-2"><a href="hotspot-maps.html#cb170-2"></a><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb170-3"><a href="hotspot-maps.html#cb170-3"></a>              <span class="dt">bins =</span> <span class="dv">60</span>,</span>
+<span id="cb170-4"><a href="hotspot-maps.html#cb170-4"></a>              <span class="dt">data =</span> suicide) <span class="op">+</span></span>
+<span id="cb170-5"><a href="hotspot-maps.html#cb170-5"></a><span class="st">  </span><span class="kw">coord_cartesian</span>() </span>
+<span id="cb170-6"><a href="hotspot-maps.html#cb170-6"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
+<span id="cb170-7"><a href="hotspot-maps.html#cb170-7"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.</p>
 <p>What happens when we drop the number of bins to 30?</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb171-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb171-3" title="3">              <span class="dt">bins =</span> <span class="dv">30</span>,</a>
-<a class="sourceLine" id="cb171-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
-<a class="sourceLine" id="cb171-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
-<a class="sourceLine" id="cb171-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
-<a class="sourceLine" id="cb171-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="hotspot-maps.html#cb171-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb171-2"><a href="hotspot-maps.html#cb171-2"></a><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb171-3"><a href="hotspot-maps.html#cb171-3"></a>              <span class="dt">bins =</span> <span class="dv">30</span>,</span>
+<span id="cb171-4"><a href="hotspot-maps.html#cb171-4"></a>              <span class="dt">data =</span> suicide) <span class="op">+</span></span>
+<span id="cb171-5"><a href="hotspot-maps.html#cb171-5"></a><span class="st">  </span><span class="kw">coord_cartesian</span>() </span>
+<span id="cb171-6"><a href="hotspot-maps.html#cb171-6"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
+<span id="cb171-7"><a href="hotspot-maps.html#cb171-7"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are &lt;1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!</p>
 <p>What about looking at 100 bins?</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb172-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb172-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb172-3" title="3">              <span class="dt">bins =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb172-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
-<a class="sourceLine" id="cb172-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() </a>
-<a class="sourceLine" id="cb172-6" title="6"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
-<a class="sourceLine" id="cb172-7" title="7"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="hotspot-maps.html#cb172-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb172-2"><a href="hotspot-maps.html#cb172-2"></a><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb172-3"><a href="hotspot-maps.html#cb172-3"></a>              <span class="dt">bins =</span> <span class="dv">100</span>,</span>
+<span id="cb172-4"><a href="hotspot-maps.html#cb172-4"></a>              <span class="dt">data =</span> suicide) <span class="op">+</span></span>
+<span id="cb172-5"><a href="hotspot-maps.html#cb172-5"></a><span class="st">  </span><span class="kw">coord_cartesian</span>() </span>
+<span id="cb172-6"><a href="hotspot-maps.html#cb172-6"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
+<span id="cb172-7"><a href="hotspot-maps.html#cb172-7"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself.</p>
-<div id="colors" class="section level3">
-<h3><span class="header-section-number">7.3.1</span> Colors</h3>
+<div id="colors" class="section level3" number="7.3.1">
+<h3 number="7.3.1"><span class="header-section-number">7.3.1</span> Colors</h3>
 <p>To change the bin colors we can use the parameter <code>scale_fill_gradient()</code>. This accepts a color for “low” which is when the events are rare and “high” for the bins with frequent events. We’ll use colors from <a href="http://colorbrewer2.org">ColorBrewer</a>, selecting the yellow-reddish theme (“3-class YlOrRd”) from the Multi-hue section of the “sequential” data on the page.</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb173-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb173-3" title="3">              <span class="dt">bins  =</span> <span class="dv">60</span>,</a>
-<a class="sourceLine" id="cb173-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
-<a class="sourceLine" id="cb173-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb173-6" title="6"><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</a>
-<a class="sourceLine" id="cb173-7" title="7">                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</a>
-<a class="sourceLine" id="cb173-8" title="8"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
-<a class="sourceLine" id="cb173-9" title="9"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="hotspot-maps.html#cb173-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb173-2"><a href="hotspot-maps.html#cb173-2"></a><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb173-3"><a href="hotspot-maps.html#cb173-3"></a>              <span class="dt">bins  =</span> <span class="dv">60</span>,</span>
+<span id="cb173-4"><a href="hotspot-maps.html#cb173-4"></a>              <span class="dt">data =</span> suicide) <span class="op">+</span></span>
+<span id="cb173-5"><a href="hotspot-maps.html#cb173-5"></a><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></span>
+<span id="cb173-6"><a href="hotspot-maps.html#cb173-6"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</span>
+<span id="cb173-7"><a href="hotspot-maps.html#cb173-7"></a>                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</span>
+<span id="cb173-8"><a href="hotspot-maps.html#cb173-8"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
+<span id="cb173-9"><a href="hotspot-maps.html#cb173-9"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>By default it labels the legend as “count”. Since we know these are counts of suicides let’s relabel that as such.</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb174-1" title="1">sf_map <span class="op">+</span></a>
-<a class="sourceLine" id="cb174-2" title="2"><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</a>
-<a class="sourceLine" id="cb174-3" title="3">              <span class="dt">bins  =</span> <span class="dv">60</span>,</a>
-<a class="sourceLine" id="cb174-4" title="4">              <span class="dt">data =</span> suicide) <span class="op">+</span></a>
-<a class="sourceLine" id="cb174-5" title="5"><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb174-6" title="6"><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Suicides&#39;</span>,</a>
-<a class="sourceLine" id="cb174-7" title="7">                      <span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</a>
-<a class="sourceLine" id="cb174-8" title="8">                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</a>
-<a class="sourceLine" id="cb174-9" title="9"><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></a>
-<a class="sourceLine" id="cb174-10" title="10"><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="hotspot-maps.html#cb174-1"></a>sf_map <span class="op">+</span></span>
+<span id="cb174-2"><a href="hotspot-maps.html#cb174-2"></a><span class="st">  </span><span class="kw">stat_binhex</span>(<span class="kw">aes</span>(<span class="dt">x =</span> X, <span class="dt">y =</span> Y),</span>
+<span id="cb174-3"><a href="hotspot-maps.html#cb174-3"></a>              <span class="dt">bins  =</span> <span class="dv">60</span>,</span>
+<span id="cb174-4"><a href="hotspot-maps.html#cb174-4"></a>              <span class="dt">data =</span> suicide) <span class="op">+</span></span>
+<span id="cb174-5"><a href="hotspot-maps.html#cb174-5"></a><span class="st">  </span><span class="kw">coord_cartesian</span>() <span class="op">+</span></span>
+<span id="cb174-6"><a href="hotspot-maps.html#cb174-6"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="st">&#39;Suicides&#39;</span>,</span>
+<span id="cb174-7"><a href="hotspot-maps.html#cb174-7"></a>                      <span class="dt">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</span>
+<span id="cb174-8"><a href="hotspot-maps.html#cb174-8"></a>                      <span class="dt">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</span>
+<span id="cb174-9"><a href="hotspot-maps.html#cb174-9"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
+<span id="cb174-10"><a href="hotspot-maps.html#cb174-10"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
 <p><img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -557,6 +584,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

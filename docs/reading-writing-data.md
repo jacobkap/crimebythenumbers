@@ -59,16 +59,16 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 ```r
 head(shootings)
 #> # A tibble: 6 x 14
-#>      id name  date       manner_of_death armed   age gender race  city 
-#>   <dbl> <chr> <date>     <chr>           <chr> <dbl> <chr>  <chr> <chr>
-#> 1     3 Tim ~ 2015-01-02 shot            gun      53 M      A     Shel~
-#> 2     4 Lewi~ 2015-01-02 shot            gun      47 M      W     Aloha
-#> 3     5 John~ 2015-01-03 shot and Taser~ unar~    23 M      H     Wich~
-#> 4     8 Matt~ 2015-01-04 shot            toy ~    32 M      W     San ~
-#> 5     9 Mich~ 2015-01-04 shot            nail~    39 M      H     Evans
-#> 6    11 Kenn~ 2015-01-04 shot            gun      18 M      W     Guth~
-#> # ... with 5 more variables: state <chr>, signs_of_mental_illness <lgl>,
-#> #   threat_level <chr>, flee <chr>, body_camera <lgl>
+#>      id name  date       manner_of_death armed   age gender race  city  state
+#>   <dbl> <chr> <date>     <chr>           <chr> <dbl> <chr>  <chr> <chr> <chr>
+#> 1     3 Tim ~ 2015-01-02 shot            gun      53 M      A     Shel~ WA   
+#> 2     4 Lewi~ 2015-01-02 shot            gun      47 M      W     Aloha OR   
+#> 3     5 John~ 2015-01-03 shot and Taser~ unar~    23 M      H     Wich~ KS   
+#> 4     8 Matt~ 2015-01-04 shot            toy ~    32 M      W     San ~ CA   
+#> 5     9 Mich~ 2015-01-04 shot            nail~    39 M      H     Evans CO   
+#> 6    11 Kenn~ 2015-01-04 shot            gun      18 M      W     Guth~ OK   
+#> # ... with 4 more variables: signs_of_mental_illness <lgl>, threat_level <chr>,
+#> #   flee <chr>, body_camera <lgl>
 ```
 
 We can convert it to a data.frame using the function `as.data.frame()` though that isn't strictly necessary since tibbles and data.frames operate so similarly.
@@ -90,6 +90,7 @@ install.packages("haven")
 
 ```r
 library(haven)
+#> Warning: package 'haven' was built under R version 3.6.2
 ```
 
 `haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.

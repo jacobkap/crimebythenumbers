@@ -131,6 +131,7 @@ Below is the function copied from Section \@ref(recipes-function) which takes a 
 
 ```r
 library(rvest)
+#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 scrape_recipes <- function(URL) {
   

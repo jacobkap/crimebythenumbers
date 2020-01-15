@@ -132,16 +132,16 @@ From looking at the data in `View()` we can see that the units are agency-years.
 ```r
 table(offenses_known_yearly_1960_2017$year)
 #> 
-#>  1960  1961  1962  1963  1964  1965  1966  1967  1968  1969  1970  1971 
-#>  8452  8456  7825  8713  9038  9097  9147  9275  9398  9477  9835 10509 
-#>  1972  1973  1974  1975  1976  1977  1978  1979  1980  1981  1982  1983 
-#> 11302 12002 12510 13516 14518 15230 15770 16176 16413 16614 16792 16913 
-#>  1984  1985  1986  1987  1988  1989  1990  1991  1992  1993  1994  1995 
-#> 17037 17267 17441 17527 17298 17430 17608 17852 18012 18195 18367 18482 
-#>  1996  1997  1998  1999  2000  2001  2002  2003  2004  2005  2006  2007 
-#> 18536 18921 18510 18778 19655 19820 20214 20388 20585 20739 21011 21219 
-#>  2008  2009  2010  2011  2012  2013  2014  2015  2016  2017 
-#> 21353 21583 21771 21897 22049 22202 22332 22524 22645 22784
+#>  1960  1961  1962  1963  1964  1965  1966  1967  1968  1969  1970  1971  1972 
+#>  8452  8456  7825  8713  9038  9097  9147  9275  9398  9477  9835 10509 11302 
+#>  1973  1974  1975  1976  1977  1978  1979  1980  1981  1982  1983  1984  1985 
+#> 12002 12510 13516 14518 15230 15770 16176 16413 16614 16792 16913 17037 17267 
+#>  1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998 
+#> 17441 17527 17298 17430 17608 17852 18012 18195 18367 18482 18536 18921 18510 
+#>  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011 
+#> 18778 19655 19820 20214 20388 20585 20739 21011 21219 21353 21583 21771 21897 
+#>  2012  2013  2014  2015  2016  2017 
+#> 22049 22202 22332 22524 22645 22784
 ```
 
 From these results it's clear that there are huge differences in how many agencies report in early years compared to more recent years. Is this an issue in an analysis? From the above table it is concerning but not entirely clear there is an issue depending on our specific analysis. It we only care about recent years then it wouldn't matter. If we only use large agencies, then knowing that relatively few agencies reported in 1960 doesn't mean that few large agencies reported. For that you'd have to look closer at only the agencies you want to study - we won't do that here but keep it in mind. 
@@ -254,10 +254,10 @@ UCR data is reported monthly though even agencies that decide to report their da
 ```r
 table(offenses_known_yearly_1960_2017$number_of_months_reported)
 #> 
-#>      0      1      2      3      4      5      6      7      8      9 
-#> 229843   2514   2522   2926   2633   2875   3876   3350   4013   4693 
-#>     10     11     12 
-#>   6416  14940 678409
+#>      0      1      2      3      4      5      6      7      8      9     10 
+#> 229843   2514   2522   2926   2633   2875   3876   3350   4013   4693   6416 
+#>     11     12 
+#>  14940 678409
 ```
 
 From our `table()` output it seems that when agencies do report, they tend to do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency **only** reported in December, they would also have a value of 12. While there are ways in the monthly data to measure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable. 

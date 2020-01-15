@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>10 R Markdown | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 R Markdown | Crime by the Numbers" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2019-12-16" />
+<meta name="date" content="2020-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,8 +32,9 @@
   
   
 <link rel="prev" href="interactive-maps.html"/>
-<link rel="next" href="webscraping-with-rvest.html"/>
+<link rel="next" href="part-collect.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/elevate-section-attrs-2.0/elevate-section-attrs.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -57,7 +58,7 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -75,25 +76,26 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -102,9 +104,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -153,12 +155,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong><a href="./">Crime by the Numbers</a></strong></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
 </ul></li>
@@ -167,46 +172,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
-<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a><ul>
-<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a><ul>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
 <li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
 <li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
 <li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
 <li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheatsheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful cheatsheets</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a><ul>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
 <li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
 </ul></li>
 <li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
 <li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
 </ul></li>
-<li class="part"><span><b>I Clean</b></span></li>
-<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a><ul>
+<li class="chapter" data-level="" data-path="part-clean.html"><a href="part-clean.html"><i class="fa fa-check"></i>(PART) Clean</a></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
-<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assignment values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
 <li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
-<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a><ul>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
 <li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
 <li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
 <li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
 <li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
 <li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a><ul>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
 <li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
 <li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
 <li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a><ul>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
 <li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
 <li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
 <li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
-<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a><ul>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
 <li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
 <li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
 <li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
@@ -221,15 +235,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a><ul>
-<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a><ul>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
 <li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
 <li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
 <li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
 <li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
 <li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a><ul>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
 <li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
 <li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
 <li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
@@ -237,27 +254,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
 </ul></li>
 </ul></li>
-<li class="part"><span><b>II Visualize</b></span></li>
-<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a><ul>
+<li class="chapter" data-level="" data-path="part-visualize.html"><a href="part-visualize.html"><i class="fa fa-check"></i>(PART) Visualize</a></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
 <li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
 <li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
 <li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
 <li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a><ul>
+<li class="chapter" data-level="7" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>7</b> Hotspot maps</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>7.1</b> A simple map</a></li>
 <li class="chapter" data-level="7.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>7.2</b> What really are maps?</a></li>
-<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a><ul>
+<li class="chapter" data-level="7.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>7.3</b> Making a hotspot map</a>
+<ul>
 <li class="chapter" data-level="7.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>7.3.1</b> Colors</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a><ul>
+<li class="chapter" data-level="8" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>8</b> Choropleth maps</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>8.1</b> Spatial joins</a></li>
 <li class="chapter" data-level="8.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>8.2</b> Making choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a><ul>
-<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a><ul>
+<li class="chapter" data-level="9" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>9</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>9.1</b> Why do interactive graphs matter?</a>
+<ul>
 <li class="chapter" data-level="9.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>9.1.1</b> Understanding your data</a></li>
 <li class="chapter" data-level="9.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>9.1.2</b> Police departments use them</a></li>
 </ul></li>
@@ -266,48 +289,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>9.4</b> Dealing with too many markers</a></li>
 <li class="chapter" data-level="9.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>9.5</b> Interactive choropleth maps</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a><ul>
-<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a><ul>
+<li class="chapter" data-level="10" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>10</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>10.1</b> Code</a>
+<ul>
 <li class="chapter" data-level="10.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>10.1.1</b> Hiding code in the output</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>10.2</b> Tables</a></li>
 <li class="chapter" data-level="10.3" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>10.3</b> Making the output file</a></li>
 </ul></li>
-<li class="part"><span><b>III Collect</b></span></li>
-<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a><ul>
+<li class="chapter" data-level="" data-path="part-collect.html"><a href="part-collect.html"><i class="fa fa-check"></i>(PART) Collect</a></li>
+<li class="chapter" data-level="11" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>11</b> Webscraping with <code>rvest</code></a>
+<ul>
 <li class="chapter" data-level="11.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>11.1</b> Scraping one page</a></li>
 <li class="chapter" data-level="11.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>11.2</b> Cleaning the webscraped data</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a><ul>
+<li class="chapter" data-level="12" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>12</b> Functions</a>
+<ul>
 <li class="chapter" data-level="12.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>12.1</b> A simple function</a></li>
 <li class="chapter" data-level="12.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>12.2</b> Adding parameters</a></li>
 <li class="chapter" data-level="12.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>12.3</b> Making a function to scrape recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a><ul>
+<li class="chapter" data-level="13" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>13</b> For loops</a>
+<ul>
 <li class="chapter" data-level="13.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>13.1</b> Basic for loops</a></li>
 <li class="chapter" data-level="13.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>13.2</b> Scraping multiple recipes</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a><ul>
+<li class="chapter" data-level="14" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>14</b> Scraping tables from PDFs</a>
+<ul>
 <li class="chapter" data-level="14.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>14.1</b> Scraping the first table</a></li>
 <li class="chapter" data-level="14.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>14.2</b> Making a function</a></li>
 </ul></li>
-<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a><ul>
+<li class="chapter" data-level="15" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>15</b> Geocoding</a>
+<ul>
 <li class="chapter" data-level="15.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>15.1</b> Geocoding a single address</a></li>
 <li class="chapter" data-level="15.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
 <li class="chapter" data-level="15.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>15.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
 </ul></li>
-<li class="part"><span><b>IV Data</b></span></li>
+<li class="chapter" data-level="" data-path="part-data.html"><a href="part-data.html"><i class="fa fa-check"></i>(PART) Data</a></li>
 <li class="chapter" data-level="16" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>16</b> Introduction</a></li>
-<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a><ul>
+<li class="chapter" data-level="17" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>17</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
 <li class="chapter" data-level="17.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>17.1</b> Exploring the UCR data</a></li>
 <li class="chapter" data-level="17.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>17.2</b> ORIs - Unique agency identifiers</a></li>
 <li class="chapter" data-level="17.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>17.3</b> Hierarchy Rule</a></li>
-<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a><ul>
+<li class="chapter" data-level="17.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>17.4</b> Which crimes are included</a>
+<ul>
 <li class="chapter" data-level="17.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>17.4.1</b> Index Crimes</a></li>
 <li class="chapter" data-level="17.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>17.4.2</b> The problem with using index crimes</a></li>
 <li class="chapter" data-level="17.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>17.4.3</b> Rape definition change</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a><ul>
+<li class="chapter" data-level="17.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>17.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
 <li class="chapter" data-level="17.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>17.5.1</b> Actual</a></li>
 <li class="chapter" data-level="17.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>17.5.2</b> Total Cleared</a></li>
 <li class="chapter" data-level="17.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>17.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
@@ -315,10 +348,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="17.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>17.6</b> Number of months reported</a></li>
 </ul></li>
-<li class="appendix"><span><b>Appendix</b></span></li>
-<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a><ul>
-<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
-<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+<li class="chapter" data-level="" data-path="appendix-appendix.html"><a href="appendix-appendix.html"><i class="fa fa-check"></i>(APPENDIX) Appendix</a></li>
+<li class="chapter" data-level="18" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>18</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>18.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="18.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>18.2</b> Data</a></li>
 </ul></li>
 </ul>
 
@@ -337,8 +371,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r-markdown" class="section level1">
-<h1><span class="header-section-number">10</span> R Markdown</h1>
+<div id="r-markdown" class="section level1" number="10">
+<h1 number="10"><span class="header-section-number">10</span> R Markdown</h1>
 <p>When conducting research your end product is usually a Word Document or a PDF which reports on the research you’ve done, often including several graphs or tables. In many cases people do the data work in R, producing the graphs or numbers for the table, and then write up the results in Word or LaTeX. While this is a good system, there are significant drawbacks, mainly that if you change the graph or table you need to change it in R <strong>and</strong> change it in the report. If you only do this rarely it isn’t much of a problem. However, doing so many times can increase both the amount of work and the likelihood of an error occurring from forgetting to change something or changing it incorrectly. We can avoid this issue by using R Markdown, R’s way of writing a document and incorporating R code within.</p>
 <p>This chapter will only briefly introduce R Markdown, for a comprehensive guide please see <a href="https://bookdown.org/yihui/rmarkdown/">this excellent book</a>. For a cheatsheet on R Markdown see <a href="https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a>.</p>
 <p>What R Markdown does is let you type exactly as you would in Microsoft Word and insert the code to make the table or graph in the places you want it. If you change the code, the document will have the up-to-date result already, reducing your workload. There are some additional formatting you have to do when using R Markdown but it is minimal and is well-worth the return on the effort. This book, for example, was made entirely using R Markdown.</p>
@@ -353,8 +387,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>R converted the file into a PDF, executing the code and using the formatting specified. In an R Script a <code>#</code> means that the line is a comment. In an R Markdown file, the <code>#</code> signifies that the line is a section header. There are 6 possible headers, made by combining the <code>#</code> together - a <code>#</code> is the largest header while <code>######</code> is the smallest header. As with comments, they must be at the beginning of a line.</p>
 <p>The word “Knit” was surrounded by two asterix <code>*</code> in the R Markdown file and became bold in the PDF because that is how R Markdown sets bolding - to make something italics using a single asterix like <em>this</em>. If you’re interested in more advanced formatting please see the book or cheatsheet linked earlier.</p>
 <p>Other than the section headers, most of what you do in R Markdown is exactly the same as in Word. You can write text as you would normally and it will look exactly as you write it.</p>
-<div id="code-1" class="section level2">
-<h2><span class="header-section-number">10.1</span> Code</h2>
+<div id="code-1" class="section level2" number="10.1">
+<h2 number="10.1"><span class="header-section-number">10.1</span> Code</h2>
 <p>The reason R Markdown is so useful is because you can include code output in the file. In R Markdown we write code in what is called a “code chunk”. These are simply areas in the document which R knows it should evaluate as R code. You can see three of them in the example - at lines 8-9 setting a default for the code, lines 18-20 to run the <code>summary()</code> function on the <em>cars</em> data (a data set built into R), and lines 26-28 (and cut off in the screenshot) to make a plot of the data set <em>pressure</em> (another data set built into R).</p>
 <p>To make a chunk click Insert near the top right, then R.</p>
 <p><img src="images/markdown3.PNG" /></p>
@@ -362,22 +396,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/chunk_example.PNG" /></p>
 <p>Notice the three ` at the top and bottom of the chunk. Don’t touch these! They tell R that anything in it is a code chunk (i.e. that R should run the code). Inside the squiggly brackets <code>{}</code> are instructions about how the code is outputted. Here you can specify, among other things if the code will be outputted or just the output itself, captions for tables or graphs, and formatting for the output. Include all of these options after the <code>r</code> in the squiggly brackets. Multiple options must be separated by a comma (just like options in normal R functions).</p>
 <p>If you do not have the R Markdown file in the same folder as your data, you’ll need to set the working directory in a chunk before reading the data (you do so exactly like you would in an R Script). However, once a working directory is set, or the data is read in, it applies for all following chunks. You will also need to run any packages (using <code>library()</code>) to use them in a chunk. It is good form to set your working directory, load any data, and load any packages you need in the first chunk to make it easier to keep track of what you’re using.</p>
-<div id="hiding-code-in-the-output" class="section level3">
-<h3><span class="header-section-number">10.1.1</span> Hiding code in the output</h3>
+<div id="hiding-code-in-the-output" class="section level3" number="10.1.1">
+<h3 number="10.1.1"><span class="header-section-number">10.1.1</span> Hiding code in the output</h3>
 <p>When you’re making a report for a general audience you generally only want to keep the output (e.g. a graph or table), not the code you used. At early stages in writing the report or when you’re collaborating with someone who wants to see you code, it is useful to include the code in the R Markdown output.</p>
 <p>If you look at the second code chunk in the screenshot (lines 18-20) it includes the function <code>summary(cars)</code> as the code and the options <code>{r cars}</code> (the “cars” simply names the code chunk “cars” for if you want to reference the chunk - or it’s output if a table or graph - later, but does not change the code chunk’s behavior). In the output it shows both the code it used and the output of the code. This is because by default a code chunk shows both. To set it to only show the output, we need to set the parameter <code>echo</code> to FALSE inside of the <code>{}</code>.</p>
 <p>In the third code chunk (lines 26-28), that parameter is set to false as it is <code>{r pressure, echo=FALSE}</code>. In the output it only shows the graph, not the code that was used.</p>
 </div>
 </div>
-<div id="tables" class="section level2">
-<h2><span class="header-section-number">10.2</span> Tables</h2>
+<div id="tables" class="section level2" number="10.2">
+<h2 number="10.2"><span class="header-section-number">10.2</span> Tables</h2>
 <p>There are a number of packages that make nice tables in R Markdown. We will use the <code>knitr</code> package for this example.</p>
 <p>The easiest way to make a table in Markdown is to make a data.frame with all the data (and column names) you want and then show that data.frame (there are also packages that can make tables from regression output though that won’t be covered in this lesson). For this example we will subset the <em>mtcars</em> data (which is included in R) to just the first 5 rows and columns. The <code>kable</code> function from the <code>knitr</code> package will then make a nice looking table. With <code>kable</code> you can add the caption directly in the <code>kable()</code> function. The option <code>echo</code> in our code chunk is not set to FALSE here so you can see the code.</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" title="1"><span class="kw">library</span>(knitr)</a>
-<a class="sourceLine" id="cb230-2" title="2">mtcars_small &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
-<a class="sourceLine" id="cb230-3" title="3"><span class="kw">kable</span>(mtcars_small, <span class="dt">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="r-markdown.html#cb230-1"></a><span class="kw">library</span>(knitr)</span>
+<span id="cb230-2"><a href="r-markdown.html#cb230-2"></a><span class="co">#&gt; Warning: package &#39;knitr&#39; was built under R version 3.6.2</span></span>
+<span id="cb230-3"><a href="r-markdown.html#cb230-3"></a>mtcars_small &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
+<span id="cb230-4"><a href="r-markdown.html#cb230-4"></a><span class="kw">kable</span>(mtcars_small, <span class="dt">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-2">Table 10.1: </span>This is an example table caption</caption>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>This is an example table caption</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -433,23 +468,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>For another package to make very nice looking tables, see <a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html">this guide</a> to the <code>kableExtra</code> package.</p>
 </div>
-<div id="making-the-output-file" class="section level2">
-<h2><span class="header-section-number">10.3</span> Making the output file</h2>
+<div id="making-the-output-file" class="section level2" number="10.3">
+<h2 number="10.3"><span class="header-section-number">10.3</span> Making the output file</h2>
 <p>To create the Word or PDF output click <code>Knit</code> and it will create the output in the format set in the very top. To change this format click the white down-arrow directly to the right of <code>Knit</code> and it will drop-down a menu with output options. Click the option you want and it will output it in that format and change that to the new default. Sometimes it takes a while for it to output, so be patient.</p>
 <p><img src="images/markdown4.PNG" /></p>
 
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="interactive-maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="webscraping-with-rvest.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="part-collect.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -475,6 +507,10 @@ gitbook.start({
 "text": "Edit"
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

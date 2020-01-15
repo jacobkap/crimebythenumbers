@@ -101,6 +101,7 @@ We used the `rvest` package so we need to tell R want to use it again.
 
 ```r
 library(rvest)
+#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 ```
 

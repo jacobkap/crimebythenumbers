@@ -110,20 +110,20 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population actual_murder
-#> 1 AK00101 2017   anchorage alaska     296188            27
-#> 2 AK00102 2017   fairbanks alaska      32937            10
-#> 3 AK00103 2017      juneau alaska      32344             1
-#> 4 AK00104 2017   ketchikan alaska       8230             1
-#> 5 AK00105 2017      kodiak alaska       6198             0
-#> 6 AK00106 2017        nome alaska       3829             0
-#>   actual_rape_total actual_robbery_total actual_assault_aggravated
-#> 1               391                  778                      2368
-#> 2                24                   40                       131
-#> 3                50                   46                       206
-#> 4                19                    0                        14
-#> 5                15                    4                        41
-#> 6                 7                    0                        52
+#>       ori year agency_name  state population actual_murder actual_rape_total
+#> 1 AK00101 2017   anchorage alaska     296188            27               391
+#> 2 AK00102 2017   fairbanks alaska      32937            10                24
+#> 3 AK00103 2017      juneau alaska      32344             1                50
+#> 4 AK00104 2017   ketchikan alaska       8230             1                19
+#> 5 AK00105 2017      kodiak alaska       6198             0                15
+#> 6 AK00106 2017        nome alaska       3829             0                 7
+#>   actual_robbery_total actual_assault_aggravated
+#> 1                  778                      2368
+#> 2                   40                       131
+#> 3                   46                       206
+#> 4                    0                        14
+#> 5                    4                        41
+#> 6                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
@@ -148,20 +148,20 @@ summary(ucr2017)
 #>                     Mean   :2017                                        
 #>                     3rd Qu.:2017                                        
 #>                     Max.   :2017                                        
-#>    population      actual_murder     actual_rape_total 
-#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000  
-#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000  
-#>  Median :   4460   Median :  0.000   Median :   1.000  
-#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262  
-#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000  
-#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000  
-#>  actual_robbery_total actual_assault_aggravated
-#>  Min.   :   -1.00     Min.   :   -1.00         
-#>  1st Qu.:    0.00     1st Qu.:    1.00         
-#>  Median :    0.00     Median :    5.00         
-#>  Mean   :   19.85     Mean   :   49.98         
-#>  3rd Qu.:    4.00     3rd Qu.:   21.00         
-#>  Max.   :13995.00     Max.   :29771.00
+#>    population      actual_murder     actual_rape_total  actual_robbery_total
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
+#>  actual_assault_aggravated
+#>  Min.   :   -1.00         
+#>  1st Qu.:    1.00         
+#>  Median :    5.00         
+#>  Mean   :   49.98         
+#>  3rd Qu.:   21.00         
+#>  Max.   :29771.00
 ```
 
 The `plot()` function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we'll make a scatterplot seeing the relationship between a city's number of murders and their number of aggravated assaults (assault with a weapon or that causes serious bodily injury).
