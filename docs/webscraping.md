@@ -1,4 +1,3 @@
-
 # (PART) Collect {-}
 
 # Webscraping with `rvest`
@@ -19,7 +18,6 @@ And every time you start R, if you want to use `rvest` you must tell R so by usi
 
 ```r
 library(rvest)
-#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 ```
 
@@ -40,9 +38,9 @@ The first step to scraping a page is to read in that page's information to R usi
 ```r
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 #> {html_document}
-#> <html lang="en-us">
+#> <html lang="EN">
 #> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
-#> [2] <body ng-app="allrecipes" data-scoby-impression='{"id": "25080", "eventTy ...
+#> [2] <body class="template-recipe node- mdex-test karma-site-container no-js"  ...
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *brownies* since that is the recipe we are currently scraping. 
@@ -83,17 +81,7 @@ Now let's check what we got.
 
 ```r
 ingredients
-#>  [1] "1/2 cup white sugar"                 
-#>  [2] "2 tablespoons butter"                
-#>  [3] "2 tablespoons water"                 
-#>  [4] "1 1/2 cups semisweet chocolate chips"
-#>  [5] "2 eggs"                              
-#>  [6] "1/2 teaspoon vanilla extract"        
-#>  [7] "2/3 cup all-purpose flour"           
-#>  [8] "1/4 teaspoon baking soda"            
-#>  [9] "1/2 teaspoon salt"                   
-#> [10] "Add all ingredients to list"         
-#> [11] "Add all ingredients to list"
+#> character(0)
 ```
 
 We have successfully scraped the ingredients for this brownies recipes - plus the "Add all ingredients to list" (copied twice for some reason). 
@@ -117,10 +105,7 @@ Did it work?
 
 ```r
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                            "                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                            "
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                            "                                                                                                                                                                                       
-#> [4] ""
+#> character(0)
 ```
 
 Yes! The final value in our vector is blank so we will have to remove that. 
@@ -134,7 +119,7 @@ First let's try out the condition of *ingredients* that do not equal the string 
 
 ```r
 ingredients != "Add all ingredients to list"
-#>  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+#> logical(0)
 ```
 
 It returns TRUE for all values except the last two, the ones which do equal "Add all ingredients to list". Let's only keep the elements without this string. 
@@ -163,19 +148,9 @@ And let's print out both objects to make sure it worked.
 
 ```r
 ingredients
-#> [1] "1/2 cup white sugar"                 
-#> [2] "2 tablespoons butter"                
-#> [3] "2 tablespoons water"                 
-#> [4] "1 1/2 cups semisweet chocolate chips"
-#> [5] "2 eggs"                              
-#> [6] "1/2 teaspoon vanilla extract"        
-#> [7] "2/3 cup all-purpose flour"           
-#> [8] "1/4 teaspoon baking soda"            
-#> [9] "1/2 teaspoon salt"
+#> character(0)
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                            "                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                            "
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                            "
+#> character(0)
 ```
 
 Now *ingredients* is as it should be but *directions* has a bunch of space at the end of the string. Let's use `gsub()` again to remove multiple spaces.
@@ -192,9 +167,7 @@ And one final check to make sure it worked.
 
 ```r
 directions
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan."                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
+#> character(0)
 ```
 
 

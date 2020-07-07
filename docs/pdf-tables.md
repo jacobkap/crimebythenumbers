@@ -1,4 +1,3 @@
-
 # Scraping tables from PDFs {#scrape-table}
 
 In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
@@ -36,7 +35,7 @@ We've now seen all three of the tables that we want to scrape so we can begin th
 
 ```r
 library(pdftools)
-#> Warning: package 'pdftools' was built under R version 3.6.2
+#> Using poppler version 0.73.0
 ```
 
 We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table.

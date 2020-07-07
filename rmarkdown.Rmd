@@ -52,6 +52,10 @@ If you look at the second code chunk in the screenshot (lines 18-20) it includes
 
 In the third code chunk (lines 26-28), that parameter is set to false as it is `{r pressure, echo=FALSE}`. In the output it only shows the graph, not the code that was used. 
 
+## Inline Code
+
+
+
 ## Tables
 
 There are a number of packages that make nice tables in R Markdown. We will use the `knitr` package for this example. 
@@ -65,6 +69,42 @@ kable(mtcars_small, caption = "This is an example table caption")
 ```
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
+
+## Footnotes
+
+In your writing, you'll often have sentences that you want to include but are auxiliary to your main point (or, frequently, to include links to specific resources such as a website where you got data from). In these cases you'll want to include that info as a footnote, which is a section at the bottom of the page for this kind of information. To create a footnote in RMarkdown, you use the carrot (^) followed immediately by square brackets []. Put the text inside of the [] and it'll print that at the bottom of the page. In cases where you have a very long footnote it may extend to the next page, and will be again at the bottom of the page. Look down at the bottom of this page to see the footnote (in a PDF or Word Doc, the footnote will be on the page you create it on, however since websites are just one long page without breaks, this footnote is at the very bottom of this entire page.^[This is an example of a footnote.]. When you use a footnote, you'll usually put it immediately after the punctuation of the sentence it should be after. Note that footnotes are numbered so you can identify them. There's a blue superscript 1 where we made the footnote so people reading know the context. If we make another footnote, it'll be numbered sequentially, such that this one is 2, the next is 3, etc. 
+
+If you're familiar with LaTeX you can use LaTeX code such as `\footnote{}` where the text goes inside the {}. But note that citations (which we'll learn in Section \@ref(citation)) won't work properly in the footnote if made this way. You can use LaTeX code - and use LaTeX packages - in RMarkdown if you'd like and it'll operate (in most cases) like normal LaTeX.
+
+## Citation
+
+In academic research you will need to cite the papers you are referencing. RMarkdown has a built-in way to cite papers, though it's a bit of a process to get everything setup. You'll need the citation data in BibTeX format and we'll walk through the steps from finding an article you want to cite to citing it in your RMarkdown file. First, a brief overview of what kinds of citations you can use. There are two types of citations you can use, in-text and parenthetical. You'll use in-text citations when you want to have the author names be in the text, and parenthetical citations when you want everything to be in parentheses. 
+
+Note, there may be other ways to get the citations in the right format; I'm just showing you one way to do so. For this example, we'll use the article "Using NIBRS data to analyze violent crime" by Brian Reaves that was published in 1993. We'll walk through the process from finding the article on Google Scholar to citing it in your paper. First, from Google Scholar we'll search for the article title. 
+
+This returns all articles that meet your search criteria. Since we're searching for a specific article title, we only get one result. The result shows some basic info about the article - title, date, name, abstract. Below the abstract are some important things. First, and circled in blue in the below photo, is what we'll click on to get to the BibTeX citation. While not necessary for citation, the next two links may come in handle during your research. 'Cited by 31' means that 31 published (in some format that Google can locate, not necessarily peer-reviewed articles) articles have cited this article. If you click the link, it'll open up a Google Scholar page with all of these article. This is a good way to find relevant literature. Clicking 'Related articles' does the same thing but with articles Google Scholar deems similar, not necessarily articles linking to the one you're looking up.
+
+![](images/citation_google_scholar.PNG)
+
+But back to the quotes link circled in blue. Click this and it'll make a popup, shown below, of ways to cite this article is various formats. We'll have RMarkdown automatically generate the citation in the format we want so we don't need to worry about this. Instead, click the BibTeX link at the bottom left.   
+
+![](images/google_scholar_cite.PNG)
+
+When you click it, it'll open up a new page with that article's citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is it's own piece. Take a close look at the section immediately after the first {, "reaves1993using". This is how you'll identify the article in RMarkdown so it is cited. It's essentially the citation's name. It's created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called. 
+
+![](images/google_scholar_bibtex.PNG)
+
+Note at the end of the publisher section are the characters "~...". This looks like a mistake made by Google so we'll need to delete that so it isn't included in a paper we use this citation in. When using Google Scholar, you'll occasionally find issues like this which you'll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over weird and need to be rewritten so RMarkdown will run. 
+
+Below is the citation included in my .bib file, and the start of another citation also included in the file. Note that I have the words NIBRS surrounded by squiggly brackets {}. That is because by default RMarkdown (and other citation generations such as Overleaf) will only capitalize the first letter of the title or the first letter following a colon. Since NIBRS is an abbreviation and should be capitalized, I put it in the {} to force it to remain capitalized. I've also deleted the weird characters at the end of the publisher section. 
+
+![](images/bibtex_example.PNG)
+  
+To use citations from your .bib file, add `bibliograph: references_file_name.bib` to the head of your RMarkdown file. If your .bib file isn't in the RMarkdown file's working directory, as my example below is not, you'll need to include the path in the file name.
+
+![](images/rmarkdown_bib.PNG)
+
+Adding a - right in front of the @ will cause the citation to show just the year, not the author's name. You'll usually want to use this if you're already named the author earlier in the sentence. 
 
 ## Making the output file
 

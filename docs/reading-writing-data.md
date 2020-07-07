@@ -1,4 +1,3 @@
-
 # Reading and Writing Data
 
 So far in these lessons we've used data from a number of sources but which all came as .rda files which is the standard R data format. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
@@ -90,7 +89,6 @@ install.packages("haven")
 
 ```r
 library(haven)
-#> Warning: package 'haven' was built under R version 3.6.2
 ```
 
 `haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.

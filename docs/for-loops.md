@@ -1,4 +1,3 @@
-
 # For loops
 
 We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through "for loops". Earlier in this course we learned how to scrape the recipe website [All Recipes](https://www.allrecipes.com/). We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section \@ref(recipes-function). In this lesson we will use a for loop to scrape multiple recipes very quickly. 
@@ -131,7 +130,6 @@ Below is the function copied from Section \@ref(recipes-function) which takes a 
 
 ```r
 library(rvest)
-#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 scrape_recipes <- function(URL) {
   
@@ -176,61 +174,18 @@ Now we can write the for loop to go through every single URL in *recipe_urls* an
 for (recipe_url in recipe_urls) {
   scrape_recipes(recipe_url)
 }
-#> [1] "1/2 cup white sugar"                 
-#> [2] "2 tablespoons butter"                
-#> [3] "2 tablespoons water"                 
-#> [4] "1 1/2 cups semisweet chocolate chips"
-#> [5] "2 eggs"                              
-#> [6] "1/2 teaspoon vanilla extract"        
-#> [7] "2/3 cup all-purpose flour"           
-#> [8] "1/4 teaspoon baking soda"            
-#> [9] "1/2 teaspoon salt"                   
-#> [1] "Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan."                                                                                                                                                                                                                                
-#> [2] "In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."
-#> [3] "Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."                                                                                                                                                                                       
-#> [1] "2 eggs"                        "1 cup milk"                   
-#> [3] "2/3 cup all-purpose flour"     "1 pinch salt"                 
-#> [5] "1 1/2 teaspoons vegetable oil"
-#> [1] "In a blender combine eggs, milk, flour, salt and oil.Process until smooth.Cover and refrigerate 1 hour."                                                                                                                       
-#> [2] "Heat a skillet over medium-high heat and brush with oil.Pour 1/4 cup of crepe batter into pan, tilting to completely coat the surface of the pan.Cook 2 to 5 minutes, turning once, until golden.Repeat with remaining batter."
-#> [1] "4 large carrots, peeled and cut into matchstick pieces"
-#> [2] "10 baby red potatoes, quartered"                       
-#> [3] "1 onion, peeled and cut into bite-sized pieces"        
-#> [4] "4 cups water"                                          
-#> [5] "1 (4 pound) corned beef brisket with spice packet"     
-#> [6] "6 ounces beer"                                         
-#> [7] "1/2 head cabbage, coarsely chopped"                    
-#> [1] "Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High."
-#> [2] "Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour."                                                                                                                                             
-#>  [1] "4 cups all-purpose flour"   "1 teaspoon baking powder"  
-#>  [3] "1/2 teaspoon baking soda"   "1/2 teaspoon salt"         
-#>  [5] "1/4 teaspoon ground nutmeg" "1 cup butter, softened"    
-#>  [7] "1 1/2 cups white sugar"     "1 egg"                     
-#>  [9] "1 teaspoon vanilla extract" "1/2 cup sour cream"        
-#> [1] "Sift together the flour, baking powder, baking soda, salt and nutmeg; set aside. In a large bowl, cream together the butter and sugar until smooth. Beat in the egg, vanilla and sour cream until well blended. Stir in the sifted ingredients. Wrap dough in plastic wrap and chill overnight."
-#> [2] "Preheat the oven to 375 degrees F (190 degrees C). On a lightly floured surface, roll the dough out to 1/4 inch in thickness. Cut into desired shapes with cookie cutters. Place cookies 1 1/2 inches apart onto ungreased cookie sheets."                                                      
-#> [3] "Bake for 8 to 10 minutes in the preheated oven. Allow cookies to cool on baking sheet for 5 minutes before removing to a wire rack to cool completely."                                                                                                                                         
-#> [1] "2 (10 ounce) packages frozen corn kernels, thawed"
-#> [2] "1 cup heavy cream"                                
-#> [3] "1 teaspoon salt"                                  
-#> [4] "2 tablespoons granulated sugar"                   
-#> [5] "1/4 teaspoon freshly ground black pepper"         
-#> [6] "2 tablespoons butter"                             
-#> [7] "1 cup whole milk"                                 
-#> [8] "2 tablespoons all-purpose flour"                  
-#> [9] "1/4 cup freshly grated Parmesan cheese"           
-#> [1] "In a skillet over medium heat, combine the corn, cream, salt, sugar, pepper and butter. Whisk together the milk and flour, and stir into the corn mixture. Cook stirring over medium heat until the mixture is thickened, and corn is cooked through. Remove from heat, and stir in the Parmesan cheese until melted. Serve hot."
-#> [1] "1 cup butter, softened"    "1/2 cup white sugar"      
-#> [3] "2 cups all-purpose flour"  "4 eggs"                   
-#> [5] "1 1/2 cups white sugar"    "1/4 cup all-purpose flour"
-#> [7] "2 lemons, juiced"         
-#> [1] "Preheat oven to 350 degrees F (175 degrees C)."                                                                                                                                                                                                                                                                                          
-#> [2] "In a medium bowl, blend together softened butter, 2 cups flour and 1/2 cup sugar.Press into the bottom of an ungreased 9x13 inch pan."                                                                                                                                                                                                   
-#> [3] "Bake for 15 to 20 minutes in the preheated oven, or until firm and golden. In another bowl, whisk together the remaining 1 1/2 cups sugar and 1/4 cup flour. Whisk in the eggs and lemon juice. Pour over the baked crust."                                                                                                              
-#> [4] "Bake for an additional 20 minutes in the preheated oven. The bars will firm up as they cool. For a festive tray, make another pan using limes instead of lemons and adding a drop of green food coloring to give a very pale green. After both pans have cooled, cut into uniform 2 inch squares and arrange in a checker board fashion."
-#> [1] "1 tablespoon garlic powder" "1 tablespoon dried basil"  
-#> [3] "1/2 teaspoon salt"          "4 (6 ounce) salmon"        
-#> [5] "2 tablespoons butter"       "4 lemon wedges"            
-#> [1] "Stir together the garlic powder, basil, and salt in a small bowl; rub in equal amounts onto the salmon fillets.Watch Now"                                                               
-#> [2] "Melt the butter in a skillet over medium heat; cook the salmon in the butter until browned and flaky, about 5 minutes per side. Serve each piece of salmon with a lemon wedge.Watch Now"
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
+#> character(0)
 ```

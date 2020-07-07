@@ -1,4 +1,3 @@
-
 # Functions
 
 So far we have been writing code to handle specific situations such as subsetting a single data.frame. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc) on those values. Code where you can input a value (such as a data.frame) and some (often optional) instructions on how to handle that data, and have the code run on the value is called a function. We've used other people's function before, such as `c()`, `mean()`, `grep()`, and `rvest()`. 
@@ -101,7 +100,6 @@ We used the `rvest` package so we need to tell R want to use it again.
 
 ```r
 library(rvest)
-#> Warning: package 'rvest' was built under R version 3.6.2
 #> Loading required package: xml2
 ```
 
@@ -181,14 +179,8 @@ Now we can try it for a new recipe, this one for "The Best Lemon Bars" at URL ht
 
 ```r
 scrape_recipes("https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/")
-#> [1] "1 cup butter, softened"    "1/2 cup white sugar"      
-#> [3] "2 cups all-purpose flour"  "4 eggs"                   
-#> [5] "1 1/2 cups white sugar"    "1/4 cup all-purpose flour"
-#> [7] "2 lemons, juiced"         
-#> [1] "Preheat oven to 350 degrees F (175 degrees C)."                                                                                                                                                                                                                                                                                          
-#> [2] "In a medium bowl, blend together softened butter, 2 cups flour and 1/2 cup sugar.Press into the bottom of an ungreased 9x13 inch pan."                                                                                                                                                                                                   
-#> [3] "Bake for 15 to 20 minutes in the preheated oven, or until firm and golden. In another bowl, whisk together the remaining 1 1/2 cups sugar and 1/4 cup flour. Whisk in the eggs and lemon juice. Pour over the baked crust."                                                                                                              
-#> [4] "Bake for an additional 20 minutes in the preheated oven. The bars will firm up as they cool. For a festive tray, make another pan using limes instead of lemons and adding a drop of green food coloring to give a very pale green. After both pans have cooled, cut into uniform 2 inch squares and arrange in a checker board fashion."
+#> character(0)
+#> character(0)
 ```
 
 In the next lesson we'll use "for loops" to scrape multiple recipes very quickly. 

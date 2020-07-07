@@ -1,4 +1,3 @@
-
 # Geocoding 
 
 Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
@@ -33,6 +32,7 @@ We will use the `fromJSON()` function and enter in the URL right in the ().
 
 ```r
 library(jsonlite)
+#> Warning: package 'jsonlite' was built under R version 4.0.2
 fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 #> $spatialReference
 #> $spatialReference$wkid
@@ -44,11 +44,11 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> 
 #> $candidates
 #>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74323
+#> 1   -74.00366    40.74322
 ```
 
 It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns *address_coordinate* and grab the *candidates* object from that list. 
@@ -58,11 +58,11 @@ It returns a list of objects. This is a named list meaning that we can grab the 
 address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates$candidates
 #>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74323
+#> 1   -74.00366    40.74322
 ```
 
 The *candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
@@ -76,11 +76,11 @@ address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates
 #>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00457   40.74215   100
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
 #>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74123
+#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
-#> 1   -74.00366    40.74323
+#> 1   -74.00366    40.74322
 ```
 
 This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
@@ -89,7 +89,7 @@ This data.frame has something we've never seen before. It has columns that are t
 ```r
 address_coordinates$location
 #>           x        y
-#> 1 -74.00457 40.74215
+#> 1 -74.00466 40.74222
 ```
 
 Since our end goal is to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
@@ -107,7 +107,7 @@ address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates$location
 #>           x        y
-#> 1 -74.00457 40.74215
+#> 1 -74.00466 40.74222
 ```
 
 Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
@@ -177,7 +177,7 @@ We can try it using the same address we did earlier, "75 9th Ave, New York, NY 1
 ```r
 geocode_address("75 9th Ave, New York, NY 10011")
 #>           x        y
-#> 1 -74.00457 40.74215
+#> 1 -74.00466 40.74222
 ```
 
 It returns the same data.frame as earlier so our function works!
@@ -304,7 +304,7 @@ Let's start with an example using the first row. Inputting the address from the 
 temp <- geocode_address(marijuana$Premise_Address[1])
 temp
 #>           x        y
-#> 1 -122.4811 37.76315
+#> 1 -122.4811 37.76314
 ```
 
 We can use square bracket `[]` notation to assign the value from the *x* column of *temp* to our *lon* column in *marijuana* and do the same for the *y* and *lat* columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
@@ -349,7 +349,7 @@ head(marijuana)
 #> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
 #> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 #>         lon      lat
-#> 1 -122.4811 37.76315
+#> 1 -122.4811 37.76314
 #> 2        NA       NA
 #> 3        NA       NA
 #> 4        NA       NA
@@ -391,7 +391,7 @@ Another check is to make a simple scatterplot of the data. Since all the data is
 plot(marijuana$lon, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 
