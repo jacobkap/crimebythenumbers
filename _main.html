@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown #bookdown:version# and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="<a href="https://crimebythenumbers.com" class="uri">https://crimebythenumbers.com</a>" />
+  <meta property="og:image" content="<a href="https://crimebythenumbers.com" class="uri">https://crimebythenumbers.com</a>Ruby-throated_HummingBird.jpg" />
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:image" content="<a href="https://crimebythenumbers.com" class="uri">https://crimebythenumbers.com</a>Ruby-throated_HummingBird.jpg" />
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2020-07-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<!--bookdown:link_prev-->
+<!--bookdown:link_next-->
+<script src="libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+<!--bookdown:title:start-->
+<div id="header">
+<h1 class="title">Crime by the Numbers</h1>
+<p class="author"><em>Jacob Kaplan</em></p>
+<p class="date"><em>2020-07-08</em></p>
+</div>
+<!--bookdown:title:end-->
+
+<!--bookdown:toc:start-->
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+<!--bookdown:toc2:start-->
+<ul>
+<li><a href="#welcome">Welcome</a>
+<ul>
+<li><a href="#why-learn-to-program">Why learn to program?</a>
+<ul>
+<li><a href="#scale">Scale</a></li>
+<li><a href="#reproducibility">Reproducibility</a></li>
+</ul></li>
+<li><a href="#what-you-will-learn">What you will learn</a>
+<ul>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#data">Data</a></li>
+</ul></li>
+<li><a href="#what-you-wont-learn">What you won’t learn</a></li>
+<li><a href="#simple-vs-easy">Simple vs Easy</a></li>
+<li><a href="#how-to-contribute">How to Contribute</a></li>
+</ul></li>
+<li><a href="#about-the-author">About the author</a></li>
+<li><a href="#introduction-to-r-and-rstudio"><span class="toc-section-number">1</span> Introduction to R and RStudio</a>
+<ul>
+<li><a href="#using-rstudio"><span class="toc-section-number">1.1</span> Using RStudio</a>
+<ul>
+<li><a href="#opening-an-r-script"><span class="toc-section-number">1.1.1</span> Opening an R Script</a></li>
+<li><a href="#setting-the-working-directory"><span class="toc-section-number">1.1.2</span> Setting the working directory</a></li>
+<li><a href="#changing-rstudio"><span class="toc-section-number">1.1.3</span> Changing RStudio</a></li>
+<li><a href="#helpful-cheatsheets"><span class="toc-section-number">1.1.4</span> Helpful cheatsheets</a></li>
+</ul></li>
+<li><a href="#reading-data-into-r"><span class="toc-section-number">1.2</span> Reading data into R</a>
+<ul>
+<li><a href="#loading-data"><span class="toc-section-number">1.2.1</span> Loading data</a></li>
+</ul></li>
+<li><a href="#first-steps-to-exploring-data"><span class="toc-section-number">1.3</span> First steps to exploring data</a></li>
+<li><a href="#finding-help-about-functions"><span class="toc-section-number">1.4</span> Finding help about functions</a></li>
+</ul></li>
+<li><a href="#part-clean">(PART) Clean</a></li>
+<li><a href="#subsetting-intro"><span class="toc-section-number">2</span> Subsetting: Making big things small</a>
+<ul>
+<li><a href="#select-specific-values"><span class="toc-section-number">2.1</span> Select specific values</a></li>
+<li><a href="#assignment"><span class="toc-section-number">2.2</span> Assigning values to objects (Making “things”)</a></li>
+<li><a href="#vectors"><span class="toc-section-number">2.3</span> Vectors (collections of “things”)</a></li>
+<li><a href="#logical-values-and-operations"><span class="toc-section-number">2.4</span> Logical values and operations</a>
+<ul>
+<li><a href="#matching-a-single-value"><span class="toc-section-number">2.4.1</span> Matching a single value</a></li>
+<li><a href="#matching-multiple-values"><span class="toc-section-number">2.4.2</span> Matching multiple values</a></li>
+<li><a href="#does-not-match"><span class="toc-section-number">2.4.3</span> Does not match</a></li>
+<li><a href="#greater-than-or-less-than"><span class="toc-section-number">2.4.4</span> Greater than or less than</a></li>
+<li><a href="#combining-conditional-statements---or-and"><span class="toc-section-number">2.4.5</span> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li><a href="#subsetting-a-data.frame"><span class="toc-section-number">2.5</span> Subsetting a data.frame</a>
+<ul>
+<li><a href="#select-specific-columns"><span class="toc-section-number">2.5.1</span> Select specific columns</a></li>
+<li><a href="#select-specific-rows"><span class="toc-section-number">2.5.2</span> Select specific rows</a></li>
+<li><a href="#subset-colorado-data"><span class="toc-section-number">2.5.3</span> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#explore"><span class="toc-section-number">3</span> Exploratory data analysis</a>
+<ul>
+<li><a href="#summary-and-table"><span class="toc-section-number">3.1</span> Summary and Table</a></li>
+<li><a href="#graphing"><span class="toc-section-number">3.2</span> Graphing</a></li>
+<li><a href="#aggregate"><span class="toc-section-number">3.3</span> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li><a href="#regular-expressions"><span class="toc-section-number">4</span> Regular Expressions</a>
+<ul>
+<li><a href="#finding-patterns-in-text-with-grep"><span class="toc-section-number">4.1</span> Finding patterns in text with <code>grep()</code></a></li>
+<li><a href="#finding-and-replacing-patterns-in-text-with-gsub"><span class="toc-section-number">4.2</span> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li><a href="#useful-special-characters"><span class="toc-section-number">4.3</span> Useful special characters</a>
+<ul>
+<li><a href="#multiple-characters"><span class="toc-section-number">4.3.1</span> Multiple characters <code>[]</code></a></li>
+<li><a href="#n-many-of-previous-character-n"><span class="toc-section-number">4.3.2</span> n-many of previous character <code>{n}</code></a></li>
+<li><a href="#n-many-to-m-many-of-previous-character-nm"><span class="toc-section-number">4.3.3</span> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li><a href="#start-of-string"><span class="toc-section-number">4.3.4</span> Start of string</a></li>
+<li><a href="#end-of-string"><span class="toc-section-number">4.3.5</span> End of string <code>$</code></a></li>
+<li><a href="#anything-."><span class="toc-section-number">4.3.6</span> Anything <code>.</code></a></li>
+<li><a href="#one-or-more-of-previous"><span class="toc-section-number">4.3.7</span> One or more of previous <code>+</code></a></li>
+<li><a href="#zero-or-more-of-previous"><span class="toc-section-number">4.3.8</span> Zero or more of previous <code>*</code></a></li>
+<li><a href="#multiple-patterns"><span class="toc-section-number">4.3.9</span> Multiple patterns <code>|</code></a></li>
+<li><a href="#parentheses"><span class="toc-section-number">4.3.10</span> Parentheses <code>()</code></a></li>
+<li><a href="#optional-text"><span class="toc-section-number">4.3.11</span> Optional text <code>?</code></a></li>
+</ul></li>
+<li><a href="#changing-capitalization"><span class="toc-section-number">4.4</span> Changing capitalization</a></li>
+</ul></li>
+<li><a href="#reading-and-writing-data"><span class="toc-section-number">5</span> Reading and Writing Data</a>
+<ul>
+<li><a href="#reading-data-into-r"><span class="toc-section-number">5.1</span> Reading Data into R</a>
+<ul>
+<li><a href="#r"><span class="toc-section-number">5.1.1</span> R</a></li>
+<li><a href="#excel"><span class="toc-section-number">5.1.2</span> Excel</a></li>
+<li><a href="#stata"><span class="toc-section-number">5.1.3</span> Stata</a></li>
+<li><a href="#sas"><span class="toc-section-number">5.1.4</span> SAS</a></li>
+<li><a href="#spss"><span class="toc-section-number">5.1.5</span> SPSS</a></li>
+</ul></li>
+<li><a href="#writing-data"><span class="toc-section-number">5.2</span> Writing Data</a>
+<ul>
+<li><a href="#r-1"><span class="toc-section-number">5.2.1</span> R</a></li>
+<li><a href="#excel-1"><span class="toc-section-number">5.2.2</span> Excel</a></li>
+<li><a href="#stata-1"><span class="toc-section-number">5.2.3</span> Stata</a></li>
+<li><a href="#sas-1"><span class="toc-section-number">5.2.4</span> SAS</a></li>
+<li><a href="#spss-1"><span class="toc-section-number">5.2.5</span> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#part-visualize">(PART) Visualize</a></li>
+<li><a href="#graphing-intro"><span class="toc-section-number">6</span> Graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="#what-does-the-data-look-like"><span class="toc-section-number">6.1</span> What does the data look like?</a></li>
+<li><a href="#graphing-data"><span class="toc-section-number">6.2</span> Graphing data</a></li>
+<li><a href="#time-series-plots"><span class="toc-section-number">6.3</span> Time-Series Plots</a></li>
+<li><a href="#scatter-plots"><span class="toc-section-number">6.4</span> Scatter Plots</a></li>
+<li><a href="#color-blindness"><span class="toc-section-number">6.5</span> Color blindness</a></li>
+</ul></li>
+<li><a href="#hotspot-maps"><span class="toc-section-number">7</span> Hotspot maps</a>
+<ul>
+<li><a href="#a-simple-map"><span class="toc-section-number">7.1</span> A simple map</a></li>
+<li><a href="#what-really-are-maps"><span class="toc-section-number">7.2</span> What really are maps?</a></li>
+<li><a href="#making-a-hotspot-map"><span class="toc-section-number">7.3</span> Making a hotspot map</a>
+<ul>
+<li><a href="#colors"><span class="toc-section-number">7.3.1</span> Colors</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#choropleth-maps"><span class="toc-section-number">8</span> Choropleth maps</a>
+<ul>
+<li><a href="#spatial-joins"><span class="toc-section-number">8.1</span> Spatial joins</a></li>
+<li><a href="#making-choropleth-maps"><span class="toc-section-number">8.2</span> Making choropleth maps</a></li>
+</ul></li>
+<li><a href="#interactive-maps"><span class="toc-section-number">9</span> Interactive maps</a>
+<ul>
+<li><a href="#why-do-interactive-graphs-matter"><span class="toc-section-number">9.1</span> Why do interactive graphs matter?</a>
+<ul>
+<li><a href="#understanding-your-data"><span class="toc-section-number">9.1.1</span> Understanding your data</a></li>
+<li><a href="#police-departments-use-them"><span class="toc-section-number">9.1.2</span> Police departments use them</a></li>
+</ul></li>
+<li><a href="#making-the-interactive-map"><span class="toc-section-number">9.2</span> Making the interactive map</a></li>
+<li><a href="#adding-popup-information"><span class="toc-section-number">9.3</span> Adding popup information</a></li>
+<li><a href="#dealing-with-too-many-markers"><span class="toc-section-number">9.4</span> Dealing with too many markers</a></li>
+<li><a href="#interactive-choropleth-maps"><span class="toc-section-number">9.5</span> Interactive choropleth maps</a></li>
+</ul></li>
+<li><a href="#r-markdown"><span class="toc-section-number">10</span> R Markdown</a>
+<ul>
+<li><a href="#code"><span class="toc-section-number">10.1</span> Code</a>
+<ul>
+<li><a href="#hiding-code-in-the-output"><span class="toc-section-number">10.1.1</span> Hiding code in the output</a></li>
+</ul></li>
+<li><a href="#inline-code"><span class="toc-section-number">10.2</span> Inline Code</a></li>
+<li><a href="#tables"><span class="toc-section-number">10.3</span> Tables</a></li>
+<li><a href="#footnotes"><span class="toc-section-number">10.4</span> Footnotes</a></li>
+<li><a href="#citation"><span class="toc-section-number">10.5</span> Citation</a></li>
+<li><a href="#spell-check"><span class="toc-section-number">10.6</span> Spell check</a></li>
+<li><a href="#making-the-output-file"><span class="toc-section-number">10.7</span> Making the output file</a></li>
+</ul></li>
+<li><a href="#git"><span class="toc-section-number">11</span> Git</a>
+<ul>
+<li><a href="#what-is-git-and-why-do-i-need-it"><span class="toc-section-number">11.1</span> What is Git and why do I need it?</a></li>
+</ul></li>
+<li><a href="#part-collect">(PART) Collect</a></li>
+<li><a href="#webscraping-with-rvest"><span class="toc-section-number">12</span> Webscraping with <code>rvest</code></a>
+<ul>
+<li><a href="#scraping-one-page"><span class="toc-section-number">12.1</span> Scraping one page</a></li>
+<li><a href="#cleaning-the-webscraped-data"><span class="toc-section-number">12.2</span> Cleaning the webscraped data</a></li>
+</ul></li>
+<li><a href="#functions"><span class="toc-section-number">13</span> Functions</a>
+<ul>
+<li><a href="#a-simple-function"><span class="toc-section-number">13.1</span> A simple function</a></li>
+<li><a href="#adding-parameters"><span class="toc-section-number">13.2</span> Adding parameters</a></li>
+<li><a href="#recipes-function"><span class="toc-section-number">13.3</span> Making a function to scrape recipes</a></li>
+</ul></li>
+<li><a href="#for-loops"><span class="toc-section-number">14</span> For loops</a>
+<ul>
+<li><a href="#basic-for-loops"><span class="toc-section-number">14.1</span> Basic for loops</a></li>
+<li><a href="#scraping-multiple-recipes"><span class="toc-section-number">14.2</span> Scraping multiple recipes</a></li>
+</ul></li>
+<li><a href="#scrape-table"><span class="toc-section-number">15</span> Scraping tables from PDFs</a>
+<ul>
+<li><a href="#scraping-the-first-table"><span class="toc-section-number">15.1</span> Scraping the first table</a></li>
+<li><a href="#making-a-function"><span class="toc-section-number">15.2</span> Making a function</a></li>
+</ul></li>
+<li><a href="#scrape-table2"><span class="toc-section-number">16</span> More Scraping tables from PDFs</a></li>
+<li><a href="#geocoding"><span class="toc-section-number">17</span> Geocoding</a>
+<ul>
+<li><a href="#geocoding-a-single-address"><span class="toc-section-number">17.1</span> Geocoding a single address</a></li>
+<li><a href="#making-a-function"><span class="toc-section-number">17.2</span> Making a function</a></li>
+<li><a href="#geocoding-san-francisco-marijuana-dispensary-locations"><span class="toc-section-number">17.3</span> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li><a href="#part-data">(PART) Data</a></li>
+<li><a href="#introduction"><span class="toc-section-number">18</span> Introduction</a></li>
+<li><a href="#ucr"><span class="toc-section-number">19</span> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li><a href="#exploring-the-ucr-data"><span class="toc-section-number">19.1</span> Exploring the UCR data</a></li>
+<li><a href="#oris---unique-agency-identifiers"><span class="toc-section-number">19.2</span> ORIs - Unique agency identifiers</a></li>
+<li><a href="#hierarchy-rule"><span class="toc-section-number">19.3</span> Hierarchy Rule</a></li>
+<li><a href="#which-crimes-are-included"><span class="toc-section-number">19.4</span> Which crimes are included</a>
+<ul>
+<li><a href="#index-crimes"><span class="toc-section-number">19.4.1</span> Index Crimes</a></li>
+<li><a href="#the-problem-with-using-index-crimes"><span class="toc-section-number">19.4.2</span> The problem with using index crimes</a></li>
+<li><a href="#rape-definition-change"><span class="toc-section-number">19.4.3</span> Rape definition change</a></li>
+</ul></li>
+<li><a href="#actual-offenses-clearances-and-unfounded-offenses"><span class="toc-section-number">19.5</span> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li><a href="#actual"><span class="toc-section-number">19.5.1</span> Actual</a></li>
+<li><a href="#total-cleared"><span class="toc-section-number">19.5.2</span> Total Cleared</a></li>
+<li><a href="#cleared-where-all-offenders-are-under-18"><span class="toc-section-number">19.5.3</span> Cleared Where All Offenders Are Under 18</a></li>
+<li><a href="#unfounded"><span class="toc-section-number">19.5.4</span> Unfounded</a></li>
+</ul></li>
+<li><a href="#number-of-months-reported"><span class="toc-section-number">19.6</span> Number of months reported</a></li>
+</ul></li>
+<li><a href="#appendix-appendix">(APPENDIX) Appendix</a></li>
+<li><a href="#useful-resources"><span class="toc-section-number">20</span> Useful resources</a>
+<ul>
+<li><a href="#learning-r-and-coding-issues"><span class="toc-section-number">20.1</span> Learning R and coding issues</a></li>
+<li><a href="#data"><span class="toc-section-number">20.2</span> Data</a></li>
+</ul></li>
+</ul>
+<!--bookdown:toc2:end-->
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<!--bookdown:toc:end-->
+<!--bookdown:body:start-->
+<div id="welcome" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">Welcome</h1>
+<p>Placeholder</p>
+<div id="why-learn-to-program" class="section level2 unnumbered" number="">
+<h2 class="unnumbered" number="">Why learn to program?</h2>
+<div id="scale" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Scale</h3>
+</div>
+<div id="reproducibility" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Reproducibility</h3>
+</div>
+</div>
+<div id="what-you-will-learn" class="section level2 unnumbered" number="">
+<h2 class="unnumbered" number="">What you will learn</h2>
+<div id="skills" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Skills</h3>
+</div>
+<div id="data" class="section level3 unnumbered" number="">
+<h3 class="unnumbered" number="">Data</h3>
+</div>
+</div>
+<div id="what-you-wont-learn" class="section level2 unnumbered" number="">
+<h2 class="unnumbered" number="">What you won’t learn</h2>
+</div>
+<div id="simple-vs-easy" class="section level2 unnumbered" number="">
+<h2 class="unnumbered" number="">Simple vs Easy</h2>
+</div>
+<div id="how-to-contribute" class="section level2 unnumbered" number="">
+<h2 class="unnumbered" number="">How to Contribute</h2>
+<!--chapter:end:index.Rmd-->
+</div>
+</div>
+<div id="about-the-author" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">About the author</h1>
+<p><strong>Jacob Kaplan</strong> is a PhD candidate in criminology at the University of Pennsylvania. He holds a master’s degree in criminology from the University of Pennsylvania and a bachelor’s degree in criminal justice from California State University, Sacramento. His research focuses on Crime Prevention Through Environmental Design (CPTED), specifically on the effect of outdoor lighting on crime. He is the author of several R packages that make it easier to work with data, including <a href="https://jacobkap.github.io/fastDummies/">fastDummies</a> and <a href="https://jacobkap.github.io/asciiSetupReader/">asciiSetupReader</a>. His <a href="http://jacobdkaplan.com/">website</a> allows easy analysis of crime-related data and he has released over a <a href="http://jacobdkaplan.com/data.html">dozen crime data sets</a> (primarily FBI UCR data) on openICPSR that he has compiled, cleaned, and made available to the public. He is currently on the job market.</p>
+<p>For a list of papers he has written (including working papers), please see <a href="http://jacobdkaplan.com/research.html">here</a>.</p>
+<p>For a list of data sets he has cleaned, aggregated, and made public, please see <a href="http://jacobdkaplan.com/data.html">here</a>.</p>
+<!--chapter:end:author.Rmd-->
+</div>
+<div id="introduction-to-r-and-rstudio" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Introduction to R and RStudio</h1>
+<p>Placeholder</p>
+<div id="using-rstudio" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> Using RStudio</h2>
+<div id="opening-an-r-script" class="section level3" number="1.1.1">
+<h3 number="1.1.1"><span class="header-section-number">1.1.1</span> Opening an R Script</h3>
+</div>
+<div id="setting-the-working-directory" class="section level3" number="1.1.2">
+<h3 number="1.1.2"><span class="header-section-number">1.1.2</span> Setting the working directory</h3>
+</div>
+<div id="changing-rstudio" class="section level3" number="1.1.3">
+<h3 number="1.1.3"><span class="header-section-number">1.1.3</span> Changing RStudio</h3>
+<div id="general" class="section level4" number="1.1.3.1">
+<h4 number="1.1.3.1"><span class="header-section-number">1.1.3.1</span> General</h4>
+</div>
+<div id="code" class="section level4" number="1.1.3.2">
+<h4 number="1.1.3.2"><span class="header-section-number">1.1.3.2</span> Code</h4>
+</div>
+<div id="appearance" class="section level4" number="1.1.3.3">
+<h4 number="1.1.3.3"><span class="header-section-number">1.1.3.3</span> Appearance</h4>
+</div>
+<div id="pane-layout" class="section level4" number="1.1.3.4">
+<h4 number="1.1.3.4"><span class="header-section-number">1.1.3.4</span> Pane Layout</h4>
+</div>
+</div>
+<div id="helpful-cheatsheets" class="section level3" number="1.1.4">
+<h3 number="1.1.4"><span class="header-section-number">1.1.4</span> Helpful cheatsheets</h3>
+</div>
+</div>
+<div id="reading-data-into-r" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Reading data into R</h2>
+<div id="loading-data" class="section level3" number="1.2.1">
+<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Loading data</h3>
+</div>
+</div>
+<div id="first-steps-to-exploring-data" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> First steps to exploring data</h2>
+</div>
+<div id="finding-help-about-functions" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> Finding help about functions</h2>
+<!--chapter:end:intro-to-r.Rmd-->
+</div>
+</div>
+<div id="part-clean" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">(PART) Clean</h1>
+</div>
+<div id="subsetting-intro" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Subsetting: Making big things small</h1>
+<p>Placeholder</p>
+<div id="select-specific-values" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Select specific values</h2>
+</div>
+<div id="assignment" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Assigning values to objects (Making “things”)</h2>
+</div>
+<div id="vectors" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Vectors (collections of “things”)</h2>
+</div>
+<div id="logical-values-and-operations" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Logical values and operations</h2>
+<div id="matching-a-single-value" class="section level3" number="2.4.1">
+<h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Matching a single value</h3>
+</div>
+<div id="matching-multiple-values" class="section level3" number="2.4.2">
+<h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Matching multiple values</h3>
+</div>
+<div id="does-not-match" class="section level3" number="2.4.3">
+<h3 number="2.4.3"><span class="header-section-number">2.4.3</span> Does not match</h3>
+</div>
+<div id="greater-than-or-less-than" class="section level3" number="2.4.4">
+<h3 number="2.4.4"><span class="header-section-number">2.4.4</span> Greater than or less than</h3>
+</div>
+<div id="combining-conditional-statements---or-and" class="section level3" number="2.4.5">
+<h3 number="2.4.5"><span class="header-section-number">2.4.5</span> Combining conditional statements - or, and</h3>
+</div>
+</div>
+<div id="subsetting-a-data.frame" class="section level2" number="2.5">
+<h2 number="2.5"><span class="header-section-number">2.5</span> Subsetting a data.frame</h2>
+<div id="select-specific-columns" class="section level3" number="2.5.1">
+<h3 number="2.5.1"><span class="header-section-number">2.5.1</span> Select specific columns</h3>
+</div>
+<div id="select-specific-rows" class="section level3" number="2.5.2">
+<h3 number="2.5.2"><span class="header-section-number">2.5.2</span> Select specific rows</h3>
+</div>
+<div id="subset-colorado-data" class="section level3" number="2.5.3">
+<h3 number="2.5.3"><span class="header-section-number">2.5.3</span> Subset Colorado data</h3>
+<!--chapter:end:subsetting.Rmd-->
+</div>
+</div>
+</div>
+<div id="explore" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Exploratory data analysis</h1>
+<p>Placeholder</p>
+<div id="summary-and-table" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Summary and Table</h2>
+</div>
+<div id="graphing" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Graphing</h2>
+</div>
+<div id="aggregate" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Aggregating (summaries of groups)</h2>
+<!--chapter:end:exploratory-data-analysis.Rmd-->
+</div>
+</div>
+<div id="regular-expressions" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Regular Expressions</h1>
+<p>Placeholder</p>
+<div id="finding-patterns-in-text-with-grep" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Finding patterns in text with <code>grep()</code></h2>
+</div>
+<div id="finding-and-replacing-patterns-in-text-with-gsub" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Finding and replacing patterns in text with <code>gsub()</code></h2>
+</div>
+<div id="useful-special-characters" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Useful special characters</h2>
+<div id="multiple-characters" class="section level3" number="4.3.1">
+<h3 number="4.3.1"><span class="header-section-number">4.3.1</span> Multiple characters <code>[]</code></h3>
+</div>
+<div id="n-many-of-previous-character-n" class="section level3" number="4.3.2">
+<h3 number="4.3.2"><span class="header-section-number">4.3.2</span> n-many of previous character <code>{n}</code></h3>
+</div>
+<div id="n-many-to-m-many-of-previous-character-nm" class="section level3" number="4.3.3">
+<h3 number="4.3.3"><span class="header-section-number">4.3.3</span> n-many to m-many of previous character <code>{n,m}</code></h3>
+</div>
+<div id="start-of-string" class="section level3" number="4.3.4">
+<h3 number="4.3.4"><span class="header-section-number">4.3.4</span> Start of string</h3>
+</div>
+<div id="end-of-string" class="section level3" number="4.3.5">
+<h3 number="4.3.5"><span class="header-section-number">4.3.5</span> End of string <code>$</code></h3>
+</div>
+<div id="anything-." class="section level3" number="4.3.6">
+<h3 number="4.3.6"><span class="header-section-number">4.3.6</span> Anything <code>.</code></h3>
+</div>
+<div id="one-or-more-of-previous" class="section level3" number="4.3.7">
+<h3 number="4.3.7"><span class="header-section-number">4.3.7</span> One or more of previous <code>+</code></h3>
+</div>
+<div id="zero-or-more-of-previous" class="section level3" number="4.3.8">
+<h3 number="4.3.8"><span class="header-section-number">4.3.8</span> Zero or more of previous <code>*</code></h3>
+</div>
+<div id="multiple-patterns" class="section level3" number="4.3.9">
+<h3 number="4.3.9"><span class="header-section-number">4.3.9</span> Multiple patterns <code>|</code></h3>
+</div>
+<div id="parentheses" class="section level3" number="4.3.10">
+<h3 number="4.3.10"><span class="header-section-number">4.3.10</span> Parentheses <code>()</code></h3>
+</div>
+<div id="optional-text" class="section level3" number="4.3.11">
+<h3 number="4.3.11"><span class="header-section-number">4.3.11</span> Optional text <code>?</code></h3>
+</div>
+</div>
+<div id="changing-capitalization" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Changing capitalization</h2>
+<!--chapter:end:regular-expressions.Rmd-->
+</div>
+</div>
+<div id="reading-and-writing-data" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Reading and Writing Data</h1>
+<p>Placeholder</p>
+<div id="reading-data-into-r" class="section level2" number="5.1">
+<h2 number="5.1"><span class="header-section-number">5.1</span> Reading Data into R</h2>
+<div id="r" class="section level3" number="5.1.1">
+<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> R</h3>
+</div>
+<div id="excel" class="section level3" number="5.1.2">
+<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> Excel</h3>
+</div>
+<div id="stata" class="section level3" number="5.1.3">
+<h3 number="5.1.3"><span class="header-section-number">5.1.3</span> Stata</h3>
+</div>
+<div id="sas" class="section level3" number="5.1.4">
+<h3 number="5.1.4"><span class="header-section-number">5.1.4</span> SAS</h3>
+</div>
+<div id="spss" class="section level3" number="5.1.5">
+<h3 number="5.1.5"><span class="header-section-number">5.1.5</span> SPSS</h3>
+</div>
+</div>
+<div id="writing-data" class="section level2" number="5.2">
+<h2 number="5.2"><span class="header-section-number">5.2</span> Writing Data</h2>
+<div id="r-1" class="section level3" number="5.2.1">
+<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> R</h3>
+</div>
+<div id="excel-1" class="section level3" number="5.2.2">
+<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> Excel</h3>
+</div>
+<div id="stata-1" class="section level3" number="5.2.3">
+<h3 number="5.2.3"><span class="header-section-number">5.2.3</span> Stata</h3>
+</div>
+<div id="sas-1" class="section level3" number="5.2.4">
+<h3 number="5.2.4"><span class="header-section-number">5.2.4</span> SAS</h3>
+</div>
+<div id="spss-1" class="section level3" number="5.2.5">
+<h3 number="5.2.5"><span class="header-section-number">5.2.5</span> SPSS</h3>
+<!--chapter:end:reading-writing-data.Rmd-->
+</div>
+</div>
+</div>
+<div id="part-visualize" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">(PART) Visualize</h1>
+</div>
+<div id="graphing-intro" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> Graphing with <code>ggplot2</code></h1>
+<p>Placeholder</p>
+<div id="what-does-the-data-look-like" class="section level2" number="6.1">
+<h2 number="6.1"><span class="header-section-number">6.1</span> What does the data look like?</h2>
+</div>
+<div id="graphing-data" class="section level2" number="6.2">
+<h2 number="6.2"><span class="header-section-number">6.2</span> Graphing data</h2>
+</div>
+<div id="time-series-plots" class="section level2" number="6.3">
+<h2 number="6.3"><span class="header-section-number">6.3</span> Time-Series Plots</h2>
+</div>
+<div id="scatter-plots" class="section level2" number="6.4">
+<h2 number="6.4"><span class="header-section-number">6.4</span> Scatter Plots</h2>
+</div>
+<div id="color-blindness" class="section level2" number="6.5">
+<h2 number="6.5"><span class="header-section-number">6.5</span> Color blindness</h2>
+<!--chapter:end:graphing.Rmd-->
+</div>
+</div>
+<div id="hotspot-maps" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> Hotspot maps</h1>
+<p>Placeholder</p>
+<div id="a-simple-map" class="section level2" number="7.1">
+<h2 number="7.1"><span class="header-section-number">7.1</span> A simple map</h2>
+</div>
+<div id="what-really-are-maps" class="section level2" number="7.2">
+<h2 number="7.2"><span class="header-section-number">7.2</span> What really are maps?</h2>
+</div>
+<div id="making-a-hotspot-map" class="section level2" number="7.3">
+<h2 number="7.3"><span class="header-section-number">7.3</span> Making a hotspot map</h2>
+<div id="colors" class="section level3" number="7.3.1">
+<h3 number="7.3.1"><span class="header-section-number">7.3.1</span> Colors</h3>
+<!--chapter:end:hotspot-maps.Rmd-->
+</div>
+</div>
+</div>
+<div id="choropleth-maps" class="section level1" number="8">
+<h1 number="8"><span class="header-section-number">8</span> Choropleth maps</h1>
+<p>Placeholder</p>
+<div id="spatial-joins" class="section level2" number="8.1">
+<h2 number="8.1"><span class="header-section-number">8.1</span> Spatial joins</h2>
+</div>
+<div id="making-choropleth-maps" class="section level2" number="8.2">
+<h2 number="8.2"><span class="header-section-number">8.2</span> Making choropleth maps</h2>
+<!--chapter:end:choropleth-maps.Rmd-->
+</div>
+</div>
+<div id="interactive-maps" class="section level1" number="9">
+<h1 number="9"><span class="header-section-number">9</span> Interactive maps</h1>
+<p>Placeholder</p>
+<div id="why-do-interactive-graphs-matter" class="section level2" number="9.1">
+<h2 number="9.1"><span class="header-section-number">9.1</span> Why do interactive graphs matter?</h2>
+<div id="understanding-your-data" class="section level3" number="9.1.1">
+<h3 number="9.1.1"><span class="header-section-number">9.1.1</span> Understanding your data</h3>
+</div>
+<div id="police-departments-use-them" class="section level3" number="9.1.2">
+<h3 number="9.1.2"><span class="header-section-number">9.1.2</span> Police departments use them</h3>
+</div>
+</div>
+<div id="making-the-interactive-map" class="section level2" number="9.2">
+<h2 number="9.2"><span class="header-section-number">9.2</span> Making the interactive map</h2>
+</div>
+<div id="adding-popup-information" class="section level2" number="9.3">
+<h2 number="9.3"><span class="header-section-number">9.3</span> Adding popup information</h2>
+</div>
+<div id="dealing-with-too-many-markers" class="section level2" number="9.4">
+<h2 number="9.4"><span class="header-section-number">9.4</span> Dealing with too many markers</h2>
+</div>
+<div id="interactive-choropleth-maps" class="section level2" number="9.5">
+<h2 number="9.5"><span class="header-section-number">9.5</span> Interactive choropleth maps</h2>
+<!--chapter:end:interactive-maps.Rmd-->
+</div>
+</div>
+<div id="r-markdown" class="section level1" number="10">
+<h1 number="10"><span class="header-section-number">10</span> R Markdown</h1>
+<p>Placeholder</p>
+<div id="code" class="section level2" number="10.1">
+<h2 number="10.1"><span class="header-section-number">10.1</span> Code</h2>
+<div id="hiding-code-in-the-output" class="section level3" number="10.1.1">
+<h3 number="10.1.1"><span class="header-section-number">10.1.1</span> Hiding code in the output</h3>
+</div>
+</div>
+<div id="inline-code" class="section level2" number="10.2">
+<h2 number="10.2"><span class="header-section-number">10.2</span> Inline Code</h2>
+</div>
+<div id="tables" class="section level2" number="10.3">
+<h2 number="10.3"><span class="header-section-number">10.3</span> Tables</h2>
+</div>
+<div id="footnotes" class="section level2" number="10.4">
+<h2 number="10.4"><span class="header-section-number">10.4</span> Footnotes</h2>
+</div>
+<div id="citation" class="section level2" number="10.5">
+<h2 number="10.5"><span class="header-section-number">10.5</span> Citation</h2>
+</div>
+<div id="spell-check" class="section level2" number="10.6">
+<h2 number="10.6"><span class="header-section-number">10.6</span> Spell check</h2>
+</div>
+<div id="making-the-output-file" class="section level2" number="10.7">
+<h2 number="10.7"><span class="header-section-number">10.7</span> Making the output file</h2>
+<!--chapter:end:rmarkdown.Rmd-->
+</div>
+</div>
+<div id="git" class="section level1" number="11">
+<h1 number="11"><span class="header-section-number">11</span> Git</h1>
+<p>Placeholder</p>
+<div id="what-is-git-and-why-do-i-need-it" class="section level2" number="11.1">
+<h2 number="11.1"><span class="header-section-number">11.1</span> What is Git and why do I need it?</h2>
+<!--chapter:end:git.Rmd-->
+</div>
+</div>
+<div id="part-collect" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">(PART) Collect</h1>
+</div>
+<div id="webscraping-with-rvest" class="section level1" number="12">
+<h1 number="12"><span class="header-section-number">12</span> Webscraping with <code>rvest</code></h1>
+<p>Placeholder</p>
+<div id="scraping-one-page" class="section level2" number="12.1">
+<h2 number="12.1"><span class="header-section-number">12.1</span> Scraping one page</h2>
+</div>
+<div id="cleaning-the-webscraped-data" class="section level2" number="12.2">
+<h2 number="12.2"><span class="header-section-number">12.2</span> Cleaning the webscraped data</h2>
+<!--chapter:end:webscraping.Rmd-->
+</div>
+</div>
+<div id="functions" class="section level1" number="13">
+<h1 number="13"><span class="header-section-number">13</span> Functions</h1>
+<p>Placeholder</p>
+<div id="a-simple-function" class="section level2" number="13.1">
+<h2 number="13.1"><span class="header-section-number">13.1</span> A simple function</h2>
+</div>
+<div id="adding-parameters" class="section level2" number="13.2">
+<h2 number="13.2"><span class="header-section-number">13.2</span> Adding parameters</h2>
+</div>
+<div id="recipes-function" class="section level2" number="13.3">
+<h2 number="13.3"><span class="header-section-number">13.3</span> Making a function to scrape recipes</h2>
+<!--chapter:end:functions.Rmd-->
+</div>
+</div>
+<div id="for-loops" class="section level1" number="14">
+<h1 number="14"><span class="header-section-number">14</span> For loops</h1>
+<p>Placeholder</p>
+<div id="basic-for-loops" class="section level2" number="14.1">
+<h2 number="14.1"><span class="header-section-number">14.1</span> Basic for loops</h2>
+</div>
+<div id="scraping-multiple-recipes" class="section level2" number="14.2">
+<h2 number="14.2"><span class="header-section-number">14.2</span> Scraping multiple recipes</h2>
+<!--chapter:end:for-loops.Rmd-->
+</div>
+</div>
+<div id="scrape-table" class="section level1" number="15">
+<h1 number="15"><span class="header-section-number">15</span> Scraping tables from PDFs</h1>
+<p>Placeholder</p>
+<div id="scraping-the-first-table" class="section level2" number="15.1">
+<h2 number="15.1"><span class="header-section-number">15.1</span> Scraping the first table</h2>
+</div>
+<div id="making-a-function" class="section level2" number="15.2">
+<h2 number="15.2"><span class="header-section-number">15.2</span> Making a function</h2>
+<!--chapter:end:pdf-tables.Rmd-->
+</div>
+</div>
+<div id="scrape-table2" class="section level1" number="16">
+<h1 number="16"><span class="header-section-number">16</span> More Scraping tables from PDFs</h1>
+<p>In Chapter @ref(scrape-table) we used the package <code>pdftools</code> to scrape tables on arrests/seizures from the United States Border Patrol that were only available in a PDF. Given the importance of PDF scraping - hopefully by the time you read this chapter more data will be available in reasonable formats and not in PDFs - in this chapter we’ll continue working on scraping tables from PDFs. Here we will use the package <code>tabulizer</code> which has a number of features making it especially useful for grabbing tables from PDFs. One issue which we saw in Chapter @ref(scrape-table) is that the table may not be the only thing on the page - the page could also have a title, page number etc. When using <code>pdftools</code> we use regular expressions and subsetting to remove all the extra lines. Using <code>tabulizer</code> we can simply say (through a handy function) that we only want a part of the page, so we only scrape the table itself. For more info about the <code>tabulizer</code> package please see their site <a href="https://docs.ropensci.org/tabulizer/">here</a>.</p>
+<p>For this chapter we’ll scrape data from the Pennsylvania Commission on Sentencing’s Sentencing Guidelines (available <a href="https://github.com/jacobkap/crimebythenumbers/blob/master/data/7th%20Edition%20Amendment%205%20Complete%20Manual%202020.pdf">here</a>. Sentencing guidelines are basically just a simple series of conditional statements that add up (each TRUE statement is literally given a numerical value) and then judges used the guidelines based on the final number value for the defendant. As an example, per the guidelines if a person is charged with a Felony 1 offenses (i.e. the second most serious kind of felony) that is worth 7 points. If this person has a prior record of a Felony 2 crime, add 2 points to the score. Assuming nothing else in the guidelines applies to this person, they now have 9 points and score, in combination with the current offense, affects the recommended sentence they receive.</p>
+<p>This PDF is 100 pages and only about a quarter of that is discussing the guidelines and what criteria a person has to meet to be given a certain score.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> After this section is about 70 pages of tables which have the crime code (e.g. 3802 (f)(2)), the crime in plain English (e.g. DUI-commercial/school vehicles &amp; incapable of safe driving (minor occupant; 1st/2nd off)), an indicator or what level of offense (e.g. Felony 1, Felony 2, Misdemeanor 3, etc.), the number of points a person receives for being charged with this crime, and the number of points a person receives for having a prior record of this offense.</p>
+<p>First, open this PDF in your web browser
+While this technique</p>
+<p>If you don’t have this package installed you’ll need to install it using <code>install.packages("tabulizer")</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tabulizer)</span></code></pre></div>
+<!--chapter:end:pdf-tables2.Rmd-->
+</div>
+<div id="geocoding" class="section level1" number="17">
+<h1 number="17"><span class="header-section-number">17</span> Geocoding</h1>
+<p>Placeholder</p>
+<div id="geocoding-a-single-address" class="section level2" number="17.1">
+<h2 number="17.1"><span class="header-section-number">17.1</span> Geocoding a single address</h2>
+</div>
+<div id="making-a-function" class="section level2" number="17.2">
+<h2 number="17.2"><span class="header-section-number">17.2</span> Making a function</h2>
+</div>
+<div id="geocoding-san-francisco-marijuana-dispensary-locations" class="section level2" number="17.3">
+<h2 number="17.3"><span class="header-section-number">17.3</span> Geocoding San Francisco marijuana dispensary locations</h2>
+<!--chapter:end:geocoding.Rmd-->
+</div>
+</div>
+<div id="part-data" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">(PART) Data</h1>
+</div>
+<div id="introduction" class="section level1" number="18">
+<h1 number="18"><span class="header-section-number">18</span> Introduction</h1>
+<p>At this point you have learned how to read in data, manipulate it to get just the parts you want or to aggregate it to the level you want, and visualize it through maps or graphs. You’ve done so using data sets that are commonly used in criminological research.</p>
+<p>In the next several chapters we will be introducing a number of other data sets - or looking deeper into data we’ve already seen - that are common in criminology. While these chapters do use R a bit to explore or read in the data, they are primarily a discussion of the trade-offs of using each data set. Some of the data sets are difficult to read into R, requiring more steps than you may be useful, so these chapters will also discuss how to get that data into R.</p>
+<!--chapter:end:intro-data.Rmd-->
+</div>
+<div id="ucr" class="section level1" number="19">
+<h1 number="19"><span class="header-section-number">19</span> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</h1>
+<p>Placeholder</p>
+<div id="exploring-the-ucr-data" class="section level2" number="19.1">
+<h2 number="19.1"><span class="header-section-number">19.1</span> Exploring the UCR data</h2>
+</div>
+<div id="oris---unique-agency-identifiers" class="section level2" number="19.2">
+<h2 number="19.2"><span class="header-section-number">19.2</span> ORIs - Unique agency identifiers</h2>
+</div>
+<div id="hierarchy-rule" class="section level2" number="19.3">
+<h2 number="19.3"><span class="header-section-number">19.3</span> Hierarchy Rule</h2>
+</div>
+<div id="which-crimes-are-included" class="section level2" number="19.4">
+<h2 number="19.4"><span class="header-section-number">19.4</span> Which crimes are included</h2>
+<div id="index-crimes" class="section level3" number="19.4.1">
+<h3 number="19.4.1"><span class="header-section-number">19.4.1</span> Index Crimes</h3>
+</div>
+<div id="the-problem-with-using-index-crimes" class="section level3" number="19.4.2">
+<h3 number="19.4.2"><span class="header-section-number">19.4.2</span> The problem with using index crimes</h3>
+</div>
+<div id="rape-definition-change" class="section level3" number="19.4.3">
+<h3 number="19.4.3"><span class="header-section-number">19.4.3</span> Rape definition change</h3>
+</div>
+</div>
+<div id="actual-offenses-clearances-and-unfounded-offenses" class="section level2" number="19.5">
+<h2 number="19.5"><span class="header-section-number">19.5</span> Actual offenses, clearances, and unfounded offenses</h2>
+<div id="actual" class="section level3" number="19.5.1">
+<h3 number="19.5.1"><span class="header-section-number">19.5.1</span> Actual</h3>
+</div>
+<div id="total-cleared" class="section level3" number="19.5.2">
+<h3 number="19.5.2"><span class="header-section-number">19.5.2</span> Total Cleared</h3>
+</div>
+<div id="cleared-where-all-offenders-are-under-18" class="section level3" number="19.5.3">
+<h3 number="19.5.3"><span class="header-section-number">19.5.3</span> Cleared Where All Offenders Are Under 18</h3>
+</div>
+<div id="unfounded" class="section level3" number="19.5.4">
+<h3 number="19.5.4"><span class="header-section-number">19.5.4</span> Unfounded</h3>
+</div>
+</div>
+<div id="number-of-months-reported" class="section level2" number="19.6">
+<h2 number="19.6"><span class="header-section-number">19.6</span> Number of months reported</h2>
+<!--chapter:end:working-with-ucr-data.Rmd-->
+</div>
+</div>
+<div id="appendix-appendix" class="section level1 unnumbered" number="">
+<h1 class="unnumbered" number="">(APPENDIX) Appendix</h1>
+</div>
+<div id="useful-resources" class="section level1" number="20">
+<h1 number="20"><span class="header-section-number">20</span> Useful resources</h1>
+<div id="learning-r-and-coding-issues" class="section level2" number="20.1">
+<h2 number="20.1"><span class="header-section-number">20.1</span> Learning R and coding issues</h2>
+<p><a href="http://r4ds.had.co.nz/">R for Data Science</a> - This free online book provides a good introduction for R though it differs in several important ways from this class.</p>
+<p><a href="http://stackoverflow.com/">Stack Overflow</a> - Stack Overflow is a website that answers programming-related questions. It’s like the Yahoo Answers of programming. That said, a lot of the answer are bad. Some answers are overly confusing or provide code that you may not understand. You can use this source, but don’t rely too heavily on it. Its search function isn’t great so it’s better to Google your question and choose the stackoverflow.com result.</p>
+</div>
+<div id="data" class="section level2" number="20.2">
+<h2 number="20.2"><span class="header-section-number">20.2</span> Data</h2>
+<p><a href="https://www.icpsr.umich.edu/icpsrweb/content/NACJD/index.html">National Archive of Criminal Justice Data (NACJD) - Crime Data</a> - NACJD is a site where you can download crime data, including many of the data sets we’ve worked on throughout this book. Nearly all FBI and BJS data sets are available on this site. If you need data for a research question, NACJD is a good place to start looking.</p>
+<p><a href="https://www.icpsr.umich.edu/icpsrweb/">Inter-university Consortium for Political and Social Research (ICPSR) - General Data</a> - Like NACJD, ICPSR allows you to download data from a variety of government and non-government sources for research. ICPSR holds a wider variety of data than NACJD does (NACJD is part of ICPSR) so includes data that is not specifically crime-related.</p>
+<p><a href="http://jacobdkaplan.com/data">Crime Data Tool - cleaned crime data</a> - This is my personal site where you can look at graphs and tables of (primarily) agency-level data including offenses, arrests, assaults on officers, and prison information. On each page you can download a .csv file with the information displayed. On the <a href="http://jacobdkaplan.com/data.html">data page</a>, there are links to all of the data sets I have cleaned and made available - this data is mostly UCR data but includes some other data such as the alcohol consumption data we explored in Chapter @ref(#graphing-intro).</p>
+<p><a href="https://www.policedatainitiative.org/datasets/">Local crime data</a> - The Police Foundation has put together a list of data sets made public by police agencies. This data is primarily data sets of crime incidents, calls for service, arrests, and officer-involved shootings though some other categories such as workforce demographics and assaults on officers are available.</p>
+<!--chapter:end:useful-resources.Rmd-->
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>I recommend reading/skimming this section - or your own state’s sentencing guidelines - to get a better understanding of what they entail.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+<!--bookdown:body:end-->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<!--bookdown:link_prev-->
+<!--bookdown:link_next-->
+    </div>
+  </div>
+<!--bookdown:config-->
+
+</body>
+
+</html>

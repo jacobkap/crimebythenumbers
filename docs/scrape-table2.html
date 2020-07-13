@@ -383,12 +383,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="scrape-table2" class="section level1" number="16">
 <h1><span class="header-section-number">16</span> More Scraping tables from PDFs</h1>
-<p>In Chapter <a href="scrape-table.html#scrape-table">15</a></p>
+<p>In Chapter <a href="scrape-table.html#scrape-table">15</a> we used the package <code>pdftools</code> to scrape tables on arrests/seizures from the United States Border Patrol that were only available in a PDF. Given the importance of PDF scraping - hopefully by the time you read this chapter more data will be available in reasonable formats and not in PDFs - in this chapter we’ll continue working on scraping tables from PDFs. Here we will use the package <code>tabulizer</code> which has a number of features making it especially useful for grabbing tables from PDFs. One issue which we saw in Chapter <a href="scrape-table.html#scrape-table">15</a> is that the table may not be the only thing on the page - the page could also have a title, page number etc. When using <code>pdftools</code> we use regular expressions and subsetting to remove all the extra lines. Using <code>tabulizer</code> we can simply say (through a handy function) that we only want a part of the page, so we only scrape the table itself. For more info about the <code>tabulizer</code> package please see their site <a href="https://docs.ropensci.org/tabulizer/">here</a>.</p>
+<p>For this chapter we’ll scrape data from the Pennsylvania Commission on Sentencing’s Sentencing Guidelines (available <a href="https://github.com/jacobkap/crimebythenumbers/blob/master/data/7th%20Edition%20Amendment%205%20Complete%20Manual%202020.pdf">here</a>. Sentencing guidelines are basically just a simple series of conditional statements that add up (each TRUE statement is literally given a numerical value) and then judges used the guidelines based on the final number value for the defendant. As an example, per the guidelines if a person is charged with a Felony 1 offenses (i.e. the second most serious kind of felony) that is worth 7 points. If this person has a prior record of a Felony 2 crime, add 2 points to the score. Assuming nothing else in the guidelines applies to this person, they now have 9 points and score, in combination with the current offense, affects the recommended sentence they receive.</p>
+<p>This PDF is 100 pages and only about a quarter of that is discussing the guidelines and what criteria a person has to meet to be given a certain score.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> After this section is about 70 pages of tables which have the crime code (e.g. 3802 (f)(2)), the crime in plain English (e.g. DUI-commercial/school vehicles &amp; incapable of safe driving (minor occupant; 1st/2nd off)), an indicator or what level of offense (e.g. Felony 1, Felony 2, Misdemeanor 3, etc.), the number of points a person receives for being charged with this crime, and the number of points a person receives for having a prior record of this offense.</p>
 <p>First, open this PDF in your web browser
 While this technique</p>
 <p>If you don’t have this package installed you’ll need to install it using <code>install.packages("tabulizer")</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="scrape-table2.html#cb1-1"></a><span class="kw">library</span>(tabulizer)</span></code></pre></div>
 
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>I recommend reading/skimming this section - or your own state’s sentencing guidelines - to get a better understanding of what they entail.<a href="scrape-table2.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
             </section>
 
