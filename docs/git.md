@@ -17,7 +17,9 @@ The times you see are ones that Overleaf automatically set each change to.
 
 ![](images/overleaf.png)
 
-You make changes to your code or RMarkdown file and the computer will tra
+You make changes to your code or RMarkdown file and the computer will track these changes.
+
+## Git basics
 
 There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. We’ll use the example of getting a book from the library to walk through using Git. The steps for this is simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book we simply redo these steps. 
 
@@ -32,3 +34,8 @@ Check-out book again (to see what other people have written in it)  | Pull | git
 
 
 Another way to think about commit vs push is that of writing an email. When you write an email you’re essentially editing a blank document by adding the words of the email. When you save (but don’t send) the email, you are making a commit (essentially “committing” or promising to make a change). When you send the email you are making a push (taking something that you have written and changed and sending it to the main repository). While emails let you correspond directly between two or more people, how Git works is like sending the email to a central server (or a Post Office) and anyone who wants to read it has to go there. And when someone reads it and responds their email also goes to this central server. You have to go there to get their response (called a “pull” in Git terms) which is essentially an addition to your initial email. 
+
+## When to commit
+
+## Code review
+
