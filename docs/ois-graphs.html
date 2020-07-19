@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 More graphing with ggplot | Crime by the Numbers</title>
+  <title>7 More graphing with ggplot2 | Crime by the Numbers</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 More graphing with ggplot | Crime by the Numbers" />
+  <meta property="og:title" content="7 More graphing with ggplot2 | Crime by the Numbers" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   <meta property="og:image" content="https://crimebythenumbers.comRuby-throated_HummingBird.jpg" />
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 More graphing with ggplot | Crime by the Numbers" />
+  <meta name="twitter:title" content="7 More graphing with ggplot2 | Crime by the Numbers" />
   
   <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
   <meta name="twitter:image" content="https://crimebythenumbers.comRuby-throated_HummingBird.jpg" />
@@ -264,12 +264,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
 <li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>7</b> More graphing with <code>ggplot</code></a>
+<li class="chapter" data-level="7" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>7</b> More graphing with <code>ggplot2</code></a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.1</b> Density plot</a></li>
-<li class="chapter" data-level="7.2" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2</b> Histogram</a></li>
+<li class="chapter" data-level="7.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>7.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="7.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>7.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="7.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>7.2.3</b> Count Graph</a></li>
+</ul></li>
 <li class="chapter" data-level="7.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>7.3</b> Bar graph</a></li>
-<li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#time-series"><i class="fa fa-check"></i><b>7.4</b> Time Series</a></li>
+<li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>7.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="7.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>7.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>7.5.1</b> Themes</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>8</b> Hotspot maps</a>
 <ul>
@@ -396,361 +405,461 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="ois_graphs" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> More graphing with <code>ggplot</code></h1>
-<p>In this lesson we will continue to explore graphing using <code>ggplot()</code>. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we’ll turn to a new data set. The data we will use is a database of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs.</p>
+<h1><span class="header-section-number">7</span> More graphing with <code>ggplot2</code></h1>
+<p>In this lesson we will continue to explore graphing using <code>ggplot()</code>. The data we will use is a database of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs.</p>
 <p>To explore the data on their website, see <a href="https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c">here</a>.
 To examine their methodology, see <a href="https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b">here</a>.</p>
-<p>The data initially comes as a .csv file so we’ll use the <code>read_csv()</code> function from the <code>readr</code> package.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="ois-graphs.html#cb1-1"></a><span class="kw">library</span>(readr)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="ois-graphs.html#cb2-1"></a>shootings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/fatal-police-shootings-data.csv&quot;</span>)</span>
-<span id="cb2-2"><a href="ois-graphs.html#cb2-2"></a><span class="co">#&gt; Parsed with column specification:</span></span>
-<span id="cb2-3"><a href="ois-graphs.html#cb2-3"></a><span class="co">#&gt; cols(</span></span>
-<span id="cb2-4"><a href="ois-graphs.html#cb2-4"></a><span class="co">#&gt;   id = col_double(),</span></span>
-<span id="cb2-5"><a href="ois-graphs.html#cb2-5"></a><span class="co">#&gt;   name = col_character(),</span></span>
-<span id="cb2-6"><a href="ois-graphs.html#cb2-6"></a><span class="co">#&gt;   date = col_date(format = &quot;&quot;),</span></span>
-<span id="cb2-7"><a href="ois-graphs.html#cb2-7"></a><span class="co">#&gt;   manner_of_death = col_character(),</span></span>
-<span id="cb2-8"><a href="ois-graphs.html#cb2-8"></a><span class="co">#&gt;   armed = col_character(),</span></span>
-<span id="cb2-9"><a href="ois-graphs.html#cb2-9"></a><span class="co">#&gt;   age = col_double(),</span></span>
-<span id="cb2-10"><a href="ois-graphs.html#cb2-10"></a><span class="co">#&gt;   gender = col_character(),</span></span>
-<span id="cb2-11"><a href="ois-graphs.html#cb2-11"></a><span class="co">#&gt;   race = col_character(),</span></span>
-<span id="cb2-12"><a href="ois-graphs.html#cb2-12"></a><span class="co">#&gt;   city = col_character(),</span></span>
-<span id="cb2-13"><a href="ois-graphs.html#cb2-13"></a><span class="co">#&gt;   state = col_character(),</span></span>
-<span id="cb2-14"><a href="ois-graphs.html#cb2-14"></a><span class="co">#&gt;   signs_of_mental_illness = col_logical(),</span></span>
-<span id="cb2-15"><a href="ois-graphs.html#cb2-15"></a><span class="co">#&gt;   threat_level = col_character(),</span></span>
-<span id="cb2-16"><a href="ois-graphs.html#cb2-16"></a><span class="co">#&gt;   flee = col_character(),</span></span>
-<span id="cb2-17"><a href="ois-graphs.html#cb2-17"></a><span class="co">#&gt;   body_camera = col_logical()</span></span>
-<span id="cb2-18"><a href="ois-graphs.html#cb2-18"></a><span class="co">#&gt; )</span></span></code></pre></div>
-<p>Since <code>read_csv()</code> reads files into a tibble object, we’ll turn it into a data.frame just for simplicity.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="ois-graphs.html#cb3-1"></a>shootings &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(shootings)</span></code></pre></div>
+<p>The data initially comes as a .csv file so we’ll use the <code>read_csv()</code> function from the <code>readr</code> package. Since it’s available on GitHub, we can download it by directing <code>read_csv()</code> to read the file at its URL on GitHub.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="ois-graphs.html#cb159-1"></a><span class="kw">library</span>(readr)</span>
+<span id="cb159-2"><a href="ois-graphs.html#cb159-2"></a>shootings &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv&quot;</span>)</span>
+<span id="cb159-3"><a href="ois-graphs.html#cb159-3"></a><span class="co">#&gt; Parsed with column specification:</span></span>
+<span id="cb159-4"><a href="ois-graphs.html#cb159-4"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb159-5"><a href="ois-graphs.html#cb159-5"></a><span class="co">#&gt;   id = col_double(),</span></span>
+<span id="cb159-6"><a href="ois-graphs.html#cb159-6"></a><span class="co">#&gt;   name = col_character(),</span></span>
+<span id="cb159-7"><a href="ois-graphs.html#cb159-7"></a><span class="co">#&gt;   date = col_date(format = &quot;&quot;),</span></span>
+<span id="cb159-8"><a href="ois-graphs.html#cb159-8"></a><span class="co">#&gt;   manner_of_death = col_character(),</span></span>
+<span id="cb159-9"><a href="ois-graphs.html#cb159-9"></a><span class="co">#&gt;   armed = col_character(),</span></span>
+<span id="cb159-10"><a href="ois-graphs.html#cb159-10"></a><span class="co">#&gt;   age = col_double(),</span></span>
+<span id="cb159-11"><a href="ois-graphs.html#cb159-11"></a><span class="co">#&gt;   gender = col_character(),</span></span>
+<span id="cb159-12"><a href="ois-graphs.html#cb159-12"></a><span class="co">#&gt;   race = col_character(),</span></span>
+<span id="cb159-13"><a href="ois-graphs.html#cb159-13"></a><span class="co">#&gt;   city = col_character(),</span></span>
+<span id="cb159-14"><a href="ois-graphs.html#cb159-14"></a><span class="co">#&gt;   state = col_character(),</span></span>
+<span id="cb159-15"><a href="ois-graphs.html#cb159-15"></a><span class="co">#&gt;   signs_of_mental_illness = col_logical(),</span></span>
+<span id="cb159-16"><a href="ois-graphs.html#cb159-16"></a><span class="co">#&gt;   threat_level = col_character(),</span></span>
+<span id="cb159-17"><a href="ois-graphs.html#cb159-17"></a><span class="co">#&gt;   flee = col_character(),</span></span>
+<span id="cb159-18"><a href="ois-graphs.html#cb159-18"></a><span class="co">#&gt;   body_camera = col_logical()</span></span>
+<span id="cb159-19"><a href="ois-graphs.html#cb159-19"></a><span class="co">#&gt; )</span></span></code></pre></div>
+<p>Since <code>read_csv()</code> reads files into a tibble object, we’ll turn it into a data.frame so <code>head()</code> shows every single column.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="ois-graphs.html#cb160-1"></a>shootings &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(shootings)</span></code></pre></div>
+<div id="exploring-data" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Exploring Data</h2>
 <p>Now that we have the data read in, let’s look at it.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="ois-graphs.html#cb4-1"></a><span class="kw">nrow</span>(shootings)</span>
-<span id="cb4-2"><a href="ois-graphs.html#cb4-2"></a><span class="co">#&gt; [1] 4371</span></span>
-<span id="cb4-3"><a href="ois-graphs.html#cb4-3"></a><span class="kw">ncol</span>(shootings)</span>
-<span id="cb4-4"><a href="ois-graphs.html#cb4-4"></a><span class="co">#&gt; [1] 14</span></span></code></pre></div>
-<p>The data has 14 variables and covers over 4,000 shootings. Let’s check out some of the variables, first using <code>head()</code> then using <code>summary()</code> and <code>table()</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="ois-graphs.html#cb5-1"></a><span class="kw">head</span>(shootings)</span>
-<span id="cb5-2"><a href="ois-graphs.html#cb5-2"></a><span class="co">#&gt;   id               name       date  manner_of_death      armed age gender race</span></span>
-<span id="cb5-3"><a href="ois-graphs.html#cb5-3"></a><span class="co">#&gt; 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A</span></span>
-<span id="cb5-4"><a href="ois-graphs.html#cb5-4"></a><span class="co">#&gt; 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W</span></span>
-<span id="cb5-5"><a href="ois-graphs.html#cb5-5"></a><span class="co">#&gt; 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H</span></span>
-<span id="cb5-6"><a href="ois-graphs.html#cb5-6"></a><span class="co">#&gt; 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W</span></span>
-<span id="cb5-7"><a href="ois-graphs.html#cb5-7"></a><span class="co">#&gt; 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H</span></span>
-<span id="cb5-8"><a href="ois-graphs.html#cb5-8"></a><span class="co">#&gt; 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W</span></span>
-<span id="cb5-9"><a href="ois-graphs.html#cb5-9"></a><span class="co">#&gt;            city state signs_of_mental_illness threat_level        flee</span></span>
-<span id="cb5-10"><a href="ois-graphs.html#cb5-10"></a><span class="co">#&gt; 1       Shelton    WA                    TRUE       attack Not fleeing</span></span>
-<span id="cb5-11"><a href="ois-graphs.html#cb5-11"></a><span class="co">#&gt; 2         Aloha    OR                   FALSE       attack Not fleeing</span></span>
-<span id="cb5-12"><a href="ois-graphs.html#cb5-12"></a><span class="co">#&gt; 3       Wichita    KS                   FALSE        other Not fleeing</span></span>
-<span id="cb5-13"><a href="ois-graphs.html#cb5-13"></a><span class="co">#&gt; 4 San Francisco    CA                    TRUE       attack Not fleeing</span></span>
-<span id="cb5-14"><a href="ois-graphs.html#cb5-14"></a><span class="co">#&gt; 5         Evans    CO                   FALSE       attack Not fleeing</span></span>
-<span id="cb5-15"><a href="ois-graphs.html#cb5-15"></a><span class="co">#&gt; 6       Guthrie    OK                   FALSE       attack Not fleeing</span></span>
-<span id="cb5-16"><a href="ois-graphs.html#cb5-16"></a><span class="co">#&gt;   body_camera</span></span>
-<span id="cb5-17"><a href="ois-graphs.html#cb5-17"></a><span class="co">#&gt; 1       FALSE</span></span>
-<span id="cb5-18"><a href="ois-graphs.html#cb5-18"></a><span class="co">#&gt; 2       FALSE</span></span>
-<span id="cb5-19"><a href="ois-graphs.html#cb5-19"></a><span class="co">#&gt; 3       FALSE</span></span>
-<span id="cb5-20"><a href="ois-graphs.html#cb5-20"></a><span class="co">#&gt; 4       FALSE</span></span>
-<span id="cb5-21"><a href="ois-graphs.html#cb5-21"></a><span class="co">#&gt; 5       FALSE</span></span>
-<span id="cb5-22"><a href="ois-graphs.html#cb5-22"></a><span class="co">#&gt; 6       FALSE</span></span></code></pre></div>
-<p>Each row is a single shooting and it includes variables such as the victim’s name, the date of the shooting, demographic information about that person, the shooting city and state, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can’t use <code>summary()</code> on them. Let’s use <code>summary()</code> on the date and age columns and then use <code>table()</code> for the rest.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="ois-graphs.html#cb6-1"></a><span class="kw">summary</span>(shootings<span class="op">$</span>date)</span>
-<span id="cb6-2"><a href="ois-graphs.html#cb6-2"></a><span class="co">#&gt;         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. </span></span>
-<span id="cb6-3"><a href="ois-graphs.html#cb6-3"></a><span class="co">#&gt; &quot;2015-01-02&quot; &quot;2016-02-07&quot; &quot;2017-03-16&quot; &quot;2017-03-18&quot; &quot;2018-04-11&quot; &quot;2019-06-25&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="ois-graphs.html#cb7-1"></a><span class="kw">summary</span>(shootings<span class="op">$</span>age)</span>
-<span id="cb7-2"><a href="ois-graphs.html#cb7-2"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span></span>
-<span id="cb7-3"><a href="ois-graphs.html#cb7-3"></a><span class="co">#&gt;    6.00   27.00   35.00   36.84   45.00   91.00     182</span></span></code></pre></div>
-<p>From this we can see that the data is from January 1st through the middle of 2019 (The Washington Post is continuously updating their data but I downloaded it on June 27th, 2019 which is why June 2019 is the end of our data). From the age column we can see that the average age is about 35 with most people around that range. However, the youngest person is 6 years old while the oldest is 91. Additionally, 182 rows have missing values for this variable.</p>
-<p>Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with manner_of_death.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="ois-graphs.html#cb8-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death)</span>
-<span id="cb8-2"><a href="ois-graphs.html#cb8-2"></a><span class="co">#&gt; </span></span>
-<span id="cb8-3"><a href="ois-graphs.html#cb8-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
-<span id="cb8-4"><a href="ois-graphs.html#cb8-4"></a><span class="co">#&gt;             4146              225</span></span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="ois-graphs.html#cb161-1"></a><span class="kw">nrow</span>(shootings)</span>
+<span id="cb161-2"><a href="ois-graphs.html#cb161-2"></a><span class="co">#&gt; [1] 5468</span></span>
+<span id="cb161-3"><a href="ois-graphs.html#cb161-3"></a><span class="kw">ncol</span>(shootings)</span>
+<span id="cb161-4"><a href="ois-graphs.html#cb161-4"></a><span class="co">#&gt; [1] 14</span></span></code></pre></div>
+<p>The data has 14 variables and covers over 5,400 shootings. Let’s check out some of the variables, first using <code>head()</code> then using <code>summary()</code> and <code>table()</code>.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="ois-graphs.html#cb162-1"></a><span class="kw">head</span>(shootings)</span>
+<span id="cb162-2"><a href="ois-graphs.html#cb162-2"></a><span class="co">#&gt;   id               name       date  manner_of_death      armed age gender race</span></span>
+<span id="cb162-3"><a href="ois-graphs.html#cb162-3"></a><span class="co">#&gt; 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A</span></span>
+<span id="cb162-4"><a href="ois-graphs.html#cb162-4"></a><span class="co">#&gt; 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W</span></span>
+<span id="cb162-5"><a href="ois-graphs.html#cb162-5"></a><span class="co">#&gt; 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H</span></span>
+<span id="cb162-6"><a href="ois-graphs.html#cb162-6"></a><span class="co">#&gt; 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W</span></span>
+<span id="cb162-7"><a href="ois-graphs.html#cb162-7"></a><span class="co">#&gt; 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H</span></span>
+<span id="cb162-8"><a href="ois-graphs.html#cb162-8"></a><span class="co">#&gt; 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W</span></span>
+<span id="cb162-9"><a href="ois-graphs.html#cb162-9"></a><span class="co">#&gt;            city state signs_of_mental_illness threat_level        flee</span></span>
+<span id="cb162-10"><a href="ois-graphs.html#cb162-10"></a><span class="co">#&gt; 1       Shelton    WA                    TRUE       attack Not fleeing</span></span>
+<span id="cb162-11"><a href="ois-graphs.html#cb162-11"></a><span class="co">#&gt; 2         Aloha    OR                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-12"><a href="ois-graphs.html#cb162-12"></a><span class="co">#&gt; 3       Wichita    KS                   FALSE        other Not fleeing</span></span>
+<span id="cb162-13"><a href="ois-graphs.html#cb162-13"></a><span class="co">#&gt; 4 San Francisco    CA                    TRUE       attack Not fleeing</span></span>
+<span id="cb162-14"><a href="ois-graphs.html#cb162-14"></a><span class="co">#&gt; 5         Evans    CO                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-15"><a href="ois-graphs.html#cb162-15"></a><span class="co">#&gt; 6       Guthrie    OK                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-16"><a href="ois-graphs.html#cb162-16"></a><span class="co">#&gt;   body_camera</span></span>
+<span id="cb162-17"><a href="ois-graphs.html#cb162-17"></a><span class="co">#&gt; 1       FALSE</span></span>
+<span id="cb162-18"><a href="ois-graphs.html#cb162-18"></a><span class="co">#&gt; 2       FALSE</span></span>
+<span id="cb162-19"><a href="ois-graphs.html#cb162-19"></a><span class="co">#&gt; 3       FALSE</span></span>
+<span id="cb162-20"><a href="ois-graphs.html#cb162-20"></a><span class="co">#&gt; 4       FALSE</span></span>
+<span id="cb162-21"><a href="ois-graphs.html#cb162-21"></a><span class="co">#&gt; 5       FALSE</span></span>
+<span id="cb162-22"><a href="ois-graphs.html#cb162-22"></a><span class="co">#&gt; 6       FALSE</span></span></code></pre></div>
+<p>Each row is a single shooting and it includes variables such as the victim’s name, the date of the shooting, demographic information about that person, the city and state where the shooting occurred, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can’t use <code>summary()</code> on them. Let’s use <code>summary()</code> on the date and age columns and then use <code>table()</code> for the rest.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="ois-graphs.html#cb163-1"></a><span class="kw">summary</span>(shootings<span class="op">$</span>date)</span>
+<span id="cb163-2"><a href="ois-graphs.html#cb163-2"></a><span class="co">#&gt;         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. </span></span>
+<span id="cb163-3"><a href="ois-graphs.html#cb163-3"></a><span class="co">#&gt; &quot;2015-01-02&quot; &quot;2016-05-19&quot; &quot;2017-10-14&quot; &quot;2017-10-08&quot; &quot;2019-03-02&quot; &quot;2020-07-14&quot;</span></span>
+<span id="cb163-4"><a href="ois-graphs.html#cb163-4"></a><span class="kw">summary</span>(shootings<span class="op">$</span>age)</span>
+<span id="cb163-5"><a href="ois-graphs.html#cb163-5"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span></span>
+<span id="cb163-6"><a href="ois-graphs.html#cb163-6"></a><span class="co">#&gt;    6.00   27.00   35.00   37.13   46.00   91.00     237</span></span></code></pre></div>
+<p>From this we can see that the data is from January 1st through about a week ago. From the age column we can see that the average age is about NA with most people around that range. However, the youngest person is NA years old while the oldest is NA. Additionally, 182 rows have missing values for this variable.</p>
+<p>Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with the “manner_of_death” column.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="ois-graphs.html#cb164-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death)</span>
+<span id="cb164-2"><a href="ois-graphs.html#cb164-2"></a><span class="co">#&gt; </span></span>
+<span id="cb164-3"><a href="ois-graphs.html#cb164-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
+<span id="cb164-4"><a href="ois-graphs.html#cb164-4"></a><span class="co">#&gt;             5194              274</span></span></code></pre></div>
 <p>To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="ois-graphs.html#cb9-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb9-2"><a href="ois-graphs.html#cb9-2"></a><span class="co">#&gt; </span></span>
-<span id="cb9-3"><a href="ois-graphs.html#cb9-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
-<span id="cb9-4"><a href="ois-graphs.html#cb9-4"></a><span class="co">#&gt;        94.852437         5.147563</span></span></code></pre></div>
-<p>Now it is clear to see that in 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at whether the victim was armed.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="ois-graphs.html#cb10-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb10-2"><a href="ois-graphs.html#cb10-2"></a><span class="co">#&gt; </span></span>
-<span id="cb10-3"><a href="ois-graphs.html#cb10-3"></a><span class="co">#&gt;                  air conditioner                               ax </span></span>
-<span id="cb10-4"><a href="ois-graphs.html#cb10-4"></a><span class="co">#&gt;                       0.02287806                       0.48043926 </span></span>
-<span id="cb10-5"><a href="ois-graphs.html#cb10-5"></a><span class="co">#&gt;                         barstool                     baseball bat </span></span>
-<span id="cb10-6"><a href="ois-graphs.html#cb10-6"></a><span class="co">#&gt;                       0.02287806                       0.27453672 </span></span>
-<span id="cb10-7"><a href="ois-graphs.html#cb10-7"></a><span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span></span>
-<span id="cb10-8"><a href="ois-graphs.html#cb10-8"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-9"><a href="ois-graphs.html#cb10-9"></a><span class="co">#&gt;                            baton                          bayonet </span></span>
-<span id="cb10-10"><a href="ois-graphs.html#cb10-10"></a><span class="co">#&gt;                       0.09151224                       0.02287806 </span></span>
-<span id="cb10-11"><a href="ois-graphs.html#cb10-11"></a><span class="co">#&gt;                           BB gun                     bean-bag gun </span></span>
-<span id="cb10-12"><a href="ois-graphs.html#cb10-12"></a><span class="co">#&gt;                       0.06863418                       0.02287806 </span></span>
-<span id="cb10-13"><a href="ois-graphs.html#cb10-13"></a><span class="co">#&gt;                      beer bottle                     blunt object </span></span>
-<span id="cb10-14"><a href="ois-graphs.html#cb10-14"></a><span class="co">#&gt;                       0.06863418                       0.11439030 </span></span>
-<span id="cb10-15"><a href="ois-graphs.html#cb10-15"></a><span class="co">#&gt;                    bow and arrow                       box cutter </span></span>
-<span id="cb10-16"><a href="ois-graphs.html#cb10-16"></a><span class="co">#&gt;                       0.02287806                       0.22878060 </span></span>
-<span id="cb10-17"><a href="ois-graphs.html#cb10-17"></a><span class="co">#&gt;                            brick                          carjack </span></span>
-<span id="cb10-18"><a href="ois-graphs.html#cb10-18"></a><span class="co">#&gt;                       0.04575612                       0.02287806 </span></span>
-<span id="cb10-19"><a href="ois-graphs.html#cb10-19"></a><span class="co">#&gt;                            chain                        chain saw </span></span>
-<span id="cb10-20"><a href="ois-graphs.html#cb10-20"></a><span class="co">#&gt;                       0.04575612                       0.04575612 </span></span>
-<span id="cb10-21"><a href="ois-graphs.html#cb10-21"></a><span class="co">#&gt;                         chainsaw                            chair </span></span>
-<span id="cb10-22"><a href="ois-graphs.html#cb10-22"></a><span class="co">#&gt;                       0.02287806                       0.04575612 </span></span>
-<span id="cb10-23"><a href="ois-graphs.html#cb10-23"></a><span class="co">#&gt;              claimed to be armed               contractor&#39;s level </span></span>
-<span id="cb10-24"><a href="ois-graphs.html#cb10-24"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-25"><a href="ois-graphs.html#cb10-25"></a><span class="co">#&gt;                   cordless drill                         crossbow </span></span>
-<span id="cb10-26"><a href="ois-graphs.html#cb10-26"></a><span class="co">#&gt;                       0.02287806                       0.20590254 </span></span>
-<span id="cb10-27"><a href="ois-graphs.html#cb10-27"></a><span class="co">#&gt;                          crowbar                        fireworks </span></span>
-<span id="cb10-28"><a href="ois-graphs.html#cb10-28"></a><span class="co">#&gt;                       0.06863418                       0.02287806 </span></span>
-<span id="cb10-29"><a href="ois-graphs.html#cb10-29"></a><span class="co">#&gt;                         flagpole                       flashlight </span></span>
-<span id="cb10-30"><a href="ois-graphs.html#cb10-30"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-31"><a href="ois-graphs.html#cb10-31"></a><span class="co">#&gt;                      garden tool                      glass shard </span></span>
-<span id="cb10-32"><a href="ois-graphs.html#cb10-32"></a><span class="co">#&gt;                       0.02287806                       0.06863418 </span></span>
-<span id="cb10-33"><a href="ois-graphs.html#cb10-33"></a><span class="co">#&gt;                              gun                      gun and car </span></span>
-<span id="cb10-34"><a href="ois-graphs.html#cb10-34"></a><span class="co">#&gt;                      55.43353924                       0.11439030 </span></span>
-<span id="cb10-35"><a href="ois-graphs.html#cb10-35"></a><span class="co">#&gt;                    gun and knife                    gun and sword </span></span>
-<span id="cb10-36"><a href="ois-graphs.html#cb10-36"></a><span class="co">#&gt;                       0.34317090                       0.02287806 </span></span>
-<span id="cb10-37"><a href="ois-graphs.html#cb10-37"></a><span class="co">#&gt;                  gun and vehicle              guns and explosives </span></span>
-<span id="cb10-38"><a href="ois-graphs.html#cb10-38"></a><span class="co">#&gt;                       0.04575612                       0.06863418 </span></span>
-<span id="cb10-39"><a href="ois-graphs.html#cb10-39"></a><span class="co">#&gt;                           hammer                       hand torch </span></span>
-<span id="cb10-40"><a href="ois-graphs.html#cb10-40"></a><span class="co">#&gt;                       0.22878060                       0.02287806 </span></span>
-<span id="cb10-41"><a href="ois-graphs.html#cb10-41"></a><span class="co">#&gt;                          hatchet                  hatchet and gun </span></span>
-<span id="cb10-42"><a href="ois-graphs.html#cb10-42"></a><span class="co">#&gt;                       0.18302448                       0.04575612 </span></span>
-<span id="cb10-43"><a href="ois-graphs.html#cb10-43"></a><span class="co">#&gt;                incendiary device                            knife </span></span>
-<span id="cb10-44"><a href="ois-graphs.html#cb10-44"></a><span class="co">#&gt;                       0.04575612                      14.96225120 </span></span>
-<span id="cb10-45"><a href="ois-graphs.html#cb10-45"></a><span class="co">#&gt;                 lawn mower blade                          machete </span></span>
-<span id="cb10-46"><a href="ois-graphs.html#cb10-46"></a><span class="co">#&gt;                       0.04575612                       0.86936628 </span></span>
-<span id="cb10-47"><a href="ois-graphs.html#cb10-47"></a><span class="co">#&gt;                  machete and gun                     meat cleaver </span></span>
-<span id="cb10-48"><a href="ois-graphs.html#cb10-48"></a><span class="co">#&gt;                       0.02287806                       0.06863418 </span></span>
-<span id="cb10-49"><a href="ois-graphs.html#cb10-49"></a><span class="co">#&gt;                  metal hand tool                     metal object </span></span>
-<span id="cb10-50"><a href="ois-graphs.html#cb10-50"></a><span class="co">#&gt;                       0.02287806                       0.09151224 </span></span>
-<span id="cb10-51"><a href="ois-graphs.html#cb10-51"></a><span class="co">#&gt;                       metal pipe                       metal pole </span></span>
-<span id="cb10-52"><a href="ois-graphs.html#cb10-52"></a><span class="co">#&gt;                       0.25165866                       0.04575612 </span></span>
-<span id="cb10-53"><a href="ois-graphs.html#cb10-53"></a><span class="co">#&gt;                       metal rake                      metal stick </span></span>
-<span id="cb10-54"><a href="ois-graphs.html#cb10-54"></a><span class="co">#&gt;                       0.02287806                       0.06863418 </span></span>
-<span id="cb10-55"><a href="ois-graphs.html#cb10-55"></a><span class="co">#&gt;                       motorcycle                         nail gun </span></span>
-<span id="cb10-56"><a href="ois-graphs.html#cb10-56"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-57"><a href="ois-graphs.html#cb10-57"></a><span class="co">#&gt;                              oar                       pellet gun </span></span>
-<span id="cb10-58"><a href="ois-graphs.html#cb10-58"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-59"><a href="ois-graphs.html#cb10-59"></a><span class="co">#&gt;                              pen                     pepper spray </span></span>
-<span id="cb10-60"><a href="ois-graphs.html#cb10-60"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-61"><a href="ois-graphs.html#cb10-61"></a><span class="co">#&gt;                         pick-axe                    piece of wood </span></span>
-<span id="cb10-62"><a href="ois-graphs.html#cb10-62"></a><span class="co">#&gt;                       0.06863418                       0.06863418 </span></span>
-<span id="cb10-63"><a href="ois-graphs.html#cb10-63"></a><span class="co">#&gt;                             pipe                        pitchfork </span></span>
-<span id="cb10-64"><a href="ois-graphs.html#cb10-64"></a><span class="co">#&gt;                       0.13726836                       0.04575612 </span></span>
-<span id="cb10-65"><a href="ois-graphs.html#cb10-65"></a><span class="co">#&gt;                             pole                   pole and knife </span></span>
-<span id="cb10-66"><a href="ois-graphs.html#cb10-66"></a><span class="co">#&gt;                       0.04575612                       0.04575612 </span></span>
-<span id="cb10-67"><a href="ois-graphs.html#cb10-67"></a><span class="co">#&gt;                             rock                    samurai sword </span></span>
-<span id="cb10-68"><a href="ois-graphs.html#cb10-68"></a><span class="co">#&gt;                       0.09151224                       0.02287806 </span></span>
-<span id="cb10-69"><a href="ois-graphs.html#cb10-69"></a><span class="co">#&gt;                         scissors                      screwdriver </span></span>
-<span id="cb10-70"><a href="ois-graphs.html#cb10-70"></a><span class="co">#&gt;                       0.06863418                       0.18302448 </span></span>
-<span id="cb10-71"><a href="ois-graphs.html#cb10-71"></a><span class="co">#&gt;                     sharp object                           shovel </span></span>
-<span id="cb10-72"><a href="ois-graphs.html#cb10-72"></a><span class="co">#&gt;                       0.11439030                       0.06863418 </span></span>
-<span id="cb10-73"><a href="ois-graphs.html#cb10-73"></a><span class="co">#&gt;                            spear                          stapler </span></span>
-<span id="cb10-74"><a href="ois-graphs.html#cb10-74"></a><span class="co">#&gt;                       0.02287806                       0.02287806 </span></span>
-<span id="cb10-75"><a href="ois-graphs.html#cb10-75"></a><span class="co">#&gt;              straight edge razor                            sword </span></span>
-<span id="cb10-76"><a href="ois-graphs.html#cb10-76"></a><span class="co">#&gt;                       0.06863418                       0.34317090 </span></span>
-<span id="cb10-77"><a href="ois-graphs.html#cb10-77"></a><span class="co">#&gt;                            Taser                        tire iron </span></span>
-<span id="cb10-78"><a href="ois-graphs.html#cb10-78"></a><span class="co">#&gt;                       0.41180508                       0.02287806 </span></span>
-<span id="cb10-79"><a href="ois-graphs.html#cb10-79"></a><span class="co">#&gt;                       toy weapon                          unarmed </span></span>
-<span id="cb10-80"><a href="ois-graphs.html#cb10-80"></a><span class="co">#&gt;                       3.54609929                       6.36010066 </span></span>
-<span id="cb10-81"><a href="ois-graphs.html#cb10-81"></a><span class="co">#&gt;                     undetermined                   unknown weapon </span></span>
-<span id="cb10-82"><a href="ois-graphs.html#cb10-82"></a><span class="co">#&gt;                       4.30107527                       1.25829330 </span></span>
-<span id="cb10-83"><a href="ois-graphs.html#cb10-83"></a><span class="co">#&gt;                          vehicle                  vehicle and gun </span></span>
-<span id="cb10-84"><a href="ois-graphs.html#cb10-84"></a><span class="co">#&gt;                       1.57858614                       0.02287806 </span></span>
-<span id="cb10-85"><a href="ois-graphs.html#cb10-85"></a><span class="co">#&gt;                    walking stick                           wrench </span></span>
-<span id="cb10-86"><a href="ois-graphs.html#cb10-86"></a><span class="co">#&gt;                       0.02287806                       0.02287806</span></span></code></pre></div>
-<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon. It also doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="ois-graphs.html#cb11-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb11-2"><a href="ois-graphs.html#cb11-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)</span>
-<span id="cb11-3"><a href="ois-graphs.html#cb11-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb11-4"><a href="ois-graphs.html#cb11-4"></a>temp</span>
-<span id="cb11-5"><a href="ois-graphs.html#cb11-5"></a><span class="co">#&gt; </span></span>
-<span id="cb11-6"><a href="ois-graphs.html#cb11-6"></a><span class="co">#&gt;                  air conditioner                         barstool </span></span>
-<span id="cb11-7"><a href="ois-graphs.html#cb11-7"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-8"><a href="ois-graphs.html#cb11-8"></a><span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span></span>
-<span id="cb11-9"><a href="ois-graphs.html#cb11-9"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-10"><a href="ois-graphs.html#cb11-10"></a><span class="co">#&gt;                          bayonet                     bean-bag gun </span></span>
-<span id="cb11-11"><a href="ois-graphs.html#cb11-11"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-12"><a href="ois-graphs.html#cb11-12"></a><span class="co">#&gt;                    bow and arrow                          carjack </span></span>
-<span id="cb11-13"><a href="ois-graphs.html#cb11-13"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-14"><a href="ois-graphs.html#cb11-14"></a><span class="co">#&gt;                         chainsaw              claimed to be armed </span></span>
-<span id="cb11-15"><a href="ois-graphs.html#cb11-15"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-16"><a href="ois-graphs.html#cb11-16"></a><span class="co">#&gt;               contractor&#39;s level                   cordless drill </span></span>
-<span id="cb11-17"><a href="ois-graphs.html#cb11-17"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-18"><a href="ois-graphs.html#cb11-18"></a><span class="co">#&gt;                        fireworks                         flagpole </span></span>
-<span id="cb11-19"><a href="ois-graphs.html#cb11-19"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-20"><a href="ois-graphs.html#cb11-20"></a><span class="co">#&gt;                       flashlight                      garden tool </span></span>
-<span id="cb11-21"><a href="ois-graphs.html#cb11-21"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-22"><a href="ois-graphs.html#cb11-22"></a><span class="co">#&gt;                    gun and sword                       hand torch </span></span>
-<span id="cb11-23"><a href="ois-graphs.html#cb11-23"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-24"><a href="ois-graphs.html#cb11-24"></a><span class="co">#&gt;                  machete and gun                  metal hand tool </span></span>
-<span id="cb11-25"><a href="ois-graphs.html#cb11-25"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-26"><a href="ois-graphs.html#cb11-26"></a><span class="co">#&gt;                       metal rake                       motorcycle </span></span>
-<span id="cb11-27"><a href="ois-graphs.html#cb11-27"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-28"><a href="ois-graphs.html#cb11-28"></a><span class="co">#&gt;                         nail gun                              oar </span></span>
-<span id="cb11-29"><a href="ois-graphs.html#cb11-29"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-30"><a href="ois-graphs.html#cb11-30"></a><span class="co">#&gt;                       pellet gun                              pen </span></span>
-<span id="cb11-31"><a href="ois-graphs.html#cb11-31"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-32"><a href="ois-graphs.html#cb11-32"></a><span class="co">#&gt;                     pepper spray                    samurai sword </span></span>
-<span id="cb11-33"><a href="ois-graphs.html#cb11-33"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-34"><a href="ois-graphs.html#cb11-34"></a><span class="co">#&gt;                            spear                          stapler </span></span>
-<span id="cb11-35"><a href="ois-graphs.html#cb11-35"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-36"><a href="ois-graphs.html#cb11-36"></a><span class="co">#&gt;                        tire iron                  vehicle and gun </span></span>
-<span id="cb11-37"><a href="ois-graphs.html#cb11-37"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-38"><a href="ois-graphs.html#cb11-38"></a><span class="co">#&gt;                    walking stick                           wrench </span></span>
-<span id="cb11-39"><a href="ois-graphs.html#cb11-39"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
-<span id="cb11-40"><a href="ois-graphs.html#cb11-40"></a><span class="co">#&gt;                            brick                            chain </span></span>
-<span id="cb11-41"><a href="ois-graphs.html#cb11-41"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-42"><a href="ois-graphs.html#cb11-42"></a><span class="co">#&gt;                        chain saw                            chair </span></span>
-<span id="cb11-43"><a href="ois-graphs.html#cb11-43"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-44"><a href="ois-graphs.html#cb11-44"></a><span class="co">#&gt;                  gun and vehicle                  hatchet and gun </span></span>
-<span id="cb11-45"><a href="ois-graphs.html#cb11-45"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-46"><a href="ois-graphs.html#cb11-46"></a><span class="co">#&gt;                incendiary device                 lawn mower blade </span></span>
-<span id="cb11-47"><a href="ois-graphs.html#cb11-47"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-48"><a href="ois-graphs.html#cb11-48"></a><span class="co">#&gt;                       metal pole                        pitchfork </span></span>
-<span id="cb11-49"><a href="ois-graphs.html#cb11-49"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-50"><a href="ois-graphs.html#cb11-50"></a><span class="co">#&gt;                             pole                   pole and knife </span></span>
-<span id="cb11-51"><a href="ois-graphs.html#cb11-51"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
-<span id="cb11-52"><a href="ois-graphs.html#cb11-52"></a><span class="co">#&gt;                           BB gun                      beer bottle </span></span>
-<span id="cb11-53"><a href="ois-graphs.html#cb11-53"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-54"><a href="ois-graphs.html#cb11-54"></a><span class="co">#&gt;                          crowbar                      glass shard </span></span>
-<span id="cb11-55"><a href="ois-graphs.html#cb11-55"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-56"><a href="ois-graphs.html#cb11-56"></a><span class="co">#&gt;              guns and explosives                     meat cleaver </span></span>
-<span id="cb11-57"><a href="ois-graphs.html#cb11-57"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-58"><a href="ois-graphs.html#cb11-58"></a><span class="co">#&gt;                      metal stick                         pick-axe </span></span>
-<span id="cb11-59"><a href="ois-graphs.html#cb11-59"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-60"><a href="ois-graphs.html#cb11-60"></a><span class="co">#&gt;                    piece of wood                         scissors </span></span>
-<span id="cb11-61"><a href="ois-graphs.html#cb11-61"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-62"><a href="ois-graphs.html#cb11-62"></a><span class="co">#&gt;                           shovel              straight edge razor </span></span>
-<span id="cb11-63"><a href="ois-graphs.html#cb11-63"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
-<span id="cb11-64"><a href="ois-graphs.html#cb11-64"></a><span class="co">#&gt;                            baton                     metal object </span></span>
-<span id="cb11-65"><a href="ois-graphs.html#cb11-65"></a><span class="co">#&gt;                             0.09                             0.09 </span></span>
-<span id="cb11-66"><a href="ois-graphs.html#cb11-66"></a><span class="co">#&gt;                             rock                     blunt object </span></span>
-<span id="cb11-67"><a href="ois-graphs.html#cb11-67"></a><span class="co">#&gt;                             0.09                             0.11 </span></span>
-<span id="cb11-68"><a href="ois-graphs.html#cb11-68"></a><span class="co">#&gt;                      gun and car                     sharp object </span></span>
-<span id="cb11-69"><a href="ois-graphs.html#cb11-69"></a><span class="co">#&gt;                             0.11                             0.11 </span></span>
-<span id="cb11-70"><a href="ois-graphs.html#cb11-70"></a><span class="co">#&gt;                             pipe                          hatchet </span></span>
-<span id="cb11-71"><a href="ois-graphs.html#cb11-71"></a><span class="co">#&gt;                             0.14                             0.18 </span></span>
-<span id="cb11-72"><a href="ois-graphs.html#cb11-72"></a><span class="co">#&gt;                      screwdriver                         crossbow </span></span>
-<span id="cb11-73"><a href="ois-graphs.html#cb11-73"></a><span class="co">#&gt;                             0.18                             0.21 </span></span>
-<span id="cb11-74"><a href="ois-graphs.html#cb11-74"></a><span class="co">#&gt;                       box cutter                           hammer </span></span>
-<span id="cb11-75"><a href="ois-graphs.html#cb11-75"></a><span class="co">#&gt;                             0.23                             0.23 </span></span>
-<span id="cb11-76"><a href="ois-graphs.html#cb11-76"></a><span class="co">#&gt;                       metal pipe                     baseball bat </span></span>
-<span id="cb11-77"><a href="ois-graphs.html#cb11-77"></a><span class="co">#&gt;                             0.25                             0.27 </span></span>
-<span id="cb11-78"><a href="ois-graphs.html#cb11-78"></a><span class="co">#&gt;                    gun and knife                            sword </span></span>
-<span id="cb11-79"><a href="ois-graphs.html#cb11-79"></a><span class="co">#&gt;                             0.34                             0.34 </span></span>
-<span id="cb11-80"><a href="ois-graphs.html#cb11-80"></a><span class="co">#&gt;                            Taser                               ax </span></span>
-<span id="cb11-81"><a href="ois-graphs.html#cb11-81"></a><span class="co">#&gt;                             0.41                             0.48 </span></span>
-<span id="cb11-82"><a href="ois-graphs.html#cb11-82"></a><span class="co">#&gt;                          machete                   unknown weapon </span></span>
-<span id="cb11-83"><a href="ois-graphs.html#cb11-83"></a><span class="co">#&gt;                             0.87                             1.26 </span></span>
-<span id="cb11-84"><a href="ois-graphs.html#cb11-84"></a><span class="co">#&gt;                          vehicle                       toy weapon </span></span>
-<span id="cb11-85"><a href="ois-graphs.html#cb11-85"></a><span class="co">#&gt;                             1.58                             3.55 </span></span>
-<span id="cb11-86"><a href="ois-graphs.html#cb11-86"></a><span class="co">#&gt;                     undetermined                          unarmed </span></span>
-<span id="cb11-87"><a href="ois-graphs.html#cb11-87"></a><span class="co">#&gt;                             4.30                             6.36 </span></span>
-<span id="cb11-88"><a href="ois-graphs.html#cb11-88"></a><span class="co">#&gt;                            knife                              gun </span></span>
-<span id="cb11-89"><a href="ois-graphs.html#cb11-89"></a><span class="co">#&gt;                            14.96                            55.43</span></span></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="ois-graphs.html#cb165-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb165-2"><a href="ois-graphs.html#cb165-2"></a><span class="co">#&gt; </span></span>
+<span id="cb165-3"><a href="ois-graphs.html#cb165-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
+<span id="cb165-4"><a href="ois-graphs.html#cb165-4"></a><span class="co">#&gt;        94.989027         5.010973</span></span></code></pre></div>
+<p>Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at whether the victim was armed.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="ois-graphs.html#cb166-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb166-2"><a href="ois-graphs.html#cb166-2"></a><span class="co">#&gt; </span></span>
+<span id="cb166-3"><a href="ois-graphs.html#cb166-3"></a><span class="co">#&gt;                  air conditioner                       air pistol </span></span>
+<span id="cb166-4"><a href="ois-graphs.html#cb166-4"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-5"><a href="ois-graphs.html#cb166-5"></a><span class="co">#&gt;                   Airsoft pistol                               ax </span></span>
+<span id="cb166-6"><a href="ois-graphs.html#cb166-6"></a><span class="co">#&gt;                       0.01828822                       0.43891734 </span></span>
+<span id="cb166-7"><a href="ois-graphs.html#cb166-7"></a><span class="co">#&gt;                         barstool                     baseball bat </span></span>
+<span id="cb166-8"><a href="ois-graphs.html#cb166-8"></a><span class="co">#&gt;                       0.01828822                       0.32918800 </span></span>
+<span id="cb166-9"><a href="ois-graphs.html#cb166-9"></a><span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span></span>
+<span id="cb166-10"><a href="ois-graphs.html#cb166-10"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-11"><a href="ois-graphs.html#cb166-11"></a><span class="co">#&gt;           baseball bat and knife                            baton </span></span>
+<span id="cb166-12"><a href="ois-graphs.html#cb166-12"></a><span class="co">#&gt;                       0.01828822                       0.09144111 </span></span>
+<span id="cb166-13"><a href="ois-graphs.html#cb166-13"></a><span class="co">#&gt;                          bayonet                           BB gun </span></span>
+<span id="cb166-14"><a href="ois-graphs.html#cb166-14"></a><span class="co">#&gt;                       0.01828822                       0.09144111 </span></span>
+<span id="cb166-15"><a href="ois-graphs.html#cb166-15"></a><span class="co">#&gt;               BB gun and vehicle                     bean-bag gun </span></span>
+<span id="cb166-16"><a href="ois-graphs.html#cb166-16"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-17"><a href="ois-graphs.html#cb166-17"></a><span class="co">#&gt;                      beer bottle                     blunt object </span></span>
+<span id="cb166-18"><a href="ois-graphs.html#cb166-18"></a><span class="co">#&gt;                       0.05486467                       0.09144111 </span></span>
+<span id="cb166-19"><a href="ois-graphs.html#cb166-19"></a><span class="co">#&gt;                    bow and arrow                       box cutter </span></span>
+<span id="cb166-20"><a href="ois-graphs.html#cb166-20"></a><span class="co">#&gt;                       0.01828822                       0.21945867 </span></span>
+<span id="cb166-21"><a href="ois-graphs.html#cb166-21"></a><span class="co">#&gt;                            brick              car, knife and mace </span></span>
+<span id="cb166-22"><a href="ois-graphs.html#cb166-22"></a><span class="co">#&gt;                       0.03657644                       0.01828822 </span></span>
+<span id="cb166-23"><a href="ois-graphs.html#cb166-23"></a><span class="co">#&gt;                          carjack                            chain </span></span>
+<span id="cb166-24"><a href="ois-graphs.html#cb166-24"></a><span class="co">#&gt;                       0.01828822                       0.05486467 </span></span>
+<span id="cb166-25"><a href="ois-graphs.html#cb166-25"></a><span class="co">#&gt;                        chain saw                         chainsaw </span></span>
+<span id="cb166-26"><a href="ois-graphs.html#cb166-26"></a><span class="co">#&gt;                       0.03657644                       0.01828822 </span></span>
+<span id="cb166-27"><a href="ois-graphs.html#cb166-27"></a><span class="co">#&gt;                            chair              claimed to be armed </span></span>
+<span id="cb166-28"><a href="ois-graphs.html#cb166-28"></a><span class="co">#&gt;                       0.07315289                       0.01828822 </span></span>
+<span id="cb166-29"><a href="ois-graphs.html#cb166-29"></a><span class="co">#&gt;               contractor&#39;s level                   cordless drill </span></span>
+<span id="cb166-30"><a href="ois-graphs.html#cb166-30"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-31"><a href="ois-graphs.html#cb166-31"></a><span class="co">#&gt;                         crossbow                          crowbar </span></span>
+<span id="cb166-32"><a href="ois-graphs.html#cb166-32"></a><span class="co">#&gt;                       0.16459400                       0.07315289 </span></span>
+<span id="cb166-33"><a href="ois-graphs.html#cb166-33"></a><span class="co">#&gt;                        fireworks                         flagpole </span></span>
+<span id="cb166-34"><a href="ois-graphs.html#cb166-34"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-35"><a href="ois-graphs.html#cb166-35"></a><span class="co">#&gt;                       flashlight                      garden tool </span></span>
+<span id="cb166-36"><a href="ois-graphs.html#cb166-36"></a><span class="co">#&gt;                       0.03657644                       0.03657644 </span></span>
+<span id="cb166-37"><a href="ois-graphs.html#cb166-37"></a><span class="co">#&gt;                      glass shard                          grenade </span></span>
+<span id="cb166-38"><a href="ois-graphs.html#cb166-38"></a><span class="co">#&gt;                       0.05486467                       0.01828822 </span></span>
+<span id="cb166-39"><a href="ois-graphs.html#cb166-39"></a><span class="co">#&gt;                              gun                      gun and car </span></span>
+<span id="cb166-40"><a href="ois-graphs.html#cb166-40"></a><span class="co">#&gt;                      56.60204828                       0.20117045 </span></span>
+<span id="cb166-41"><a href="ois-graphs.html#cb166-41"></a><span class="co">#&gt;                    gun and knife                    gun and sword </span></span>
+<span id="cb166-42"><a href="ois-graphs.html#cb166-42"></a><span class="co">#&gt;                       0.31089978                       0.01828822 </span></span>
+<span id="cb166-43"><a href="ois-graphs.html#cb166-43"></a><span class="co">#&gt;                  gun and vehicle              guns and explosives </span></span>
+<span id="cb166-44"><a href="ois-graphs.html#cb166-44"></a><span class="co">#&gt;                       0.18288222                       0.05486467 </span></span>
+<span id="cb166-45"><a href="ois-graphs.html#cb166-45"></a><span class="co">#&gt;                           hammer                       hand torch </span></span>
+<span id="cb166-46"><a href="ois-graphs.html#cb166-46"></a><span class="co">#&gt;                       0.29261156                       0.01828822 </span></span>
+<span id="cb166-47"><a href="ois-graphs.html#cb166-47"></a><span class="co">#&gt;                          hatchet                  hatchet and gun </span></span>
+<span id="cb166-48"><a href="ois-graphs.html#cb166-48"></a><span class="co">#&gt;                       0.20117045                       0.03657644 </span></span>
+<span id="cb166-49"><a href="ois-graphs.html#cb166-49"></a><span class="co">#&gt;                         ice pick                incendiary device </span></span>
+<span id="cb166-50"><a href="ois-graphs.html#cb166-50"></a><span class="co">#&gt;                       0.01828822                       0.03657644 </span></span>
+<span id="cb166-51"><a href="ois-graphs.html#cb166-51"></a><span class="co">#&gt;                            knife                 lawn mower blade </span></span>
+<span id="cb166-52"><a href="ois-graphs.html#cb166-52"></a><span class="co">#&gt;                      14.66715435                       0.03657644 </span></span>
+<span id="cb166-53"><a href="ois-graphs.html#cb166-53"></a><span class="co">#&gt;                          machete                  machete and gun </span></span>
+<span id="cb166-54"><a href="ois-graphs.html#cb166-54"></a><span class="co">#&gt;                       0.82297001                       0.01828822 </span></span>
+<span id="cb166-55"><a href="ois-graphs.html#cb166-55"></a><span class="co">#&gt;                     meat cleaver                  metal hand tool </span></span>
+<span id="cb166-56"><a href="ois-graphs.html#cb166-56"></a><span class="co">#&gt;                       0.09144111                       0.01828822 </span></span>
+<span id="cb166-57"><a href="ois-graphs.html#cb166-57"></a><span class="co">#&gt;                     metal object                       metal pipe </span></span>
+<span id="cb166-58"><a href="ois-graphs.html#cb166-58"></a><span class="co">#&gt;                       0.07315289                       0.23774689 </span></span>
+<span id="cb166-59"><a href="ois-graphs.html#cb166-59"></a><span class="co">#&gt;                       metal pole                       metal rake </span></span>
+<span id="cb166-60"><a href="ois-graphs.html#cb166-60"></a><span class="co">#&gt;                       0.05486467                       0.01828822 </span></span>
+<span id="cb166-61"><a href="ois-graphs.html#cb166-61"></a><span class="co">#&gt;                      metal stick                       motorcycle </span></span>
+<span id="cb166-62"><a href="ois-graphs.html#cb166-62"></a><span class="co">#&gt;                       0.05486467                       0.01828822 </span></span>
+<span id="cb166-63"><a href="ois-graphs.html#cb166-63"></a><span class="co">#&gt;                         nail gun                              oar </span></span>
+<span id="cb166-64"><a href="ois-graphs.html#cb166-64"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-65"><a href="ois-graphs.html#cb166-65"></a><span class="co">#&gt;                       pellet gun                              pen </span></span>
+<span id="cb166-66"><a href="ois-graphs.html#cb166-66"></a><span class="co">#&gt;                       0.05486467                       0.01828822 </span></span>
+<span id="cb166-67"><a href="ois-graphs.html#cb166-67"></a><span class="co">#&gt;                     pepper spray                         pick-axe </span></span>
+<span id="cb166-68"><a href="ois-graphs.html#cb166-68"></a><span class="co">#&gt;                       0.01828822                       0.07315289 </span></span>
+<span id="cb166-69"><a href="ois-graphs.html#cb166-69"></a><span class="co">#&gt;                    piece of wood                             pipe </span></span>
+<span id="cb166-70"><a href="ois-graphs.html#cb166-70"></a><span class="co">#&gt;                       0.09144111                       0.10972933 </span></span>
+<span id="cb166-71"><a href="ois-graphs.html#cb166-71"></a><span class="co">#&gt;                        pitchfork                             pole </span></span>
+<span id="cb166-72"><a href="ois-graphs.html#cb166-72"></a><span class="co">#&gt;                       0.03657644                       0.03657644 </span></span>
+<span id="cb166-73"><a href="ois-graphs.html#cb166-73"></a><span class="co">#&gt;                   pole and knife                             rock </span></span>
+<span id="cb166-74"><a href="ois-graphs.html#cb166-74"></a><span class="co">#&gt;                       0.03657644                       0.10972933 </span></span>
+<span id="cb166-75"><a href="ois-graphs.html#cb166-75"></a><span class="co">#&gt;                    samurai sword                         scissors </span></span>
+<span id="cb166-76"><a href="ois-graphs.html#cb166-76"></a><span class="co">#&gt;                       0.05486467                       0.12801756 </span></span>
+<span id="cb166-77"><a href="ois-graphs.html#cb166-77"></a><span class="co">#&gt;                      screwdriver                     sharp object </span></span>
+<span id="cb166-78"><a href="ois-graphs.html#cb166-78"></a><span class="co">#&gt;                       0.23774689                       0.23774689 </span></span>
+<span id="cb166-79"><a href="ois-graphs.html#cb166-79"></a><span class="co">#&gt;                           shovel                            spear </span></span>
+<span id="cb166-80"><a href="ois-graphs.html#cb166-80"></a><span class="co">#&gt;                       0.10972933                       0.01828822 </span></span>
+<span id="cb166-81"><a href="ois-graphs.html#cb166-81"></a><span class="co">#&gt;                          stapler              straight edge razor </span></span>
+<span id="cb166-82"><a href="ois-graphs.html#cb166-82"></a><span class="co">#&gt;                       0.01828822                       0.07315289 </span></span>
+<span id="cb166-83"><a href="ois-graphs.html#cb166-83"></a><span class="co">#&gt;                            sword                            Taser </span></span>
+<span id="cb166-84"><a href="ois-graphs.html#cb166-84"></a><span class="co">#&gt;                       0.40234089                       0.47549378 </span></span>
+<span id="cb166-85"><a href="ois-graphs.html#cb166-85"></a><span class="co">#&gt;                        tire iron                       toy weapon </span></span>
+<span id="cb166-86"><a href="ois-graphs.html#cb166-86"></a><span class="co">#&gt;                       0.01828822                       3.45647403 </span></span>
+<span id="cb166-87"><a href="ois-graphs.html#cb166-87"></a><span class="co">#&gt;                          unarmed                     undetermined </span></span>
+<span id="cb166-88"><a href="ois-graphs.html#cb166-88"></a><span class="co">#&gt;                       6.45574250                       3.05413314 </span></span>
+<span id="cb166-89"><a href="ois-graphs.html#cb166-89"></a><span class="co">#&gt;                   unknown weapon                          vehicle </span></span>
+<span id="cb166-90"><a href="ois-graphs.html#cb166-90"></a><span class="co">#&gt;                       1.44476957                       2.83467447 </span></span>
+<span id="cb166-91"><a href="ois-graphs.html#cb166-91"></a><span class="co">#&gt;                  vehicle and gun              vehicle and machete </span></span>
+<span id="cb166-92"><a href="ois-graphs.html#cb166-92"></a><span class="co">#&gt;                       0.07315289                       0.01828822 </span></span>
+<span id="cb166-93"><a href="ois-graphs.html#cb166-93"></a><span class="co">#&gt;                    walking stick                       wasp spray </span></span>
+<span id="cb166-94"><a href="ois-graphs.html#cb166-94"></a><span class="co">#&gt;                       0.01828822                       0.01828822 </span></span>
+<span id="cb166-95"><a href="ois-graphs.html#cb166-95"></a><span class="co">#&gt;                           wrench </span></span>
+<span id="cb166-96"><a href="ois-graphs.html#cb166-96"></a><span class="co">#&gt;                       0.01828822</span></span></code></pre></div>
+<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon. It also doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll set the parameter <code>decreasing</code> to TRUE in the <code>sort()</code> function so that it is in descending order of how common each value is. And we’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="ois-graphs.html#cb167-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb167-2"><a href="ois-graphs.html#cb167-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb167-3"><a href="ois-graphs.html#cb167-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb167-4"><a href="ois-graphs.html#cb167-4"></a>temp</span>
+<span id="cb167-5"><a href="ois-graphs.html#cb167-5"></a><span class="co">#&gt; </span></span>
+<span id="cb167-6"><a href="ois-graphs.html#cb167-6"></a><span class="co">#&gt;                              gun                            knife </span></span>
+<span id="cb167-7"><a href="ois-graphs.html#cb167-7"></a><span class="co">#&gt;                            56.60                            14.67 </span></span>
+<span id="cb167-8"><a href="ois-graphs.html#cb167-8"></a><span class="co">#&gt;                          unarmed                       toy weapon </span></span>
+<span id="cb167-9"><a href="ois-graphs.html#cb167-9"></a><span class="co">#&gt;                             6.46                             3.46 </span></span>
+<span id="cb167-10"><a href="ois-graphs.html#cb167-10"></a><span class="co">#&gt;                     undetermined                          vehicle </span></span>
+<span id="cb167-11"><a href="ois-graphs.html#cb167-11"></a><span class="co">#&gt;                             3.05                             2.83 </span></span>
+<span id="cb167-12"><a href="ois-graphs.html#cb167-12"></a><span class="co">#&gt;                   unknown weapon                          machete </span></span>
+<span id="cb167-13"><a href="ois-graphs.html#cb167-13"></a><span class="co">#&gt;                             1.44                             0.82 </span></span>
+<span id="cb167-14"><a href="ois-graphs.html#cb167-14"></a><span class="co">#&gt;                            Taser                               ax </span></span>
+<span id="cb167-15"><a href="ois-graphs.html#cb167-15"></a><span class="co">#&gt;                             0.48                             0.44 </span></span>
+<span id="cb167-16"><a href="ois-graphs.html#cb167-16"></a><span class="co">#&gt;                            sword                     baseball bat </span></span>
+<span id="cb167-17"><a href="ois-graphs.html#cb167-17"></a><span class="co">#&gt;                             0.40                             0.33 </span></span>
+<span id="cb167-18"><a href="ois-graphs.html#cb167-18"></a><span class="co">#&gt;                    gun and knife                           hammer </span></span>
+<span id="cb167-19"><a href="ois-graphs.html#cb167-19"></a><span class="co">#&gt;                             0.31                             0.29 </span></span>
+<span id="cb167-20"><a href="ois-graphs.html#cb167-20"></a><span class="co">#&gt;                       metal pipe                      screwdriver </span></span>
+<span id="cb167-21"><a href="ois-graphs.html#cb167-21"></a><span class="co">#&gt;                             0.24                             0.24 </span></span>
+<span id="cb167-22"><a href="ois-graphs.html#cb167-22"></a><span class="co">#&gt;                     sharp object                       box cutter </span></span>
+<span id="cb167-23"><a href="ois-graphs.html#cb167-23"></a><span class="co">#&gt;                             0.24                             0.22 </span></span>
+<span id="cb167-24"><a href="ois-graphs.html#cb167-24"></a><span class="co">#&gt;                      gun and car                          hatchet </span></span>
+<span id="cb167-25"><a href="ois-graphs.html#cb167-25"></a><span class="co">#&gt;                             0.20                             0.20 </span></span>
+<span id="cb167-26"><a href="ois-graphs.html#cb167-26"></a><span class="co">#&gt;                  gun and vehicle                         crossbow </span></span>
+<span id="cb167-27"><a href="ois-graphs.html#cb167-27"></a><span class="co">#&gt;                             0.18                             0.16 </span></span>
+<span id="cb167-28"><a href="ois-graphs.html#cb167-28"></a><span class="co">#&gt;                         scissors                             pipe </span></span>
+<span id="cb167-29"><a href="ois-graphs.html#cb167-29"></a><span class="co">#&gt;                             0.13                             0.11 </span></span>
+<span id="cb167-30"><a href="ois-graphs.html#cb167-30"></a><span class="co">#&gt;                             rock                           shovel </span></span>
+<span id="cb167-31"><a href="ois-graphs.html#cb167-31"></a><span class="co">#&gt;                             0.11                             0.11 </span></span>
+<span id="cb167-32"><a href="ois-graphs.html#cb167-32"></a><span class="co">#&gt;                            baton                           BB gun </span></span>
+<span id="cb167-33"><a href="ois-graphs.html#cb167-33"></a><span class="co">#&gt;                             0.09                             0.09 </span></span>
+<span id="cb167-34"><a href="ois-graphs.html#cb167-34"></a><span class="co">#&gt;                     blunt object                     meat cleaver </span></span>
+<span id="cb167-35"><a href="ois-graphs.html#cb167-35"></a><span class="co">#&gt;                             0.09                             0.09 </span></span>
+<span id="cb167-36"><a href="ois-graphs.html#cb167-36"></a><span class="co">#&gt;                    piece of wood                            chair </span></span>
+<span id="cb167-37"><a href="ois-graphs.html#cb167-37"></a><span class="co">#&gt;                             0.09                             0.07 </span></span>
+<span id="cb167-38"><a href="ois-graphs.html#cb167-38"></a><span class="co">#&gt;                          crowbar                     metal object </span></span>
+<span id="cb167-39"><a href="ois-graphs.html#cb167-39"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
+<span id="cb167-40"><a href="ois-graphs.html#cb167-40"></a><span class="co">#&gt;                         pick-axe              straight edge razor </span></span>
+<span id="cb167-41"><a href="ois-graphs.html#cb167-41"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
+<span id="cb167-42"><a href="ois-graphs.html#cb167-42"></a><span class="co">#&gt;                  vehicle and gun                      beer bottle </span></span>
+<span id="cb167-43"><a href="ois-graphs.html#cb167-43"></a><span class="co">#&gt;                             0.07                             0.05 </span></span>
+<span id="cb167-44"><a href="ois-graphs.html#cb167-44"></a><span class="co">#&gt;                            chain                      glass shard </span></span>
+<span id="cb167-45"><a href="ois-graphs.html#cb167-45"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-46"><a href="ois-graphs.html#cb167-46"></a><span class="co">#&gt;              guns and explosives                       metal pole </span></span>
+<span id="cb167-47"><a href="ois-graphs.html#cb167-47"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-48"><a href="ois-graphs.html#cb167-48"></a><span class="co">#&gt;                      metal stick                       pellet gun </span></span>
+<span id="cb167-49"><a href="ois-graphs.html#cb167-49"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-50"><a href="ois-graphs.html#cb167-50"></a><span class="co">#&gt;                    samurai sword                            brick </span></span>
+<span id="cb167-51"><a href="ois-graphs.html#cb167-51"></a><span class="co">#&gt;                             0.05                             0.04 </span></span>
+<span id="cb167-52"><a href="ois-graphs.html#cb167-52"></a><span class="co">#&gt;                        chain saw                       flashlight </span></span>
+<span id="cb167-53"><a href="ois-graphs.html#cb167-53"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-54"><a href="ois-graphs.html#cb167-54"></a><span class="co">#&gt;                      garden tool                  hatchet and gun </span></span>
+<span id="cb167-55"><a href="ois-graphs.html#cb167-55"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-56"><a href="ois-graphs.html#cb167-56"></a><span class="co">#&gt;                incendiary device                 lawn mower blade </span></span>
+<span id="cb167-57"><a href="ois-graphs.html#cb167-57"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-58"><a href="ois-graphs.html#cb167-58"></a><span class="co">#&gt;                        pitchfork                             pole </span></span>
+<span id="cb167-59"><a href="ois-graphs.html#cb167-59"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-60"><a href="ois-graphs.html#cb167-60"></a><span class="co">#&gt;                   pole and knife                  air conditioner </span></span>
+<span id="cb167-61"><a href="ois-graphs.html#cb167-61"></a><span class="co">#&gt;                             0.04                             0.02 </span></span>
+<span id="cb167-62"><a href="ois-graphs.html#cb167-62"></a><span class="co">#&gt;                       air pistol                   Airsoft pistol </span></span>
+<span id="cb167-63"><a href="ois-graphs.html#cb167-63"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-64"><a href="ois-graphs.html#cb167-64"></a><span class="co">#&gt;                         barstool          baseball bat and bottle </span></span>
+<span id="cb167-65"><a href="ois-graphs.html#cb167-65"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-66"><a href="ois-graphs.html#cb167-66"></a><span class="co">#&gt; baseball bat and fireplace poker           baseball bat and knife </span></span>
+<span id="cb167-67"><a href="ois-graphs.html#cb167-67"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-68"><a href="ois-graphs.html#cb167-68"></a><span class="co">#&gt;                          bayonet               BB gun and vehicle </span></span>
+<span id="cb167-69"><a href="ois-graphs.html#cb167-69"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-70"><a href="ois-graphs.html#cb167-70"></a><span class="co">#&gt;                     bean-bag gun                    bow and arrow </span></span>
+<span id="cb167-71"><a href="ois-graphs.html#cb167-71"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-72"><a href="ois-graphs.html#cb167-72"></a><span class="co">#&gt;              car, knife and mace                          carjack </span></span>
+<span id="cb167-73"><a href="ois-graphs.html#cb167-73"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-74"><a href="ois-graphs.html#cb167-74"></a><span class="co">#&gt;                         chainsaw              claimed to be armed </span></span>
+<span id="cb167-75"><a href="ois-graphs.html#cb167-75"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-76"><a href="ois-graphs.html#cb167-76"></a><span class="co">#&gt;               contractor&#39;s level                   cordless drill </span></span>
+<span id="cb167-77"><a href="ois-graphs.html#cb167-77"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-78"><a href="ois-graphs.html#cb167-78"></a><span class="co">#&gt;                        fireworks                         flagpole </span></span>
+<span id="cb167-79"><a href="ois-graphs.html#cb167-79"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-80"><a href="ois-graphs.html#cb167-80"></a><span class="co">#&gt;                          grenade                    gun and sword </span></span>
+<span id="cb167-81"><a href="ois-graphs.html#cb167-81"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-82"><a href="ois-graphs.html#cb167-82"></a><span class="co">#&gt;                       hand torch                         ice pick </span></span>
+<span id="cb167-83"><a href="ois-graphs.html#cb167-83"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-84"><a href="ois-graphs.html#cb167-84"></a><span class="co">#&gt;                  machete and gun                  metal hand tool </span></span>
+<span id="cb167-85"><a href="ois-graphs.html#cb167-85"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-86"><a href="ois-graphs.html#cb167-86"></a><span class="co">#&gt;                       metal rake                       motorcycle </span></span>
+<span id="cb167-87"><a href="ois-graphs.html#cb167-87"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-88"><a href="ois-graphs.html#cb167-88"></a><span class="co">#&gt;                         nail gun                              oar </span></span>
+<span id="cb167-89"><a href="ois-graphs.html#cb167-89"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-90"><a href="ois-graphs.html#cb167-90"></a><span class="co">#&gt;                              pen                     pepper spray </span></span>
+<span id="cb167-91"><a href="ois-graphs.html#cb167-91"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-92"><a href="ois-graphs.html#cb167-92"></a><span class="co">#&gt;                            spear                          stapler </span></span>
+<span id="cb167-93"><a href="ois-graphs.html#cb167-93"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-94"><a href="ois-graphs.html#cb167-94"></a><span class="co">#&gt;                        tire iron              vehicle and machete </span></span>
+<span id="cb167-95"><a href="ois-graphs.html#cb167-95"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-96"><a href="ois-graphs.html#cb167-96"></a><span class="co">#&gt;                    walking stick                       wasp spray </span></span>
+<span id="cb167-97"><a href="ois-graphs.html#cb167-97"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-98"><a href="ois-graphs.html#cb167-98"></a><span class="co">#&gt;                           wrench </span></span>
+<span id="cb167-99"><a href="ois-graphs.html#cb167-99"></a><span class="co">#&gt;                             0.02</span></span></code></pre></div>
 <p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.</p>
-<p>Think about how you’d graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called “other weapons.” And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
+<p>Think about how you’d graph this data. There are 94 unique values in this column though fewer than ten of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called “other weapons.” And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
 <p>Let’s keep exploring the data by looking at gender and race.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="ois-graphs.html#cb12-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>gender) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb12-2"><a href="ois-graphs.html#cb12-2"></a><span class="co">#&gt; </span></span>
-<span id="cb12-3"><a href="ois-graphs.html#cb12-3"></a><span class="co">#&gt;         F         M </span></span>
-<span id="cb12-4"><a href="ois-graphs.html#cb12-4"></a><span class="co">#&gt;  4.667124 95.218485</span></span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="ois-graphs.html#cb168-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>gender) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb168-2"><a href="ois-graphs.html#cb168-2"></a><span class="co">#&gt; </span></span>
+<span id="cb168-3"><a href="ois-graphs.html#cb168-3"></a><span class="co">#&gt;         F         M </span></span>
+<span id="cb168-4"><a href="ois-graphs.html#cb168-4"></a><span class="co">#&gt;  4.444038 95.537674</span></span></code></pre></div>
 <p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="ois-graphs.html#cb13-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>race) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
-<span id="cb13-2"><a href="ois-graphs.html#cb13-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)</span>
-<span id="cb13-3"><a href="ois-graphs.html#cb13-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb13-4"><a href="ois-graphs.html#cb13-4"></a>temp</span>
-<span id="cb13-5"><a href="ois-graphs.html#cb13-5"></a><span class="co">#&gt; </span></span>
-<span id="cb13-6"><a href="ois-graphs.html#cb13-6"></a><span class="co">#&gt;     O     N     A     H     B     W </span></span>
-<span id="cb13-7"><a href="ois-graphs.html#cb13-7"></a><span class="co">#&gt;  0.87  1.46  1.62 16.45 22.90 44.89</span></span></code></pre></div>
-<p>White people are the most likely to be killed by police followed by Black people and Hispanic people.</p>
-<p>We can do a simple cross-tab to see if there the relationship between gender and race.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="ois-graphs.html#cb14-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>gender, shootings<span class="op">$</span>race)</span>
-<span id="cb14-2"><a href="ois-graphs.html#cb14-2"></a><span class="co">#&gt;    </span></span>
-<span id="cb14-3"><a href="ois-graphs.html#cb14-3"></a><span class="co">#&gt;        A    B    H    N    O    W</span></span>
-<span id="cb14-4"><a href="ois-graphs.html#cb14-4"></a><span class="co">#&gt;   F    3   42   21    5    3  107</span></span>
-<span id="cb14-5"><a href="ois-graphs.html#cb14-5"></a><span class="co">#&gt;   M   68  959  697   59   35 1853</span></span></code></pre></div>
-<p>One annoying thing with these two variables is that it doesn’t spell out the name. Instead of “Female”, for example, it has “F”. For our graphs we want to spell out the words so it is clear to viewers. We’ll fix this issue, and the issue of having many weapon categories, as we graph each variable.</p>
-<p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="ois-graphs.html#cb15-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
-<div id="density-plot" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Density plot</h2>
-<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build our way up to more complicated graphs.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="ois-graphs.html#cb16-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb16-2"><a href="ois-graphs.html#cb16-2"></a><span class="st">  </span><span class="kw">geom_density</span>()</span>
-<span id="cb16-3"><a href="ois-graphs.html#cb16-3"></a><span class="co">#&gt; Warning: Removed 182 rows containing non-finite values (stat_density).</span></span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="ois-graphs.html#cb169-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>race) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb169-2"><a href="ois-graphs.html#cb169-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)</span>
+<span id="cb169-3"><a href="ois-graphs.html#cb169-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb169-4"><a href="ois-graphs.html#cb169-4"></a>temp</span>
+<span id="cb169-5"><a href="ois-graphs.html#cb169-5"></a><span class="co">#&gt; </span></span>
+<span id="cb169-6"><a href="ois-graphs.html#cb169-6"></a><span class="co">#&gt;     O     N     A     H     B     W </span></span>
+<span id="cb169-7"><a href="ois-graphs.html#cb169-7"></a><span class="co">#&gt;  0.88  1.43  1.72 16.61 23.81 45.67</span></span></code></pre></div>
+<p>White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed, it doesn’t give any indication on rates of death per group. You’d need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It’s important to understand the data not only to be able to answer questions about it, but to know what questions you can’t answer - and you’ll find when using criminology data that there are a <em>lot</em> of questions that you can’t answer.</p>
+<p>One annoying thing with the gender and race variables is that they doesn’t spell out the name. Instead of “Female”, for example, it has “F”. For our graphs we want to spell out the words so it is clear to viewers. We’ll fix this issue, and the issue of having many weapon categories, as we graph each variable.</p>
 </div>
-<div id="histogram" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Histogram</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="ois-graphs.html#cb17-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb17-2"><a href="ois-graphs.html#cb17-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>()</span>
-<span id="cb17-3"><a href="ois-graphs.html#cb17-3"></a><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
-<span id="cb17-4"><a href="ois-graphs.html#cb17-4"></a><span class="co">#&gt; Warning: Removed 182 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<div id="graphing-a-single-numeric-variable" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Graphing a Single Numeric Variable</h2>
+<p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package if we haven’t done so already this session (i.e. since you last closed RStudio).</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="ois-graphs.html#cb170-1"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build our way up to more complicated graphs. We’ll start here by building some graphs to depict a numeric variable - in this case the “age” column. We start every <code>ggplot()</code> the same, by inserting the dataset first and then put our x and y variables inside of the <code>aes()</code> parameter. In this case we’re only going to be plotting an x variable so we don’t need to write anything for y.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="ois-graphs.html#cb171-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age))</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+Running the above code returns a blank graph since we haven’t told <code>ggplot()</code> what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They’re essentially all variations of each other and show the data at different levels of precision. It’s hard to say which is best - you’ll need to use your best judgment and consider your audience.</p>
+<div id="histogram" class="section level3" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> Histogram</h3>
+<p>The histogram is a very common type of graph for a single numeric variable. Histograms group a numeric variable into categories and then plot then, with the heights of each bar indicating how common the group is. We can make a histogram by adding <code>geom_histogram()</code> to the <code>ggplot()</code>.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="ois-graphs.html#cb172-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb172-2"><a href="ois-graphs.html#cb172-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>()</span>
+<span id="cb172-3"><a href="ois-graphs.html#cb172-3"></a><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span id="cb172-4"><a href="ois-graphs.html#cb172-4"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The x-axis is ages with each bar being a group of certain ages, and the y-axis is how many people are in each group. The grouping is done automatically and we can alter it by changing the <code>bin</code> parameter in <code>geom_histogram()</code>. By default this parameter is set to 30 but we can make each group smaller (have fewer ages per group) by <strong>increasing</strong> it from 30 or make each group larger by <strong>decreasing</strong> it.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="ois-graphs.html#cb173-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb173-2"><a href="ois-graphs.html#cb173-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">15</span>)</span>
+<span id="cb173-3"><a href="ois-graphs.html#cb173-3"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="ois-graphs.html#cb174-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb174-2"><a href="ois-graphs.html#cb174-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">45</span>)</span>
+<span id="cb174-3"><a href="ois-graphs.html#cb174-3"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Note that while the overall trend (of most deaths being around age 25) doesn’t change when we alter <code>bin</code>, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly, and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.</p>
+<p>These graphs show the y-axis as the number of people in each bar. If we want to show percent instead we can add in a parameter for <code>y</code> in the <code>aes()</code> of the <code>geom_histogram()</code>. We add in <code>y = (..count..)/sum(..count..))</code> which automatically converts the counts to percentages. The “(..count..)/sum(..count..))” stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it’s an easy helper. If you do this, make sure to relabel the y-axis so you don’t accidentally call the percent a count!</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="ois-graphs.html#cb175-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb175-2"><a href="ois-graphs.html#cb175-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)))</span>
+<span id="cb175-3"><a href="ois-graphs.html#cb175-3"></a><span class="co">#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span id="cb175-4"><a href="ois-graphs.html#cb175-4"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
 <p><img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="density-plot" class="section level3" number="7.2.2">
+<h3><span class="header-section-number">7.2.2</span> Density plot</h3>
+<p>Density plots are essentially smoothed versions of histograms. They’re especially useful for numeric variables which are not integers (integers are whole numbers). They’re also useful when you want to be more precise than a histogram as they are - to simplify - histograms where each bar is very narrow. Note that the y-axis of a histogram is automatically labeled “density” and has very small numbers. Interpreting the y-axis is fairly hard to explain to someone not familiar with statistics so I’d caution against using this graph unless your audience is already familiar with it.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="ois-graphs.html#cb176-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb176-2"><a href="ois-graphs.html#cb176-2"></a><span class="st">  </span><span class="kw">geom_density</span>()</span>
+<span id="cb176-3"><a href="ois-graphs.html#cb176-3"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_density).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="count-graph" class="section level3" number="7.2.3">
+<h3><span class="header-section-number">7.2.3</span> Count Graph</h3>
+<p>A count graph is essentially a histogram with a bar for every value in the numeric variable - like a less-smooth density plot. Note that this won’t work well if you have too many unique values so I’d strongly recommend rounding the data to the nearest whole number first. Our age variable is already rounded so we don’t need to do that. To make a count graph, we add <code>stat_count()</code> to the <code>ggplot()</code>.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="ois-graphs.html#cb177-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb177-2"><a href="ois-graphs.html#cb177-2"></a><span class="st">  </span><span class="kw">stat_count</span>()</span>
+<span id="cb177-3"><a href="ois-graphs.html#cb177-3"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to percent of people using the exact same code.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="ois-graphs.html#cb178-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> age)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb178-2"><a href="ois-graphs.html#cb178-2"></a><span class="st">  </span><span class="kw">stat_count</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)))</span>
+<span id="cb178-3"><a href="ois-graphs.html#cb178-3"></a><span class="co">#&gt; Warning: Removed 237 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+### Graphing a Categorical Variable</p>
+</div>
 </div>
 <div id="bar-graph" class="section level2" number="7.3">
 <h2><span class="header-section-number">7.3</span> Bar graph</h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="ois-graphs.html#cb18-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-2"><a href="ois-graphs.html#cb18-2"></a><span class="st">  </span><span class="kw">geom_bar</span>()</span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="ois-graphs.html#cb19-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb19-2"><a href="ois-graphs.html#cb19-2"></a></span>
-<span id="cb19-3"><a href="ois-graphs.html#cb19-3"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb19-4"><a href="ois-graphs.html#cb19-4"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></span>
-<span id="cb19-5"><a href="ois-graphs.html#cb19-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)</span>
-<span id="cb19-6"><a href="ois-graphs.html#cb19-6"></a><span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="ois-graphs.html#cb20-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))</span>
-<span id="cb20-2"><a href="ois-graphs.html#cb20-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb20-3"><a href="ois-graphs.html#cb20-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
-<span id="cb20-4"><a href="ois-graphs.html#cb20-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb20-5"><a href="ois-graphs.html#cb20-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)</span>
-<span id="cb20-6"><a href="ois-graphs.html#cb20-6"></a><span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="ois-graphs.html#cb21-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))</span>
-<span id="cb21-2"><a href="ois-graphs.html#cb21-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb21-3"><a href="ois-graphs.html#cb21-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
-<span id="cb21-4"><a href="ois-graphs.html#cb21-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb21-5"><a href="ois-graphs.html#cb21-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span></span>
-<span id="cb21-6"><a href="ois-graphs.html#cb21-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</span>
-<span id="cb21-7"><a href="ois-graphs.html#cb21-7"></a><span class="co">#&gt; Warning: Removed 516 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="ois-graphs.html#cb179-1"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb179-2"><a href="ois-graphs.html#cb179-2"></a><span class="st">  </span><span class="kw">geom_bar</span>()</span></code></pre></div>
 <p><img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<p>We can reuse this code to make a similar graph for the gender variable.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="ois-graphs.html#cb22-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>gender)))</span>
-<span id="cb22-2"><a href="ois-graphs.html#cb22-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> gender)) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb22-3"><a href="ois-graphs.html#cb22-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
-<span id="cb22-4"><a href="ois-graphs.html#cb22-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
-<span id="cb22-5"><a href="ois-graphs.html#cb22-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span></span>
-<span id="cb22-6"><a href="ois-graphs.html#cb22-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</span>
-<span id="cb22-7"><a href="ois-graphs.html#cb22-7"></a><span class="co">#&gt; Warning: Removed 5 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="ois-graphs.html#cb180-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))</span>
+<span id="cb180-2"><a href="ois-graphs.html#cb180-2"></a></span>
+<span id="cb180-3"><a href="ois-graphs.html#cb180-3"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb180-4"><a href="ois-graphs.html#cb180-4"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span></span>
+<span id="cb180-5"><a href="ois-graphs.html#cb180-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)</span>
+<span id="cb180-6"><a href="ois-graphs.html#cb180-6"></a><span class="co">#&gt; Warning: Removed 541 rows containing non-finite values (stat_count).</span></span></code></pre></div>
 <p><img src="graphing-2_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it’ll shrink the graph to accomodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="ois-graphs.html#cb181-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))</span>
+<span id="cb181-2"><a href="ois-graphs.html#cb181-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb181-3"><a href="ois-graphs.html#cb181-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
+<span id="cb181-4"><a href="ois-graphs.html#cb181-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb181-5"><a href="ois-graphs.html#cb181-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order)</span>
+<span id="cb181-6"><a href="ois-graphs.html#cb181-6"></a><span class="co">#&gt; Warning: Removed 541 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="ois-graphs.html#cb182-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>race)))</span>
+<span id="cb182-2"><a href="ois-graphs.html#cb182-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> race)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb182-3"><a href="ois-graphs.html#cb182-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
+<span id="cb182-4"><a href="ois-graphs.html#cb182-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb182-5"><a href="ois-graphs.html#cb182-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span></span>
+<span id="cb182-6"><a href="ois-graphs.html#cb182-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</span>
+<span id="cb182-7"><a href="ois-graphs.html#cb182-7"></a><span class="co">#&gt; Warning: Removed 541 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can reuse this code to make a similar graph for the gender variable.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="ois-graphs.html#cb183-1"></a>race_order &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(shootings<span class="op">$</span>gender)))</span>
+<span id="cb183-2"><a href="ois-graphs.html#cb183-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> gender)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb183-3"><a href="ois-graphs.html#cb183-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y =</span> (..count..)<span class="op">/</span><span class="kw">sum</span>(..count..))) <span class="op">+</span></span>
+<span id="cb183-4"><a href="ois-graphs.html#cb183-4"></a><span class="st">  </span><span class="kw">coord_flip</span>() <span class="op">+</span></span>
+<span id="cb183-5"><a href="ois-graphs.html#cb183-5"></a><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limits =</span> race_order) <span class="op">+</span></span>
+<span id="cb183-6"><a href="ois-graphs.html#cb183-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>percent)</span>
+<span id="cb183-7"><a href="ois-graphs.html#cb183-7"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="time-series" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Time Series</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="ois-graphs.html#cb23-1"></a><span class="kw">library</span>(lubridate)</span>
-<span id="cb23-2"><a href="ois-graphs.html#cb23-2"></a><span class="co">#&gt; </span></span>
-<span id="cb23-3"><a href="ois-graphs.html#cb23-3"></a><span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span></span>
-<span id="cb23-4"><a href="ois-graphs.html#cb23-4"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb23-5"><a href="ois-graphs.html#cb23-5"></a><span class="co">#&gt; </span></span>
-<span id="cb23-6"><a href="ois-graphs.html#cb23-6"></a><span class="co">#&gt;     date, intersect, setdiff, union</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="ois-graphs.html#cb24-1"></a>shootings<span class="op">$</span>dummy &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb24-2"><a href="ois-graphs.html#cb24-2"></a>shootings<span class="op">$</span>month_year &lt;-<span class="st"> </span><span class="kw">floor_date</span>(shootings<span class="op">$</span>date, <span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>)</span>
-<span id="cb24-3"><a href="ois-graphs.html#cb24-3"></a>shootings<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(shootings<span class="op">$</span>date)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="ois-graphs.html#cb25-1"></a>monthly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>month_year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ois-graphs.html#cb26-1"></a><span class="kw">ggplot</span>(monthly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> month_year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
-<span id="cb26-2"><a href="ois-graphs.html#cb26-2"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="ois-graphs.html#cb27-1"></a>yearly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ois-graphs.html#cb28-1"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
-<span id="cb28-2"><a href="ois-graphs.html#cb28-2"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="ois-graphs.html#cb29-1"></a><span class="kw">ggplot</span>(yearly_shootings[yearly_shootings<span class="op">$</span>year <span class="op">!=</span><span class="st"> </span><span class="dv">2019</span>, ], <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
-<span id="cb29-2"><a href="ois-graphs.html#cb29-2"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="ois-graphs.html#cb30-1"></a>yearly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>month_year, <span class="dt">data =</span> shootings[shootings<span class="op">$</span>armed <span class="op">==</span><span class="st"> &quot;unarmed&quot;</span>, ], <span class="dt">FUN =</span> sum)</span>
-<span id="cb30-2"><a href="ois-graphs.html#cb30-2"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> month_year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
-<span id="cb30-3"><a href="ois-graphs.html#cb30-3"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
-<p><img src="graphing-2_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div id="graphing-data-over-time" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> Graphing Data Over Time</h2>
+<p>We went over time-series graphs in Chapter @ref(#graphing-intro) but it’s such an important topic we’ll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome, in this case numbers of killings, over time. In our case we aren’t evaluating any policy, just seeing if the number of police killings change over time.</p>
+<p>We’ll need to make a variable to indicate that the row is for one shooting. We can call this “dummy” and assign it a value of 1. Then we can make the <code>ggplot()</code> and set this “dummy” column to the y-axis value and set our date variable “date” to the x-axis (the time variable is <strong>always</strong> on the x-axis). Then we’ll set the type of plot to <code>geom_line()</code> to we have a line graph showing killings over time.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="ois-graphs.html#cb184-1"></a>shootings<span class="op">$</span>dummy &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb184-2"><a href="ois-graphs.html#cb184-2"></a><span class="kw">ggplot</span>(shootings, <span class="kw">aes</span>(<span class="dt">x =</span> date, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb184-3"><a href="ois-graphs.html#cb184-3"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there’s no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We’ll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We’ll start with yearly data and then move to monthly data. Since we’re going to be dealing with dates, lets load the <code>lubridate()</code> package that is well-suited for this task.</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb185-1"><a href="ois-graphs.html#cb185-1"></a><span class="kw">library</span>(lubridate)</span>
+<span id="cb185-2"><a href="ois-graphs.html#cb185-2"></a><span class="co">#&gt; </span></span>
+<span id="cb185-3"><a href="ois-graphs.html#cb185-3"></a><span class="co">#&gt; Attaching package: &#39;lubridate&#39;</span></span>
+<span id="cb185-4"><a href="ois-graphs.html#cb185-4"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb185-5"><a href="ois-graphs.html#cb185-5"></a><span class="co">#&gt; </span></span>
+<span id="cb185-6"><a href="ois-graphs.html#cb185-6"></a><span class="co">#&gt;     date, intersect, setdiff, union</span></span></code></pre></div>
+<p>We’ll use two functions to create variables that tell us the month and the year of each date in our data. We’ll use these new variables to aggregate our data to that time unit. First, the <code>floor_date()</code> function is a very useful tool that essentially rounds a date. Here we have the exact date the killing happened on, and we want to determine what month that date is from. So we’ll use the parameter <code>unit</code> in <code>floor_date()</code> and tell the function we want to know the “month” (for a full set of options please see the documentation for <code>floor_date()</code> by entering <code>?floor_date</code> in the console). So we can do <code>floor_date(shootings$date, unit = "month")</code> to get the month - specifically, it returns the date that is the first of the month for that month - the killing happened on. Even simpler, to get the year, we simple use <code>year()</code> and put our “date” variable in the parentheses. We’ll call the new variables “month_year” and “year”, respectively.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="ois-graphs.html#cb186-1"></a>shootings<span class="op">$</span>month_year &lt;-<span class="st"> </span><span class="kw">floor_date</span>(shootings<span class="op">$</span>date, <span class="dt">unit =</span> <span class="st">&quot;month&quot;</span>)</span>
+<span id="cb186-2"><a href="ois-graphs.html#cb186-2"></a>shootings<span class="op">$</span>year &lt;-<span class="st"> </span><span class="kw">year</span>(shootings<span class="op">$</span>date)</span>
+<span id="cb186-3"><a href="ois-graphs.html#cb186-3"></a></span>
+<span id="cb186-4"><a href="ois-graphs.html#cb186-4"></a><span class="kw">head</span>(shootings<span class="op">$</span>month_year)</span>
+<span id="cb186-5"><a href="ois-graphs.html#cb186-5"></a><span class="co">#&gt; [1] &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot;</span></span>
+<span id="cb186-6"><a href="ois-graphs.html#cb186-6"></a><span class="co">#&gt; [6] &quot;2015-01-01&quot;</span></span>
+<span id="cb186-7"><a href="ois-graphs.html#cb186-7"></a><span class="kw">head</span>(shootings<span class="op">$</span>year)</span>
+<span id="cb186-8"><a href="ois-graphs.html#cb186-8"></a><span class="co">#&gt; [1] 2015 2015 2015 2015 2015 2015</span></span></code></pre></div>
+<p>Since the data is already sorted by date, all the values printed from <code>head()</code> are the same. But you can look at the data using <code>View()</code> to confirm that the code worked properly.</p>
+<p>We can now aggregate the data by the “month_year” variable and save the result into a new dataset we’ll call <em>monthly_shootings</em>. For a refresher on aggregating, please see Section @ref(#aggregate)</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="ois-graphs.html#cb187-1"></a>monthly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>month_year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</span>
+<span id="cb187-2"><a href="ois-graphs.html#cb187-2"></a><span class="kw">head</span>(monthly_shootings)</span>
+<span id="cb187-3"><a href="ois-graphs.html#cb187-3"></a><span class="co">#&gt;   month_year dummy</span></span>
+<span id="cb187-4"><a href="ois-graphs.html#cb187-4"></a><span class="co">#&gt; 1 2015-01-01    76</span></span>
+<span id="cb187-5"><a href="ois-graphs.html#cb187-5"></a><span class="co">#&gt; 2 2015-02-01    77</span></span>
+<span id="cb187-6"><a href="ois-graphs.html#cb187-6"></a><span class="co">#&gt; 3 2015-03-01    92</span></span>
+<span id="cb187-7"><a href="ois-graphs.html#cb187-7"></a><span class="co">#&gt; 4 2015-04-01    84</span></span>
+<span id="cb187-8"><a href="ois-graphs.html#cb187-8"></a><span class="co">#&gt; 5 2015-05-01    71</span></span>
+<span id="cb187-9"><a href="ois-graphs.html#cb187-9"></a><span class="co">#&gt; 6 2015-06-01    65</span></span></code></pre></div>
+<p>Since we now have a variable that shows for each month the number of people killed, we can graph the this new dataset. We’ll use the same process as earlier but our dataset is now <code>monthly_shootings</code> instead of <code>shootings</code> and the x-axis variable is “month_year” instead of “date”.</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="ois-graphs.html#cb188-1"></a><span class="kw">ggplot</span>(monthly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> month_year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb188-2"><a href="ois-graphs.html#cb188-2"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+The process is the same for yearly data.</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="ois-graphs.html#cb189-1"></a>yearly_shootings &lt;-<span class="st"> </span><span class="kw">aggregate</span>(dummy <span class="op">~</span><span class="st"> </span>year, <span class="dt">data =</span> shootings, <span class="dt">FUN =</span> sum)</span>
+<span id="cb189-2"><a href="ois-graphs.html#cb189-2"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb189-3"><a href="ois-graphs.html#cb189-3"></a><span class="st">  </span><span class="kw">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it’s simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven’t finished this month (year) yet (and the data has a small lag in reporting).</p>
+</div>
+<div id="pretty-graphs" class="section level2" number="7.5">
+<h2><span class="header-section-number">7.5</span> Pretty Graphs</h2>
+<p>What’s next for these graphs? You’ll likely want to add labels for the axes and the title. We went over how to do this in Section @ref{time-series-plots} so please refer to that for more info. Also, check out <code>ggplot2</code>’s <a href="https://ggplot2.tidyverse.org/reference/index.html#section-scales">website</a> to see more on this very versatile package. As I’ve said all chapter, a lot of this is going to be personal taste so please spend some time exploring the package and changing the appearance of the graph to learn what looks right to you.</p>
+<div id="themes" class="section level3" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> Themes</h3>
+<p>In addition to making changes to the graph’s appearance yourself, you can use a theme that someone else made. A theme is just a collection of changes to the graph’s appearance that someone put in a function for others to use. Each theme is different and is fairly opinionated, so you should only use one that you think looks best for your graph. To use a theme, simply add the theme (exactly as spelled on the site) to your ggplot using the + as normal (and make sure to include the () since each theme is actually a function. <code>ggplot2</code> comes with a series of themes that you can look at <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">here</a>. Here, we’ll be looking at themes from the <code>ggthemes</code> package which is a great source of different themes to modify the appearance of your graph. Check out this <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">website</a> to see a depiction of all of the possible themes. If you don’t have the <code>ggthemes</code> package installed, do so using `install.packages(“ggthemes”).</p>
+<p>Let’s do a few examples using the graph made above. First, we’ll need to load the <code>ggthemes</code> library.</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="ois-graphs.html#cb190-1"></a><span class="kw">library</span>(ggthemes)</span>
+<span id="cb190-2"><a href="ois-graphs.html#cb190-2"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb190-3"><a href="ois-graphs.html#cb190-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb190-4"><a href="ois-graphs.html#cb190-4"></a><span class="st">  </span><span class="kw">theme_fivethirtyeight</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="ois-graphs.html#cb191-1"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb191-2"><a href="ois-graphs.html#cb191-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb191-3"><a href="ois-graphs.html#cb191-3"></a><span class="st">  </span><span class="kw">theme_tufte</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="ois-graphs.html#cb192-1"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb192-2"><a href="ois-graphs.html#cb192-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb192-3"><a href="ois-graphs.html#cb192-3"></a><span class="st">  </span><span class="kw">theme_few</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="ois-graphs.html#cb193-1"></a><span class="kw">ggplot</span>(yearly_shootings, <span class="kw">aes</span>(<span class="dt">x =</span> year, <span class="dt">y =</span> dummy)) <span class="op">+</span></span>
+<span id="cb193-2"><a href="ois-graphs.html#cb193-2"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb193-3"><a href="ois-graphs.html#cb193-3"></a><span class="st">  </span><span class="kw">theme_excel</span>()</span></code></pre></div>
+<p><img src="graphing-2_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
+</div>
 </div>
 </div>
             </section>
