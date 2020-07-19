@@ -1,10 +1,8 @@
-
 # More graphing with `ggplot` {#ois_graphs}
 
 In this lesson we will continue to explore graphing using `ggplot()`. While the Philadelphia Police website does have a number of variables available in a table on the site for shootings since 2013, since we did not scrape them initially we'll turn to a new data set. The data we will use is a database of officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. 
 
 To explore the data on their website, see [here](https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c). 
-
 To examine their methodology, see [here](https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b).
 
 The data initially comes as a .csv file so we'll use the `read_csv()` function from the `readr` package. 
@@ -58,27 +56,27 @@ The data has 14 variables and covers over 4,000 shootings. Let's check out some 
 
 ```r
 head(shootings)
-#>   id               name       date  manner_of_death      armed age gender
-#> 1  3         Tim Elliot 2015-01-02             shot        gun  53      M
-#> 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M
-#> 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M
-#> 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M
-#> 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M
-#> 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M
-#>   race          city state signs_of_mental_illness threat_level
-#> 1    A       Shelton    WA                    TRUE       attack
-#> 2    W         Aloha    OR                   FALSE       attack
-#> 3    H       Wichita    KS                   FALSE        other
-#> 4    W San Francisco    CA                    TRUE       attack
-#> 5    H         Evans    CO                   FALSE       attack
-#> 6    W       Guthrie    OK                   FALSE       attack
-#>          flee body_camera
-#> 1 Not fleeing       FALSE
-#> 2 Not fleeing       FALSE
-#> 3 Not fleeing       FALSE
-#> 4 Not fleeing       FALSE
-#> 5 Not fleeing       FALSE
-#> 6 Not fleeing       FALSE
+#>   id               name       date  manner_of_death      armed age gender race
+#> 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A
+#> 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W
+#> 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H
+#> 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W
+#> 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H
+#> 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W
+#>            city state signs_of_mental_illness threat_level        flee
+#> 1       Shelton    WA                    TRUE       attack Not fleeing
+#> 2         Aloha    OR                   FALSE       attack Not fleeing
+#> 3       Wichita    KS                   FALSE        other Not fleeing
+#> 4 San Francisco    CA                    TRUE       attack Not fleeing
+#> 5         Evans    CO                   FALSE       attack Not fleeing
+#> 6       Guthrie    OK                   FALSE       attack Not fleeing
+#>   body_camera
+#> 1       FALSE
+#> 2       FALSE
+#> 3       FALSE
+#> 4       FALSE
+#> 5       FALSE
+#> 6       FALSE
 ```
 
 Each row is a single shooting and it includes variables such as the victim's name, the date of the shooting, demographic information about that person, the shooting city and state, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can't use `summary()` on them. Let's use `summary()` on the date and age columns and then use `table()` for the rest. 
@@ -86,10 +84,8 @@ Each row is a single shooting and it includes variables such as the victim's nam
 
 ```r
 summary(shootings$date)
-#>         Min.      1st Qu.       Median         Mean      3rd Qu. 
-#> "2015-01-02" "2016-02-07" "2017-03-16" "2017-03-18" "2018-04-11" 
-#>         Max. 
-#> "2019-06-25"
+#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+#> "2015-01-02" "2016-02-07" "2017-03-16" "2017-03-18" "2018-04-11" "2019-06-25"
 ```
 
 
@@ -310,7 +306,7 @@ temp
 
 Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.
 
-Think about how you'd graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? That'd overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called "other weapons". And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference. 
+Think about how you'd graph this data. There are 85 unique values in this column though only 7 of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called "other weapons." And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference. 
 
 Let's keep exploring the data by looking at gender and race. 
 
@@ -368,7 +364,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_density).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Histogram
 
@@ -380,7 +376,7 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Bar graph
 
@@ -390,7 +386,7 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -402,7 +398,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name.
 
@@ -416,7 +412,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -430,7 +426,7 @@ ggplot(shootings, aes(x = race)) +
 #> Warning: Removed 516 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can reuse this code to make a similar graph for the gender variable.
 
@@ -445,9 +441,8 @@ ggplot(shootings, aes(x = gender)) +
 #> Warning: Removed 5 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
-
-## Boxplot
+<img src="graphing-2_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+ 
 
 ## Time Series
 
@@ -456,9 +451,9 @@ ggplot(shootings, aes(x = gender)) +
 library(lubridate)
 #> 
 #> Attaching package: 'lubridate'
-#> The following object is masked from 'package:base':
+#> The following objects are masked from 'package:base':
 #> 
-#>     date
+#>     date, intersect, setdiff, union
 ```
 
 
@@ -479,7 +474,7 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -492,7 +487,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -500,7 +495,7 @@ ggplot(yearly_shootings[yearly_shootings$year != 2019, ], aes(x = year, y = dumm
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -510,4 +505,4 @@ ggplot(yearly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
