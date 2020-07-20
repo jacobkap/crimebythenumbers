@@ -346,7 +346,7 @@ temp
 #>  0.88  1.43  1.72 16.61 23.81 45.67
 ```
 
-White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed, it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.\footnote{It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conlusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.}  
+White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed, it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
 
 One annoying thing with the gender and race variables is that they doesn't spell out the name. Instead of "Female", for example, it has "F". For our graphs we want to spell out the words so it is clear to viewers. We'll fix this issue, and the issue of having many weapon categories, as we graph each variable.
 
@@ -456,6 +456,8 @@ ggplot(shootings, aes(x = age)) +
 
 ## Bar graph
 
+To make this barplot we'll set the x-axis variable to our "race" column and add `geom_bar()` to the end. 
+
 
 ```r
 ggplot(shootings, aes(x = race)) + 
@@ -463,62 +465,128 @@ ggplot(shootings, aes(x = race)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+This gives us a barplot in alphabetical order. In most cases we want the data sorted by frequency, so we can easily see what value is the most common, second most common, etc. There are a few ways to do this but we'll do this by turning the "race" variable into a factor and ordering it by frequency. We can do that using the `factor()` function. The first input will be the "race" variable and then we will need to set the `levels` parameter to a vector of values sorted by frequency. An easy way to know how often values are in a column is to use the `table()` function on that column, such as below.
 
 
 ```r
-race_order <- names(sort(table(shootings$race), decreasing = TRUE))
+table(shootings$race)
+#> 
+#>    A    B    H    N    O    W 
+#>   94 1302  908   78   48 2497
+```
 
+It's still alphabetical so let's wrap that in a `sort()` function. 
+
+
+```r
+sort(table(shootings$race))
+#> 
+#>    O    N    A    H    B    W 
+#>   48   78   94  908 1302 2497
+```
+
+It's sorted from smallest to largest. We usually want to graph from largest to smallest so let's set the parameter `decreasing` in `sort()` to TRUE.
+
+
+```r
+sort(table(shootings$race), decreasing = TRUE)
+#> 
+#>    W    B    H    A    N    O 
+#> 2497 1302  908   94   78   48
+```
+
+Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in `names()` to get just the names.
+
+
+```r
+names(sort(table(shootings$race), decreasing = TRUE))
+#> [1] "W" "B" "H" "A" "N" "O"
+```
+
+If we tie it all together we can make the "race" column into a factor variable.
+
+
+```r
+shootings$race <- factor(shootings$race,
+                         levels = names(sort(table(shootings$race), decreasing = TRUE)))
+```
+
+Now let's try that barplot again.
+
+
+```r
+ggplot(shootings, aes(x = race)) + 
+  geom_bar() 
+```
+
+<img src="graphing-2_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+It works! Note that all the values that are missing in our data are still reported in the barplot under a column called "NA". This is not sorted properly since there are more NA values than three of the other values but is still at the far right of the graph. We can change this if we want to make all the NA values an actual character type and call it something like "Unknown". But this way it does draw attention to how many values are missing from this column. Like most things in graphing, this is a personal choice as to what to do.
+
+For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it'll shrink the graph to accommodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph. 
+
+
+```r
 ggplot(shootings, aes(x = race)) + 
   geom_bar() +
-  scale_x_discrete(limits = race_order)
-#> Warning: Removed 541 rows containing non-finite values (stat_count).
+  coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
-
-For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it'll shrink the graph to accomodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph. 
+<img src="graphing-2_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+Since it's flipped, now it's sorted from smallest to largest. So we'll need to change the `factor()` code to fix that.
 
 
 ```r
-race_order <- names(sort(table(shootings$race)))
+shootings$race <- factor(shootings$race,
+                         levels = names(sort(table(shootings$race), decreasing = FALSE)))
+ggplot(shootings, aes(x = race)) + 
+  geom_bar() +
+  coord_flip() 
+```
+
+<img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+The NA value is now at the top, which looks fairly bad. Let's change all NA values to the string "Unknown". And while we're at it, let's change all the abbreviated race values to actual names. We can get all the NA values by using `is.na(shootings$race)` and using a conditional statement to get all rows that meet that condition, then assign them the value "Unknown". Instead of trying to subset a factor variable to change the values, we should convert it back to a character type first using `as.character()`, and then convert it to a factor again once we're done. 
+
+
+```r
+shootings$race <- as.character(shootings$race)
+shootings$race[is.na(shootings$race)] <- "Unknown"
+```
+
+Now we can use conditional statements to change all the race letters to names. It's not clear what race "O" and "N" are so I checked the [Washington Post's GitHub page](https://github.com/washingtonpost/data-police-shootings) which explains. Instead of `is.na()` we'll use `shootings$race == ""` where we put the letter inside of the quotes.
+
+
+```r
+shootings$race[shootings$race == "O"] <- "Other"
+shootings$race[shootings$race == "N"] <- "Native American"
+shootings$race[shootings$race == "A"] <- "Asian"
+shootings$race[shootings$race == "H"] <- "Hispanic"
+shootings$race[shootings$race == "B"] <- "Black"
+shootings$race[shootings$race == "W"] <- "White"
+```
+
+Now let's see how our graph looks. We'll need to rerun the `factor()` code since now all of the values are changed.
+
+
+```r
+shootings$race <- factor(shootings$race,
+                         levels = names(sort(table(shootings$race), decreasing = FALSE)))
+ggplot(shootings, aes(x = race)) + 
+  geom_bar() +
+  coord_flip() 
+```
+
+<img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
+As earlier, we can show percentage instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
+
+
+```r
 ggplot(shootings, aes(x = race)) + 
   geom_bar(aes(y = (..count..)/sum(..count..))) +
-  coord_flip() +
-  scale_x_discrete(limits = race_order)
-#> Warning: Removed 541 rows containing non-finite values (stat_count).
+  coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
 
-
-
-```r
-race_order <- names(sort(table(shootings$race)))
-ggplot(shootings, aes(x = race)) + 
-  geom_bar(aes(y = (..count..)/sum(..count..))) +
-  coord_flip() +
-  scale_x_discrete(limits = race_order) +
-  scale_y_continuous(labels = scales::percent)
-#> Warning: Removed 541 rows containing non-finite values (stat_count).
-```
-
-<img src="graphing-2_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
-
-We can reuse this code to make a similar graph for the gender variable.
-
-
-```r
-race_order <- names(sort(table(shootings$gender)))
-ggplot(shootings, aes(x = gender)) + 
-  geom_bar(aes(y = (..count..)/sum(..count..))) +
-  coord_flip() +
-  scale_x_discrete(limits = race_order) +
-  scale_y_continuous(labels = scales::percent)
-#> Warning: Removed 1 rows containing non-finite values (stat_count).
-```
-
-<img src="graphing-2_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
- 
 ## Graphing Data Over Time
 
 We went over time-series graphs in Chapter \@ref(#graphing-intro) but it's such an important topic we'll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome, in this case numbers of killings, over time. In our case we aren't evaluating any policy, just seeing if the number of police killings change over time. 
@@ -532,7 +600,7 @@ ggplot(shootings, aes(x = date, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
 This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, lets load the `lubridate()` package that is well-suited for this task. 
 
 
@@ -583,7 +651,7 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-38-1.png" width="90%" style="display: block; margin: auto;" />
 The process is the same for yearly data.
 
 
@@ -593,7 +661,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />
 
 Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it's simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven't finished this month (year) yet (and the data has a small lag in reporting). 
 
@@ -615,7 +683,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_fivethirtyeight()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -625,7 +693,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_tufte()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-41-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -635,7 +703,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_few()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-42-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -645,4 +713,4 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_excel()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-35-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-43-1.png" width="90%" style="display: block; margin: auto;" />
