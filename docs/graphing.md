@@ -2,9 +2,9 @@
 
 # Graphing with `ggplot2` {#graphing-intro}
 
-We've made some simple graphs earlier, in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
+We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
 
-The 'gg' part of `ggplot2` stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces'. We'll get into those pieces during this lesson. For a useful cheatsheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+The 'gg' part of `ggplot2` stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces.' We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 
 ```r
@@ -151,7 +151,7 @@ Some useful types of graphs are
 
 Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing crime rates over time, this is the type of graph you're looking at.
 
-The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to included this.
+The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to include it.
 
 
 ```r
@@ -176,7 +176,7 @@ ggplot(penn_alcohol, aes(x = year,
 
 <img src="graphing_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
-When we run it we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.
+When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.
 
 Let's start with point and line graphs.
 
@@ -272,7 +272,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
 
 <img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
-A problem with this is that both lines are the same color. We need to set a color for each line, and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
+A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
 
 ```r
@@ -280,7 +280,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
   geom_line(aes(x = year, y = number_of_shots_liquor,
-                color = "Shots of of Liquor"))
+                color = "Shots of Liquor"))
 ```
 
 <img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
@@ -293,13 +293,13 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
   geom_line(aes(x = year, y = number_of_shots_liquor,
-                color = "Shots of of Liquor")) +
+                color = "Shots of Liquor")) +
   labs(color = "Alcohol Type")
 ```
 
 <img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
-Finally, a useful option to to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
+Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
 
 ```r
@@ -307,7 +307,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
   geom_line(aes(x = year, y = number_of_shots_liquor,
-                color = "Shots of of Liquor")) +
+                color = "Shots of Liquor")) +
   labs(color = "Alcohol Type") +
   theme(legend.position = "bottom")
 ```
@@ -337,7 +337,7 @@ Please keep in mind that some people are color blind so graphs (or maps which we
 
 ![](images/colorbrewer.PNG)
 
-This site let's you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
+This site lets you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
 
 Let's use an example of a color blind friendly color from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
 

@@ -44,7 +44,7 @@ Now that we have the data read in, let's look at it.
 
 ```r
 nrow(shootings)
-#> [1] 5475
+#> [1] 5480
 ncol(shootings)
 #> [1] 14
 ```
@@ -83,10 +83,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 ```r
 summary(shootings$date)
 #>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
-#> "2015-01-02" "2016-05-19" "2017-10-16" "2017-10-09" "2019-03-03" "2020-07-16"
+#> "2015-01-02" "2016-05-20" "2017-10-16" "2017-10-10" "2019-03-04" "2020-07-20"
 summary(shootings$age)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>    6.00   27.00   35.00   37.13   46.00   91.00     238
+#>    6.00   27.00   35.00   37.12   46.00   91.00     240
 ```
 
 
@@ -99,7 +99,7 @@ Now we can use `table()` to see how often each value appears in each variable. W
 table(shootings$manner_of_death)
 #> 
 #>             shot shot and Tasered 
-#>             5201              274
+#>             5206              274
 ```
 
 To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.
@@ -109,7 +109,7 @@ To turn these counts into percentages we can divide the results by the number of
 table(shootings$manner_of_death) / nrow(shootings) * 100
 #> 
 #>             shot shot and Tasered 
-#>        94.995434         5.004566
+#>               95                5
 ```
 
 Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let's take a look at whether the victim was armed.
@@ -119,99 +119,99 @@ Now it is clear to see that in about 95% of shootings, officers used a gun and i
 table(shootings$armed) / nrow(shootings) * 100
 #> 
 #>                  air conditioner                       air pistol 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                   Airsoft pistol                               ax 
-#>                       0.01826484                       0.43835616 
+#>                       0.01824818                       0.43795620 
 #>                         barstool                     baseball bat 
-#>                       0.01826484                       0.32876712 
+#>                       0.01824818                       0.32846715 
 #>          baseball bat and bottle baseball bat and fireplace poker 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>           baseball bat and knife                            baton 
-#>                       0.01826484                       0.09132420 
+#>                       0.01824818                       0.09124088 
 #>                          bayonet                           BB gun 
-#>                       0.01826484                       0.09132420 
+#>                       0.01824818                       0.09124088 
 #>               BB gun and vehicle                     bean-bag gun 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                      beer bottle                     blunt object 
-#>                       0.05479452                       0.09132420 
+#>                       0.05474453                       0.09124088 
 #>                    bow and arrow                       box cutter 
-#>                       0.01826484                       0.21917808 
+#>                       0.01824818                       0.21897810 
 #>                            brick              car, knife and mace 
-#>                       0.03652968                       0.01826484 
+#>                       0.03649635                       0.01824818 
 #>                          carjack                            chain 
-#>                       0.01826484                       0.05479452 
+#>                       0.01824818                       0.05474453 
 #>                        chain saw                         chainsaw 
-#>                       0.03652968                       0.01826484 
+#>                       0.03649635                       0.01824818 
 #>                            chair              claimed to be armed 
-#>                       0.07305936                       0.01826484 
+#>                       0.07299270                       0.01824818 
 #>               contractor's level                   cordless drill 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                         crossbow                          crowbar 
-#>                       0.16438356                       0.07305936 
+#>                       0.16423358                       0.07299270 
 #>                        fireworks                         flagpole 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                       flashlight                      garden tool 
-#>                       0.03652968                       0.03652968 
+#>                       0.03649635                       0.03649635 
 #>                      glass shard                          grenade 
-#>                       0.05479452                       0.01826484 
+#>                       0.05474453                       0.01824818 
 #>                              gun                      gun and car 
-#>                      56.60273973                       0.20091324 
+#>                      56.56934307                       0.20072993 
 #>                    gun and knife                    gun and sword 
-#>                       0.31050228                       0.01826484 
+#>                       0.31021898                       0.01824818 
 #>                  gun and vehicle              guns and explosives 
-#>                       0.18264840                       0.05479452 
+#>                       0.18248175                       0.05474453 
 #>                           hammer                       hand torch 
-#>                       0.29223744                       0.01826484 
+#>                       0.29197080                       0.01824818 
 #>                          hatchet                  hatchet and gun 
-#>                       0.20091324                       0.03652968 
+#>                       0.20072993                       0.03649635 
 #>                         ice pick                incendiary device 
-#>                       0.01826484                       0.03652968 
+#>                       0.01824818                       0.03649635 
 #>                            knife                 lawn mower blade 
-#>                      14.64840183                       0.03652968 
+#>                      14.65328467                       0.03649635 
 #>                          machete                  machete and gun 
-#>                       0.82191781                       0.01826484 
+#>                       0.82116788                       0.01824818 
 #>                     meat cleaver                  metal hand tool 
-#>                       0.09132420                       0.01826484 
+#>                       0.09124088                       0.01824818 
 #>                     metal object                       metal pipe 
-#>                       0.07305936                       0.23744292 
+#>                       0.07299270                       0.23722628 
 #>                       metal pole                       metal rake 
-#>                       0.05479452                       0.01826484 
+#>                       0.05474453                       0.01824818 
 #>                      metal stick                       motorcycle 
-#>                       0.05479452                       0.01826484 
+#>                       0.05474453                       0.01824818 
 #>                         nail gun                              oar 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                       pellet gun                              pen 
-#>                       0.05479452                       0.01826484 
+#>                       0.05474453                       0.01824818 
 #>                     pepper spray                         pick-axe 
-#>                       0.01826484                       0.07305936 
+#>                       0.01824818                       0.07299270 
 #>                    piece of wood                             pipe 
-#>                       0.09132420                       0.10958904 
+#>                       0.09124088                       0.10948905 
 #>                        pitchfork                             pole 
-#>                       0.03652968                       0.03652968 
+#>                       0.03649635                       0.03649635 
 #>                   pole and knife                             rock 
-#>                       0.03652968                       0.10958904 
+#>                       0.03649635                       0.10948905 
 #>                    samurai sword                         scissors 
-#>                       0.05479452                       0.12785388 
+#>                       0.05474453                       0.12773723 
 #>                      screwdriver                     sharp object 
-#>                       0.23744292                       0.23744292 
+#>                       0.23722628                       0.23722628 
 #>                           shovel                            spear 
-#>                       0.10958904                       0.01826484 
+#>                       0.10948905                       0.01824818 
 #>                          stapler              straight edge razor 
-#>                       0.01826484                       0.07305936 
+#>                       0.01824818                       0.07299270 
 #>                            sword                            Taser 
-#>                       0.40182648                       0.47488584 
+#>                       0.40145985                       0.47445255 
 #>                        tire iron                       toy weapon 
-#>                       0.01826484                       3.47031963 
+#>                       0.01824818                       3.46715328 
 #>                          unarmed                     undetermined 
-#>                       6.46575342                       3.05022831 
+#>                       6.45985401                       3.08394161 
 #>                   unknown weapon                          vehicle 
-#>                       1.44292237                       2.84931507 
+#>                       1.45985401                       2.84671533 
 #>                  vehicle and gun              vehicle and machete 
-#>                       0.07305936                       0.01826484 
+#>                       0.07299270                       0.01824818 
 #>                    walking stick                       wasp spray 
-#>                       0.01826484                       0.01826484 
+#>                       0.01824818                       0.01824818 
 #>                           wrench 
-#>                       0.01826484
+#>                       0.01824818
 ```
 
 This is fairly hard to interpret as it is sorted alphabetically when we'd prefer it to be sorted by most common weapon. It also doesn't round the percents. Let's solve these two issues using `sort()` and `round()`. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use `sort()` and `round()` on that. We'll set the parameter `decreasing` to TRUE in the `sort()` function so that it is in descending order of how common each value is. And we'll round to two decimal places by setting the parameter `digits` to 2.
@@ -224,13 +224,13 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>                              gun                            knife 
-#>                            56.60                            14.65 
+#>                            56.57                            14.65 
 #>                          unarmed                       toy weapon 
-#>                             6.47                             3.47 
+#>                             6.46                             3.47 
 #>                     undetermined                          vehicle 
-#>                             3.05                             2.85 
+#>                             3.08                             2.85 
 #>                   unknown weapon                          machete 
-#>                             1.44                             0.82 
+#>                             1.46                             0.82 
 #>                            Taser                               ax 
 #>                             0.47                             0.44 
 #>                            sword                     baseball bat 
@@ -330,7 +330,7 @@ Let's keep exploring the data by looking at gender and race.
 table(shootings$gender) / nrow(shootings) * 100
 #> 
 #>         F         M 
-#>  4.438356 95.543379
+#>  4.434307 95.547445
 ```
 
 Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn't be too surprising. 
@@ -343,12 +343,12 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>     O     N     A     H     B     W 
-#>  0.88  1.42  1.72 16.62 23.78 45.63
+#>  0.88  1.42  1.72 16.61 23.76 45.60
 ```
 
-White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed, it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
+White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
 
-One annoying thing with the gender and race variables is that they doesn't spell out the name. Instead of "Female", for example, it has "F". For our graphs we want to spell out the words so it is clear to viewers. We'll fix this issue, and the issue of having many weapon categories, as we graph each variable.
+One annoying thing with the gender and race variables is that they don't spell out the name. Instead of "Female", for example, it has "F". For our graphs we want to spell out the words so it is clear to viewers. We'll fix this issue, and the issue of having many weapon categories, as we graph each variable.
 
 ## Graphing a Single Numeric Variable
 
@@ -378,7 +378,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 ggplot(shootings, aes(x = age)) + 
   geom_histogram()
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 238 rows containing non-finite values (stat_bin).
+#> Warning: Removed 240 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
@@ -389,7 +389,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 15)
-#> Warning: Removed 238 rows containing non-finite values (stat_bin).
+#> Warning: Removed 240 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
@@ -398,21 +398,21 @@ ggplot(shootings, aes(x = age)) +
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 45)
-#> Warning: Removed 238 rows containing non-finite values (stat_bin).
+#> Warning: Removed 240 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
-Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly, and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
+Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
 
-These graphs show the y-axis as the number of people in each bar. If we want to show percent instead we can add in a parameter for `y` in the `aes()` of the `geom_histogram()`. We add in `y = (..count..)/sum(..count..))` which automatically converts the counts to percentages. The "(..count..)/sum(..count..))" stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it's an easy helper. If you do this, make sure to relabel the y-axis so you don't accidentally call the percent a count!
+These graphs show the y-axis as the number of people in each bar. If we want to show percent instead, we can add in a parameter for `y` in the `aes()` of the `geom_histogram()`. We add in `y = (..count..)/sum(..count..))` which automatically converts the counts to percentages. The "(..count..)/sum(..count..))" stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it's an easy helper. If you do this, make sure to relabel the y-axis so you don't accidentally call the percent a count!
 
 
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)))
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 238 rows containing non-finite values (stat_bin).
+#> Warning: Removed 240 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
@@ -425,7 +425,7 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_density()
-#> Warning: Removed 238 rows containing non-finite values (stat_density).
+#> Warning: Removed 240 rows containing non-finite values (stat_density).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
@@ -438,7 +438,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count()
-#> Warning: Removed 238 rows containing non-finite values (stat_count).
+#> Warning: Removed 240 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
@@ -448,7 +448,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count(aes(y = (..count..)/sum(..count..)))
-#> Warning: Removed 238 rows containing non-finite values (stat_count).
+#> Warning: Removed 240 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
@@ -472,7 +472,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 table(shootings$race)
 #> 
 #>    A    B    H    N    O    W 
-#>   94 1302  910   78   48 2498
+#>   94 1302  910   78   48 2499
 ```
 
 It's still alphabetical so let's wrap that in a `sort()` function. 
@@ -482,7 +482,7 @@ It's still alphabetical so let's wrap that in a `sort()` function.
 sort(table(shootings$race))
 #> 
 #>    O    N    A    H    B    W 
-#>   48   78   94  910 1302 2498
+#>   48   78   94  910 1302 2499
 ```
 
 It's sorted from smallest to largest. We usually want to graph from largest to smallest so let's set the parameter `decreasing` in `sort()` to TRUE.
@@ -492,7 +492,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 sort(table(shootings$race), decreasing = TRUE)
 #> 
 #>    W    B    H    A    N    O 
-#> 2498 1302  910   94   78   48
+#> 2499 1302  910   94   78   48
 ```
 
 Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in `names()` to get just the names.
@@ -503,7 +503,7 @@ names(sort(table(shootings$race), decreasing = TRUE))
 #> [1] "W" "B" "H" "A" "N" "O"
 ```
 
-If we tie it all together we can make the "race" column into a factor variable.
+If we tie it all together, we can make the "race" column into a factor variable.
 
 
 ```r
@@ -643,7 +643,7 @@ head(monthly_shootings)
 #> 5 2015-05-01    71
 #> 6 2015-06-01    65
 ```
-Since we now have a variable that shows for each month the number of people killed, we can graph the this new dataset. We'll use the same process as earlier but our dataset is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
+Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We'll use the same process as earlier but our dataset is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
 
 
 ```r

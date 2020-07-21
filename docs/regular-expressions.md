@@ -367,7 +367,7 @@ gsub("a", "", crimes)
 
 ## Useful special characters
 
-So far we have just searched for a single character or word and expected a return only if an exact match was found. Now we'll discuss a number of characters called "special characters" that allow us to make more complex `grep()` and `gsub()` pattern searches. 
+So far, we have just searched for a single character or word and expected a return only if an exact match was found. Now we'll discuss a number of characters called "special characters" that allow us to make more complex `grep()` and `gsub()` pattern searches. 
 
 ### Multiple characters `[]`
 
@@ -515,7 +515,7 @@ grep("[aeiou]{3,3}", crimes, value = TRUE)
 ```
 
 
-If we leave n blank, such as `{,m}` it says "previous character must be present up to m times". 
+If we leave n blank, such as `{,m}` it says, "previous character must be present up to m times." 
 
 
 ```r
@@ -618,7 +618,7 @@ grep("Weapons Offen.e", crimes, value = TRUE)
 
 ### One or more of previous `+`
 
-The `+` means that the character immediately before it is present at least one time. This is the same as writing `{1,}`. If we wanted to find all values with only two words we would start with some number of letters followed by a space followed by some more letters and the string would end.
+The `+` means that the character immediately before it is present at least one time. This is the same as writing `{1,}`. If we wanted to find all values with only two words, we would start with some number of letters followed by a space followed by some more letters and the string would end.
 
 
 ```r
@@ -725,7 +725,7 @@ grep("(Offense)", crimes, value = TRUE)
 
 Running the above code returns the same results as if we didn't include the parentheses. The usefulness of parentheses comes when combining it with the `|` symbol to be able to check "(X|Y) Z"), which says, "look for either X or Y which must be followed by Z". 
 
-Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say "search for either the word "Drug" or the word "Family" and they should be followed by the word "Offense".
+Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say, "search for either the word "Drug" or the word "Family" and they should be followed by the word "Offense".
 
 
 ```r

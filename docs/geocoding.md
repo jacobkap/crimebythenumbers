@@ -65,9 +65,9 @@ address_coordinates$candidates
 #> 1   -74.00366    40.74322
 ```
 
-The *candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
+*candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
 
-Since we are grabbing the first row of a data.frame, our square bracket notation must be `[row, column]`. For row we put 1 since we want the first row. Since we want every column we can leave it blank but make sure to keep the comma.
+Since we are grabbing the first row of a data.frame, our square bracket notation must be `[row, column]`. For row we put 1 since we want the first row. Since we want every column, we can leave it blank but make sure to keep the comma.
 
 
 ```r
@@ -151,7 +151,7 @@ gsub(" ", "%20", "75 9th Ave, New York, NY 10011")
 #> [1] "75%209th%20Ave,%20New%20York,%20NY%2010011"
 ```
 
-It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First we do the `paste()`, saving it in an object we can call *url*, and then use *url* as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
+It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First, we do the `paste()`, saving it in an object we can call *url*, and then use *url* as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
 
 
 ```r
@@ -252,7 +252,7 @@ head(marijuana)
 #> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 ```
 
-So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
+So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will be using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
 
 
 ```r

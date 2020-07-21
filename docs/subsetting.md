@@ -514,7 +514,7 @@ offenses_known_yearly_1960_2017[1, 1]
 #> [1] "AK00101"
 ```
 
-If we input multiple numbers we can get multiple rows and columns.
+If we input multiple numbers, we can get multiple rows and columns.
 
 
 ```r
@@ -543,7 +543,7 @@ offenses_known_yearly_1960_2017[1:6, c("ori", "year")]
 ```
 
 
-In cases where we want every row or every column, we just don't put a number. By default R will return every row/column if you don't specify which ones you want. However you will still need to include the comma.
+In cases where we want every row or every column, we just don't put a number. By default, R will return every row/column if you don't specify which ones you want. However, you will still need to include the comma.
 
 Here is every column in the first row.
 
@@ -712,9 +712,9 @@ Finally we have the tools to subset our UCR data to just be Colorado from 2011-2
   * Only rows where the year is 2011-2017
   * Only the following columns: actual_murder, state, year, population, ori, agency_name
 
-We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want keep all columns in the data. So let's make a new object called *colorado* to save the result of this subset.
+We could use the `&` operator to say rows must meet condition 1 and condition 2. Since this is an intro lesson, we will do them as two separate conditional statements. For the first step we want to get all rows in the data where the state equals "colorado" (in this data all state names are lowercase). And at this point we want to keep all columns in the data. So let's make a new object called *colorado* to save the result of this subset.
 
-Remember that we want to put the object to the left of the `[]` (and touching the `[]`) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns we don't need to put anything after the comma (but we must include the comma!).
+Remember that we want to put the object to the left of the `[]` (and touching the `[]`) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns, we don't need to put anything after the comma (but we must include the comma!).
 
 
 ```r

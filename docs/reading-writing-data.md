@@ -28,7 +28,7 @@ install.packages("readr")
 library(readr)
 ```
 
-The input in the () is the file name ending in ".csv". As it is telling R to read a file that is stored on your on the computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can use the name *shootings* as it's relatively descriptive and easy for us to write. 
+The input in the () is the file name ending in ".csv". As it is telling R to read a file that is stored on your computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can use the name *shootings* as it's relatively descriptive and easy for us to write. 
 
 
 ```r
@@ -128,7 +128,7 @@ When we're done with a project (or an important part of a project) or when we ne
 
 `function_name(data, "file_name")`
 
-As usual we start with the function name. Then inside the parentheses we have the name of the object we are saving (as it refers to an object in R we do not use quotations) and then the file name, in quotes, ending with the extension you want. 
+As usual we start with the function name. Then inside the parentheses we have the name of the object we are saving (as it refers to an object in R, we do not use quotations) and then the file name, in quotes, ending with the extension you want. 
 
 For saving an .rda file we use the `save()` function, otherwise we follow the syntax of `write_` ending with the file extension. 
 
