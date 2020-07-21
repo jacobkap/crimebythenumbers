@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="7.1 Exploring Data | Crime by the Numbers" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://crimebythenumbers.com" />
+<meta property="og:image" content="https://crimebythenumbers.comimages/cover.png" />
+<meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+<meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+<meta name="author" content="Jacob Kaplan" />
+
+<meta name="date" content="2020-07-20" />
+
+
+<meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets.">
+
+<title>7.1 Exploring Data | Crime by the Numbers</title>
+
+<script src="libs/header-attrs-2.3.2/header-attrs.js"></script>
+<script src="libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li><a href="index.html#welcome">Welcome</a>
+<ul>
+<li><a href="why-learn-to-program.html#why-learn-to-program">Why learn to program?</a>
+<ul>
+<li><a href="why-learn-to-program.html#scale">Scale</a></li>
+<li><a href="why-learn-to-program.html#reproducibility">Reproducibility</a></li>
+</ul></li>
+<li><a href="what-you-will-learn.html#what-you-will-learn">What you will learn</a>
+<ul>
+<li><a href="what-you-will-learn.html#skills">Skills</a></li>
+<li><a href="what-you-will-learn.html#data">Data</a></li>
+</ul></li>
+<li><a href="what-you-wont-learn.html#what-you-wont-learn">What you won’t learn</a></li>
+<li><a href="simple-vs-easy.html#simple-vs-easy">Simple vs Easy</a></li>
+<li><a href="how-to-contribute.html#how-to-contribute">How to Contribute</a></li>
+</ul></li>
+<li><a href="about-the-author.html#about-the-author">About the author</a></li>
+<li><a href="1-introduction-to-r-and-rstudio.html#introduction-to-r-and-rstudio"><span class="toc-section-number">1</span> Introduction to R and RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#using-rstudio"><span class="toc-section-number">1.1</span> Using RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#opening-an-r-script"><span class="toc-section-number">1.1.1</span> Opening an R Script</a></li>
+<li><a href="1-1-using-rstudio.html#setting-the-working-directory"><span class="toc-section-number">1.1.2</span> Setting the working directory</a></li>
+<li><a href="1-1-using-rstudio.html#changing-rstudio"><span class="toc-section-number">1.1.3</span> Changing RStudio</a></li>
+<li><a href="1-1-using-rstudio.html#helpful-cheatsheets"><span class="toc-section-number">1.1.4</span> Helpful cheatsheets</a></li>
+</ul></li>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">1.2</span> Reading data into R</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#loading-data"><span class="toc-section-number">1.2.1</span> Loading data</a></li>
+</ul></li>
+<li><a href="1-3-first-steps-to-exploring-data.html#first-steps-to-exploring-data"><span class="toc-section-number">1.3</span> First steps to exploring data</a></li>
+<li><a href="1-4-finding-help-about-functions.html#finding-help-about-functions"><span class="toc-section-number">1.4</span> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li><a href="2-subsetting-intro.html#subsetting-intro"><span class="toc-section-number">2</span> Subsetting: Making big things small</a>
+<ul>
+<li><a href="2-1-select-specific-values.html#select-specific-values"><span class="toc-section-number">2.1</span> Select specific values</a></li>
+<li><a href="2-2-assignment.html#assignment"><span class="toc-section-number">2.2</span> Assigning values to objects (Making “things”)</a></li>
+<li><a href="2-3-vectors.html#vectors"><span class="toc-section-number">2.3</span> Vectors (collections of “things”)</a></li>
+<li><a href="2-4-logical-values-and-operations.html#logical-values-and-operations"><span class="toc-section-number">2.4</span> Logical values and operations</a>
+<ul>
+<li><a href="2-4-logical-values-and-operations.html#matching-a-single-value"><span class="toc-section-number">2.4.1</span> Matching a single value</a></li>
+<li><a href="2-4-logical-values-and-operations.html#matching-multiple-values"><span class="toc-section-number">2.4.2</span> Matching multiple values</a></li>
+<li><a href="2-4-logical-values-and-operations.html#does-not-match"><span class="toc-section-number">2.4.3</span> Does not match</a></li>
+<li><a href="2-4-logical-values-and-operations.html#greater-than-or-less-than"><span class="toc-section-number">2.4.4</span> Greater than or less than</a></li>
+<li><a href="2-4-logical-values-and-operations.html#combining-conditional-statements---or-and"><span class="toc-section-number">2.4.5</span> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subsetting-a-data.frame"><span class="toc-section-number">2.5</span> Subsetting a data.frame</a>
+<ul>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-columns"><span class="toc-section-number">2.5.1</span> Select specific columns</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-rows"><span class="toc-section-number">2.5.2</span> Select specific rows</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subset-colorado-data"><span class="toc-section-number">2.5.3</span> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="3-explore.html#explore"><span class="toc-section-number">3</span> Exploratory data analysis</a>
+<ul>
+<li><a href="3-1-summary-and-table.html#summary-and-table"><span class="toc-section-number">3.1</span> Summary and Table</a></li>
+<li><a href="3-2-graphing.html#graphing"><span class="toc-section-number">3.2</span> Graphing</a></li>
+<li><a href="3-3-aggregate.html#aggregate"><span class="toc-section-number">3.3</span> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li><a href="4-regular-expressions.html#regular-expressions"><span class="toc-section-number">4</span> Regular Expressions</a>
+<ul>
+<li><a href="4-1-finding-patterns-in-text-with-grep.html#finding-patterns-in-text-with-grep"><span class="toc-section-number">4.1</span> Finding patterns in text with <code>grep()</code></a></li>
+<li><a href="4-2-finding-and-replacing-patterns-in-text-with-gsub.html#finding-and-replacing-patterns-in-text-with-gsub"><span class="toc-section-number">4.2</span> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#useful-special-characters"><span class="toc-section-number">4.3</span> Useful special characters</a>
+<ul>
+<li><a href="4-3-useful-special-characters.html#multiple-characters"><span class="toc-section-number">4.3.1</span> Multiple characters <code>[]</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-of-previous-character-n"><span class="toc-section-number">4.3.2</span> n-many of previous character <code>{n}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-to-m-many-of-previous-character-nm"><span class="toc-section-number">4.3.3</span> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#start-of-string"><span class="toc-section-number">4.3.4</span> Start of string</a></li>
+<li><a href="4-3-useful-special-characters.html#end-of-string"><span class="toc-section-number">4.3.5</span> End of string <code>$</code></a></li>
+<li><a href="4-3-useful-special-characters.html#anything-."><span class="toc-section-number">4.3.6</span> Anything <code>.</code></a></li>
+<li><a href="4-3-useful-special-characters.html#one-or-more-of-previous"><span class="toc-section-number">4.3.7</span> One or more of previous <code>+</code></a></li>
+<li><a href="4-3-useful-special-characters.html#zero-or-more-of-previous"><span class="toc-section-number">4.3.8</span> Zero or more of previous <code>*</code></a></li>
+<li><a href="4-3-useful-special-characters.html#multiple-patterns"><span class="toc-section-number">4.3.9</span> Multiple patterns <code>|</code></a></li>
+<li><a href="4-3-useful-special-characters.html#parentheses"><span class="toc-section-number">4.3.10</span> Parentheses <code>()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#optional-text"><span class="toc-section-number">4.3.11</span> Optional text <code>?</code></a></li>
+</ul></li>
+<li><a href="4-4-changing-capitalization.html#changing-capitalization"><span class="toc-section-number">4.4</span> Changing capitalization</a></li>
+</ul></li>
+<li><a href="5-reading-and-writing-data.html#reading-and-writing-data"><span class="toc-section-number">5</span> Reading and Writing Data</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">5.1</span> Reading Data into R</a>
+<ul>
+<li><a href="5-1-reading-data-into-r.html#r"><span class="toc-section-number">5.1.1</span> R</a></li>
+<li><a href="5-1-reading-data-into-r.html#excel"><span class="toc-section-number">5.1.2</span> Excel</a></li>
+<li><a href="5-1-reading-data-into-r.html#stata"><span class="toc-section-number">5.1.3</span> Stata</a></li>
+<li><a href="5-1-reading-data-into-r.html#sas"><span class="toc-section-number">5.1.4</span> SAS</a></li>
+<li><a href="5-1-reading-data-into-r.html#spss"><span class="toc-section-number">5.1.5</span> SPSS</a></li>
+</ul></li>
+<li><a href="5-2-writing-data.html#writing-data"><span class="toc-section-number">5.2</span> Writing Data</a>
+<ul>
+<li><a href="5-2-writing-data.html#r-1"><span class="toc-section-number">5.2.1</span> R</a></li>
+<li><a href="5-2-writing-data.html#excel-1"><span class="toc-section-number">5.2.2</span> Excel</a></li>
+<li><a href="5-2-writing-data.html#stata-1"><span class="toc-section-number">5.2.3</span> Stata</a></li>
+<li><a href="5-2-writing-data.html#sas-1"><span class="toc-section-number">5.2.4</span> SAS</a></li>
+<li><a href="5-2-writing-data.html#spss-1"><span class="toc-section-number">5.2.5</span> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li><a href="6-graphing-intro.html#graphing-intro"><span class="toc-section-number">6</span> Graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="6-1-what-does-the-data-look-like.html#what-does-the-data-look-like"><span class="toc-section-number">6.1</span> What does the data look like?</a></li>
+<li><a href="6-2-graphing-data.html#graphing-data"><span class="toc-section-number">6.2</span> Graphing data</a></li>
+<li><a href="6-3-time-series-plots.html#time-series-plots"><span class="toc-section-number">6.3</span> Time-Series Plots</a></li>
+<li><a href="6-4-scatter-plots.html#scatter-plots"><span class="toc-section-number">6.4</span> Scatter Plots</a></li>
+<li><a href="6-5-color-blindness.html#color-blindness"><span class="toc-section-number">6.5</span> Color blindness</a></li>
+</ul></li>
+<li><a href="7-ois-graphs.html#ois_graphs"><span class="toc-section-number">7</span> More graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="7-1-exploring-data.html#exploring-data"><span class="toc-section-number">7.1</span> Exploring Data</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#graphing-a-single-numeric-variable"><span class="toc-section-number">7.2</span> Graphing a Single Numeric Variable</a>
+<ul>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#histogram"><span class="toc-section-number">7.2.1</span> Histogram</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#density-plot"><span class="toc-section-number">7.2.2</span> Density plot</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#count-graph"><span class="toc-section-number">7.2.3</span> Count Graph</a></li>
+</ul></li>
+<li><a href="7-3-bar-graph.html#bar-graph"><span class="toc-section-number">7.3</span> Bar graph</a></li>
+<li><a href="7-4-graphing-data-over-time.html#graphing-data-over-time"><span class="toc-section-number">7.4</span> Graphing Data Over Time</a></li>
+<li><a href="7-5-pretty-graphs.html#pretty-graphs"><span class="toc-section-number">7.5</span> Pretty Graphs</a>
+<ul>
+<li><a href="7-5-pretty-graphs.html#themes"><span class="toc-section-number">7.5.1</span> Themes</a></li>
+</ul></li>
+</ul></li>
+<li><a href="8-hotspot-maps.html#hotspot-maps"><span class="toc-section-number">8</span> Hotspot maps</a>
+<ul>
+<li><a href="8-1-a-simple-map.html#a-simple-map"><span class="toc-section-number">8.1</span> A simple map</a></li>
+<li><a href="8-2-what-really-are-maps.html#what-really-are-maps"><span class="toc-section-number">8.2</span> What really are maps?</a></li>
+<li><a href="8-3-making-a-hotspot-map.html#making-a-hotspot-map"><span class="toc-section-number">8.3</span> Making a hotspot map</a>
+<ul>
+<li><a href="8-3-making-a-hotspot-map.html#colors"><span class="toc-section-number">8.3.1</span> Colors</a></li>
+</ul></li>
+</ul></li>
+<li><a href="9-choropleth-maps.html#choropleth-maps"><span class="toc-section-number">9</span> Choropleth maps</a>
+<ul>
+<li><a href="9-1-spatial-joins.html#spatial-joins"><span class="toc-section-number">9.1</span> Spatial joins</a></li>
+<li><a href="9-2-making-choropleth-maps.html#making-choropleth-maps"><span class="toc-section-number">9.2</span> Making choropleth maps</a></li>
+</ul></li>
+<li><a href="10-interactive-maps.html#interactive-maps"><span class="toc-section-number">10</span> Interactive maps</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#why-do-interactive-graphs-matter"><span class="toc-section-number">10.1</span> Why do interactive graphs matter?</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#understanding-your-data"><span class="toc-section-number">10.1.1</span> Understanding your data</a></li>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#police-departments-use-them"><span class="toc-section-number">10.1.2</span> Police departments use them</a></li>
+</ul></li>
+<li><a href="10-2-making-the-interactive-map.html#making-the-interactive-map"><span class="toc-section-number">10.2</span> Making the interactive map</a></li>
+<li><a href="10-3-adding-popup-information.html#adding-popup-information"><span class="toc-section-number">10.3</span> Adding popup information</a></li>
+<li><a href="10-4-dealing-with-too-many-markers.html#dealing-with-too-many-markers"><span class="toc-section-number">10.4</span> Dealing with too many markers</a></li>
+<li><a href="10-5-interactive-choropleth-maps.html#interactive-choropleth-maps"><span class="toc-section-number">10.5</span> Interactive choropleth maps</a></li>
+</ul></li>
+<li><a href="11-r-markdown.html#r-markdown"><span class="toc-section-number">11</span> R Markdown</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#code"><span class="toc-section-number">11.1</span> Code</a>
+<ul>
+<li><a href="11-1-code.html#hiding-code-in-the-output"><span class="toc-section-number">11.1.1</span> Hiding code in the output</a></li>
+</ul></li>
+<li><a href="11-2-inline-code.html#inline-code"><span class="toc-section-number">11.2</span> Inline Code</a></li>
+<li><a href="11-3-tables.html#tables"><span class="toc-section-number">11.3</span> Tables</a></li>
+<li><a href="11-4-footnotes.html#footnotes"><span class="toc-section-number">11.4</span> Footnotes</a></li>
+<li><a href="11-5-citation.html#citation"><span class="toc-section-number">11.5</span> Citation</a></li>
+<li><a href="11-6-spell-check.html#spell-check"><span class="toc-section-number">11.6</span> Spell check</a></li>
+<li><a href="11-7-making-the-output-file.html#making-the-output-file"><span class="toc-section-number">11.7</span> Making the output file</a></li>
+</ul></li>
+<li><a href="12-git.html#git"><span class="toc-section-number">12</span> Git</a>
+<ul>
+<li><a href="12-1-what-is-git-and-why-do-i-need-it.html#what-is-git-and-why-do-i-need-it"><span class="toc-section-number">12.1</span> What is Git and why do I need it?</a></li>
+<li><a href="12-2-git-basics.html#git-basics"><span class="toc-section-number">12.2</span> Git basics</a></li>
+<li><a href="12-3-when-to-commit.html#when-to-commit"><span class="toc-section-number">12.3</span> When to commit</a></li>
+<li><a href="12-4-code-review.html#code-review"><span class="toc-section-number">12.4</span> Code review</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li><a href="13-webscraping-with-rvest.html#webscraping-with-rvest"><span class="toc-section-number">13</span> Webscraping with <code>rvest</code></a>
+<ul>
+<li><a href="13-1-scraping-one-page.html#scraping-one-page"><span class="toc-section-number">13.1</span> Scraping one page</a></li>
+<li><a href="13-2-cleaning-the-webscraped-data.html#cleaning-the-webscraped-data"><span class="toc-section-number">13.2</span> Cleaning the webscraped data</a></li>
+</ul></li>
+<li><a href="14-functions.html#functions"><span class="toc-section-number">14</span> Functions</a>
+<ul>
+<li><a href="14-1-a-simple-function.html#a-simple-function"><span class="toc-section-number">14.1</span> A simple function</a></li>
+<li><a href="14-2-adding-parameters.html#adding-parameters"><span class="toc-section-number">14.2</span> Adding parameters</a></li>
+<li><a href="14-3-recipes-function.html#recipes-function"><span class="toc-section-number">14.3</span> Making a function to scrape recipes</a></li>
+</ul></li>
+<li><a href="15-for-loops.html#for-loops"><span class="toc-section-number">15</span> For loops</a>
+<ul>
+<li><a href="15-1-basic-for-loops.html#basic-for-loops"><span class="toc-section-number">15.1</span> Basic for loops</a></li>
+<li><a href="15-2-scraping-multiple-recipes.html#scraping-multiple-recipes"><span class="toc-section-number">15.2</span> Scraping multiple recipes</a></li>
+</ul></li>
+<li><a href="16-scrape-table.html#scrape-table"><span class="toc-section-number">16</span> Scraping tables from PDFs</a>
+<ul>
+<li><a href="16-1-scraping-the-first-table.html#scraping-the-first-table"><span class="toc-section-number">16.1</span> Scraping the first table</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">16.2</span> Making a function</a></li>
+</ul></li>
+<li><a href="17-scrape-table2.html#scrape-table2"><span class="toc-section-number">17</span> More scraping tables from PDFs</a>
+<ul>
+<li><a href="17-1-pregnant-women-incarcerated.html#pregnant-women-incarcerated"><span class="toc-section-number">17.1</span> Pregnant Women Incarcerated</a></li>
+<li><a href="17-2-making-pdf-scraped-data-available-to-others.html#making-pdf-scraped-data-available-to-others"><span class="toc-section-number">17.2</span> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li><a href="18-geocoding.html#geocoding"><span class="toc-section-number">18</span> Geocoding</a>
+<ul>
+<li><a href="18-1-geocoding-a-single-address.html#geocoding-a-single-address"><span class="toc-section-number">18.1</span> Geocoding a single address</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">18.2</span> Making a function</a></li>
+<li><a href="18-3-geocoding-san-francisco-marijuana-dispensary-locations.html#geocoding-san-francisco-marijuana-dispensary-locations"><span class="toc-section-number">18.3</span> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Data</b></span></li>
+<li><a href="19-introduction.html#introduction"><span class="toc-section-number">19</span> Introduction</a></li>
+<li><a href="20-ucr.html#ucr"><span class="toc-section-number">20</span> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li><a href="20-1-exploring-the-ucr-data.html#exploring-the-ucr-data"><span class="toc-section-number">20.1</span> Exploring the UCR data</a></li>
+<li><a href="20-2-oris-unique-agency-identifiers.html#oris---unique-agency-identifiers"><span class="toc-section-number">20.2</span> ORIs - Unique agency identifiers</a></li>
+<li><a href="20-3-hierarchy-rule.html#hierarchy-rule"><span class="toc-section-number">20.3</span> Hierarchy Rule</a></li>
+<li><a href="20-4-which-crimes-are-included.html#which-crimes-are-included"><span class="toc-section-number">20.4</span> Which crimes are included</a>
+<ul>
+<li><a href="20-4-which-crimes-are-included.html#index-crimes"><span class="toc-section-number">20.4.1</span> Index Crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#the-problem-with-using-index-crimes"><span class="toc-section-number">20.4.2</span> The problem with using index crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#rape-definition-change"><span class="toc-section-number">20.4.3</span> Rape definition change</a></li>
+</ul></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual-offenses-clearances-and-unfounded-offenses"><span class="toc-section-number">20.5</span> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual"><span class="toc-section-number">20.5.1</span> Actual</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#total-cleared"><span class="toc-section-number">20.5.2</span> Total Cleared</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#cleared-where-all-offenders-are-under-18"><span class="toc-section-number">20.5.3</span> Cleared Where All Offenders Are Under 18</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#unfounded"><span class="toc-section-number">20.5.4</span> Unfounded</a></li>
+</ul></li>
+<li><a href="20-6-number-of-months-reported.html#number-of-months-reported"><span class="toc-section-number">20.6</span> Number of months reported</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li><a href="A-useful-resources.html#useful-resources"><span class="toc-section-number">A</span> Useful resources</a>
+<ul>
+<li><a href="A-1-learning-r-and-coding-issues.html#learning-r-and-coding-issues"><span class="toc-section-number">A.1</span> Learning R and coding issues</a></li>
+<li><a href="what-you-will-learn.html#data"><span class="toc-section-number">A.2</span> Data</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="exploring-data" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Exploring Data</h2>
+<p>Now that we have the data read in, let’s look at it.</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="7-1-exploring-data.html#cb161-1"></a><span class="kw">nrow</span>(shootings)</span>
+<span id="cb161-2"><a href="7-1-exploring-data.html#cb161-2"></a><span class="co">#&gt; [1] 5475</span></span>
+<span id="cb161-3"><a href="7-1-exploring-data.html#cb161-3"></a><span class="kw">ncol</span>(shootings)</span>
+<span id="cb161-4"><a href="7-1-exploring-data.html#cb161-4"></a><span class="co">#&gt; [1] 14</span></span></code></pre></div>
+<p>The data has 14 variables and covers over 5,400 shootings. Let’s check out some of the variables, first using <code>head()</code> then using <code>summary()</code> and <code>table()</code>.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="7-1-exploring-data.html#cb162-1"></a><span class="kw">head</span>(shootings)</span>
+<span id="cb162-2"><a href="7-1-exploring-data.html#cb162-2"></a><span class="co">#&gt;   id               name       date  manner_of_death      armed age gender race</span></span>
+<span id="cb162-3"><a href="7-1-exploring-data.html#cb162-3"></a><span class="co">#&gt; 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A</span></span>
+<span id="cb162-4"><a href="7-1-exploring-data.html#cb162-4"></a><span class="co">#&gt; 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W</span></span>
+<span id="cb162-5"><a href="7-1-exploring-data.html#cb162-5"></a><span class="co">#&gt; 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H</span></span>
+<span id="cb162-6"><a href="7-1-exploring-data.html#cb162-6"></a><span class="co">#&gt; 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W</span></span>
+<span id="cb162-7"><a href="7-1-exploring-data.html#cb162-7"></a><span class="co">#&gt; 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H</span></span>
+<span id="cb162-8"><a href="7-1-exploring-data.html#cb162-8"></a><span class="co">#&gt; 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W</span></span>
+<span id="cb162-9"><a href="7-1-exploring-data.html#cb162-9"></a><span class="co">#&gt;            city state signs_of_mental_illness threat_level        flee</span></span>
+<span id="cb162-10"><a href="7-1-exploring-data.html#cb162-10"></a><span class="co">#&gt; 1       Shelton    WA                    TRUE       attack Not fleeing</span></span>
+<span id="cb162-11"><a href="7-1-exploring-data.html#cb162-11"></a><span class="co">#&gt; 2         Aloha    OR                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-12"><a href="7-1-exploring-data.html#cb162-12"></a><span class="co">#&gt; 3       Wichita    KS                   FALSE        other Not fleeing</span></span>
+<span id="cb162-13"><a href="7-1-exploring-data.html#cb162-13"></a><span class="co">#&gt; 4 San Francisco    CA                    TRUE       attack Not fleeing</span></span>
+<span id="cb162-14"><a href="7-1-exploring-data.html#cb162-14"></a><span class="co">#&gt; 5         Evans    CO                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-15"><a href="7-1-exploring-data.html#cb162-15"></a><span class="co">#&gt; 6       Guthrie    OK                   FALSE       attack Not fleeing</span></span>
+<span id="cb162-16"><a href="7-1-exploring-data.html#cb162-16"></a><span class="co">#&gt;   body_camera</span></span>
+<span id="cb162-17"><a href="7-1-exploring-data.html#cb162-17"></a><span class="co">#&gt; 1       FALSE</span></span>
+<span id="cb162-18"><a href="7-1-exploring-data.html#cb162-18"></a><span class="co">#&gt; 2       FALSE</span></span>
+<span id="cb162-19"><a href="7-1-exploring-data.html#cb162-19"></a><span class="co">#&gt; 3       FALSE</span></span>
+<span id="cb162-20"><a href="7-1-exploring-data.html#cb162-20"></a><span class="co">#&gt; 4       FALSE</span></span>
+<span id="cb162-21"><a href="7-1-exploring-data.html#cb162-21"></a><span class="co">#&gt; 5       FALSE</span></span>
+<span id="cb162-22"><a href="7-1-exploring-data.html#cb162-22"></a><span class="co">#&gt; 6       FALSE</span></span></code></pre></div>
+<p>Each row is a single shooting and it includes variables such as the victim’s name, the date of the shooting, demographic information about that person, the city and state where the shooting occurred, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can’t use <code>summary()</code> on them. Let’s use <code>summary()</code> on the date and age columns and then use <code>table()</code> for the rest.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="7-1-exploring-data.html#cb163-1"></a><span class="kw">summary</span>(shootings<span class="op">$</span>date)</span>
+<span id="cb163-2"><a href="7-1-exploring-data.html#cb163-2"></a><span class="co">#&gt;         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. </span></span>
+<span id="cb163-3"><a href="7-1-exploring-data.html#cb163-3"></a><span class="co">#&gt; &quot;2015-01-02&quot; &quot;2016-05-19&quot; &quot;2017-10-16&quot; &quot;2017-10-09&quot; &quot;2019-03-03&quot; &quot;2020-07-16&quot;</span></span>
+<span id="cb163-4"><a href="7-1-exploring-data.html#cb163-4"></a><span class="kw">summary</span>(shootings<span class="op">$</span>age)</span>
+<span id="cb163-5"><a href="7-1-exploring-data.html#cb163-5"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span></span>
+<span id="cb163-6"><a href="7-1-exploring-data.html#cb163-6"></a><span class="co">#&gt;    6.00   27.00   35.00   37.13   46.00   91.00     238</span></span></code></pre></div>
+<p>From this we can see that the data is from January 1st through about a week ago. From the age column we can see that the average age is about NA with most people around that range. However, the youngest person is NA years old while the oldest is NA. Additionally, 182 rows have missing values for this variable.</p>
+<p>Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with the “manner_of_death” column.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="7-1-exploring-data.html#cb164-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death)</span>
+<span id="cb164-2"><a href="7-1-exploring-data.html#cb164-2"></a><span class="co">#&gt; </span></span>
+<span id="cb164-3"><a href="7-1-exploring-data.html#cb164-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
+<span id="cb164-4"><a href="7-1-exploring-data.html#cb164-4"></a><span class="co">#&gt;             5201              274</span></span></code></pre></div>
+<p>To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="7-1-exploring-data.html#cb165-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>manner_of_death) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb165-2"><a href="7-1-exploring-data.html#cb165-2"></a><span class="co">#&gt; </span></span>
+<span id="cb165-3"><a href="7-1-exploring-data.html#cb165-3"></a><span class="co">#&gt;             shot shot and Tasered </span></span>
+<span id="cb165-4"><a href="7-1-exploring-data.html#cb165-4"></a><span class="co">#&gt;        94.995434         5.004566</span></span></code></pre></div>
+<p>Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at whether the victim was armed.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="7-1-exploring-data.html#cb166-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb166-2"><a href="7-1-exploring-data.html#cb166-2"></a><span class="co">#&gt; </span></span>
+<span id="cb166-3"><a href="7-1-exploring-data.html#cb166-3"></a><span class="co">#&gt;                  air conditioner                       air pistol </span></span>
+<span id="cb166-4"><a href="7-1-exploring-data.html#cb166-4"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-5"><a href="7-1-exploring-data.html#cb166-5"></a><span class="co">#&gt;                   Airsoft pistol                               ax </span></span>
+<span id="cb166-6"><a href="7-1-exploring-data.html#cb166-6"></a><span class="co">#&gt;                       0.01826484                       0.43835616 </span></span>
+<span id="cb166-7"><a href="7-1-exploring-data.html#cb166-7"></a><span class="co">#&gt;                         barstool                     baseball bat </span></span>
+<span id="cb166-8"><a href="7-1-exploring-data.html#cb166-8"></a><span class="co">#&gt;                       0.01826484                       0.32876712 </span></span>
+<span id="cb166-9"><a href="7-1-exploring-data.html#cb166-9"></a><span class="co">#&gt;          baseball bat and bottle baseball bat and fireplace poker </span></span>
+<span id="cb166-10"><a href="7-1-exploring-data.html#cb166-10"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-11"><a href="7-1-exploring-data.html#cb166-11"></a><span class="co">#&gt;           baseball bat and knife                            baton </span></span>
+<span id="cb166-12"><a href="7-1-exploring-data.html#cb166-12"></a><span class="co">#&gt;                       0.01826484                       0.09132420 </span></span>
+<span id="cb166-13"><a href="7-1-exploring-data.html#cb166-13"></a><span class="co">#&gt;                          bayonet                           BB gun </span></span>
+<span id="cb166-14"><a href="7-1-exploring-data.html#cb166-14"></a><span class="co">#&gt;                       0.01826484                       0.09132420 </span></span>
+<span id="cb166-15"><a href="7-1-exploring-data.html#cb166-15"></a><span class="co">#&gt;               BB gun and vehicle                     bean-bag gun </span></span>
+<span id="cb166-16"><a href="7-1-exploring-data.html#cb166-16"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-17"><a href="7-1-exploring-data.html#cb166-17"></a><span class="co">#&gt;                      beer bottle                     blunt object </span></span>
+<span id="cb166-18"><a href="7-1-exploring-data.html#cb166-18"></a><span class="co">#&gt;                       0.05479452                       0.09132420 </span></span>
+<span id="cb166-19"><a href="7-1-exploring-data.html#cb166-19"></a><span class="co">#&gt;                    bow and arrow                       box cutter </span></span>
+<span id="cb166-20"><a href="7-1-exploring-data.html#cb166-20"></a><span class="co">#&gt;                       0.01826484                       0.21917808 </span></span>
+<span id="cb166-21"><a href="7-1-exploring-data.html#cb166-21"></a><span class="co">#&gt;                            brick              car, knife and mace </span></span>
+<span id="cb166-22"><a href="7-1-exploring-data.html#cb166-22"></a><span class="co">#&gt;                       0.03652968                       0.01826484 </span></span>
+<span id="cb166-23"><a href="7-1-exploring-data.html#cb166-23"></a><span class="co">#&gt;                          carjack                            chain </span></span>
+<span id="cb166-24"><a href="7-1-exploring-data.html#cb166-24"></a><span class="co">#&gt;                       0.01826484                       0.05479452 </span></span>
+<span id="cb166-25"><a href="7-1-exploring-data.html#cb166-25"></a><span class="co">#&gt;                        chain saw                         chainsaw </span></span>
+<span id="cb166-26"><a href="7-1-exploring-data.html#cb166-26"></a><span class="co">#&gt;                       0.03652968                       0.01826484 </span></span>
+<span id="cb166-27"><a href="7-1-exploring-data.html#cb166-27"></a><span class="co">#&gt;                            chair              claimed to be armed </span></span>
+<span id="cb166-28"><a href="7-1-exploring-data.html#cb166-28"></a><span class="co">#&gt;                       0.07305936                       0.01826484 </span></span>
+<span id="cb166-29"><a href="7-1-exploring-data.html#cb166-29"></a><span class="co">#&gt;               contractor&#39;s level                   cordless drill </span></span>
+<span id="cb166-30"><a href="7-1-exploring-data.html#cb166-30"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-31"><a href="7-1-exploring-data.html#cb166-31"></a><span class="co">#&gt;                         crossbow                          crowbar </span></span>
+<span id="cb166-32"><a href="7-1-exploring-data.html#cb166-32"></a><span class="co">#&gt;                       0.16438356                       0.07305936 </span></span>
+<span id="cb166-33"><a href="7-1-exploring-data.html#cb166-33"></a><span class="co">#&gt;                        fireworks                         flagpole </span></span>
+<span id="cb166-34"><a href="7-1-exploring-data.html#cb166-34"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-35"><a href="7-1-exploring-data.html#cb166-35"></a><span class="co">#&gt;                       flashlight                      garden tool </span></span>
+<span id="cb166-36"><a href="7-1-exploring-data.html#cb166-36"></a><span class="co">#&gt;                       0.03652968                       0.03652968 </span></span>
+<span id="cb166-37"><a href="7-1-exploring-data.html#cb166-37"></a><span class="co">#&gt;                      glass shard                          grenade </span></span>
+<span id="cb166-38"><a href="7-1-exploring-data.html#cb166-38"></a><span class="co">#&gt;                       0.05479452                       0.01826484 </span></span>
+<span id="cb166-39"><a href="7-1-exploring-data.html#cb166-39"></a><span class="co">#&gt;                              gun                      gun and car </span></span>
+<span id="cb166-40"><a href="7-1-exploring-data.html#cb166-40"></a><span class="co">#&gt;                      56.60273973                       0.20091324 </span></span>
+<span id="cb166-41"><a href="7-1-exploring-data.html#cb166-41"></a><span class="co">#&gt;                    gun and knife                    gun and sword </span></span>
+<span id="cb166-42"><a href="7-1-exploring-data.html#cb166-42"></a><span class="co">#&gt;                       0.31050228                       0.01826484 </span></span>
+<span id="cb166-43"><a href="7-1-exploring-data.html#cb166-43"></a><span class="co">#&gt;                  gun and vehicle              guns and explosives </span></span>
+<span id="cb166-44"><a href="7-1-exploring-data.html#cb166-44"></a><span class="co">#&gt;                       0.18264840                       0.05479452 </span></span>
+<span id="cb166-45"><a href="7-1-exploring-data.html#cb166-45"></a><span class="co">#&gt;                           hammer                       hand torch </span></span>
+<span id="cb166-46"><a href="7-1-exploring-data.html#cb166-46"></a><span class="co">#&gt;                       0.29223744                       0.01826484 </span></span>
+<span id="cb166-47"><a href="7-1-exploring-data.html#cb166-47"></a><span class="co">#&gt;                          hatchet                  hatchet and gun </span></span>
+<span id="cb166-48"><a href="7-1-exploring-data.html#cb166-48"></a><span class="co">#&gt;                       0.20091324                       0.03652968 </span></span>
+<span id="cb166-49"><a href="7-1-exploring-data.html#cb166-49"></a><span class="co">#&gt;                         ice pick                incendiary device </span></span>
+<span id="cb166-50"><a href="7-1-exploring-data.html#cb166-50"></a><span class="co">#&gt;                       0.01826484                       0.03652968 </span></span>
+<span id="cb166-51"><a href="7-1-exploring-data.html#cb166-51"></a><span class="co">#&gt;                            knife                 lawn mower blade </span></span>
+<span id="cb166-52"><a href="7-1-exploring-data.html#cb166-52"></a><span class="co">#&gt;                      14.64840183                       0.03652968 </span></span>
+<span id="cb166-53"><a href="7-1-exploring-data.html#cb166-53"></a><span class="co">#&gt;                          machete                  machete and gun </span></span>
+<span id="cb166-54"><a href="7-1-exploring-data.html#cb166-54"></a><span class="co">#&gt;                       0.82191781                       0.01826484 </span></span>
+<span id="cb166-55"><a href="7-1-exploring-data.html#cb166-55"></a><span class="co">#&gt;                     meat cleaver                  metal hand tool </span></span>
+<span id="cb166-56"><a href="7-1-exploring-data.html#cb166-56"></a><span class="co">#&gt;                       0.09132420                       0.01826484 </span></span>
+<span id="cb166-57"><a href="7-1-exploring-data.html#cb166-57"></a><span class="co">#&gt;                     metal object                       metal pipe </span></span>
+<span id="cb166-58"><a href="7-1-exploring-data.html#cb166-58"></a><span class="co">#&gt;                       0.07305936                       0.23744292 </span></span>
+<span id="cb166-59"><a href="7-1-exploring-data.html#cb166-59"></a><span class="co">#&gt;                       metal pole                       metal rake </span></span>
+<span id="cb166-60"><a href="7-1-exploring-data.html#cb166-60"></a><span class="co">#&gt;                       0.05479452                       0.01826484 </span></span>
+<span id="cb166-61"><a href="7-1-exploring-data.html#cb166-61"></a><span class="co">#&gt;                      metal stick                       motorcycle </span></span>
+<span id="cb166-62"><a href="7-1-exploring-data.html#cb166-62"></a><span class="co">#&gt;                       0.05479452                       0.01826484 </span></span>
+<span id="cb166-63"><a href="7-1-exploring-data.html#cb166-63"></a><span class="co">#&gt;                         nail gun                              oar </span></span>
+<span id="cb166-64"><a href="7-1-exploring-data.html#cb166-64"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-65"><a href="7-1-exploring-data.html#cb166-65"></a><span class="co">#&gt;                       pellet gun                              pen </span></span>
+<span id="cb166-66"><a href="7-1-exploring-data.html#cb166-66"></a><span class="co">#&gt;                       0.05479452                       0.01826484 </span></span>
+<span id="cb166-67"><a href="7-1-exploring-data.html#cb166-67"></a><span class="co">#&gt;                     pepper spray                         pick-axe </span></span>
+<span id="cb166-68"><a href="7-1-exploring-data.html#cb166-68"></a><span class="co">#&gt;                       0.01826484                       0.07305936 </span></span>
+<span id="cb166-69"><a href="7-1-exploring-data.html#cb166-69"></a><span class="co">#&gt;                    piece of wood                             pipe </span></span>
+<span id="cb166-70"><a href="7-1-exploring-data.html#cb166-70"></a><span class="co">#&gt;                       0.09132420                       0.10958904 </span></span>
+<span id="cb166-71"><a href="7-1-exploring-data.html#cb166-71"></a><span class="co">#&gt;                        pitchfork                             pole </span></span>
+<span id="cb166-72"><a href="7-1-exploring-data.html#cb166-72"></a><span class="co">#&gt;                       0.03652968                       0.03652968 </span></span>
+<span id="cb166-73"><a href="7-1-exploring-data.html#cb166-73"></a><span class="co">#&gt;                   pole and knife                             rock </span></span>
+<span id="cb166-74"><a href="7-1-exploring-data.html#cb166-74"></a><span class="co">#&gt;                       0.03652968                       0.10958904 </span></span>
+<span id="cb166-75"><a href="7-1-exploring-data.html#cb166-75"></a><span class="co">#&gt;                    samurai sword                         scissors </span></span>
+<span id="cb166-76"><a href="7-1-exploring-data.html#cb166-76"></a><span class="co">#&gt;                       0.05479452                       0.12785388 </span></span>
+<span id="cb166-77"><a href="7-1-exploring-data.html#cb166-77"></a><span class="co">#&gt;                      screwdriver                     sharp object </span></span>
+<span id="cb166-78"><a href="7-1-exploring-data.html#cb166-78"></a><span class="co">#&gt;                       0.23744292                       0.23744292 </span></span>
+<span id="cb166-79"><a href="7-1-exploring-data.html#cb166-79"></a><span class="co">#&gt;                           shovel                            spear </span></span>
+<span id="cb166-80"><a href="7-1-exploring-data.html#cb166-80"></a><span class="co">#&gt;                       0.10958904                       0.01826484 </span></span>
+<span id="cb166-81"><a href="7-1-exploring-data.html#cb166-81"></a><span class="co">#&gt;                          stapler              straight edge razor </span></span>
+<span id="cb166-82"><a href="7-1-exploring-data.html#cb166-82"></a><span class="co">#&gt;                       0.01826484                       0.07305936 </span></span>
+<span id="cb166-83"><a href="7-1-exploring-data.html#cb166-83"></a><span class="co">#&gt;                            sword                            Taser </span></span>
+<span id="cb166-84"><a href="7-1-exploring-data.html#cb166-84"></a><span class="co">#&gt;                       0.40182648                       0.47488584 </span></span>
+<span id="cb166-85"><a href="7-1-exploring-data.html#cb166-85"></a><span class="co">#&gt;                        tire iron                       toy weapon </span></span>
+<span id="cb166-86"><a href="7-1-exploring-data.html#cb166-86"></a><span class="co">#&gt;                       0.01826484                       3.47031963 </span></span>
+<span id="cb166-87"><a href="7-1-exploring-data.html#cb166-87"></a><span class="co">#&gt;                          unarmed                     undetermined </span></span>
+<span id="cb166-88"><a href="7-1-exploring-data.html#cb166-88"></a><span class="co">#&gt;                       6.46575342                       3.05022831 </span></span>
+<span id="cb166-89"><a href="7-1-exploring-data.html#cb166-89"></a><span class="co">#&gt;                   unknown weapon                          vehicle </span></span>
+<span id="cb166-90"><a href="7-1-exploring-data.html#cb166-90"></a><span class="co">#&gt;                       1.44292237                       2.84931507 </span></span>
+<span id="cb166-91"><a href="7-1-exploring-data.html#cb166-91"></a><span class="co">#&gt;                  vehicle and gun              vehicle and machete </span></span>
+<span id="cb166-92"><a href="7-1-exploring-data.html#cb166-92"></a><span class="co">#&gt;                       0.07305936                       0.01826484 </span></span>
+<span id="cb166-93"><a href="7-1-exploring-data.html#cb166-93"></a><span class="co">#&gt;                    walking stick                       wasp spray </span></span>
+<span id="cb166-94"><a href="7-1-exploring-data.html#cb166-94"></a><span class="co">#&gt;                       0.01826484                       0.01826484 </span></span>
+<span id="cb166-95"><a href="7-1-exploring-data.html#cb166-95"></a><span class="co">#&gt;                           wrench </span></span>
+<span id="cb166-96"><a href="7-1-exploring-data.html#cb166-96"></a><span class="co">#&gt;                       0.01826484</span></span></code></pre></div>
+<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon. It also doesn’t round the percents. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll set the parameter <code>decreasing</code> to TRUE in the <code>sort()</code> function so that it is in descending order of how common each value is. And we’ll round to two decimal places by setting the parameter <code>digits</code> to 2.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="7-1-exploring-data.html#cb167-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>armed) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb167-2"><a href="7-1-exploring-data.html#cb167-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb167-3"><a href="7-1-exploring-data.html#cb167-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb167-4"><a href="7-1-exploring-data.html#cb167-4"></a>temp</span>
+<span id="cb167-5"><a href="7-1-exploring-data.html#cb167-5"></a><span class="co">#&gt; </span></span>
+<span id="cb167-6"><a href="7-1-exploring-data.html#cb167-6"></a><span class="co">#&gt;                              gun                            knife </span></span>
+<span id="cb167-7"><a href="7-1-exploring-data.html#cb167-7"></a><span class="co">#&gt;                            56.60                            14.65 </span></span>
+<span id="cb167-8"><a href="7-1-exploring-data.html#cb167-8"></a><span class="co">#&gt;                          unarmed                       toy weapon </span></span>
+<span id="cb167-9"><a href="7-1-exploring-data.html#cb167-9"></a><span class="co">#&gt;                             6.47                             3.47 </span></span>
+<span id="cb167-10"><a href="7-1-exploring-data.html#cb167-10"></a><span class="co">#&gt;                     undetermined                          vehicle </span></span>
+<span id="cb167-11"><a href="7-1-exploring-data.html#cb167-11"></a><span class="co">#&gt;                             3.05                             2.85 </span></span>
+<span id="cb167-12"><a href="7-1-exploring-data.html#cb167-12"></a><span class="co">#&gt;                   unknown weapon                          machete </span></span>
+<span id="cb167-13"><a href="7-1-exploring-data.html#cb167-13"></a><span class="co">#&gt;                             1.44                             0.82 </span></span>
+<span id="cb167-14"><a href="7-1-exploring-data.html#cb167-14"></a><span class="co">#&gt;                            Taser                               ax </span></span>
+<span id="cb167-15"><a href="7-1-exploring-data.html#cb167-15"></a><span class="co">#&gt;                             0.47                             0.44 </span></span>
+<span id="cb167-16"><a href="7-1-exploring-data.html#cb167-16"></a><span class="co">#&gt;                            sword                     baseball bat </span></span>
+<span id="cb167-17"><a href="7-1-exploring-data.html#cb167-17"></a><span class="co">#&gt;                             0.40                             0.33 </span></span>
+<span id="cb167-18"><a href="7-1-exploring-data.html#cb167-18"></a><span class="co">#&gt;                    gun and knife                           hammer </span></span>
+<span id="cb167-19"><a href="7-1-exploring-data.html#cb167-19"></a><span class="co">#&gt;                             0.31                             0.29 </span></span>
+<span id="cb167-20"><a href="7-1-exploring-data.html#cb167-20"></a><span class="co">#&gt;                       metal pipe                      screwdriver </span></span>
+<span id="cb167-21"><a href="7-1-exploring-data.html#cb167-21"></a><span class="co">#&gt;                             0.24                             0.24 </span></span>
+<span id="cb167-22"><a href="7-1-exploring-data.html#cb167-22"></a><span class="co">#&gt;                     sharp object                       box cutter </span></span>
+<span id="cb167-23"><a href="7-1-exploring-data.html#cb167-23"></a><span class="co">#&gt;                             0.24                             0.22 </span></span>
+<span id="cb167-24"><a href="7-1-exploring-data.html#cb167-24"></a><span class="co">#&gt;                      gun and car                          hatchet </span></span>
+<span id="cb167-25"><a href="7-1-exploring-data.html#cb167-25"></a><span class="co">#&gt;                             0.20                             0.20 </span></span>
+<span id="cb167-26"><a href="7-1-exploring-data.html#cb167-26"></a><span class="co">#&gt;                  gun and vehicle                         crossbow </span></span>
+<span id="cb167-27"><a href="7-1-exploring-data.html#cb167-27"></a><span class="co">#&gt;                             0.18                             0.16 </span></span>
+<span id="cb167-28"><a href="7-1-exploring-data.html#cb167-28"></a><span class="co">#&gt;                         scissors                             pipe </span></span>
+<span id="cb167-29"><a href="7-1-exploring-data.html#cb167-29"></a><span class="co">#&gt;                             0.13                             0.11 </span></span>
+<span id="cb167-30"><a href="7-1-exploring-data.html#cb167-30"></a><span class="co">#&gt;                             rock                           shovel </span></span>
+<span id="cb167-31"><a href="7-1-exploring-data.html#cb167-31"></a><span class="co">#&gt;                             0.11                             0.11 </span></span>
+<span id="cb167-32"><a href="7-1-exploring-data.html#cb167-32"></a><span class="co">#&gt;                            baton                           BB gun </span></span>
+<span id="cb167-33"><a href="7-1-exploring-data.html#cb167-33"></a><span class="co">#&gt;                             0.09                             0.09 </span></span>
+<span id="cb167-34"><a href="7-1-exploring-data.html#cb167-34"></a><span class="co">#&gt;                     blunt object                     meat cleaver </span></span>
+<span id="cb167-35"><a href="7-1-exploring-data.html#cb167-35"></a><span class="co">#&gt;                             0.09                             0.09 </span></span>
+<span id="cb167-36"><a href="7-1-exploring-data.html#cb167-36"></a><span class="co">#&gt;                    piece of wood                            chair </span></span>
+<span id="cb167-37"><a href="7-1-exploring-data.html#cb167-37"></a><span class="co">#&gt;                             0.09                             0.07 </span></span>
+<span id="cb167-38"><a href="7-1-exploring-data.html#cb167-38"></a><span class="co">#&gt;                          crowbar                     metal object </span></span>
+<span id="cb167-39"><a href="7-1-exploring-data.html#cb167-39"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
+<span id="cb167-40"><a href="7-1-exploring-data.html#cb167-40"></a><span class="co">#&gt;                         pick-axe              straight edge razor </span></span>
+<span id="cb167-41"><a href="7-1-exploring-data.html#cb167-41"></a><span class="co">#&gt;                             0.07                             0.07 </span></span>
+<span id="cb167-42"><a href="7-1-exploring-data.html#cb167-42"></a><span class="co">#&gt;                  vehicle and gun                      beer bottle </span></span>
+<span id="cb167-43"><a href="7-1-exploring-data.html#cb167-43"></a><span class="co">#&gt;                             0.07                             0.05 </span></span>
+<span id="cb167-44"><a href="7-1-exploring-data.html#cb167-44"></a><span class="co">#&gt;                            chain                      glass shard </span></span>
+<span id="cb167-45"><a href="7-1-exploring-data.html#cb167-45"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-46"><a href="7-1-exploring-data.html#cb167-46"></a><span class="co">#&gt;              guns and explosives                       metal pole </span></span>
+<span id="cb167-47"><a href="7-1-exploring-data.html#cb167-47"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-48"><a href="7-1-exploring-data.html#cb167-48"></a><span class="co">#&gt;                      metal stick                       pellet gun </span></span>
+<span id="cb167-49"><a href="7-1-exploring-data.html#cb167-49"></a><span class="co">#&gt;                             0.05                             0.05 </span></span>
+<span id="cb167-50"><a href="7-1-exploring-data.html#cb167-50"></a><span class="co">#&gt;                    samurai sword                            brick </span></span>
+<span id="cb167-51"><a href="7-1-exploring-data.html#cb167-51"></a><span class="co">#&gt;                             0.05                             0.04 </span></span>
+<span id="cb167-52"><a href="7-1-exploring-data.html#cb167-52"></a><span class="co">#&gt;                        chain saw                       flashlight </span></span>
+<span id="cb167-53"><a href="7-1-exploring-data.html#cb167-53"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-54"><a href="7-1-exploring-data.html#cb167-54"></a><span class="co">#&gt;                      garden tool                  hatchet and gun </span></span>
+<span id="cb167-55"><a href="7-1-exploring-data.html#cb167-55"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-56"><a href="7-1-exploring-data.html#cb167-56"></a><span class="co">#&gt;                incendiary device                 lawn mower blade </span></span>
+<span id="cb167-57"><a href="7-1-exploring-data.html#cb167-57"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-58"><a href="7-1-exploring-data.html#cb167-58"></a><span class="co">#&gt;                        pitchfork                             pole </span></span>
+<span id="cb167-59"><a href="7-1-exploring-data.html#cb167-59"></a><span class="co">#&gt;                             0.04                             0.04 </span></span>
+<span id="cb167-60"><a href="7-1-exploring-data.html#cb167-60"></a><span class="co">#&gt;                   pole and knife                  air conditioner </span></span>
+<span id="cb167-61"><a href="7-1-exploring-data.html#cb167-61"></a><span class="co">#&gt;                             0.04                             0.02 </span></span>
+<span id="cb167-62"><a href="7-1-exploring-data.html#cb167-62"></a><span class="co">#&gt;                       air pistol                   Airsoft pistol </span></span>
+<span id="cb167-63"><a href="7-1-exploring-data.html#cb167-63"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-64"><a href="7-1-exploring-data.html#cb167-64"></a><span class="co">#&gt;                         barstool          baseball bat and bottle </span></span>
+<span id="cb167-65"><a href="7-1-exploring-data.html#cb167-65"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-66"><a href="7-1-exploring-data.html#cb167-66"></a><span class="co">#&gt; baseball bat and fireplace poker           baseball bat and knife </span></span>
+<span id="cb167-67"><a href="7-1-exploring-data.html#cb167-67"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-68"><a href="7-1-exploring-data.html#cb167-68"></a><span class="co">#&gt;                          bayonet               BB gun and vehicle </span></span>
+<span id="cb167-69"><a href="7-1-exploring-data.html#cb167-69"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-70"><a href="7-1-exploring-data.html#cb167-70"></a><span class="co">#&gt;                     bean-bag gun                    bow and arrow </span></span>
+<span id="cb167-71"><a href="7-1-exploring-data.html#cb167-71"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-72"><a href="7-1-exploring-data.html#cb167-72"></a><span class="co">#&gt;              car, knife and mace                          carjack </span></span>
+<span id="cb167-73"><a href="7-1-exploring-data.html#cb167-73"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-74"><a href="7-1-exploring-data.html#cb167-74"></a><span class="co">#&gt;                         chainsaw              claimed to be armed </span></span>
+<span id="cb167-75"><a href="7-1-exploring-data.html#cb167-75"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-76"><a href="7-1-exploring-data.html#cb167-76"></a><span class="co">#&gt;               contractor&#39;s level                   cordless drill </span></span>
+<span id="cb167-77"><a href="7-1-exploring-data.html#cb167-77"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-78"><a href="7-1-exploring-data.html#cb167-78"></a><span class="co">#&gt;                        fireworks                         flagpole </span></span>
+<span id="cb167-79"><a href="7-1-exploring-data.html#cb167-79"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-80"><a href="7-1-exploring-data.html#cb167-80"></a><span class="co">#&gt;                          grenade                    gun and sword </span></span>
+<span id="cb167-81"><a href="7-1-exploring-data.html#cb167-81"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-82"><a href="7-1-exploring-data.html#cb167-82"></a><span class="co">#&gt;                       hand torch                         ice pick </span></span>
+<span id="cb167-83"><a href="7-1-exploring-data.html#cb167-83"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-84"><a href="7-1-exploring-data.html#cb167-84"></a><span class="co">#&gt;                  machete and gun                  metal hand tool </span></span>
+<span id="cb167-85"><a href="7-1-exploring-data.html#cb167-85"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-86"><a href="7-1-exploring-data.html#cb167-86"></a><span class="co">#&gt;                       metal rake                       motorcycle </span></span>
+<span id="cb167-87"><a href="7-1-exploring-data.html#cb167-87"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-88"><a href="7-1-exploring-data.html#cb167-88"></a><span class="co">#&gt;                         nail gun                              oar </span></span>
+<span id="cb167-89"><a href="7-1-exploring-data.html#cb167-89"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-90"><a href="7-1-exploring-data.html#cb167-90"></a><span class="co">#&gt;                              pen                     pepper spray </span></span>
+<span id="cb167-91"><a href="7-1-exploring-data.html#cb167-91"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-92"><a href="7-1-exploring-data.html#cb167-92"></a><span class="co">#&gt;                            spear                          stapler </span></span>
+<span id="cb167-93"><a href="7-1-exploring-data.html#cb167-93"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-94"><a href="7-1-exploring-data.html#cb167-94"></a><span class="co">#&gt;                        tire iron              vehicle and machete </span></span>
+<span id="cb167-95"><a href="7-1-exploring-data.html#cb167-95"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-96"><a href="7-1-exploring-data.html#cb167-96"></a><span class="co">#&gt;                    walking stick                       wasp spray </span></span>
+<span id="cb167-97"><a href="7-1-exploring-data.html#cb167-97"></a><span class="co">#&gt;                             0.02                             0.02 </span></span>
+<span id="cb167-98"><a href="7-1-exploring-data.html#cb167-98"></a><span class="co">#&gt;                           wrench </span></span>
+<span id="cb167-99"><a href="7-1-exploring-data.html#cb167-99"></a><span class="co">#&gt;                             0.02</span></span></code></pre></div>
+<p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.</p>
+<p>Think about how you’d graph this data. There are 94 unique values in this column though fewer than ten of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called “other weapons.” And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
+<p>Let’s keep exploring the data by looking at gender and race.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="7-1-exploring-data.html#cb168-1"></a><span class="kw">table</span>(shootings<span class="op">$</span>gender) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb168-2"><a href="7-1-exploring-data.html#cb168-2"></a><span class="co">#&gt; </span></span>
+<span id="cb168-3"><a href="7-1-exploring-data.html#cb168-3"></a><span class="co">#&gt;         F         M </span></span>
+<span id="cb168-4"><a href="7-1-exploring-data.html#cb168-4"></a><span class="co">#&gt;  4.438356 95.543379</span></span></code></pre></div>
+<p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="7-1-exploring-data.html#cb169-1"></a>temp &lt;-<span class="st"> </span><span class="kw">table</span>(shootings<span class="op">$</span>race) <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(shootings) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span>
+<span id="cb169-2"><a href="7-1-exploring-data.html#cb169-2"></a>temp &lt;-<span class="st"> </span><span class="kw">sort</span>(temp)</span>
+<span id="cb169-3"><a href="7-1-exploring-data.html#cb169-3"></a>temp &lt;-<span class="st"> </span><span class="kw">round</span>(temp, <span class="dt">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb169-4"><a href="7-1-exploring-data.html#cb169-4"></a>temp</span>
+<span id="cb169-5"><a href="7-1-exploring-data.html#cb169-5"></a><span class="co">#&gt; </span></span>
+<span id="cb169-6"><a href="7-1-exploring-data.html#cb169-6"></a><span class="co">#&gt;     O     N     A     H     B     W </span></span>
+<span id="cb169-7"><a href="7-1-exploring-data.html#cb169-7"></a><span class="co">#&gt;  0.88  1.42  1.72 16.62 23.78 45.63</span></span></code></pre></div>
+<p>White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed, it doesn’t give any indication on rates of death per group. You’d need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It’s important to understand the data not only to be able to answer questions about it, but to know what questions you can’t answer - and you’ll find when using criminology data that there are a <em>lot</em> of questions that you can’t answer.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>One annoying thing with the gender and race variables is that they doesn’t spell out the name. Instead of “Female”, for example, it has “F”. For our graphs we want to spell out the words so it is clear to viewers. We’ll fix this issue, and the issue of having many weapon categories, as we graph each variable.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>It is especially important to not overreach when trying to answer a question when the data can’t do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we’d determine that there’s no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that’s okay - even if we’re wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn’t to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.<a href="7-1-exploring-data.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+<p style="text-align: center;">
+<a href="7-ois-graphs.html"><button class="btn btn-default">Previous</button></a>
+<a href="7-2-graphing-a-single-numeric-variable.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

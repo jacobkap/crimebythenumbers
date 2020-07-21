@@ -1,19 +1,22 @@
 --- 
 knit: "bookdown::render_book"
 title: "Crime by the Numbers"
-date: "2020-07-19"
+date: "2020-07-20"
 author: "Jacob Kaplan"
-bibliography: [packages.bib]
+bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
 description: "This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets."
 url: "https://crimebythenumbers.com"
-cover-image: "Ruby-throated_HummingBird.jpg"
+cover-image: "images/cover.png"
 fontsize: 12pt
 github-repo: "jacobkap/crimebythenumbers"
 site: bookdown::bookdown_site
 documentclass: book
+graphics: yes
+always_allow_html: yes
+twitter-handle: JacobKaplan19
 ---
 
 

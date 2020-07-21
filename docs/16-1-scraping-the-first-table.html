@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="16.1 Scraping the first table | Crime by the Numbers" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://crimebythenumbers.com" />
+<meta property="og:image" content="https://crimebythenumbers.comimages/cover.png" />
+<meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+<meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+<meta name="author" content="Jacob Kaplan" />
+
+<meta name="date" content="2020-07-20" />
+
+
+<meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets.">
+
+<title>16.1 Scraping the first table | Crime by the Numbers</title>
+
+<script src="libs/header-attrs-2.3.2/header-attrs.js"></script>
+<script src="libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li><a href="index.html#welcome">Welcome</a>
+<ul>
+<li><a href="why-learn-to-program.html#why-learn-to-program">Why learn to program?</a>
+<ul>
+<li><a href="why-learn-to-program.html#scale">Scale</a></li>
+<li><a href="why-learn-to-program.html#reproducibility">Reproducibility</a></li>
+</ul></li>
+<li><a href="what-you-will-learn.html#what-you-will-learn">What you will learn</a>
+<ul>
+<li><a href="what-you-will-learn.html#skills">Skills</a></li>
+<li><a href="what-you-will-learn.html#data">Data</a></li>
+</ul></li>
+<li><a href="what-you-wont-learn.html#what-you-wont-learn">What you won’t learn</a></li>
+<li><a href="simple-vs-easy.html#simple-vs-easy">Simple vs Easy</a></li>
+<li><a href="how-to-contribute.html#how-to-contribute">How to Contribute</a></li>
+</ul></li>
+<li><a href="about-the-author.html#about-the-author">About the author</a></li>
+<li><a href="1-introduction-to-r-and-rstudio.html#introduction-to-r-and-rstudio"><span class="toc-section-number">1</span> Introduction to R and RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#using-rstudio"><span class="toc-section-number">1.1</span> Using RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#opening-an-r-script"><span class="toc-section-number">1.1.1</span> Opening an R Script</a></li>
+<li><a href="1-1-using-rstudio.html#setting-the-working-directory"><span class="toc-section-number">1.1.2</span> Setting the working directory</a></li>
+<li><a href="1-1-using-rstudio.html#changing-rstudio"><span class="toc-section-number">1.1.3</span> Changing RStudio</a></li>
+<li><a href="1-1-using-rstudio.html#helpful-cheatsheets"><span class="toc-section-number">1.1.4</span> Helpful cheatsheets</a></li>
+</ul></li>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">1.2</span> Reading data into R</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#loading-data"><span class="toc-section-number">1.2.1</span> Loading data</a></li>
+</ul></li>
+<li><a href="1-3-first-steps-to-exploring-data.html#first-steps-to-exploring-data"><span class="toc-section-number">1.3</span> First steps to exploring data</a></li>
+<li><a href="1-4-finding-help-about-functions.html#finding-help-about-functions"><span class="toc-section-number">1.4</span> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li><a href="2-subsetting-intro.html#subsetting-intro"><span class="toc-section-number">2</span> Subsetting: Making big things small</a>
+<ul>
+<li><a href="2-1-select-specific-values.html#select-specific-values"><span class="toc-section-number">2.1</span> Select specific values</a></li>
+<li><a href="2-2-assignment.html#assignment"><span class="toc-section-number">2.2</span> Assigning values to objects (Making “things”)</a></li>
+<li><a href="2-3-vectors.html#vectors"><span class="toc-section-number">2.3</span> Vectors (collections of “things”)</a></li>
+<li><a href="2-4-logical-values-and-operations.html#logical-values-and-operations"><span class="toc-section-number">2.4</span> Logical values and operations</a>
+<ul>
+<li><a href="2-4-logical-values-and-operations.html#matching-a-single-value"><span class="toc-section-number">2.4.1</span> Matching a single value</a></li>
+<li><a href="2-4-logical-values-and-operations.html#matching-multiple-values"><span class="toc-section-number">2.4.2</span> Matching multiple values</a></li>
+<li><a href="2-4-logical-values-and-operations.html#does-not-match"><span class="toc-section-number">2.4.3</span> Does not match</a></li>
+<li><a href="2-4-logical-values-and-operations.html#greater-than-or-less-than"><span class="toc-section-number">2.4.4</span> Greater than or less than</a></li>
+<li><a href="2-4-logical-values-and-operations.html#combining-conditional-statements---or-and"><span class="toc-section-number">2.4.5</span> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subsetting-a-data.frame"><span class="toc-section-number">2.5</span> Subsetting a data.frame</a>
+<ul>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-columns"><span class="toc-section-number">2.5.1</span> Select specific columns</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-rows"><span class="toc-section-number">2.5.2</span> Select specific rows</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subset-colorado-data"><span class="toc-section-number">2.5.3</span> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="3-explore.html#explore"><span class="toc-section-number">3</span> Exploratory data analysis</a>
+<ul>
+<li><a href="3-1-summary-and-table.html#summary-and-table"><span class="toc-section-number">3.1</span> Summary and Table</a></li>
+<li><a href="3-2-graphing.html#graphing"><span class="toc-section-number">3.2</span> Graphing</a></li>
+<li><a href="3-3-aggregate.html#aggregate"><span class="toc-section-number">3.3</span> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li><a href="4-regular-expressions.html#regular-expressions"><span class="toc-section-number">4</span> Regular Expressions</a>
+<ul>
+<li><a href="4-1-finding-patterns-in-text-with-grep.html#finding-patterns-in-text-with-grep"><span class="toc-section-number">4.1</span> Finding patterns in text with <code>grep()</code></a></li>
+<li><a href="4-2-finding-and-replacing-patterns-in-text-with-gsub.html#finding-and-replacing-patterns-in-text-with-gsub"><span class="toc-section-number">4.2</span> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#useful-special-characters"><span class="toc-section-number">4.3</span> Useful special characters</a>
+<ul>
+<li><a href="4-3-useful-special-characters.html#multiple-characters"><span class="toc-section-number">4.3.1</span> Multiple characters <code>[]</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-of-previous-character-n"><span class="toc-section-number">4.3.2</span> n-many of previous character <code>{n}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-to-m-many-of-previous-character-nm"><span class="toc-section-number">4.3.3</span> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#start-of-string"><span class="toc-section-number">4.3.4</span> Start of string</a></li>
+<li><a href="4-3-useful-special-characters.html#end-of-string"><span class="toc-section-number">4.3.5</span> End of string <code>$</code></a></li>
+<li><a href="4-3-useful-special-characters.html#anything-."><span class="toc-section-number">4.3.6</span> Anything <code>.</code></a></li>
+<li><a href="4-3-useful-special-characters.html#one-or-more-of-previous"><span class="toc-section-number">4.3.7</span> One or more of previous <code>+</code></a></li>
+<li><a href="4-3-useful-special-characters.html#zero-or-more-of-previous"><span class="toc-section-number">4.3.8</span> Zero or more of previous <code>*</code></a></li>
+<li><a href="4-3-useful-special-characters.html#multiple-patterns"><span class="toc-section-number">4.3.9</span> Multiple patterns <code>|</code></a></li>
+<li><a href="4-3-useful-special-characters.html#parentheses"><span class="toc-section-number">4.3.10</span> Parentheses <code>()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#optional-text"><span class="toc-section-number">4.3.11</span> Optional text <code>?</code></a></li>
+</ul></li>
+<li><a href="4-4-changing-capitalization.html#changing-capitalization"><span class="toc-section-number">4.4</span> Changing capitalization</a></li>
+</ul></li>
+<li><a href="5-reading-and-writing-data.html#reading-and-writing-data"><span class="toc-section-number">5</span> Reading and Writing Data</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">5.1</span> Reading Data into R</a>
+<ul>
+<li><a href="5-1-reading-data-into-r.html#r"><span class="toc-section-number">5.1.1</span> R</a></li>
+<li><a href="5-1-reading-data-into-r.html#excel"><span class="toc-section-number">5.1.2</span> Excel</a></li>
+<li><a href="5-1-reading-data-into-r.html#stata"><span class="toc-section-number">5.1.3</span> Stata</a></li>
+<li><a href="5-1-reading-data-into-r.html#sas"><span class="toc-section-number">5.1.4</span> SAS</a></li>
+<li><a href="5-1-reading-data-into-r.html#spss"><span class="toc-section-number">5.1.5</span> SPSS</a></li>
+</ul></li>
+<li><a href="5-2-writing-data.html#writing-data"><span class="toc-section-number">5.2</span> Writing Data</a>
+<ul>
+<li><a href="5-2-writing-data.html#r-1"><span class="toc-section-number">5.2.1</span> R</a></li>
+<li><a href="5-2-writing-data.html#excel-1"><span class="toc-section-number">5.2.2</span> Excel</a></li>
+<li><a href="5-2-writing-data.html#stata-1"><span class="toc-section-number">5.2.3</span> Stata</a></li>
+<li><a href="5-2-writing-data.html#sas-1"><span class="toc-section-number">5.2.4</span> SAS</a></li>
+<li><a href="5-2-writing-data.html#spss-1"><span class="toc-section-number">5.2.5</span> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li><a href="6-graphing-intro.html#graphing-intro"><span class="toc-section-number">6</span> Graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="6-1-what-does-the-data-look-like.html#what-does-the-data-look-like"><span class="toc-section-number">6.1</span> What does the data look like?</a></li>
+<li><a href="6-2-graphing-data.html#graphing-data"><span class="toc-section-number">6.2</span> Graphing data</a></li>
+<li><a href="6-3-time-series-plots.html#time-series-plots"><span class="toc-section-number">6.3</span> Time-Series Plots</a></li>
+<li><a href="6-4-scatter-plots.html#scatter-plots"><span class="toc-section-number">6.4</span> Scatter Plots</a></li>
+<li><a href="6-5-color-blindness.html#color-blindness"><span class="toc-section-number">6.5</span> Color blindness</a></li>
+</ul></li>
+<li><a href="7-ois-graphs.html#ois_graphs"><span class="toc-section-number">7</span> More graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="7-1-exploring-data.html#exploring-data"><span class="toc-section-number">7.1</span> Exploring Data</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#graphing-a-single-numeric-variable"><span class="toc-section-number">7.2</span> Graphing a Single Numeric Variable</a>
+<ul>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#histogram"><span class="toc-section-number">7.2.1</span> Histogram</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#density-plot"><span class="toc-section-number">7.2.2</span> Density plot</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#count-graph"><span class="toc-section-number">7.2.3</span> Count Graph</a></li>
+</ul></li>
+<li><a href="7-3-bar-graph.html#bar-graph"><span class="toc-section-number">7.3</span> Bar graph</a></li>
+<li><a href="7-4-graphing-data-over-time.html#graphing-data-over-time"><span class="toc-section-number">7.4</span> Graphing Data Over Time</a></li>
+<li><a href="7-5-pretty-graphs.html#pretty-graphs"><span class="toc-section-number">7.5</span> Pretty Graphs</a>
+<ul>
+<li><a href="7-5-pretty-graphs.html#themes"><span class="toc-section-number">7.5.1</span> Themes</a></li>
+</ul></li>
+</ul></li>
+<li><a href="8-hotspot-maps.html#hotspot-maps"><span class="toc-section-number">8</span> Hotspot maps</a>
+<ul>
+<li><a href="8-1-a-simple-map.html#a-simple-map"><span class="toc-section-number">8.1</span> A simple map</a></li>
+<li><a href="8-2-what-really-are-maps.html#what-really-are-maps"><span class="toc-section-number">8.2</span> What really are maps?</a></li>
+<li><a href="8-3-making-a-hotspot-map.html#making-a-hotspot-map"><span class="toc-section-number">8.3</span> Making a hotspot map</a>
+<ul>
+<li><a href="8-3-making-a-hotspot-map.html#colors"><span class="toc-section-number">8.3.1</span> Colors</a></li>
+</ul></li>
+</ul></li>
+<li><a href="9-choropleth-maps.html#choropleth-maps"><span class="toc-section-number">9</span> Choropleth maps</a>
+<ul>
+<li><a href="9-1-spatial-joins.html#spatial-joins"><span class="toc-section-number">9.1</span> Spatial joins</a></li>
+<li><a href="9-2-making-choropleth-maps.html#making-choropleth-maps"><span class="toc-section-number">9.2</span> Making choropleth maps</a></li>
+</ul></li>
+<li><a href="10-interactive-maps.html#interactive-maps"><span class="toc-section-number">10</span> Interactive maps</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#why-do-interactive-graphs-matter"><span class="toc-section-number">10.1</span> Why do interactive graphs matter?</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#understanding-your-data"><span class="toc-section-number">10.1.1</span> Understanding your data</a></li>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#police-departments-use-them"><span class="toc-section-number">10.1.2</span> Police departments use them</a></li>
+</ul></li>
+<li><a href="10-2-making-the-interactive-map.html#making-the-interactive-map"><span class="toc-section-number">10.2</span> Making the interactive map</a></li>
+<li><a href="10-3-adding-popup-information.html#adding-popup-information"><span class="toc-section-number">10.3</span> Adding popup information</a></li>
+<li><a href="10-4-dealing-with-too-many-markers.html#dealing-with-too-many-markers"><span class="toc-section-number">10.4</span> Dealing with too many markers</a></li>
+<li><a href="10-5-interactive-choropleth-maps.html#interactive-choropleth-maps"><span class="toc-section-number">10.5</span> Interactive choropleth maps</a></li>
+</ul></li>
+<li><a href="11-r-markdown.html#r-markdown"><span class="toc-section-number">11</span> R Markdown</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#code"><span class="toc-section-number">11.1</span> Code</a>
+<ul>
+<li><a href="11-1-code.html#hiding-code-in-the-output"><span class="toc-section-number">11.1.1</span> Hiding code in the output</a></li>
+</ul></li>
+<li><a href="11-2-inline-code.html#inline-code"><span class="toc-section-number">11.2</span> Inline Code</a></li>
+<li><a href="11-3-tables.html#tables"><span class="toc-section-number">11.3</span> Tables</a></li>
+<li><a href="11-4-footnotes.html#footnotes"><span class="toc-section-number">11.4</span> Footnotes</a></li>
+<li><a href="11-5-citation.html#citation"><span class="toc-section-number">11.5</span> Citation</a></li>
+<li><a href="11-6-spell-check.html#spell-check"><span class="toc-section-number">11.6</span> Spell check</a></li>
+<li><a href="11-7-making-the-output-file.html#making-the-output-file"><span class="toc-section-number">11.7</span> Making the output file</a></li>
+</ul></li>
+<li><a href="12-git.html#git"><span class="toc-section-number">12</span> Git</a>
+<ul>
+<li><a href="12-1-what-is-git-and-why-do-i-need-it.html#what-is-git-and-why-do-i-need-it"><span class="toc-section-number">12.1</span> What is Git and why do I need it?</a></li>
+<li><a href="12-2-git-basics.html#git-basics"><span class="toc-section-number">12.2</span> Git basics</a></li>
+<li><a href="12-3-when-to-commit.html#when-to-commit"><span class="toc-section-number">12.3</span> When to commit</a></li>
+<li><a href="12-4-code-review.html#code-review"><span class="toc-section-number">12.4</span> Code review</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li><a href="13-webscraping-with-rvest.html#webscraping-with-rvest"><span class="toc-section-number">13</span> Webscraping with <code>rvest</code></a>
+<ul>
+<li><a href="13-1-scraping-one-page.html#scraping-one-page"><span class="toc-section-number">13.1</span> Scraping one page</a></li>
+<li><a href="13-2-cleaning-the-webscraped-data.html#cleaning-the-webscraped-data"><span class="toc-section-number">13.2</span> Cleaning the webscraped data</a></li>
+</ul></li>
+<li><a href="14-functions.html#functions"><span class="toc-section-number">14</span> Functions</a>
+<ul>
+<li><a href="14-1-a-simple-function.html#a-simple-function"><span class="toc-section-number">14.1</span> A simple function</a></li>
+<li><a href="14-2-adding-parameters.html#adding-parameters"><span class="toc-section-number">14.2</span> Adding parameters</a></li>
+<li><a href="14-3-recipes-function.html#recipes-function"><span class="toc-section-number">14.3</span> Making a function to scrape recipes</a></li>
+</ul></li>
+<li><a href="15-for-loops.html#for-loops"><span class="toc-section-number">15</span> For loops</a>
+<ul>
+<li><a href="15-1-basic-for-loops.html#basic-for-loops"><span class="toc-section-number">15.1</span> Basic for loops</a></li>
+<li><a href="15-2-scraping-multiple-recipes.html#scraping-multiple-recipes"><span class="toc-section-number">15.2</span> Scraping multiple recipes</a></li>
+</ul></li>
+<li><a href="16-scrape-table.html#scrape-table"><span class="toc-section-number">16</span> Scraping tables from PDFs</a>
+<ul>
+<li><a href="16-1-scraping-the-first-table.html#scraping-the-first-table"><span class="toc-section-number">16.1</span> Scraping the first table</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">16.2</span> Making a function</a></li>
+</ul></li>
+<li><a href="17-scrape-table2.html#scrape-table2"><span class="toc-section-number">17</span> More scraping tables from PDFs</a>
+<ul>
+<li><a href="17-1-pregnant-women-incarcerated.html#pregnant-women-incarcerated"><span class="toc-section-number">17.1</span> Pregnant Women Incarcerated</a></li>
+<li><a href="17-2-making-pdf-scraped-data-available-to-others.html#making-pdf-scraped-data-available-to-others"><span class="toc-section-number">17.2</span> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li><a href="18-geocoding.html#geocoding"><span class="toc-section-number">18</span> Geocoding</a>
+<ul>
+<li><a href="18-1-geocoding-a-single-address.html#geocoding-a-single-address"><span class="toc-section-number">18.1</span> Geocoding a single address</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">18.2</span> Making a function</a></li>
+<li><a href="18-3-geocoding-san-francisco-marijuana-dispensary-locations.html#geocoding-san-francisco-marijuana-dispensary-locations"><span class="toc-section-number">18.3</span> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Data</b></span></li>
+<li><a href="19-introduction.html#introduction"><span class="toc-section-number">19</span> Introduction</a></li>
+<li><a href="20-ucr.html#ucr"><span class="toc-section-number">20</span> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li><a href="20-1-exploring-the-ucr-data.html#exploring-the-ucr-data"><span class="toc-section-number">20.1</span> Exploring the UCR data</a></li>
+<li><a href="20-2-oris-unique-agency-identifiers.html#oris---unique-agency-identifiers"><span class="toc-section-number">20.2</span> ORIs - Unique agency identifiers</a></li>
+<li><a href="20-3-hierarchy-rule.html#hierarchy-rule"><span class="toc-section-number">20.3</span> Hierarchy Rule</a></li>
+<li><a href="20-4-which-crimes-are-included.html#which-crimes-are-included"><span class="toc-section-number">20.4</span> Which crimes are included</a>
+<ul>
+<li><a href="20-4-which-crimes-are-included.html#index-crimes"><span class="toc-section-number">20.4.1</span> Index Crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#the-problem-with-using-index-crimes"><span class="toc-section-number">20.4.2</span> The problem with using index crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#rape-definition-change"><span class="toc-section-number">20.4.3</span> Rape definition change</a></li>
+</ul></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual-offenses-clearances-and-unfounded-offenses"><span class="toc-section-number">20.5</span> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual"><span class="toc-section-number">20.5.1</span> Actual</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#total-cleared"><span class="toc-section-number">20.5.2</span> Total Cleared</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#cleared-where-all-offenders-are-under-18"><span class="toc-section-number">20.5.3</span> Cleared Where All Offenders Are Under 18</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#unfounded"><span class="toc-section-number">20.5.4</span> Unfounded</a></li>
+</ul></li>
+<li><a href="20-6-number-of-months-reported.html#number-of-months-reported"><span class="toc-section-number">20.6</span> Number of months reported</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li><a href="A-useful-resources.html#useful-resources"><span class="toc-section-number">A</span> Useful resources</a>
+<ul>
+<li><a href="A-1-learning-r-and-coding-issues.html#learning-r-and-coding-issues"><span class="toc-section-number">A.1</span> Learning R and coding issues</a></li>
+<li><a href="what-you-will-learn.html#data"><span class="toc-section-number">A.2</span> Data</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="scraping-the-first-table" class="section level2" number="16.1">
+<h2><span class="header-section-number">16.1</span> Scraping the first table</h2>
+<p>We’ve now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning we can reuse some code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. We will use the <code>pdf_text()</code> function from the <code>pdftools</code> package to read the PDFs into R.</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="16-1-scraping-the-first-table.html#cb315-1"></a><span class="kw">library</span>(pdftools)</span>
+<span id="cb315-2"><a href="16-1-scraping-the-first-table.html#cb315-2"></a><span class="co">#&gt; Using poppler version 0.73.0</span></span></code></pre></div>
+<p>We can save the output of the <code>pdf_text()</code> function as the object <em>border_patrol</em> and we’ll use it for each table.</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="16-1-scraping-the-first-table.html#cb316-1"></a>border_patrol &lt;-<span class="st"> </span><span class="kw">pdf_text</span>(<span class="st">&quot;data/usbp_stats_fy2017_sector_profile.pdf&quot;</span>)</span></code></pre></div>
+<p>We can take a look at the <code>head()</code> of the result.</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="16-1-scraping-the-first-table.html#cb317-1"></a><span class="kw">head</span>(border_patrol)</span>
+<span id="cb317-2"><a href="16-1-scraping-the-first-table.html#cb317-2"></a><span class="co">#&gt; [1] &quot;                                                            United States Border Patrol\r\n                                                             Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n                                                  Agent                              Other Than Mexican           Marijuana          Cocaine         Accepted\r\n              SECTOR                            Staffing*\r\n                                                             Apprehensions\r\n                                                                                       Apprehensions                (pounds)          (pounds)    Prosecutions\r\n                                                                                                                                                                      Assaults Rescues       Deaths\r\n Miami                                             111               2,280                    1,646                   2,253             231              292               1           N/A     N/A\r\n New Orleans                                        63                920                      528                      21                6               10               0           N/A     N/A\r\n Ramey                                              38                388                      387                       3             2,932              89               0           N/A     N/A\r\n Coastal Border Sectors Total                      212               3,588                    2,561                   2,277            3,169             391               1        N/A **** N/A ****\r\n Blaine                                            296                288                      237                       0                0                9               0           N/A     N/A\r\n Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A\r\n Detroit                                           408               1,070                     322                     124               0                85               1           N/A     N/A\r\n Grand Forks                                       189                496                      202                       0                0               40               2           N/A     N/A\r\n Havre                                             183                 39                       28                      98                0                2               0           N/A     N/A\r\n Houlton                                           173                 30                       30                      17                0                2               0           N/A     N/A\r\n Spokane                                           230                208                       67                      68                0               24               0           N/A     N/A\r\n Swanton                                           292                449                      359                     531                1              103               6           N/A     N/A\r\n Northern Border Sectors Total                    2,048              3,027                    1,538                   1,066               3              302              11        N/A **** N/A ****\r\n Big Bend (formerly Marfa)                         500               6,002                   3,346                   40,852              45             2,847             11            26      1\r\n Del Rio                                          1,391             13,476                    6,156                   9,482              62             8,022             12            99     18\r\n El Centro                                         870              18,633                    5,812                   5,554             484             1,413             34             4      2\r\n El Paso                                          2,182             25,193                   15,337                  34,189             140             6,996             54            44      8\r\n Laredo                                           1,666             25,460                    7,891                  69,535             757             6,119             31          1,054    83\r\n Rio Grande Valley (formerly McAllen)             3,130            137,562                  107,909                260,020             1,192            7,979            422          1,190   104\r\n San Diego                                        2,199             26,086                    7,060                  10,985            2,903            3,099             84            48      4\r\n Tucson                                           3,691             38,657                   12,328                397,090              331            20,963             93           750     72\r\n Yuma                                              859              12,847                   10,139                  30,181             261             2,367             33             6      2\r\n Southwest Border Sectors Total**                16,605            303,916                  175,978                857,888             6,174           59,805            774          3,221   294\r\n Nationwide Total***                             19,437            310,531                  180,077                861,231             9,346           60,498            786          3,221   294\r\n* Agent staffing statistics depict FY17 on-board personnel data as of 9/30/2017\r\n** Southwest Border Sectors staffing statistics include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, Yuma, and the Special Operations Group.\r\n*** Nationwide staffing statistics include: All on-board Border Patrol agents in CBP\r\n**** Rescue and Death statistics are not tracked for Northern and Coastal Border Sectors.\r\n&quot;</span></span>
+<span id="cb317-3"><a href="16-1-scraping-the-first-table.html#cb317-3"></a><span class="co">#&gt; [2] &quot;                                     United States Border Patrol\r\n                                     Juvenile (0-17 Years Old) and Adult Apprehensions - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n                                        Accompanied              Unaccompanied               Total           Total              Total\r\n              SECTOR                       Juveniles                 Juveniles             Juveniles        Adults        Apprehensions\r\nMiami                                            19                       42                   61            2,219              2,280\r\nNew Orleans                                       1                       22                   23              897               920\r\nRamey                                             7                        1                    8              380               388\r\nCoastal Border Sectors Total                     27                       65                   92            3,496              3,588\r\nBlaine                                           29                        7                   36              252               288\r\nBuffalo                                           3                        3                    6              441               447\r\nDetroit                                           5                       11                   16            1,054              1,070\r\nGrand Forks                                       5                        4                    9              487               496\r\nHavre                                             1                        3                    4              35                 39\r\nHoulton                                           1                        8                    9              21                 30\r\nSpokane                                           3                        0                    3              205               208\r\nSwanton                                          18                       10                   28              421               449\r\nNorthern Border Sectors Total                    65                       46                  111             2,916             3,027\r\nBig Bend (formerly Marfa)                       506                      811                 1,317           4,685              6,002\r\nDel Rio                                        1,348                    1,349                2,697           10,779             13,476\r\nEl Centro                                       968                     1,531                2,499           16,134             18,633\r\nEl Paso                                        4,642                    3,926                8,568           16,625             25,193\r\nLaredo                                          477                     2,033                2,510           22,950             25,460\r\nRio Grande Valley (formerly McAllen)          27,222                   23,708                50,930          86,632            137,562\r\nSan Diego                                      1,639                    1,551                3,190           22,896             26,086\r\nTucson                                         1,088                    3,659                4,747           33,910             38,657\r\nYuma                                           3,241                    2,867                6,108           6,739              12,847\r\nSouthwest Border Sectors Total                41,131                   41,435                82,566         221,350            303,916\r\nNationwide Total                              41,223                   41,546                82,769         227,762            310,531\r\n&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span></span>
+<span id="cb317-4"><a href="16-1-scraping-the-first-table.html#cb317-4"></a><span class="co">#&gt; [3] &quot;                                     United States Border Patrol\r\n                                     Apprehensions by Gender - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n             SECTOR                         Female                       Male            Total Apprehensions\r\nMiami                                          219                      2,061                     2,280\r\nNew Orleans                                    92                         828                      920\r\nRamey                                          65                         323                      388\r\nCoastal Border Sectors Total                   376                      3,212                     3,588\r\nBlaine                                         97                         191                      288\r\nBuffalo                                         69                        378                      447\r\nDetroit                                         78                        992                     1,070\r\nGrand Forks                                     56                        440                      496\r\nHavre                                           13                         26                       39\r\nHoulton                                         17                         13                       30\r\nSpokane                                         17                        191                      208\r\nSwanton                                        106                        343                      449\r\nNorthern Border Sectors Total                  453                       2,574                    3,027\r\nBig Bend (formerly Marfa)                      985                      5,017                     6,002\r\nDel Rio                                      2,622                      10,854                    13,476\r\nEl Centro                                    2,791                      15,842                    18,633\r\nEl Paso                                      7,364                      17,829                    25,193\r\nLaredo                                       3,651                      21,809                    25,460\r\nRio Grande Valley (formerly McAllen)         50,306                     87,256                   137,562\r\nSan Diego                                    4,117                      21,969                    26,086\r\nTucson                                       4,693                      33,964                    38,657\r\nYuma                                         4,328                      8,519                     12,847\r\nSouthwest Border Sectors Total               80,857                    223,059                   303,916\r\nNationwide Total                             81,686                    228,845                   310,531\r\n&quot;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              </span></span>
+<span id="cb317-5"><a href="16-1-scraping-the-first-table.html#cb317-5"></a><span class="co">#&gt; [4] &quot;                                              United States Border Patrol\r\n                                               Apprehensions / Seizure Statistics - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n     Apprehension/Seizure Type                  Coastal Border Sectors       Northern Border Sectors        Southwest Border Sectors Nationwide Total\r\n Apprehensions                                           3,588                           3,027                        303,916             310,531\r\n Other Than Mexican Apprehensions                        2,561                           1,538                        175,978             180,077\r\n Marijuana (pounds)                                      2,277                           1,066                        857,888             861,231\r\n Cocaine (pounds)                                        3,169                              3                          6,174               9,346\r\n Heroin (ounces)                                            0                              62                          15,182              15,244\r\n Methamphetamine (pounds)                                  23                              32                          10,273              10,328\r\n Ecstasy (pounds)                                           0                               0                             1                   1\r\n Other Drugs* (pounds)                                      0                              14                           554                 568\r\n Marijuana Seizures                                       113                             255                          9,371               9,739\r\n Cocaine Seizures                                          33                              46                           463                 542\r\n Heroin Seizures                                            0                              29                           219                 248\r\n Methamphetamine Seizures                                   2                              68                           809                 879\r\n Ecstasy Seizures                                           1                               2                            48                  51\r\n Other Drugs* Seizures                                      6                              99                           735                 840\r\n Conveyances                                               86                              79                          7,388               7,553\r\n Firearms                                                   9                              45                           369                 423\r\n Ammunition (rounds)                                      217                             384                          13,938              14,539\r\n Currency (value)                                      $325,129                       $374,282                      $5,169,593          $5,869,004\r\n*Other Drugs include: All USBP drug seizures excluding marijuana, cocaine, heroin, methamphetamine, and ecstasy (MDMA).\r\nCoastal Border Sectors include: Miami, New Orleans, and Ramey, Puerto Rico.\r\nNorthern Border Sectors include: Blaine, Buffalo, Detroit, Grand Forks, Havre, Houlton, Spokane and Swanton.\r\nSouthwest Border Sectors include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, and Yuma.\r\nDrug quantities are rounded to the nearest whole number\r\n&quot;</span></span></code></pre></div>
+<p>If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the <code>length()</code> of “border_patrol” and just looking at the first element.</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="16-1-scraping-the-first-table.html#cb318-1"></a><span class="kw">length</span>(border_patrol)</span>
+<span id="cb318-2"><a href="16-1-scraping-the-first-table.html#cb318-2"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>It is four elements long, one for each table.</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="16-1-scraping-the-first-table.html#cb319-1"></a>border_patrol[<span class="dv">1</span>]</span>
+<span id="cb319-2"><a href="16-1-scraping-the-first-table.html#cb319-2"></a><span class="co">#&gt; [1] &quot;                                                            United States Border Patrol\r\n                                                             Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\r\n                                                  Agent                              Other Than Mexican           Marijuana          Cocaine         Accepted\r\n              SECTOR                            Staffing*\r\n                                                             Apprehensions\r\n                                                                                       Apprehensions                (pounds)          (pounds)    Prosecutions\r\n                                                                                                                                                                      Assaults Rescues       Deaths\r\n Miami                                             111               2,280                    1,646                   2,253             231              292               1           N/A     N/A\r\n New Orleans                                        63                920                      528                      21                6               10               0           N/A     N/A\r\n Ramey                                              38                388                      387                       3             2,932              89               0           N/A     N/A\r\n Coastal Border Sectors Total                      212               3,588                    2,561                   2,277            3,169             391               1        N/A **** N/A ****\r\n Blaine                                            296                288                      237                       0                0                9               0           N/A     N/A\r\n Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A\r\n Detroit                                           408               1,070                     322                     124               0                85               1           N/A     N/A\r\n Grand Forks                                       189                496                      202                       0                0               40               2           N/A     N/A\r\n Havre                                             183                 39                       28                      98                0                2               0           N/A     N/A\r\n Houlton                                           173                 30                       30                      17                0                2               0           N/A     N/A\r\n Spokane                                           230                208                       67                      68                0               24               0           N/A     N/A\r\n Swanton                                           292                449                      359                     531                1              103               6           N/A     N/A\r\n Northern Border Sectors Total                    2,048              3,027                    1,538                   1,066               3              302              11        N/A **** N/A ****\r\n Big Bend (formerly Marfa)                         500               6,002                   3,346                   40,852              45             2,847             11            26      1\r\n Del Rio                                          1,391             13,476                    6,156                   9,482              62             8,022             12            99     18\r\n El Centro                                         870              18,633                    5,812                   5,554             484             1,413             34             4      2\r\n El Paso                                          2,182             25,193                   15,337                  34,189             140             6,996             54            44      8\r\n Laredo                                           1,666             25,460                    7,891                  69,535             757             6,119             31          1,054    83\r\n Rio Grande Valley (formerly McAllen)             3,130            137,562                  107,909                260,020             1,192            7,979            422          1,190   104\r\n San Diego                                        2,199             26,086                    7,060                  10,985            2,903            3,099             84            48      4\r\n Tucson                                           3,691             38,657                   12,328                397,090              331            20,963             93           750     72\r\n Yuma                                              859              12,847                   10,139                  30,181             261             2,367             33             6      2\r\n Southwest Border Sectors Total**                16,605            303,916                  175,978                857,888             6,174           59,805            774          3,221   294\r\n Nationwide Total***                             19,437            310,531                  180,077                861,231             9,346           60,498            786          3,221   294\r\n* Agent staffing statistics depict FY17 on-board personnel data as of 9/30/2017\r\n** Southwest Border Sectors staffing statistics include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, Yuma, and the Special Operations Group.\r\n*** Nationwide staffing statistics include: All on-board Border Patrol agents in CBP\r\n**** Rescue and Death statistics are not tracked for Northern and Coastal Border Sectors.\r\n&quot;</span></span></code></pre></div>
+<p>And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn’t in our data yet) there is a <code>\r\n</code> indicating that there should be a new line. We want to use <code>strsplit()</code> to split at the <code>\r\n</code>.</p>
+<p>The <code>strsplit()</code> function breaks up a string into pieces based on a value inside of the string. Let’s use the word “criminology” as an example. If we want to split it by the letter “n” we’d have two results, “crimi” and “ology” as these are the pieces of the word after breaking up “criminology” at letter “n”.</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="16-1-scraping-the-first-table.html#cb320-1"></a><span class="kw">strsplit</span>(<span class="st">&quot;criminology&quot;</span>, <span class="dt">split =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb320-2"><a href="16-1-scraping-the-first-table.html#cb320-2"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb320-3"><a href="16-1-scraping-the-first-table.html#cb320-3"></a><span class="co">#&gt; [1] &quot;crimi&quot; &quot;ology&quot;</span></span></code></pre></div>
+<p>Note that it deletes whatever value is used to break up the string.</p>
+<p>Let’s save a new object with the value in the first element of “border_patrol”, calling it <em>sector_profile</em> as that’s the name of that table, and then using <code>strsplit()</code> on it. <code>strsplit()</code> returns a list so we will also want to keep just the first element of that list using double square bracket <code>[[]]</code> notation.</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="16-1-scraping-the-first-table.html#cb321-1"></a>sector_profile &lt;-<span class="st"> </span>border_patrol[<span class="dv">1</span>]</span>
+<span id="cb321-2"><a href="16-1-scraping-the-first-table.html#cb321-2"></a>sector_profile &lt;-<span class="st"> </span><span class="kw">strsplit</span>(sector_profile, <span class="st">&quot;</span><span class="ch">\r\n</span><span class="st">&quot;</span>)</span>
+<span id="cb321-3"><a href="16-1-scraping-the-first-table.html#cb321-3"></a>sector_profile &lt;-<span class="st"> </span>sector_profile[[<span class="dv">1</span>]]</span></code></pre></div>
+<p>Now we can look at the first six rows of this data.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="16-1-scraping-the-first-table.html#cb322-1"></a><span class="kw">head</span>(sector_profile)</span>
+<span id="cb322-2"><a href="16-1-scraping-the-first-table.html#cb322-2"></a><span class="co">#&gt; [1] &quot;                                                            United States Border Patrol&quot;                                                                       </span></span>
+<span id="cb322-3"><a href="16-1-scraping-the-first-table.html#cb322-3"></a><span class="co">#&gt; [2] &quot;                                                             Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)&quot;                                  </span></span>
+<span id="cb322-4"><a href="16-1-scraping-the-first-table.html#cb322-4"></a><span class="co">#&gt; [3] &quot;                                                  Agent                              Other Than Mexican           Marijuana          Cocaine         Accepted&quot; </span></span>
+<span id="cb322-5"><a href="16-1-scraping-the-first-table.html#cb322-5"></a><span class="co">#&gt; [4] &quot;              SECTOR                            Staffing*&quot;                                                                                                     </span></span>
+<span id="cb322-6"><a href="16-1-scraping-the-first-table.html#cb322-6"></a><span class="co">#&gt; [5] &quot;                                                             Apprehensions&quot;                                                                                    </span></span>
+<span id="cb322-7"><a href="16-1-scraping-the-first-table.html#cb322-7"></a><span class="co">#&gt; [6] &quot;                                                                                       Apprehensions                (pounds)          (pounds)    Prosecutions&quot;</span></span></code></pre></div>
+<p>Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use <code>trimws()</code> and put the entire “sector_profile” data in the () and it’ll remove the white space at the ends of each line for us.</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="16-1-scraping-the-first-table.html#cb323-1"></a>sector_profile &lt;-<span class="st"> </span><span class="kw">trimws</span>(sector_profile)</span></code></pre></div>
+<p>We have more rows than we want so let’s look at the entire data and try to figure out how to keep just the necessary rows.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="16-1-scraping-the-first-table.html#cb324-1"></a>sector_profile</span>
+<span id="cb324-2"><a href="16-1-scraping-the-first-table.html#cb324-2"></a><span class="co">#&gt;  [1] &quot;United States Border Patrol&quot;                                                                                                                                                                         </span></span>
+<span id="cb324-3"><a href="16-1-scraping-the-first-table.html#cb324-3"></a><span class="co">#&gt;  [2] &quot;Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)&quot;                                                                                                                                     </span></span>
+<span id="cb324-4"><a href="16-1-scraping-the-first-table.html#cb324-4"></a><span class="co">#&gt;  [3] &quot;Agent                              Other Than Mexican           Marijuana          Cocaine         Accepted&quot;                                                                                         </span></span>
+<span id="cb324-5"><a href="16-1-scraping-the-first-table.html#cb324-5"></a><span class="co">#&gt;  [4] &quot;SECTOR                            Staffing*&quot;                                                                                                                                                         </span></span>
+<span id="cb324-6"><a href="16-1-scraping-the-first-table.html#cb324-6"></a><span class="co">#&gt;  [5] &quot;Apprehensions&quot;                                                                                                                                                                                       </span></span>
+<span id="cb324-7"><a href="16-1-scraping-the-first-table.html#cb324-7"></a><span class="co">#&gt;  [6] &quot;Apprehensions                (pounds)          (pounds)    Prosecutions&quot;                                                                                                                             </span></span>
+<span id="cb324-8"><a href="16-1-scraping-the-first-table.html#cb324-8"></a><span class="co">#&gt;  [7] &quot;Assaults Rescues       Deaths&quot;                                                                                                                                                                       </span></span>
+<span id="cb324-9"><a href="16-1-scraping-the-first-table.html#cb324-9"></a><span class="co">#&gt;  [8] &quot;Miami                                             111               2,280                    1,646                   2,253             231              292               1           N/A     N/A&quot;   </span></span>
+<span id="cb324-10"><a href="16-1-scraping-the-first-table.html#cb324-10"></a><span class="co">#&gt;  [9] &quot;New Orleans                                        63                920                      528                      21                6               10               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-11"><a href="16-1-scraping-the-first-table.html#cb324-11"></a><span class="co">#&gt; [10] &quot;Ramey                                              38                388                      387                       3             2,932              89               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-12"><a href="16-1-scraping-the-first-table.html#cb324-12"></a><span class="co">#&gt; [11] &quot;Coastal Border Sectors Total                      212               3,588                    2,561                   2,277            3,169             391               1        N/A **** N/A ****&quot;</span></span>
+<span id="cb324-13"><a href="16-1-scraping-the-first-table.html#cb324-13"></a><span class="co">#&gt; [12] &quot;Blaine                                            296                288                      237                       0                0                9               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-14"><a href="16-1-scraping-the-first-table.html#cb324-14"></a><span class="co">#&gt; [13] &quot;Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A&quot;   </span></span>
+<span id="cb324-15"><a href="16-1-scraping-the-first-table.html#cb324-15"></a><span class="co">#&gt; [14] &quot;Detroit                                           408               1,070                     322                     124               0                85               1           N/A     N/A&quot;   </span></span>
+<span id="cb324-16"><a href="16-1-scraping-the-first-table.html#cb324-16"></a><span class="co">#&gt; [15] &quot;Grand Forks                                       189                496                      202                       0                0               40               2           N/A     N/A&quot;   </span></span>
+<span id="cb324-17"><a href="16-1-scraping-the-first-table.html#cb324-17"></a><span class="co">#&gt; [16] &quot;Havre                                             183                 39                       28                      98                0                2               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-18"><a href="16-1-scraping-the-first-table.html#cb324-18"></a><span class="co">#&gt; [17] &quot;Houlton                                           173                 30                       30                      17                0                2               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-19"><a href="16-1-scraping-the-first-table.html#cb324-19"></a><span class="co">#&gt; [18] &quot;Spokane                                           230                208                       67                      68                0               24               0           N/A     N/A&quot;   </span></span>
+<span id="cb324-20"><a href="16-1-scraping-the-first-table.html#cb324-20"></a><span class="co">#&gt; [19] &quot;Swanton                                           292                449                      359                     531                1              103               6           N/A     N/A&quot;   </span></span>
+<span id="cb324-21"><a href="16-1-scraping-the-first-table.html#cb324-21"></a><span class="co">#&gt; [20] &quot;Northern Border Sectors Total                    2,048              3,027                    1,538                   1,066               3              302              11        N/A **** N/A ****&quot;</span></span>
+<span id="cb324-22"><a href="16-1-scraping-the-first-table.html#cb324-22"></a><span class="co">#&gt; [21] &quot;Big Bend (formerly Marfa)                         500               6,002                   3,346                   40,852              45             2,847             11            26      1&quot;    </span></span>
+<span id="cb324-23"><a href="16-1-scraping-the-first-table.html#cb324-23"></a><span class="co">#&gt; [22] &quot;Del Rio                                          1,391             13,476                    6,156                   9,482              62             8,022             12            99     18&quot;    </span></span>
+<span id="cb324-24"><a href="16-1-scraping-the-first-table.html#cb324-24"></a><span class="co">#&gt; [23] &quot;El Centro                                         870              18,633                    5,812                   5,554             484             1,413             34             4      2&quot;    </span></span>
+<span id="cb324-25"><a href="16-1-scraping-the-first-table.html#cb324-25"></a><span class="co">#&gt; [24] &quot;El Paso                                          2,182             25,193                   15,337                  34,189             140             6,996             54            44      8&quot;    </span></span>
+<span id="cb324-26"><a href="16-1-scraping-the-first-table.html#cb324-26"></a><span class="co">#&gt; [25] &quot;Laredo                                           1,666             25,460                    7,891                  69,535             757             6,119             31          1,054    83&quot;    </span></span>
+<span id="cb324-27"><a href="16-1-scraping-the-first-table.html#cb324-27"></a><span class="co">#&gt; [26] &quot;Rio Grande Valley (formerly McAllen)             3,130            137,562                  107,909                260,020             1,192            7,979            422          1,190   104&quot;    </span></span>
+<span id="cb324-28"><a href="16-1-scraping-the-first-table.html#cb324-28"></a><span class="co">#&gt; [27] &quot;San Diego                                        2,199             26,086                    7,060                  10,985            2,903            3,099             84            48      4&quot;    </span></span>
+<span id="cb324-29"><a href="16-1-scraping-the-first-table.html#cb324-29"></a><span class="co">#&gt; [28] &quot;Tucson                                           3,691             38,657                   12,328                397,090              331            20,963             93           750     72&quot;    </span></span>
+<span id="cb324-30"><a href="16-1-scraping-the-first-table.html#cb324-30"></a><span class="co">#&gt; [29] &quot;Yuma                                              859              12,847                   10,139                  30,181             261             2,367             33             6      2&quot;    </span></span>
+<span id="cb324-31"><a href="16-1-scraping-the-first-table.html#cb324-31"></a><span class="co">#&gt; [30] &quot;Southwest Border Sectors Total**                16,605            303,916                  175,978                857,888             6,174           59,805            774          3,221   294&quot;    </span></span>
+<span id="cb324-32"><a href="16-1-scraping-the-first-table.html#cb324-32"></a><span class="co">#&gt; [31] &quot;Nationwide Total***                             19,437            310,531                  180,077                861,231             9,346           60,498            786          3,221   294&quot;    </span></span>
+<span id="cb324-33"><a href="16-1-scraping-the-first-table.html#cb324-33"></a><span class="co">#&gt; [32] &quot;* Agent staffing statistics depict FY17 on-board personnel data as of 9/30/2017&quot;                                                                                                                     </span></span>
+<span id="cb324-34"><a href="16-1-scraping-the-first-table.html#cb324-34"></a><span class="co">#&gt; [33] &quot;** Southwest Border Sectors staffing statistics include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, Yuma, and the Special Operations Group.&quot;               </span></span>
+<span id="cb324-35"><a href="16-1-scraping-the-first-table.html#cb324-35"></a><span class="co">#&gt; [34] &quot;*** Nationwide staffing statistics include: All on-board Border Patrol agents in CBP&quot;                                                                                                                </span></span>
+<span id="cb324-36"><a href="16-1-scraping-the-first-table.html#cb324-36"></a><span class="co">#&gt; [35] &quot;**** Rescue and Death statistics are not tracked for Northern and Coastal Border Sectors.&quot;</span></span></code></pre></div>
+<p>Based on the PDF, we want every row from Miami to Nationwide Total. But here we have several rows with the title of the table and the column names, and at the end we have the sentences with some details that we don’t need.</p>
+<p>To keep only the rows that we want, we can combine <code>grep()</code> and subsetting to find the rows from Miami to Nationwide Total and keep only those rows. We will use <code>grep()</code> to find which row has the text “Miami” and which has the text “Nationwide Total” and keep all rows between them (including those matched rows as well). Since each only appears once in the table we don’t need to worry about handling duplicate results.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="16-1-scraping-the-first-table.html#cb325-1"></a><span class="kw">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)</span>
+<span id="cb325-2"><a href="16-1-scraping-the-first-table.html#cb325-2"></a><span class="co">#&gt; [1] 8</span></span></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="16-1-scraping-the-first-table.html#cb326-1"></a><span class="kw">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)</span>
+<span id="cb326-2"><a href="16-1-scraping-the-first-table.html#cb326-2"></a><span class="co">#&gt; [1] 31</span></span></code></pre></div>
+<p>We’ll use square bracket notation to keep all rows between those two values (including each value). Since the data is a vector, not a data.frame, we don’t need a comma.</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="16-1-scraping-the-first-table.html#cb327-1"></a>sector_profile &lt;-<span class="st"> </span>sector_profile[<span class="kw">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)<span class="op">:</span><span class="kw">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)]</span></code></pre></div>
+<p>Note that we’re getting rid of the rows which had the column names. It’s easier to make the names ourselves than to deal with that mess.</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="16-1-scraping-the-first-table.html#cb328-1"></a><span class="kw">head</span>(sector_profile)</span>
+<span id="cb328-2"><a href="16-1-scraping-the-first-table.html#cb328-2"></a><span class="co">#&gt; [1] &quot;Miami                                             111               2,280                    1,646                   2,253             231              292               1           N/A     N/A&quot;   </span></span>
+<span id="cb328-3"><a href="16-1-scraping-the-first-table.html#cb328-3"></a><span class="co">#&gt; [2] &quot;New Orleans                                        63                920                      528                      21                6               10               0           N/A     N/A&quot;   </span></span>
+<span id="cb328-4"><a href="16-1-scraping-the-first-table.html#cb328-4"></a><span class="co">#&gt; [3] &quot;Ramey                                              38                388                      387                       3             2,932              89               0           N/A     N/A&quot;   </span></span>
+<span id="cb328-5"><a href="16-1-scraping-the-first-table.html#cb328-5"></a><span class="co">#&gt; [4] &quot;Coastal Border Sectors Total                      212               3,588                    2,561                   2,277            3,169             391               1        N/A **** N/A ****&quot;</span></span>
+<span id="cb328-6"><a href="16-1-scraping-the-first-table.html#cb328-6"></a><span class="co">#&gt; [5] &quot;Blaine                                            296                288                      237                       0                0                9               0           N/A     N/A&quot;   </span></span>
+<span id="cb328-7"><a href="16-1-scraping-the-first-table.html#cb328-7"></a><span class="co">#&gt; [6] &quot;Buffalo                                           277                447                      293                     228               2                37               2           N/A     N/A&quot;</span></span></code></pre></div>
+<p>The data now has only the rows we want but still doesn’t have any columns, it’s currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do. When looking at this data it is clear that where the division between columns is a bunch of white space. Take the first row for example, it says “Miami” then after lots of white spaces “111” than again with “2,280” and so on for the rest of the row. We’ll use this pattern of columns differentiated by white space to make <em>sector_profile</em> into a data.frame.</p>
+<p>We will use the function <code>str_split_fixed()</code> from the <code>stringr</code> package. This function is very similar to <code>strsplit()</code> except you can tell it how many columns to expect.</p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="16-1-scraping-the-first-table.html#cb329-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;stringr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="16-1-scraping-the-first-table.html#cb330-1"></a><span class="kw">library</span>(stringr)</span></code></pre></div>
+<p>The syntax of <code>str_split_fixed()</code> is similar to <code>strsplit()</code> except the new parameter of the number of splits to expect. Looking at the PDF shows us that there are 10 columns so that’s the number we’ll use. Our split will be " {2,}“. That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can’t have only one space, we need at least two. If you look carefully at the rows with sectors”Coast Border Sectors Total" and “Northern Border Sectors Total”, the final two columns actually do not have two spaces between them because of the amount of * they have. Normally we’d want to fix this using <code>gsub()</code>, but those values will turn to NA anyway so we won’t bother in this case.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="16-1-scraping-the-first-table.html#cb331-1"></a>sector_profile &lt;-<span class="st"> </span><span class="kw">str_split_fixed</span>(sector_profile, <span class="st">&quot; {2,}&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<p>If we check the <code>head()</code> we can see that we have the proper columns now but this still isn’t a data.frame and has no column names.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="16-1-scraping-the-first-table.html#cb332-1"></a><span class="kw">head</span>(sector_profile)</span>
+<span id="cb332-2"><a href="16-1-scraping-the-first-table.html#cb332-2"></a><span class="co">#&gt;      [,1]                           [,2]  [,3]    [,4]    [,5]    [,6]    [,7] </span></span>
+<span id="cb332-3"><a href="16-1-scraping-the-first-table.html#cb332-3"></a><span class="co">#&gt; [1,] &quot;Miami&quot;                        &quot;111&quot; &quot;2,280&quot; &quot;1,646&quot; &quot;2,253&quot; &quot;231&quot;   &quot;292&quot;</span></span>
+<span id="cb332-4"><a href="16-1-scraping-the-first-table.html#cb332-4"></a><span class="co">#&gt; [2,] &quot;New Orleans&quot;                  &quot;63&quot;  &quot;920&quot;   &quot;528&quot;   &quot;21&quot;    &quot;6&quot;     &quot;10&quot; </span></span>
+<span id="cb332-5"><a href="16-1-scraping-the-first-table.html#cb332-5"></a><span class="co">#&gt; [3,] &quot;Ramey&quot;                        &quot;38&quot;  &quot;388&quot;   &quot;387&quot;   &quot;3&quot;     &quot;2,932&quot; &quot;89&quot; </span></span>
+<span id="cb332-6"><a href="16-1-scraping-the-first-table.html#cb332-6"></a><span class="co">#&gt; [4,] &quot;Coastal Border Sectors Total&quot; &quot;212&quot; &quot;3,588&quot; &quot;2,561&quot; &quot;2,277&quot; &quot;3,169&quot; &quot;391&quot;</span></span>
+<span id="cb332-7"><a href="16-1-scraping-the-first-table.html#cb332-7"></a><span class="co">#&gt; [5,] &quot;Blaine&quot;                       &quot;296&quot; &quot;288&quot;   &quot;237&quot;   &quot;0&quot;     &quot;0&quot;     &quot;9&quot;  </span></span>
+<span id="cb332-8"><a href="16-1-scraping-the-first-table.html#cb332-8"></a><span class="co">#&gt; [6,] &quot;Buffalo&quot;                      &quot;277&quot; &quot;447&quot;   &quot;293&quot;   &quot;228&quot;   &quot;2&quot;     &quot;37&quot; </span></span>
+<span id="cb332-9"><a href="16-1-scraping-the-first-table.html#cb332-9"></a><span class="co">#&gt;      [,8] [,9]                [,10]</span></span>
+<span id="cb332-10"><a href="16-1-scraping-the-first-table.html#cb332-10"></a><span class="co">#&gt; [1,] &quot;1&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></span>
+<span id="cb332-11"><a href="16-1-scraping-the-first-table.html#cb332-11"></a><span class="co">#&gt; [2,] &quot;0&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></span>
+<span id="cb332-12"><a href="16-1-scraping-the-first-table.html#cb332-12"></a><span class="co">#&gt; [3,] &quot;0&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></span>
+<span id="cb332-13"><a href="16-1-scraping-the-first-table.html#cb332-13"></a><span class="co">#&gt; [4,] &quot;1&quot;  &quot;N/A **** N/A ****&quot; &quot;&quot;   </span></span>
+<span id="cb332-14"><a href="16-1-scraping-the-first-table.html#cb332-14"></a><span class="co">#&gt; [5,] &quot;0&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></span>
+<span id="cb332-15"><a href="16-1-scraping-the-first-table.html#cb332-15"></a><span class="co">#&gt; [6,] &quot;2&quot;  &quot;N/A&quot;               &quot;N/A&quot;</span></span></code></pre></div>
+<p>We can make it a data.frame just by putting it in <code>data.frame()</code>. To avoid making the columns into factors, we’ll set the parameter <code>stringsAsFactors</code> to FALSE. And we can assign the columns names using a vector of strings we can make. We’ll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="16-1-scraping-the-first-table.html#cb333-1"></a>sector_profile &lt;-<span class="st"> </span><span class="kw">data.frame</span>(sector_profile, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb333-2"><a href="16-1-scraping-the-first-table.html#cb333-2"></a><span class="kw">names</span>(sector_profile) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb333-3"><a href="16-1-scraping-the-first-table.html#cb333-3"></a>                           <span class="st">&quot;agent_staffing&quot;</span>,</span>
+<span id="cb333-4"><a href="16-1-scraping-the-first-table.html#cb333-4"></a>                           <span class="st">&quot;apprehensions&quot;</span>,</span>
+<span id="cb333-5"><a href="16-1-scraping-the-first-table.html#cb333-5"></a>                           <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>, </span>
+<span id="cb333-6"><a href="16-1-scraping-the-first-table.html#cb333-6"></a>                           <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
+<span id="cb333-7"><a href="16-1-scraping-the-first-table.html#cb333-7"></a>                           <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
+<span id="cb333-8"><a href="16-1-scraping-the-first-table.html#cb333-8"></a>                           <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
+<span id="cb333-9"><a href="16-1-scraping-the-first-table.html#cb333-9"></a>                           <span class="st">&quot;assaults&quot;</span>,</span>
+<span id="cb333-10"><a href="16-1-scraping-the-first-table.html#cb333-10"></a>                           <span class="st">&quot;rescues&quot;</span>,</span>
+<span id="cb333-11"><a href="16-1-scraping-the-first-table.html#cb333-11"></a>                           <span class="st">&quot;deaths&quot;</span>)</span></code></pre></div>
+<p>We have now taken a table from a PDF and successfully scraped it to a data.frame in R. Now we can work on it as we would any other data set we’ve used previously.</p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="16-1-scraping-the-first-table.html#cb334-1"></a><span class="kw">head</span>(sector_profile)</span>
+<span id="cb334-2"><a href="16-1-scraping-the-first-table.html#cb334-2"></a><span class="co">#&gt;                         sector agent_staffing apprehensions</span></span>
+<span id="cb334-3"><a href="16-1-scraping-the-first-table.html#cb334-3"></a><span class="co">#&gt; 1                        Miami            111         2,280</span></span>
+<span id="cb334-4"><a href="16-1-scraping-the-first-table.html#cb334-4"></a><span class="co">#&gt; 2                  New Orleans             63           920</span></span>
+<span id="cb334-5"><a href="16-1-scraping-the-first-table.html#cb334-5"></a><span class="co">#&gt; 3                        Ramey             38           388</span></span>
+<span id="cb334-6"><a href="16-1-scraping-the-first-table.html#cb334-6"></a><span class="co">#&gt; 4 Coastal Border Sectors Total            212         3,588</span></span>
+<span id="cb334-7"><a href="16-1-scraping-the-first-table.html#cb334-7"></a><span class="co">#&gt; 5                       Blaine            296           288</span></span>
+<span id="cb334-8"><a href="16-1-scraping-the-first-table.html#cb334-8"></a><span class="co">#&gt; 6                      Buffalo            277           447</span></span>
+<span id="cb334-9"><a href="16-1-scraping-the-first-table.html#cb334-9"></a><span class="co">#&gt;   other_than_mexican_apprehensions marijuana_pounds cocaine_pounds</span></span>
+<span id="cb334-10"><a href="16-1-scraping-the-first-table.html#cb334-10"></a><span class="co">#&gt; 1                            1,646            2,253            231</span></span>
+<span id="cb334-11"><a href="16-1-scraping-the-first-table.html#cb334-11"></a><span class="co">#&gt; 2                              528               21              6</span></span>
+<span id="cb334-12"><a href="16-1-scraping-the-first-table.html#cb334-12"></a><span class="co">#&gt; 3                              387                3          2,932</span></span>
+<span id="cb334-13"><a href="16-1-scraping-the-first-table.html#cb334-13"></a><span class="co">#&gt; 4                            2,561            2,277          3,169</span></span>
+<span id="cb334-14"><a href="16-1-scraping-the-first-table.html#cb334-14"></a><span class="co">#&gt; 5                              237                0              0</span></span>
+<span id="cb334-15"><a href="16-1-scraping-the-first-table.html#cb334-15"></a><span class="co">#&gt; 6                              293              228              2</span></span>
+<span id="cb334-16"><a href="16-1-scraping-the-first-table.html#cb334-16"></a><span class="co">#&gt;   accepted_prosecutions assaults           rescues deaths</span></span>
+<span id="cb334-17"><a href="16-1-scraping-the-first-table.html#cb334-17"></a><span class="co">#&gt; 1                   292        1               N/A    N/A</span></span>
+<span id="cb334-18"><a href="16-1-scraping-the-first-table.html#cb334-18"></a><span class="co">#&gt; 2                    10        0               N/A    N/A</span></span>
+<span id="cb334-19"><a href="16-1-scraping-the-first-table.html#cb334-19"></a><span class="co">#&gt; 3                    89        0               N/A    N/A</span></span>
+<span id="cb334-20"><a href="16-1-scraping-the-first-table.html#cb334-20"></a><span class="co">#&gt; 4                   391        1 N/A **** N/A ****       </span></span>
+<span id="cb334-21"><a href="16-1-scraping-the-first-table.html#cb334-21"></a><span class="co">#&gt; 5                     9        0               N/A    N/A</span></span>
+<span id="cb334-22"><a href="16-1-scraping-the-first-table.html#cb334-22"></a><span class="co">#&gt; 6                    37        2               N/A    N/A</span></span></code></pre></div>
+<p>To really be able to use this data we’ll want to clean the columns to turn the values to numeric type but we can leave that until later. For now let’s write a function that replicates much of this work for the next tables.</p>
+</div>
+<p style="text-align: center;">
+<a href="16-scrape-table.html"><button class="btn btn-default">Previous</button></a>
+<a href="16-2-making-a-function.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

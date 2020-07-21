@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="14 Functions | Crime by the Numbers" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://crimebythenumbers.com" />
+<meta property="og:image" content="https://crimebythenumbers.comimages/cover.png" />
+<meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+<meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+<meta name="author" content="Jacob Kaplan" />
+
+<meta name="date" content="2020-07-20" />
+
+
+<meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets.">
+
+<title>14 Functions | Crime by the Numbers</title>
+
+<script src="libs/header-attrs-2.3.2/header-attrs.js"></script>
+<script src="libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li><a href="index.html#welcome">Welcome</a>
+<ul>
+<li><a href="why-learn-to-program.html#why-learn-to-program">Why learn to program?</a>
+<ul>
+<li><a href="why-learn-to-program.html#scale">Scale</a></li>
+<li><a href="why-learn-to-program.html#reproducibility">Reproducibility</a></li>
+</ul></li>
+<li><a href="what-you-will-learn.html#what-you-will-learn">What you will learn</a>
+<ul>
+<li><a href="what-you-will-learn.html#skills">Skills</a></li>
+<li><a href="what-you-will-learn.html#data">Data</a></li>
+</ul></li>
+<li><a href="what-you-wont-learn.html#what-you-wont-learn">What you won’t learn</a></li>
+<li><a href="simple-vs-easy.html#simple-vs-easy">Simple vs Easy</a></li>
+<li><a href="how-to-contribute.html#how-to-contribute">How to Contribute</a></li>
+</ul></li>
+<li><a href="about-the-author.html#about-the-author">About the author</a></li>
+<li><a href="1-introduction-to-r-and-rstudio.html#introduction-to-r-and-rstudio"><span class="toc-section-number">1</span> Introduction to R and RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#using-rstudio"><span class="toc-section-number">1.1</span> Using RStudio</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#opening-an-r-script"><span class="toc-section-number">1.1.1</span> Opening an R Script</a></li>
+<li><a href="1-1-using-rstudio.html#setting-the-working-directory"><span class="toc-section-number">1.1.2</span> Setting the working directory</a></li>
+<li><a href="1-1-using-rstudio.html#changing-rstudio"><span class="toc-section-number">1.1.3</span> Changing RStudio</a></li>
+<li><a href="1-1-using-rstudio.html#helpful-cheatsheets"><span class="toc-section-number">1.1.4</span> Helpful cheatsheets</a></li>
+</ul></li>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">1.2</span> Reading data into R</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#loading-data"><span class="toc-section-number">1.2.1</span> Loading data</a></li>
+</ul></li>
+<li><a href="1-3-first-steps-to-exploring-data.html#first-steps-to-exploring-data"><span class="toc-section-number">1.3</span> First steps to exploring data</a></li>
+<li><a href="1-4-finding-help-about-functions.html#finding-help-about-functions"><span class="toc-section-number">1.4</span> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li><a href="2-subsetting-intro.html#subsetting-intro"><span class="toc-section-number">2</span> Subsetting: Making big things small</a>
+<ul>
+<li><a href="2-1-select-specific-values.html#select-specific-values"><span class="toc-section-number">2.1</span> Select specific values</a></li>
+<li><a href="2-2-assignment.html#assignment"><span class="toc-section-number">2.2</span> Assigning values to objects (Making “things”)</a></li>
+<li><a href="2-3-vectors.html#vectors"><span class="toc-section-number">2.3</span> Vectors (collections of “things”)</a></li>
+<li><a href="2-4-logical-values-and-operations.html#logical-values-and-operations"><span class="toc-section-number">2.4</span> Logical values and operations</a>
+<ul>
+<li><a href="2-4-logical-values-and-operations.html#matching-a-single-value"><span class="toc-section-number">2.4.1</span> Matching a single value</a></li>
+<li><a href="2-4-logical-values-and-operations.html#matching-multiple-values"><span class="toc-section-number">2.4.2</span> Matching multiple values</a></li>
+<li><a href="2-4-logical-values-and-operations.html#does-not-match"><span class="toc-section-number">2.4.3</span> Does not match</a></li>
+<li><a href="2-4-logical-values-and-operations.html#greater-than-or-less-than"><span class="toc-section-number">2.4.4</span> Greater than or less than</a></li>
+<li><a href="2-4-logical-values-and-operations.html#combining-conditional-statements---or-and"><span class="toc-section-number">2.4.5</span> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subsetting-a-data.frame"><span class="toc-section-number">2.5</span> Subsetting a data.frame</a>
+<ul>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-columns"><span class="toc-section-number">2.5.1</span> Select specific columns</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#select-specific-rows"><span class="toc-section-number">2.5.2</span> Select specific rows</a></li>
+<li><a href="2-5-subsetting-a-data-frame.html#subset-colorado-data"><span class="toc-section-number">2.5.3</span> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="3-explore.html#explore"><span class="toc-section-number">3</span> Exploratory data analysis</a>
+<ul>
+<li><a href="3-1-summary-and-table.html#summary-and-table"><span class="toc-section-number">3.1</span> Summary and Table</a></li>
+<li><a href="3-2-graphing.html#graphing"><span class="toc-section-number">3.2</span> Graphing</a></li>
+<li><a href="3-3-aggregate.html#aggregate"><span class="toc-section-number">3.3</span> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li><a href="4-regular-expressions.html#regular-expressions"><span class="toc-section-number">4</span> Regular Expressions</a>
+<ul>
+<li><a href="4-1-finding-patterns-in-text-with-grep.html#finding-patterns-in-text-with-grep"><span class="toc-section-number">4.1</span> Finding patterns in text with <code>grep()</code></a></li>
+<li><a href="4-2-finding-and-replacing-patterns-in-text-with-gsub.html#finding-and-replacing-patterns-in-text-with-gsub"><span class="toc-section-number">4.2</span> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#useful-special-characters"><span class="toc-section-number">4.3</span> Useful special characters</a>
+<ul>
+<li><a href="4-3-useful-special-characters.html#multiple-characters"><span class="toc-section-number">4.3.1</span> Multiple characters <code>[]</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-of-previous-character-n"><span class="toc-section-number">4.3.2</span> n-many of previous character <code>{n}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#n-many-to-m-many-of-previous-character-nm"><span class="toc-section-number">4.3.3</span> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li><a href="4-3-useful-special-characters.html#start-of-string"><span class="toc-section-number">4.3.4</span> Start of string</a></li>
+<li><a href="4-3-useful-special-characters.html#end-of-string"><span class="toc-section-number">4.3.5</span> End of string <code>$</code></a></li>
+<li><a href="4-3-useful-special-characters.html#anything-."><span class="toc-section-number">4.3.6</span> Anything <code>.</code></a></li>
+<li><a href="4-3-useful-special-characters.html#one-or-more-of-previous"><span class="toc-section-number">4.3.7</span> One or more of previous <code>+</code></a></li>
+<li><a href="4-3-useful-special-characters.html#zero-or-more-of-previous"><span class="toc-section-number">4.3.8</span> Zero or more of previous <code>*</code></a></li>
+<li><a href="4-3-useful-special-characters.html#multiple-patterns"><span class="toc-section-number">4.3.9</span> Multiple patterns <code>|</code></a></li>
+<li><a href="4-3-useful-special-characters.html#parentheses"><span class="toc-section-number">4.3.10</span> Parentheses <code>()</code></a></li>
+<li><a href="4-3-useful-special-characters.html#optional-text"><span class="toc-section-number">4.3.11</span> Optional text <code>?</code></a></li>
+</ul></li>
+<li><a href="4-4-changing-capitalization.html#changing-capitalization"><span class="toc-section-number">4.4</span> Changing capitalization</a></li>
+</ul></li>
+<li><a href="5-reading-and-writing-data.html#reading-and-writing-data"><span class="toc-section-number">5</span> Reading and Writing Data</a>
+<ul>
+<li><a href="1-2-reading-data-into-r.html#reading-data-into-r"><span class="toc-section-number">5.1</span> Reading Data into R</a>
+<ul>
+<li><a href="5-1-reading-data-into-r.html#r"><span class="toc-section-number">5.1.1</span> R</a></li>
+<li><a href="5-1-reading-data-into-r.html#excel"><span class="toc-section-number">5.1.2</span> Excel</a></li>
+<li><a href="5-1-reading-data-into-r.html#stata"><span class="toc-section-number">5.1.3</span> Stata</a></li>
+<li><a href="5-1-reading-data-into-r.html#sas"><span class="toc-section-number">5.1.4</span> SAS</a></li>
+<li><a href="5-1-reading-data-into-r.html#spss"><span class="toc-section-number">5.1.5</span> SPSS</a></li>
+</ul></li>
+<li><a href="5-2-writing-data.html#writing-data"><span class="toc-section-number">5.2</span> Writing Data</a>
+<ul>
+<li><a href="5-2-writing-data.html#r-1"><span class="toc-section-number">5.2.1</span> R</a></li>
+<li><a href="5-2-writing-data.html#excel-1"><span class="toc-section-number">5.2.2</span> Excel</a></li>
+<li><a href="5-2-writing-data.html#stata-1"><span class="toc-section-number">5.2.3</span> Stata</a></li>
+<li><a href="5-2-writing-data.html#sas-1"><span class="toc-section-number">5.2.4</span> SAS</a></li>
+<li><a href="5-2-writing-data.html#spss-1"><span class="toc-section-number">5.2.5</span> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li><a href="6-graphing-intro.html#graphing-intro"><span class="toc-section-number">6</span> Graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="6-1-what-does-the-data-look-like.html#what-does-the-data-look-like"><span class="toc-section-number">6.1</span> What does the data look like?</a></li>
+<li><a href="6-2-graphing-data.html#graphing-data"><span class="toc-section-number">6.2</span> Graphing data</a></li>
+<li><a href="6-3-time-series-plots.html#time-series-plots"><span class="toc-section-number">6.3</span> Time-Series Plots</a></li>
+<li><a href="6-4-scatter-plots.html#scatter-plots"><span class="toc-section-number">6.4</span> Scatter Plots</a></li>
+<li><a href="6-5-color-blindness.html#color-blindness"><span class="toc-section-number">6.5</span> Color blindness</a></li>
+</ul></li>
+<li><a href="7-ois-graphs.html#ois_graphs"><span class="toc-section-number">7</span> More graphing with <code>ggplot2</code></a>
+<ul>
+<li><a href="7-1-exploring-data.html#exploring-data"><span class="toc-section-number">7.1</span> Exploring Data</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#graphing-a-single-numeric-variable"><span class="toc-section-number">7.2</span> Graphing a Single Numeric Variable</a>
+<ul>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#histogram"><span class="toc-section-number">7.2.1</span> Histogram</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#density-plot"><span class="toc-section-number">7.2.2</span> Density plot</a></li>
+<li><a href="7-2-graphing-a-single-numeric-variable.html#count-graph"><span class="toc-section-number">7.2.3</span> Count Graph</a></li>
+</ul></li>
+<li><a href="7-3-bar-graph.html#bar-graph"><span class="toc-section-number">7.3</span> Bar graph</a></li>
+<li><a href="7-4-graphing-data-over-time.html#graphing-data-over-time"><span class="toc-section-number">7.4</span> Graphing Data Over Time</a></li>
+<li><a href="7-5-pretty-graphs.html#pretty-graphs"><span class="toc-section-number">7.5</span> Pretty Graphs</a>
+<ul>
+<li><a href="7-5-pretty-graphs.html#themes"><span class="toc-section-number">7.5.1</span> Themes</a></li>
+</ul></li>
+</ul></li>
+<li><a href="8-hotspot-maps.html#hotspot-maps"><span class="toc-section-number">8</span> Hotspot maps</a>
+<ul>
+<li><a href="8-1-a-simple-map.html#a-simple-map"><span class="toc-section-number">8.1</span> A simple map</a></li>
+<li><a href="8-2-what-really-are-maps.html#what-really-are-maps"><span class="toc-section-number">8.2</span> What really are maps?</a></li>
+<li><a href="8-3-making-a-hotspot-map.html#making-a-hotspot-map"><span class="toc-section-number">8.3</span> Making a hotspot map</a>
+<ul>
+<li><a href="8-3-making-a-hotspot-map.html#colors"><span class="toc-section-number">8.3.1</span> Colors</a></li>
+</ul></li>
+</ul></li>
+<li><a href="9-choropleth-maps.html#choropleth-maps"><span class="toc-section-number">9</span> Choropleth maps</a>
+<ul>
+<li><a href="9-1-spatial-joins.html#spatial-joins"><span class="toc-section-number">9.1</span> Spatial joins</a></li>
+<li><a href="9-2-making-choropleth-maps.html#making-choropleth-maps"><span class="toc-section-number">9.2</span> Making choropleth maps</a></li>
+</ul></li>
+<li><a href="10-interactive-maps.html#interactive-maps"><span class="toc-section-number">10</span> Interactive maps</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#why-do-interactive-graphs-matter"><span class="toc-section-number">10.1</span> Why do interactive graphs matter?</a>
+<ul>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#understanding-your-data"><span class="toc-section-number">10.1.1</span> Understanding your data</a></li>
+<li><a href="10-1-why-do-interactive-graphs-matter.html#police-departments-use-them"><span class="toc-section-number">10.1.2</span> Police departments use them</a></li>
+</ul></li>
+<li><a href="10-2-making-the-interactive-map.html#making-the-interactive-map"><span class="toc-section-number">10.2</span> Making the interactive map</a></li>
+<li><a href="10-3-adding-popup-information.html#adding-popup-information"><span class="toc-section-number">10.3</span> Adding popup information</a></li>
+<li><a href="10-4-dealing-with-too-many-markers.html#dealing-with-too-many-markers"><span class="toc-section-number">10.4</span> Dealing with too many markers</a></li>
+<li><a href="10-5-interactive-choropleth-maps.html#interactive-choropleth-maps"><span class="toc-section-number">10.5</span> Interactive choropleth maps</a></li>
+</ul></li>
+<li><a href="11-r-markdown.html#r-markdown"><span class="toc-section-number">11</span> R Markdown</a>
+<ul>
+<li><a href="1-1-using-rstudio.html#code"><span class="toc-section-number">11.1</span> Code</a>
+<ul>
+<li><a href="11-1-code.html#hiding-code-in-the-output"><span class="toc-section-number">11.1.1</span> Hiding code in the output</a></li>
+</ul></li>
+<li><a href="11-2-inline-code.html#inline-code"><span class="toc-section-number">11.2</span> Inline Code</a></li>
+<li><a href="11-3-tables.html#tables"><span class="toc-section-number">11.3</span> Tables</a></li>
+<li><a href="11-4-footnotes.html#footnotes"><span class="toc-section-number">11.4</span> Footnotes</a></li>
+<li><a href="11-5-citation.html#citation"><span class="toc-section-number">11.5</span> Citation</a></li>
+<li><a href="11-6-spell-check.html#spell-check"><span class="toc-section-number">11.6</span> Spell check</a></li>
+<li><a href="11-7-making-the-output-file.html#making-the-output-file"><span class="toc-section-number">11.7</span> Making the output file</a></li>
+</ul></li>
+<li><a href="12-git.html#git"><span class="toc-section-number">12</span> Git</a>
+<ul>
+<li><a href="12-1-what-is-git-and-why-do-i-need-it.html#what-is-git-and-why-do-i-need-it"><span class="toc-section-number">12.1</span> What is Git and why do I need it?</a></li>
+<li><a href="12-2-git-basics.html#git-basics"><span class="toc-section-number">12.2</span> Git basics</a></li>
+<li><a href="12-3-when-to-commit.html#when-to-commit"><span class="toc-section-number">12.3</span> When to commit</a></li>
+<li><a href="12-4-code-review.html#code-review"><span class="toc-section-number">12.4</span> Code review</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li><a href="13-webscraping-with-rvest.html#webscraping-with-rvest"><span class="toc-section-number">13</span> Webscraping with <code>rvest</code></a>
+<ul>
+<li><a href="13-1-scraping-one-page.html#scraping-one-page"><span class="toc-section-number">13.1</span> Scraping one page</a></li>
+<li><a href="13-2-cleaning-the-webscraped-data.html#cleaning-the-webscraped-data"><span class="toc-section-number">13.2</span> Cleaning the webscraped data</a></li>
+</ul></li>
+<li><a href="14-functions.html#functions"><span class="toc-section-number">14</span> Functions</a>
+<ul>
+<li><a href="14-1-a-simple-function.html#a-simple-function"><span class="toc-section-number">14.1</span> A simple function</a></li>
+<li><a href="14-2-adding-parameters.html#adding-parameters"><span class="toc-section-number">14.2</span> Adding parameters</a></li>
+<li><a href="14-3-recipes-function.html#recipes-function"><span class="toc-section-number">14.3</span> Making a function to scrape recipes</a></li>
+</ul></li>
+<li><a href="15-for-loops.html#for-loops"><span class="toc-section-number">15</span> For loops</a>
+<ul>
+<li><a href="15-1-basic-for-loops.html#basic-for-loops"><span class="toc-section-number">15.1</span> Basic for loops</a></li>
+<li><a href="15-2-scraping-multiple-recipes.html#scraping-multiple-recipes"><span class="toc-section-number">15.2</span> Scraping multiple recipes</a></li>
+</ul></li>
+<li><a href="16-scrape-table.html#scrape-table"><span class="toc-section-number">16</span> Scraping tables from PDFs</a>
+<ul>
+<li><a href="16-1-scraping-the-first-table.html#scraping-the-first-table"><span class="toc-section-number">16.1</span> Scraping the first table</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">16.2</span> Making a function</a></li>
+</ul></li>
+<li><a href="17-scrape-table2.html#scrape-table2"><span class="toc-section-number">17</span> More scraping tables from PDFs</a>
+<ul>
+<li><a href="17-1-pregnant-women-incarcerated.html#pregnant-women-incarcerated"><span class="toc-section-number">17.1</span> Pregnant Women Incarcerated</a></li>
+<li><a href="17-2-making-pdf-scraped-data-available-to-others.html#making-pdf-scraped-data-available-to-others"><span class="toc-section-number">17.2</span> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li><a href="18-geocoding.html#geocoding"><span class="toc-section-number">18</span> Geocoding</a>
+<ul>
+<li><a href="18-1-geocoding-a-single-address.html#geocoding-a-single-address"><span class="toc-section-number">18.1</span> Geocoding a single address</a></li>
+<li><a href="16-2-making-a-function.html#making-a-function"><span class="toc-section-number">18.2</span> Making a function</a></li>
+<li><a href="18-3-geocoding-san-francisco-marijuana-dispensary-locations.html#geocoding-san-francisco-marijuana-dispensary-locations"><span class="toc-section-number">18.3</span> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Data</b></span></li>
+<li><a href="19-introduction.html#introduction"><span class="toc-section-number">19</span> Introduction</a></li>
+<li><a href="20-ucr.html#ucr"><span class="toc-section-number">20</span> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li><a href="20-1-exploring-the-ucr-data.html#exploring-the-ucr-data"><span class="toc-section-number">20.1</span> Exploring the UCR data</a></li>
+<li><a href="20-2-oris-unique-agency-identifiers.html#oris---unique-agency-identifiers"><span class="toc-section-number">20.2</span> ORIs - Unique agency identifiers</a></li>
+<li><a href="20-3-hierarchy-rule.html#hierarchy-rule"><span class="toc-section-number">20.3</span> Hierarchy Rule</a></li>
+<li><a href="20-4-which-crimes-are-included.html#which-crimes-are-included"><span class="toc-section-number">20.4</span> Which crimes are included</a>
+<ul>
+<li><a href="20-4-which-crimes-are-included.html#index-crimes"><span class="toc-section-number">20.4.1</span> Index Crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#the-problem-with-using-index-crimes"><span class="toc-section-number">20.4.2</span> The problem with using index crimes</a></li>
+<li><a href="20-4-which-crimes-are-included.html#rape-definition-change"><span class="toc-section-number">20.4.3</span> Rape definition change</a></li>
+</ul></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual-offenses-clearances-and-unfounded-offenses"><span class="toc-section-number">20.5</span> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#actual"><span class="toc-section-number">20.5.1</span> Actual</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#total-cleared"><span class="toc-section-number">20.5.2</span> Total Cleared</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#cleared-where-all-offenders-are-under-18"><span class="toc-section-number">20.5.3</span> Cleared Where All Offenders Are Under 18</a></li>
+<li><a href="20-5-actual-offenses-clearances-and-unfounded-offenses.html#unfounded"><span class="toc-section-number">20.5.4</span> Unfounded</a></li>
+</ul></li>
+<li><a href="20-6-number-of-months-reported.html#number-of-months-reported"><span class="toc-section-number">20.6</span> Number of months reported</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li><a href="A-useful-resources.html#useful-resources"><span class="toc-section-number">A</span> Useful resources</a>
+<ul>
+<li><a href="A-1-learning-r-and-coding-issues.html#learning-r-and-coding-issues"><span class="toc-section-number">A.1</span> Learning R and coding issues</a></li>
+<li><a href="what-you-will-learn.html#data"><span class="toc-section-number">A.2</span> Data</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="functions" class="section level1" number="14">
+<h1><span class="header-section-number">14</span> Functions</h1>
+<p>So far we have been writing code to handle specific situations such as subsetting a single data.frame. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc) on those values. Code where you can input a value (such as a data.frame) and some (often optional) instructions on how to handle that data, and have the code run on the value is called a function. We’ve used other people’s function before, such as <code>c()</code>, <code>mean()</code>, <code>grep()</code>, and <code>rvest()</code>.</p>
+<p>Think of a function like a stapler - you put the paper in a push down and it staples the paper together. It doesn’t matter what papers you are using, it always staples them together. If you needed to buy a new stapler every time you needed to staple something (i.e. copy and pasting code) you’d quickly have way too many staples (and waste a bunch of money).</p>
+<p>An important benefit is that you can use this function again and again to help solve other problems. If, for example, you have code that cleans data from Philadelphia’s crime data set, if you wanted to use it for Chicago’s crime data, making a single function is much easier (to read and to fix if there is an issue) than copying the code. If you wanted to use it for 20 cities, copy and pasting code quickly becomes a terrible solution - functions work much better. If you did copy and paste 20 times and you found a bug, then you’d have to fix the bug 20 times. With a function you would change the code once.</p>
+</div>
+<p style="text-align: center;">
+<a href="13-2-cleaning-the-webscraped-data.html"><button class="btn btn-default">Previous</button></a>
+<a href="14-1-a-simple-function.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
