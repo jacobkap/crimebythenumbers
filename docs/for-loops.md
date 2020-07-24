@@ -178,12 +178,27 @@ for (recipe_url in recipe_urls) {
 #> character(0)
 #> character(0)
 #> character(0)
+#> [1] "4 large carrots, peeled and cut into matchstick pieces"
+#> [2] "10 baby red potatoes, quartered"                       
+#> [3] "1 onion, peeled and cut into bite-sized pieces"        
+#> [4] "4 cups water"                                          
+#> [5] "1 (4 pound) corned beef brisket with spice packet"     
+#> [6] "6 ounces beer"                                         
+#> [7] "1/2 head cabbage, coarsely chopped"                    
+#> [1] "Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High."
+#> [2] "Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour."                                                                                                                                             
 #> character(0)
 #> character(0)
-#> character(0)
-#> character(0)
-#> character(0)
-#> character(0)
+#> [1] "2 (10 ounce) packages frozen corn kernels, thawed"
+#> [2] "1 cup heavy cream"                                
+#> [3] "1 teaspoon salt"                                  
+#> [4] "2 tablespoons granulated sugar"                   
+#> [5] "1/4 teaspoon freshly ground black pepper"         
+#> [6] "2 tablespoons butter"                             
+#> [7] "1 cup whole milk"                                 
+#> [8] "2 tablespoons all-purpose flour"                  
+#> [9] "1/4 cup freshly grated Parmesan cheese"           
+#> [1] "In a skillet over medium heat, combine the corn, cream, salt, sugar, pepper and butter. Whisk together the milk and flour, and stir into the corn mixture. Cook stirring over medium heat until the mixture is thickened, and corn is cooked through. Remove from heat, and stir in the Parmesan cheese until melted. Serve hot."
 #> character(0)
 #> character(0)
 #> character(0)

@@ -49,7 +49,7 @@ ncol(shootings)
 #> [1] 14
 ```
 
-The data has 14 variables and covers over 5,400 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
+The data has 14 variables and covers 5480 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
 
 
 ```r
@@ -86,13 +86,11 @@ summary(shootings$date)
 #> "2015-01-02" "2016-05-20" "2017-10-16" "2017-10-10" "2019-03-04" "2020-07-20"
 summary(shootings$age)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>    6.00   27.00   35.00   37.12   46.00   91.00     240
+#>    6.00   27.00   35.00   37.12   46.00   91.00     237
 ```
 
 
-From this we can see that the data is from January 1st through about a week ago. From the age column we can see that the average age is about NA with most people around that range. However, the youngest person is NA years old while the oldest is NA. Additionally, 182 rows have missing values for this variable. 
-
-Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with the "manner_of_death" column.
+From this we can see that the data is from early January through about a week ago. From the age column we can see that the average age is about 37 with most people around that range. Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with the "manner_of_death" column.
 
 
 ```r
@@ -155,7 +153,7 @@ table(shootings$armed) / nrow(shootings) * 100
 #>                      glass shard                          grenade 
 #>                       0.05474453                       0.01824818 
 #>                              gun                      gun and car 
-#>                      56.56934307                       0.20072993 
+#>                      56.60583942                       0.20072993 
 #>                    gun and knife                    gun and sword 
 #>                       0.31021898                       0.01824818 
 #>                  gun and vehicle              guns and explosives 
@@ -201,11 +199,11 @@ table(shootings$armed) / nrow(shootings) * 100
 #>                            sword                            Taser 
 #>                       0.40145985                       0.47445255 
 #>                        tire iron                       toy weapon 
-#>                       0.01824818                       3.46715328 
+#>                       0.01824818                       3.50364964 
 #>                          unarmed                     undetermined 
-#>                       6.45985401                       3.08394161 
+#>                       6.45985401                       3.02919708 
 #>                   unknown weapon                          vehicle 
-#>                       1.45985401                       2.84671533 
+#>                       1.44160584                       2.84671533 
 #>                  vehicle and gun              vehicle and machete 
 #>                       0.07299270                       0.01824818 
 #>                    walking stick                       wasp spray 
@@ -224,13 +222,13 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>                              gun                            knife 
-#>                            56.57                            14.65 
+#>                            56.61                            14.65 
 #>                          unarmed                       toy weapon 
-#>                             6.46                             3.47 
+#>                             6.46                             3.50 
 #>                     undetermined                          vehicle 
-#>                             3.08                             2.85 
+#>                             3.03                             2.85 
 #>                   unknown weapon                          machete 
-#>                             1.46                             0.82 
+#>                             1.44                             0.82 
 #>                            Taser                               ax 
 #>                             0.47                             0.44 
 #>                            sword                     baseball bat 
@@ -343,10 +341,10 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>     O     N     A     H     B     W 
-#>  0.88  1.42  1.72 16.61 23.76 45.60
+#>  0.88  1.42  1.72 16.61 23.80 45.62
 ```
 
-White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are , for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
+White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are, for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
 
 One annoying thing with the gender and race variables is that they don't spell out the name. Instead of "Female", for example, it has "F". For our graphs we want to spell out the words so it is clear to viewers. We'll fix this issue, and the issue of having many weapon categories, as we graph each variable.
 
@@ -378,7 +376,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 ggplot(shootings, aes(x = age)) + 
   geom_histogram()
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 240 rows containing non-finite values (stat_bin).
+#> Warning: Removed 237 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
@@ -389,7 +387,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 15)
-#> Warning: Removed 240 rows containing non-finite values (stat_bin).
+#> Warning: Removed 237 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
@@ -398,7 +396,7 @@ ggplot(shootings, aes(x = age)) +
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 45)
-#> Warning: Removed 240 rows containing non-finite values (stat_bin).
+#> Warning: Removed 237 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
@@ -412,7 +410,7 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)))
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 240 rows containing non-finite values (stat_bin).
+#> Warning: Removed 237 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
@@ -425,7 +423,7 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_density()
-#> Warning: Removed 240 rows containing non-finite values (stat_density).
+#> Warning: Removed 237 rows containing non-finite values (stat_density).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
@@ -438,7 +436,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count()
-#> Warning: Removed 240 rows containing non-finite values (stat_count).
+#> Warning: Removed 237 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
@@ -448,7 +446,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count(aes(y = (..count..)/sum(..count..)))
-#> Warning: Removed 240 rows containing non-finite values (stat_count).
+#> Warning: Removed 237 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
@@ -472,7 +470,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 table(shootings$race)
 #> 
 #>    A    B    H    N    O    W 
-#>   94 1302  910   78   48 2499
+#>   94 1304  910   78   48 2500
 ```
 
 It's still alphabetical so let's wrap that in a `sort()` function. 
@@ -482,7 +480,7 @@ It's still alphabetical so let's wrap that in a `sort()` function.
 sort(table(shootings$race))
 #> 
 #>    O    N    A    H    B    W 
-#>   48   78   94  910 1302 2499
+#>   48   78   94  910 1304 2500
 ```
 
 It's sorted from smallest to largest. We usually want to graph from largest to smallest so let's set the parameter `decreasing` in `sort()` to TRUE.
@@ -492,7 +490,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 sort(table(shootings$race), decreasing = TRUE)
 #> 
 #>    W    B    H    A    N    O 
-#> 2499 1302  910   94   78   48
+#> 2500 1304  910   94   78   48
 ```
 
 Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in `names()` to get just the names.
@@ -629,7 +627,7 @@ head(shootings$year)
 
 Since the data is already sorted by date, all the values printed from `head()` are the same. But you can look at the data using `View()` to confirm that the code worked properly. 
 
-We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. For a refresher on aggregating, please see Section \@ref(#aggregate)
+We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. For a refresher on aggregating, please see Section \@ref(aggregate)
 
 
 ```r
@@ -667,7 +665,7 @@ Note the steep drop-off at the end of each graph. Is that due to fewer shooting 
 
 ## Pretty Graphs
 
-What's next for these graphs? You'll likely want to add labels for the axes and the title. We went over how to do this in Section \@ref{time-series-plots} so please refer to that for more info. Also, check out `ggplot2`'s [website](https://ggplot2.tidyverse.org/reference/index.html#section-scales) to see more on this very versatile package. As I've said all chapter, a lot of this is going to be personal taste so please spend some time exploring the package and changing the appearance of the graph to learn what looks right to you. 
+What's next for these graphs? You'll likely want to add labels for the axes and the title. We went over how to do this in Section \@ref(time-series-plots) so please refer to that for more info. Also, check out `ggplot2`'s [website](https://ggplot2.tidyverse.org/reference/index.html#section-scales) to see more on this very versatile package. As I've said all chapter, a lot of this is going to be personal taste so please spend some time exploring the package and changing the appearance of the graph to learn what looks right to you. 
 
 ### Themes
 
