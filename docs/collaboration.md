@@ -8,8 +8,6 @@
 
 ### Style guidelines
 
-### Tests
-
 ## Documentation
 
 ### Comments
