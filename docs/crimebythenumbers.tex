@@ -118,7 +118,7 @@
 
 \title{Crime by the Numbers}
 \author{Jacob Kaplan}
-\date{2020-07-23}
+\date{2020-07-28}
 
 \begin{document}
 \maketitle
@@ -7893,14 +7893,29 @@ This is an example of how I approach making R scripts, not necessarily the best 
 \hypertarget{modular-code}{%
 \section{Modular code}\label{modular-code}}
 
+In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks (similar to the chunks in an RMarkdown file). For example, let's say you have some raw data and want to subset it, change some values (e.g.~renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you'll want to have three different parts of your R Script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in it's own Section (as we'll discuss next). If it's relative simple and takes only a few lines per step, you'll likely just want to have a linebreak between steps and identify your choices in comments. It's hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and linebreaks early in your experience is better as it's a good foundation, and you can alter it to suit your preferences as you get more experience.
+
+The goal of making modular code is to avoid having a large amount of code without breaks or comments - that'd be like reading a run-on sentence. We'll talk about comments more in Section \ref{comments}, but here you should explain your choices (e.g.~``Subset to only violent crime and property crime'') to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it's quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you're working with someone new to R, having more comments explaining what you did is helpful.
+
+\hypertarget{section-labels}{%
+\subsection{Section Labels}\label{section-labels}}
+
+When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R Script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label (note that this will only work in an R Script, not an RMarkdown file). Enter in the name of the section you want and click OK and it'll add that to where your cursor was in the R Script. You can also do this by simply adding for dashes (----) on the end of a comment
+
 \includegraphics{images/section_label1.PNG}
+
+Sections are more than just commented parts of a Script. Note that in the photo below, there is both the Section label in the R Script and that same label in a new section of the Source tab on the right. You can get to this section by clicking on the button on the very top right, the one that looks like a bunch of misaligned lines. In here, it shows all the Sections that exist and clicking the Section name will move to the start of that Section in your R Script. If you have a long script (which is generally unadvised but sometimes can't be helped), this is an easy way to find a particular part of your code.
 
 \includegraphics{images/section_label2.PNG}
 
-\hypertarget{utils.r-and-utils_objects.r}{%
-\section{utils.R and utils\_objects.R}\label{utils.r-and-utils_objects.r}}
+\hypertarget{helper-r-scripts}{%
+\subsection{Helper R Scripts}\label{helper-r-scripts}}
 
-If you want to run utils.R or utils\_objects.R in a different R script, you can use the \texttt{source()} function when makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we'd write \texttt{source("utils.R")}. If that file was in the ``data'' folder of our R Project, we'd write \texttt{source("data/utils.R")} so R knew to look in the ``data'' folder for the file.
+As part of making code organized, I find it helpful to make two R scripts in each (or most) of my projects to hold helper functions or objects - and I call these utils.R and utils\_objects.R (utils stands for utility as these are helpful pieces of code for the project). These files should be for code that will be used in multiple R Scripts, so you want them in a single place rather than copying them over in each script where you need them.
+
+In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don't want them in the main file. In utils\_objects, I put useful objects such as a vector (\texttt{c()}) of values that I will use to subset. For example, if I wanted to subset all violent crimes from a dataset, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. In utils\_objects.R I could make an object with this vector, such as \texttt{violent\_crimes\ \textless{}-\ c("murder",\ "rape",\ "robbery",\ "assault")}.
+
+If you want to run utils.R or utils\_objects.R (or any .R file) in a different R script, you can use the \texttt{source()} function when makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we'd write \texttt{source("utils.R")}. If that file was in the ``data'' folder of our R Project, we'd write \texttt{source("data/utils.R")} so R knew to look in the ``data'' folder for the file.
 
 \hypertarget{collaboration}{%
 \chapter{Collaboration}\label{collaboration}}
@@ -7926,7 +7941,7 @@ If you want to run utils.R or utils\_objects.R in a different R script, you can 
 \hypertarget{comments}{%
 \subsection{Comments}\label{comments}}
 
-All the way back in Section \ref{using-rstudio} we introduced comments, which are essentially notes about the code that you include in an R script (by starting a line with the pound key \#) that isn't run. They are just ``comments'' to yourself or anyone else reading the code to explain what that code does. As is often repeated in explaining the benefit of comments, the main collaborator you will have is yourself in the future.
+All the way back in Section \ref{using-rstudio} we introduced comments, which are essentially notes about the code that you include in an R script (by starting a line with the pound key \#) that isn't run. They are just ``comments'' to yourself or anyone else reading the code to explain what that code does. As is often repeated in explaining the benefit of comments, the main collaborator you will have is yourself in the future.\footnote{I recently worked on a follow-up paper to one I had done a year ago. For some reason, past me decided to name some functions based on the authors of a paper that created that particular method, and didn't leave comments explaining what the code did or why. Past me caused a lot of problems for current me. Please comment your code!}
 
 \hypertarget{vignettes}{%
 \subsection{Vignettes}\label{vignettes}}
@@ -7941,6 +7956,48 @@ One increasingly prominent method of using R for research is to do everything in
 \hypertarget{why-test-your-code}{%
 \section{Why test your code?}\label{why-test-your-code}}
 
+As you write code, you will inevitably make mistakes. There are two main types of mistakes with coding - those that prevent code from working (i.e.~give you an error message and don't run the code) and those that run the code but give you the wrong result. Of these, the first is probably more frustrating as R tends to give fairly unhelpful error messages and you'll feel you hit a roadblock since R just isn't working right. However, the second issue - code is wrong but doesn't tell you it's wrong! - is far more dangerous. This is especially true for research projects.
+
+Let's use examining whether a policy affected murder as an example. In the example data set below, we have two years of data for both murder and theft, and we'll say that the policy changed at the start of the second year. If we want to see if murder changed from 2000 to 2001, we could (overly simply) see if the number of murders in 2001 was different from the number in 2000. And since the data also has theft, we'd want to subset to murder first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example\_data <{-}}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{year =} \KeywordTok{c}\NormalTok{(}\DecValTok{2000}\NormalTok{, }\DecValTok{2000}\NormalTok{, }\DecValTok{2001}\NormalTok{, }\DecValTok{2001}\NormalTok{),}
+                           \DataTypeTok{crime\_type =} \KeywordTok{c}\NormalTok{(}\StringTok{"murder"}\NormalTok{, }\StringTok{"theft"}\NormalTok{, }\StringTok{"murder"}\NormalTok{, }\StringTok{"theft"}\NormalTok{),}
+                           \DataTypeTok{crime\_count =} \KeywordTok{c}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{200}\NormalTok{, }\DecValTok{50}\NormalTok{))}
+\NormalTok{example\_data}
+\CommentTok{\#>   year crime\_type crime\_count}
+\CommentTok{\#> 1 2000     murder         100}
+\CommentTok{\#> 2 2000      theft         100}
+\CommentTok{\#> 3 2001     murder         200}
+\CommentTok{\#> 4 2001      theft          50}
+\end{Highlighting}
+\end{Shaded}
+
+To see if murder changed, we can subset to the rows where the crime is murder, and then print out the year and crime\_count columns to see if there is a change. So our code will be \texttt{example\_data{[}example\_data\$crime\_type\ ==\ "murder",\ c("year",\ "crime\_count"){]}}. Below I've accidentally only put one \texttt{=} instead of two, this will give us an error and not give any other results. Helpfully, the error message tells us that there's an error with the \texttt{=} sign, though not what that exact error is.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example\_data[example\_data}\OperatorTok{$}\NormalTok{crime\_type =}\StringTok{ "murder"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"crime\_count"}\NormalTok{)]}
+\CommentTok{\#> Error: <text>:1:38: unexpected \textquotesingle{}=\textquotesingle{}}
+\CommentTok{\#> 1: example\_data[example\_data$crime\_type =}
+\CommentTok{\#>                                          \^{}}
+\end{Highlighting}
+\end{Shaded}
+
+Now I've made a different mistake. Here, instead of \texttt{==}, I've written \texttt{!=} which is the opposite of what we want - it'll return all rows that do \textbf{not} equal ``murder''. Now it looks like the policy cut murder in half when in actuality the policy doubled murders! Since we don't print out the type of crime in the output, we wouldn't catch this from the output alone.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{example\_data[example\_data}\OperatorTok{$}\NormalTok{crime\_type }\OperatorTok{!=}\StringTok{ "murder"}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"year"}\NormalTok{, }\StringTok{"crime\_count"}\NormalTok{)]}
+\CommentTok{\#>   year crime\_count}
+\CommentTok{\#> 2 2000         100}
+\CommentTok{\#> 4 2001          50}
+\end{Highlighting}
+\end{Shaded}
+
+YOu may think this is a silly example that is unrealistic. And it is to a degree, it's just one line of code that we're using to evaluate an entire policy. Now think about how you would actually evaluate a policy using data that you're familiar with. Now the code is going to be much more complex. Your code may be hundreds of lines long, deal with multiple data sets that must be joined together, and involve a number of relative subjective (though must be defensible) decisions as to how to deal with your data (e.g.~what crimes constitute violent crime, what time unit to analyze), and be written by other people you are collaborating with. The increased complexity with a real analysis increases the likelihood that errors will occur - and even small issues such as an incorrect subset can have large impacts on your results.
+
 \hypertarget{unit-tests}{%
 \section{Unit tests}\label{unit-tests}}
 
@@ -7952,6 +8009,12 @@ One increasingly prominent method of using R for research is to do everything in
 
 \hypertarget{continuous-integration-services}{%
 \section{Continuous integration services}\label{continuous-integration-services}}
+
+\hypertarget{travis-ci}{%
+\subsection{Travis CI}\label{travis-ci}}
+
+\hypertarget{app-veyor}{%
+\subsection{App Veyor}\label{app-veyor}}
 
 \hypertarget{test-driven-development-tdd}{%
 \section{Test-driven development (TDD)}\label{test-driven-development-tdd}}
