@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-07-23" />
+<meta name="date" content="2020-07-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -271,6 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2.1</b> Histogram</a></li>
 <li class="chapter" data-level="7.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.2.2</b> Density plot</a></li>
 <li class="chapter" data-level="7.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>7.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="7.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>7.2.4</b> Graphing a Categorical Variable</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>7.3</b> Bar graph</a></li>
 <li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>7.4</b> Graphing Data Over Time</a></li>
@@ -363,8 +364,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="18.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>18.2.1</b> Folders</a></li>
 </ul></li>
 <li class="chapter" data-level="18.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>18.3</b> Modular R scripts</a></li>
-<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a></li>
-<li class="chapter" data-level="18.5" data-path="mise-en-place.html"><a href="mise-en-place.html#utils.r-and-utils_objects.r"><i class="fa fa-check"></i><b>18.5</b> utils.R and utils_objects.R</a></li>
+<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>18.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="18.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>18.4.2</b> Helper R Scripts</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>19</b> Collaboration</a>
 <ul>
@@ -389,7 +393,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.1</b> What to test</a></li>
 <li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-test"><i class="fa fa-check"></i><b>20.2.2</b> How to test</a></li>
 </ul></li>
-<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#continuous-integration-services"><i class="fa fa-check"></i><b>20.3</b> Continuous integration services</a></li>
+<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#continuous-integration-services"><i class="fa fa-check"></i><b>20.3</b> Continuous integration services</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="tests.html"><a href="tests.html#travis-ci"><i class="fa fa-check"></i><b>20.3.1</b> Travis CI</a></li>
+<li class="chapter" data-level="20.3.2" data-path="tests.html"><a href="tests.html#app-veyor"><i class="fa fa-check"></i><b>20.3.2</b> App Veyor</a></li>
+</ul></li>
 <li class="chapter" data-level="20.4" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>20.4</b> Test-driven development (TDD)</a></li>
 <li class="chapter" data-level="20.5" data-path="tests.html"><a href="tests.html#tests-for-research-projects"><i class="fa fa-check"></i><b>20.5</b> Tests for research projects</a></li>
 </ul></li>
@@ -449,6 +457,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">20</span> Tests</h1>
 <div id="why-test-your-code" class="section level2" number="20.1">
 <h2><span class="header-section-number">20.1</span> Why test your code?</h2>
+<p>As you write code, you will inevitably make mistakes. There are two main types of mistakes with coding - those that prevent code from working (i.e. give you an error message and don’t run the code) and those that run the code but give you the wrong result. Of these, the first is probably more frustrating as R tends to give fairly unhelpful error messages and you’ll feel you hit a roadblock since R just isn’t working right. However, the second issue - code is wrong but doesn’t tell you it’s wrong! - is far more dangerous. This is especially true for research projects.</p>
+<p>Let’s use examining whether a policy affected murder as an example. In the example data set below, we have two years of data for both murder and theft. If we want to see if murder changed from 2000 to 2001, we could (overly simply) see if the number of murders in 2001 was different from the number in 2000. And since the data also has theft, we’d want to subset to murder first.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="tests.html#cb1-1"></a>example_data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">year =</span> <span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">2000</span>, <span class="dv">2001</span>, <span class="dv">2001</span>),</span>
+<span id="cb1-2"><a href="tests.html#cb1-2"></a>                           <span class="dt">crime_type =</span> <span class="kw">c</span>(<span class="st">&quot;murder&quot;</span>, <span class="st">&quot;theft&quot;</span>, <span class="st">&quot;murder&quot;</span>, <span class="st">&quot;theft&quot;</span>),</span>
+<span id="cb1-3"><a href="tests.html#cb1-3"></a>                           <span class="dt">crime_count =</span> <span class="kw">c</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">50</span>))</span>
+<span id="cb1-4"><a href="tests.html#cb1-4"></a>example_data</span>
+<span id="cb1-5"><a href="tests.html#cb1-5"></a><span class="co">#&gt;   year crime_type crime_count</span></span>
+<span id="cb1-6"><a href="tests.html#cb1-6"></a><span class="co">#&gt; 1 2000     murder         100</span></span>
+<span id="cb1-7"><a href="tests.html#cb1-7"></a><span class="co">#&gt; 2 2000      theft         100</span></span>
+<span id="cb1-8"><a href="tests.html#cb1-8"></a><span class="co">#&gt; 3 2001     murder         200</span></span>
+<span id="cb1-9"><a href="tests.html#cb1-9"></a><span class="co">#&gt; 4 2001      theft          50</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="tests.html#cb2-1"></a>example_data[, crime_type <span class="op">!</span><span class="st"> &quot;theft&quot;</span>]</span>
+<span id="cb2-2"><a href="tests.html#cb2-2"></a><span class="co">#&gt; Error: &lt;text&gt;:1:27: unexpected &#39;!&#39;</span></span>
+<span id="cb2-3"><a href="tests.html#cb2-3"></a><span class="co">#&gt; 1: example_data[, crime_type !</span></span>
+<span id="cb2-4"><a href="tests.html#cb2-4"></a><span class="co">#&gt;                               ^</span></span></code></pre></div>
 </div>
 <div id="unit-tests" class="section level2" number="20.2">
 <h2><span class="header-section-number">20.2</span> Unit tests</h2>
@@ -461,6 +484,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="continuous-integration-services" class="section level2" number="20.3">
 <h2><span class="header-section-number">20.3</span> Continuous integration services</h2>
+<div id="travis-ci" class="section level3" number="20.3.1">
+<h3><span class="header-section-number">20.3.1</span> Travis CI</h3>
+</div>
+<div id="app-veyor" class="section level3" number="20.3.2">
+<h3><span class="header-section-number">20.3.2</span> App Veyor</h3>
+</div>
 </div>
 <div id="test-driven-development-tdd" class="section level2" number="20.4">
 <h2><span class="header-section-number">20.4</span> Test-driven development (TDD)</h2>

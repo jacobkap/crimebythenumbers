@@ -14,7 +14,7 @@
 
 ### Comments
 
-All the way back in Section \@ref(using-rstudio) we introduced comments, which are essentially notes about the code that you include in an R script (by starting a line with the pound key #) that isn't run. They are just "comments" to yourself or anyone else reading the code to explain what that code does. As is often repeated in explaining the benefit of comments, the main collaborator you will have is yourself in the future. 
+All the way back in Section \@ref(using-rstudio) we introduced comments, which are essentially notes about the code that you include in an R script (by starting a line with the pound key #) that isn't run. They are just "comments" to yourself or anyone else reading the code to explain what that code does. As is often repeated in explaining the benefit of comments, the main collaborator you will have is yourself in the future.^[I recently worked on a follow-up paper to one I had done a year ago. For some reason, past me decided to name some functions based on the authors of a paper that created that particular method, and didn't leave comments explaining what the code did or why. Past me caused a lot of problems for current me. Please comment your code!] 
 
 ### Vignettes
 

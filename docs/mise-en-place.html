@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-07-23" />
+<meta name="date" content="2020-07-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -363,8 +363,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="18.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>18.2.1</b> Folders</a></li>
 </ul></li>
 <li class="chapter" data-level="18.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>18.3</b> Modular R scripts</a></li>
-<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a></li>
-<li class="chapter" data-level="18.5" data-path="mise-en-place.html"><a href="mise-en-place.html#utils.r-and-utils_objects.r"><i class="fa fa-check"></i><b>18.5</b> utils.R and utils_objects.R</a></li>
+<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>18.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="18.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>18.4.2</b> Helper R Scripts</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>19</b> Collaboration</a>
 <ul>
@@ -389,7 +392,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.1</b> What to test</a></li>
 <li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-test"><i class="fa fa-check"></i><b>20.2.2</b> How to test</a></li>
 </ul></li>
-<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#continuous-integration-services"><i class="fa fa-check"></i><b>20.3</b> Continuous integration services</a></li>
+<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#continuous-integration-services"><i class="fa fa-check"></i><b>20.3</b> Continuous integration services</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="tests.html"><a href="tests.html#travis-ci"><i class="fa fa-check"></i><b>20.3.1</b> Travis CI</a></li>
+<li class="chapter" data-level="20.3.2" data-path="tests.html"><a href="tests.html#app-veyor"><i class="fa fa-check"></i><b>20.3.2</b> App Veyor</a></li>
+</ul></li>
 <li class="chapter" data-level="20.4" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>20.4</b> Test-driven development (TDD)</a></li>
 <li class="chapter" data-level="20.5" data-path="tests.html"><a href="tests.html#tests-for-research-projects"><i class="fa fa-check"></i><b>20.5</b> Tests for research projects</a></li>
 </ul></li>
@@ -497,13 +504,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="modular-code" class="section level2" number="18.4">
 <h2><span class="header-section-number">18.4</span> Modular code</h2>
+<p>In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks (similar to the chunks in an RMarkdown file). For example, let’s say you have some raw data and want to subset it, change some values (e.g. renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you’ll want to have three different parts of your R Script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in it’s own Section (as we’ll discuss next). If it’s relative simple and takes only a few lines per step, you’ll likely just want to have a linebreak between steps and identify your choices in comments. It’s hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and linebreaks early in your experience is better as it’s a good foundation, and you can alter it to suit your preferences as you get more experience.</p>
+<p>The goal of making modular code is to avoid having a large amount of code without breaks or comments - that’d be like reading a run-on sentence. We’ll talk about comments more in Section <a href="collaboration.html#comments">19.4.1</a>, but here you should explain your choices (e.g. “Subset to only violent crime and property crime”) to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it’s quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you’re working with someone new to R, having more comments explaining what you did is helpful.</p>
+<div id="section-labels" class="section level3" number="18.4.1">
+<h3><span class="header-section-number">18.4.1</span> Section Labels</h3>
+<p>When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R Script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label (note that this will only work in an R Script, not an RMarkdown file). Enter in the name of the section you want and click OK and it’ll add that to where your cursor was in the R Script. You can also do this by simply adding for dashes (—-) on the end of a comment</p>
 <p><img src="images/section_label1.PNG" /></p>
+<p>Sections are more than just commented parts of a Script. Note that in the photo below, there is both the Section label in the R Script and that same label in a new section of the Source tab on the right. You can get to this section by clicking on the button on the very top right, the one that looks like a bunch of misaligned lines. In here, it shows all the Sections that exist and clicking the Section name will move to the start of that Section in your R Script. If you have a long script (which is generally unadvised but sometimes can’t be helped), this is an easy way to find a particular part of your code.</p>
 <p><img src="images/section_label2.PNG" /></p>
 </div>
-<div id="utils.r-and-utils_objects.r" class="section level2" number="18.5">
-<h2><span class="header-section-number">18.5</span> utils.R and utils_objects.R</h2>
-<p>If you want to run utils.R or utils_objects.R in a different R script, you can use the <code>source()</code> function when makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we’d write <code>source("utils.R")</code>. If that file was in the “data” folder of our R Project, we’d write <code>source("data/utils.R")</code> so R knew to look in the “data” folder for the file.</p>
+<div id="helper-r-scripts" class="section level3" number="18.4.2">
+<h3><span class="header-section-number">18.4.2</span> Helper R Scripts</h3>
+<p>As part of making code organized, I find it helpful to make two R scripts in each (or most) of my projects to hold helper functions or objects - and I call these utils.R and utils_objects.R (utils stands for utility as these are helpful pieces of code for the project). These files should be for code that will be used in multiple R Scripts, so you want them in a single place rather than copying them over in each script where you need them.</p>
+<p>In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don’t want them in the main file. In utils_objects, I put useful objects such as a vector (<code>c()</code>) of values that I will use to subset. For example, if I wanted to subset all violent crimes from a dataset, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. In utils_objects.R I could make an object with this vector, such as <code>violent_crimes &lt;- c("murder", "rape", "robbery", "assault")</code>.</p>
+<p>If you want to run utils.R or utils_objects.R (or any .R file) in a different R script, you can use the <code>source()</code> function when makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we’d write <code>source("utils.R")</code>. If that file was in the “data” folder of our R Project, we’d write <code>source("data/utils.R")</code> so R knew to look in the “data” folder for the file.</p>
 
+</div>
 </div>
 </div>
 <div class="footnotes">
