@@ -7317,7 +7317,7 @@ If you're reading the code carefully, you might have notices that I only wrote n
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x[}\KeywordTok{c}\NormalTok{(}\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{, }\OtherTok{TRUE}\NormalTok{)]}
+\NormalTok{x[}\OtherTok{TRUE}\NormalTok{]}
 \CommentTok{\#>  [1]  1  2  3  4  5  6  7  8  9 10}
 \end{Highlighting}
 \end{Shaded}
@@ -7932,9 +7932,6 @@ If you want to run utils.R or utils\_objects.R (or any .R file) in a different R
 \hypertarget{style-guidelines}{%
 \subsection{Style guidelines}\label{style-guidelines}}
 
-\hypertarget{tests}{%
-\subsection{Tests}\label{tests}}
-
 \hypertarget{documentation}{%
 \section{Documentation}\label{documentation}}
 
@@ -7996,33 +7993,85 @@ Now I've made a different mistake. Here, instead of \texttt{==}, I've written \t
 \end{Highlighting}
 \end{Shaded}
 
-YOu may think this is a silly example that is unrealistic. And it is to a degree, it's just one line of code that we're using to evaluate an entire policy. Now think about how you would actually evaluate a policy using data that you're familiar with. Now the code is going to be much more complex. Your code may be hundreds of lines long, deal with multiple data sets that must be joined together, and involve a number of relative subjective (though must be defensible) decisions as to how to deal with your data (e.g.~what crimes constitute violent crime, what time unit to analyze), and be written by other people you are collaborating with. The increased complexity with a real analysis increases the likelihood that errors will occur - and even small issues such as an incorrect subset can have large impacts on your results.
+You may think this is a silly example that is unrealistic. And it is to a degree, it's just one line of code that we're using to evaluate an entire policy. Now think about how you would actually evaluate a policy using data that you're familiar with. Now the code is going to be much more complex. Your code may be hundreds of lines long, deal with multiple data sets that must be joined together, and involve a number of relative subjective (though must be defensible) decisions as to how to deal with your data (e.g.~what crimes constitute violent crime, what time unit to analyze), and be written by other people you are collaborating with. The increased complexity with a real analysis increases the likelihood that errors will occur - and even small issues such as an incorrect subset can have large impacts on your results.
+
+So, how do we properly test our code? There are two main methods that I'll refer to as informally and formally. The formal method will be using something called ``unit tests'' that we're discuss in great detail in the next part of this chapter.
+
+Inform methods are what you've likely been doing already. Essentially, just looking at your data and trying to see if it ``looks right''. This includes stuff like printing summary statistics (using \texttt{summary()}) of important variables and making simple graphs to look at the data. If something is wrong, exploring the data is a fairly good way to discover it. For example, if you are looking at arson data from the FBI, you may find (as this is actually in the data) some cities with billions of car arsons in a month. This is clearly wrong so you know there's an issue - in this case, an issue with not subsetting out obvious outliers. Knowledge about the topic and the data are also important in this approach. If you are familiar with a given topic and your results are similar to that of past studies, that's a good sign that you did things right.\footnote{However, make sure that you don't look less closely just because the results are the way you expect. Past results may be wrong, or you can have a new finding, so make sure to avoid complacency just because you like the results}
+
+You can also take this kind of approach when testing functions - which ideally are the way you write code, so you can use it for more than a single case. For example, if you have a function that takes a number and returns that number + 2, you can test it by checking a few cases. If you input 2, you expect 4. If you input -2, you expect 0. Do this a few times and you can be more confident that the function works properly. Now imagine a function that's more complex - one that calls a different function and uses the result of that function. If you change the underlying function, you'll need to check both that function and the function that calls it. As you have more interchanging pieces in your code, this gets more and more complex. It also takes a lot more time as you'll have a lot of code that only checks a function, and will have to run it line by line to see if there's an issue. At this point, replying on informal methods becomes unfeasible and you'll want to use unit tests, a formal way to test your code. Note, however, that this is far better suited for checking functions than for checking data, though it is possible to some degree. We'll discuss formally testing data in Section \ref{tests-for-research-projects}.
 
 \hypertarget{unit-tests}{%
 \section{Unit tests}\label{unit-tests}}
 
+A unit test is simply a conditional statement where you have some input, usually a function with some parameters set, and state what you expect the result to be. You are saying ``I expect that if I do X, I will get Y''. And if you get a result other than what you expected, R will tell you. In R, you can make a number of unit tests and have R run them all at once, and inform you of which ones failed. Each unit test is just a function in R that is specifically for checking whether other functions - or other code or data - are correct. They operate just like a normal function. To use unit tests, we'll use the R package \texttt{testthat} which has a number of functions that make unit testing easier, and use some keyboard shortcuts in RStudio that also improve the ease of testing. If you don't have \texttt{testthat} installed, do so using \texttt{install.packages("testthat)}. For more information on the package, please see the package's \href{https://testthat.r-lib.org/index.html}{website}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(testthat)}
+\end{Highlighting}
+\end{Shaded}
+
+In test that, every function follows the same \texttt{expect\_} format where a type of conditional statement follows the \_. For example, \texttt{expect\_equal()} checks if two values are equal, \texttt{expect\_named()} checks if the name of a data set is correct, and \texttt{expect\_silent()} makes sure that the code that's run doesn't return any warnings, messages, or errors. To used this technique for our above example of the function that adds 2 to an inputted number - which we'll call \texttt{add\_2()} - we can use some \texttt{expect\_equal()} functions. If we input 2, we expect 4. So we'd write \texttt{expect\_that(add\_2(2),\ 4)}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{add\_}\DecValTok{2}\NormalTok{ <{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(number) \{ }\KeywordTok{return}\NormalTok{(number }\OperatorTok{+}\StringTok{ }\DecValTok{2}\NormalTok{) \}}
+\KeywordTok{expect\_equal}\NormalTok{(}\KeywordTok{add\_2}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Above is the code that makes the \texttt{add\_2()} function and one unit test checking it. It doesn't output anything. That is good. When a test passes, there is no information; when it fails, the function will output a message that it failed. Below is another test, this one intentionally wrong to show what happens when a test fails.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{expect\_equal}\NormalTok{(}\KeywordTok{add\_2}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DecValTok{5}\NormalTok{)}
+\CommentTok{\#> Error: add\_2(2) not equal to 5.}
+\CommentTok{\#> 1/1 mismatches}
+\CommentTok{\#> [1] 4 {-} 5 == {-}1}
+\end{Highlighting}
+\end{Shaded}
+
+It gives an error, telling us that the result of the \texttt{add\_2(2)} function does not equal 5. Helpfully, it also shows us how much of a difference there is between what we expected and what we got. Note that it says ``1/1 mismatches''. That says that all of the expected values - we only expect one value - are incorrect. If we expect more than one result, such as if we expect a function to return a vector, it will check each value and say exactly which ones (in the order we have the resulting vector) are incorrect. This is helpful when diagnosing exactly which part failed.
+
+\hypertarget{modular-test-scripts}{%
+\subsection{Modular test scripts}\label{modular-test-scripts}}
+
+As with your normal R Script, you can have separate testing scripts (a testing script is only a normal R Script which people use specifically for testing code) for each major part of the code that you're testing.\footnote{Having separate R Scripts for each major section of your code, please refer to Section \ref{modular-r-scripts}} As with the R Scripts for your code, this is simply a way to organize your work, and doesn't affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.
+
+\includegraphics{images/test_file_setup.PNG}
+
+The first file is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio's keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won't always need to have a setup.R file, but it's useful when you want to run the same code beforehand for multiple different test scripts.
+
+\includegraphics{images/test_setup.PNG}
+
+\hypertarget{how-to-write-unit-tests}{%
+\subsection{How to write unit tests}\label{how-to-write-unit-tests}}
+
+As an example, we'll go over the tests I wrote when I first scraped the US Border Patrol data that we scraped in Chapter \ref{scrape-table}.
+
+\includegraphics{images/test_example.PNG}
+
 \hypertarget{what-to-test}{%
 \subsection{What to test}\label{what-to-test}}
 
-\hypertarget{how-to-test}{%
-\subsection{How to test}\label{how-to-test}}
+Now that we've gone over exactly how to make unit tests, let's talk about exactly what to test. When testing functions, you generally want to test every possible parameter in the function, and a variety of inputs. In particular, try to think of ways that the function could be used incorrectly and write a test to catch that. For example, our \texttt{add\_2()} function will fail if a string (e.g.~``2'') was inputted instead of a number, so you'll want to add a test for that. You'll also want to match sure that inputting something other than simply a single number, such as a vector of numbers, works correctly. Basically, you want to be thorough and cover all of your bases.
 
-\hypertarget{continuous-integration-services}{%
-\section{Continuous integration services}\label{continuous-integration-services}}
-
-\hypertarget{travis-ci}{%
-\subsection{Travis CI}\label{travis-ci}}
-
-\hypertarget{app-veyor}{%
-\subsection{App Veyor}\label{app-veyor}}
-
-\hypertarget{test-driven-development-tdd}{%
-\section{Test-driven development (TDD)}\label{test-driven-development-tdd}}
+Writing unit tests is one of the most time-efficient things you can do since it helps you avoid making costly (in time and in getting wrong results) mistakes. But don't spend too much time writing tests. If you've tested that \texttt{add\_2(2)} equals 4, no need to test that \texttt{add\_2(3)} equals five since you're essentially testing the exact same thing. And consider your audience (even if that is only you). If you know that \texttt{add\_2()} will only be used by people who know better than to input a string, there's no need to test for that (and testing for that will mean that you'd also want code that handles a string input in the way you want it, such as outputting a message saying strings aren't allowed). In general, I think it's always better to have more tests than fewer, but consider whether writing that test is a good use of you time.
 
 \hypertarget{tests-for-research-projects}{%
 \section{Tests for research projects}\label{tests-for-research-projects}}
 
 When you use R for a research project you'll usually take data that someone else collected, or scrape it yourself, do some work to clean this data (e.g.~subset or aggregate the data, standardize values) and then run a regression on it. In these cases there are fewer opportunities to use unit tests to check your code. Indeed, the best checks are often content knowledge about the data and examining the results of the regression to see if it makes sense and fits prior literature.
+
+While testing is most commonly used for functions, you can use it to test data. Writing tests for research data is best if your code is scraping the data (webscrape or PDF scrape) and you want to verify that it is correct, or if you expect the data to change and want to ensure that it is still correct (while exact values will change, you can check broad categories such as whether certain groups are included). For example, if you know that you only want to look at a certain state, you can write a test that expects the only state in the data to be the one you're analyzing. This way, if you add more data, such as a new release of that data set, the test will catch if there's any other state that you may have forgotten to remove after adding the new data. If you're sure that you will only use a particular data set that never changes, you're better off just writing code in your main R Script (or a specific script for checking the data) to do these checks rather than dedicated tests.
+
+\hypertarget{test-driven-development-tdd}{%
+\section{Test-driven development (TDD)}\label{test-driven-development-tdd}}
+
+We'll finish this chapter by talking about test-driven development (TDD), a philosophy in programming where you write the tests first and then write the code that meets these tests after. This is really an extension (and personally, an inspiration) to the discussion in Chapter \ref{mise-en-place} of planning out your project before you start. In Chapter \ref{mise-en-place} we talked about writing out every step of the project by hand sketching all the figures or tables that you intended to have. With TDD, you write tests for all of the functions you intend to write (and any variations of parameters or inputs for these functions) or data you intend to gather/clean.
+
+Test-driven development is a useful tool to make you really think about the functions that you need to write, and how they interact with each other. This is an excellent way to identify potential issues (I've often realized while writing tests that the approach I was going to do wouldn't work) before you start on the code. However, for this same reason, it is a fairly advanced topic since you need to know exactly (or, mostly) what you need to do, and the likely problems that each approach will face. For that reason, I recommend holding off on using TDD until you're fairly experienced with R or programming in general.
 
 \hypertarget{git}{%
 \chapter{Git}\label{git}}

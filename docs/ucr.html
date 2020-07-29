@@ -388,16 +388,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="20.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>20.1</b> Why test your code?</a></li>
 <li class="chapter" data-level="20.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>20.2</b> Unit tests</a>
 <ul>
-<li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.1</b> What to test</a></li>
-<li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-test"><i class="fa fa-check"></i><b>20.2.2</b> How to test</a></li>
+<li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>20.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>20.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="20.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.3</b> What to test</a></li>
 </ul></li>
-<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#continuous-integration-services"><i class="fa fa-check"></i><b>20.3</b> Continuous integration services</a>
-<ul>
-<li class="chapter" data-level="20.3.1" data-path="tests.html"><a href="tests.html#travis-ci"><i class="fa fa-check"></i><b>20.3.1</b> Travis CI</a></li>
-<li class="chapter" data-level="20.3.2" data-path="tests.html"><a href="tests.html#app-veyor"><i class="fa fa-check"></i><b>20.3.2</b> App Veyor</a></li>
-</ul></li>
+<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#tests-for-research-projects"><i class="fa fa-check"></i><b>20.3</b> Tests for research projects</a></li>
 <li class="chapter" data-level="20.4" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>20.4</b> Test-driven development (TDD)</a></li>
-<li class="chapter" data-level="20.5" data-path="tests.html"><a href="tests.html#tests-for-research-projects"><i class="fa fa-check"></i><b>20.5</b> Tests for research projects</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>21</b> Git</a>
 <ul>
@@ -461,115 +457,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="exploring-the-ucr-data" class="section level2" number="23.1">
 <h2><span class="header-section-number">23.1</span> Exploring the UCR data</h2>
 <p>We are going to look at data with the combined annual count of crimes for every year available - 1960-2017 - which I’ve made available <a href="http://doi.org/10.3886/E100707V11">here</a>. The FBI releases the data as a single file per year and each file has monthly counts of crime. This data set does some cleaning for us by aggregating yearly and making it a single file for the whole time period. The first step when working with this UCR data is loading it into R. As with loading any data, make sure that your working directory path is correctly set using <code>setwd()</code> so R knows which folder the data is in.</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="ucr.html#cb388-1"></a><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ucr.html#cb391-1"></a><span class="kw">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</span></code></pre></div>
 <p>Let’s start with a basic examination of the data. First, how big it is, what variables it has, and what the units are.</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="ucr.html#cb389-1"></a><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
-<span id="cb389-2"><a href="ucr.html#cb389-2"></a><span class="co">#&gt; [1] 159</span></span></code></pre></div>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="ucr.html#cb390-1"></a><span class="kw">nrow</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
-<span id="cb390-2"><a href="ucr.html#cb390-2"></a><span class="co">#&gt; [1] 959010</span></span></code></pre></div>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="ucr.html#cb391-1"></a><span class="kw">names</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
-<span id="cb391-2"><a href="ucr.html#cb391-2"></a><span class="co">#&gt;   [1] &quot;ori&quot;                            &quot;ori9&quot;                          </span></span>
-<span id="cb391-3"><a href="ucr.html#cb391-3"></a><span class="co">#&gt;   [3] &quot;agency_name&quot;                    &quot;state&quot;                         </span></span>
-<span id="cb391-4"><a href="ucr.html#cb391-4"></a><span class="co">#&gt;   [5] &quot;state_abb&quot;                      &quot;year&quot;                          </span></span>
-<span id="cb391-5"><a href="ucr.html#cb391-5"></a><span class="co">#&gt;   [7] &quot;number_of_months_reported&quot;      &quot;fips_state_code&quot;               </span></span>
-<span id="cb391-6"><a href="ucr.html#cb391-6"></a><span class="co">#&gt;   [9] &quot;fips_county_code&quot;               &quot;fips_state_county_code&quot;        </span></span>
-<span id="cb391-7"><a href="ucr.html#cb391-7"></a><span class="co">#&gt;  [11] &quot;fips_place_code&quot;                &quot;fips_state_place_code&quot;         </span></span>
-<span id="cb391-8"><a href="ucr.html#cb391-8"></a><span class="co">#&gt;  [13] &quot;agency_type&quot;                    &quot;agency_subtype_1&quot;              </span></span>
-<span id="cb391-9"><a href="ucr.html#cb391-9"></a><span class="co">#&gt;  [15] &quot;agency_subtype_2&quot;               &quot;crosswalk_agency_name&quot;         </span></span>
-<span id="cb391-10"><a href="ucr.html#cb391-10"></a><span class="co">#&gt;  [17] &quot;census_name&quot;                    &quot;population&quot;                    </span></span>
-<span id="cb391-11"><a href="ucr.html#cb391-11"></a><span class="co">#&gt;  [19] &quot;population_group&quot;               &quot;country_division&quot;              </span></span>
-<span id="cb391-12"><a href="ucr.html#cb391-12"></a><span class="co">#&gt;  [21] &quot;juvenile_age&quot;                   &quot;core_city_indication&quot;          </span></span>
-<span id="cb391-13"><a href="ucr.html#cb391-13"></a><span class="co">#&gt;  [23] &quot;last_update&quot;                    &quot;fbi_field_office&quot;              </span></span>
-<span id="cb391-14"><a href="ucr.html#cb391-14"></a><span class="co">#&gt;  [25] &quot;followup_indication&quot;            &quot;zip_code&quot;                      </span></span>
-<span id="cb391-15"><a href="ucr.html#cb391-15"></a><span class="co">#&gt;  [27] &quot;covered_by_ori&quot;                 &quot;agency_count&quot;                  </span></span>
-<span id="cb391-16"><a href="ucr.html#cb391-16"></a><span class="co">#&gt;  [29] &quot;date_of_last_update&quot;            &quot;month_included_in&quot;             </span></span>
-<span id="cb391-17"><a href="ucr.html#cb391-17"></a><span class="co">#&gt;  [31] &quot;special_mailing_group&quot;          &quot;special_mailing_address&quot;       </span></span>
-<span id="cb391-18"><a href="ucr.html#cb391-18"></a><span class="co">#&gt;  [33] &quot;first_line_of_mailing_address&quot;  &quot;second_line_of_mailing_address&quot;</span></span>
-<span id="cb391-19"><a href="ucr.html#cb391-19"></a><span class="co">#&gt;  [35] &quot;third_line_of_mailing_address&quot;  &quot;fourth_line_of_mailing_address&quot;</span></span>
-<span id="cb391-20"><a href="ucr.html#cb391-20"></a><span class="co">#&gt;  [37] &quot;officers_killed_by_felony&quot;      &quot;officers_killed_by_accident&quot;   </span></span>
-<span id="cb391-21"><a href="ucr.html#cb391-21"></a><span class="co">#&gt;  [39] &quot;officers_assaulted&quot;             &quot;actual_murder&quot;                 </span></span>
-<span id="cb391-22"><a href="ucr.html#cb391-22"></a><span class="co">#&gt;  [41] &quot;actual_manslaughter&quot;            &quot;actual_rape_total&quot;             </span></span>
-<span id="cb391-23"><a href="ucr.html#cb391-23"></a><span class="co">#&gt;  [43] &quot;actual_rape_by_force&quot;           &quot;actual_rape_attempted&quot;         </span></span>
-<span id="cb391-24"><a href="ucr.html#cb391-24"></a><span class="co">#&gt;  [45] &quot;actual_robbery_total&quot;           &quot;actual_robbery_with_a_gun&quot;     </span></span>
-<span id="cb391-25"><a href="ucr.html#cb391-25"></a><span class="co">#&gt;  [47] &quot;actual_robbery_with_a_knife&quot;    &quot;actual_robbery_other_weapon&quot;   </span></span>
-<span id="cb391-26"><a href="ucr.html#cb391-26"></a><span class="co">#&gt;  [49] &quot;actual_robbery_unarmed&quot;         &quot;actual_assault_total&quot;          </span></span>
-<span id="cb391-27"><a href="ucr.html#cb391-27"></a><span class="co">#&gt;  [51] &quot;actual_assault_with_a_gun&quot;      &quot;actual_assault_with_a_knife&quot;   </span></span>
-<span id="cb391-28"><a href="ucr.html#cb391-28"></a><span class="co">#&gt;  [53] &quot;actual_assault_other_weapon&quot;    &quot;actual_assault_unarmed&quot;        </span></span>
-<span id="cb391-29"><a href="ucr.html#cb391-29"></a><span class="co">#&gt;  [55] &quot;actual_assault_simple&quot;          &quot;actual_burg_total&quot;             </span></span>
-<span id="cb391-30"><a href="ucr.html#cb391-30"></a><span class="co">#&gt;  [57] &quot;actual_burg_force_entry&quot;        &quot;actual_burg_nonforce_entry&quot;    </span></span>
-<span id="cb391-31"><a href="ucr.html#cb391-31"></a><span class="co">#&gt;  [59] &quot;actual_burg_attempted&quot;          &quot;actual_theft_total&quot;            </span></span>
-<span id="cb391-32"><a href="ucr.html#cb391-32"></a><span class="co">#&gt;  [61] &quot;actual_mtr_veh_theft_total&quot;     &quot;actual_mtr_veh_theft_car&quot;      </span></span>
-<span id="cb391-33"><a href="ucr.html#cb391-33"></a><span class="co">#&gt;  [63] &quot;actual_mtr_veh_theft_truck&quot;     &quot;actual_mtr_veh_theft_other&quot;    </span></span>
-<span id="cb391-34"><a href="ucr.html#cb391-34"></a><span class="co">#&gt;  [65] &quot;actual_all_crimes&quot;              &quot;actual_assault_aggravated&quot;     </span></span>
-<span id="cb391-35"><a href="ucr.html#cb391-35"></a><span class="co">#&gt;  [67] &quot;actual_index_violent&quot;           &quot;actual_index_property&quot;         </span></span>
-<span id="cb391-36"><a href="ucr.html#cb391-36"></a><span class="co">#&gt;  [69] &quot;actual_index_total&quot;             &quot;tot_clr_murder&quot;                </span></span>
-<span id="cb391-37"><a href="ucr.html#cb391-37"></a><span class="co">#&gt;  [71] &quot;tot_clr_manslaughter&quot;           &quot;tot_clr_rape_total&quot;            </span></span>
-<span id="cb391-38"><a href="ucr.html#cb391-38"></a><span class="co">#&gt;  [73] &quot;tot_clr_rape_by_force&quot;          &quot;tot_clr_rape_attempted&quot;        </span></span>
-<span id="cb391-39"><a href="ucr.html#cb391-39"></a><span class="co">#&gt;  [75] &quot;tot_clr_robbery_total&quot;          &quot;tot_clr_robbery_with_a_gun&quot;    </span></span>
-<span id="cb391-40"><a href="ucr.html#cb391-40"></a><span class="co">#&gt;  [77] &quot;tot_clr_robbery_with_a_knife&quot;   &quot;tot_clr_robbery_other_weapon&quot;  </span></span>
-<span id="cb391-41"><a href="ucr.html#cb391-41"></a><span class="co">#&gt;  [79] &quot;tot_clr_robbery_unarmed&quot;        &quot;tot_clr_assault_total&quot;         </span></span>
-<span id="cb391-42"><a href="ucr.html#cb391-42"></a><span class="co">#&gt;  [81] &quot;tot_clr_assault_with_a_gun&quot;     &quot;tot_clr_assault_with_a_knife&quot;  </span></span>
-<span id="cb391-43"><a href="ucr.html#cb391-43"></a><span class="co">#&gt;  [83] &quot;tot_clr_assault_other_weapon&quot;   &quot;tot_clr_assault_unarmed&quot;       </span></span>
-<span id="cb391-44"><a href="ucr.html#cb391-44"></a><span class="co">#&gt;  [85] &quot;tot_clr_assault_simple&quot;         &quot;tot_clr_burg_total&quot;            </span></span>
-<span id="cb391-45"><a href="ucr.html#cb391-45"></a><span class="co">#&gt;  [87] &quot;tot_clr_burg_force_entry&quot;       &quot;tot_clr_burg_nonforce_entry&quot;   </span></span>
-<span id="cb391-46"><a href="ucr.html#cb391-46"></a><span class="co">#&gt;  [89] &quot;tot_clr_burg_attempted&quot;         &quot;tot_clr_theft_total&quot;           </span></span>
-<span id="cb391-47"><a href="ucr.html#cb391-47"></a><span class="co">#&gt;  [91] &quot;tot_clr_mtr_veh_theft_total&quot;    &quot;tot_clr_mtr_veh_theft_car&quot;     </span></span>
-<span id="cb391-48"><a href="ucr.html#cb391-48"></a><span class="co">#&gt;  [93] &quot;tot_clr_mtr_veh_theft_truck&quot;    &quot;tot_clr_mtr_veh_theft_other&quot;   </span></span>
-<span id="cb391-49"><a href="ucr.html#cb391-49"></a><span class="co">#&gt;  [95] &quot;tot_clr_all_crimes&quot;             &quot;tot_clr_assault_aggravated&quot;    </span></span>
-<span id="cb391-50"><a href="ucr.html#cb391-50"></a><span class="co">#&gt;  [97] &quot;tot_clr_index_violent&quot;          &quot;tot_clr_index_property&quot;        </span></span>
-<span id="cb391-51"><a href="ucr.html#cb391-51"></a><span class="co">#&gt;  [99] &quot;tot_clr_index_total&quot;            &quot;clr_18_murder&quot;                 </span></span>
-<span id="cb391-52"><a href="ucr.html#cb391-52"></a><span class="co">#&gt; [101] &quot;clr_18_manslaughter&quot;            &quot;clr_18_rape_total&quot;             </span></span>
-<span id="cb391-53"><a href="ucr.html#cb391-53"></a><span class="co">#&gt; [103] &quot;clr_18_rape_by_force&quot;           &quot;clr_18_rape_attempted&quot;         </span></span>
-<span id="cb391-54"><a href="ucr.html#cb391-54"></a><span class="co">#&gt; [105] &quot;clr_18_robbery_total&quot;           &quot;clr_18_robbery_with_a_gun&quot;     </span></span>
-<span id="cb391-55"><a href="ucr.html#cb391-55"></a><span class="co">#&gt; [107] &quot;clr_18_robbery_with_a_knife&quot;    &quot;clr_18_robbery_other_weapon&quot;   </span></span>
-<span id="cb391-56"><a href="ucr.html#cb391-56"></a><span class="co">#&gt; [109] &quot;clr_18_robbery_unarmed&quot;         &quot;clr_18_assault_total&quot;          </span></span>
-<span id="cb391-57"><a href="ucr.html#cb391-57"></a><span class="co">#&gt; [111] &quot;clr_18_assault_with_a_gun&quot;      &quot;clr_18_assault_with_a_knife&quot;   </span></span>
-<span id="cb391-58"><a href="ucr.html#cb391-58"></a><span class="co">#&gt; [113] &quot;clr_18_assault_other_weapon&quot;    &quot;clr_18_assault_unarmed&quot;        </span></span>
-<span id="cb391-59"><a href="ucr.html#cb391-59"></a><span class="co">#&gt; [115] &quot;clr_18_assault_simple&quot;          &quot;clr_18_burg_total&quot;             </span></span>
-<span id="cb391-60"><a href="ucr.html#cb391-60"></a><span class="co">#&gt; [117] &quot;clr_18_burg_force_entry&quot;        &quot;clr_18_burg_nonforce_entry&quot;    </span></span>
-<span id="cb391-61"><a href="ucr.html#cb391-61"></a><span class="co">#&gt; [119] &quot;clr_18_burg_attempted&quot;          &quot;clr_18_theft_total&quot;            </span></span>
-<span id="cb391-62"><a href="ucr.html#cb391-62"></a><span class="co">#&gt; [121] &quot;clr_18_mtr_veh_theft_total&quot;     &quot;clr_18_mtr_veh_theft_car&quot;      </span></span>
-<span id="cb391-63"><a href="ucr.html#cb391-63"></a><span class="co">#&gt; [123] &quot;clr_18_mtr_veh_theft_truck&quot;     &quot;clr_18_mtr_veh_theft_other&quot;    </span></span>
-<span id="cb391-64"><a href="ucr.html#cb391-64"></a><span class="co">#&gt; [125] &quot;clr_18_all_crimes&quot;              &quot;clr_18_assault_aggravated&quot;     </span></span>
-<span id="cb391-65"><a href="ucr.html#cb391-65"></a><span class="co">#&gt; [127] &quot;clr_18_index_violent&quot;           &quot;clr_18_index_property&quot;         </span></span>
-<span id="cb391-66"><a href="ucr.html#cb391-66"></a><span class="co">#&gt; [129] &quot;clr_18_index_total&quot;             &quot;unfound_murder&quot;                </span></span>
-<span id="cb391-67"><a href="ucr.html#cb391-67"></a><span class="co">#&gt; [131] &quot;unfound_manslaughter&quot;           &quot;unfound_rape_total&quot;            </span></span>
-<span id="cb391-68"><a href="ucr.html#cb391-68"></a><span class="co">#&gt; [133] &quot;unfound_rape_by_force&quot;          &quot;unfound_rape_attempted&quot;        </span></span>
-<span id="cb391-69"><a href="ucr.html#cb391-69"></a><span class="co">#&gt; [135] &quot;unfound_robbery_total&quot;          &quot;unfound_robbery_with_a_gun&quot;    </span></span>
-<span id="cb391-70"><a href="ucr.html#cb391-70"></a><span class="co">#&gt; [137] &quot;unfound_robbery_with_a_knife&quot;   &quot;unfound_robbery_other_weapon&quot;  </span></span>
-<span id="cb391-71"><a href="ucr.html#cb391-71"></a><span class="co">#&gt; [139] &quot;unfound_robbery_unarmed&quot;        &quot;unfound_assault_total&quot;         </span></span>
-<span id="cb391-72"><a href="ucr.html#cb391-72"></a><span class="co">#&gt; [141] &quot;unfound_assault_with_a_gun&quot;     &quot;unfound_assault_with_a_knife&quot;  </span></span>
-<span id="cb391-73"><a href="ucr.html#cb391-73"></a><span class="co">#&gt; [143] &quot;unfound_assault_other_weapon&quot;   &quot;unfound_assault_unarmed&quot;       </span></span>
-<span id="cb391-74"><a href="ucr.html#cb391-74"></a><span class="co">#&gt; [145] &quot;unfound_assault_simple&quot;         &quot;unfound_burg_total&quot;            </span></span>
-<span id="cb391-75"><a href="ucr.html#cb391-75"></a><span class="co">#&gt; [147] &quot;unfound_burg_force_entry&quot;       &quot;unfound_burg_nonforce_entry&quot;   </span></span>
-<span id="cb391-76"><a href="ucr.html#cb391-76"></a><span class="co">#&gt; [149] &quot;unfound_burg_attempted&quot;         &quot;unfound_theft_total&quot;           </span></span>
-<span id="cb391-77"><a href="ucr.html#cb391-77"></a><span class="co">#&gt; [151] &quot;unfound_mtr_veh_theft_total&quot;    &quot;unfound_mtr_veh_theft_car&quot;     </span></span>
-<span id="cb391-78"><a href="ucr.html#cb391-78"></a><span class="co">#&gt; [153] &quot;unfound_mtr_veh_theft_truck&quot;    &quot;unfound_mtr_veh_theft_other&quot;   </span></span>
-<span id="cb391-79"><a href="ucr.html#cb391-79"></a><span class="co">#&gt; [155] &quot;unfound_all_crimes&quot;             &quot;unfound_assault_aggravated&quot;    </span></span>
-<span id="cb391-80"><a href="ucr.html#cb391-80"></a><span class="co">#&gt; [157] &quot;unfound_index_violent&quot;          &quot;unfound_index_property&quot;        </span></span>
-<span id="cb391-81"><a href="ucr.html#cb391-81"></a><span class="co">#&gt; [159] &quot;unfound_index_total&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="ucr.html#cb392-1"></a><span class="kw">ncol</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb392-2"><a href="ucr.html#cb392-2"></a><span class="co">#&gt; [1] 159</span></span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ucr.html#cb393-1"></a><span class="kw">nrow</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb393-2"><a href="ucr.html#cb393-2"></a><span class="co">#&gt; [1] 959010</span></span></code></pre></div>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="ucr.html#cb394-1"></a><span class="kw">names</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span>
+<span id="cb394-2"><a href="ucr.html#cb394-2"></a><span class="co">#&gt;   [1] &quot;ori&quot;                            &quot;ori9&quot;                          </span></span>
+<span id="cb394-3"><a href="ucr.html#cb394-3"></a><span class="co">#&gt;   [3] &quot;agency_name&quot;                    &quot;state&quot;                         </span></span>
+<span id="cb394-4"><a href="ucr.html#cb394-4"></a><span class="co">#&gt;   [5] &quot;state_abb&quot;                      &quot;year&quot;                          </span></span>
+<span id="cb394-5"><a href="ucr.html#cb394-5"></a><span class="co">#&gt;   [7] &quot;number_of_months_reported&quot;      &quot;fips_state_code&quot;               </span></span>
+<span id="cb394-6"><a href="ucr.html#cb394-6"></a><span class="co">#&gt;   [9] &quot;fips_county_code&quot;               &quot;fips_state_county_code&quot;        </span></span>
+<span id="cb394-7"><a href="ucr.html#cb394-7"></a><span class="co">#&gt;  [11] &quot;fips_place_code&quot;                &quot;fips_state_place_code&quot;         </span></span>
+<span id="cb394-8"><a href="ucr.html#cb394-8"></a><span class="co">#&gt;  [13] &quot;agency_type&quot;                    &quot;agency_subtype_1&quot;              </span></span>
+<span id="cb394-9"><a href="ucr.html#cb394-9"></a><span class="co">#&gt;  [15] &quot;agency_subtype_2&quot;               &quot;crosswalk_agency_name&quot;         </span></span>
+<span id="cb394-10"><a href="ucr.html#cb394-10"></a><span class="co">#&gt;  [17] &quot;census_name&quot;                    &quot;population&quot;                    </span></span>
+<span id="cb394-11"><a href="ucr.html#cb394-11"></a><span class="co">#&gt;  [19] &quot;population_group&quot;               &quot;country_division&quot;              </span></span>
+<span id="cb394-12"><a href="ucr.html#cb394-12"></a><span class="co">#&gt;  [21] &quot;juvenile_age&quot;                   &quot;core_city_indication&quot;          </span></span>
+<span id="cb394-13"><a href="ucr.html#cb394-13"></a><span class="co">#&gt;  [23] &quot;last_update&quot;                    &quot;fbi_field_office&quot;              </span></span>
+<span id="cb394-14"><a href="ucr.html#cb394-14"></a><span class="co">#&gt;  [25] &quot;followup_indication&quot;            &quot;zip_code&quot;                      </span></span>
+<span id="cb394-15"><a href="ucr.html#cb394-15"></a><span class="co">#&gt;  [27] &quot;covered_by_ori&quot;                 &quot;agency_count&quot;                  </span></span>
+<span id="cb394-16"><a href="ucr.html#cb394-16"></a><span class="co">#&gt;  [29] &quot;date_of_last_update&quot;            &quot;month_included_in&quot;             </span></span>
+<span id="cb394-17"><a href="ucr.html#cb394-17"></a><span class="co">#&gt;  [31] &quot;special_mailing_group&quot;          &quot;special_mailing_address&quot;       </span></span>
+<span id="cb394-18"><a href="ucr.html#cb394-18"></a><span class="co">#&gt;  [33] &quot;first_line_of_mailing_address&quot;  &quot;second_line_of_mailing_address&quot;</span></span>
+<span id="cb394-19"><a href="ucr.html#cb394-19"></a><span class="co">#&gt;  [35] &quot;third_line_of_mailing_address&quot;  &quot;fourth_line_of_mailing_address&quot;</span></span>
+<span id="cb394-20"><a href="ucr.html#cb394-20"></a><span class="co">#&gt;  [37] &quot;officers_killed_by_felony&quot;      &quot;officers_killed_by_accident&quot;   </span></span>
+<span id="cb394-21"><a href="ucr.html#cb394-21"></a><span class="co">#&gt;  [39] &quot;officers_assaulted&quot;             &quot;actual_murder&quot;                 </span></span>
+<span id="cb394-22"><a href="ucr.html#cb394-22"></a><span class="co">#&gt;  [41] &quot;actual_manslaughter&quot;            &quot;actual_rape_total&quot;             </span></span>
+<span id="cb394-23"><a href="ucr.html#cb394-23"></a><span class="co">#&gt;  [43] &quot;actual_rape_by_force&quot;           &quot;actual_rape_attempted&quot;         </span></span>
+<span id="cb394-24"><a href="ucr.html#cb394-24"></a><span class="co">#&gt;  [45] &quot;actual_robbery_total&quot;           &quot;actual_robbery_with_a_gun&quot;     </span></span>
+<span id="cb394-25"><a href="ucr.html#cb394-25"></a><span class="co">#&gt;  [47] &quot;actual_robbery_with_a_knife&quot;    &quot;actual_robbery_other_weapon&quot;   </span></span>
+<span id="cb394-26"><a href="ucr.html#cb394-26"></a><span class="co">#&gt;  [49] &quot;actual_robbery_unarmed&quot;         &quot;actual_assault_total&quot;          </span></span>
+<span id="cb394-27"><a href="ucr.html#cb394-27"></a><span class="co">#&gt;  [51] &quot;actual_assault_with_a_gun&quot;      &quot;actual_assault_with_a_knife&quot;   </span></span>
+<span id="cb394-28"><a href="ucr.html#cb394-28"></a><span class="co">#&gt;  [53] &quot;actual_assault_other_weapon&quot;    &quot;actual_assault_unarmed&quot;        </span></span>
+<span id="cb394-29"><a href="ucr.html#cb394-29"></a><span class="co">#&gt;  [55] &quot;actual_assault_simple&quot;          &quot;actual_burg_total&quot;             </span></span>
+<span id="cb394-30"><a href="ucr.html#cb394-30"></a><span class="co">#&gt;  [57] &quot;actual_burg_force_entry&quot;        &quot;actual_burg_nonforce_entry&quot;    </span></span>
+<span id="cb394-31"><a href="ucr.html#cb394-31"></a><span class="co">#&gt;  [59] &quot;actual_burg_attempted&quot;          &quot;actual_theft_total&quot;            </span></span>
+<span id="cb394-32"><a href="ucr.html#cb394-32"></a><span class="co">#&gt;  [61] &quot;actual_mtr_veh_theft_total&quot;     &quot;actual_mtr_veh_theft_car&quot;      </span></span>
+<span id="cb394-33"><a href="ucr.html#cb394-33"></a><span class="co">#&gt;  [63] &quot;actual_mtr_veh_theft_truck&quot;     &quot;actual_mtr_veh_theft_other&quot;    </span></span>
+<span id="cb394-34"><a href="ucr.html#cb394-34"></a><span class="co">#&gt;  [65] &quot;actual_all_crimes&quot;              &quot;actual_assault_aggravated&quot;     </span></span>
+<span id="cb394-35"><a href="ucr.html#cb394-35"></a><span class="co">#&gt;  [67] &quot;actual_index_violent&quot;           &quot;actual_index_property&quot;         </span></span>
+<span id="cb394-36"><a href="ucr.html#cb394-36"></a><span class="co">#&gt;  [69] &quot;actual_index_total&quot;             &quot;tot_clr_murder&quot;                </span></span>
+<span id="cb394-37"><a href="ucr.html#cb394-37"></a><span class="co">#&gt;  [71] &quot;tot_clr_manslaughter&quot;           &quot;tot_clr_rape_total&quot;            </span></span>
+<span id="cb394-38"><a href="ucr.html#cb394-38"></a><span class="co">#&gt;  [73] &quot;tot_clr_rape_by_force&quot;          &quot;tot_clr_rape_attempted&quot;        </span></span>
+<span id="cb394-39"><a href="ucr.html#cb394-39"></a><span class="co">#&gt;  [75] &quot;tot_clr_robbery_total&quot;          &quot;tot_clr_robbery_with_a_gun&quot;    </span></span>
+<span id="cb394-40"><a href="ucr.html#cb394-40"></a><span class="co">#&gt;  [77] &quot;tot_clr_robbery_with_a_knife&quot;   &quot;tot_clr_robbery_other_weapon&quot;  </span></span>
+<span id="cb394-41"><a href="ucr.html#cb394-41"></a><span class="co">#&gt;  [79] &quot;tot_clr_robbery_unarmed&quot;        &quot;tot_clr_assault_total&quot;         </span></span>
+<span id="cb394-42"><a href="ucr.html#cb394-42"></a><span class="co">#&gt;  [81] &quot;tot_clr_assault_with_a_gun&quot;     &quot;tot_clr_assault_with_a_knife&quot;  </span></span>
+<span id="cb394-43"><a href="ucr.html#cb394-43"></a><span class="co">#&gt;  [83] &quot;tot_clr_assault_other_weapon&quot;   &quot;tot_clr_assault_unarmed&quot;       </span></span>
+<span id="cb394-44"><a href="ucr.html#cb394-44"></a><span class="co">#&gt;  [85] &quot;tot_clr_assault_simple&quot;         &quot;tot_clr_burg_total&quot;            </span></span>
+<span id="cb394-45"><a href="ucr.html#cb394-45"></a><span class="co">#&gt;  [87] &quot;tot_clr_burg_force_entry&quot;       &quot;tot_clr_burg_nonforce_entry&quot;   </span></span>
+<span id="cb394-46"><a href="ucr.html#cb394-46"></a><span class="co">#&gt;  [89] &quot;tot_clr_burg_attempted&quot;         &quot;tot_clr_theft_total&quot;           </span></span>
+<span id="cb394-47"><a href="ucr.html#cb394-47"></a><span class="co">#&gt;  [91] &quot;tot_clr_mtr_veh_theft_total&quot;    &quot;tot_clr_mtr_veh_theft_car&quot;     </span></span>
+<span id="cb394-48"><a href="ucr.html#cb394-48"></a><span class="co">#&gt;  [93] &quot;tot_clr_mtr_veh_theft_truck&quot;    &quot;tot_clr_mtr_veh_theft_other&quot;   </span></span>
+<span id="cb394-49"><a href="ucr.html#cb394-49"></a><span class="co">#&gt;  [95] &quot;tot_clr_all_crimes&quot;             &quot;tot_clr_assault_aggravated&quot;    </span></span>
+<span id="cb394-50"><a href="ucr.html#cb394-50"></a><span class="co">#&gt;  [97] &quot;tot_clr_index_violent&quot;          &quot;tot_clr_index_property&quot;        </span></span>
+<span id="cb394-51"><a href="ucr.html#cb394-51"></a><span class="co">#&gt;  [99] &quot;tot_clr_index_total&quot;            &quot;clr_18_murder&quot;                 </span></span>
+<span id="cb394-52"><a href="ucr.html#cb394-52"></a><span class="co">#&gt; [101] &quot;clr_18_manslaughter&quot;            &quot;clr_18_rape_total&quot;             </span></span>
+<span id="cb394-53"><a href="ucr.html#cb394-53"></a><span class="co">#&gt; [103] &quot;clr_18_rape_by_force&quot;           &quot;clr_18_rape_attempted&quot;         </span></span>
+<span id="cb394-54"><a href="ucr.html#cb394-54"></a><span class="co">#&gt; [105] &quot;clr_18_robbery_total&quot;           &quot;clr_18_robbery_with_a_gun&quot;     </span></span>
+<span id="cb394-55"><a href="ucr.html#cb394-55"></a><span class="co">#&gt; [107] &quot;clr_18_robbery_with_a_knife&quot;    &quot;clr_18_robbery_other_weapon&quot;   </span></span>
+<span id="cb394-56"><a href="ucr.html#cb394-56"></a><span class="co">#&gt; [109] &quot;clr_18_robbery_unarmed&quot;         &quot;clr_18_assault_total&quot;          </span></span>
+<span id="cb394-57"><a href="ucr.html#cb394-57"></a><span class="co">#&gt; [111] &quot;clr_18_assault_with_a_gun&quot;      &quot;clr_18_assault_with_a_knife&quot;   </span></span>
+<span id="cb394-58"><a href="ucr.html#cb394-58"></a><span class="co">#&gt; [113] &quot;clr_18_assault_other_weapon&quot;    &quot;clr_18_assault_unarmed&quot;        </span></span>
+<span id="cb394-59"><a href="ucr.html#cb394-59"></a><span class="co">#&gt; [115] &quot;clr_18_assault_simple&quot;          &quot;clr_18_burg_total&quot;             </span></span>
+<span id="cb394-60"><a href="ucr.html#cb394-60"></a><span class="co">#&gt; [117] &quot;clr_18_burg_force_entry&quot;        &quot;clr_18_burg_nonforce_entry&quot;    </span></span>
+<span id="cb394-61"><a href="ucr.html#cb394-61"></a><span class="co">#&gt; [119] &quot;clr_18_burg_attempted&quot;          &quot;clr_18_theft_total&quot;            </span></span>
+<span id="cb394-62"><a href="ucr.html#cb394-62"></a><span class="co">#&gt; [121] &quot;clr_18_mtr_veh_theft_total&quot;     &quot;clr_18_mtr_veh_theft_car&quot;      </span></span>
+<span id="cb394-63"><a href="ucr.html#cb394-63"></a><span class="co">#&gt; [123] &quot;clr_18_mtr_veh_theft_truck&quot;     &quot;clr_18_mtr_veh_theft_other&quot;    </span></span>
+<span id="cb394-64"><a href="ucr.html#cb394-64"></a><span class="co">#&gt; [125] &quot;clr_18_all_crimes&quot;              &quot;clr_18_assault_aggravated&quot;     </span></span>
+<span id="cb394-65"><a href="ucr.html#cb394-65"></a><span class="co">#&gt; [127] &quot;clr_18_index_violent&quot;           &quot;clr_18_index_property&quot;         </span></span>
+<span id="cb394-66"><a href="ucr.html#cb394-66"></a><span class="co">#&gt; [129] &quot;clr_18_index_total&quot;             &quot;unfound_murder&quot;                </span></span>
+<span id="cb394-67"><a href="ucr.html#cb394-67"></a><span class="co">#&gt; [131] &quot;unfound_manslaughter&quot;           &quot;unfound_rape_total&quot;            </span></span>
+<span id="cb394-68"><a href="ucr.html#cb394-68"></a><span class="co">#&gt; [133] &quot;unfound_rape_by_force&quot;          &quot;unfound_rape_attempted&quot;        </span></span>
+<span id="cb394-69"><a href="ucr.html#cb394-69"></a><span class="co">#&gt; [135] &quot;unfound_robbery_total&quot;          &quot;unfound_robbery_with_a_gun&quot;    </span></span>
+<span id="cb394-70"><a href="ucr.html#cb394-70"></a><span class="co">#&gt; [137] &quot;unfound_robbery_with_a_knife&quot;   &quot;unfound_robbery_other_weapon&quot;  </span></span>
+<span id="cb394-71"><a href="ucr.html#cb394-71"></a><span class="co">#&gt; [139] &quot;unfound_robbery_unarmed&quot;        &quot;unfound_assault_total&quot;         </span></span>
+<span id="cb394-72"><a href="ucr.html#cb394-72"></a><span class="co">#&gt; [141] &quot;unfound_assault_with_a_gun&quot;     &quot;unfound_assault_with_a_knife&quot;  </span></span>
+<span id="cb394-73"><a href="ucr.html#cb394-73"></a><span class="co">#&gt; [143] &quot;unfound_assault_other_weapon&quot;   &quot;unfound_assault_unarmed&quot;       </span></span>
+<span id="cb394-74"><a href="ucr.html#cb394-74"></a><span class="co">#&gt; [145] &quot;unfound_assault_simple&quot;         &quot;unfound_burg_total&quot;            </span></span>
+<span id="cb394-75"><a href="ucr.html#cb394-75"></a><span class="co">#&gt; [147] &quot;unfound_burg_force_entry&quot;       &quot;unfound_burg_nonforce_entry&quot;   </span></span>
+<span id="cb394-76"><a href="ucr.html#cb394-76"></a><span class="co">#&gt; [149] &quot;unfound_burg_attempted&quot;         &quot;unfound_theft_total&quot;           </span></span>
+<span id="cb394-77"><a href="ucr.html#cb394-77"></a><span class="co">#&gt; [151] &quot;unfound_mtr_veh_theft_total&quot;    &quot;unfound_mtr_veh_theft_car&quot;     </span></span>
+<span id="cb394-78"><a href="ucr.html#cb394-78"></a><span class="co">#&gt; [153] &quot;unfound_mtr_veh_theft_truck&quot;    &quot;unfound_mtr_veh_theft_other&quot;   </span></span>
+<span id="cb394-79"><a href="ucr.html#cb394-79"></a><span class="co">#&gt; [155] &quot;unfound_all_crimes&quot;             &quot;unfound_assault_aggravated&quot;    </span></span>
+<span id="cb394-80"><a href="ucr.html#cb394-80"></a><span class="co">#&gt; [157] &quot;unfound_index_violent&quot;          &quot;unfound_index_property&quot;        </span></span>
+<span id="cb394-81"><a href="ucr.html#cb394-81"></a><span class="co">#&gt; [159] &quot;unfound_index_total&quot;</span></span></code></pre></div>
 <p>We can see this is a very big file - 159 columns and nearly a million rows! Normally we’d use the <code>head()</code> function to see the first 6 rows of every column but since this data has so many columns we won’t do that as it’d be hard to read. Instead we can use <code>View()</code> to open what’s essentially an Excel file showing our data. This is useful to quickly glance at the data but is limited as it can bias us to believe that the first several rows are representative of the data (an issue also present with <code>head()</code>). But, for a first glance it is useful and will be supplemented by better checks below.</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="ucr.html#cb392-1"></a><span class="kw">View</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ucr.html#cb395-1"></a><span class="kw">View</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span>)</span></code></pre></div>
 <p>From looking at the data in <code>View()</code> we can see that the units are agency-years. Each row is a single agency for a single year. This is useful because it tells us we will have crime in agencies over time, which is a very common unit of crime data. Let’s take a look at how many agencies report each year using the <code>table()</code> function which says how many times each value occurs for the column we select. This is also a useful check on if every year from 1960 to 2017 is actually available - don’t just trust that the data has what it says it has!</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="ucr.html#cb393-1"></a><span class="kw">table</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>year)</span>
-<span id="cb393-2"><a href="ucr.html#cb393-2"></a><span class="co">#&gt; </span></span>
-<span id="cb393-3"><a href="ucr.html#cb393-3"></a><span class="co">#&gt;  1960  1961  1962  1963  1964  1965  1966  1967  1968  1969  1970  1971  1972 </span></span>
-<span id="cb393-4"><a href="ucr.html#cb393-4"></a><span class="co">#&gt;  8452  8456  7825  8713  9038  9097  9147  9275  9398  9477  9835 10509 11302 </span></span>
-<span id="cb393-5"><a href="ucr.html#cb393-5"></a><span class="co">#&gt;  1973  1974  1975  1976  1977  1978  1979  1980  1981  1982  1983  1984  1985 </span></span>
-<span id="cb393-6"><a href="ucr.html#cb393-6"></a><span class="co">#&gt; 12002 12510 13516 14518 15230 15770 16176 16413 16614 16792 16913 17037 17267 </span></span>
-<span id="cb393-7"><a href="ucr.html#cb393-7"></a><span class="co">#&gt;  1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998 </span></span>
-<span id="cb393-8"><a href="ucr.html#cb393-8"></a><span class="co">#&gt; 17441 17527 17298 17430 17608 17852 18012 18195 18367 18482 18536 18921 18510 </span></span>
-<span id="cb393-9"><a href="ucr.html#cb393-9"></a><span class="co">#&gt;  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011 </span></span>
-<span id="cb393-10"><a href="ucr.html#cb393-10"></a><span class="co">#&gt; 18778 19655 19820 20214 20388 20585 20739 21011 21219 21353 21583 21771 21897 </span></span>
-<span id="cb393-11"><a href="ucr.html#cb393-11"></a><span class="co">#&gt;  2012  2013  2014  2015  2016  2017 </span></span>
-<span id="cb393-12"><a href="ucr.html#cb393-12"></a><span class="co">#&gt; 22049 22202 22332 22524 22645 22784</span></span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="ucr.html#cb396-1"></a><span class="kw">table</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>year)</span>
+<span id="cb396-2"><a href="ucr.html#cb396-2"></a><span class="co">#&gt; </span></span>
+<span id="cb396-3"><a href="ucr.html#cb396-3"></a><span class="co">#&gt;  1960  1961  1962  1963  1964  1965  1966  1967  1968  1969  1970  1971  1972 </span></span>
+<span id="cb396-4"><a href="ucr.html#cb396-4"></a><span class="co">#&gt;  8452  8456  7825  8713  9038  9097  9147  9275  9398  9477  9835 10509 11302 </span></span>
+<span id="cb396-5"><a href="ucr.html#cb396-5"></a><span class="co">#&gt;  1973  1974  1975  1976  1977  1978  1979  1980  1981  1982  1983  1984  1985 </span></span>
+<span id="cb396-6"><a href="ucr.html#cb396-6"></a><span class="co">#&gt; 12002 12510 13516 14518 15230 15770 16176 16413 16614 16792 16913 17037 17267 </span></span>
+<span id="cb396-7"><a href="ucr.html#cb396-7"></a><span class="co">#&gt;  1986  1987  1988  1989  1990  1991  1992  1993  1994  1995  1996  1997  1998 </span></span>
+<span id="cb396-8"><a href="ucr.html#cb396-8"></a><span class="co">#&gt; 17441 17527 17298 17430 17608 17852 18012 18195 18367 18482 18536 18921 18510 </span></span>
+<span id="cb396-9"><a href="ucr.html#cb396-9"></a><span class="co">#&gt;  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011 </span></span>
+<span id="cb396-10"><a href="ucr.html#cb396-10"></a><span class="co">#&gt; 18778 19655 19820 20214 20388 20585 20739 21011 21219 21353 21583 21771 21897 </span></span>
+<span id="cb396-11"><a href="ucr.html#cb396-11"></a><span class="co">#&gt;  2012  2013  2014  2015  2016  2017 </span></span>
+<span id="cb396-12"><a href="ucr.html#cb396-12"></a><span class="co">#&gt; 22049 22202 22332 22524 22645 22784</span></span></code></pre></div>
 <p>From these results it’s clear that there are huge differences in how many agencies report in early years compared to more recent years. Is this an issue in an analysis? From the above table it is concerning but not entirely clear there is an issue depending on our specific analysis. It we only care about recent years then it wouldn’t matter. If we only use large agencies, then knowing that relatively few agencies reported in 1960 doesn’t mean that few large agencies reported. For that you’d have to look closer at only the agencies you want to study - we won’t do that here but keep it in mind.</p>
 </div>
 <div id="oris---unique-agency-identifiers" class="section level2" number="23.2">
 <h2><span class="header-section-number">23.2</span> ORIs - Unique agency identifiers</h2>
 <p>In the UCR and other FBI data sets, agencies are identified using <strong>OR</strong>iginating Agency <strong>I</strong>dentifiers or ORIs. These are unique ID codes used to identify an agency. If we used the agency’s name we’d end up with some duplicates For example, if you looked for the Philadelphia Police Department using the agency name, you’d find both the “Philadelphia Police Department” in Pennsylvania and the one in Mississippi.</p>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="ucr.html#cb394-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>ori)</span>
-<span id="cb394-2"><a href="ucr.html#cb394-2"></a><span class="co">#&gt; [1] &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="ucr.html#cb397-1"></a><span class="kw">head</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>ori)</span>
+<span id="cb397-2"><a href="ucr.html#cb397-2"></a><span class="co">#&gt; [1] &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot; &quot;AK00101&quot;</span></span></code></pre></div>
 <p>Each ORI is a 7-digit value starting with the state abbreviation (for some reason the FBI incorrectly puts the abbreviation for Nebraska as NB instead of NE) followed by 5 numbers. In the NIBRS data (another FBI data set) the ORI uses a 9-digit code - expanding the 5 numbers to 7 numbers. When dealing with specific agencies, make sure to use the ORI rather than the agency name to avoid any mistakes.</p>
 <p>For an easy way to find the ORI number of an agency, use this <a href="http://crimedatatool.com/crosswalk.html">site</a>. Type an agency name or an ORI code into the search section and it will return everything that is a match.</p>
 </div>
@@ -686,12 +682,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="number-of-months-reported" class="section level2" number="23.6">
 <h2><span class="header-section-number">23.6</span> Number of months reported</h2>
 <p>UCR data is reported monthly though even agencies that decide to report their data may not do so every month. As we don’t want to compare an agency which reports 12 months to one that reports fewer, the variable <em>number_of_months_reported</em> is way keep only agencies that report 12 months, or deal with those that report fewer.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="ucr.html#cb395-1"></a><span class="kw">table</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>number_of_months_reported)</span>
-<span id="cb395-2"><a href="ucr.html#cb395-2"></a><span class="co">#&gt; </span></span>
-<span id="cb395-3"><a href="ucr.html#cb395-3"></a><span class="co">#&gt;      0      1      2      3      4      5      6      7      8      9     10 </span></span>
-<span id="cb395-4"><a href="ucr.html#cb395-4"></a><span class="co">#&gt; 229843   2514   2522   2926   2633   2875   3876   3350   4013   4693   6416 </span></span>
-<span id="cb395-5"><a href="ucr.html#cb395-5"></a><span class="co">#&gt;     11     12 </span></span>
-<span id="cb395-6"><a href="ucr.html#cb395-6"></a><span class="co">#&gt;  14940 678409</span></span></code></pre></div>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="ucr.html#cb398-1"></a><span class="kw">table</span>(offenses_known_yearly_<span class="dv">1960</span>_<span class="dv">2017</span><span class="op">$</span>number_of_months_reported)</span>
+<span id="cb398-2"><a href="ucr.html#cb398-2"></a><span class="co">#&gt; </span></span>
+<span id="cb398-3"><a href="ucr.html#cb398-3"></a><span class="co">#&gt;      0      1      2      3      4      5      6      7      8      9     10 </span></span>
+<span id="cb398-4"><a href="ucr.html#cb398-4"></a><span class="co">#&gt; 229843   2514   2522   2926   2633   2875   3876   3350   4013   4693   6416 </span></span>
+<span id="cb398-5"><a href="ucr.html#cb398-5"></a><span class="co">#&gt;     11     12 </span></span>
+<span id="cb398-6"><a href="ucr.html#cb398-6"></a><span class="co">#&gt;  14940 678409</span></span></code></pre></div>
 <p>From our <code>table()</code> output it seems that when agencies do report, they tend to do so for all 12 months of the year. However, this variable is seriously flawed, and its name is quite misleading. In reality this variable is actually just whichever the last month reported was. If an agency reported every month of the year, meaning December is the last month, they would have a value of 12. If the agency <strong>only</strong> reported in December, they would also have a value of 12. While there are ways in the monthly data to measure actual number of months reported, these ways are also flawed. So be cautious about this data and particularly the value of this variable.</p>
 
 </div>

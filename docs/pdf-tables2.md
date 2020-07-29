@@ -553,7 +553,7 @@ If you're reading the code carefully, you might have notices that I only wrote n
 
 
 ```r
-x[c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE)]
+x[TRUE]
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 ```
 
