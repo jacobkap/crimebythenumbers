@@ -118,7 +118,7 @@
 
 \title{Crime by the Numbers}
 \author{Jacob Kaplan}
-\date{2020-07-28}
+\date{2020-07-29}
 
 \begin{document}
 \maketitle
@@ -3119,8 +3119,8 @@ Some useful types of graphs are
   \texttt{geom\_bar()} - A barplot
 \end{itemize}
 
-\hypertarget{timeplots}{%
-\section{Time-Series Plots}\label{timeplots}}
+\hypertarget{time-series-plots}{%
+\section{Time-Series Plots}\label{time-series-plots}}
 
 Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing crime rates over time, this is the type of graph you're looking at.
 
@@ -3401,13 +3401,13 @@ Now that we have the data read in, let's look at it.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{nrow}\NormalTok{(shootings)}
-\CommentTok{\#> [1] 5480}
+\CommentTok{\#> [1] 5489}
 \KeywordTok{ncol}\NormalTok{(shootings)}
 \CommentTok{\#> [1] 14}
 \end{Highlighting}
 \end{Shaded}
 
-The data has 14 variables and covers 5480 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
+The data has 14 variables and covers 5489 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3442,10 +3442,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 \begin{Highlighting}[]
 \KeywordTok{summary}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{date)}
 \CommentTok{\#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. }
-\CommentTok{\#> "2015{-}01{-}02" "2016{-}05{-}20" "2017{-}10{-}16" "2017{-}10{-}10" "2019{-}03{-}04" "2020{-}07{-}20"}
+\CommentTok{\#> "2015{-}01{-}02" "2016{-}05{-}21" "2017{-}10{-}19" "2017{-}10{-}12" "2019{-}03{-}05" "2020{-}07{-}28"}
 \KeywordTok{summary}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{age)}
 \CommentTok{\#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA\textquotesingle{}s }
-\CommentTok{\#>    6.00   27.00   35.00   37.12   46.00   91.00     237}
+\CommentTok{\#>    6.00   27.00   35.00   37.12   46.00   91.00     241}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3456,7 +3456,7 @@ From this we can see that the data is from early January through about a week ag
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{manner\_of\_death)}
 \CommentTok{\#> }
 \CommentTok{\#>             shot shot and Tasered }
-\CommentTok{\#>             5206              274}
+\CommentTok{\#>             5215              274}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3467,7 +3467,7 @@ To turn these counts into percentages we can divide the results by the number of
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{manner\_of\_death) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
 \CommentTok{\#>             shot shot and Tasered }
-\CommentTok{\#>               95                5}
+\CommentTok{\#>        95.008198         4.991802}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3478,99 +3478,99 @@ Now it is clear to see that in about 95\% of shootings, officers used a gun and 
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{armed) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
 \CommentTok{\#>                  air conditioner                       air pistol }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                   Airsoft pistol                               ax }
-\CommentTok{\#>                       0.01824818                       0.43795620 }
+\CommentTok{\#>                       0.01821825                       0.43723811 }
 \CommentTok{\#>                         barstool                     baseball bat }
-\CommentTok{\#>                       0.01824818                       0.32846715 }
+\CommentTok{\#>                       0.01821825                       0.32792858 }
 \CommentTok{\#>          baseball bat and bottle baseball bat and fireplace poker }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>           baseball bat and knife                            baton }
-\CommentTok{\#>                       0.01824818                       0.09124088 }
+\CommentTok{\#>                       0.01821825                       0.09109127 }
 \CommentTok{\#>                          bayonet                           BB gun }
-\CommentTok{\#>                       0.01824818                       0.09124088 }
+\CommentTok{\#>                       0.01821825                       0.09109127 }
 \CommentTok{\#>               BB gun and vehicle                     bean{-}bag gun }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                      beer bottle                     blunt object }
-\CommentTok{\#>                       0.05474453                       0.09124088 }
+\CommentTok{\#>                       0.05465476                       0.09109127 }
 \CommentTok{\#>                    bow and arrow                       box cutter }
-\CommentTok{\#>                       0.01824818                       0.21897810 }
+\CommentTok{\#>                       0.01821825                       0.21861906 }
 \CommentTok{\#>                            brick              car, knife and mace }
-\CommentTok{\#>                       0.03649635                       0.01824818 }
+\CommentTok{\#>                       0.03643651                       0.01821825 }
 \CommentTok{\#>                          carjack                            chain }
-\CommentTok{\#>                       0.01824818                       0.05474453 }
+\CommentTok{\#>                       0.01821825                       0.05465476 }
 \CommentTok{\#>                        chain saw                         chainsaw }
-\CommentTok{\#>                       0.03649635                       0.01824818 }
+\CommentTok{\#>                       0.03643651                       0.01821825 }
 \CommentTok{\#>                            chair              claimed to be armed }
-\CommentTok{\#>                       0.07299270                       0.01824818 }
+\CommentTok{\#>                       0.07287302                       0.01821825 }
 \CommentTok{\#>               contractor\textquotesingle{}s level                   cordless drill }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                         crossbow                          crowbar }
-\CommentTok{\#>                       0.16423358                       0.07299270 }
+\CommentTok{\#>                       0.16396429                       0.07287302 }
 \CommentTok{\#>                        fireworks                         flagpole }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                       flashlight                      garden tool }
-\CommentTok{\#>                       0.03649635                       0.03649635 }
+\CommentTok{\#>                       0.03643651                       0.03643651 }
 \CommentTok{\#>                      glass shard                          grenade }
-\CommentTok{\#>                       0.05474453                       0.01824818 }
+\CommentTok{\#>                       0.05465476                       0.01821825 }
 \CommentTok{\#>                              gun                      gun and car }
-\CommentTok{\#>                      56.60583942                       0.20072993 }
+\CommentTok{\#>                      56.64055383                       0.20040080 }
 \CommentTok{\#>                    gun and knife                    gun and sword }
-\CommentTok{\#>                       0.31021898                       0.01824818 }
+\CommentTok{\#>                       0.30971033                       0.01821825 }
 \CommentTok{\#>                  gun and vehicle              guns and explosives }
-\CommentTok{\#>                       0.18248175                       0.05474453 }
+\CommentTok{\#>                       0.18218255                       0.05465476 }
 \CommentTok{\#>                           hammer                       hand torch }
-\CommentTok{\#>                       0.29197080                       0.01824818 }
+\CommentTok{\#>                       0.29149208                       0.01821825 }
 \CommentTok{\#>                          hatchet                  hatchet and gun }
-\CommentTok{\#>                       0.20072993                       0.03649635 }
+\CommentTok{\#>                       0.20040080                       0.03643651 }
 \CommentTok{\#>                         ice pick                incendiary device }
-\CommentTok{\#>                       0.01824818                       0.03649635 }
+\CommentTok{\#>                       0.01821825                       0.03643651 }
 \CommentTok{\#>                            knife                 lawn mower blade }
-\CommentTok{\#>                      14.65328467                       0.03649635 }
+\CommentTok{\#>                      14.64747677                       0.03643651 }
 \CommentTok{\#>                          machete                  machete and gun }
-\CommentTok{\#>                       0.82116788                       0.01824818 }
+\CommentTok{\#>                       0.81982146                       0.01821825 }
 \CommentTok{\#>                     meat cleaver                  metal hand tool }
-\CommentTok{\#>                       0.09124088                       0.01824818 }
+\CommentTok{\#>                       0.09109127                       0.01821825 }
 \CommentTok{\#>                     metal object                       metal pipe }
-\CommentTok{\#>                       0.07299270                       0.23722628 }
+\CommentTok{\#>                       0.07287302                       0.23683731 }
 \CommentTok{\#>                       metal pole                       metal rake }
-\CommentTok{\#>                       0.05474453                       0.01824818 }
+\CommentTok{\#>                       0.05465476                       0.01821825 }
 \CommentTok{\#>                      metal stick                       motorcycle }
-\CommentTok{\#>                       0.05474453                       0.01824818 }
+\CommentTok{\#>                       0.05465476                       0.01821825 }
 \CommentTok{\#>                         nail gun                              oar }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                       pellet gun                              pen }
-\CommentTok{\#>                       0.05474453                       0.01824818 }
+\CommentTok{\#>                       0.05465476                       0.01821825 }
 \CommentTok{\#>                     pepper spray                         pick{-}axe }
-\CommentTok{\#>                       0.01824818                       0.07299270 }
+\CommentTok{\#>                       0.01821825                       0.07287302 }
 \CommentTok{\#>                    piece of wood                             pipe }
-\CommentTok{\#>                       0.09124088                       0.10948905 }
+\CommentTok{\#>                       0.09109127                       0.10930953 }
 \CommentTok{\#>                        pitchfork                             pole }
-\CommentTok{\#>                       0.03649635                       0.03649635 }
+\CommentTok{\#>                       0.03643651                       0.03643651 }
 \CommentTok{\#>                   pole and knife                             rock }
-\CommentTok{\#>                       0.03649635                       0.10948905 }
+\CommentTok{\#>                       0.03643651                       0.10930953 }
 \CommentTok{\#>                    samurai sword                         scissors }
-\CommentTok{\#>                       0.05474453                       0.12773723 }
+\CommentTok{\#>                       0.05465476                       0.12752778 }
 \CommentTok{\#>                      screwdriver                     sharp object }
-\CommentTok{\#>                       0.23722628                       0.23722628 }
+\CommentTok{\#>                       0.23683731                       0.23683731 }
 \CommentTok{\#>                           shovel                            spear }
-\CommentTok{\#>                       0.10948905                       0.01824818 }
+\CommentTok{\#>                       0.10930953                       0.01821825 }
 \CommentTok{\#>                          stapler              straight edge razor }
-\CommentTok{\#>                       0.01824818                       0.07299270 }
+\CommentTok{\#>                       0.01821825                       0.07287302 }
 \CommentTok{\#>                            sword                            Taser }
-\CommentTok{\#>                       0.40145985                       0.47445255 }
+\CommentTok{\#>                       0.40080160                       0.47367462 }
 \CommentTok{\#>                        tire iron                       toy weapon }
-\CommentTok{\#>                       0.01824818                       3.50364964 }
+\CommentTok{\#>                       0.01821825                       3.49790490 }
 \CommentTok{\#>                          unarmed                     undetermined }
-\CommentTok{\#>                       6.45985401                       3.02919708 }
+\CommentTok{\#>                       6.44926216                       3.04244853 }
 \CommentTok{\#>                   unknown weapon                          vehicle }
-\CommentTok{\#>                       1.44160584                       2.84671533 }
+\CommentTok{\#>                       1.43924212                       2.84204773 }
 \CommentTok{\#>                  vehicle and gun              vehicle and machete }
-\CommentTok{\#>                       0.07299270                       0.01824818 }
+\CommentTok{\#>                       0.07287302                       0.01821825 }
 \CommentTok{\#>                    walking stick                       wasp spray }
-\CommentTok{\#>                       0.01824818                       0.01824818 }
+\CommentTok{\#>                       0.01821825                       0.01821825 }
 \CommentTok{\#>                           wrench }
-\CommentTok{\#>                       0.01824818}
+\CommentTok{\#>                       0.01821825}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3584,11 +3584,11 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \NormalTok{temp}
 \CommentTok{\#> }
 \CommentTok{\#>                              gun                            knife }
-\CommentTok{\#>                            56.61                            14.65 }
+\CommentTok{\#>                            56.64                            14.65 }
 \CommentTok{\#>                          unarmed                       toy weapon }
-\CommentTok{\#>                             6.46                             3.50 }
+\CommentTok{\#>                             6.45                             3.50 }
 \CommentTok{\#>                     undetermined                          vehicle }
-\CommentTok{\#>                             3.03                             2.85 }
+\CommentTok{\#>                             3.04                             2.84 }
 \CommentTok{\#>                   unknown weapon                          machete }
 \CommentTok{\#>                             1.44                             0.82 }
 \CommentTok{\#>                            Taser                               ax }
@@ -3691,7 +3691,7 @@ Let's keep exploring the data by looking at gender and race.
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{gender) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
 \CommentTok{\#>         F         M }
-\CommentTok{\#>  4.434307 95.547445}
+\CommentTok{\#>  4.445254 95.536528}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3705,7 +3705,7 @@ Nearly all of the shootings are of a man. Given that we saw most shootings invol
 \NormalTok{temp}
 \CommentTok{\#> }
 \CommentTok{\#>     O     N     A     H     B     W }
-\CommentTok{\#>  0.88  1.42  1.72 16.61 23.80 45.62}
+\CommentTok{\#>  0.87  1.42  1.71 16.58 23.77 45.58}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3746,7 +3746,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{()}
 \CommentTok{\#> \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3758,7 +3758,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{15}\NormalTok{)}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3768,7 +3768,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{45}\NormalTok{)}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3783,7 +3783,7 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ (..count..)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(..count..)))}
 \CommentTok{\#> \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3792,13 +3792,13 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 \hypertarget{density-plot}{%
 \subsection{Density plot}\label{density-plot}}
 
-Density plots are essentially smoothed versions of histograms. They're especially useful for numeric variables which are not integers (integers are whole numbers). They're also useful when you want to be more precise than a histogram as they are - to simplify - histograms where each bar is very narrow. Note that the y-axis of a histogram is automatically labeled ``density'' and has very small numbers. Interpreting the y-axis is fairly hard to explain to someone not familiar with statistics so I'd caution against using this graph unless your audience is already familiar with it.
+Density plots are essentially smoothed versions of histograms. They're especially useful for numeric variables which are not integers (integers are whole numbers). They're also useful when you want to be more precise than a histogram as they are - to simplify - histograms where each bar is very narrow. Note that the y-axis of a density plot is automatically labeled ``density'' and has very small numbers. Interpreting the y-axis is fairly hard to explain to someone not familiar with statistics so I'd caution against using this graph unless your audience is already familiar with it. To interpret these kinds of graphs, I recommend looking for trends rather than trying to identify specific points. For example, in the below graph we can see that shootings rise rapidly starting around age 10, peak at around age 30 (if we were presenting this graph to others we'd probably want more ages shown on the x-axis), and then steadily decline until about age 80 where it's nearly flat.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_density}\NormalTok{()}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_density).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_density).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3813,7 +3813,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{stat\_count}\NormalTok{()}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3825,7 +3825,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{stat\_count}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ (..count..)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(..count..)))}
-\CommentTok{\#> Warning: Removed 237 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3855,7 +3855,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race)}
 \CommentTok{\#> }
 \CommentTok{\#>    A    B    H    N    O    W }
-\CommentTok{\#>   94 1304  910   78   48 2500}
+\CommentTok{\#>   94 1305  910   78   48 2502}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3866,7 +3866,7 @@ It's still alphabetical so let's wrap that in a \texttt{sort()} function.
 \KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race))}
 \CommentTok{\#> }
 \CommentTok{\#>    O    N    A    H    B    W }
-\CommentTok{\#>   48   78   94  910 1304 2500}
+\CommentTok{\#>   48   78   94  910 1305 2502}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3877,7 +3877,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 \KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race), }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{)}
 \CommentTok{\#> }
 \CommentTok{\#>    W    B    H    A    N    O }
-\CommentTok{\#> 2500 1304  910   94   78   48}
+\CommentTok{\#> 2502 1305  910   94   78   48}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3989,9 +3989,9 @@ As earlier, we can show percentage instead of count by adding \texttt{y\ =\ (..c
 \hypertarget{graphing-data-over-time}{%
 \section{Graphing Data Over Time}\label{graphing-data-over-time}}
 
-We went over time-series graphs in Chapter @ref(\#graphing-intro) but it's such an important topic we'll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome, in this case numbers of killings, over time. In our case we aren't evaluating any policy, just seeing if the number of police killings change over time.
+We went over time-series graphs in Chapter \ref{graphing-intro} but it's such an important topic we'll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome, in this case numbers of killings, over time. In our case we aren't evaluating any policy, just seeing if the number of police killings change over time.
 
-We'll need to make a variable to indicate that the row is for one shooting. We can call this ``dummy'' and assign it a value of 1. Then we can make the \texttt{ggplot()} and set this ``dummy'' column to the y-axis value and set our date variable ``date'' to the x-axis (the time variable is \textbf{always} on the x-axis). Then we'll set the type of plot to \texttt{geom\_line()} to we have a line graph showing killings over time.
+We'll need to make a variable to indicate that the row is for one shooting. We can call this ``dummy'' and assign it a value of 1. Then we can make the \texttt{ggplot()} and set this ``dummy'' column to the y-axis value and set our date variable ``date'' to the x-axis (the time variable is \textbf{always} on the x-axis). Then we'll set the type of plot to \texttt{geom\_line()} so we have a line graph showing killings over time.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7811,7 +7811,7 @@ To finish this lesson we want to save the \emph{marijuana} data.frame. We'll use
 
 If you're familiar with cooking you might have heard the phrase \href{https://en.wikipedia.org/wiki/Mise_en_place}{\emph{mise en place}} which is French for ``everything in its place''. In cooking this concept means that you get everything - ingredients, pots, pans, bowls, utensils, etc. - needed to cook that item ready before you begin cooking. This saves time as you have everything you need in front of you and can just cook from start to finish without stopping to find something. This is also a useful idea in programming, especially when you're programming to conduct research.
 
-In this section of the book, we'll cover how to get \emph{mise en place} for your programming projects. First, we'll go over how the best (in my opinion and particularly suited for research projects. Please modify my methods to suit your own needs and preferences) way to organize your folders, data, and code. We'll also cover some ways to start working on the project by hand, before writing any code. In the next few chapters we'll cover collaborating with other people (including yourself in the future who, in all likelihood, will forget a lot of the code you wrote), testing your code, and using the version control software Git.
+In this section of the book, we'll cover how to get \emph{mise en place} for your programming projects. First, we'll go over what is, in my opinion, the best way to organize your folders, data, and code. This method is particularly suited for research projects, so please feel free to modify my methods to suit your own needs and preferences. We'll also cover some ways to start working on the project by hand, before writing any code. In the next few chapters we'll cover collaborating with other people (including yourself in the future who, in all likelihood, will forget a lot of the code you wrote), testing your code, and using the version control software Git.
 
 \hypertarget{starting-with-a-pencil-and-paper}{%
 \section{Starting with a pencil and paper}\label{starting-with-a-pencil-and-paper}}
@@ -7825,9 +7825,9 @@ And second, from my experience helping people at Penn with R, people - especiall
 \hypertarget{tables-and-graphs}{%
 \subsection{Tables and graphs}\label{tables-and-graphs}}
 
-One of the biggest challenges I had early in my PhD was figuring our what data was supposed to look like. I mean that literally. My first research project was analyzing if monthly crime in school buildings changed after a new policy was instituted that increased building security. The data I had available was incident-level so one row for every crime at the school, and I needed to convert it to the building-month level. The code for this is just to run \texttt{aggregate()} on the incident-level data and aggregate the data to building-month units. For some reason I just couldn't think of the proper way for my data to be appear in the final data set which prevented me from figuring out what I needed to do. One solution to this - and useful even if you don't have this problem - is to draw out the graphs and tables you want before starting the code. Like writing out the steps for the code, drawing the will help you understand exactly how your data needs to look - and thus what code you need to write - for these graphs.
+One of the biggest challenges I had early in my PhD was figuring our what data was supposed to look like. I mean that literally. My first research project was analyzing if monthly crime in school buildings changed after a new policy was instituted that increased building security. The data I had available was incident-level so one row for every crime at the school, and I needed to convert it to the building-month level. The code for this is just to run \texttt{aggregate()} on the incident-level data and aggregate the data to building-month units. For some reason I just couldn't think of the proper way for my data to appear in the final data set which prevented me from figuring out what I needed to do. One solution to this - and useful even if you don't have this problem - is to draw out the graphs and tables you want before starting the code. Like writing out the steps for the code, drawing the graph will help you understand exactly how your data needs to look - and thus what code you need to write - for these graphs.
 
-Below are two images from a recent project of mine with the tables and graphs that I wanted (and are fairly similar to the actual results though not quite) sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren't chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out help you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, for the US Census). If we continue our example of using the US Border Patrol data, this means that you'll also need to grab, clean, and merge Census data to your other datasets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you'll need to do for the project, but may have not thought of.
+Below are two images from a recent project of mine with the tables and graphs that I wanted sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren't chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out help you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, for the US Census). If we continue our example of using the US Border Patrol data, this means that you'll also need to grab, clean, and merge Census data to your other datasets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you'll need to do for the project, but may have not thought of.
 
 \includegraphics{images/paper_table.png}
 
@@ -7842,21 +7842,21 @@ We've talked about projects in an abstract sense - that they are research papers
 
 First, we'll explain how to set up an R Project through R Studio, and why you would want to do it. There are two main reasons to want to use an R Project. First, throughout this book I had you set your working directory so that R knew where to look for a particular file. In R Projects, by default the working directory is in that project's folder. So if you had a file \texttt{example.csv} in your project folder, you wouldn't need to set a working directory since R would already be looking that. This may be a minor time-saving method if you're working alone since you'd only need to set the working directory once when not using an R Project. But consider if you're collaborating with three people and you've shared your code. When using an R Project, it just runs. There is no figuring out what the issue is - and determining what the issue is will take them longer than setting the working directory itself. Second, it provides easy access to using the version control software Git, which we'll talk about in detail in Chapter \ref{git}.
 
-To make an R Project, start by clicking the \emph{File} button on the top left corner of RStudio and then click \emph{New Project}. This will open up a window that that three options: New Directory, Existing Directory, and Version Control. New Directory says that the project we are making is going to be in a brand new folder that we're (R will do this automatically) going to create. This is the one you'll click on in the majority of cases. Existing Directory is for making a folder in an existing folder, which doesn't have too many useful cases. The Version Control is taking a project that someone else has created and downloading it to your computer. We'll cover this more in Chapter \ref{git}.
+To make an R Project, start by clicking the \emph{File} button on the top left corner of RStudio and then click \emph{New Project}. This will open up a window that has three options: New Directory, Existing Directory, and Version Control. New Directory says that the project we are making is going to be in a brand new folder that we're (R will do this automatically) going to create. This is the one you'll click on in the majority of cases. Existing Directory is for making a folder in an existing folder, which doesn't have too many useful cases. The Version Control is taking a project that someone else has created and downloading it to your computer. We'll cover this more in Chapter \ref{git}.
 
 \includegraphics{images/new_project_1.PNG}
 
-Once you've clicked New Directory, it'll change the window to ask you what type of project you want. The below two figures show all the different types of projects R can make (installing some R packages such as \texttt{bookdown} can add more types of projects to this list). R is very versatile and has project types expending from the standard R Project to books and websites. We just want a standard project so click the New Project button at the top.
+Once you've clicked New Directory, it'll change the window to ask you what type of project you want. The below two figures show all the different types of projects R can make (installing some R packages such as \texttt{bookdown} can add more types of projects to this list). R is very versatile and has project types ranging from the standard R Project to books and websites. We just want a standard project so click the New Project button at the top.
 
 \includegraphics{images/new_project_2.PNG}
 
 \includegraphics{images/new_project_3.PNG}
 
-Now it'll have a window that says Create New Project up top. In the Directory name: section you write the name of your R Project. Keep this short and (though not required) follow normal R naming conventions such as all lowercase letters and underscores separating words. This will be the name of your folder so you want it descriptive enough to understand (and for collaborators to understand) what it is for, without being overly long. Once you have a name you can click the Browse\ldots{} button on the right and go to the folder on your computer where you want to put this folder (ideally you'll put it in a folder which is backed up by something like Dropbox). Make sue the \emph{Create a git repository} checkbox is selected, and we'll explain why in Chapter \ref{git}. Click Create Project and R will make the project folder on your computer and open that project in RStudio.
+Now it'll have a window that says Create New Project up top. In the Directory name: section you write the name of your R Project. Keep this short and (though not required) follow normal R naming conventions such as all lowercase letters and underscores separating words. This will be the name of your folder so you want it descriptive enough to understand (and for collaborators to understand) what it is for, without being overly long. Once you have a name you can click the Browse\ldots{} button on the right and go to the folder on your computer where you want to put this folder (ideally you'll put it in a folder which is backed up by something like Dropbox). Make sure the \emph{Create a git repository} checkbox is selected, and we'll explain why in Chapter \ref{git}. Click Create Project and R will make the project folder on your computer and open that project in RStudio.
 
 \includegraphics{images/new_project_4.PNG}
 
-Below are images of a brand new R Project that I made called \emph{example} that I put in my Desktop folder. The folder is now empty except for two files - .gitignore (which we won't talk about here) and \emph{example} which is type ``R Project'' (and the full name would be \emph{example.Rproj}). The is a \textbf{very} important file. Note that its name is the same as the R Project name that I made, and the same as the folder name on my computer. This file is essentially a shortcut that you click to open that R Project. It doesn't do anything more than open the R Project but this is the way you'll access the project every time you want to use it. Double-click this and the Project will open.
+Below are images of a brand new R Project that I made called \emph{example} that I put in my Desktop folder. The folder is now empty except for two files - .gitignore (which we won't talk about here) and \emph{example} which is type ``R Project'' (and the full name would be \emph{example.Rproj}). This is a \textbf{very} important file. Note that its name is the same as the R Project name that I made, and the same as the folder name on my computer. This file is essentially a shortcut that you click to open that R Project. It doesn't do anything more than open the R Project but this is the way you'll access the project every time you want to use it. Double-click this and the Project will open.
 
 \includegraphics{images/new_project_6.PNG}
 
@@ -7871,9 +7871,9 @@ Now that we have the R Project made, we need to start adding some R code and dat
 
 \includegraphics{images/new_project_7.PNG}
 
-I've added five folders to the R Project folder: analysis, articles, data, drafts, and R (note that I moved it to the Downloads folder, and if I opened the project RStudio would know where the new working directory was). I tend to do my analysis using Stata (primarily because most of my co-authors use Stata instead of R so this is a way we can both work on the analysis) so in this folder I'd keep all of the .do (Stata) files to run the regressions. In articles, I put PDFs of every article I read that I use (or planned to use while reading it) for the paper I'm working on in this project. It's good to keep this organized to share with co-authors or just to easy reference after you've read it. It certainly takes time to find good sources for a lot of research, so you don't want to have to search against because you've forgotten which article you had a particular reference from or that was important to your study. While I recommend writing your papers in R Markdown (see Chapter \ref{r-markdown}), you will need to create drafts of the paper to send to others (e.g.~your collaborators or journals). The ``drafts'' folder is a good place to keep these versions - some journals require that you submit a Word Document with track-changes for a revise and resubmit so you will need to leave R Markdown occasionally to comply with these rules.
+I've added five folders to the R Project folder: analysis, articles, data, drafts, and R (note that I moved it to the Downloads folder, and if I opened the project RStudio would know where the new working directory was). I tend to do my analysis using Stata (primarily because most of my co-authors use Stata instead of R so this is a way we can both work on the analysis) so in this folder I'd keep all of the .do (Stata) files to run the regressions. In articles, I put PDFs of every article I read that I use (or planned to use while reading it) for the paper I'm working on in this project. It's good to keep this organized to share with co-authors or just to easy reference after you've read it. It certainly takes time to find good sources for a lot of research, so you don't want to have to search again because you've forgotten which article you had a particular reference from or that was important to your study. While I recommend writing your papers in R Markdown (see Chapter \ref{r-markdown}), you will need to create drafts of the paper to send to others (e.g.~your collaborators or journals). The ``drafts'' folder is a good place to keep these versions - some journals require that you submit a Word Document with track-changes for a revise and resubmit so you will need to leave R Markdown occasionally to comply with these rules.
 
-The final two important folders are ``R'' and ``data''. In the R folder - as you may have guessed - belong that various R scripts that you write during the project. In Section \ref{modular-r-scripts}, we'll talk in detail as to how to organize these scripts. Inside the ``data'' folder I made two subfolders: ``raw'' and ``clean''. The raw folder is where you'll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn't necessary). This folder will have, for example, the PDFs that you intend to scrape, and the .csv files downloaded from a different source. It is important to keep this data always unchanged (change only in your R code and save the output to a new file) so you can replicate your results from the original data. In the clean data is that final data output from your work to clean and manipulate (e.g.~subset, aggregate) the data. It isn't strictly necessary to even output a final dataset - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but I think it is important both for safekeeping and to be able to share with others. If you collaborate with people, you'll want to be able to send them the data so they can examine it without having to run all of your code themselves.
+The final two important folders are ``R'' and ``data''. In the R folder - as you may have guessed - belong the various R scripts that you write during the project. In Section \ref{modular-r-scripts}, we'll talk in detail as to how to organize these scripts. Inside the ``data'' folder I made two subfolders: ``raw'' and ``clean''. The raw folder is where you'll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn't necessary). This folder will have, for example, the PDFs that you intend to scrape, and the .csv files downloaded from a different source. It is important to keep this data always unchanged (change only in your R code and save the output to a new file) so you can replicate your results from the original data. In the clean data is that final data output from your work to clean and manipulate (e.g.~subset, aggregate) the data. It isn't strictly necessary to even output a final dataset - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but I think it is important both for safekeeping and to be able to share with others. If you collaborate with people, you'll want to be able to send them the data so they can examine it without having to run all of your code themselves.
 
 \includegraphics{images/new_project_8.PNG}
 
@@ -7882,7 +7882,7 @@ The final two important folders are ``R'' and ``data''. In the R folder - as you
 
 If you are like many people who start programming, all of your code will be in a single R script. This is fine when you're first getting familiar with R and don't want to go searching for code in places when you're still uncomfortable with the language. As you become more familiar with R - and as your projects get more complex - you'll want to start making multiple R scripts in a single project.
 
-When you're writing a paper you don't just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize you thoughts and to make it readable for others. It's also useful when working since you know, for example, ``Section 1 is done but I still need to finish Section 2 and the last of Section 3.'' This way you don't confront working on the entire paper at once. You'll want to follow these lessons in the code you write, with each ``section'' of code being it's own R Script and within a script split up code into particular ``paragraphs''. The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let's use a real example from one of my recent projects.
+When you're writing a paper you don't just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize your thoughts and to make it readable for others. It's also useful when working since you know, for example, ``Section 1 is done but I still need to finish Section 2 and the last of Section 3.'' This way you don't confront working on the entire paper at once. You'll want to follow these lessons in the code you write, with each ``section'' of code being its own R Script and within a script split up code into particular ``paragraphs''. The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let's use a real example from one of my recent projects.
 
 \includegraphics{images/modular_scripts.PNG}
 
@@ -7893,14 +7893,14 @@ This is an example of how I approach making R scripts, not necessarily the best 
 \hypertarget{modular-code}{%
 \section{Modular code}\label{modular-code}}
 
-In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks (similar to the chunks in an RMarkdown file). For example, let's say you have some raw data and want to subset it, change some values (e.g.~renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you'll want to have three different parts of your R Script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in it's own Section (as we'll discuss next). If it's relative simple and takes only a few lines per step, you'll likely just want to have a linebreak between steps and identify your choices in comments. It's hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and linebreaks early in your experience is better as it's a good foundation, and you can alter it to suit your preferences as you get more experience.
+In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks (similar to the chunks in an RMarkdown file). For example, let's say you have some raw data and want to subset it, change some values (e.g.~renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you'll want to have three different parts of your R Script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in it's own Section (as we'll discuss next). If it's relatively simple and takes only a few lines per step, you'll likely just want to have a linebreak between steps and identify your choices in comments. It's hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and linebreaks early in your experience is better as it's a good foundation, and you can alter it to suit your preferences as you get more experience.
 
 The goal of making modular code is to avoid having a large amount of code without breaks or comments - that'd be like reading a run-on sentence. We'll talk about comments more in Section \ref{comments}, but here you should explain your choices (e.g.~``Subset to only violent crime and property crime'') to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it's quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you're working with someone new to R, having more comments explaining what you did is helpful.
 
 \hypertarget{section-labels}{%
 \subsection{Section Labels}\label{section-labels}}
 
-When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R Script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label (note that this will only work in an R Script, not an RMarkdown file). Enter in the name of the section you want and click OK and it'll add that to where your cursor was in the R Script. You can also do this by simply adding for dashes (----) on the end of a comment
+When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R Script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label (note that this will only work in an R Script, not an RMarkdown file). Enter in the name of the section you want and click OK and it'll add that to where your cursor was in the R Script. You can also do this by simply adding four dashes (----) on the end of a comment
 
 \includegraphics{images/section_label1.PNG}
 
@@ -7915,7 +7915,7 @@ As part of making code organized, I find it helpful to make two R scripts in eac
 
 In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don't want them in the main file. In utils\_objects, I put useful objects such as a vector (\texttt{c()}) of values that I will use to subset. For example, if I wanted to subset all violent crimes from a dataset, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. In utils\_objects.R I could make an object with this vector, such as \texttt{violent\_crimes\ \textless{}-\ c("murder",\ "rape",\ "robbery",\ "assault")}.
 
-If you want to run utils.R or utils\_objects.R (or any .R file) in a different R script, you can use the \texttt{source()} function when makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we'd write \texttt{source("utils.R")}. If that file was in the ``data'' folder of our R Project, we'd write \texttt{source("data/utils.R")} so R knew to look in the ``data'' folder for the file.
+If you want to run utils.R or utils\_objects.R (or any .R file) in a different R script, you can use the \texttt{source()} function which makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we'd write \texttt{source("utils.R")}. If that file was in the ``data'' folder of our R Project, we'd write \texttt{source("data/utils.R")} so R knew to look in the ``data'' folder for the file.
 
 \hypertarget{collaboration}{%
 \chapter{Collaboration}\label{collaboration}}
@@ -8004,7 +8004,7 @@ You can also take this kind of approach when testing functions - which ideally a
 \hypertarget{unit-tests}{%
 \section{Unit tests}\label{unit-tests}}
 
-A unit test is simply a conditional statement where you have some input, usually a function with some parameters set, and state what you expect the result to be. You are saying ``I expect that if I do X, I will get Y''. And if you get a result other than what you expected, R will tell you. In R, you can make a number of unit tests and have R run them all at once, and inform you of which ones failed. Each unit test is just a function in R that is specifically for checking whether other functions - or other code or data - are correct. They operate just like a normal function. To use unit tests, we'll use the R package \texttt{testthat} which has a number of functions that make unit testing easier, and use some keyboard shortcuts in RStudio that also improve the ease of testing. If you don't have \texttt{testthat} installed, do so using \texttt{install.packages("testthat)}. For more information on the package, please see the package's \href{https://testthat.r-lib.org/index.html}{website}.
+A unit test is simply a conditional statement where you have some input, usually a function with some parameters set, and state what you expect the result to be. You are saying ``I expect that if I do X, I will get Y''. And if you get a result other than what you expected, R will tell you. In R, you can make a number of unit tests and have R run them all at once, and inform you of which ones failed. Each unit test is just a function in R that is specifically for checking whether other functions - or other code or data - are correct. They operate just like a normal function. To use unit tests, we'll use the R package \texttt{testthat} which has a number of functions that make unit testing easier, and use some keyboard shortcuts in RStudio that also improve the ease of testing. Please note that these shortcuts will only work if your working in an R Package, a normal R Project won't work. If you don't have \texttt{testthat} installed, do so using \texttt{install.packages("testthat)}. For more information on the package, please see the package's \href{https://testthat.r-lib.org/index.html}{website}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8034,21 +8034,47 @@ Above is the code that makes the \texttt{add\_2()} function and one unit test ch
 
 It gives an error, telling us that the result of the \texttt{add\_2(2)} function does not equal 5. Helpfully, it also shows us how much of a difference there is between what we expected and what we got. Note that it says ``1/1 mismatches''. That says that all of the expected values - we only expect one value - are incorrect. If we expect more than one result, such as if we expect a function to return a vector, it will check each value and say exactly which ones (in the order we have the resulting vector) are incorrect. This is helpful when diagnosing exactly which part failed.
 
+There are a few different ways to run the unit tests. First, you can run them like a normal R Script by running each line directly or using \texttt{source()}. This is fairly inefficient and loses some of the benefits built into RStudio for testing.
+
+The next way is to use the \texttt{test\_dir()} function from the \texttt{testthat} package where you enter the folder directory in the parentheses and it runs every test file in that folder. It's easier to simply use the \texttt{test\_path()} function which inserts the correct folder, assuming that you didn't move folders around after \texttt{use\_test()} created them. So you'd write \texttt{test\_dir(test\_path())} and it would run all of your tests. This also prints out a a nice summary of the results for all of your tests combined, showing the number of tests the passed, the failed (i.e.~didn't pass), that returned warnings, and that were skipped (you can force R to skip some tests which is useful when you change one part of the code and know those tests will fail but still want to test other parts). Note that for this method to work you will first have to run \texttt{library(testthat)} so R knows how to run the tests. You will also need to run all the functions or load all of the data that the tests check, otherwise you'll get an error since R doesn't implicitly know that the functions/data exists. You can run this the normal way by highlighting and running the function (or the code to load data) in your R Project or use the shortcut Control+Shift+L (Command+Shift+L on a Mac, the L stands for ``Load'') which will run every R file in your project (and every line of each file).
+
+The final way is to use the keyboard shortcut Control+Shift+T (Command+Shift+T on a Mac, the T stands for ``Test'') which will load all of the files and then run all of the tests. So a quicker way of doing the above method. However, this shortcut only works when using an R Package, not a normal R Project.
+
+\includegraphics{images/test_summary.PNG}
+
 \hypertarget{modular-test-scripts}{%
 \subsection{Modular test scripts}\label{modular-test-scripts}}
 
-As with your normal R Script, you can have separate testing scripts (a testing script is only a normal R Script which people use specifically for testing code) for each major part of the code that you're testing.\footnote{Having separate R Scripts for each major section of your code, please refer to Section \ref{modular-r-scripts}} As with the R Scripts for your code, this is simply a way to organize your work, and doesn't affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.
+Before getting into exactly how to write a unit test correctly, we'll talk about organizing each testing file. As with your normal R Script, you can have separate testing scripts (a testing script is only a normal R Script which people use specifically for testing code) for each major part of the code that you're testing.\footnote{For more info on having separate R Scripts for each major section of your code, please refer to Section \ref{modular-r-scripts}} As with the R Scripts for your code, this is simply a way to organize your work, and doesn't affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.
 
 \includegraphics{images/test_file_setup.PNG}
 
-The first file is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio's keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won't always need to have a setup.R file, but it's useful when you want to run the same code beforehand for multiple different test scripts.
+Note where the folder depicted above is located. It's in a folder called ``testthat'' in the ``tests'' folder in the main project folder that I called ``borderpatrol''. We'll use a helpful function from the \texttt{usethis} package to organize our test files and generate them automatically.If you haven't installed this package already, do so using \texttt{install.packages("usethis")} and then load it with \texttt{library(usethis)}. \footnote{The \texttt{usethis} package is an extremely helpful package that automates a lot of work the you would do primarily for R package development so if you go down that route I recommend exploring the package more through its \href{https://usethis.r-lib.org/index.html}{website}.}
+
+You can use the function \texttt{use\_test()} from the \texttt{usethis} package to create a test file inside your R Project. This will automatically create the necessary file and folders (if not created already) so you don't have to do any more work. Run this function by putting the name of the test file you want to create (in quotes) in the parentheses. It will open the test file in the Source panel (shown in the top left). In the example shown below, I wrote \texttt{use\_test("test")} to make a new file called ``test''. In the Source panel, the file is called ``test-test.R'' which is just because \texttt{usethis} will automatically add ``test-'' to the name of any test file name you make. \texttt{use\_test()} will also generate an example of tests, which you modify (or delete entirely) to suit you own needs.
+
+\includegraphics{images/usethis_test.PNG}
+
+The first file in the testthat folder is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio's keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won't always need to have a setup.R file, but it's useful when you want to run the same code beforehand for multiple different test scripts.
 
 \includegraphics{images/test_setup.PNG}
 
 \hypertarget{how-to-write-unit-tests}{%
 \subsection{How to write unit tests}\label{how-to-write-unit-tests}}
 
-As an example, we'll go over the tests I wrote when I first scraped the US Border Patrol data that we scraped in Chapter \ref{scrape-table}.
+We'll start by looking at the default test question example made when using \texttt{use\_this()} to understand the organization of a test file before getting into an example of actual tests. In the image below, there are really two pieces. First, we have the actual test on line 2 - \texttt{expect\_equal(2\ *\ 2,\ 4)}. This is saying, I expect 2 * 2 to equal 4, and R will check if that is true. All of you tests will be in this format, just for a specific result from a specific input. Now lets look at the code surrounding that line - \texttt{test\_that("multiplication\ works",\ \{\})} where the \texttt{expect\_equal()} line goes inside the \{\}.
+
+\includegraphics{images/usethis_test_default_example.PNG}
+
+The \texttt{test\_that} code is basically a form of organization within a test file to group similar tests together. In this case it is grouping all of the tests that check if ``multiplication works'', though we only have one test written. Below I've added three new tests to this ``multiplication works'' testing group. To run this code, I can either run each \texttt{expect\_equal()} individually (remember to run \texttt{library(testthat)} beforehand or it won't run) or run the entire \texttt{test\_that()} group at once (you can do this like running a for loop by either highlighting it all and running or or selecting either the top or bottom line {[}which has the squiggly brackets{]} and running that line - the entire thing will run.
+
+The benefit of this is that when you run all the tests you write (and you'll often have many test groups and more individual tests than shown here), if a test in a group fails, it will tell you exactly which group failed (based on the name of the group which you specify - here, ``multiplication works''). Note that the final test in this example is incorrect, and in the Console panel on the right it says that "Test failed: `multiplication works' to tell you where the test failed. The test groups aren't necessary, but make it easier to organize your tests.
+
+\includegraphics{images/usethis_test_default_example2.PNG}
+
+As an example of actual tests, we'll go over the tests that I wrote when I first scraped the US Border Patrol data that we scraped in Chapter \ref{scrape-table}. This test file is organized almost identically to the example one shown above. At the start I have some code that loads the data that I will test - this isn't in the setup file since the code is for this specific test script (though it could be in the setup.R file and the results would be the same). While most tests check the result of functions, here I am checking the data that is outputted by the function, and not rerunning the function for each test. I do this because the function is relatively slow to run and I have many tests, but putting the function that gets the data in the test directly will give the exact same results. Then there are several \texttt{test\_that()} groups with some \texttt{expect\_equal()} tests inside each.
+
+Since these tests are checking if the code is scraping the PDFs correctly, I determine the expected result by looking at the PDFs and writing down what the values should be (be careful, this must be done by hand but that can mean you mistype - so double-check your work!). We'll use the test on lines 21-22 as an example. Here I am asking if the values in the ``cocaine\_pounds'' column, for rows where the sector is ``coastal border'' are equal to the values \texttt{c(6843,\ 1701,\ 3169,\ 1288,\ 6884,\ 20,\ 709,\ 5962,\ 989)}. If they are, then the scraping was correct (at least for this part of the PDF) and the code worked. In this case I checked every value that meets the two conditions, but that's just because there were relatively few values. If I had many values that meet those conditions (i.e.~many rows of data in that column), I would just check a small number of them.
 
 \includegraphics{images/test_example.PNG}
 
@@ -8060,11 +8086,18 @@ Now that we've gone over exactly how to make unit tests, let's talk about exactl
 Writing unit tests is one of the most time-efficient things you can do since it helps you avoid making costly (in time and in getting wrong results) mistakes. But don't spend too much time writing tests. If you've tested that \texttt{add\_2(2)} equals 4, no need to test that \texttt{add\_2(3)} equals five since you're essentially testing the exact same thing. And consider your audience (even if that is only you). If you know that \texttt{add\_2()} will only be used by people who know better than to input a string, there's no need to test for that (and testing for that will mean that you'd also want code that handles a string input in the way you want it, such as outputting a message saying strings aren't allowed). In general, I think it's always better to have more tests than fewer, but consider whether writing that test is a good use of you time.
 
 \hypertarget{tests-for-research-projects}{%
-\section{Tests for research projects}\label{tests-for-research-projects}}
+\subsubsection{Tests for research projects}\label{tests-for-research-projects}}
 
 When you use R for a research project you'll usually take data that someone else collected, or scrape it yourself, do some work to clean this data (e.g.~subset or aggregate the data, standardize values) and then run a regression on it. In these cases there are fewer opportunities to use unit tests to check your code. Indeed, the best checks are often content knowledge about the data and examining the results of the regression to see if it makes sense and fits prior literature.
 
 While testing is most commonly used for functions, you can use it to test data. Writing tests for research data is best if your code is scraping the data (webscrape or PDF scrape) and you want to verify that it is correct, or if you expect the data to change and want to ensure that it is still correct (while exact values will change, you can check broad categories such as whether certain groups are included). For example, if you know that you only want to look at a certain state, you can write a test that expects the only state in the data to be the one you're analyzing. This way, if you add more data, such as a new release of that data set, the test will catch if there's any other state that you may have forgotten to remove after adding the new data. If you're sure that you will only use a particular data set that never changes, you're better off just writing code in your main R Script (or a specific script for checking the data) to do these checks rather than dedicated tests.
+
+\hypertarget{tests-for-data-collection}{%
+\subsubsection{Tests for data collection}\label{tests-for-data-collection}}
+
+Our example in this chapter was tests for a data collection process - in our case, PDF scraping - so we've already seen to how to test code to gathering data. We'll still talk briefly here about what kind of tests - and how many tests - you will want for this code of code. In normal tests, you don't want to test the exact same thing multiple times (for example, if you test that 2 + 2 = 4, you don't need to test that 2 + 3 = 5). This is different when it comes to testing code that collects data from a source, such as through PDF scraping or webscraping (which is different from when you download a machine-readable file like a .csv file).
+
+When testing data collection code, you want to be far more thorough, retesting something in multiple ways. This is because small differences in the data you are scraping may affect the code at different parts of the scrape. For example, imagine a PDF with 10 pages. On nine of those pages each row is a single line, but on a single page there are rows that are multiple pages. Writing tests to check results from a single page will miss the issue 9 out of 10 times. I've often experienced PDF or webscraping where some parts of the data are just ``weird'' and cause the code to scrape it incorrectly - but often not tell me that there's an issue. So to catch this you'll need far more tests than normal. I prefer to choose a few random pages (more if the PDF/website is longer) and test random rows and columns since that'll give a good coverage of the results. In addition, I look at the PDF or website and try to see if there's anything atypical about a certain part; if there is, I test that specifically. It's easy to over-test (and that's better than under-testing) this kind of work, but there are rapidly diminishing returns. So test comprehensively but not at the cost of having too little time to work on code - again, this is something that requires experience and doesn't have a hard rule on what constitutes too much (or too little) testing.
 
 \hypertarget{test-driven-development-tdd}{%
 \section{Test-driven development (TDD)}\label{test-driven-development-tdd}}
