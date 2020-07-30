@@ -32,7 +32,6 @@ We will use the `fromJSON()` function and enter in the URL right in the ().
 
 ```r
 library(jsonlite)
-#> Warning: package 'jsonlite' was built under R version 4.0.2
 fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 #> $spatialReference
 #> $spatialReference$wkid

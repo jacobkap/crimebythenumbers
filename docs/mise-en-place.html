@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-07-29" />
+<meta name="date" content="2020-07-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -372,16 +372,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>19</b> Collaboration</a>
 <ul>
-<li class="chapter" data-level="19.1" data-path="collaboration.html"><a href="collaboration.html#working-with-others"><i class="fa fa-check"></i><b>19.1</b> Working with others</a></li>
-<li class="chapter" data-level="19.2" data-path="collaboration.html"><a href="collaboration.html#working-with-yourself"><i class="fa fa-check"></i><b>19.2</b> Working with yourself</a></li>
-<li class="chapter" data-level="19.3" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>19.3</b> Code review</a>
+<li class="chapter" data-level="19.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>19.1</b> Code review</a>
 <ul>
-<li class="chapter" data-level="19.3.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>19.3.1</b> Style guidelines</a></li>
+<li class="chapter" data-level="19.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>19.1.1</b> Style guidelines</a></li>
 </ul></li>
-<li class="chapter" data-level="19.4" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>19.4</b> Documentation</a>
+<li class="chapter" data-level="19.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>19.2</b> Documentation</a>
 <ul>
-<li class="chapter" data-level="19.4.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>19.4.1</b> Comments</a></li>
-<li class="chapter" data-level="19.4.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>19.4.2</b> Vignettes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>19.2.1</b> Comments</a></li>
+<li class="chapter" data-level="19.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>19.2.2</b> Vignettes</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>20</b> Tests</a>
@@ -500,7 +498,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="modular-code" class="section level2" number="18.4">
 <h2><span class="header-section-number">18.4</span> Modular code</h2>
 <p>In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks (similar to the chunks in an RMarkdown file). For example, let’s say you have some raw data and want to subset it, change some values (e.g. renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you’ll want to have three different parts of your R Script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in it’s own Section (as we’ll discuss next). If it’s relatively simple and takes only a few lines per step, you’ll likely just want to have a linebreak between steps and identify your choices in comments. It’s hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and linebreaks early in your experience is better as it’s a good foundation, and you can alter it to suit your preferences as you get more experience.</p>
-<p>The goal of making modular code is to avoid having a large amount of code without breaks or comments - that’d be like reading a run-on sentence. We’ll talk about comments more in Section <a href="collaboration.html#comments">19.4.1</a>, but here you should explain your choices (e.g. “Subset to only violent crime and property crime”) to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it’s quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you’re working with someone new to R, having more comments explaining what you did is helpful.</p>
+<p>The goal of making modular code is to avoid having a large amount of code without breaks or comments - that’d be like reading a run-on sentence. We’ll talk about comments more in Section <a href="collaboration.html#comments">19.2.1</a>, but here you should explain your choices (e.g. “Subset to only violent crime and property crime”) to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it’s quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you’re working with someone new to R, having more comments explaining what you did is helpful.</p>
 <div id="section-labels" class="section level3" number="18.4.1">
 <h3><span class="header-section-number">18.4.1</span> Section Labels</h3>
 <p>When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R Script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label (note that this will only work in an R Script, not an RMarkdown file). Enter in the name of the section you want and click OK and it’ll add that to where your cursor was in the R Script. You can also do this by simply adding four dashes (—-) on the end of a comment</p>
