@@ -219,7 +219,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
 
 <img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
-Now that graphs shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
+Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
 Inside the types of graphs we can change how it is displayed. As with using `plot()`, we can specify the color and size of our lines or points. 
 

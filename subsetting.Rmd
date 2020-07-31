@@ -20,7 +20,7 @@ The syntax (how the code is written) goes
 
 `object[index]`
 
-First we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our *animals* object. In normal language we say "I want the 6th value from *animals*. We say where we're looking and which value we want. 
+First, we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our *animals* object. In normal language we say "I want the 6th value from *animals*. We say where we're looking and which value we want. 
 
 ```{r}
 animals[6]
@@ -32,7 +32,7 @@ Now let's get the third value.
 animals[3]
 ```
 
-If we want multiple values we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(vectors) shortly. If we wanted values 1-3 we could use `c(1, 2, 3)`, with each number separated by a comma.
+If we want multiple values, we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(vectors) shortly. If we wanted values 1-3, we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 ```{r}
 animals[c(1, 2, 3)]
@@ -56,7 +56,7 @@ The order we enter the numbers determines the order of the values it returns. Le
 animals[c(3, 4, 1)]
 ```
 
-Putting a negative number inside the `[]` will return all values **except** for that index, essentially deleting it. Let's remove "cat" from *animals*. Since it is the 1st item in *animals* we can remove it like this 
+Putting a negative number inside the `[]` will return all values **except** for that index, essentially deleting it. Let's remove "cat" from *animals*. Since it is the 1st item in *animals*, we can remove it like this 
 
 ```{r}
 animals[-1]
@@ -90,7 +90,7 @@ x
 
 It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work properly. For those reasons we will use `<-` for this class. 
 
-Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, `animals[-1]` prints every value in th *animals* except for the first value.
+Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, `animals[-1]` prints every value in *animals* except for the first value.
 
 ```{r}
 animals[-1]
@@ -104,13 +104,13 @@ animals
 
 Now the first value, "cats", is back. Why? To make changes in R you need to tell R very explicitly that you are making the change. If you don't save the result of your code (by assigning an object to it), R will run that code and simply print the results in the console panel without making any changes. 
 
-This is an important point that a lot of students struggle with. R doesn't know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If *x* is an object with a value of 2, and you write `x + 2`, it would print out 4 because 2 + 2 = 4. But that won't change the value of *x*. *x* will remain as 2 until you explicitly tell R to change it's value. If you want to update *x* you need to run `x <- somevalue` where "somevalue" is whatever you want to change *x* to. 
+This is an important point that a lot of students struggle with. R doesn't know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If *x* is an object with a value of 2, and you write `x + 2`, it would print out 4 because 2 + 2 = 4. But that won't change the value of *x*. *x* will remain as 2 until you explicitly tell R to change its value. If you want to update *x* you need to run `x <- somevalue` where "somevalue" is whatever you want to change *x* to. 
 
 So to return to our *animals* example, if we wanted to delete the first value and keep it removed, we'd need to write `animals <- animals[-1]`. Which is essentially making a new object, also called *animals* (to avoid having many, slightly different objects that are hard to keep track of we'll reuse the name) with the same values as the original *animals* except this time excluding the first value, "cats".
 
 ## Vectors (collections of "things") {#vectors}
 
-When we made *x* we wrote `x <- 2` while when we made *animals* we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which **c**ombines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
+When we made *x*, we wrote `x <- 2` while when we made *animals*, we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which **c**ombines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
 
 ```{r}
 x <- c(1, 2, 3)
@@ -128,9 +128,9 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ## Logical values and operations
 
-We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values we mean TRUE and FALSE - in R you must spell it in all capital letters.
+We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values, we mean TRUE and FALSE - in R you must spell it in all capital letters.
 
-First we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
+First, we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 
 We can use these TRUE and FALSE values to index and it will return every element which we say is TRUE. 
 
@@ -203,7 +203,7 @@ animals %in% c("cat", "dog", "gorilla")
 
 Sometimes it is easier to ask what is not a match. For example, if you wanted to get every month except January, instead of writing the other 11 months, you just ask for any month that does not equal "January". 
 
-We can use `!=`, which means "not equal". When we wanted an exact match we used `==`, if we want a not match we can use `!=` (this time it is only a single equals sign). 
+We can use `!=`, which means "not equal". When we wanted an exact match, we used `==`, if we want a not match, we can use `!=` (this time it is only a single equals sign). 
 
 ```{r}
 2 != 3
@@ -371,7 +371,7 @@ Here is every column in the first row.
 offenses_known_yearly_1960_2017[1, ]
 ```
 
-Since there are 159 columns in our data, normally we'd want to avoid printing out all of them. And in most cases we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
+Since there are 159 columns in our data, normally we'd want to avoid printing out all of them. And in most cases, we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
 
 What happens if we forget the comma? If we put in numbers for both rows and columns but don't include a comma between them it will have an error.
 

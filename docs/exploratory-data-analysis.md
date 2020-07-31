@@ -354,7 +354,7 @@ aggregate(actual_murder ~ year, FUN = sum, data = colorado)
 7 2017           218
 ```
 
-If we had more grouping categories would could add them by literally using `+` and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn't actually change the results.
+If we had more grouping categories we could add them by literally using `+` and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn't actually change the results.
 
 
 ```r

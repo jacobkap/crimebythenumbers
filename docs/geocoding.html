@@ -560,25 +560,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="geocoding-san-francisco-marijuana-dispensary-locations" class="section level2" number="17.3">
 <h2><span class="header-section-number">17.3</span> Geocoding San Francisco marijuana dispensary locations</h2>
 <p>We now have a function capable of returning the coordinates of every location in our marijuana dispensary data. We can write a for loop to go through every row of data and get the coordinates for that row’s location.</p>
-<p>Let’s read in the marijuana dispensary data which is called “san_francisco_active_marijuana_retailers.csv” and call the object <em>marijuana</em>.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="geocoding.html#cb371-1"></a><span class="kw">setwd</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;data&quot;</span>))</span>
-<span id="cb371-2"><a href="geocoding.html#cb371-2"></a><span class="kw">library</span>(readr)</span>
-<span id="cb371-3"><a href="geocoding.html#cb371-3"></a>marijuana &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;san_francisco_active_marijuana_retailers.csv&quot;</span>)</span>
-<span id="cb371-4"><a href="geocoding.html#cb371-4"></a><span class="co">#&gt; Parsed with column specification:</span></span>
-<span id="cb371-5"><a href="geocoding.html#cb371-5"></a><span class="co">#&gt; cols(</span></span>
-<span id="cb371-6"><a href="geocoding.html#cb371-6"></a><span class="co">#&gt;   `License Number` = col_character(),</span></span>
-<span id="cb371-7"><a href="geocoding.html#cb371-7"></a><span class="co">#&gt;   `License Type` = col_character(),</span></span>
-<span id="cb371-8"><a href="geocoding.html#cb371-8"></a><span class="co">#&gt;   `Business Owner` = col_character(),</span></span>
-<span id="cb371-9"><a href="geocoding.html#cb371-9"></a><span class="co">#&gt;   `Business Contact Information` = col_character(),</span></span>
-<span id="cb371-10"><a href="geocoding.html#cb371-10"></a><span class="co">#&gt;   `Business Structure` = col_character(),</span></span>
-<span id="cb371-11"><a href="geocoding.html#cb371-11"></a><span class="co">#&gt;   `Premise Address` = col_character(),</span></span>
-<span id="cb371-12"><a href="geocoding.html#cb371-12"></a><span class="co">#&gt;   Status = col_character(),</span></span>
-<span id="cb371-13"><a href="geocoding.html#cb371-13"></a><span class="co">#&gt;   `Issue Date` = col_character(),</span></span>
-<span id="cb371-14"><a href="geocoding.html#cb371-14"></a><span class="co">#&gt;   `Expiration Date` = col_character(),</span></span>
-<span id="cb371-15"><a href="geocoding.html#cb371-15"></a><span class="co">#&gt;   Activities = col_character(),</span></span>
-<span id="cb371-16"><a href="geocoding.html#cb371-16"></a><span class="co">#&gt;   `Adult-Use/Medicinal` = col_character()</span></span>
-<span id="cb371-17"><a href="geocoding.html#cb371-17"></a><span class="co">#&gt; )</span></span>
-<span id="cb371-18"><a href="geocoding.html#cb371-18"></a>marijuana &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(marijuana)</span></code></pre></div>
+<p>Let’s read in the marijuana dispensary data which is called “san_francisco_active_marijuana_retailers.csv” and call the object <em>marijuana</em>. Note the “data/” part in front of the name of the .csv file. This is to tell R that the file we want is in the “data” folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="geocoding.html#cb371-1"></a><span class="kw">library</span>(readr)</span>
+<span id="cb371-2"><a href="geocoding.html#cb371-2"></a>marijuana &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;data/san_francisco_active_marijuana_retailers.csv&quot;</span>)</span>
+<span id="cb371-3"><a href="geocoding.html#cb371-3"></a><span class="co">#&gt; Parsed with column specification:</span></span>
+<span id="cb371-4"><a href="geocoding.html#cb371-4"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb371-5"><a href="geocoding.html#cb371-5"></a><span class="co">#&gt;   `License Number` = col_character(),</span></span>
+<span id="cb371-6"><a href="geocoding.html#cb371-6"></a><span class="co">#&gt;   `License Type` = col_character(),</span></span>
+<span id="cb371-7"><a href="geocoding.html#cb371-7"></a><span class="co">#&gt;   `Business Owner` = col_character(),</span></span>
+<span id="cb371-8"><a href="geocoding.html#cb371-8"></a><span class="co">#&gt;   `Business Contact Information` = col_character(),</span></span>
+<span id="cb371-9"><a href="geocoding.html#cb371-9"></a><span class="co">#&gt;   `Business Structure` = col_character(),</span></span>
+<span id="cb371-10"><a href="geocoding.html#cb371-10"></a><span class="co">#&gt;   `Premise Address` = col_character(),</span></span>
+<span id="cb371-11"><a href="geocoding.html#cb371-11"></a><span class="co">#&gt;   Status = col_character(),</span></span>
+<span id="cb371-12"><a href="geocoding.html#cb371-12"></a><span class="co">#&gt;   `Issue Date` = col_character(),</span></span>
+<span id="cb371-13"><a href="geocoding.html#cb371-13"></a><span class="co">#&gt;   `Expiration Date` = col_character(),</span></span>
+<span id="cb371-14"><a href="geocoding.html#cb371-14"></a><span class="co">#&gt;   Activities = col_character(),</span></span>
+<span id="cb371-15"><a href="geocoding.html#cb371-15"></a><span class="co">#&gt;   `Adult-Use/Medicinal` = col_character()</span></span>
+<span id="cb371-16"><a href="geocoding.html#cb371-16"></a><span class="co">#&gt; )</span></span>
+<span id="cb371-17"><a href="geocoding.html#cb371-17"></a>marijuana &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(marijuana)</span></code></pre></div>
 <p>Let’s look at the top 6 rows.</p>
 <div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="geocoding.html#cb372-1"></a><span class="kw">head</span>(marijuana)</span>
 <span id="cb372-2"><a href="geocoding.html#cb372-2"></a><span class="co">#&gt;    License Number                License Type   Business Owner</span></span>
