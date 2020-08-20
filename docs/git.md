@@ -20,7 +20,9 @@ You make changes to your code or RMarkdown file and the computer will track thes
 
 ## Git basics
 
-There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. We’ll use the example of getting a book from the library to walk through using Git. The steps for this are simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book, we simply redo these steps. 
+There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. This chapter will explain how to use Git through buttons on RStudio so you don't necessarily need to know these commands in Git, but it's useful to know enough to talk about them and ask questions if needed.
+
+We’ll use the example of getting a book from the library to walk through using Git. The steps for this are simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book, we simply redo these steps. 
 
 
 Library Steps | Git steps     | Git code 
@@ -37,7 +39,23 @@ Another way to think about commit vs push is that of writing an email. When you 
 
 While you can use Git like writing R code (though the syntax is not that similar to R), RStudio has built-in buttons that work instead of writing code yourself. We'll go through these buttons and not discuss any Git code beyond the small amount needed to link your project to GitHub, a website that is like DropBox for Git. 
 
-### Github
+### Setting up Git
+
+To install Git on your computer install [Git for Windows](https://gitforwindows.org/) for Windows computers and [Xcode](https://git-scm.com/download/mac) for Mac computers. If you're on a Linux operating system, see [here](https://git-scm.com/download/linux) for how to install Git. For more help I recommend [this chapter](https://happygitwithr.com/install-git.html) of Happy Git and GitHub for the useR which covers installing Git.
+
+You'll now need to tell Git some identifying information about yourself so that whenever you make a commit, Git will know who you are. We will use a function from the `usethis` package to do this. The only information we need is your name (or nickname, just something so collaborators know that it was you who did a certain commit) and email address (below you'll set up an account on GitHub - use the same email address there as here). We'll use the function `use_git_config` which has two parameters - `user.name` and `user.email` which take strings with your name and email, respectively.
+
+
+```r
+library(usethis)
+use_git_config(user.name = "Your name", user.email = "email_address@gmail.com")
+```
+
+Once you have Git installed, you'll need to enable it through RStudio. To do this, go to Tools and click Global Options. Then go to the Git/SVN tab and check the "Enable version control interface or RStudio projects" checkbox. The final step here is to click the first Browse button and navigate to where you installed Git on your computer. Select the git file (on a windows computer this will be within the larger Git folder) and then hit Ok to close the popup. 
+
+![](images/git_tools.PNG)
+
+### Setting up Github
 
 we'll be using GitHub to host our Git commits. To use GitHub, please make an account on their website [https://Github.com/](https://Github.com/). There are several [types of accounts](https://Github.com/pricing) at various monthly costs but you only need the Free version. This gives you an unlimited number of public and private repositories (sometimes shorthanded to 'repos') - these are basically R Projects (you can use any language when it comes to using Git and GitHub, not just R). 
 
@@ -55,9 +73,9 @@ This will open up a new page with a bunch of code that you'll enter in R that co
 
 ![](images/Github_new_repo3.PNG)
 
-![](images/Github_new_repo4.PNG)
-
 The first button sets your notification settings for the repository. To change the notification setting, click "Unwatch" and then select how much you want to be notified for. By default it is set to notify you of all conversations that occur. The main conversation will be when someone posts a message in the Issues tab where they tell you about an issue (or sometimes a request for a new feature or just ask a question) about the code in this repo. With your own repositories, you'll want to be notified of all conversations so you don't miss anything. You can use this option on other people's repositories and it will alert you of changes or conversations in that repo. This is useful when you want to know about updates (i.e. new features) on repositories that you're interested in (for example, I follow the [testthat repo](https://Github.com/r-lib/testthat) so I know of any new versions of that package that may have useful features).
+
+![](images/Github_new_repo4.PNG)
 
 Stars are simply a way to favorite a repository and you can see a list of all repositories that you have starred by clicking the profile button on the top right and going to "Your stars".
 
@@ -92,6 +110,26 @@ Now if you look at the Environment panel you can see a new tab called "Git". We'
 ![](images/git_existing_project4.PNG)
 
 ## Using Git through RStudio
+
+Now we have an R Project with Git ready, and a repo on GitHub to store the project files. We need a way to connect the R Project to the specific GitHub repo - for this, we'll return to that screen on GitHub with all of the weird code that starts with the word "Git". We need to enter that code into R to connect the two. To do this, we need to use the Git Shell, which is basically like the Console panel but for Git. You can get to this by going to the Git tab, click on the More button, then click "Shell...".
+
+![](images/Github_new_repo3.PNG)
+
+
+![](images/git_shell.PNG)
+
+This opens up a popup almost identical to the Console panel. Here we can write the code (or copy it from GitHub) and hit enter to run the line. This is the only time we will be using actual Git code in this chapter (there is some benefit to learning the Git code rather than relying on the buttons in RStudio as it is much faster when dealing with large files or simply a large number of files to use the code rather than through RStudio - though I'm not sure why this is). 
+
+![](images/git_shell3.PNG)
+
+
+We will use the first chunk of code that's shown on GitHub - the one that starts with the bold text **"...or create a new repository on the command line"**. You can copy and paste all of the code (starting with the "echo" line and ending with the "git push -u origin master" line) to the shell and hit enter or you can do it one line at a time. 
+
+![](images/git_shell2.PNG)
+
+Refresh your GitHub page and you'll see that instead of code on the screen, it shows the files that you uploaded. In this case, I didn't make any files so it is largely blank, just a relatively empty README file. If this was a real project, you'd see all of the same files (except those you chose not to commit) as in your R Project folder. You R Project is now connected to the GitHub repo so you can do the rest of the Git work on this project entirely through RStudio and will not need to touch the Git Shell again.
+
+![](images/git_shell_4.PNG)
 
 The below photo shows my Git tab while working on this chapter and from an update to the Subsetting chapter. It has a list of all of the files that I changed since my last commit (if you haven't committed at all yet, this is just all of the files in your project folder) and is color coded based on what I did to them. The blue M means that I have modified an already existing - i.e. one that has already been committed through Git - file, and and the yellow ? means that these are new files. If there was a red D next to any of the files, that would mean that I deleted a file that had previously been committed. There are a lot of buttons here (Diff, Commit, Pull, etc.) but you can ignore them and just click the Commit button when ready to make a commit. Doing so will open up a new window that has all the functionality of these various buttons in an easier (in my opinion) format.
 
