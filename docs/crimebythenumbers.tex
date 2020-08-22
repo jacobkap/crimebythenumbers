@@ -118,7 +118,7 @@
 
 \title{Crime by the Numbers}
 \author{Jacob Kaplan}
-\date{2020-07-31}
+\date{2020-08-21}
 
 \begin{document}
 \maketitle
@@ -841,7 +841,21 @@ When used on our object \emph{numbers} it will return 10 values (since \emph{num
 \hypertarget{combining-conditional-statements---or-and}{%
 \subsection{Combining conditional statements - or, and}\label{combining-conditional-statements---or-and}}
 
-In many cases when you are subsetting you will want to subset based on more than one condition. For example, let's say you have crime data from every state between 1960 and 2017. Your research question is ``did Colorado's marijuana legalization affect crime in the state?'' In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year.
+In many cases when you are subsetting you will want to subset based on more than one condition. These ``conditional statements'' can be tricky for new R users since you need to remember both what conditions you need \emph{and} the R code to write it. For a simple introduction to combining conditional statements, we'll first start with the dog food instructions for my new puppy Peanut.
+
+\includegraphics{images/peanut.png}
+
+Here, the instructions indicate how much food to feed your dog each day. Then instructions are broken down into dog age \textbf{and} expected size (in pounds/kilograms) and the intersection of these tells you how much food to feed your dog. Even once you figure out how much to feed the dog, there's another conditional statement to figure out whether you feed them twice a day or three times a day.
+
+\includegraphics{images/dog_food.PNG}
+
+This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the right side to figure out how much to feed your dog.\footnote{If you encounter some conditional statements that confuse you - which will be more common and you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.}
+
+So if we wanted to figure out how much to feed a dog that is three months old and will be 4.4 pounds, we'd use the first row on the left (which says 4.4 pounds/2.2 kilograms) and the second columns (which says three months old). When the dog gets to be four months old we'd keep the same row but now move one column to the right. In normal English you'd say that the dog is four months old and their expected size is 4.4 pounds (2 kg). The language when talking about (and writing code for) a conditional statement in programming is a bit more formal where every condition is spoken as a yes or no question. Here we ask is the dog four months old? \textbf{and} is the expected weight 4.4 pounds. If both are true, then we give the dog the amount of food shown for those conditions. If only one is true, then the whole thing is wrong - we wouldn't want to underfeed or overfeed our dog. In this example, a two four old dog can eat between 5/8th of a cup of food and two cups depending on their expected size. So having only one condition be true isn't enough.
+
+Can you see any issue with this conditional statement matrix? It doesn't cover the all possible choices for age and weight combinations. In fact, it is really quite narrow in what it does cover. For example, it covers two and three months, but not any age in between. We can assume that a dog that is 2.5 months old would eat the average of two and three month meal amounts, but wouldn't know for sure. When making your own statements please consider what conditions I am checking for - and, importantly, what I'm leaving out.
+
+For a real data example, let's say you have crime data from every state between 1960 and 2017. Your research question is ``did Colorado's marijuana legalization affect crime in the state?'' In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year.
 
 To make conditional statements with multiple conditions we use \texttt{\textbar{}} for ``or'' and \texttt{\&} for ``and''.
 
@@ -3401,13 +3415,13 @@ Now that we have the data read in, let's look at it.
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{nrow}\NormalTok{(shootings)}
-\CommentTok{\#> [1] 5489}
+\CommentTok{\#> [1] 5573}
 \KeywordTok{ncol}\NormalTok{(shootings)}
 \CommentTok{\#> [1] 14}
 \end{Highlighting}
 \end{Shaded}
 
-The data has 14 variables and covers 5489 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
+The data has 14 variables and covers 5573 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3442,10 +3456,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 \begin{Highlighting}[]
 \KeywordTok{summary}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{date)}
 \CommentTok{\#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. }
-\CommentTok{\#> "2015{-}01{-}02" "2016{-}05{-}21" "2017{-}10{-}19" "2017{-}10{-}12" "2019{-}03{-}05" "2020{-}07{-}28"}
+\CommentTok{\#> "2015{-}01{-}02" "2016{-}05{-}29" "2017{-}11{-}03" "2017{-}10{-}27" "2019{-}03{-}30" "2020{-}08{-}18"}
 \KeywordTok{summary}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{age)}
 \CommentTok{\#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA\textquotesingle{}s }
-\CommentTok{\#>    6.00   27.00   35.00   37.12   46.00   91.00     241}
+\CommentTok{\#>    6.00   27.00   35.00   37.12   46.00   91.00     248}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3456,7 +3470,7 @@ From this we can see that the data is from early January through about a week ag
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{manner\_of\_death)}
 \CommentTok{\#> }
 \CommentTok{\#>             shot shot and Tasered }
-\CommentTok{\#>             5215              274}
+\CommentTok{\#>             5296              277}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3467,7 +3481,7 @@ To turn these counts into percentages we can divide the results by the number of
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{manner\_of\_death) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
 \CommentTok{\#>             shot shot and Tasered }
-\CommentTok{\#>        95.008198         4.991802}
+\CommentTok{\#>        95.029607         4.970393}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3478,99 +3492,99 @@ Now it is clear to see that in about 95\% of shootings, officers used a gun and 
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{armed) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
 \CommentTok{\#>                  air conditioner                       air pistol }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
 \CommentTok{\#>                   Airsoft pistol                               ax }
-\CommentTok{\#>                       0.01821825                       0.43723811 }
+\CommentTok{\#>                       0.01794366                       0.43064777 }
 \CommentTok{\#>                         barstool                     baseball bat }
-\CommentTok{\#>                       0.01821825                       0.32792858 }
+\CommentTok{\#>                       0.01794366                       0.32298582 }
 \CommentTok{\#>          baseball bat and bottle baseball bat and fireplace poker }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
 \CommentTok{\#>           baseball bat and knife                            baton }
-\CommentTok{\#>                       0.01821825                       0.09109127 }
+\CommentTok{\#>                       0.01794366                       0.08971828 }
 \CommentTok{\#>                          bayonet                           BB gun }
-\CommentTok{\#>                       0.01821825                       0.09109127 }
+\CommentTok{\#>                       0.01794366                       0.08971828 }
 \CommentTok{\#>               BB gun and vehicle                     bean{-}bag gun }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
 \CommentTok{\#>                      beer bottle                     blunt object }
-\CommentTok{\#>                       0.05465476                       0.09109127 }
-\CommentTok{\#>                    bow and arrow                       box cutter }
-\CommentTok{\#>                       0.01821825                       0.21861906 }
-\CommentTok{\#>                            brick              car, knife and mace }
-\CommentTok{\#>                       0.03643651                       0.01821825 }
-\CommentTok{\#>                          carjack                            chain }
-\CommentTok{\#>                       0.01821825                       0.05465476 }
-\CommentTok{\#>                        chain saw                         chainsaw }
-\CommentTok{\#>                       0.03643651                       0.01821825 }
-\CommentTok{\#>                            chair              claimed to be armed }
-\CommentTok{\#>                       0.07287302                       0.01821825 }
-\CommentTok{\#>               contractor\textquotesingle{}s level                   cordless drill }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
-\CommentTok{\#>                         crossbow                          crowbar }
-\CommentTok{\#>                       0.16396429                       0.07287302 }
-\CommentTok{\#>                        fireworks                         flagpole }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
-\CommentTok{\#>                       flashlight                      garden tool }
-\CommentTok{\#>                       0.03643651                       0.03643651 }
-\CommentTok{\#>                      glass shard                          grenade }
-\CommentTok{\#>                       0.05465476                       0.01821825 }
-\CommentTok{\#>                              gun                      gun and car }
-\CommentTok{\#>                      56.64055383                       0.20040080 }
-\CommentTok{\#>                    gun and knife                    gun and sword }
-\CommentTok{\#>                       0.30971033                       0.01821825 }
-\CommentTok{\#>                  gun and vehicle              guns and explosives }
-\CommentTok{\#>                       0.18218255                       0.05465476 }
-\CommentTok{\#>                           hammer                       hand torch }
-\CommentTok{\#>                       0.29149208                       0.01821825 }
-\CommentTok{\#>                          hatchet                  hatchet and gun }
-\CommentTok{\#>                       0.20040080                       0.03643651 }
-\CommentTok{\#>                         ice pick                incendiary device }
-\CommentTok{\#>                       0.01821825                       0.03643651 }
-\CommentTok{\#>                            knife                 lawn mower blade }
-\CommentTok{\#>                      14.64747677                       0.03643651 }
-\CommentTok{\#>                          machete                  machete and gun }
-\CommentTok{\#>                       0.81982146                       0.01821825 }
-\CommentTok{\#>                     meat cleaver                  metal hand tool }
-\CommentTok{\#>                       0.09109127                       0.01821825 }
-\CommentTok{\#>                     metal object                       metal pipe }
-\CommentTok{\#>                       0.07287302                       0.23683731 }
-\CommentTok{\#>                       metal pole                       metal rake }
-\CommentTok{\#>                       0.05465476                       0.01821825 }
-\CommentTok{\#>                      metal stick                       motorcycle }
-\CommentTok{\#>                       0.05465476                       0.01821825 }
-\CommentTok{\#>                         nail gun                              oar }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
-\CommentTok{\#>                       pellet gun                              pen }
-\CommentTok{\#>                       0.05465476                       0.01821825 }
-\CommentTok{\#>                     pepper spray                         pick{-}axe }
-\CommentTok{\#>                       0.01821825                       0.07287302 }
-\CommentTok{\#>                    piece of wood                             pipe }
-\CommentTok{\#>                       0.09109127                       0.10930953 }
-\CommentTok{\#>                        pitchfork                             pole }
-\CommentTok{\#>                       0.03643651                       0.03643651 }
-\CommentTok{\#>                   pole and knife                             rock }
-\CommentTok{\#>                       0.03643651                       0.10930953 }
-\CommentTok{\#>                    samurai sword                         scissors }
-\CommentTok{\#>                       0.05465476                       0.12752778 }
-\CommentTok{\#>                      screwdriver                     sharp object }
-\CommentTok{\#>                       0.23683731                       0.23683731 }
-\CommentTok{\#>                           shovel                            spear }
-\CommentTok{\#>                       0.10930953                       0.01821825 }
-\CommentTok{\#>                          stapler              straight edge razor }
-\CommentTok{\#>                       0.01821825                       0.07287302 }
-\CommentTok{\#>                            sword                            Taser }
-\CommentTok{\#>                       0.40080160                       0.47367462 }
-\CommentTok{\#>                        tire iron                       toy weapon }
-\CommentTok{\#>                       0.01821825                       3.49790490 }
-\CommentTok{\#>                          unarmed                     undetermined }
-\CommentTok{\#>                       6.44926216                       3.04244853 }
-\CommentTok{\#>                   unknown weapon                          vehicle }
-\CommentTok{\#>                       1.43924212                       2.84204773 }
-\CommentTok{\#>                  vehicle and gun              vehicle and machete }
-\CommentTok{\#>                       0.07287302                       0.01821825 }
-\CommentTok{\#>                    walking stick                       wasp spray }
-\CommentTok{\#>                       0.01821825                       0.01821825 }
-\CommentTok{\#>                           wrench }
-\CommentTok{\#>                       0.01821825}
+\CommentTok{\#>                       0.05383097                       0.08971828 }
+\CommentTok{\#>                           bottle                    bow and arrow }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                       box cutter                            brick }
+\CommentTok{\#>                       0.21532388                       0.03588731 }
+\CommentTok{\#>              car, knife and mace                          carjack }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                            chain                        chain saw }
+\CommentTok{\#>                       0.05383097                       0.03588731 }
+\CommentTok{\#>                         chainsaw                            chair }
+\CommentTok{\#>                       0.01794366                       0.07177463 }
+\CommentTok{\#>              claimed to be armed               contractor\textquotesingle{}s level }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                   cordless drill                         crossbow }
+\CommentTok{\#>                       0.01794366                       0.16149291 }
+\CommentTok{\#>                          crowbar                        fireworks }
+\CommentTok{\#>                       0.07177463                       0.01794366 }
+\CommentTok{\#>                         flagpole                       flashlight }
+\CommentTok{\#>                       0.01794366                       0.03588731 }
+\CommentTok{\#>                      garden tool                      glass shard }
+\CommentTok{\#>                       0.03588731                       0.05383097 }
+\CommentTok{\#>                          grenade                              gun }
+\CommentTok{\#>                       0.01794366                      56.64812489 }
+\CommentTok{\#>                      gun and car                    gun and knife }
+\CommentTok{\#>                       0.19738023                       0.32298582 }
+\CommentTok{\#>                    gun and sword                  gun and vehicle }
+\CommentTok{\#>                       0.01794366                       0.19738023 }
+\CommentTok{\#>              guns and explosives                           hammer }
+\CommentTok{\#>                       0.05383097                       0.28709851 }
+\CommentTok{\#>                       hand torch                          hatchet }
+\CommentTok{\#>                       0.01794366                       0.19738023 }
+\CommentTok{\#>                  hatchet and gun                         ice pick }
+\CommentTok{\#>                       0.03588731                       0.01794366 }
+\CommentTok{\#>                incendiary device                            knife }
+\CommentTok{\#>                       0.03588731                      14.76762964 }
+\CommentTok{\#>                 lawn mower blade                          machete }
+\CommentTok{\#>                       0.03588731                       0.84335188 }
+\CommentTok{\#>                  machete and gun                     meat cleaver }
+\CommentTok{\#>                       0.01794366                       0.08971828 }
+\CommentTok{\#>                  metal hand tool                     metal object }
+\CommentTok{\#>                       0.01794366                       0.07177463 }
+\CommentTok{\#>                       metal pipe                       metal pole }
+\CommentTok{\#>                       0.25121120                       0.05383097 }
+\CommentTok{\#>                       metal rake                      metal stick }
+\CommentTok{\#>                       0.01794366                       0.05383097 }
+\CommentTok{\#>                       motorcycle                         nail gun }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                              oar                       pellet gun }
+\CommentTok{\#>                       0.01794366                       0.05383097 }
+\CommentTok{\#>                              pen                     pepper spray }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                         pick{-}axe                    piece of wood }
+\CommentTok{\#>                       0.07177463                       0.08971828 }
+\CommentTok{\#>                             pipe                        pitchfork }
+\CommentTok{\#>                       0.10766194                       0.03588731 }
+\CommentTok{\#>                             pole                   pole and knife }
+\CommentTok{\#>                       0.03588731                       0.03588731 }
+\CommentTok{\#>                             rock                    samurai sword }
+\CommentTok{\#>                       0.10766194                       0.05383097 }
+\CommentTok{\#>                         scissors                      screwdriver }
+\CommentTok{\#>                       0.12560560                       0.23326754 }
+\CommentTok{\#>                     sharp object                           shovel }
+\CommentTok{\#>                       0.23326754                       0.10766194 }
+\CommentTok{\#>                            spear                          stapler }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>              straight edge razor                            sword }
+\CommentTok{\#>                       0.07177463                       0.41270411 }
+\CommentTok{\#>                            Taser                        tire iron }
+\CommentTok{\#>                       0.46653508                       0.01794366 }
+\CommentTok{\#>                       toy weapon                          unarmed }
+\CommentTok{\#>                       3.46312579                       6.38794186 }
+\CommentTok{\#>                     undetermined                   unknown weapon }
+\CommentTok{\#>                       3.03247802                       1.41754890 }
+\CommentTok{\#>                          vehicle                  vehicle and gun }
+\CommentTok{\#>                       2.85304145                       0.07177463 }
+\CommentTok{\#>              vehicle and machete                    walking stick }
+\CommentTok{\#>                       0.01794366                       0.01794366 }
+\CommentTok{\#>                       wasp spray                           wrench }
+\CommentTok{\#>                       0.01794366                       0.01794366}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3584,27 +3598,27 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \NormalTok{temp}
 \CommentTok{\#> }
 \CommentTok{\#>                              gun                            knife }
-\CommentTok{\#>                            56.64                            14.65 }
+\CommentTok{\#>                            56.65                            14.77 }
 \CommentTok{\#>                          unarmed                       toy weapon }
-\CommentTok{\#>                             6.45                             3.50 }
+\CommentTok{\#>                             6.39                             3.46 }
 \CommentTok{\#>                     undetermined                          vehicle }
-\CommentTok{\#>                             3.04                             2.84 }
+\CommentTok{\#>                             3.03                             2.85 }
 \CommentTok{\#>                   unknown weapon                          machete }
-\CommentTok{\#>                             1.44                             0.82 }
+\CommentTok{\#>                             1.42                             0.84 }
 \CommentTok{\#>                            Taser                               ax }
-\CommentTok{\#>                             0.47                             0.44 }
+\CommentTok{\#>                             0.47                             0.43 }
 \CommentTok{\#>                            sword                     baseball bat }
-\CommentTok{\#>                             0.40                             0.33 }
+\CommentTok{\#>                             0.41                             0.32 }
 \CommentTok{\#>                    gun and knife                           hammer }
-\CommentTok{\#>                             0.31                             0.29 }
+\CommentTok{\#>                             0.32                             0.29 }
 \CommentTok{\#>                       metal pipe                      screwdriver }
-\CommentTok{\#>                             0.24                             0.24 }
+\CommentTok{\#>                             0.25                             0.23 }
 \CommentTok{\#>                     sharp object                       box cutter }
-\CommentTok{\#>                             0.24                             0.22 }
-\CommentTok{\#>                      gun and car                          hatchet }
+\CommentTok{\#>                             0.23                             0.22 }
+\CommentTok{\#>                      gun and car                  gun and vehicle }
 \CommentTok{\#>                             0.20                             0.20 }
-\CommentTok{\#>                  gun and vehicle                         crossbow }
-\CommentTok{\#>                             0.18                             0.16 }
+\CommentTok{\#>                          hatchet                         crossbow }
+\CommentTok{\#>                             0.20                             0.16 }
 \CommentTok{\#>                         scissors                             pipe }
 \CommentTok{\#>                             0.13                             0.11 }
 \CommentTok{\#>                             rock                           shovel }
@@ -3647,42 +3661,42 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \CommentTok{\#>                             0.02                             0.02 }
 \CommentTok{\#>                          bayonet               BB gun and vehicle }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                     bean{-}bag gun                    bow and arrow }
+\CommentTok{\#>                     bean{-}bag gun                           bottle }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>              car, knife and mace                          carjack }
+\CommentTok{\#>                    bow and arrow              car, knife and mace }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                         chainsaw              claimed to be armed }
+\CommentTok{\#>                          carjack                         chainsaw }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>               contractor\textquotesingle{}s level                   cordless drill }
+\CommentTok{\#>              claimed to be armed               contractor\textquotesingle{}s level }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                        fireworks                         flagpole }
+\CommentTok{\#>                   cordless drill                        fireworks }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                          grenade                    gun and sword }
+\CommentTok{\#>                         flagpole                          grenade }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                       hand torch                         ice pick }
+\CommentTok{\#>                    gun and sword                       hand torch }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                  machete and gun                  metal hand tool }
+\CommentTok{\#>                         ice pick                  machete and gun }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                       metal rake                       motorcycle }
+\CommentTok{\#>                  metal hand tool                       metal rake }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                         nail gun                              oar }
+\CommentTok{\#>                       motorcycle                         nail gun }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                              pen                     pepper spray }
+\CommentTok{\#>                              oar                              pen }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                            spear                          stapler }
+\CommentTok{\#>                     pepper spray                            spear }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                        tire iron              vehicle and machete }
+\CommentTok{\#>                          stapler                        tire iron }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                    walking stick                       wasp spray }
+\CommentTok{\#>              vehicle and machete                    walking stick }
 \CommentTok{\#>                             0.02                             0.02 }
-\CommentTok{\#>                           wrench }
-\CommentTok{\#>                             0.02}
+\CommentTok{\#>                       wasp spray                           wrench }
+\CommentTok{\#>                             0.02                             0.02}
 \end{Highlighting}
 \end{Shaded}
 
 Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15\% of the time they had a knife. And 6\% of the time they were unarmed. In 4\% of cases there is no data on any weapon. That leaves about 20\% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.
 
-Think about how you'd graph this data. There are 94 unique values in this column though fewer than ten of them are common enough to appear more than 1\% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called ``other weapons.'' And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference.
+Think about how you'd graph this data. There are 95 unique values in this column though fewer than ten of them are common enough to appear more than 1\% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called ``other weapons.'' And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference.
 
 Let's keep exploring the data by looking at gender and race.
 
@@ -3690,8 +3704,8 @@ Let's keep exploring the data by looking at gender and race.
 \begin{Highlighting}[]
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{gender) }\OperatorTok{/}\StringTok{ }\KeywordTok{nrow}\NormalTok{(shootings) }\OperatorTok{*}\StringTok{ }\DecValTok{100}
 \CommentTok{\#> }
-\CommentTok{\#>         F         M }
-\CommentTok{\#>  4.445254 95.536528}
+\CommentTok{\#>        F        M }
+\CommentTok{\#>  4.41414 95.56792}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3705,7 +3719,7 @@ Nearly all of the shootings are of a man. Given that we saw most shootings invol
 \NormalTok{temp}
 \CommentTok{\#> }
 \CommentTok{\#>     O     N     A     H     B     W }
-\CommentTok{\#>  0.87  1.42  1.71 16.58 23.77 45.58}
+\CommentTok{\#>  0.86  1.40  1.69 16.45 23.60 45.27}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3746,7 +3760,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{()}
 \CommentTok{\#> \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3758,7 +3772,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{15}\NormalTok{)}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3768,7 +3782,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{45}\NormalTok{)}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3783,7 +3797,7 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_histogram}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ (..count..)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(..count..)))}
 \CommentTok{\#> \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3798,7 +3812,7 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{geom\_density}\NormalTok{()}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_density).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_density).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3813,7 +3827,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{stat\_count}\NormalTok{()}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3825,7 +3839,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 \begin{Highlighting}[]
 \KeywordTok{ggplot}\NormalTok{(shootings, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ age)) }\OperatorTok{+}\StringTok{ }
 \StringTok{  }\KeywordTok{stat\_count}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ (..count..)}\OperatorTok{/}\KeywordTok{sum}\NormalTok{(..count..)))}
-\CommentTok{\#> Warning: Removed 241 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#> Warning: Removed 248 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3855,7 +3869,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 \KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race)}
 \CommentTok{\#> }
 \CommentTok{\#>    A    B    H    N    O    W }
-\CommentTok{\#>   94 1305  910   78   48 2502}
+\CommentTok{\#>   94 1315  917   78   48 2523}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3866,7 +3880,7 @@ It's still alphabetical so let's wrap that in a \texttt{sort()} function.
 \KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race))}
 \CommentTok{\#> }
 \CommentTok{\#>    O    N    A    H    B    W }
-\CommentTok{\#>   48   78   94  910 1305 2502}
+\CommentTok{\#>   48   78   94  917 1315 2523}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3877,7 +3891,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 \KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(shootings}\OperatorTok{$}\NormalTok{race), }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{)}
 \CommentTok{\#> }
 \CommentTok{\#>    W    B    H    A    N    O }
-\CommentTok{\#> 2502 1305  910   94   78   48}
+\CommentTok{\#> 2523 1315  917   94   78   48}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5098,11 +5112,11 @@ As usual, let's take a look at the top 6 rows of the data.
 \CommentTok{\#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH}
 \CommentTok{\#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH}
 \CommentTok{\#>         lon      lat}
-\CommentTok{\#> 1 {-}122.4811 37.76314}
+\CommentTok{\#> 1 {-}122.4811 37.76315}
 \CommentTok{\#> 2 {-}122.4158 37.77476}
-\CommentTok{\#> 3 {-}122.4035 37.78228}
+\CommentTok{\#> 3 {-}122.4037 37.78246}
 \CommentTok{\#> 4 {-}122.4004 37.78823}
-\CommentTok{\#> 5 {-}122.3965 37.78784}
+\CommentTok{\#> 5 {-}122.3967 37.78801}
 \CommentTok{\#> 6 {-}122.4414 37.79944}
 \end{Highlighting}
 \end{Shaded}
@@ -6259,27 +6273,12 @@ Now we can write the for loop to go through every single URL in \emph{recipe\_ur
 \CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
-\CommentTok{\#> [1] "4 large carrots, peeled and cut into matchstick pieces"}
-\CommentTok{\#> [2] "10 baby red potatoes, quartered"                       }
-\CommentTok{\#> [3] "1 onion, peeled and cut into bite{-}sized pieces"        }
-\CommentTok{\#> [4] "4 cups water"                                          }
-\CommentTok{\#> [5] "1 (4 pound) corned beef brisket with spice packet"     }
-\CommentTok{\#> [6] "6 ounces beer"                                         }
-\CommentTok{\#> [7] "1/2 head cabbage, coarsely chopped"                    }
-\CommentTok{\#> [1] "Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High."}
-\CommentTok{\#> [2] "Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour."                                                                                                                                             }
 \CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
-\CommentTok{\#> [1] "2 (10 ounce) packages frozen corn kernels, thawed"}
-\CommentTok{\#> [2] "1 cup heavy cream"                                }
-\CommentTok{\#> [3] "1 teaspoon salt"                                  }
-\CommentTok{\#> [4] "2 tablespoons granulated sugar"                   }
-\CommentTok{\#> [5] "1/4 teaspoon freshly ground black pepper"         }
-\CommentTok{\#> [6] "2 tablespoons butter"                             }
-\CommentTok{\#> [7] "1 cup whole milk"                                 }
-\CommentTok{\#> [8] "2 tablespoons all{-}purpose flour"                  }
-\CommentTok{\#> [9] "1/4 cup freshly grated Parmesan cheese"           }
-\CommentTok{\#> [1] "In a skillet over medium heat, combine the corn, cream, salt, sugar, pepper and butter. Whisk together the milk and flour, and stir into the corn mixture. Cook stirring over medium heat until the mixture is thickened, and corn is cooked through. Remove from heat, and stir in the Parmesan cheese until melted. Serve hot."}
+\CommentTok{\#> character(0)}
+\CommentTok{\#> character(0)}
+\CommentTok{\#> character(0)}
+\CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
 \CommentTok{\#> character(0)}
@@ -8148,7 +8147,9 @@ You make changes to your code or RMarkdown file and the computer will track thes
 \hypertarget{git-basics}{%
 \section{Git basics}\label{git-basics}}
 
-There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. We'll use the example of getting a book from the library to walk through using Git. The steps for this are simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book, we simply redo these steps.
+There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. This chapter will explain how to use Git through buttons on RStudio so you don't necessarily need to know these commands in Git, but it's useful to know enough to talk about them and ask questions if needed.
+
+We'll use the example of getting a book from the library to walk through using Git. The steps for this are simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book, we simply redo these steps.
 
 \begin{longtable}[]{@{}lll@{}}
 \toprule
@@ -8173,39 +8174,165 @@ Find book and check-out book\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Clone (usually will just be done once per project). RStudio helps with this. The code you see in the next cell is a little more complicated than normal since we're using RStudio Server.\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-git clone \emph{path to repo, can be GitHub link}\strut
+Git clone \emph{path to repo, can be GitHub link}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Read or write in book\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
 This is done in R, not in Git\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-No git code, this is going to be whatever code we write in R. Also includes any outputs such as making a graph that is saved, RMarkdown outputs like a PDF, or even new R files.\strut
+No Git code, this is going to be whatever code we write in R. Also includes any outputs such as making a graph that is saved, RMarkdown outputs like a PDF, or even new R files.\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Return book\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Add \& commit Push\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-git add . git commit --m ``message indicating what we wrote'' git push\strut
+Git add . Git commit --m ``message indicating what we wrote'' Git push\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Check-out book again (to see what other people have written in it)\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
 Pull\strut
 \end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
-git pull\strut
+Git pull\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
 
 Another way to think about commit vs push is that of writing an email. When you write an email, you're essentially editing a blank document by adding the words of the email. When you save (but don't send) the email, you are making a commit (essentially ``committing'' or promising to make a change). When you send the email you are making a push (taking something that you have written and changed and sending it to the main repository). While emails let you correspond directly between two or more people, how Git works is like sending the email to a central server (or a Post Office) and anyone who wants to read it has to go there. And when someone reads it and responds their email also goes to this central server. You have to go there to get their response (called a ``pull'' in Git terms) which is essentially an addition to your initial email.
 
+\hypertarget{using-git}{%
+\section{Using Git}\label{using-git}}
+
+While you can use Git like writing R code (though the syntax is not that similar to R), RStudio has built-in buttons that work instead of writing code yourself. We'll go through these buttons and not discuss any Git code beyond the small amount needed to link your project to GitHub, a website that is like DropBox for Git.
+
+\hypertarget{setting-up-git}{%
+\subsection{Setting up Git}\label{setting-up-git}}
+
+To install Git on your computer install \href{https://gitforwindows.org/}{Git for Windows} for Windows computers and \href{https://git-scm.com/download/mac}{Xcode} for Mac computers. If you're on a Linux operating system, see \href{https://git-scm.com/download/linux}{here} for how to install Git. For more help I recommend \href{https://happygitwithr.com/install-git.html}{this chapter} of Happy Git and GitHub for the useR which covers installing Git.
+
+You'll now need to tell Git some identifying information about yourself so that whenever you make a commit, Git will know who you are. We will use a function from the \texttt{usethis} package to do this. The only information we need is your name (or nickname, just something so collaborators know that it was you who did a certain commit) and email address (below you'll set up an account on GitHub - use the same email address there as here). We'll use the function \texttt{use\_git\_config} which has two parameters - \texttt{user.name} and \texttt{user.email} which take strings with your name and email, respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(usethis)}
+\KeywordTok{use\_git\_config}\NormalTok{(}\DataTypeTok{user.name =} \StringTok{"Your name"}\NormalTok{, }\DataTypeTok{user.email =} \StringTok{"email\_address@gmail.com"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have Git installed, you'll need to enable it through RStudio. To do this, go to Tools and click Global Options. Then go to the Git/SVN tab and check the ``Enable version control interface or RStudio projects'' checkbox. The final step here is to click the first Browse button and navigate to where you installed Git on your computer. Select the git file (on a windows computer this will be within the larger Git folder) and then hit Ok to close the popup.
+
+\includegraphics{images/git_tools.PNG}
+
+\hypertarget{setting-up-github}{%
+\subsection{Setting up Github}\label{setting-up-github}}
+
+we'll be using GitHub to host our Git commits. To use GitHub, please make an account on their website \url{https://Github.com/}. There are several \href{https://Github.com/pricing}{types of accounts} at various monthly costs but you only need the Free version. This gives you an unlimited number of public and private repositories (sometimes shorthanded to `repos') - these are basically R Projects (you can use any language when it comes to using Git and GitHub, not just R).
+
+A public repository is one that anyone can look at on GitHub, download the code/files and make any changes they want (though if they want to make changes to your repository they need to make a change request, it is not automatic). This is good for projects where you want others to collaborate on or to showcase your work. A private repository is the same thing but only people you approve can view, download, and work on your repository. This is good for when you don't want the code to be public (e.g.~code for an employer or dealing with sensitive data such as people's personal information). I tend to keep my research work private until the paper is published and my data work public since I want people to notice it and find bugs.\footnote{You may disagree with my decision to keep research code private until publication - and for good reason. Doing this has the benefit of preventing people from scooping my (and my collaborator's) work, but also makes it more likely to lead to bugs as there are fewer people looking at the code.}
+
+Once you've made an account on GitHub, you'll need to create a repository there to connect to your R Project. You can do this through the GitHub home page as shown below. This page is my own homepage and shows several on my current repositories on the left (note the ones with a golden lock to the left, these are the private repositories which are only accessible to people I permit), a list of updates on other people's repositories that I chose to get updates from, and some suggested repositories that GitHub thinks I'd be interested in on the right. To create a new repository, click the green New button on the left side above the list of current repositories.
+
+\includegraphics{images/Github_new_repo.PNG}
+
+After you click the green New button, you'll go to a page when you set a name for your repository (this can be different than the name of your R Project though I prefer to use the same name so I know exactly what project the repository is for), provide a short description, and choose if the repository should be public or private. You can also optionally add a README file which is a longer form of description for what the code is and its purpose (basically a short manual for the project - often explaining how, not why, it works), and add a .gitignore file or set a license (which tells people who look at the project what they're allowed to do with it. For more on code licenses please see this excellent \href{https://choosealicense.com/}{site}.) The .gitignore file is essentially a list of files or folders than you do \textbf{not} want These last three choices are all optional and if you don't do it now, you can do it anytime through R. Once you've made your choices, click the green Create Repository button
+
+\includegraphics{images/Github_new_repo2.PNG}
+
+This will open up a new page with a bunch of code that you'll enter in R that connects your R Project Git commits to this repository on GitHub. We'll get to this in a bit - for now, let's focus on those three buttons in the top left. These are for accessing or following other people's public repositories (you can technically click on them in your own repository but there isn't much benefit to that apart from the first button).
+
+\includegraphics{images/Github_new_repo3.PNG}
+
+The first button sets your notification settings for the repository. To change the notification setting, click ``Unwatch'' and then select how much you want to be notified for. By default it is set to notify you of all conversations that occur. The main conversation will be when someone posts a message in the Issues tab where they tell you about an issue (or sometimes a request for a new feature or just ask a question) about the code in this repo. With your own repositories, you'll want to be notified of all conversations so you don't miss anything. You can use this option on other people's repositories and it will alert you of changes or conversations in that repo. This is useful when you want to know about updates (i.e.~new features) on repositories that you're interested in (for example, I follow the \href{https://Github.com/r-lib/testthat}{testthat repo} so I know of any new versions of that package that may have useful features).
+
+\includegraphics{images/Github_new_repo4.PNG}
+
+Stars are simply a way to favorite a repository and you can see a list of all repositories that you have starred by clicking the profile button on the top right and going to ``Your stars''.
+
+\includegraphics{images/stars.PNG}
+
+The final option is ``Fork'' which creates a new repository on your account that is a copy of the repository that you forked. You will want to fork other people's repositories - there isn't much benefit of forking your own as that's essentially just making a duplicate of your own work - and modify them to suit your needs. This is useful for two reasons. First, if you want collaborate with someone - even if just to submit a fix to a bug you found (or a typo in this book!) - you can fork their repository, make the changes on your own RStudio project, commit the changes, and request that the original account accept your changes into the repository that you forked (called a ``pull request'').
+
+This sounds very complicated to make what could be a simple change (and it is) so why bother? As you get more familiar with R and how R handles Git, this process won't take \emph{too} much extra time so it's not that much of an additional burden. But the main advantage is that Git establishes much more structure than would exist otherwise, and helps protect the original creator's time. Consider that you found a bug in some of my code and sent me an email detailing that issue. This is probably the best-case scenario for you - it is quick to send emails. For me, that adds time to try to figure out what and where the bug is (describing it better would just take more time for you to write and me to read) and then to fix the bug. Even if you included the fix in the email, it would take me time to test it.
+
+When using Git and GitHub, this process is far easier for the person receiving the changes (and while is extra work because you must follow Git procedures, it can be somewhat easier as you won't need to explain as much). If you submit a bug changes to me through GitHub, I will immediately know what is changes as Git highlights all changes between my version and your fixed version, and I can set it to automatically run tests (see Chapter \ref{tests} for more on this) to make sure everything works. There is no longer any questions of what was changed, where the code was changed, how it is changed (barring confusing code being used), or whether it passes all the unit tests. Everything is largely automated so accepting changes is a breeze. As you program and collaborate more, you'll increasingly be on the side of receiving changes to your code, so the balance between extra work as a submitted and easier time as a receiver of changes gets better.
+
+In Section \ref{r-projects} we walked through making an R Project and selected the ``Create a Git repository'' box without explaining what that does. Clicking this box sets the R Project up to use Git so you don't need to do any other steps from the R side (but you'll need some steps to connect with GitHub). In the below section we discuss a simple way to connect your R Project to Git if you didn't check this box. If you plan on always checking the box - and have no unchecked R Projects that you want to use with Git, feel free to skip the following section.
+
+\hypertarget{setting-up-git-on-an-already-made-r-project}{%
+\section{Setting up Git on an already made R Project}\label{setting-up-git-on-an-already-made-r-project}}
+
+If you didn't tell RStudio to setup Git in your R Project, it's quite simple to do so through RStudio.
+
+First, go to Tool -\textgreater{} Project Options. Then click the Git/SVN button that is second to the bottom to open up the Git options. This will open up a page that says ``Version control system'' which will be set to ``(None)''. Click this and set it to ``Git''.
+
+\includegraphics{images/git_existing_project.PNG}
+
+It will then ask if you want to set up Git for the current R Project. Say Yes.
+
+\includegraphics{images/git_existing_project2.PNG}
+
+You need to restart RStudio for Git to work now, so click Yes.
+
+\includegraphics{images/git_existing_project3.PNG}
+
+Now if you look at the Environment panel you can see a new tab called ``Git''. We'll do all of the Git work in RStudio through this tab. You are now ready to use Git for this project.
+
+\includegraphics{images/git_existing_project4.PNG}
+
+\hypertarget{using-git-through-rstudio}{%
+\section{Using Git through RStudio}\label{using-git-through-rstudio}}
+
+Now we have an R Project with Git ready, and a repo on GitHub to store the project files. We need a way to connect the R Project to the specific GitHub repo - for this, we'll return to that screen on GitHub with all of the weird code that starts with the word ``Git''. We need to enter that code into R to connect the two. To do this, we need to use the Git Shell, which is basically like the Console panel but for Git. You can get to this by going to the Git tab, click on the More button, then click ``Shell\ldots{}''.
+
+\includegraphics{images/Github_new_repo3.PNG}
+
+\includegraphics{images/git_shell.PNG}
+
+This opens up a popup almost identical to the Console panel. Here we can write the code (or copy it from GitHub) and hit enter to run the line. This is the only time we will be using actual Git code in this chapter (there is some benefit to learning the Git code rather than relying on the buttons in RStudio as it is much faster when dealing with large files or simply a large number of files to use the code rather than through RStudio - though I'm not sure why this is).
+
+\includegraphics{images/git_shell3.PNG}
+
+We will use the first chunk of code that's shown on GitHub - the one that starts with the bold text \textbf{``\ldots or create a new repository on the command line''}. You can copy and paste all of the code (starting with the ``echo'' line and ending with the ``git push -u origin master'' line) to the shell and hit enter or you can do it one line at a time.
+
+\includegraphics{images/git_shell2.PNG}
+
+Refresh your GitHub page and you'll see that instead of code on the screen, it shows the files that you uploaded. In this case, I didn't make any files so it is largely blank, just a relatively empty README file. If this was a real project, you'd see all of the same files (except those you chose not to commit) as in your R Project folder. You R Project is now connected to the GitHub repo so you can do the rest of the Git work on this project entirely through RStudio and will not need to touch the Git Shell again.
+
+\includegraphics{images/git_shell_4.PNG}
+
+The below photo shows my Git tab while working on this chapter and from an update to the Subsetting chapter. It has a list of all of the files that I changed since my last commit (if you haven't committed at all yet, this is just all of the files in your project folder) and is color coded based on what I did to them. The blue M means that I have modified an already existing - i.e.~one that has already been committed through Git - file, and and the yellow ? means that these are new files. If there was a red D next to any of the files, that would mean that I deleted a file that had previously been committed. There are a lot of buttons here (Diff, Commit, Pull, etc.) but you can ignore them and just click the Commit button when ready to make a commit. Doing so will open up a new window that has all the functionality of these various buttons in an easier (in my opinion) format.
+
+\includegraphics{images/git_commit1.PNG}
+
+This window is where you can review the changes and write up a brief note about what you did. The window is a bit overwhelming so we'll take it in pieces. First let's start by examining how the list of files in the top left is related to the big box on the bottom with text highlighted in red and green. The list of files is identical to that in the Git tab - it's just a list of files that have changed (including new files and deleted files) since the last commit. When you click one, it'll show you the changes made to this file relative to the most recent version on Git (note that while this will show changes on R files and some other types of files, not all are available to be viewed - though that won't affect Git working at all - so it may just show a blank part of the window instead). The section that was remove is highlighted in red and the replacement is highlighting in green. Unfortunately, it shows changes on entire lines so if you only change a small part of a line, you will have to read closely to see the difference. You can look through this to exactly what you changed - both in which files were changed and what was changed in each file.
+
+Now let's walk through the process of actually committing and pushing your changes to GitHub. In real terms, this is basically uploading a new version of the files to GitHub, with brief documentation of what changed. At this point all we need to do is tell RStudio which files we want to commit, write a brief message explaining the changes, and submit it.
+
+First, we select which files to commit by clicking the checkbox to the very left on the top left panel. In the image below, they are all unchecked as I haven't selected any yet. You can click each file's box or click the Stage button near the top once you have a file (or files) highlighted to stage it. Once it's staged the checkbox will now have a check in it. Staging a file just means that you want to commit this file. If you want to commit all of the files, you can do Control+A (or Command+A) to select all of the files and then click Stage.
+
+Now you're ready to document the \textbf{overall} changes that you're committing, not the changes for each individual file. You do so in the ``Commit message'' box on the right. Again, here it is blank but you would write a short description (there is no hard rule that it must be short, but the general convention is each commit is relatively small and thus the description of the message can be short. You generally want no less than a short sentence and no more than a paragraph. Though of course this depends on your unique circumstances. As you first start out, I think over-describing your work is best as you get a feel to what to do.). Now click the Commit button.
+
+\includegraphics{images/git_commit2.PNG}
+
+It will make a popup window showing all the changes that it made. The ``create mode \ldots{}'' stuff is saying that these files (the images) are new files that Git hasn't seen before. You can close this popup.
+
+\includegraphics{images/git_commit3.PNG}
+
+You have now completed your first commit commit using Git through RStudio. The files aren't on GitHub just yet though. Now right above the list of files is text that says ``Your branch is ahead of `origin/master' by 1 commit.'' This means that your version of the project is ahead of (since you made changes to the project that you just committed) the version on GitHub. To send it to GitHub you just need to push the Push button on the top right. In our email example, this is like clicking send after writing your draft and saving (committing) it. When you click Push it'll open up a popup which you can close once it's done.
+
+\includegraphics{images/git_commit4.PNG}
+
 \hypertarget{when-to-commit}{%
 \section{When to commit}\label{when-to-commit}}
 
-\hypertarget{code-review}{%
-\section{Code review}\label{code-review}}
+There is no hard rule for when to make a commit, but the general convention is to make one whenever you've finished a unique ``part'' of the work. For example, if you have some data that you need to clean, graph, and run a regression on, you'd likely commit after each part is done. One of the benefits of using Git is that you will have a record of each version of the code that you commit - so you want to balance between having too many records that are very similar to each other (similar to saving a new version of a paper draft every time you add a sentence) and too few so you lose a lot of work if you need to go back (similar to saving a new version of the paper only every 10 pages of writing).
+
+\hypertarget{other-resources}{%
+\section{Other resources}\label{other-resources}}
+
+For an excellent overview of using Git and GitHub with R, please see \href{https://r-pkgs.org/Git.html}{this chapter} of Hadley Wickham and Jenny Bryan's book \href{https://r-pkgs.org/}{R Packages}. For a short and very accessible book on this topic, please see Jenny Bryan and Jim Hester's excellent \href{https://happyGitwithr.com/}{Happy Git and GitHub for the useR}.
 
 \hypertarget{part-data}{%
 \part{Data}\label{part-data}}
