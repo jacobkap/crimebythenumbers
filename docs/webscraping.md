@@ -54,19 +54,19 @@ We now need to select only a small part of page which has the relevant informati
 
 We need to find just which parts of the page to scrape. To do so we'll use the helper tool [SelectorGadget](https://selectorgadget.com/), a Google Chrome extension that lets you click on parts of the page to get the CSS selector code that we'll use. Install that extension in Chrome and go to the [brownie recipe page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
-When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - "1/2 cup white sugar". Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same "type" in the page. It also highlighted the text "Add all ingredients to list" which we don't want. As it is always the last line of text in ingredients, we'll leave it in for now and practice subsetting data through R to remove it.
+When you open SelectorGadget it allows you click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - "1/2 cup white sugar". Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same "type" in the page. 
 
 ![](images/brownies_3.PNG)
 
-Note that in the bottom right of the screen, the SelectorGadget bar now has the text ".added". This is the CSS selector code we can use to get all of the ingredients. 
+Note that in the bottom right of the screen, the SelectorGadget bar now has the text ".ingredients-item-name". This is the CSS selector code we can use to get all of the ingredients. 
 
 ![](images/brownies_4.PNG)
 
-We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *brownies*) and then we can paste the CSS selector text - in this case, ".added". We'll save the resulting object as *ingredients* since we want to use *brownies* to also get the directions. 
+We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *brownies*) and then we can paste the CSS selector text - in this case, ".ingredients-item-name". We'll save the resulting object as *ingredients* since we want to use *brownies* to also get the directions. 
 
 
 ```r
-ingredients <- html_nodes(brownies, ".added")
+ingredients <- html_nodes(brownies, ".ingredients-item-name")
 ```
 
 Since we are getting data that is a text format, we need to tell `rvest` that the format of the scraped data is text. We do with using `html_text()` and our input in the () is the object made in the function `html_text()`.  
@@ -81,22 +81,30 @@ Now let's check what we got.
 
 ```r
 ingredients
-#> character(0)
+#> [1] "\n                                                ½ cup white sugar \n                                            "                 
+#> [2] "\n                                                2 tablespoons butter \n                                            "              
+#> [3] "\n                                                2 tablespoons water \n                                            "               
+#> [4] "\n                                                1<U+2009>½ cups semisweet chocolate chips \n                                            "
+#> [5] "\n                                                2  large eggs eggs \n                                            "                
+#> [6] "\n                                                ½ teaspoon vanilla extract \n                                            "        
+#> [7] "\n                                                <U+2154> cup all-purpose flour \n                                            "    
+#> [8] "\n                                                ¼ teaspoon baking soda \n                                            "            
+#> [9] "\n                                                ½ teaspoon salt \n                                            "
 ```
 
-We have successfully scraped the ingredients for this brownies recipes - plus the "Add all ingredients to list" (copied twice for some reason). 
+We have successfully scraped the ingredients for this brownies recipes. 
 
 Now let's do the same process to get the directions for baking. 
 
-In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions. It'll highlight all three directions as they're all of the same "type" (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a "text" type in the section on directions and SelectorGadget then selected all "text" types inside of that section.). 
+In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions that starts with the word "Step". It'll highlight all three directions as they're all of the same "type" (to be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a "text" type in the section on directions and SelectorGadget then selected all "text" types inside of that section.). Note that if you click on the instructions without starting on one of the "Step" lines, such as clickingo on the actual instructions (e.g. "Preheat the oven...") lines itself, SelectorGadget will have the node "p" and say it has found 25 'things' on that page that match. To fix this you just scroll up to see where the text "Best brownies I've ever had!" is also highlighted in yellow and click that to unselect it. Using SelectorGadget is often steps like this where you use trial and error to only select the parts of the page that you want.  
 
 ![](images/brownies_5.PNG)
 
-The CSS selector code this time is ".recipe-directions__list--item" so we can put that inside of `html_nodes()`. Let's save the output as *directions*.
+The CSS selector code this time is ".instructions-section-item" so we can put that inside of `html_nodes()`. Let's save the output as *directions*.
 
 
 ```r
-directions <- html_nodes(brownies, ".recipe-directions__list--item")
+directions <- html_nodes(brownies, ".instructions-section-item")
 directions <- html_text(directions)
 ```
 
@@ -105,42 +113,24 @@ Did it work?
 
 ```r
 directions
-#> character(0)
+#> [1] "\n                                \n                                  \n                                    \n                                      Step 1\n                                    \n                                  \n                                \n                                  \n                                    \n                                      Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                                    \n                                    \n                                  \n                                    \n                                      \n                                    \n                                  Advertisement\n                              "                                                           
+#> [2] "\n                                \n                                  \n                                    \n                                      Step 2\n                                    \n                                  \n                                \n                                  \n                                    \n                                      In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                                    \n                                    \n                                  \n                              "
+#> [3] "\n                                \n                                  \n                                    \n                                      Step 3\n                                    \n                                  \n                                \n                                  \n                                    \n                                      Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                                    \n                                    \n                                  \n                              "
 ```
 
 Yes! The final value in our vector is blank so we will have to remove that. 
 
 ## Cleaning the webscraped data
 
-We only have three things to do to clean the data. First, we need to remove the "Add all ingredients to list" from the *ingredients* object. Second, we will remove the blank value ("") from the *directions* object. For both tasks we'll do conditional subsetting to keep all values that do *not* equal those values. Finally, the directions print out with the text `\n` at the end. This indicates that it is the end of the line but we'll want to remove that, which we can do using `gsub()`. 
-
-First let's try out the condition of *ingredients* that do not equal the string "Add all ingredients to list".
+Now we just need to clean up the extra spaces to have nice, clean instructions for own brownies. Since the directions print out with the text `\n` at the end this indicates that it is the end of the line but we'll want to remove that, which we can do using `gsub()`. 
 
 
-```r
-ingredients != "Add all ingredients to list"
-#> logical(0)
-```
-
-It returns TRUE for all values except the last two, the ones which do equal "Add all ingredients to list". Let's only keep the elements without this string. 
-
-
-```r
-ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-```
-
-And we can do the same thing for the empty string in *directions*.
-
-
-```r
-directions <- directions[directions != ""]
-```
-
-To remove the `\n` we simple find that in `gsub()` and replace it with a blank string. 
+To remove the `\n` we simple find that in `gsub()` and replace it with a blank string. We'll do that for both ingredients and directions.
 
 
 ```r
 directions <- gsub("\n", "", directions)
+ingredients <- gsub("\n", "", ingredients)
 ```
 
 And let's print out both objects to make sure it worked. 
@@ -148,18 +138,52 @@ And let's print out both objects to make sure it worked.
 
 ```r
 ingredients
-#> character(0)
+#> [1] "                                                ½ cup white sugar                                             "                 
+#> [2] "                                                2 tablespoons butter                                             "              
+#> [3] "                                                2 tablespoons water                                             "               
+#> [4] "                                                1<U+2009>½ cups semisweet chocolate chips                                             "
+#> [5] "                                                2  large eggs eggs                                             "                
+#> [6] "                                                ½ teaspoon vanilla extract                                             "        
+#> [7] "                                                <U+2154> cup all-purpose flour                                             "    
+#> [8] "                                                ¼ teaspoon baking soda                                             "            
+#> [9] "                                                ½ teaspoon salt                                             "
 directions
-#> character(0)
+#> [1] "                                                                                                                                            Step 1                                                                                                                                                                                                                  Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                                                                                                                                                          Advertisement                              "                                                                   
+#> [2] "                                                                                                                                            Step 2                                                                                                                                                                                                                  In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                                                                                                                                        "
+#> [3] "                                                                                                                                            Step 3                                                                                                                                                                                                                  Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                                                                                                                                        "
 ```
 
-Now *ingredients* is as it should be but *directions* has a bunch of space at the end of the string. Let's use `gsub()` again to remove multiple spaces.
+It got rid of the `\n` but there's still white space at the start and end of our text. We can remove that using `trimws()`.
+
+
+```r
+directions <- trimws(directions)
+ingredients <- trimws(ingredients)
+```
+
+And let's check again. 
+
+
+```r
+ingredients
+#> [1] "½ cup white sugar"                  "2 tablespoons butter"              
+#> [3] "2 tablespoons water"                "1<U+2009>½ cups semisweet chocolate chips"
+#> [5] "2  large eggs eggs"                 "½ teaspoon vanilla extract"        
+#> [7] "<U+2154> cup all-purpose flour"     "¼ teaspoon baking soda"            
+#> [9] "½ teaspoon salt"
+directions
+#> [1] "Step 1                                                                                                                                                                                                                  Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                                                                                                                                                          Advertisement"
+#> [2] "Step 2                                                                                                                                                                                                                  In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."                                       
+#> [3] "Step 3                                                                                                                                                                                                                  Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
+```
+
+Now *ingredients* is as it should be (note that all of the ingredient amounts - e.g. 2/3 cups - looks fine when in R. But when exporting it to PDF and on the site it shows weird characters like '<U+2154>'. This is because the conversion from R to PDF or HTML isn't working right. I'm keeping this unfixed as a demonstration of how things can look right in R but look wrong when moving it elsewhere. So when working on something that you export out of R (including from R to PDF/HTML or even R to Excel), you should make sure to check that no issue occurred during the conversion.) but *directions* has a bunch of space between the step number and the instructions. Let's use `gsub()` again to remove the multiple spaces and replace it with a colon followed by a single space.
 
 We'll search for anything with two or more spaces and replace that with an empty string.
 
 
 ```r
-directions <- gsub(" {2,}", "", directions)
+directions <- gsub(" {2,}", ": ", directions)
 ```
 
 And one final check to make sure it worked.
@@ -167,7 +191,9 @@ And one final check to make sure it worked.
 
 ```r
 directions
-#> character(0)
+#> [1] "Step 1: Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.: Advertisement"                                                                                                                                                                                                                 
+#> [2] "Step 2: In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."
+#> [3] "Step 3: Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
 ```
 
 

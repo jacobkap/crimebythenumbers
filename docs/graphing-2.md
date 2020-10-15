@@ -26,7 +26,10 @@ shootings <- read_csv("https://raw.githubusercontent.com/washingtonpost/data-pol
 #>   signs_of_mental_illness = col_logical(),
 #>   threat_level = col_character(),
 #>   flee = col_character(),
-#>   body_camera = col_logical()
+#>   body_camera = col_logical(),
+#>   longitude = col_double(),
+#>   latitude = col_double(),
+#>   is_geocoding_exact = col_logical()
 #> )
 ```
 
@@ -44,12 +47,12 @@ Now that we have the data read in, let's look at it.
 
 ```r
 nrow(shootings)
-#> [1] 5573
+#> [1] 5701
 ncol(shootings)
-#> [1] 14
+#> [1] 17
 ```
 
-The data has 14 variables and covers 5573 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
+The data has 17 variables and covers 5701 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
 
 
 ```r
@@ -68,13 +71,13 @@ head(shootings)
 #> 4 San Francisco    CA                    TRUE       attack Not fleeing
 #> 5         Evans    CO                   FALSE       attack Not fleeing
 #> 6       Guthrie    OK                   FALSE       attack Not fleeing
-#>   body_camera
-#> 1       FALSE
-#> 2       FALSE
-#> 3       FALSE
-#> 4       FALSE
-#> 5       FALSE
-#> 6       FALSE
+#>   body_camera longitude latitude is_geocoding_exact
+#> 1       FALSE  -123.122   47.247               TRUE
+#> 2       FALSE  -122.892   45.487               TRUE
+#> 3       FALSE   -97.281   37.695               TRUE
+#> 4       FALSE  -122.422   37.763               TRUE
+#> 5       FALSE  -104.692   40.384               TRUE
+#> 6       FALSE   -97.423   35.877               TRUE
 ```
 
 Each row is a single shooting and it includes variables such as the victim's name, the date of the shooting, demographic information about that person, the city and state where the shooting occurred, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can't use `summary()` on them. Let's use `summary()` on the date and age columns and then use `table()` for the rest. 
@@ -83,10 +86,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 ```r
 summary(shootings$date)
 #>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
-#> "2015-01-02" "2016-05-29" "2017-11-03" "2017-10-27" "2019-03-30" "2020-08-18"
+#> "2015-01-02" "2016-06-10" "2017-11-24" "2017-11-20" "2019-05-09" "2020-10-14"
 summary(shootings$age)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>    6.00   27.00   35.00   37.12   46.00   91.00     248
+#>    6.00   27.00   35.00   37.14   46.00   91.00     257
 ```
 
 
@@ -97,7 +100,7 @@ From this we can see that the data is from early January through about a week ag
 table(shootings$manner_of_death)
 #> 
 #>             shot shot and Tasered 
-#>             5296              277
+#>             5416              285
 ```
 
 To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.
@@ -107,7 +110,7 @@ To turn these counts into percentages we can divide the results by the number of
 table(shootings$manner_of_death) / nrow(shootings) * 100
 #> 
 #>             shot shot and Tasered 
-#>        95.029607         4.970393
+#>        95.000877         4.999123
 ```
 
 Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let's take a look at whether the victim was armed.
@@ -117,99 +120,101 @@ Now it is clear to see that in about 95% of shootings, officers used a gun and i
 table(shootings$armed) / nrow(shootings) * 100
 #> 
 #>                  air conditioner                       air pistol 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>                   Airsoft pistol                               ax 
-#>                       0.01794366                       0.43064777 
+#>                       0.05262235                       0.42097878 
 #>                         barstool                     baseball bat 
-#>                       0.01794366                       0.32298582 
+#>                       0.01754078                       0.33327486 
 #>          baseball bat and bottle baseball bat and fireplace poker 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>           baseball bat and knife                            baton 
-#>                       0.01794366                       0.08971828 
+#>                       0.01754078                       0.10524469 
 #>                          bayonet                           BB gun 
-#>                       0.01794366                       0.08971828 
+#>                       0.01754078                       0.08770391 
 #>               BB gun and vehicle                     bean-bag gun 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>                      beer bottle                     blunt object 
-#>                       0.05383097                       0.08971828 
+#>                       0.05262235                       0.08770391 
 #>                           bottle                    bow and arrow 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>                       box cutter                            brick 
-#>                       0.21532388                       0.03588731 
+#>                       0.21048939                       0.03508156 
 #>              car, knife and mace                          carjack 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>                            chain                        chain saw 
-#>                       0.05383097                       0.03588731 
+#>                       0.05262235                       0.03508156 
 #>                         chainsaw                            chair 
-#>                       0.01794366                       0.07177463 
+#>                       0.01754078                       0.07016313 
 #>              claimed to be armed               contractor's level 
-#>                       0.01794366                       0.01794366 
+#>                       0.01754078                       0.01754078 
 #>                   cordless drill                         crossbow 
-#>                       0.01794366                       0.16149291 
+#>                       0.01754078                       0.15786704 
 #>                          crowbar                        fireworks 
-#>                       0.07177463                       0.01794366 
+#>                       0.07016313                       0.01754078 
 #>                         flagpole                       flashlight 
-#>                       0.01794366                       0.03588731 
+#>                       0.01754078                       0.03508156 
 #>                      garden tool                      glass shard 
-#>                       0.03588731                       0.05383097 
+#>                       0.03508156                       0.05262235 
 #>                          grenade                              gun 
-#>                       0.01794366                      56.64812489 
+#>                       0.01754078                      56.81459393 
 #>                      gun and car                    gun and knife 
-#>                       0.19738023                       0.32298582 
-#>                    gun and sword                  gun and vehicle 
-#>                       0.01794366                       0.19738023 
-#>              guns and explosives                           hammer 
-#>                       0.05383097                       0.28709851 
-#>                       hand torch                          hatchet 
-#>                       0.01794366                       0.19738023 
-#>                  hatchet and gun                         ice pick 
-#>                       0.03588731                       0.01794366 
-#>                incendiary device                            knife 
-#>                       0.03588731                      14.76762964 
-#>                 lawn mower blade                          machete 
-#>                       0.03588731                       0.84335188 
-#>                  machete and gun                     meat cleaver 
-#>                       0.01794366                       0.08971828 
-#>                  metal hand tool                     metal object 
-#>                       0.01794366                       0.07177463 
-#>                       metal pipe                       metal pole 
-#>                       0.25121120                       0.05383097 
-#>                       metal rake                      metal stick 
-#>                       0.01794366                       0.05383097 
-#>                       motorcycle                         nail gun 
-#>                       0.01794366                       0.01794366 
-#>                              oar                       pellet gun 
-#>                       0.01794366                       0.05383097 
-#>                              pen                     pepper spray 
-#>                       0.01794366                       0.01794366 
-#>                         pick-axe                    piece of wood 
-#>                       0.07177463                       0.08971828 
-#>                             pipe                        pitchfork 
-#>                       0.10766194                       0.03588731 
-#>                             pole                   pole and knife 
-#>                       0.03588731                       0.03588731 
-#>                             rock                    samurai sword 
-#>                       0.10766194                       0.05383097 
-#>                         scissors                      screwdriver 
-#>                       0.12560560                       0.23326754 
-#>                     sharp object                           shovel 
-#>                       0.23326754                       0.10766194 
-#>                            spear                          stapler 
-#>                       0.01794366                       0.01794366 
-#>              straight edge razor                            sword 
-#>                       0.07177463                       0.41270411 
-#>                            Taser                        tire iron 
-#>                       0.46653508                       0.01794366 
-#>                       toy weapon                          unarmed 
-#>                       3.46312579                       6.38794186 
-#>                     undetermined                   unknown weapon 
-#>                       3.03247802                       1.41754890 
-#>                          vehicle                  vehicle and gun 
-#>                       2.85304145                       0.07177463 
-#>              vehicle and machete                    walking stick 
-#>                       0.01794366                       0.01794366 
-#>                       wasp spray                           wrench 
-#>                       0.01794366                       0.01794366
+#>                       0.19294861                       0.31573408 
+#>                  gun and machete                    gun and sword 
+#>                       0.01754078                       0.01754078 
+#>                  gun and vehicle              guns and explosives 
+#>                       0.19294861                       0.05262235 
+#>                           hammer                       hand torch 
+#>                       0.28065252                       0.01754078 
+#>                          hatchet                  hatchet and gun 
+#>                       0.19294861                       0.03508156 
+#>                         ice pick                incendiary device 
+#>                       0.01754078                       0.03508156 
+#>                            knife                 lawn mower blade 
+#>                      14.82196106                       0.03508156 
+#>                          machete                  machete and gun 
+#>                       0.82441677                       0.01754078 
+#>                     meat cleaver                  metal hand tool 
+#>                       0.08770391                       0.01754078 
+#>                     metal object                       metal pipe 
+#>                       0.07016313                       0.24557095 
+#>                       metal pole                       metal rake 
+#>                       0.05262235                       0.01754078 
+#>                      metal stick                       motorcycle 
+#>                       0.05262235                       0.01754078 
+#>                         nail gun                              oar 
+#>                       0.01754078                       0.01754078 
+#>                       pellet gun                              pen 
+#>                       0.05262235                       0.01754078 
+#>                     pepper spray                         pick-axe 
+#>                       0.03508156                       0.07016313 
+#>                    piece of wood                             pipe 
+#>                       0.08770391                       0.10524469 
+#>                        pitchfork                             pole 
+#>                       0.03508156                       0.03508156 
+#>                   pole and knife                             rock 
+#>                       0.03508156                       0.10524469 
+#>                    samurai sword                         scissors 
+#>                       0.05262235                       0.12278548 
+#>                      screwdriver                     sharp object 
+#>                       0.22803017                       0.21048939 
+#>                           shovel                            spear 
+#>                       0.12278548                       0.03508156 
+#>                          stapler              straight edge razor 
+#>                       0.01754078                       0.07016313 
+#>                            sword                            Taser 
+#>                       0.40343799                       0.47360112 
+#>                        tire iron                       toy weapon 
+#>                       0.03508156                       3.38537099 
+#>                          unarmed                     undetermined 
+#>                       6.29714085                       3.12225925 
+#>                   unknown weapon                          vehicle 
+#>                       1.42080337                       2.84160674 
+#>                  vehicle and gun              vehicle and machete 
+#>                       0.07016313                       0.01754078 
+#>                    walking stick                       wasp spray 
+#>                       0.01754078                       0.01754078 
+#>                           wrench 
+#>                       0.01754078
 ```
 
 This is fairly hard to interpret as it is sorted alphabetically when we'd prefer it to be sorted by most common weapon. It also doesn't round the numbers so there are many numbers past the decimal point shown. Let's solve these two issues using `sort()` and `round()`. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use `sort()` and `round()` on that. We'll set the parameter `decreasing` to TRUE in the `sort()` function so that it is in descending order of how common each value is. And we'll round to two decimal places by setting the parameter `digits` to 2.
@@ -222,33 +227,33 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>                              gun                            knife 
-#>                            56.65                            14.77 
+#>                            56.81                            14.82 
 #>                          unarmed                       toy weapon 
-#>                             6.39                             3.46 
+#>                             6.30                             3.39 
 #>                     undetermined                          vehicle 
-#>                             3.03                             2.85 
+#>                             3.12                             2.84 
 #>                   unknown weapon                          machete 
-#>                             1.42                             0.84 
+#>                             1.42                             0.82 
 #>                            Taser                               ax 
-#>                             0.47                             0.43 
+#>                             0.47                             0.42 
 #>                            sword                     baseball bat 
-#>                             0.41                             0.32 
+#>                             0.40                             0.33 
 #>                    gun and knife                           hammer 
-#>                             0.32                             0.29 
+#>                             0.32                             0.28 
 #>                       metal pipe                      screwdriver 
 #>                             0.25                             0.23 
-#>                     sharp object                       box cutter 
-#>                             0.23                             0.22 
+#>                       box cutter                     sharp object 
+#>                             0.21                             0.21 
 #>                      gun and car                  gun and vehicle 
-#>                             0.20                             0.20 
+#>                             0.19                             0.19 
 #>                          hatchet                         crossbow 
-#>                             0.20                             0.16 
-#>                         scissors                             pipe 
-#>                             0.13                             0.11 
-#>                             rock                           shovel 
+#>                             0.19                             0.16 
+#>                         scissors                           shovel 
+#>                             0.12                             0.12 
+#>                            baton                             pipe 
 #>                             0.11                             0.11 
-#>                            baton                           BB gun 
-#>                             0.09                             0.09 
+#>                             rock                           BB gun 
+#>                             0.11                             0.09 
 #>                     blunt object                     meat cleaver 
 #>                             0.09                             0.09 
 #>                    piece of wood                            chair 
@@ -257,45 +262,49 @@ temp
 #>                             0.07                             0.07 
 #>                         pick-axe              straight edge razor 
 #>                             0.07                             0.07 
-#>                  vehicle and gun                      beer bottle 
+#>                  vehicle and gun                   Airsoft pistol 
 #>                             0.07                             0.05 
-#>                            chain                      glass shard 
+#>                      beer bottle                            chain 
 #>                             0.05                             0.05 
-#>              guns and explosives                       metal pole 
+#>                      glass shard              guns and explosives 
 #>                             0.05                             0.05 
-#>                      metal stick                       pellet gun 
+#>                       metal pole                      metal stick 
 #>                             0.05                             0.05 
-#>                    samurai sword                            brick 
-#>                             0.05                             0.04 
-#>                        chain saw                       flashlight 
+#>                       pellet gun                    samurai sword 
+#>                             0.05                             0.05 
+#>                            brick                        chain saw 
 #>                             0.04                             0.04 
-#>                      garden tool                  hatchet and gun 
+#>                       flashlight                      garden tool 
 #>                             0.04                             0.04 
-#>                incendiary device                 lawn mower blade 
+#>                  hatchet and gun                incendiary device 
+#>                             0.04                             0.04 
+#>                 lawn mower blade                     pepper spray 
 #>                             0.04                             0.04 
 #>                        pitchfork                             pole 
 #>                             0.04                             0.04 
-#>                   pole and knife                  air conditioner 
+#>                   pole and knife                            spear 
+#>                             0.04                             0.04 
+#>                        tire iron                  air conditioner 
 #>                             0.04                             0.02 
-#>                       air pistol                   Airsoft pistol 
+#>                       air pistol                         barstool 
 #>                             0.02                             0.02 
-#>                         barstool          baseball bat and bottle 
+#>          baseball bat and bottle baseball bat and fireplace poker 
 #>                             0.02                             0.02 
-#> baseball bat and fireplace poker           baseball bat and knife 
+#>           baseball bat and knife                          bayonet 
 #>                             0.02                             0.02 
-#>                          bayonet               BB gun and vehicle 
+#>               BB gun and vehicle                     bean-bag gun 
 #>                             0.02                             0.02 
-#>                     bean-bag gun                           bottle 
+#>                           bottle                    bow and arrow 
 #>                             0.02                             0.02 
-#>                    bow and arrow              car, knife and mace 
+#>              car, knife and mace                          carjack 
 #>                             0.02                             0.02 
-#>                          carjack                         chainsaw 
+#>                         chainsaw              claimed to be armed 
 #>                             0.02                             0.02 
-#>              claimed to be armed               contractor's level 
+#>               contractor's level                   cordless drill 
 #>                             0.02                             0.02 
-#>                   cordless drill                        fireworks 
+#>                        fireworks                         flagpole 
 #>                             0.02                             0.02 
-#>                         flagpole                          grenade 
+#>                          grenade                  gun and machete 
 #>                             0.02                             0.02 
 #>                    gun and sword                       hand torch 
 #>                             0.02                             0.02 
@@ -307,19 +316,17 @@ temp
 #>                             0.02                             0.02 
 #>                              oar                              pen 
 #>                             0.02                             0.02 
-#>                     pepper spray                            spear 
+#>                          stapler              vehicle and machete 
 #>                             0.02                             0.02 
-#>                          stapler                        tire iron 
+#>                    walking stick                       wasp spray 
 #>                             0.02                             0.02 
-#>              vehicle and machete                    walking stick 
-#>                             0.02                             0.02 
-#>                       wasp spray                           wrench 
-#>                             0.02                             0.02
+#>                           wrench 
+#>                             0.02
 ```
 
 Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15% of the time they had a knife. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.
 
-Think about how you'd graph this data. There are 95 unique values in this column though fewer than ten of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called "other weapons." And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference. 
+Think about how you'd graph this data. There are 96 unique values in this column though fewer than ten of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called "other weapons." And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference. 
 
 Let's keep exploring the data by looking at gender and race. 
 
@@ -327,8 +334,8 @@ Let's keep exploring the data by looking at gender and race.
 ```r
 table(shootings$gender) / nrow(shootings) * 100
 #> 
-#>        F        M 
-#>  4.41414 95.56792
+#>         F         M 
+#>  4.420277 95.562182
 ```
 
 Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn't be too surprising. 
@@ -341,7 +348,7 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>     O     N     A     H     B     W 
-#>  0.86  1.40  1.69 16.45 23.60 45.27
+#>  0.82  1.40  1.65 16.58 23.54 45.47
 ```
 
 White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are, for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
@@ -376,7 +383,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 ggplot(shootings, aes(x = age)) + 
   geom_histogram()
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 248 rows containing non-finite values (stat_bin).
+#> Warning: Removed 257 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
@@ -387,7 +394,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 15)
-#> Warning: Removed 248 rows containing non-finite values (stat_bin).
+#> Warning: Removed 257 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
@@ -396,7 +403,7 @@ ggplot(shootings, aes(x = age)) +
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 45)
-#> Warning: Removed 248 rows containing non-finite values (stat_bin).
+#> Warning: Removed 257 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
@@ -410,7 +417,7 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)))
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 248 rows containing non-finite values (stat_bin).
+#> Warning: Removed 257 rows containing non-finite values (stat_bin).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
@@ -423,7 +430,7 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_density()
-#> Warning: Removed 248 rows containing non-finite values (stat_density).
+#> Warning: Removed 257 rows containing non-finite values (stat_density).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
@@ -436,7 +443,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count()
-#> Warning: Removed 248 rows containing non-finite values (stat_count).
+#> Warning: Removed 257 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
@@ -446,7 +453,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count(aes(y = (..count..)/sum(..count..)))
-#> Warning: Removed 248 rows containing non-finite values (stat_count).
+#> Warning: Removed 257 rows containing non-finite values (stat_count).
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
@@ -471,7 +478,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 table(shootings$race)
 #> 
 #>    A    B    H    N    O    W 
-#>   94 1315  917   78   48 2523
+#>   94 1342  945   80   47 2592
 ```
 
 It's still alphabetical so let's wrap that in a `sort()` function. 
@@ -481,7 +488,7 @@ It's still alphabetical so let's wrap that in a `sort()` function.
 sort(table(shootings$race))
 #> 
 #>    O    N    A    H    B    W 
-#>   48   78   94  917 1315 2523
+#>   47   80   94  945 1342 2592
 ```
 
 It's sorted from smallest to largest. We usually want to graph from largest to smallest so let's set the parameter `decreasing` in `sort()` to TRUE.
@@ -491,7 +498,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 sort(table(shootings$race), decreasing = TRUE)
 #> 
 #>    W    B    H    A    N    O 
-#> 2523 1315  917   94   78   48
+#> 2592 1342  945   94   80   47
 ```
 
 Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in `names()` to get just the names.
