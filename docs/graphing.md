@@ -14,6 +14,7 @@ install.packages("ggplot2")
 
 ```r
 library(ggplot2)
+#> Warning: package 'ggplot2' was built under R version 4.0.3
 ```
 
 When working with new data, It's often useful to quickly graph the data to try to understand what you're working with. It is also useful when understanding how much to trust the data.

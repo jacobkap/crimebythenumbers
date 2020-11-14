@@ -19,6 +19,7 @@ And every time you start R, if you want to use `rvest` you must tell R so by usi
 ```r
 library(rvest)
 #> Loading required package: xml2
+#> Warning: package 'xml2' was built under R version 4.0.3
 ```
 
 Here is a screenshot of the recipe for the "MMMMM... Brownies" (an excellent brownies recipe) [page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
@@ -85,7 +86,7 @@ ingredients
 #> [2] "\n                                                2 tablespoons butter \n                                            "              
 #> [3] "\n                                                2 tablespoons water \n                                            "               
 #> [4] "\n                                                1<U+2009>½ cups semisweet chocolate chips \n                                            "
-#> [5] "\n                                                2  large eggs eggs \n                                            "                
+#> [5] "\n                                                2  eggs \n                                            "                           
 #> [6] "\n                                                ½ teaspoon vanilla extract \n                                            "        
 #> [7] "\n                                                <U+2154> cup all-purpose flour \n                                            "    
 #> [8] "\n                                                ¼ teaspoon baking soda \n                                            "            
@@ -142,7 +143,7 @@ ingredients
 #> [2] "                                                2 tablespoons butter                                             "              
 #> [3] "                                                2 tablespoons water                                             "               
 #> [4] "                                                1<U+2009>½ cups semisweet chocolate chips                                             "
-#> [5] "                                                2  large eggs eggs                                             "                
+#> [5] "                                                2  eggs                                             "                           
 #> [6] "                                                ½ teaspoon vanilla extract                                             "        
 #> [7] "                                                <U+2154> cup all-purpose flour                                             "    
 #> [8] "                                                ¼ teaspoon baking soda                                             "            
@@ -168,7 +169,7 @@ And let's check again.
 ingredients
 #> [1] "½ cup white sugar"                  "2 tablespoons butter"              
 #> [3] "2 tablespoons water"                "1<U+2009>½ cups semisweet chocolate chips"
-#> [5] "2  large eggs eggs"                 "½ teaspoon vanilla extract"        
+#> [5] "2  eggs"                            "½ teaspoon vanilla extract"        
 #> [7] "<U+2154> cup all-purpose flour"     "¼ teaspoon baking soda"            
 #> [9] "½ teaspoon salt"
 directions

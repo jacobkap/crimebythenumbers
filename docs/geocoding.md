@@ -32,6 +32,7 @@ We will use the `fromJSON()` function and enter in the URL right in the ().
 
 ```r
 library(jsonlite)
+#> Warning: package 'jsonlite' was built under R version 4.0.3
 fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 #> $spatialReference
 #> $spatialReference$wkid
@@ -190,8 +191,10 @@ Let's read in the marijuana dispensary data which is called "san_francisco_activ
 
 ```r
 library(readr)
+#> Warning: package 'readr' was built under R version 4.0.3
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
-#> Parsed with column specification:
+#> 
+#> -- Column specification --------------------------------------------------------
 #> cols(
 #>   `License Number` = col_character(),
 #>   `License Type` = col_character(),
@@ -399,4 +402,8 @@ To finish this lesson we want to save the *marijuana* data.frame. We'll use the 
 ```r
 setwd(here::here("data"))
 write_csv(marijuana, path = "san_francisco_marijuana_geocoded.csv")
+#> Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+#> Please use the `file` argument instead.
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_warnings()` to see where this warning was generated.
 ```

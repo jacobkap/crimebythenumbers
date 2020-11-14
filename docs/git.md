@@ -48,6 +48,7 @@ You'll now need to tell Git some identifying information about yourself so that 
 
 ```r
 library(usethis)
+#> Warning: package 'usethis' was built under R version 4.0.3
 use_git_config(user.name = "Your name", user.email = "email_address@gmail.com")
 ```
 

@@ -7,8 +7,10 @@ Since we will be working more on the suicide data from San Francisco, let's read
 
 ```r
 library(readr)
+#> Warning: package 'readr' was built under R version 4.0.3
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
-#> Parsed with column specification:
+#> 
+#> -- Column specification --------------------------------------------------------
 #> cols(
 #>   IncidntNum = col_double(),
 #>   Category = col_character(),
@@ -402,6 +404,7 @@ install.packages("dplyr")
 
 ```r
 library(dplyr)
+#> Warning: package 'dplyr' was built under R version 4.0.3
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':
@@ -468,6 +471,7 @@ For these maps we are going to use `ggplot2` again so we need to load it.
 
 ```r
 library(ggplot2)
+#> Warning: package 'ggplot2' was built under R version 4.0.3
 ```
 
 `ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()` which knows how to handle spatial data. 

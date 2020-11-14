@@ -9,8 +9,10 @@ Here, we will make hotspot maps using data on suicides in San Francisco between 
 
 ```r
 library(readr)
+#> Warning: package 'readr' was built under R version 4.0.3
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
-#> Parsed with column specification:
+#> 
+#> -- Column specification --------------------------------------------------------
 #> cols(
 #>   IncidntNum = col_double(),
 #>   Category = col_character(),
@@ -71,6 +73,7 @@ install.packages("ggmap")
 ```r
 library(ggmap)
 #> Loading required package: ggplot2
+#> Warning: package 'ggplot2' was built under R version 4.0.3
 #> Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
 #> Please cite ggmap if you use it! See citation("ggmap") for details.
 ```

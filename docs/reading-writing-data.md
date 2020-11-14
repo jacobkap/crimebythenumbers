@@ -26,6 +26,7 @@ install.packages("readr")
 
 ```r
 library(readr)
+#> Warning: package 'readr' was built under R version 4.0.3
 ```
 
 The input in the () is the file name ending in ".csv". As it is telling R to read a file that is stored on your computer, the whole name must be in quotes. Unlike loading an .rda file using `load()`, there is no name for the object that gets read in so we must assign the data a name. We can use the name *shootings* as it's relatively descriptive and easy for us to write. 
@@ -33,7 +34,8 @@ The input in the () is the file name ending in ".csv". As it is telling R to rea
 
 ```r
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
-#> Parsed with column specification:
+#> 
+#> -- Column specification --------------------------------------------------------
 #> cols(
 #>   id = col_double(),
 #>   name = col_character(),
