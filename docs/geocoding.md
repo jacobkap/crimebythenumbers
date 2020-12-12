@@ -32,7 +32,6 @@ We will use the `fromJSON()` function and enter in the URL right in the ().
 
 ```r
 library(jsonlite)
-#> Warning: package 'jsonlite' was built under R version 4.0.3
 fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 #> $spatialReference
 #> $spatialReference$wkid
@@ -392,7 +391,7 @@ Another check is to make a simple scatterplot of the data. Since all the data is
 plot(marijuana$lon, marijuana$lat)
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-24-1.svg" width="90%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 
