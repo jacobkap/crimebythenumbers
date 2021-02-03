@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>21 Git | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="21 Git | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="21 Git | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-02-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="tests.html"/>
+<link rel="next" href="introduction.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
+<li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="4.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>4.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="4.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>4.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="4.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>4.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="4.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="4.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="4.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>4.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="4.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>4.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="4.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>4.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
+<li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
+<li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
+<li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
+<li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
+<li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
+<li class="chapter" data-level="5.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>5.2.4</b> SAS</a></li>
+<li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
+<li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>7</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>7.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="7.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>7.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="7.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>7.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="7.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>7.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>7.3</b> Bar graph</a></li>
+<li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>7.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="7.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>7.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>7.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>8</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>8.1</b> A simple map</a></li>
+<li class="chapter" data-level="8.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>8.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="8.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>8.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>8.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>9</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>9.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="9.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>9.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>10</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>10.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>10.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="10.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>10.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>10.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="10.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>10.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="10.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>10.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="10.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>10.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>11</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>11.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>11.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>11.2</b> Inline Code</a></li>
+<li class="chapter" data-level="11.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>11.3</b> Tables</a></li>
+<li class="chapter" data-level="11.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>11.4</b> Footnotes</a></li>
+<li class="chapter" data-level="11.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>11.5</b> Citation</a></li>
+<li class="chapter" data-level="11.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>11.6</b> Spell check</a></li>
+<li class="chapter" data-level="11.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>11.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="12" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>12</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>12.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="12.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>12.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>13.1</b> A simple function</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>13.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>13.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>14</b> For loops</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>14.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="14.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>14.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>15</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>15.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="15.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>16</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>16.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>16.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>17</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>17.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="17.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>17.2</b> Making a function</a></li>
+<li class="chapter" data-level="17.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>17.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="18" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>18</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>18.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>18.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>18.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>18.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>18.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>18.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="18.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>18.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>19</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>19.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>19.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>19.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>19.2.1</b> Comments</a></li>
+<li class="chapter" data-level="19.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>19.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>20</b> Tests</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>20.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="20.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>20.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>20.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>20.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="20.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>20.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>21</b> Git</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>21.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="21.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>21.2</b> Git basics</a></li>
+<li class="chapter" data-level="21.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>21.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>21.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="21.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>21.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>21.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="21.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>21.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="21.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>21.6</b> When to commit</a></li>
+<li class="chapter" data-level="21.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>21.7</b> Other resources</a></li>
+</ul></li>
+<li class="part"><span><b>V Data</b></span></li>
+<li class="chapter" data-level="22" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>22</b> Introduction</a></li>
+<li class="chapter" data-level="23" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>23</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>23.1</b> Exploring the UCR data</a></li>
+<li class="chapter" data-level="23.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>23.2</b> ORIs - Unique agency identifiers</a></li>
+<li class="chapter" data-level="23.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>23.3</b> Hierarchy Rule</a></li>
+<li class="chapter" data-level="23.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>23.4</b> Which crimes are included?</a>
+<ul>
+<li class="chapter" data-level="23.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>23.4.1</b> Index Crimes</a></li>
+<li class="chapter" data-level="23.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>23.4.2</b> The problem with using index crimes</a></li>
+<li class="chapter" data-level="23.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>23.4.3</b> Rape definition change</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>23.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li class="chapter" data-level="23.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>23.5.1</b> Actual</a></li>
+<li class="chapter" data-level="23.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>23.5.2</b> Total Cleared</a></li>
+<li class="chapter" data-level="23.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>23.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
+<li class="chapter" data-level="23.5.4" data-path="ucr.html"><a href="ucr.html#unfounded"><i class="fa fa-check"></i><b>23.5.4</b> Unfounded</a></li>
+</ul></li>
+<li class="chapter" data-level="23.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>23.6</b> Number of months reported</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="git" class="section level1" number="21">
+<h1><span class="header-section-number">21</span> Git</h1>
+<div id="what-is-git-and-why-do-i-need-it" class="section level2" number="21.1">
+<h2><span class="header-section-number">21.1</span> What is Git and why do I need it?</h2>
+<p>As you write R code you will - I hope! - save your R script from time to time (preferably using RStudio’s auto-save feature) to avoid losing any code you’ve written if you close R or shut down your computer. This is important as it’ll save everything you’ve done locally but if your computer crashes, you’ll want your work to be backed up elsewhere. While you should have something like Dropbox or Google Drive that keeps backups of your work, here we’ll talk about Git which is a version control software that gives you much more control (but requires more work) of the saved work than from something like Dropbox.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> Before getting into exactly how to use Git, we’ll talk first on what it is and how it’ll help your work. Git is also a very powerful and complex tool so this guide is going to be touching just a small - but useful to most researchers and R programmers - part of it.</p>
+<p>With backup software such as Dropbox, it’ll save your work very frequently - so frequently in fact that I turn off Dropbox when I write R since it keeps interrupting me by saving at the moment I’m typing, which stops the typing. Below is the Dropbox page for some R code that I’ve been working on to scrape COVID data. Notice the timestamps - 4/5 of them are within one minute, showing how often Dropbox is saving changes. This is useful if I need the most recent update - or to share the most recent version with a collaborator. Here’s the big issue - and the one that Git solves - I have four versions within a minute of each other, what’s the difference between them? Dropbox is saving automatically and doesn’t indicate how they’re different (clicking on the file shows the complete file, not differences relative to some previous version) which means if I mess up some code a while ago, I can’t easily see which version is the one that works. With Git you can essentially wait until you’ve made enough changes to decide that these changes merit a new “version” of your work (One way to think about this is )</p>
+<p><img src="images/dropbox.PNG" /></p>
+<p>If you’re ever used the track changes feature on a Word Document(or Google Doc or Overleaf, etc.), the concept is similar. When you have this setting in a Word or Google Doc every time you (or anyone else) makes changes in that document, those changes, who made them, and when they occurred, is tracked. This makes it easy to see exactly what part of the file was changed and to undo that change if necessary. Below is an example of this feature on one of my drafts on Overleaf (basically a way to collaborate using LaTeX which is similar to RMarkdown). You can see each change that my co-author Aaron Chalfin made in the draft in the purple changes the main part of the photo. The parts that were rewritten or added are highlighted in purple while the parts that were deleted have a purple highlight. What is shown in purple isn’t all of the history of changes for this paper. If you look at the part on the right, highlighted in green, it shows what files were edited, by whom, and at what time. If you don’t like a change - or in R’s case more commonly, broke some code by accident - you can go back in the history of changes and return to an older version.</p>
+<p>The way that R - and many other programming languages (and technically you can use this for any file or folder) does this “version control” is through Git.</p>
+<p>The times you see are ones that Overleaf automatically set each change to.</p>
+<p><img src="images/overleaf.PNG" /></p>
+<p>You make changes to your code or RMarkdown file and the computer will track these changes.</p>
+</div>
+<div id="git-basics" class="section level2" number="21.2">
+<h2><span class="header-section-number">21.2</span> Git basics</h2>
+<p>There are four main processes you need to know for a basic understanding of Git: checkout, add and commit, push, and pull. This chapter will explain how to use Git through buttons on RStudio so you don’t necessarily need to know these commands in Git, but it’s useful to know enough to talk about them and ask questions if needed.</p>
+<p>We’ll use the example of getting a book from the library to walk through using Git. The steps for this are simple, we go to the library, pick a book we want, check it out from the librarian, read it, and eventually return it. Using Git adds one wrinkle to this, we will want to write in the book and see what other people write too. Of course, when the book is checked out, no one else could write in our version, and no one can see what we write. So anything we write has to be done before we return the book to the library, then we check-out the book again to see what other people have written. When we want another book, we simply redo these steps.</p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Library Steps</th>
+<th>Git steps</th>
+<th>Git code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Go to library</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Find book and check-out book</td>
+<td>Clone (usually will just be done once per project). RStudio helps with this. The code you see in the next cell is a little more complicated than normal since we’re using RStudio Server.</td>
+<td>Git clone <em>path to repo, can be GitHub link</em></td>
+</tr>
+<tr class="odd">
+<td>Read or write in book</td>
+<td>This is done in R, not in Git</td>
+<td>No Git code, this is going to be whatever code we write in R. Also includes any outputs such as making a graph that is saved, RMarkdown outputs like a PDF, or even new R files.</td>
+</tr>
+<tr class="even">
+<td>Return book</td>
+<td>Add &amp; commit <br> Push</td>
+<td>Git add . <br>Git commit –m “message indicating what we wrote” <br> Git push</td>
+</tr>
+<tr class="odd">
+<td>Check-out book again (to see what other people have written in it)</td>
+<td>Pull</td>
+<td>Git pull</td>
+</tr>
+</tbody>
+</table>
+<p>Another way to think about commit vs push is that of writing an email. When you write an email, you’re essentially editing a blank document by adding the words of the email. When you save (but don’t send) the email, you are making a commit (essentially “committing” or promising to make a change). When you send the email you are making a push (taking something that you have written and changed and sending it to the main repository). While emails let you correspond directly between two or more people, how Git works is like sending the email to a central server (or a Post Office) and anyone who wants to read it has to go there. And when someone reads it and responds their email also goes to this central server. You have to go there to get their response (called a “pull” in Git terms) which is essentially an addition to your initial email.</p>
+</div>
+<div id="using-git" class="section level2" number="21.3">
+<h2><span class="header-section-number">21.3</span> Using Git</h2>
+<p>While you can use Git like writing R code (though the syntax is not that similar to R), RStudio has built-in buttons that work instead of writing code yourself. We’ll go through these buttons and not discuss any Git code beyond the small amount needed to link your project to GitHub, a website that is like DropBox for Git.</p>
+<div id="setting-up-git" class="section level3" number="21.3.1">
+<h3><span class="header-section-number">21.3.1</span> Setting up Git</h3>
+<p>To install Git on your computer install <a href="https://gitforwindows.org/">Git for Windows</a> for Windows computers and <a href="https://git-scm.com/download/mac">Xcode</a> for Mac computers. If you’re on a Linux operating system, see <a href="https://git-scm.com/download/linux">here</a> for how to install Git. For more help I recommend <a href="https://happygitwithr.com/install-git.html">this chapter</a> of Happy Git and GitHub for the useR which covers installing Git.</p>
+<p>You’ll now need to tell Git some identifying information about yourself so that whenever you make a commit, Git will know who you are. We will use a function from the <code>usethis</code> package to do this. The only information we need is your name (or nickname, just something so collaborators know that it was you who did a certain commit) and email address (below you’ll set up an account on GitHub - use the same email address there as here). We’ll use the function <code>use_git_config</code> which has two parameters - <code>user.name</code> and <code>user.email</code> which take strings with your name and email, respectively.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="git.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span>
+<span id="cb390-2"><a href="git.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_git_config</span>(<span class="at">user.name =</span> <span class="st">&quot;Your name&quot;</span>, <span class="at">user.email =</span> <span class="st">&quot;email_address@gmail.com&quot;</span>)</span></code></pre></div>
+<p>Once you have Git installed, you’ll need to enable it through RStudio. To do this, go to Tools and click Global Options. Then go to the Git/SVN tab and check the “Enable version control interface or RStudio projects” checkbox. The final step here is to click the first Browse button and navigate to where you installed Git on your computer. Select the git file (on a windows computer this will be within the larger Git folder) and then hit Ok to close the popup.</p>
+<p><img src="images/git_tools.PNG" /></p>
+</div>
+<div id="setting-up-github" class="section level3" number="21.3.2">
+<h3><span class="header-section-number">21.3.2</span> Setting up Github</h3>
+<p>we’ll be using GitHub to host our Git commits. To use GitHub, please make an account on their website <a href="https://Github.com/">https://Github.com/</a>. There are several <a href="https://Github.com/pricing">types of accounts</a> at various monthly costs but you only need the Free version. This gives you an unlimited number of public and private repositories (sometimes shorthanded to ‘repos’) - these are basically R Projects (you can use any language when it comes to using Git and GitHub, not just R).</p>
+<p>A public repository is one that anyone can look at on GitHub, download the code/files and make any changes they want (though if they want to make changes to your repository they need to make a change request, it is not automatic). This is good for projects where you want others to collaborate on or to showcase your work. A private repository is the same thing but only people you approve can view, download, and work on your repository. This is good for when you don’t want the code to be public (e.g. code for an employer or dealing with sensitive data such as people’s personal information). I tend to keep my research work private until the paper is published and my data work public since I want people to notice it and find bugs.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
+<p>Once you’ve made an account on GitHub, you’ll need to create a repository there to connect to your R Project. You can do this through the GitHub home page as shown below. This page is my own homepage and shows several on my current repositories on the left (note the ones with a golden lock to the left, these are the private repositories which are only accessible to people I permit), a list of updates on other people’s repositories that I chose to get updates from, and some suggested repositories that GitHub thinks I’d be interested in on the right. To create a new repository, click the green New button on the left side above the list of current repositories.</p>
+<p><img src="images/github_new_repo.PNG" /></p>
+<p>After you click the green New button, you’ll go to a page when you set a name for your repository (this can be different than the name of your R Project though I prefer to use the same name so I know exactly what project the repository is for), provide a short description, and choose if the repository should be public or private. You can also optionally add a README file which is a longer form of description for what the code is and its purpose (basically a short manual for the project - often explaining how, not why, it works), and add a .gitignore file or set a license (which tells people who look at the project what they’re allowed to do with it. For more on code licenses please see this excellent <a href="https://choosealicense.com/">site</a>.) The .gitignore file is essentially a list of files or folders than you do <strong>not</strong> want These last three choices are all optional and if you don’t do it now, you can do it anytime through R. Once you’ve made your choices, click the green Create Repository button</p>
+<p><img src="images/github_new_repo2.PNG" /></p>
+<p>This will open up a new page with a bunch of code that you’ll enter in R that connects your R Project Git commits to this repository on GitHub. We’ll get to this in a bit - for now, let’s focus on those three buttons in the top right. These are for accessing or following other people’s public repositories (you can technically click on them in your own repository but there isn’t much benefit to that apart from the first button).</p>
+<p><img src="images/github_new_repo3.PNG" /></p>
+<p>The first button sets your notification settings for the repository. To change the notification setting, click “Unwatch” and then select how much you want to be notified for. By default it is set to notify you of all conversations that occur. The main conversation will be when someone posts a message in the Issues tab where they tell you about an issue (or sometimes a request for a new feature or just ask a question) about the code in this repo. With your own repositories, you’ll want to be notified of all conversations so you don’t miss anything. You can use this option on other people’s repositories and it will alert you of changes or conversations in that repo. This is useful when you want to know about updates (i.e. new features) on repositories that you’re interested in (for example, I follow the <a href="https://Github.com/r-lib/testthat">testthat repo</a> so I know of any new versions of that package that may have useful features).</p>
+<p><img src="images/github_new_repo4.PNG" /></p>
+<p>Stars are simply a way to favorite a repository and you can see a list of all repositories that you have starred by clicking the profile button on the top right and going to “Your stars.”</p>
+<p><img src="images/stars.PNG" /></p>
+<p>The final option is “Fork” which creates a new repository on your account that is a copy of the repository that you forked. You will want to fork other people’s repositories - there isn’t much benefit of forking your own as that’s essentially just making a duplicate of your own work - and modify them to suit your needs. This is useful for two reasons. First, if you want collaborate with someone - even if just to submit a fix to a bug you found (or a typo in this book!) - you can fork their repository, make the changes on your own RStudio project, commit the changes, and request that the original account accept your changes into the repository that you forked (called a “pull request”).</p>
+<p>This sounds very complicated to make what could be a simple change (and it is) so why bother? As you get more familiar with R and how R handles Git, this process won’t take <em>too</em> much extra time so it’s not that much of an additional burden. But the main advantage is that Git establishes much more structure than would exist otherwise, and helps protect the original creator’s time. Consider that you found a bug in some of my code and sent me an email detailing that issue. This is probably the best-case scenario for you - it is quick to send emails. For me, that adds time to try to figure out what and where the bug is (describing it better would just take more time for you to write and me to read) and then to fix the bug. Even if you included the fix in the email, it would take me time to test it.</p>
+<p>When using Git and GitHub, this process is far easier for the person receiving the changes (and while is extra work because you must follow Git procedures, it can be somewhat easier as you won’t need to explain as much). If you submit a bug changes to me through GitHub, I will immediately know what is changes as Git highlights all changes between my version and your fixed version, and I can set it to automatically run tests (see Chapter <a href="tests.html#tests">20</a> for more on this) to make sure everything works. There is no longer any questions of what was changed, where the code was changed, how it is changed (barring confusing code being used), or whether it passes all the unit tests. Everything is largely automated so accepting changes is a breeze. As you program and collaborate more, you’ll increasingly be on the side of receiving changes to your code, so the balance between extra work as a submitted and easier time as a receiver of changes gets better.</p>
+<p>In Section <a href="mise-en-place.html#r-projects">18.2</a> we walked through making an R Project and selected the “Create a Git repository” box without explaining what that does. Clicking this box sets the R Project up to use Git so you don’t need to do any other steps from the R side (but you’ll need some steps to connect with GitHub). In the below section we discuss a simple way to connect your R Project to Git if you didn’t check this box. If you plan on always checking the box - and have no unchecked R Projects that you want to use with Git, feel free to skip the following section.</p>
+</div>
+</div>
+<div id="setting-up-git-on-an-already-made-r-project" class="section level2" number="21.4">
+<h2><span class="header-section-number">21.4</span> Setting up Git on an already made R Project</h2>
+<p>If you didn’t tell RStudio to setup Git in your R Project, it’s quite simple to do so through RStudio.</p>
+<p>First, go to Tool -&gt; Project Options. Then click the Git/SVN button that is second to the bottom to open up the Git options. This will open up a page that says “Version control system” which will be set to “(None).” Click this and set it to “Git.”</p>
+<p><img src="images/git_existing_project.PNG" /></p>
+<p>It will then ask if you want to set up Git for the current R Project. Say Yes.</p>
+<p><img src="images/git_existing_project2.PNG" /></p>
+<p>You need to restart RStudio for Git to work now, so click Yes.</p>
+<p><img src="images/git_existing_project3.PNG" /></p>
+<p>Now if you look at the Environment panel you can see a new tab called “Git.” We’ll do all of the Git work in RStudio through this tab. You are now ready to use Git for this project.</p>
+<p><img src="images/git_existing_project4.PNG" /></p>
+</div>
+<div id="using-git-through-rstudio" class="section level2" number="21.5">
+<h2><span class="header-section-number">21.5</span> Using Git through RStudio</h2>
+<p>Now we have an R Project with Git ready, and a repo on GitHub to store the project files. We need a way to connect the R Project to the specific GitHub repo - for this, we’ll return to that screen on GitHub with all of the weird code that starts with the word “Git.” We need to enter that code into R to connect the two. To do this, we need to use the Git Shell, which is basically like the Console panel but for Git. You can get to this by going to the Git tab, click on the More button, then click “Shell….”</p>
+<p><img src="images/github_new_repo3.PNG" /></p>
+<p><img src="images/git_shell.PNG" /></p>
+<p>This opens up a popup almost identical to the Console panel. Here we can write the code (or copy it from GitHub) and hit enter to run the line. This is the only time we will be using actual Git code in this chapter (there is some benefit to learning the Git code rather than relying on the buttons in RStudio as it is much faster when dealing with large files or simply a large number of files to use the code rather than through RStudio - though I’m not sure why this is).</p>
+<p><img src="images/git_shell3.PNG" /></p>
+<p>We will use the first chunk of code that’s shown on GitHub - the one that starts with the bold text <strong>“…or create a new repository on the command line”</strong>. You can copy and paste all of the code (starting with the “echo” line and ending with the “git push -u origin master” line) to the shell and hit enter or you can do it one line at a time.</p>
+<p><img src="images/git_shell2.PNG" /></p>
+<p>Refresh your GitHub page and you’ll see that instead of code on the screen, it shows the files that you uploaded. In this case, I didn’t make any files so it is largely blank, just a relatively empty README file. If this was a real project, you’d see all of the same files (except those you chose not to commit) as in your R Project folder. You R Project is now connected to the GitHub repo so you can do the rest of the Git work on this project entirely through RStudio and will not need to touch the Git Shell again.</p>
+<p><img src="images/git_shell_4.PNG" /></p>
+<p>The below photo shows my Git tab while working on this chapter and from an update to the Subsetting chapter. It has a list of all of the files that I changed since my last commit (if you haven’t committed at all yet, this is just all of the files in your project folder) and is color coded based on what I did to them. The blue M means that I have modified an already existing - i.e. one that has already been committed through Git - file, and and the yellow ? means that these are new files. If there was a red D next to any of the files, that would mean that I deleted a file that had previously been committed. There are a lot of buttons here (Diff, Commit, Pull, etc.) but you can ignore them and just click the Commit button when ready to make a commit. Doing so will open up a new window that has all the functionality of these various buttons in an easier (in my opinion) format.</p>
+<p><img src="images/git_commit1.PNG" /></p>
+<p>This window is where you can review the changes and write up a brief note about what you did. The window is a bit overwhelming so we’ll take it in pieces. First let’s start by examining how the list of files in the top left is related to the big box on the bottom with text highlighted in red and green. The list of files is identical to that in the Git tab - it’s just a list of files that have changed (including new files and deleted files) since the last commit. When you click one, it’ll show you the changes made to this file relative to the most recent version on Git (note that while this will show changes on R files and some other types of files, not all are available to be viewed - though that won’t affect Git working at all - so it may just show a blank part of the window instead). The section that was removed is highlighted in red and the replacement is highlighted in green. Unfortunately, it shows changes on entire lines so if you only change a small part of a line, you will have to read closely to see the difference. You can look through this to figure out exactly what you changed - both which files were changed and what was changed in each file.</p>
+<p>Now let’s walk through the process of actually committing and pushing your changes to GitHub. In real terms, this is basically uploading a new version of the files to GitHub, with brief documentation of what changed. At this point all we need to do is tell RStudio which files we want to commit, write a brief message explaining the changes, and submit it.</p>
+<p>First, we select which files to commit by clicking the checkbox to the very left on the top left panel. In the image below, they are all unchecked as I haven’t selected any yet. You can click each file’s box or click the Stage button near the top once you have a file (or files) highlighted to stage it. Once it’s staged the checkbox will now have a check in it. Staging a file just means that you want to commit this file. If you want to commit all of the files, you can do Control+A (or Command+A) to select all of the files and then click Stage.</p>
+<p>Now you’re ready to document the <strong>overall</strong> changes that you’re committing, not the changes for each individual file. You do so in the “Commit message” box on the right. Again, here it is blank but you would write a short description (there is no hard rule that it must be short, but the general convention is each commit is relatively small and thus the description of the message can be short. You generally want no less than a short sentence and no more than a paragraph, though of course this depends on your unique circumstances. As you first start out, I think over-describing your work is best as you get a feel to what to do.). Now click the Commit button.</p>
+<p><img src="images/git_commit2.PNG" /></p>
+<p>It will make a popup window showing all the changes that it made. The “create mode …” stuff is saying that these files (the images) are new files that Git hasn’t seen before. You can close this popup.</p>
+<p><img src="images/git_commit3.PNG" /></p>
+<p>You have now completed your first commit using Git through RStudio. The files aren’t on GitHub just yet though. Now right above the list of files is text that says “Your branch is ahead of ‘origin/master’ by 1 commit.” This means that your version of the project is ahead of (since you made changes to the project that you just committed) the version on GitHub. To send it to GitHub you just need to push the Push button on the top right. In our email example, this is like clicking send after writing your draft and saving (committing) it. When you click Push it’ll open up a popup which you can close once it’s done.</p>
+<p><img src="images/git_commit4.PNG" /></p>
+</div>
+<div id="when-to-commit" class="section level2" number="21.6">
+<h2><span class="header-section-number">21.6</span> When to commit</h2>
+<p>There is no hard rule for when to make a commit, but the general convention is to make one whenever you’ve finished a unique “part” of the work. For example, if you have some data that you need to clean, graph, and run a regression on, you’d likely commit after each part is done. One of the benefits of using Git is that you will have a record of each version of the code that you commit - so you want to balance between having too many records that are very similar to each other (similar to saving a new version of a paper draft every time you add a sentence) and too few so you lose a lot of work if you need to go back (similar to saving a new version of the paper only every 10 pages of writing).</p>
+</div>
+<div id="other-resources" class="section level2" number="21.7">
+<h2><span class="header-section-number">21.7</span> Other resources</h2>
+<p>For an excellent overview of using Git and GitHub with R, please see <a href="https://r-pkgs.org/Git.html">this chapter</a> of Hadley Wickham and Jenny Bryan’s book <a href="https://r-pkgs.org/">R Packages</a>. For a short and very accessible book on this topic, please see Jenny Bryan and Jim Hester’s excellent <a href="https://happyGitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
+
+</div>
+</div>
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="11">
+<li id="fn11"><p>This came in handy for me as somehow one of my dissertation papers written in RMarkdown became empty a couple of months before my defense and I couldn’t undo that change. My Dropbox backup was older than my Git backup so having Git was a real time saver<a href="git.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>You may disagree with my decision to keep research code private until publication - and for good reason. Doing this has the benefit of preventing people from scooping my (and my collaborator’s) work, but also makes it more likely to lead to bugs as there are fewer people looking at the code.<a href="git.html#fnref12" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/git.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

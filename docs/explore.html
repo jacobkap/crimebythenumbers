@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Exploratory data analysis | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Exploratory data analysis | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Exploratory data analysis | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-02-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="subsetting-intro.html"/>
+<link rel="next" href="regular-expressions.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
+<li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="4.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>4.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="4.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>4.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="4.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>4.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="4.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="4.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="4.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>4.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="4.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>4.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="4.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>4.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
+<li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
+<li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
+<li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
+<li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
+<li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
+<li class="chapter" data-level="5.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>5.2.4</b> SAS</a></li>
+<li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
+<li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>7</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>7.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="7.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>7.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="7.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>7.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="7.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>7.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>7.3</b> Bar graph</a></li>
+<li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>7.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="7.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>7.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>7.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>8</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>8.1</b> A simple map</a></li>
+<li class="chapter" data-level="8.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>8.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="8.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>8.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>8.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>9</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>9.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="9.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>9.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>10</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>10.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>10.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="10.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>10.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>10.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="10.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>10.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="10.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>10.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="10.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>10.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>11</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>11.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>11.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>11.2</b> Inline Code</a></li>
+<li class="chapter" data-level="11.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>11.3</b> Tables</a></li>
+<li class="chapter" data-level="11.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>11.4</b> Footnotes</a></li>
+<li class="chapter" data-level="11.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>11.5</b> Citation</a></li>
+<li class="chapter" data-level="11.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>11.6</b> Spell check</a></li>
+<li class="chapter" data-level="11.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>11.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="12" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>12</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>12.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="12.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>12.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>13.1</b> A simple function</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>13.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>13.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>14</b> For loops</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>14.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="14.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>14.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>15</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>15.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="15.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>16</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>16.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>16.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>17</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>17.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="17.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>17.2</b> Making a function</a></li>
+<li class="chapter" data-level="17.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>17.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="18" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>18</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>18.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>18.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>18.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>18.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>18.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>18.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="18.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>18.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>19</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>19.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>19.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>19.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>19.2.1</b> Comments</a></li>
+<li class="chapter" data-level="19.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>19.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>20</b> Tests</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>20.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="20.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>20.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>20.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="20.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>20.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="20.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>20.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>20.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>21</b> Git</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>21.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="21.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>21.2</b> Git basics</a></li>
+<li class="chapter" data-level="21.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>21.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="21.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>21.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="21.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>21.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="21.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>21.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="21.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>21.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="21.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>21.6</b> When to commit</a></li>
+<li class="chapter" data-level="21.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>21.7</b> Other resources</a></li>
+</ul></li>
+<li class="part"><span><b>V Data</b></span></li>
+<li class="chapter" data-level="22" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>22</b> Introduction</a></li>
+<li class="chapter" data-level="23" data-path="ucr.html"><a href="ucr.html"><i class="fa fa-check"></i><b>23</b> Uniform Crime Report (UCR) - Offenses Known and Clearances by Arrest</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="ucr.html"><a href="ucr.html#exploring-the-ucr-data"><i class="fa fa-check"></i><b>23.1</b> Exploring the UCR data</a></li>
+<li class="chapter" data-level="23.2" data-path="ucr.html"><a href="ucr.html#oris---unique-agency-identifiers"><i class="fa fa-check"></i><b>23.2</b> ORIs - Unique agency identifiers</a></li>
+<li class="chapter" data-level="23.3" data-path="ucr.html"><a href="ucr.html#hierarchy-rule"><i class="fa fa-check"></i><b>23.3</b> Hierarchy Rule</a></li>
+<li class="chapter" data-level="23.4" data-path="ucr.html"><a href="ucr.html#which-crimes-are-included"><i class="fa fa-check"></i><b>23.4</b> Which crimes are included?</a>
+<ul>
+<li class="chapter" data-level="23.4.1" data-path="ucr.html"><a href="ucr.html#index-crimes"><i class="fa fa-check"></i><b>23.4.1</b> Index Crimes</a></li>
+<li class="chapter" data-level="23.4.2" data-path="ucr.html"><a href="ucr.html#the-problem-with-using-index-crimes"><i class="fa fa-check"></i><b>23.4.2</b> The problem with using index crimes</a></li>
+<li class="chapter" data-level="23.4.3" data-path="ucr.html"><a href="ucr.html#rape-definition-change"><i class="fa fa-check"></i><b>23.4.3</b> Rape definition change</a></li>
+</ul></li>
+<li class="chapter" data-level="23.5" data-path="ucr.html"><a href="ucr.html#actual-offenses-clearances-and-unfounded-offenses"><i class="fa fa-check"></i><b>23.5</b> Actual offenses, clearances, and unfounded offenses</a>
+<ul>
+<li class="chapter" data-level="23.5.1" data-path="ucr.html"><a href="ucr.html#actual"><i class="fa fa-check"></i><b>23.5.1</b> Actual</a></li>
+<li class="chapter" data-level="23.5.2" data-path="ucr.html"><a href="ucr.html#total-cleared"><i class="fa fa-check"></i><b>23.5.2</b> Total Cleared</a></li>
+<li class="chapter" data-level="23.5.3" data-path="ucr.html"><a href="ucr.html#cleared-where-all-offenders-are-under-18"><i class="fa fa-check"></i><b>23.5.3</b> Cleared Where All Offenders Are Under 18</a></li>
+<li class="chapter" data-level="23.5.4" data-path="ucr.html"><a href="ucr.html#unfounded"><i class="fa fa-check"></i><b>23.5.4</b> Unfounded</a></li>
+</ul></li>
+<li class="chapter" data-level="23.6" data-path="ucr.html"><a href="ucr.html#number-of-months-reported"><i class="fa fa-check"></i><b>23.6</b> Number of months reported</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="explore" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Exploratory data analysis</h1>
+<p>When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. <strong>Basically you want to know if the data is capable of answering the question you are asking.</strong></p>
+<p>While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.</p>
+<ul>
+<li>What are the units (what does each row represent?)?</li>
+<li>What variables are available?</li>
+<li>What time period does it cover?</li>
+<li>Are there outliers? How many?</li>
+<li>Are there missing values? How many?</li>
+</ul>
+<p>For this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. Throughout this lesson we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. We’ll return to UCR data in Chapter <a href="ucr.html#ucr">23</a> when focusing on what the UCR is and how to use it.</p>
+<p>First, we need to load the data. Make sure your working directory is set to the folder where the data is.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="explore.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
+<p>As a first step, let’s see how many rows and columns are in the data, and glance at the first several rows from each column. <code>nrow()</code> and <code>ncol()</code> tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="explore.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ucr2017)</span>
+<span id="cb61-2"><a href="explore.html#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15764</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="explore.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(ucr2017)</span>
+<span id="cb62-2"><a href="explore.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span></code></pre></div>
+<p>The function <code>head()</code> will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="explore.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017)</span>
+<span id="cb63-2"><a href="explore.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ori year agency_name  state population actual_murder actual_rape_total</span></span>
+<span id="cb63-3"><a href="explore.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27               391</span></span>
+<span id="cb63-4"><a href="explore.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10                24</span></span>
+<span id="cb63-5"><a href="explore.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1                50</span></span>
+<span id="cb63-6"><a href="explore.html#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1                19</span></span>
+<span id="cb63-7"><a href="explore.html#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0                15</span></span>
+<span id="cb63-8"><a href="explore.html#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0                 7</span></span>
+<span id="cb63-9"><a href="explore.html#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   actual_robbery_total actual_assault_aggravated</span></span>
+<span id="cb63-10"><a href="explore.html#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                  778                      2368</span></span>
+<span id="cb63-11"><a href="explore.html#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                   40                       131</span></span>
+<span id="cb63-12"><a href="explore.html#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                   46                       206</span></span>
+<span id="cb63-13"><a href="explore.html#cb63-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                    0                        14</span></span>
+<span id="cb63-14"><a href="explore.html#cb63-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                    4                        41</span></span>
+<span id="cb63-15"><a href="explore.html#cb63-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                    0                        52</span></span></code></pre></div>
+<p>From these results it appears that each row is a single agency’s annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we’ll see in a later lesson).</p>
+<p>Finally, we can run <code>names()</code> to print out every column name. We can already see every name from <code>head()</code> but this is useful when we have many columns and don’t want to use <code>head()</code>.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="explore.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
+<span id="cb64-2"><a href="explore.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ori&quot;                       &quot;year&quot;                     </span></span>
+<span id="cb64-3"><a href="explore.html#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;agency_name&quot;               &quot;state&quot;                    </span></span>
+<span id="cb64-4"><a href="explore.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;population&quot;                &quot;actual_murder&quot;            </span></span>
+<span id="cb64-5"><a href="explore.html#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></span>
+<span id="cb64-6"><a href="explore.html#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
+<div id="summary-and-table" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Summary and Table</h2>
+<p>An important function in understanding the data you have is <code>summary()</code> which, as discussed in Section <a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data">1.3</a>, provides summary statistics on the numeric columns you have. Let’s take a look at the results before seeing how to do something similar for categorical columns.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="explore.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ucr2017)</span>
+<span id="cb65-2"><a href="explore.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      ori                 year      agency_name           state          </span></span>
+<span id="cb65-3"><a href="explore.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Length:15764       Min.   :2017   Length:15764       Length:15764      </span></span>
+<span id="cb65-4"><a href="explore.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Class :character   1st Qu.:2017   Class :character   Class :character  </span></span>
+<span id="cb65-5"><a href="explore.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span></span>
+<span id="cb65-6"><a href="explore.html#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     Mean   :2017                                        </span></span>
+<span id="cb65-7"><a href="explore.html#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     3rd Qu.:2017                                        </span></span>
+<span id="cb65-8"><a href="explore.html#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     Max.   :2017                                        </span></span>
+<span id="cb65-9"><a href="explore.html#cb65-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    population      actual_murder     actual_rape_total  actual_robbery_total</span></span>
+<span id="cb65-10"><a href="explore.html#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    </span></span>
+<span id="cb65-11"><a href="explore.html#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    </span></span>
+<span id="cb65-12"><a href="explore.html#cb65-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    </span></span>
+<span id="cb65-13"><a href="explore.html#cb65-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    </span></span>
+<span id="cb65-14"><a href="explore.html#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    </span></span>
+<span id="cb65-15"><a href="explore.html#cb65-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    </span></span>
+<span id="cb65-16"><a href="explore.html#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  actual_assault_aggravated</span></span>
+<span id="cb65-17"><a href="explore.html#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :   -1.00         </span></span>
+<span id="cb65-18"><a href="explore.html#cb65-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:    1.00         </span></span>
+<span id="cb65-19"><a href="explore.html#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :    5.00         </span></span>
+<span id="cb65-20"><a href="explore.html#cb65-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :   49.98         </span></span>
+<span id="cb65-21"><a href="explore.html#cb65-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:   21.00         </span></span>
+<span id="cb65-22"><a href="explore.html#cb65-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :29771.00</span></span></code></pre></div>
+<p>The <code>table()</code> function returns every unique value in a category <strong>and</strong> how often that value appears. Unlike <code>summary()</code> we can’t just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation which is <code>data$column</code>. For most functions we use to examine the data as a whole, you can do the same for a specific column.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="explore.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017<span class="sc">$</span>agency_name)</span>
+<span id="cb66-2"><a href="explore.html#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></span></code></pre></div>
+<p>There are only two columns in our data with categorical values that we can use - <em>year</em> and <em>state</em> so let’s use <code>table()</code> on both of them. The columns <em>ori</em> and <em>agency_name</em> are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="explore.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>year)</span>
+<span id="cb67-2"><a href="explore.html#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb67-3"><a href="explore.html#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2017 </span></span>
+<span id="cb67-4"><a href="explore.html#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15764</span></span></code></pre></div>
+<p>We can see that every year in our data is 2017, as expected based on the data name. <em>year</em> is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has 7 murders, for example (though looking for how often a numeric column has the value 0 can be helpful in finding likely erroneous data). As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="explore.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>state)</span>
+<span id="cb68-2"><a href="explore.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb68-3"><a href="explore.html#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              alabama               alaska              arizona </span></span>
+<span id="cb68-4"><a href="explore.html#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  305                   32                  107 </span></span>
+<span id="cb68-5"><a href="explore.html#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             arkansas           california             colorado </span></span>
+<span id="cb68-6"><a href="explore.html#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  273                  732                  213 </span></span>
+<span id="cb68-7"><a href="explore.html#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          connecticut             delaware district of columbia </span></span>
+<span id="cb68-8"><a href="explore.html#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  107                   63                    3 </span></span>
+<span id="cb68-9"><a href="explore.html#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              florida              georgia                 guam </span></span>
+<span id="cb68-10"><a href="explore.html#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  603                  522                    1 </span></span>
+<span id="cb68-11"><a href="explore.html#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               hawaii                idaho             illinois </span></span>
+<span id="cb68-12"><a href="explore.html#cb68-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    4                   95                  696 </span></span>
+<span id="cb68-13"><a href="explore.html#cb68-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              indiana                 iowa               kansas </span></span>
+<span id="cb68-14"><a href="explore.html#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  247                  216                  309 </span></span>
+<span id="cb68-15"><a href="explore.html#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             kentucky            louisiana                maine </span></span>
+<span id="cb68-16"><a href="explore.html#cb68-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  352                  192                  135 </span></span>
+<span id="cb68-17"><a href="explore.html#cb68-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             maryland        massachusetts             michigan </span></span>
+<span id="cb68-18"><a href="explore.html#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  152                  346                  625 </span></span>
+<span id="cb68-19"><a href="explore.html#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            minnesota          mississippi             missouri </span></span>
+<span id="cb68-20"><a href="explore.html#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  397                   71                  580 </span></span>
+<span id="cb68-21"><a href="explore.html#cb68-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              montana             nebraska               nevada </span></span>
+<span id="cb68-22"><a href="explore.html#cb68-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  108                  225                   59 </span></span>
+<span id="cb68-23"><a href="explore.html#cb68-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        new hampshire           new jersey           new mexico </span></span>
+<span id="cb68-24"><a href="explore.html#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  176                  576                  116 </span></span>
+<span id="cb68-25"><a href="explore.html#cb68-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             new york       north carolina         north dakota </span></span>
+<span id="cb68-26"><a href="explore.html#cb68-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  532                  310                  108 </span></span>
+<span id="cb68-27"><a href="explore.html#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 ohio             oklahoma               oregon </span></span>
+<span id="cb68-28"><a href="explore.html#cb68-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  532                  409                  172 </span></span>
+<span id="cb68-29"><a href="explore.html#cb68-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         pennsylvania         rhode island       south carolina </span></span>
+<span id="cb68-30"><a href="explore.html#cb68-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 1473                   49                  427 </span></span>
+<span id="cb68-31"><a href="explore.html#cb68-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         south dakota            tennessee                texas </span></span>
+<span id="cb68-32"><a href="explore.html#cb68-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   92                  466                  999 </span></span>
+<span id="cb68-33"><a href="explore.html#cb68-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 utah              vermont             virginia </span></span>
+<span id="cb68-34"><a href="explore.html#cb68-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  125                   85                  407 </span></span>
+<span id="cb68-35"><a href="explore.html#cb68-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           washington        west virginia            wisconsin </span></span>
+<span id="cb68-36"><a href="explore.html#cb68-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  250                  200                  433 </span></span>
+<span id="cb68-37"><a href="explore.html#cb68-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              wyoming </span></span>
+<span id="cb68-38"><a href="explore.html#cb68-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   57</span></span></code></pre></div>
+<p>This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears, we usually want it ordered by frequency. We can use the <code>sort()</code> function to order the results from <code>table()</code>. Just put the entire <code>table()</code> function inside of the () in <code>sort()</code>.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="explore.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state))</span>
+<span id="cb69-2"><a href="explore.html#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb69-3"><a href="explore.html#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 guam district of columbia               hawaii </span></span>
+<span id="cb69-4"><a href="explore.html#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    1                    3                    4 </span></span>
+<span id="cb69-5"><a href="explore.html#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               alaska         rhode island              wyoming </span></span>
+<span id="cb69-6"><a href="explore.html#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   32                   49                   57 </span></span>
+<span id="cb69-7"><a href="explore.html#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               nevada             delaware          mississippi </span></span>
+<span id="cb69-8"><a href="explore.html#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   59                   63                   71 </span></span>
+<span id="cb69-9"><a href="explore.html#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              vermont         south dakota                idaho </span></span>
+<span id="cb69-10"><a href="explore.html#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   85                   92                   95 </span></span>
+<span id="cb69-11"><a href="explore.html#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              arizona          connecticut              montana </span></span>
+<span id="cb69-12"><a href="explore.html#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  107                  107                  108 </span></span>
+<span id="cb69-13"><a href="explore.html#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         north dakota           new mexico                 utah </span></span>
+<span id="cb69-14"><a href="explore.html#cb69-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  108                  116                  125 </span></span>
+<span id="cb69-15"><a href="explore.html#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                maine             maryland               oregon </span></span>
+<span id="cb69-16"><a href="explore.html#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  135                  152                  172 </span></span>
+<span id="cb69-17"><a href="explore.html#cb69-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        new hampshire            louisiana        west virginia </span></span>
+<span id="cb69-18"><a href="explore.html#cb69-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  176                  192                  200 </span></span>
+<span id="cb69-19"><a href="explore.html#cb69-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             colorado                 iowa             nebraska </span></span>
+<span id="cb69-20"><a href="explore.html#cb69-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  213                  216                  225 </span></span>
+<span id="cb69-21"><a href="explore.html#cb69-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              indiana           washington             arkansas </span></span>
+<span id="cb69-22"><a href="explore.html#cb69-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  247                  250                  273 </span></span>
+<span id="cb69-23"><a href="explore.html#cb69-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              alabama               kansas       north carolina </span></span>
+<span id="cb69-24"><a href="explore.html#cb69-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  305                  309                  310 </span></span>
+<span id="cb69-25"><a href="explore.html#cb69-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        massachusetts             kentucky            minnesota </span></span>
+<span id="cb69-26"><a href="explore.html#cb69-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  346                  352                  397 </span></span>
+<span id="cb69-27"><a href="explore.html#cb69-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             virginia             oklahoma       south carolina </span></span>
+<span id="cb69-28"><a href="explore.html#cb69-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  407                  409                  427 </span></span>
+<span id="cb69-29"><a href="explore.html#cb69-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            wisconsin            tennessee              georgia </span></span>
+<span id="cb69-30"><a href="explore.html#cb69-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  433                  466                  522 </span></span>
+<span id="cb69-31"><a href="explore.html#cb69-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             new york                 ohio           new jersey </span></span>
+<span id="cb69-32"><a href="explore.html#cb69-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  532                  532                  576 </span></span>
+<span id="cb69-33"><a href="explore.html#cb69-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             missouri              florida             michigan </span></span>
+<span id="cb69-34"><a href="explore.html#cb69-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  580                  603                  625 </span></span>
+<span id="cb69-35"><a href="explore.html#cb69-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             illinois           california                texas </span></span>
+<span id="cb69-36"><a href="explore.html#cb69-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  696                  732                  999 </span></span>
+<span id="cb69-37"><a href="explore.html#cb69-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         pennsylvania </span></span>
+<span id="cb69-38"><a href="explore.html#cb69-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 1473</span></span></code></pre></div>
+<p>And if we want to sort it in decreasing order of frequency, we can use the parameter <code>decreasing</code> in <code>sort()</code> and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don’t want to use the default setting in the function. This parameter, <code>decreasing</code> changes the <code>sort()</code> output to print from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="explore.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb70-2"><a href="explore.html#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb70-3"><a href="explore.html#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         pennsylvania                texas           california </span></span>
+<span id="cb70-4"><a href="explore.html#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 1473                  999                  732 </span></span>
+<span id="cb70-5"><a href="explore.html#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             illinois             michigan              florida </span></span>
+<span id="cb70-6"><a href="explore.html#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  696                  625                  603 </span></span>
+<span id="cb70-7"><a href="explore.html#cb70-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             missouri           new jersey             new york </span></span>
+<span id="cb70-8"><a href="explore.html#cb70-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  580                  576                  532 </span></span>
+<span id="cb70-9"><a href="explore.html#cb70-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 ohio              georgia            tennessee </span></span>
+<span id="cb70-10"><a href="explore.html#cb70-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  532                  522                  466 </span></span>
+<span id="cb70-11"><a href="explore.html#cb70-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            wisconsin       south carolina             oklahoma </span></span>
+<span id="cb70-12"><a href="explore.html#cb70-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  433                  427                  409 </span></span>
+<span id="cb70-13"><a href="explore.html#cb70-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             virginia            minnesota             kentucky </span></span>
+<span id="cb70-14"><a href="explore.html#cb70-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  407                  397                  352 </span></span>
+<span id="cb70-15"><a href="explore.html#cb70-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        massachusetts       north carolina               kansas </span></span>
+<span id="cb70-16"><a href="explore.html#cb70-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  346                  310                  309 </span></span>
+<span id="cb70-17"><a href="explore.html#cb70-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              alabama             arkansas           washington </span></span>
+<span id="cb70-18"><a href="explore.html#cb70-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  305                  273                  250 </span></span>
+<span id="cb70-19"><a href="explore.html#cb70-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              indiana             nebraska                 iowa </span></span>
+<span id="cb70-20"><a href="explore.html#cb70-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  247                  225                  216 </span></span>
+<span id="cb70-21"><a href="explore.html#cb70-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             colorado        west virginia            louisiana </span></span>
+<span id="cb70-22"><a href="explore.html#cb70-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  213                  200                  192 </span></span>
+<span id="cb70-23"><a href="explore.html#cb70-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        new hampshire               oregon             maryland </span></span>
+<span id="cb70-24"><a href="explore.html#cb70-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  176                  172                  152 </span></span>
+<span id="cb70-25"><a href="explore.html#cb70-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                maine                 utah           new mexico </span></span>
+<span id="cb70-26"><a href="explore.html#cb70-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  135                  125                  116 </span></span>
+<span id="cb70-27"><a href="explore.html#cb70-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              montana         north dakota              arizona </span></span>
+<span id="cb70-28"><a href="explore.html#cb70-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  108                  108                  107 </span></span>
+<span id="cb70-29"><a href="explore.html#cb70-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          connecticut                idaho         south dakota </span></span>
+<span id="cb70-30"><a href="explore.html#cb70-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  107                   95                   92 </span></span>
+<span id="cb70-31"><a href="explore.html#cb70-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              vermont          mississippi             delaware </span></span>
+<span id="cb70-32"><a href="explore.html#cb70-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   85                   71                   63 </span></span>
+<span id="cb70-33"><a href="explore.html#cb70-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               nevada              wyoming         rhode island </span></span>
+<span id="cb70-34"><a href="explore.html#cb70-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   59                   57                   49 </span></span>
+<span id="cb70-35"><a href="explore.html#cb70-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               alaska               hawaii district of columbia </span></span>
+<span id="cb70-36"><a href="explore.html#cb70-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   32                    4                    3 </span></span>
+<span id="cb70-37"><a href="explore.html#cb70-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 guam </span></span>
+<span id="cb70-38"><a href="explore.html#cb70-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    1</span></span></code></pre></div>
+</div>
+<div id="graphing" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Graphing</h2>
+<p>We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter <a href="graphing-intro.html#graphing-intro">6</a> but for now let’s use the function <code>plot()</code>.</p>
+<p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="explore.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017<span class="sc">$</span>actual_murder, ucr2017<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
+<p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the square bracket <code>[]</code> notation to subset. Remember it is</p>
+<p><code>[rows, columns]</code></p>
+<p>where we either say exactly which rows or columns we want or give a conditional statement and it’ll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.</p>
+<p><code>[ucr2017$population &gt; 1000000, ]</code></p>
+<p>Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don’t forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.</p>
+<p><code>ucr2017[ucr2017$population &gt; 1000000, ]</code></p>
+<p>And let’s save the results in a new object called “ucr2017_big_cities.”</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="explore.html#cb72-1" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> ucr2017[ucr2017<span class="sc">$</span>population <span class="sc">&gt;</span> <span class="dv">1000000</span>, ]</span></code></pre></div>
+<p>Now we can do the same graph as above but using this new data set.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="explore.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder, ucr2017_big_cities<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
+<p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).</p>
+<ul>
+<li>xlab - X-axis label</li>
+<li>ylab - Y-axis label</li>
+<li>main - Graph title</li>
+</ul>
+<p>Like all parameters, we add them in the () of <code>plot()</code> and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="explore.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder, ucr2017_big_cities<span class="sc">$</span>actual_robbery_total,</span>
+<span id="cb74-2"><a href="explore.html#cb74-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Murder&quot;</span>,</span>
+<span id="cb74-3"><a href="explore.html#cb74-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</span>
+<span id="cb74-4"><a href="explore.html#cb74-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="aggregate" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Aggregating (summaries of groups)</h2>
+<p>Right now we have the number of crimes in each agency. For many policy analyses we’d be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data, we would need to <strong>aggregate</strong> up to the state level. What the <code>aggregate()</code> function does is group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group.</p>
+<p>In Section <a href="subsetting-intro.html#subset-colorado-data">2.5.3</a> we started to see if marijuana legalization affected murder in Colorado. We subsetted the data to only include agencies in Colorado from 2011-2017. Now we can continue to answer the question by aggregating to the state-level to see the total number of murders per year.</p>
+<p>Let’s think about how our data are and how we would (theoretically, before we write any code) find that out.</p>
+<p>Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2011 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2012 and add up their murders. And so on for all the years. That is essentially what <code>aggregate()</code> does. It takes each row and groups them according to the category we specify and then adds up (or does the mathematical operator we specify) each value in each group.</p>
+<p>The syntax (how we write the code) is as follows</p>
+<p><code>aggregate(numerical_column ~ category_column, FUN = math, data = data_set)</code></p>
+<p>The numerical column is the column that we are doing the mathematical operation (sum, mean, median) on. The category column is the one we are using to group (e.g. state, year). Note the ~ between the numerical and category columns. Unlike most functions where we specify a column name, in <code>aggregate()</code> we do <strong>not</strong> use quotes for the columns.</p>
+<p>FUN is the parameter where we tell <code>aggregate()</code> which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.</p>
+<p>In Chapter <a href="subsetting-intro.html#subsetting-intro">2</a> we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let’s reload that data and rerun the subsetting code.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="explore.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2017.rda&quot;</span>)</span>
+<span id="cb75-2"><a href="explore.html#cb75-2" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017<span class="sc">$</span>state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>, ]</span>
+<span id="cb75-3"><a href="explore.html#cb75-3" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> colorado[colorado<span class="sc">$</span>year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span>, ]</span>
+<span id="cb75-4"><a href="explore.html#cb75-4" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> colorado[ , <span class="fu">c</span>(<span class="st">&quot;actual_murder&quot;</span>, <span class="st">&quot;state&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;population&quot;</span>, <span class="st">&quot;ori&quot;</span>, <span class="st">&quot;agency_name&quot;</span>)]</span></code></pre></div>
+<p>Now we can run <code>aggregate()</code> to get the number of murders per year.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="explore.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(actual_murder <span class="sc">~</span> year, <span class="at">FUN =</span> sum, <span class="at">data =</span> colorado)</span>
+<span id="cb76-2"><a href="explore.html#cb76-2" aria-hidden="true" tabindex="-1"></a>  year actual_murder</span>
+<span id="cb76-3"><a href="explore.html#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2011</span>           <span class="dv">154</span></span>
+<span id="cb76-4"><a href="explore.html#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2012</span>           <span class="dv">163</span></span>
+<span id="cb76-5"><a href="explore.html#cb76-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2013</span>           <span class="dv">172</span></span>
+<span id="cb76-6"><a href="explore.html#cb76-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2014</span>           <span class="dv">148</span></span>
+<span id="cb76-7"><a href="explore.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2015</span>           <span class="dv">173</span></span>
+<span id="cb76-8"><a href="explore.html#cb76-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2016</span>           <span class="dv">203</span></span>
+<span id="cb76-9"><a href="explore.html#cb76-9" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="dv">2017</span>           <span class="dv">218</span></span></code></pre></div>
+<p>If we had more grouping categories we could add them by literally using <code>+</code> and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn’t actually change the results.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="explore.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(actual_murder <span class="sc">~</span> year <span class="sc">+</span> state, <span class="at">FUN =</span> sum, <span class="at">data =</span> colorado)</span>
+<span id="cb77-2"><a href="explore.html#cb77-2" aria-hidden="true" tabindex="-1"></a>  year    state actual_murder</span>
+<span id="cb77-3"><a href="explore.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2011</span> colorado           <span class="dv">154</span></span>
+<span id="cb77-4"><a href="explore.html#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2012</span> colorado           <span class="dv">163</span></span>
+<span id="cb77-5"><a href="explore.html#cb77-5" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2013</span> colorado           <span class="dv">172</span></span>
+<span id="cb77-6"><a href="explore.html#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2014</span> colorado           <span class="dv">148</span></span>
+<span id="cb77-7"><a href="explore.html#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2015</span> colorado           <span class="dv">173</span></span>
+<span id="cb77-8"><a href="explore.html#cb77-8" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2016</span> colorado           <span class="dv">203</span></span>
+<span id="cb77-9"><a href="explore.html#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="dv">7</span> <span class="dv">2017</span> colorado           <span class="dv">218</span></span></code></pre></div>
+<p>If we want to aggregate multiple numeric columns, we would use the <code>cbind()</code> function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let’s call it <em>colorado_agg</em>.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="explore.html#cb78-1" aria-hidden="true" tabindex="-1"></a>colorado_agg <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(population, actual_murder) <span class="sc">~</span> year, <span class="at">FUN =</span> sum, <span class="at">data =</span> colorado)</span></code></pre></div>
+<p>To make the murder rate we simply make a new column, which we can call <em>murder_rate</em> which is the number of murders divided by population multiplied by 100,000.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="explore.html#cb79-1" aria-hidden="true" tabindex="-1"></a>colorado_agg<span class="sc">$</span>murder_rate <span class="ot">&lt;-</span> colorado_agg<span class="sc">$</span>actual_murder <span class="sc">/</span> colorado_agg<span class="sc">$</span>population <span class="sc">*</span> <span class="dv">100000</span></span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="explore.html#cb80-1" aria-hidden="true" tabindex="-1"></a>colorado_agg</span>
+<span id="cb80-2"><a href="explore.html#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   year population actual_murder murder_rate</span></span>
+<span id="cb80-3"><a href="explore.html#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2011    5155993           154    2.986816</span></span>
+<span id="cb80-4"><a href="explore.html#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2012    5227884           163    3.117896</span></span>
+<span id="cb80-5"><a href="explore.html#cb80-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2013    5308236           172    3.240248</span></span>
+<span id="cb80-6"><a href="explore.html#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2014    5402555           148    2.739445</span></span>
+<span id="cb80-7"><a href="explore.html#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2015    5505856           173    3.142109</span></span>
+<span id="cb80-8"><a href="explore.html#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2016    5590124           203    3.631404</span></span>
+<span id="cb80-9"><a href="explore.html#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 2017    5661529           218    3.850550</span></span></code></pre></div>
+<p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and didn’t legalize marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
+<p>We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="explore.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>By default <code>plot()</code> makes a scatterplot. If we set the parameter <code>type</code> to “l” it will be a <strong>l</strong>ine plot.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="explore.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can add some labels and a title to make this graph easier to read.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="explore.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb83-2"><a href="explore.html#cb83-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb83-3"><a href="explore.html#cb83-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</span>
+<span id="cb83-4"><a href="explore.html#cb83-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="subsetting-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regular-expressions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/exploratory-data-analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

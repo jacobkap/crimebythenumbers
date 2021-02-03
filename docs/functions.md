@@ -1,0 +1,186 @@
+# Functions
+
+So far, we have been writing code to handle specific situations such as subsetting a single data.frame. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc) on those values. Code where you can input a value (such as a data.frame) and some (often optional) instructions on how to handle that data, and have the code run on the value is called a function. We've used other people's function before, such as `c()`, `mean()`, `grep()`, and `rvest()`. 
+
+Think of a function like a stapler - you put the paper in a push down and it staples the paper together. It doesn't matter what papers you are using; it always staples them together. If you needed to buy a new stapler every time you needed to staple something (i.e. copy and pasting code) you'd quickly have way too many staples (and waste a bunch of money). 
+
+An important benefit is that you can use this function again and again to help solve other problems. If, for example, you have code that cleans data from Philadelphia's crime data set, if you wanted to use it for Chicago's crime data, making a single function is much easier (to read and to fix if there is an issue) than copying the code. If you wanted to use it for 20 cities, copy and pasting code quickly becomes a terrible solution - functions work much better. If you did copy and paste 20 times and you found a bug, then you'd have to fix the bug 20 times. With a function you would change the code once. 
+
+## A simple function
+
+We'll start with a simple function that takes a number and returns that number plus the value 2.
+
+
+```r
+add_2 <- function(number) {
+  number <- number + 2
+  return(number)
+}
+```
+
+The syntax (how we write it) of a function is
+
+function_name <- function(parameters)
+{  
+code   
+return(output)  
+}  
+
+There are five essential parts of a function
+
++ function_name  - This is just the name we give to the function. It can be anything but, like when making other objects, call it something where it is easy to remember what it does.
++ parameters  - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function `mean()` you put in a vector of numbers in the () section and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.
++ code - This is the code you write to do the thing you want the function to do. In the above example our code is `number <- number + 2`. For any number inputted, our code adds 2 to it and saves it back into the object number. 
++ return - This is something new in this course, here you use `return()` and inside the () you put the object you want to be outputted. In our example we have "number" inside the `return()` as that's what we want to come out of the function. It is not always necessary to end your function with `return()` but is highly recommended to make sure you're outputting what it is you want to output. If you save the output of a function (such as by `x <- mean(1:3)`) it will save the output to the variable assigned. Otherwise it will print out the results in the console.
++ The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text `<- function()` where the parameters (if any) are in the (). After the closing parentheses put a `{` and at the very end of the function, after the `return()`, close those squiggly brackets with a "}". The `<- function()` tells R that you are making a function rather than some other type of object. And the `{` and `}` tell R that all the code in between are part of that function.
+
+Our function here adds 2 to any number we input. 
+
+
+```r
+add_2(2)
+#> [1] 4
+```
+
+
+```r
+add_2(5)
+#> [1] 7
+```
+
+## Adding parameters 
+
+Let's add a single parameter which multiplies the result by 5 if selected.
+
+
+```r
+add_2 <- function(number, times_5 = FALSE) {
+  number <- number + 2
+  return(number)
+}
+```
+
+Now we have added a parameter called `time_5` to the () part of the function and set it the be FALSE by default. Right now it doesn't do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters).
+
+
+```r
+add_2 <- function(number, times_5 = FALSE) {
+  number <- number + 2
+  
+  if (times_5 == TRUE) {
+    number <- number * 5
+  }
+  
+  return(number)
+}
+```
+
+Now our code says if the parameter `times_5` is TRUE, then do the thing in the squiggly brackets `{}` below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let's try out our function.
+
+
+```r
+add_2(2)
+#> [1] 4
+```
+
+It returns 4, as expected. Since the parameter `times_5` is defaulted to FALSE, we don't need to specify that parameter if we want it to stay FALSE. When we don't tell the function that we want it to be TRUE, the code in our "if statement" doesn't run. When we set `times_5` to TRUE, it runs that code. 
+
+
+```r
+add_2(2, times_5 = TRUE)
+#> [1] 20
+```
+
+## Making a function to scrape recipes {#recipes-function}
+
+In Section \@ref(scraping-one-page) we wrote some code to scrape data from the website [All Recipes](https://www.allrecipes.com/) for a recipe. We are going to turn that code into a function here. The benefit is that our input to the function will be an URL and then it will print out the ingredients and directions for that recipe. If we want multiple recipes (and for webscraping you usually will want to scrape multiple pages), we just change the URL we input without changing the code at all.
+
+We used the `rvest` package so we need to tell R want to use it again.
+
+
+```r
+library(rvest)
+#> Loading required package: xml2
+```
+
+Let's start by writing a shell of the function - everything but the code. We can call it *scrape_recipes* (though any name would work), add in the `<- function()` and put "URL" (without quotes) in the () as our input for the function is a date. In this case we won't return anything, we will just print things to the console, so we don't need the `return()` value. And don't forget the `{` after the end of the `function()` and `}` at the very end of the function. 
+
+
+```r
+scrape_recipes <- function(URL) {
+  
+}
+```
+
+Now we need to add the code that takes the date, scrapes the website, and saves that data into objects called *ingredients* and *directions*. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.
+
+
+```r
+scrape_recipes <- function(URL) {
+  
+  brownies <- read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
+  
+  ingredients <- html_nodes(brownies, ".ingredients-item-name")
+  ingredients <- html_text(ingredients)
+  
+  directions <- html_nodes(brownies, ".instructions-section")
+  directions <- html_text(directions)
+  
+  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
+  directions <- directions[directions != ""]
+}
+```
+
+The part inside the () of `read_html()` is the URL of the page we want to scrape. This is the part of the function that will change based on our input. We want whatever input is in the URL parameter to be the URL we scrape. So let's change the URL of the brownies recipe we scraped previously to simply say "URL" (without quotes). 
+
+
+```r
+scrape_recipes <- function(URL) {
+  
+  brownies <- read_html(URL)
+  
+  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_text(ingredients)
+  
+  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_text(directions)
+  
+  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
+  directions <- directions[directions != ""]
+}
+```
+
+To make this function print something to the console we need to specifically tell it to do so in the code. We do this using the `print()` function. Let's print first the ingredients and then the directions. We'll add that add the final lines of the function.
+
+
+```r
+scrape_recipes <- function(URL) {
+  
+  brownies <- read_html(URL)
+  
+  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_text(ingredients)
+  
+  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_text(directions)
+  
+  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
+  directions  <- directions[directions != ""]
+  directions  <- gsub("\n", "", directions)
+  directions  <- gsub(" {2,}", "", directions)
+  
+  print(ingredients)
+  print(directions)
+}
+```
+
+Now we can try it for a new recipe, this one for "The Best Lemon Bars" at URL https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/. 
+
+
+```r
+scrape_recipes("https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/")
+#> character(0)
+#> character(0)
+```
+
+In the next lesson we'll use "for loops" to scrape multiple recipes very quickly. 
