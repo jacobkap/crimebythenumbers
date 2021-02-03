@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-11-14" />
+<meta name="date" content="2021-02-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="webscraping-with-rvest.html"/>
 <link rel="next" href="for-loops.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,15 +51,14 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -460,10 +459,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="a-simple-function" class="section level2" number="13.1">
 <h2><span class="header-section-number">13.1</span> A simple function</h2>
 <p>We’ll start with a simple function that takes a number and returns that number plus the value 2.</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="functions.html#cb289-1"></a>add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
-<span id="cb289-2"><a href="functions.html#cb289-2"></a>  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb289-3"><a href="functions.html#cb289-3"></a>  <span class="kw">return</span>(number)</span>
-<span id="cb289-4"><a href="functions.html#cb289-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="functions.html#cb289-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
+<span id="cb289-2"><a href="functions.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb289-3"><a href="functions.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb289-4"><a href="functions.html#cb289-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The syntax (how we write it) of a function is</p>
 <p>function_name &lt;- function(parameters)
 {<br />
@@ -476,100 +475,99 @@ return(output)<br />
 <li>parameters - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function <code>mean()</code> you put in a vector of numbers in the () section and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.</li>
 <li>code - This is the code you write to do the thing you want the function to do. In the above example our code is <code>number &lt;- number + 2</code>. For any number inputted, our code adds 2 to it and saves it back into the object number.</li>
 <li>return - This is something new in this course, here you use <code>return()</code> and inside the () you put the object you want to be outputted. In our example we have “number” inside the <code>return()</code> as that’s what we want to come out of the function. It is not always necessary to end your function with <code>return()</code> but is highly recommended to make sure you’re outputting what it is you want to output. If you save the output of a function (such as by <code>x &lt;- mean(1:3)</code>) it will save the output to the variable assigned. Otherwise it will print out the results in the console.</li>
-<li>The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text <code>&lt;- function()</code> where the parameters (if any) are in the (). After the closing parentheses put a <code>{</code> and at the very end of the function, after the <code>return()</code>, close those squiggly brackets with a “}”. The <code>&lt;- function()</code> tells R that you are making a function rather than some other type of object. And the <code>{</code> and <code>}</code> tell R that all the code in between are part of that function.</li>
+<li>The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text <code>&lt;- function()</code> where the parameters (if any) are in the (). After the closing parentheses put a <code>{</code> and at the very end of the function, after the <code>return()</code>, close those squiggly brackets with a “}.” The <code>&lt;- function()</code> tells R that you are making a function rather than some other type of object. And the <code>{</code> and <code>}</code> tell R that all the code in between are part of that function.</li>
 </ul>
 <p>Our function here adds 2 to any number we input.</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="functions.html#cb290-1"></a><span class="kw">add_2</span>(<span class="dv">2</span>)</span>
-<span id="cb290-2"><a href="functions.html#cb290-2"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="functions.html#cb291-1"></a><span class="kw">add_2</span>(<span class="dv">5</span>)</span>
-<span id="cb291-2"><a href="functions.html#cb291-2"></a><span class="co">#&gt; [1] 7</span></span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="functions.html#cb290-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
+<span id="cb290-2"><a href="functions.html#cb290-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="functions.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">5</span>)</span>
+<span id="cb291-2"><a href="functions.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span></code></pre></div>
 </div>
 <div id="adding-parameters" class="section level2" number="13.2">
 <h2><span class="header-section-number">13.2</span> Adding parameters</h2>
 <p>Let’s add a single parameter which multiplies the result by 5 if selected.</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="functions.html#cb292-1"></a>add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times_5 =</span> <span class="ot">FALSE</span>) {</span>
-<span id="cb292-2"><a href="functions.html#cb292-2"></a>  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb292-3"><a href="functions.html#cb292-3"></a>  <span class="kw">return</span>(number)</span>
-<span id="cb292-4"><a href="functions.html#cb292-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="functions.html#cb292-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number, <span class="at">times_5 =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb292-2"><a href="functions.html#cb292-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb292-3"><a href="functions.html#cb292-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb292-4"><a href="functions.html#cb292-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now we have added a parameter called <code>time_5</code> to the () part of the function and set it the be FALSE by default. Right now it doesn’t do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters).</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="functions.html#cb293-1"></a>add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number, <span class="dt">times_5 =</span> <span class="ot">FALSE</span>) {</span>
-<span id="cb293-2"><a href="functions.html#cb293-2"></a>  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb293-3"><a href="functions.html#cb293-3"></a>  </span>
-<span id="cb293-4"><a href="functions.html#cb293-4"></a>  <span class="cf">if</span> (times_<span class="dv">5</span> <span class="op">==</span><span class="st"> </span><span class="ot">TRUE</span>) {</span>
-<span id="cb293-5"><a href="functions.html#cb293-5"></a>    number &lt;-<span class="st"> </span>number <span class="op">*</span><span class="st"> </span><span class="dv">5</span></span>
-<span id="cb293-6"><a href="functions.html#cb293-6"></a>  }</span>
-<span id="cb293-7"><a href="functions.html#cb293-7"></a>  </span>
-<span id="cb293-8"><a href="functions.html#cb293-8"></a>  <span class="kw">return</span>(number)</span>
-<span id="cb293-9"><a href="functions.html#cb293-9"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="functions.html#cb293-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number, <span class="at">times_5 =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb293-2"><a href="functions.html#cb293-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb293-3"><a href="functions.html#cb293-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb293-4"><a href="functions.html#cb293-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (times_5 <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb293-5"><a href="functions.html#cb293-5" aria-hidden="true" tabindex="-1"></a>    number <span class="ot">&lt;-</span> number <span class="sc">*</span> <span class="dv">5</span></span>
+<span id="cb293-6"><a href="functions.html#cb293-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb293-7"><a href="functions.html#cb293-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb293-8"><a href="functions.html#cb293-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb293-9"><a href="functions.html#cb293-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now our code says if the parameter <code>times_5</code> is TRUE, then do the thing in the squiggly brackets <code>{}</code> below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let’s try out our function.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="functions.html#cb294-1"></a><span class="kw">add_2</span>(<span class="dv">2</span>)</span>
-<span id="cb294-2"><a href="functions.html#cb294-2"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="functions.html#cb294-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
+<span id="cb294-2"><a href="functions.html#cb294-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
 <p>It returns 4, as expected. Since the parameter <code>times_5</code> is defaulted to FALSE, we don’t need to specify that parameter if we want it to stay FALSE. When we don’t tell the function that we want it to be TRUE, the code in our “if statement” doesn’t run. When we set <code>times_5</code> to TRUE, it runs that code.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="functions.html#cb295-1"></a><span class="kw">add_2</span>(<span class="dv">2</span>, <span class="dt">times_5 =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb295-2"><a href="functions.html#cb295-2"></a><span class="co">#&gt; [1] 20</span></span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="functions.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>, <span class="at">times_5 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb295-2"><a href="functions.html#cb295-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span></code></pre></div>
 </div>
 <div id="recipes-function" class="section level2" number="13.3">
 <h2><span class="header-section-number">13.3</span> Making a function to scrape recipes</h2>
 <p>In Section <a href="webscraping-with-rvest.html#scraping-one-page">12.1</a> we wrote some code to scrape data from the website <a href="https://www.allrecipes.com/">All Recipes</a> for a recipe. We are going to turn that code into a function here. The benefit is that our input to the function will be an URL and then it will print out the ingredients and directions for that recipe. If we want multiple recipes (and for webscraping you usually will want to scrape multiple pages), we just change the URL we input without changing the code at all.</p>
 <p>We used the <code>rvest</code> package so we need to tell R want to use it again.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="functions.html#cb296-1"></a><span class="kw">library</span>(rvest)</span>
-<span id="cb296-2"><a href="functions.html#cb296-2"></a><span class="co">#&gt; Loading required package: xml2</span></span>
-<span id="cb296-3"><a href="functions.html#cb296-3"></a><span class="co">#&gt; Warning: package &#39;xml2&#39; was built under R version 4.0.3</span></span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="functions.html#cb296-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb296-2"><a href="functions.html#cb296-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: xml2</span></span></code></pre></div>
 <p>Let’s start by writing a shell of the function - everything but the code. We can call it <em>scrape_recipes</em> (though any name would work), add in the <code>&lt;- function()</code> and put “URL” (without quotes) in the () as our input for the function is a date. In this case we won’t return anything, we will just print things to the console, so we don’t need the <code>return()</code> value. And don’t forget the <code>{</code> after the end of the <code>function()</code> and <code>}</code> at the very end of the function.</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="functions.html#cb297-1"></a>scrape_recipes &lt;-<span class="st"> </span><span class="cf">function</span>(URL) {</span>
-<span id="cb297-2"><a href="functions.html#cb297-2"></a>  </span>
-<span id="cb297-3"><a href="functions.html#cb297-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="functions.html#cb297-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb297-2"><a href="functions.html#cb297-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb297-3"><a href="functions.html#cb297-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now we need to add the code that takes the date, scrapes the website, and saves that data into objects called <em>ingredients</em> and <em>directions</em>. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="functions.html#cb298-1"></a>scrape_recipes &lt;-<span class="st"> </span><span class="cf">function</span>(URL) {</span>
-<span id="cb298-2"><a href="functions.html#cb298-2"></a>  </span>
-<span id="cb298-3"><a href="functions.html#cb298-3"></a>  brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
-<span id="cb298-4"><a href="functions.html#cb298-4"></a>  </span>
-<span id="cb298-5"><a href="functions.html#cb298-5"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
-<span id="cb298-6"><a href="functions.html#cb298-6"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</span>
-<span id="cb298-7"><a href="functions.html#cb298-7"></a>  </span>
-<span id="cb298-8"><a href="functions.html#cb298-8"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section&quot;</span>)</span>
-<span id="cb298-9"><a href="functions.html#cb298-9"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</span>
-<span id="cb298-10"><a href="functions.html#cb298-10"></a>  </span>
-<span id="cb298-11"><a href="functions.html#cb298-11"></a>  ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</span>
-<span id="cb298-12"><a href="functions.html#cb298-12"></a>  directions &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</span>
-<span id="cb298-13"><a href="functions.html#cb298-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="functions.html#cb298-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb298-2"><a href="functions.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb298-3"><a href="functions.html#cb298-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
+<span id="cb298-4"><a href="functions.html#cb298-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb298-5"><a href="functions.html#cb298-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
+<span id="cb298-6"><a href="functions.html#cb298-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb298-7"><a href="functions.html#cb298-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb298-8"><a href="functions.html#cb298-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section&quot;</span>)</span>
+<span id="cb298-9"><a href="functions.html#cb298-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb298-10"><a href="functions.html#cb298-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb298-11"><a href="functions.html#cb298-11" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> ingredients[ingredients <span class="sc">!=</span> <span class="st">&quot;Add all ingredients to list&quot;</span>]</span>
+<span id="cb298-12"><a href="functions.html#cb298-12" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> directions[directions <span class="sc">!=</span> <span class="st">&quot;&quot;</span>]</span>
+<span id="cb298-13"><a href="functions.html#cb298-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The part inside the () of <code>read_html()</code> is the URL of the page we want to scrape. This is the part of the function that will change based on our input. We want whatever input is in the URL parameter to be the URL we scrape. So let’s change the URL of the brownies recipe we scraped previously to simply say “URL” (without quotes).</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="functions.html#cb299-1"></a>scrape_recipes &lt;-<span class="st"> </span><span class="cf">function</span>(URL) {</span>
-<span id="cb299-2"><a href="functions.html#cb299-2"></a>  </span>
-<span id="cb299-3"><a href="functions.html#cb299-3"></a>  brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(URL)</span>
-<span id="cb299-4"><a href="functions.html#cb299-4"></a>  </span>
-<span id="cb299-5"><a href="functions.html#cb299-5"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
-<span id="cb299-6"><a href="functions.html#cb299-6"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</span>
-<span id="cb299-7"><a href="functions.html#cb299-7"></a>  </span>
-<span id="cb299-8"><a href="functions.html#cb299-8"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
-<span id="cb299-9"><a href="functions.html#cb299-9"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</span>
-<span id="cb299-10"><a href="functions.html#cb299-10"></a>  </span>
-<span id="cb299-11"><a href="functions.html#cb299-11"></a>  ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</span>
-<span id="cb299-12"><a href="functions.html#cb299-12"></a>  directions &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</span>
-<span id="cb299-13"><a href="functions.html#cb299-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="functions.html#cb299-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb299-2"><a href="functions.html#cb299-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb299-3"><a href="functions.html#cb299-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb299-4"><a href="functions.html#cb299-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb299-5"><a href="functions.html#cb299-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
+<span id="cb299-6"><a href="functions.html#cb299-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb299-7"><a href="functions.html#cb299-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb299-8"><a href="functions.html#cb299-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
+<span id="cb299-9"><a href="functions.html#cb299-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb299-10"><a href="functions.html#cb299-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb299-11"><a href="functions.html#cb299-11" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> ingredients[ingredients <span class="sc">!=</span> <span class="st">&quot;Add all ingredients to list&quot;</span>]</span>
+<span id="cb299-12"><a href="functions.html#cb299-12" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> directions[directions <span class="sc">!=</span> <span class="st">&quot;&quot;</span>]</span>
+<span id="cb299-13"><a href="functions.html#cb299-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>To make this function print something to the console we need to specifically tell it to do so in the code. We do this using the <code>print()</code> function. Let’s print first the ingredients and then the directions. We’ll add that add the final lines of the function.</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="functions.html#cb300-1"></a>scrape_recipes &lt;-<span class="st"> </span><span class="cf">function</span>(URL) {</span>
-<span id="cb300-2"><a href="functions.html#cb300-2"></a>  </span>
-<span id="cb300-3"><a href="functions.html#cb300-3"></a>  brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(URL)</span>
-<span id="cb300-4"><a href="functions.html#cb300-4"></a>  </span>
-<span id="cb300-5"><a href="functions.html#cb300-5"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
-<span id="cb300-6"><a href="functions.html#cb300-6"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</span>
-<span id="cb300-7"><a href="functions.html#cb300-7"></a>  </span>
-<span id="cb300-8"><a href="functions.html#cb300-8"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
-<span id="cb300-9"><a href="functions.html#cb300-9"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</span>
-<span id="cb300-10"><a href="functions.html#cb300-10"></a>  </span>
-<span id="cb300-11"><a href="functions.html#cb300-11"></a>  ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</span>
-<span id="cb300-12"><a href="functions.html#cb300-12"></a>  directions  &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</span>
-<span id="cb300-13"><a href="functions.html#cb300-13"></a>  directions  &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
-<span id="cb300-14"><a href="functions.html#cb300-14"></a>  directions  &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
-<span id="cb300-15"><a href="functions.html#cb300-15"></a>  </span>
-<span id="cb300-16"><a href="functions.html#cb300-16"></a>  <span class="kw">print</span>(ingredients)</span>
-<span id="cb300-17"><a href="functions.html#cb300-17"></a>  <span class="kw">print</span>(directions)</span>
-<span id="cb300-18"><a href="functions.html#cb300-18"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="functions.html#cb300-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb300-2"><a href="functions.html#cb300-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb300-3"><a href="functions.html#cb300-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb300-4"><a href="functions.html#cb300-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb300-5"><a href="functions.html#cb300-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
+<span id="cb300-6"><a href="functions.html#cb300-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb300-7"><a href="functions.html#cb300-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb300-8"><a href="functions.html#cb300-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
+<span id="cb300-9"><a href="functions.html#cb300-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb300-10"><a href="functions.html#cb300-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb300-11"><a href="functions.html#cb300-11" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> ingredients[ingredients <span class="sc">!=</span> <span class="st">&quot;Add all ingredients to list&quot;</span>]</span>
+<span id="cb300-12"><a href="functions.html#cb300-12" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> directions[directions <span class="sc">!=</span> <span class="st">&quot;&quot;</span>]</span>
+<span id="cb300-13"><a href="functions.html#cb300-13" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
+<span id="cb300-14"><a href="functions.html#cb300-14" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
+<span id="cb300-15"><a href="functions.html#cb300-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb300-16"><a href="functions.html#cb300-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
+<span id="cb300-17"><a href="functions.html#cb300-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
+<span id="cb300-18"><a href="functions.html#cb300-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now we can try it for a new recipe, this one for “The Best Lemon Bars” at URL <a href="https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/" class="uri">https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/</a>.</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="functions.html#cb301-1"></a><span class="kw">scrape_recipes</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>)</span>
-<span id="cb301-2"><a href="functions.html#cb301-2"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb301-3"><a href="functions.html#cb301-3"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="functions.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_recipes</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>)</span>
+<span id="cb301-2"><a href="functions.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb301-3"><a href="functions.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>In the next lesson we’ll use “for loops” to scrape multiple recipes very quickly.</p>
 
 </div>

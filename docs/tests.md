@@ -52,7 +52,11 @@ A unit test is simply a conditional statement where you have some input, usually
 
 ```r
 library(testthat)
-#> Warning: package 'testthat' was built under R version 4.0.3
+#> 
+#> Attaching package: 'testthat'
+#> The following object is masked from 'package:devtools':
+#> 
+#>     test_file
 ```
 
 In `testthat`, every function follows the same `expect_` format where a type of conditional statement follows the _. For example, `expect_equal()` checks if two values are equal, `expect_named()` checks if the name of a data set is correct, and `expect_silent()` makes sure that the code that's run doesn't return any warnings, messages, or errors. To use this technique for our above example of the function that adds 2 to an inputted number - which we'll call `add_2()` - we can use some `expect_equal()` functions. If we input 2, we expect 4. So we'd write `expect_that(add_2(2), 4)`.     

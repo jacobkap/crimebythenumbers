@@ -1,7 +1,7 @@
 --- 
 knit: "bookdown::render_book"
 title: "Crime by the Numbers"
-date: "2020-11-15"
+date: "2021-02-03"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -15,7 +15,6 @@ site: bookdown::bookdown_site
 documentclass: book
 graphics: yes
 always_allow_html: yes
-twitter-handle: JacobKaplan19
 ---
 
 
@@ -88,4 +87,4 @@ While this distinction may seem minor, I think it is important for newer program
 
 ## How to Contribute {-}
 
-If you have any questions, suggestions, or find any issues please email me at jacob@crimedatatool.com. If this book has helped you, also email me so I can try to measure the book's impact and who is using it. 
+If you have any questions, suggestions, or find any issues, make an edit to it and submit a pull request. 

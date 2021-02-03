@@ -101,7 +101,6 @@ We used the `rvest` package so we need to tell R want to use it again.
 ```r
 library(rvest)
 #> Loading required package: xml2
-#> Warning: package 'xml2' was built under R version 4.0.3
 ```
 
 Let's start by writing a shell of the function - everything but the code. We can call it *scrape_recipes* (though any name would work), add in the `<- function()` and put "URL" (without quotes) in the () as our input for the function is a date. In this case we won't return anything, we will just print things to the console, so we don't need the `return()` value. And don't forget the `{` after the end of the `function()` and `}` at the very end of the function. 

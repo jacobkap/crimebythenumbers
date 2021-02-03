@@ -204,7 +204,6 @@ Now we have a vector of 20 strings, one per column in our data. We will use this
 
 ```r
 library(janitor)
-#> Warning: package 'janitor' was built under R version 4.0.3
 #> 
 #> Attaching package: 'janitor'
 #> The following objects are masked from 'package:stats':

@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-11-14" />
+<meta name="date" content="2021-02-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="functions.html"/>
 <link rel="next" href="scrape-table.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,15 +51,14 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -454,134 +453,133 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="for-loops" class="section level1" number="14">
 <h1><span class="header-section-number">14</span> For loops</h1>
-<p>We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through “for loops”. Earlier in this course we learned how to scrape the recipe website <a href="https://www.allrecipes.com/">All Recipes</a>. We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section <a href="functions.html#recipes-function">13.3</a>. In this lesson we will use a for loop to scrape multiple recipes very quickly.</p>
+<p>We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through “for loops.” Earlier in this course we learned how to scrape the recipe website <a href="https://www.allrecipes.com/">All Recipes</a>. We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section <a href="functions.html#recipes-function">13.3</a>. In this lesson we will use a for loop to scrape multiple recipes very quickly.</p>
 <div id="basic-for-loops" class="section level2" number="14.1">
 <h2><span class="header-section-number">14.1</span> Basic for loops</h2>
 <p>We’ll start with a simple example, making R print the numbers 1-10.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="for-loops.html#cb302-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</span>
-<span id="cb302-2"><a href="for-loops.html#cb302-2"></a>   <span class="kw">print</span>(i)</span>
-<span id="cb302-3"><a href="for-loops.html#cb302-3"></a>}</span>
-<span id="cb302-4"><a href="for-loops.html#cb302-4"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb302-5"><a href="for-loops.html#cb302-5"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb302-6"><a href="for-loops.html#cb302-6"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb302-7"><a href="for-loops.html#cb302-7"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb302-8"><a href="for-loops.html#cb302-8"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb302-9"><a href="for-loops.html#cb302-9"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb302-10"><a href="for-loops.html#cb302-10"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb302-11"><a href="for-loops.html#cb302-11"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb302-12"><a href="for-loops.html#cb302-12"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb302-13"><a href="for-loops.html#cb302-13"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="for-loops.html#cb302-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb302-2"><a href="for-loops.html#cb302-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(i)</span>
+<span id="cb302-3"><a href="for-loops.html#cb302-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb302-4"><a href="for-loops.html#cb302-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb302-5"><a href="for-loops.html#cb302-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb302-6"><a href="for-loops.html#cb302-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb302-7"><a href="for-loops.html#cb302-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb302-8"><a href="for-loops.html#cb302-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb302-9"><a href="for-loops.html#cb302-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb302-10"><a href="for-loops.html#cb302-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb302-11"><a href="for-loops.html#cb302-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb302-12"><a href="for-loops.html#cb302-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb302-13"><a href="for-loops.html#cb302-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
 <p>The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the <code>{</code> and <code>}</code> squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values.</p>
 <p>Let’s look closer at the <code>(i in 1:10)</code>. The <code>i</code> is simply a placeholder object which takes the value 1:10 each iteration of the loop. It’s not necessary to call it <code>i</code> but that is convention in programming to do so. It takes the value of whatever follows the <code>in</code> which can range from a vector of strings to numbers to lists of data.frames. Especially when you’re an early learner of R it could help to call the <code>i</code> something informative to you about what value it has.</p>
 <p>Let’s go through a few examples with different names for <code>i</code> and different values it is looping through.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="for-loops.html#cb303-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</span>
-<span id="cb303-2"><a href="for-loops.html#cb303-2"></a>   <span class="kw">print</span>(a_number)</span>
-<span id="cb303-3"><a href="for-loops.html#cb303-3"></a>}</span>
-<span id="cb303-4"><a href="for-loops.html#cb303-4"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb303-5"><a href="for-loops.html#cb303-5"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb303-6"><a href="for-loops.html#cb303-6"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb303-7"><a href="for-loops.html#cb303-7"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb303-8"><a href="for-loops.html#cb303-8"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb303-9"><a href="for-loops.html#cb303-9"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb303-10"><a href="for-loops.html#cb303-10"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb303-11"><a href="for-loops.html#cb303-11"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb303-12"><a href="for-loops.html#cb303-12"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb303-13"><a href="for-loops.html#cb303-13"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="for-loops.html#cb304-1"></a>animals &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span>
-<span id="cb304-2"><a href="for-loops.html#cb304-2"></a><span class="cf">for</span> (animal <span class="cf">in</span> animals) {</span>
-<span id="cb304-3"><a href="for-loops.html#cb304-3"></a>   <span class="kw">print</span>(animal)</span>
-<span id="cb304-4"><a href="for-loops.html#cb304-4"></a>}</span>
-<span id="cb304-5"><a href="for-loops.html#cb304-5"></a><span class="co">#&gt; [1] &quot;cat&quot;</span></span>
-<span id="cb304-6"><a href="for-loops.html#cb304-6"></a><span class="co">#&gt; [1] &quot;dog&quot;</span></span>
-<span id="cb304-7"><a href="for-loops.html#cb304-7"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span>
-<span id="cb304-8"><a href="for-loops.html#cb304-8"></a><span class="co">#&gt; [1] &quot;buffalo&quot;</span></span>
-<span id="cb304-9"><a href="for-loops.html#cb304-9"></a><span class="co">#&gt; [1] &quot;lion&quot;</span></span>
-<span id="cb304-10"><a href="for-loops.html#cb304-10"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="for-loops.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb303-2"><a href="for-loops.html#cb303-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number)</span>
+<span id="cb303-3"><a href="for-loops.html#cb303-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb303-4"><a href="for-loops.html#cb303-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb303-5"><a href="for-loops.html#cb303-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb303-6"><a href="for-loops.html#cb303-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb303-7"><a href="for-loops.html#cb303-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb303-8"><a href="for-loops.html#cb303-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb303-9"><a href="for-loops.html#cb303-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb303-10"><a href="for-loops.html#cb303-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb303-11"><a href="for-loops.html#cb303-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb303-12"><a href="for-loops.html#cb303-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb303-13"><a href="for-loops.html#cb303-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="for-loops.html#cb304-1" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span>
+<span id="cb304-2"><a href="for-loops.html#cb304-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (animal <span class="cf">in</span> animals) {</span>
+<span id="cb304-3"><a href="for-loops.html#cb304-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(animal)</span>
+<span id="cb304-4"><a href="for-loops.html#cb304-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb304-5"><a href="for-loops.html#cb304-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cat&quot;</span></span>
+<span id="cb304-6"><a href="for-loops.html#cb304-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dog&quot;</span></span>
+<span id="cb304-7"><a href="for-loops.html#cb304-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span>
+<span id="cb304-8"><a href="for-loops.html#cb304-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;buffalo&quot;</span></span>
+<span id="cb304-9"><a href="for-loops.html#cb304-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lion&quot;</span></span>
+<span id="cb304-10"><a href="for-loops.html#cb304-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
 <p>Now let’s make our code a bit more complicated, adding the number 2 every loop.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="for-loops.html#cb305-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) {</span>
-<span id="cb305-2"><a href="for-loops.html#cb305-2"></a>   <span class="kw">print</span>(a_number <span class="op">+</span><span class="st"> </span><span class="dv">2</span>)</span>
-<span id="cb305-3"><a href="for-loops.html#cb305-3"></a>}</span>
-<span id="cb305-4"><a href="for-loops.html#cb305-4"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb305-5"><a href="for-loops.html#cb305-5"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb305-6"><a href="for-loops.html#cb305-6"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb305-7"><a href="for-loops.html#cb305-7"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb305-8"><a href="for-loops.html#cb305-8"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb305-9"><a href="for-loops.html#cb305-9"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb305-10"><a href="for-loops.html#cb305-10"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb305-11"><a href="for-loops.html#cb305-11"></a><span class="co">#&gt; [1] 10</span></span>
-<span id="cb305-12"><a href="for-loops.html#cb305-12"></a><span class="co">#&gt; [1] 11</span></span>
-<span id="cb305-13"><a href="for-loops.html#cb305-13"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="for-loops.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb305-2"><a href="for-loops.html#cb305-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb305-3"><a href="for-loops.html#cb305-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb305-4"><a href="for-loops.html#cb305-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb305-5"><a href="for-loops.html#cb305-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb305-6"><a href="for-loops.html#cb305-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb305-7"><a href="for-loops.html#cb305-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb305-8"><a href="for-loops.html#cb305-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb305-9"><a href="for-loops.html#cb305-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb305-10"><a href="for-loops.html#cb305-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb305-11"><a href="for-loops.html#cb305-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span>
+<span id="cb305-12"><a href="for-loops.html#cb305-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11</span></span>
+<span id="cb305-13"><a href="for-loops.html#cb305-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
 <p>We’re keeping the results inside of <code>print()</code> since for loops do not print the results by default. Let’s try combining this with some subsetting using square bracket notation <code>[]</code>. We will look through every value in <em>numbers</em>, a vector we will make with the values 1:10 and replace each value with its value plus 2.</p>
 <p>The object we’re looping through is <em>numbers</em>. But we’re actually looping through every index it has, hence the <code>1:length(numbers)</code>. That is saying, <code>i</code> takes the value of each index in <em>numbers</em> which is useful when we want to change that element. <code>length(numbers)</code> finds how long the vector <em>numbers</em> is (if this was a data.frame we could use <code>nrow()</code>) to find how many elements it has. In the code we take the value at each index <code>numbers[i]</code> and add 2 to it.</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="for-loops.html#cb306-1"></a>numbers &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
-<span id="cb306-2"><a href="for-loops.html#cb306-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(numbers)) {</span>
-<span id="cb306-3"><a href="for-loops.html#cb306-3"></a>  numbers[i] &lt;-<span class="st"> </span>numbers[i] <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb306-4"><a href="for-loops.html#cb306-4"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="for-loops.html#cb307-1"></a>numbers</span>
-<span id="cb307-2"><a href="for-loops.html#cb307-2"></a><span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span></span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="for-loops.html#cb306-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb306-2"><a href="for-loops.html#cb306-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb306-3"><a href="for-loops.html#cb306-3" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> numbers[i] <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb306-4"><a href="for-loops.html#cb306-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="for-loops.html#cb307-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb307-2"><a href="for-loops.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span></span></code></pre></div>
 <p>We can also include functions we made in for loops. Here’s a function we made last lesson which adds 2 to each inputted number.</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="for-loops.html#cb308-1"></a>add_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="cf">function</span>(number) {</span>
-<span id="cb308-2"><a href="for-loops.html#cb308-2"></a>  number &lt;-<span class="st"> </span>number <span class="op">+</span><span class="st"> </span><span class="dv">2</span></span>
-<span id="cb308-3"><a href="for-loops.html#cb308-3"></a>  <span class="kw">return</span>(number)</span>
-<span id="cb308-4"><a href="for-loops.html#cb308-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="for-loops.html#cb308-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
+<span id="cb308-2"><a href="for-loops.html#cb308-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb308-3"><a href="for-loops.html#cb308-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb308-4"><a href="for-loops.html#cb308-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s put that in the loop.</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="for-loops.html#cb309-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(numbers)) {</span>
-<span id="cb309-2"><a href="for-loops.html#cb309-2"></a>  numbers[i] &lt;-<span class="st"> </span><span class="kw">add_2</span>(numbers[i])</span>
-<span id="cb309-3"><a href="for-loops.html#cb309-3"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="for-loops.html#cb310-1"></a>numbers</span>
-<span id="cb310-2"><a href="for-loops.html#cb310-2"></a><span class="co">#&gt;  [1]  5  6  7  8  9 10 11 12 13 14</span></span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="for-loops.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb309-2"><a href="for-loops.html#cb309-2" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> <span class="fu">add_2</span>(numbers[i])</span>
+<span id="cb309-3"><a href="for-loops.html#cb309-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="for-loops.html#cb310-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb310-2"><a href="for-loops.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  5  6  7  8  9 10 11 12 13 14</span></span></code></pre></div>
 </div>
 <div id="scraping-multiple-recipes" class="section level2" number="14.2">
 <h2><span class="header-section-number">14.2</span> Scraping multiple recipes</h2>
 <p>Below is the function copied from Section <a href="functions.html#recipes-function">13.3</a> which takes a single URL and scraped the site <a href="https://www.allrecipes.com/">All Recipes</a> for that recipe. It printed the ingredients and directions to cook that recipe to the console. If we wanted to get data for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we’re using the <code>read_html()</code> function from <code>rvest</code>, we need to tell R we want to use that package.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="for-loops.html#cb311-1"></a><span class="kw">library</span>(rvest)</span>
-<span id="cb311-2"><a href="for-loops.html#cb311-2"></a><span class="co">#&gt; Loading required package: xml2</span></span>
-<span id="cb311-3"><a href="for-loops.html#cb311-3"></a><span class="co">#&gt; Warning: package &#39;xml2&#39; was built under R version 4.0.3</span></span>
-<span id="cb311-4"><a href="for-loops.html#cb311-4"></a>scrape_recipes &lt;-<span class="st"> </span><span class="cf">function</span>(URL) {</span>
-<span id="cb311-5"><a href="for-loops.html#cb311-5"></a>  </span>
-<span id="cb311-6"><a href="for-loops.html#cb311-6"></a>  brownies &lt;-<span class="st"> </span><span class="kw">read_html</span>(URL)</span>
-<span id="cb311-7"><a href="for-loops.html#cb311-7"></a>  </span>
-<span id="cb311-8"><a href="for-loops.html#cb311-8"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
-<span id="cb311-9"><a href="for-loops.html#cb311-9"></a>  ingredients &lt;-<span class="st"> </span><span class="kw">html_text</span>(ingredients)</span>
-<span id="cb311-10"><a href="for-loops.html#cb311-10"></a>  </span>
-<span id="cb311-11"><a href="for-loops.html#cb311-11"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
-<span id="cb311-12"><a href="for-loops.html#cb311-12"></a>  directions &lt;-<span class="st"> </span><span class="kw">html_text</span>(directions)</span>
-<span id="cb311-13"><a href="for-loops.html#cb311-13"></a>  </span>
-<span id="cb311-14"><a href="for-loops.html#cb311-14"></a>  ingredients &lt;-<span class="st"> </span>ingredients[ingredients <span class="op">!=</span><span class="st"> &quot;Add all ingredients to list&quot;</span>]</span>
-<span id="cb311-15"><a href="for-loops.html#cb311-15"></a>  directions  &lt;-<span class="st"> </span>directions[directions <span class="op">!=</span><span class="st"> &quot;&quot;</span>]</span>
-<span id="cb311-16"><a href="for-loops.html#cb311-16"></a>  directions  &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
-<span id="cb311-17"><a href="for-loops.html#cb311-17"></a>  directions  &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
-<span id="cb311-18"><a href="for-loops.html#cb311-18"></a>  </span>
-<span id="cb311-19"><a href="for-loops.html#cb311-19"></a>  <span class="kw">print</span>(ingredients)</span>
-<span id="cb311-20"><a href="for-loops.html#cb311-20"></a>  <span class="kw">print</span>(directions)</span>
-<span id="cb311-21"><a href="for-loops.html#cb311-21"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="for-loops.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb311-2"><a href="for-loops.html#cb311-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: xml2</span></span>
+<span id="cb311-3"><a href="for-loops.html#cb311-3" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb311-4"><a href="for-loops.html#cb311-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb311-5"><a href="for-loops.html#cb311-5" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb311-6"><a href="for-loops.html#cb311-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb311-7"><a href="for-loops.html#cb311-7" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.added&quot;</span>)</span>
+<span id="cb311-8"><a href="for-loops.html#cb311-8" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb311-9"><a href="for-loops.html#cb311-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb311-10"><a href="for-loops.html#cb311-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.recipe-directions__list--item&quot;</span>)</span>
+<span id="cb311-11"><a href="for-loops.html#cb311-11" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb311-12"><a href="for-loops.html#cb311-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb311-13"><a href="for-loops.html#cb311-13" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> ingredients[ingredients <span class="sc">!=</span> <span class="st">&quot;Add all ingredients to list&quot;</span>]</span>
+<span id="cb311-14"><a href="for-loops.html#cb311-14" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> directions[directions <span class="sc">!=</span> <span class="st">&quot;&quot;</span>]</span>
+<span id="cb311-15"><a href="for-loops.html#cb311-15" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
+<span id="cb311-16"><a href="for-loops.html#cb311-16" aria-hidden="true" tabindex="-1"></a>  directions  <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; {2,}&quot;</span>, <span class="st">&quot;&quot;</span>, directions)</span>
+<span id="cb311-17"><a href="for-loops.html#cb311-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb311-18"><a href="for-loops.html#cb311-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
+<span id="cb311-19"><a href="for-loops.html#cb311-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
+<span id="cb311-20"><a href="for-loops.html#cb311-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple, we need to make an object with the URLs of all the recipes we want.</p>
 <p>Here I am making a vector called <em>recipe_urls</em> with the URLs of several recipes that I like on the site. The way I got the URLs was to go to each recipe’s page and copy and paste the URL. Is this the right approach? Shouldn’t we do everything in R? Not always. In situations like this where we know that there are a small number of links we want - and there is no easy way to get them through R - it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project.</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="for-loops.html#cb312-1"></a>recipe_urls &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>,</span>
-<span id="cb312-2"><a href="for-loops.html#cb312-2"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/27188/crepes/&quot;</span>,</span>
-<span id="cb312-3"><a href="for-loops.html#cb312-3"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/&quot;</span>,</span>
-<span id="cb312-4"><a href="for-loops.html#cb312-4"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/&quot;</span>,</span>
-<span id="cb312-5"><a href="for-loops.html#cb312-5"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/&quot;</span>,</span>
-<span id="cb312-6"><a href="for-loops.html#cb312-6"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>,</span>
-<span id="cb312-7"><a href="for-loops.html#cb312-7"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/189058/super-simple-salmon/&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="for-loops.html#cb312-1" aria-hidden="true" tabindex="-1"></a>recipe_urls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>,</span>
+<span id="cb312-2"><a href="for-loops.html#cb312-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/27188/crepes/&quot;</span>,</span>
+<span id="cb312-3"><a href="for-loops.html#cb312-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/&quot;</span>,</span>
+<span id="cb312-4"><a href="for-loops.html#cb312-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/&quot;</span>,</span>
+<span id="cb312-5"><a href="for-loops.html#cb312-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/&quot;</span>,</span>
+<span id="cb312-6"><a href="for-loops.html#cb312-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>,</span>
+<span id="cb312-7"><a href="for-loops.html#cb312-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/189058/super-simple-salmon/&quot;</span>)</span></code></pre></div>
 <p>Now we can write the for loop to go through every single URL in <em>recipe_urls</em> and use the function <code>scrape_recipes</code> on that URL.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="for-loops.html#cb313-1"></a><span class="cf">for</span> (recipe_url <span class="cf">in</span> recipe_urls) {</span>
-<span id="cb313-2"><a href="for-loops.html#cb313-2"></a>  <span class="kw">scrape_recipes</span>(recipe_url)</span>
-<span id="cb313-3"><a href="for-loops.html#cb313-3"></a>}</span>
-<span id="cb313-4"><a href="for-loops.html#cb313-4"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-5"><a href="for-loops.html#cb313-5"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-6"><a href="for-loops.html#cb313-6"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-7"><a href="for-loops.html#cb313-7"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-8"><a href="for-loops.html#cb313-8"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-9"><a href="for-loops.html#cb313-9"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-10"><a href="for-loops.html#cb313-10"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-11"><a href="for-loops.html#cb313-11"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-12"><a href="for-loops.html#cb313-12"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-13"><a href="for-loops.html#cb313-13"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-14"><a href="for-loops.html#cb313-14"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-15"><a href="for-loops.html#cb313-15"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-16"><a href="for-loops.html#cb313-16"></a><span class="co">#&gt; character(0)</span></span>
-<span id="cb313-17"><a href="for-loops.html#cb313-17"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="for-loops.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (recipe_url <span class="cf">in</span> recipe_urls) {</span>
+<span id="cb313-2"><a href="for-loops.html#cb313-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scrape_recipes</span>(recipe_url)</span>
+<span id="cb313-3"><a href="for-loops.html#cb313-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb313-4"><a href="for-loops.html#cb313-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-5"><a href="for-loops.html#cb313-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-6"><a href="for-loops.html#cb313-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-7"><a href="for-loops.html#cb313-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-8"><a href="for-loops.html#cb313-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-9"><a href="for-loops.html#cb313-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-10"><a href="for-loops.html#cb313-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-11"><a href="for-loops.html#cb313-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-12"><a href="for-loops.html#cb313-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-13"><a href="for-loops.html#cb313-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-14"><a href="for-loops.html#cb313-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-15"><a href="for-loops.html#cb313-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-16"><a href="for-loops.html#cb313-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span>
+<span id="cb313-17"><a href="for-loops.html#cb313-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 
 </div>
 </div>

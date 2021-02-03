@@ -7,7 +7,6 @@ Since we will be working more on the suicide data from San Francisco, let's read
 
 ```r
 library(readr)
-#> Warning: package 'readr' was built under R version 4.0.3
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 #> 
 #> -- Column specification --------------------------------------------------------
@@ -50,7 +49,7 @@ I downloaded this data from San Francisco's Open Data site [here](https://data.s
 
 ```r
 sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp")
-#> Reading layer `san_francisco_neighborhoods' from data source `C:\Users\user\Dropbox\R_project\crimebythenumbers\data\san_francisco_neighborhoods.shp' using driver `ESRI Shapefile'
+#> Reading layer `san_francisco_neighborhoods' from data source `C:\Users\jkkap\Dropbox\R_project\crimebythenumbers\data\san_francisco_neighborhoods.shp' using driver `ESRI Shapefile'
 #> Simple feature collection with 41 features and 1 field
 #> geometry type:  MULTIPOLYGON
 #> dimension:      XY
@@ -84,7 +83,9 @@ The last column is important. In shapefiles, the "geometry" column is the one wi
 plot(sf_neighborhoods$geometry)
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-6-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city's attempt to create definitions of neighborhoods. Indeed, you're likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries [here](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind. 
 
@@ -292,7 +293,9 @@ plot(sf_neighborhoods$geometry)
 plot(suicide$geometry, add = TRUE, col = "red")
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-13-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let's plan it out before beginning. Our suicide data is one row for each suicide, our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with that the original neighborhood data (since we need the "geometry" column) and we can then map it.
 
@@ -404,7 +407,6 @@ install.packages("dplyr")
 
 ```r
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.0.3
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':
@@ -471,7 +473,6 @@ For these maps we are going to use `ggplot2` again so we need to load it.
 
 ```r
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.0.3
 ```
 
 `ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()` which knows how to handle spatial data. 
@@ -484,7 +485,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-28-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -497,7 +500,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   scale_fill_gradient(low = "white", high = "red") 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-29-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -513,7 +518,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
        subtitle = "2003 - 2017") 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-30-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-30-1} \end{center}
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
@@ -530,7 +537,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
         axis.ticks = element_blank())
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-31-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-31-1} \end{center}
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 

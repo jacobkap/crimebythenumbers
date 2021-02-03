@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2020-11-14" />
+<meta name="date" content="2021-02-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="interactive-maps.html"/>
 <link rel="next" href="webscraping-with-rvest.html"/>
-<script src="libs/header-attrs-2.4/header-attrs.js"></script>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,15 +51,14 @@
 
 
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<script src="libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
 <link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
 <script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
@@ -470,7 +469,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Other than the section headers, most of what you do in R Markdown is exactly the same as in Word. You can write text as you would normally and it will look exactly as you write it.</p>
 <div id="code-1" class="section level2" number="11.1">
 <h2><span class="header-section-number">11.1</span> Code</h2>
-<p>The reason R Markdown is so useful is because you can include code output in the file. In R Markdown we write code in what is called a “code chunk”. These are simply areas in the document which R knows it should evaluate as R code. You can see three of them in the example - at lines 8-9 setting a default for the code, lines 18-20 to run the <code>summary()</code> function on the <em>cars</em> data (a data set built into R), and lines 26-28 (and cut off in the screenshot) to make a plot of the data set <em>pressure</em> (another data set built into R).</p>
+<p>The reason R Markdown is so useful is because you can include code output in the file. In R Markdown we write code in what is called a “code chunk.” These are simply areas in the document which R knows it should evaluate as R code. You can see three of them in the example - at lines 8-9 setting a default for the code, lines 18-20 to run the <code>summary()</code> function on the <em>cars</em> data (a data set built into R), and lines 26-28 (and cut off in the screenshot) to make a plot of the data set <em>pressure</em> (another data set built into R).</p>
 <p>To make a chunk click Insert near the top right, then R.</p>
 <p><img src="images/markdown3.PNG" /></p>
 <p>It will then make an empty code chunk where your cursor is.</p>
@@ -494,10 +493,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">11.3</span> Tables</h2>
 <p>There are a number of packages that make nice tables in R Markdown. We will use the <code>knitr</code> package for this example.</p>
 <p>The easiest way to make a table in Markdown is to make a data.frame with all the data (and column names) you want and then show that data.frame (there are also packages that can make tables from regression output though that won’t be covered in this lesson). For this example we will subset the <em>mtcars</em> data (which is included in R) to just the first 5 rows and columns. The <code>kable</code> function from the <code>knitr</code> package will then make a nice looking table. With <code>kable</code> you can add the caption directly in the <code>kable()</code> function. The option <code>echo</code> in our code chunk is not set to FALSE here so you can see the code.</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="r-markdown.html#cb273-1"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb273-2"><a href="r-markdown.html#cb273-2"></a><span class="co">#&gt; Warning: package &#39;knitr&#39; was built under R version 4.0.3</span></span>
-<span id="cb273-3"><a href="r-markdown.html#cb273-3"></a>mtcars_small &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
-<span id="cb273-4"><a href="r-markdown.html#cb273-4"></a><span class="kw">kable</span>(mtcars_small, <span class="dt">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="r-markdown.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb273-2"><a href="r-markdown.html#cb273-2" aria-hidden="true" tabindex="-1"></a>mtcars_small <span class="ot">&lt;-</span> mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb273-3"><a href="r-markdown.html#cb273-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mtcars_small, <span class="at">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:unnamed-chunk-1">Table 11.1: </span>This is an example table caption</caption>
 <thead>
@@ -568,9 +566,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This returns all articles that meet your search criteria. Since we’re searching for a specific article title, we only get one result. The result shows some basic info about the article - title, date, name, abstract. Below the abstract are some important things. First, and circled in blue in the above photo, is a link that looks like quotation marks. This is what we’ll click on to get to the BibTeX citation. While not necessary for citation, the next two links may come in handy during your research. ‘Cited by 31’ means that 31 published (in some format that Google can locate, not necessarily peer-reviewed articles) articles have cited this article. If you click the link it’ll open up a Google Scholar page with all of these articles. This is a good way to find relevant literature. Clicking ‘Related articles’ does the same thing but with articles that Google Scholar deems similar, not necessarily articles linking to the one you’re looking up.</p>
 <p>But back to the quotes link circled in blue. Click this and it’ll make a popup, shown below, of ways to cite this article is various formats. We’ll have RMarkdown automatically generate the citation in the format we want so we don’t need to worry about this. Instead, click the BibTeX link at the bottom left.</p>
 <p><img src="images/google_scholar_cite.PNG" /></p>
-<p>When you click it, it’ll open up a new page with that article’s citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is its own piece. Take a close look at the section immediately after the first squiggly bracket, “reaves1993using”. This is how you’ll identify the article in RMarkdown so R knows which article to cite. It’s essentially the citation’s name. It’s created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called.</p>
+<p>When you click it, it’ll open up a new page with that article’s citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is its own piece. Take a close look at the section immediately after the first squiggly bracket, “reaves1993using.” This is how you’ll identify the article in RMarkdown so R knows which article to cite. It’s essentially the citation’s name. It’s created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called.</p>
 <p><img src="images/google_scholar_bibtex.PNG" /></p>
-<p>Note at the end of the publisher section are the characters “~…”. This looks like a mistake made by Google Scholar so we’ll need to delete that so it isn’t included in a paper we use this citation in. When using Google Scholar, you’ll occasionally find issues like this which you’ll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over from Google Scholar weird (meaning that it copies as a character that your computer, and thus RMarkdown, doesn’t understand) and need to be rewritten so RMarkdown will run. You can rewrite it by just deleting the punctuation and typing it using your keyboard. This isn’t always an issue so don’t worry about it unless you get an error with the citations when outputting your document.</p>
+<p>Note at the end of the publisher section are the characters “~….” This looks like a mistake made by Google Scholar so we’ll need to delete that so it isn’t included in a paper we use this citation in. When using Google Scholar, you’ll occasionally find issues like this which you’ll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over from Google Scholar weird (meaning that it copies as a character that your computer, and thus RMarkdown, doesn’t understand) and need to be rewritten so RMarkdown will run. You can rewrite it by just deleting the punctuation and typing it using your keyboard. This isn’t always an issue so don’t worry about it unless you get an error with the citations when outputting your document.</p>
 <p>Below is the citation included in my .bib file, and the start of another citation also included in the file. A .bib file is basically a text file that programs can read to get citation info. You’ll have all of your citations (in the BibTeX format) in this one file. To make a .bib file you can open up a text document, such as through the Notepad app in Windows, and paste the BibTeX that you’ve copied from Google Scholar. Save this file as a .bib extension (by renaming it filename.bib) and you’ll have a usable .bib file.</p>
 <p>Note that I have the word NIBRS surrounded by squiggly brackets {}. That is because by default RMarkdown (and other citation generators such as Overleaf) will only capitalize the first letter of the title or the first letter following a colon. Since NIBRS is an abbreviation and should be capitalized, I put it in the {} to force it to remain capitalized. This is often a problem with abbreviations or country names (such as United States) in the paper title I’ve also deleted the weird characters at the end of the publisher section. Since all citations you use for a project (I have a single .bib file that I use for projects since much of my work is on the same topic and the citations overlap across papers) are in one .bib file, you can see the start of another article cited below the Reaves citation.</p>
 <p><img src="images/bibtex_example.PNG" /></p>
@@ -578,13 +576,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/rmarkdown_bib.PNG" /></p>
 <p>Now that we have the citation in BibTeX format, put it in our .bib file, and told RMarkdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case “reaves1993using”) so we would write <code>@reaves1993using</code>. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author’s name. You’ll usually want to use this if you’re already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this <code>[@reaves1993using]</code>. If we’re citing multiple articles, we separate each citation using a semicolon <code>[@reaves1993using; @jain2000recruitment]</code>.</p>
 <p>Here’s what the results look like when citing that Reaves article, see the photo below for what this looks like just as code.</p>
-<p><span class="citation">(Reaves <a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">Reaves (<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(Reaves <a href="#ref-reaves1993using" role="doc-biblioref">1993</a>; Jain, Singh, and Agocs <a href="#ref-jain2000recruitment" role="doc-biblioref">2000</a>)</span></p>
+<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>)</span></p>
+<p><span class="citation"><a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves</a> (<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>; <a href="useful-resources.html#ref-jain2000recruitment" role="doc-biblioref">Jain, Singh, and Agocs 2000</a>)</span></p>
 <p>If you use a citation that isn’t in your .bib file, RMarkdown will present three question marks in place of the citation.</p>
-<p><span class="citation">(<span class="citeproc-not-found" data-reference-id="wrongCitation"><strong>???</strong></span>)</span></p>
+<p><span class="citation">(<a href="#ref-wrongCitation" role="doc-biblioref"><strong>wrongCitation?</strong></a>)</span></p>
 <p><img src="images/citation_raw.PNG" /></p>
 <p>When you use citations, R will automatically put the reference at the very end of the document. Two LaTeX commands may be useful here. <code>\clearpage</code> makes a new page so your reference section isn’t on the same page as the conclusion. <code>\singlespace</code> makes the reference section single spaced if you document is set to be double spaced. Put these commands at the very end of your document so they only apply to the reference page. You don’t need to do anything other than write them (for easier reading, make them on separate lines) at the end of the RMarkdown file. If you want to make the references go in another part of the paper (e.g. after tables and figures), just put this code at the place in the paper where you want to reference section to go: <code>&lt;div id="refs"&gt;&lt;/div&gt;</code>.</p>
 </div>
@@ -602,15 +600,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-jain2000recruitment">
-<p>Jain, Harish C, Parbudyal Singh, and Carol Agocs. 2000. “Recruitment, Selection and Promotion of Visible-Minority and Aboriginal Police Officers in Selected Canadian Police Services.” <em>Canadian Public Administration</em> 43 (1): 46–74.</p>
-</div>
-<div id="ref-reaves1993using">
-<p>Reaves, Brian. 1993. <em>Using NIBRS Data to Analyze Violent Crime</em>. US Department of Justice, Office of Justice Programs, Bureau of Justice.</p>
-</div>
-</div>
 <div class="footnotes">
 <hr />
 <ol start="3">

@@ -10,7 +10,6 @@ The data initially comes as a .csv file so we'll use the `read_csv()` function f
 
 ```r
 library(readr)
-#> Warning: package 'readr' was built under R version 4.0.3
 shootings <- read_csv("https://raw.githubusercontent.com/washingtonpost/data-police-shootings/master/fatal-police-shootings-data.csv")
 #> 
 #> -- Column specification --------------------------------------------------------
@@ -49,12 +48,12 @@ Now that we have the data read in, let's look at it.
 
 ```r
 nrow(shootings)
-#> [1] 5763
+#> [1] 5992
 ncol(shootings)
 #> [1] 17
 ```
 
-The data has 17 variables and covers 5763 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
+The data has 17 variables and covers 5992 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
 
 
 ```r
@@ -88,10 +87,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 ```r
 summary(shootings$date)
 #>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
-#> "2015-01-02" "2016-06-15" "2017-12-10" "2017-12-01" "2019-05-28" "2020-11-09"
+#> "2015-01-02" "2016-07-03" "2018-01-17" "2018-01-13" "2019-07-31" "2021-01-24"
 summary(shootings$age)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>    6.00   27.00   35.00   37.14   46.00   91.00     265
+#>    6.00   27.00   35.00   37.16   46.00   91.00     260
 ```
 
 
@@ -102,7 +101,7 @@ From this we can see that the data is from early January through about a week ag
 table(shootings$manner_of_death)
 #> 
 #>             shot shot and Tasered 
-#>             5472              291
+#>             5691              301
 ```
 
 To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.
@@ -112,7 +111,7 @@ To turn these counts into percentages we can divide the results by the number of
 table(shootings$manner_of_death) / nrow(shootings) * 100
 #> 
 #>             shot shot and Tasered 
-#>        94.950547         5.049453
+#>        94.976636         5.023364
 ```
 
 Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let's take a look at whether the victim was armed.
@@ -122,101 +121,101 @@ Now it is clear to see that in about 95% of shootings, officers used a gun and i
 table(shootings$armed) / nrow(shootings) * 100
 #> 
 #>                  air conditioner                       air pistol 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                   Airsoft pistol                               ax 
-#>                       0.05205622                       0.41644977 
+#>                       0.05006676                       0.40053405 
 #>                         barstool                     baseball bat 
-#>                       0.01735207                       0.32968940 
+#>                       0.01668892                       0.31708945 
 #>          baseball bat and bottle baseball bat and fireplace poker 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>           baseball bat and knife                            baton 
-#>                       0.01735207                       0.10411244 
+#>                       0.01668892                       0.10013351 
 #>                          bayonet                           BB gun 
-#>                       0.01735207                       0.08676037 
+#>                       0.01668892                       0.16688919 
 #>               BB gun and vehicle                     bean-bag gun 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                      beer bottle                     blunt object 
-#>                       0.05205622                       0.08676037 
+#>                       0.05006676                       0.08344459 
 #>                           bottle                    bow and arrow 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                       box cutter                            brick 
-#>                       0.20822488                       0.03470415 
+#>                       0.21695594                       0.03337784 
 #>              car, knife and mace                          carjack 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                            chain                        chain saw 
-#>                       0.05205622                       0.03470415 
+#>                       0.05006676                       0.03337784 
 #>                         chainsaw                            chair 
-#>                       0.01735207                       0.06940829 
+#>                       0.01668892                       0.06675567 
 #>              claimed to be armed               contractor's level 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                   cordless drill                         crossbow 
-#>                       0.01735207                       0.15616866 
+#>                       0.01668892                       0.15020027 
 #>                          crowbar                        fireworks 
-#>                       0.06940829                       0.01735207 
+#>                       0.06675567                       0.01668892 
 #>                         flagpole                       flashlight 
-#>                       0.01735207                       0.03470415 
+#>                       0.01668892                       0.03337784 
 #>                      garden tool                      glass shard 
-#>                       0.03470415                       0.05205622 
+#>                       0.03337784                       0.06675567 
 #>                          grenade                              gun 
-#>                       0.01735207                      57.03626583 
+#>                       0.01668892                      57.02603471 
 #>                      gun and car                    gun and knife 
-#>                       0.19087281                       0.32968940 
+#>                       0.18357810                       0.31708945 
 #>                  gun and machete                    gun and sword 
-#>                       0.01735207                       0.01735207 
+#>                       0.05006676                       0.01668892 
 #>                  gun and vehicle              guns and explosives 
-#>                       0.19087281                       0.05205622 
+#>                       0.23364486                       0.05006676 
 #>                           hammer                       hand torch 
-#>                       0.27763318                       0.01735207 
+#>                       0.30040053                       0.01668892 
 #>                          hatchet                  hatchet and gun 
-#>                       0.19087281                       0.03470415 
+#>                       0.18357810                       0.03337784 
 #>                         ice pick                incendiary device 
-#>                       0.01735207                       0.03470415 
+#>                       0.01668892                       0.03337784 
 #>                            knife                 lawn mower blade 
-#>                      14.78396668                       0.03470415 
+#>                      14.70293725                       0.03337784 
 #>                          machete                  machete and gun 
-#>                       0.83289953                       0.01735207 
+#>                       0.81775701                       0.01668892 
 #>                     meat cleaver                  metal hand tool 
-#>                       0.08676037                       0.01735207 
+#>                       0.08344459                       0.03337784 
 #>                     metal object                       metal pipe 
-#>                       0.06940829                       0.24292903 
+#>                       0.08344459                       0.25033378 
 #>                       metal pole                       metal rake 
-#>                       0.05205622                       0.01735207 
+#>                       0.06675567                       0.01668892 
 #>                      metal stick                       motorcycle 
-#>                       0.05205622                       0.01735207 
+#>                       0.05006676                       0.01668892 
 #>                         nail gun                              oar 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                       pellet gun                              pen 
-#>                       0.05205622                       0.01735207 
+#>                       0.05006676                       0.01668892 
 #>                     pepper spray                         pick-axe 
-#>                       0.03470415                       0.06940829 
+#>                       0.03337784                       0.06675567 
 #>                    piece of wood                             pipe 
-#>                       0.08676037                       0.10411244 
+#>                       0.08344459                       0.10013351 
 #>                        pitchfork                             pole 
-#>                       0.03470415                       0.03470415 
+#>                       0.03337784                       0.03337784 
 #>                   pole and knife                             rock 
-#>                       0.03470415                       0.10411244 
+#>                       0.03337784                       0.10013351 
 #>                    samurai sword                         scissors 
-#>                       0.05205622                       0.12146452 
+#>                       0.05006676                       0.11682243 
 #>                      screwdriver                     sharp object 
-#>                       0.22557696                       0.20822488 
+#>                       0.25033378                       0.18357810 
 #>                           shovel                            spear 
-#>                       0.12146452                       0.03470415 
+#>                       0.11682243                       0.03337784 
 #>                          stapler              straight edge razor 
-#>                       0.01735207                       0.06940829 
+#>                       0.01668892                       0.08344459 
 #>                            sword                            Taser 
-#>                       0.39909769                       0.46850599 
+#>                       0.38384513                       0.45060080 
 #>                        tire iron                       toy weapon 
-#>                       0.03470415                       3.36630227 
+#>                       0.05006676                       3.35447263 
 #>                          unarmed                     undetermined 
-#>                       6.35085893                       2.93250043 
+#>                       6.40854473                       2.80373832 
 #>                   unknown weapon                          vehicle 
-#>                       1.42287003                       2.88044421 
+#>                       1.46862483                       3.12082777 
 #>                  vehicle and gun              vehicle and machete 
-#>                       0.06940829                       0.01735207 
+#>                       0.06675567                       0.01668892 
 #>                    walking stick                       wasp spray 
-#>                       0.01735207                       0.01735207 
+#>                       0.01668892                       0.01668892 
 #>                           wrench 
-#>                       0.01735207
+#>                       0.01668892
 ```
 
 This is fairly hard to interpret as it is sorted alphabetically when we'd prefer it to be sorted by most common weapon. It also doesn't round the numbers so there are many numbers past the decimal point shown. Let's solve these two issues using `sort()` and `round()`. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use `sort()` and `round()` on that. We'll set the parameter `decreasing` to TRUE in the `sort()` function so that it is in descending order of how common each value is. And we'll round to two decimal places by setting the parameter `digits` to 2.
@@ -229,50 +228,52 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>                              gun                            knife 
-#>                            57.04                            14.78 
+#>                            57.03                            14.70 
 #>                          unarmed                       toy weapon 
-#>                             6.35                             3.37 
-#>                     undetermined                          vehicle 
-#>                             2.93                             2.88 
+#>                             6.41                             3.35 
+#>                          vehicle                     undetermined 
+#>                             3.12                             2.80 
 #>                   unknown weapon                          machete 
-#>                             1.42                             0.83 
+#>                             1.47                             0.82 
 #>                            Taser                               ax 
-#>                             0.47                             0.42 
+#>                             0.45                             0.40 
 #>                            sword                     baseball bat 
-#>                             0.40                             0.33 
+#>                             0.38                             0.32 
 #>                    gun and knife                           hammer 
-#>                             0.33                             0.28 
+#>                             0.32                             0.30 
 #>                       metal pipe                      screwdriver 
-#>                             0.24                             0.23 
-#>                       box cutter                     sharp object 
-#>                             0.21                             0.21 
-#>                      gun and car                  gun and vehicle 
-#>                             0.19                             0.19 
-#>                          hatchet                         crossbow 
-#>                             0.19                             0.16 
-#>                         scissors                           shovel 
-#>                             0.12                             0.12 
-#>                            baton                             pipe 
+#>                             0.25                             0.25 
+#>                  gun and vehicle                       box cutter 
+#>                             0.23                             0.22 
+#>                      gun and car                          hatchet 
+#>                             0.18                             0.18 
+#>                     sharp object                           BB gun 
+#>                             0.18                             0.17 
+#>                         crossbow                         scissors 
+#>                             0.15                             0.12 
+#>                           shovel                            baton 
+#>                             0.12                             0.10 
+#>                             pipe                             rock 
 #>                             0.10                             0.10 
-#>                             rock                           BB gun 
-#>                             0.10                             0.09 
 #>                     blunt object                     meat cleaver 
-#>                             0.09                             0.09 
-#>                    piece of wood                            chair 
-#>                             0.09                             0.07 
-#>                          crowbar                     metal object 
+#>                             0.08                             0.08 
+#>                     metal object                    piece of wood 
+#>                             0.08                             0.08 
+#>              straight edge razor                            chair 
+#>                             0.08                             0.07 
+#>                          crowbar                      glass shard 
 #>                             0.07                             0.07 
-#>                         pick-axe              straight edge razor 
+#>                       metal pole                         pick-axe 
 #>                             0.07                             0.07 
 #>                  vehicle and gun                   Airsoft pistol 
 #>                             0.07                             0.05 
 #>                      beer bottle                            chain 
 #>                             0.05                             0.05 
-#>                      glass shard              guns and explosives 
+#>                  gun and machete              guns and explosives 
 #>                             0.05                             0.05 
-#>                       metal pole                      metal stick 
+#>                      metal stick                       pellet gun 
 #>                             0.05                             0.05 
-#>                       pellet gun                    samurai sword 
+#>                    samurai sword                        tire iron 
 #>                             0.05                             0.05 
 #>                            brick                        chain saw 
 #>                             0.03                             0.03 
@@ -280,13 +281,13 @@ temp
 #>                             0.03                             0.03 
 #>                  hatchet and gun                incendiary device 
 #>                             0.03                             0.03 
-#>                 lawn mower blade                     pepper spray 
+#>                 lawn mower blade                  metal hand tool 
 #>                             0.03                             0.03 
-#>                        pitchfork                             pole 
+#>                     pepper spray                        pitchfork 
 #>                             0.03                             0.03 
-#>                   pole and knife                            spear 
+#>                             pole                   pole and knife 
 #>                             0.03                             0.03 
-#>                        tire iron                  air conditioner 
+#>                            spear                  air conditioner 
 #>                             0.03                             0.02 
 #>                       air pistol                         barstool 
 #>                             0.02                             0.02 
@@ -306,13 +307,11 @@ temp
 #>                             0.02                             0.02 
 #>                        fireworks                         flagpole 
 #>                             0.02                             0.02 
-#>                          grenade                  gun and machete 
+#>                          grenade                    gun and sword 
 #>                             0.02                             0.02 
-#>                    gun and sword                       hand torch 
+#>                       hand torch                         ice pick 
 #>                             0.02                             0.02 
-#>                         ice pick                  machete and gun 
-#>                             0.02                             0.02 
-#>                  metal hand tool                       metal rake 
+#>                  machete and gun                       metal rake 
 #>                             0.02                             0.02 
 #>                       motorcycle                         nail gun 
 #>                             0.02                             0.02 
@@ -337,7 +336,7 @@ Let's keep exploring the data by looking at gender and race.
 table(shootings$gender) / nrow(shootings) * 100
 #> 
 #>         F         M 
-#>  4.372723 95.592573
+#>  4.389186 95.594126
 ```
 
 Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn't be too surprising. 
@@ -350,7 +349,7 @@ temp <- round(temp, digits = 2)
 temp
 #> 
 #>     O     N     A     H     B     W 
-#>  0.82  1.41  1.65 16.48 23.53 45.15
+#>  0.78  1.37  1.60 16.74 23.83 45.74
 ```
 
 White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn't give any indication on rates of death per group. You'd need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are, for example, stopped by police at different rates. This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It's important to understand the data not only to be able to answer questions about it, but to know what questions you can't answer - and you'll find when using criminology data that there are a *lot* of questions that you can't answer.^[It is especially important to not overreach when trying to answer a question when the data can't do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. For example, using the current data we'd determine that there's no (or not as much as people claim) racial bias in police killings. If we come to that conclusion based on the best possible evidence, that's okay - even if we're wrong. But coming to that conclusion based on inadequate data could lead to policies that actually cause harm. This isn't to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.]  
@@ -364,7 +363,6 @@ We've spent some time looking at the data so now we're ready to make the graphs.
 
 ```r
 library(ggplot2)
-#> Warning: package 'ggplot2' was built under R version 4.0.3
 ```
 
 As a reminder, the benefit of using `ggplot()` is we can start with a simple plot and build our way up to more complicated graphs. We'll start here by building some graphs to depict a numeric variable - in this case the "age" column. We start every `ggplot()` the same, by inserting the dataset first and then put our x and y variables inside of the `aes()` parameter. In this case we're only going to be plotting an x variable so we don't need to write anything for y.
@@ -374,7 +372,9 @@ As a reminder, the benefit of using `ggplot()` is we can start with a simple plo
 ggplot(shootings, aes(x = age))
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-13-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 Running the above code returns a blank graph since we haven't told `ggplot()` what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They're essentially all variations of each other and show the data at different levels of precision. It's hard to say which is best - you'll need to use your best judgment and consider your audience. 
 
 ### Histogram
@@ -386,10 +386,12 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 ggplot(shootings, aes(x = age)) + 
   geom_histogram()
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 265 rows containing non-finite values (stat_bin).
+#> Warning: Removed 260 rows containing non-finite values (stat_bin).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-14-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 The x-axis is ages with each bar being a group of certain ages, and the y-axis is how many people are in each group. The grouping is done automatically and we can alter it by changing the `bin` parameter in `geom_histogram()`. By default this parameter is set to 30 but we can make each group smaller (have fewer ages per group) by **increasing** it from 30 or make each group larger by **decreasing** it.
 
@@ -397,19 +399,23 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 15)
-#> Warning: Removed 265 rows containing non-finite values (stat_bin).
+#> Warning: Removed 260 rows containing non-finite values (stat_bin).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-15-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 45)
-#> Warning: Removed 265 rows containing non-finite values (stat_bin).
+#> Warning: Removed 260 rows containing non-finite values (stat_bin).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-16-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
 
@@ -420,10 +426,12 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)))
 #> `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-#> Warning: Removed 265 rows containing non-finite values (stat_bin).
+#> Warning: Removed 260 rows containing non-finite values (stat_bin).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-17-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 ### Density plot
 
@@ -433,10 +441,12 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_density()
-#> Warning: Removed 265 rows containing non-finite values (stat_density).
+#> Warning: Removed 260 rows containing non-finite values (stat_density).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-18-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 ### Count Graph
 
@@ -446,20 +456,24 @@ A count graph is essentially a histogram with a bar for every value in the numer
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count()
-#> Warning: Removed 265 rows containing non-finite values (stat_count).
+#> Warning: Removed 260 rows containing non-finite values (stat_count).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-19-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
 Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to percent of people using the exact same code.
 
 
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count(aes(y = (..count..)/sum(..count..)))
-#> Warning: Removed 265 rows containing non-finite values (stat_count).
+#> Warning: Removed 260 rows containing non-finite values (stat_count).
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-20-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
 
 ### Graphing a Categorical Variable 
 
@@ -473,7 +487,9 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-21-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
 This gives us a barplot in alphabetical order. In most cases we want the data sorted by frequency, so we can easily see what value is the most common, second most common, etc. There are a few ways to do this but we'll do this by turning the "race" variable into a factor and ordering it by frequency. We can do that using the `factor()` function. The first input will be the "race" variable and then we will need to set the `levels` parameter to a vector of values sorted by frequency. An easy way to know how often values are in a column is to use the `table()` function on that column, such as below.
 
 
@@ -481,7 +497,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 table(shootings$race)
 #> 
 #>    A    B    H    N    O    W 
-#>   95 1356  950   81   47 2602
+#>   96 1428 1003   82   47 2741
 ```
 
 It's still alphabetical so let's wrap that in a `sort()` function. 
@@ -491,7 +507,7 @@ It's still alphabetical so let's wrap that in a `sort()` function.
 sort(table(shootings$race))
 #> 
 #>    O    N    A    H    B    W 
-#>   47   81   95  950 1356 2602
+#>   47   82   96 1003 1428 2741
 ```
 
 It's sorted from smallest to largest. We usually want to graph from largest to smallest so let's set the parameter `decreasing` in `sort()` to TRUE.
@@ -501,7 +517,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 sort(table(shootings$race), decreasing = TRUE)
 #> 
 #>    W    B    H    A    N    O 
-#> 2602 1356  950   95   81   47
+#> 2741 1428 1003   96   82   47
 ```
 
 Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in `names()` to get just the names.
@@ -528,7 +544,9 @@ ggplot(shootings, aes(x = race)) +
   geom_bar() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-27-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
 It works! Note that all the values that are missing in our data are still reported in the barplot under a column called "NA". This is not sorted properly since there are more NA values than three of the other values but is still at the far right of the graph. We can change this if we want to make all the NA values an actual character type and call it something like "Unknown". But this way it does draw attention to how many values are missing from this column. Like most things in graphing, this is a personal choice as to what to do.
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it'll shrink the graph to accommodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph. 
@@ -540,7 +558,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-28-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
 Since it's flipped, now it's sorted from smallest to largest. So we'll need to change the `factor()` code to fix that.
 
 
@@ -552,7 +572,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-29-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
 The NA value is now at the top, which looks fairly bad. Let's change all NA values to the string "Unknown". And while we're at it, let's change all the abbreviated race values to actual names. We can get all the NA values by using `is.na(shootings$race)` and using a conditional statement to get all rows that meet that condition, then assign them the value "Unknown". Instead of trying to subset a factor variable to change the values, we should convert it back to a character type first using `as.character()`, and then convert it to a factor again once we're done. 
 
 
@@ -584,7 +606,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-32-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-32-1} \end{center}
 As earlier, we can show percentage instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
 
 
@@ -594,7 +618,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-33-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-33-1} \end{center}
 
 ## Graphing Data Over Time
 
@@ -609,13 +635,14 @@ ggplot(shootings, aes(x = date, y = dummy)) +
   geom_line()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-34-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-34-1} \end{center}
 This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, lets load the `lubridate()` package that is well-suited for this task. 
 
 
 ```r
 library(lubridate)
-#> Warning: package 'lubridate' was built under R version 4.0.3
 #> 
 #> Attaching package: 'lubridate'
 #> The following objects are masked from 'package:base':
@@ -661,7 +688,9 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-38-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-38-1} \end{center}
 The process is the same for yearly data.
 
 
@@ -671,7 +700,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-39-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-39-1} \end{center}
 
 Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it's simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven't finished this month (year) yet (and the data has a small lag in reporting). 
 
@@ -693,7 +724,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_fivethirtyeight()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-40-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-40-1} \end{center}
 
 
 
@@ -703,7 +736,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_tufte()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-41-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-41-1} \end{center}
 
 
 
@@ -713,7 +748,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_few()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-42-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-42-1} \end{center}
 
 
 
@@ -723,4 +760,6 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_excel()
 ```
 
-<img src="crimebythenumbers_files/figure-epub3/unnamed-chunk-43-1.svg" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-43-1} \end{center}

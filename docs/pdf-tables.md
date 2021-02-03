@@ -203,7 +203,6 @@ install.packages("stringr")
 
 ```r
 library(stringr)
-#> Warning: package 'stringr' was built under R version 4.0.3
 ```
 
 The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coast Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of * they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
@@ -372,7 +371,6 @@ Now we can run `left_join()`.
 
 ```r
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.0.3
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':

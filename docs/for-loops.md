@@ -131,7 +131,6 @@ Below is the function copied from Section \@ref(recipes-function) which takes a 
 ```r
 library(rvest)
 #> Loading required package: xml2
-#> Warning: package 'xml2' was built under R version 4.0.3
 scrape_recipes <- function(URL) {
   
   brownies <- read_html(URL)
