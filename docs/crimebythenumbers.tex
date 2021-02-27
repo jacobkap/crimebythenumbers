@@ -123,7 +123,7 @@
 
 \title{Crime by the Numbers}
 \author{Jacob Kaplan}
-\date{2021-02-03}
+\date{2021-02-27}
 
 \begin{document}
 \maketitle
@@ -252,7 +252,7 @@ If you have any questions, suggestions, or find any issues, make an edit to it a
 \chapter*{About the author (Jacob Kaplan)}\label{about-the-author-jacob-kaplan}}
 
 
-\textbf{Jacob Kaplan} is currently a Postdoctoral Fellow at the University of Pennsylvania. He holds a PhD and a master's degree in criminology from the University of Pennsylvania and a bachelor's degree in criminal justice from California State University, Sacramento. His research focuses on Crime Prevention Through Environmental Design (CPTED), specifically on the effect of outdoor lighting on crime. He is the author of several R packages that make it easier to work with data, including \href{https://jacobkap.github.io/fastDummies/}{fastDummies} and \href{https://jacobkap.github.io/asciiSetupReader/}{asciiSetupReader}. His \href{http://jacobdkaplan.com/}{website} allows easy analysis of crime-related data and he has released over a \href{http://jacobdkaplan.com/data.html}{dozen crime data sets} (primarily FBI UCR data) on openICPSR that he has compiled, cleaned, and made available to the public.
+\textbf{Jacob Kaplan} holds a PhD and a master's degree in criminology from the University of Pennsylvania and a bachelor's degree in criminal justice from California State University, Sacramento. His research focuses on Crime Prevention Through Environmental Design (CPTED), specifically on the effect of outdoor lighting on crime. He is the author of several R packages that make it easier to work with data, including \href{https://jacobkap.github.io/fastDummies/}{fastDummies} and \href{https://jacobkap.github.io/asciiSetupReader/}{asciiSetupReader}. His \href{http://jacobdkaplan.com/}{website} allows easy analysis of crime-related data and he has released over a \href{http://jacobdkaplan.com/data.html}{dozen crime data sets} (primarily FBI UCR data) on openICPSR that he has compiled, cleaned, and made available to the public.
 
 For a list of papers he has written (including working papers), please see \href{http://jacobdkaplan.com/research.html}{here}.
 
@@ -3427,13 +3427,13 @@ Now that we have the data read in, let's look at it.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{nrow}\NormalTok{(shootings)}
-\CommentTok{\#\textgreater{} [1] 5992}
+\CommentTok{\#\textgreater{} [1] 6068}
 \FunctionTok{ncol}\NormalTok{(shootings)}
 \CommentTok{\#\textgreater{} [1] 17}
 \end{Highlighting}
 \end{Shaded}
 
-The data has 17 variables and covers 5992 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
+The data has 17 variables and covers 6068 shootings. Let's check out some of the variables, first using \texttt{head()} then using \texttt{summary()} and \texttt{table()}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3468,10 +3468,10 @@ Each row is a single shooting and it includes variables such as the victim's nam
 \begin{Highlighting}[]
 \FunctionTok{summary}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{date)}
 \CommentTok{\#\textgreater{}         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. }
-\CommentTok{\#\textgreater{} "2015{-}01{-}02" "2016{-}07{-}03" "2018{-}01{-}17" "2018{-}01{-}13" "2019{-}07{-}31" "2021{-}01{-}24"}
+\CommentTok{\#\textgreater{} "2015{-}01{-}02" "2016{-}07{-}11" "2018{-}01{-}28" "2018{-}01{-}26" "2019{-}08{-}21" "2021{-}02{-}22"}
 \FunctionTok{summary}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{age)}
 \CommentTok{\#\textgreater{}    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA\textquotesingle{}s }
-\CommentTok{\#\textgreater{}    6.00   27.00   35.00   37.16   46.00   91.00     260}
+\CommentTok{\#\textgreater{}    6.00   27.00   35.00   37.16   46.00   91.00     266}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3482,7 +3482,7 @@ From this we can see that the data is from early January through about a week ag
 \FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{manner\_of\_death)}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}             shot shot and Tasered }
-\CommentTok{\#\textgreater{}             5691              301}
+\CommentTok{\#\textgreater{}             5764              304}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3493,7 +3493,7 @@ To turn these counts into percentages we can divide the results by the number of
 \FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{manner\_of\_death) }\SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(shootings) }\SpecialCharTok{*} \DecValTok{100}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}             shot shot and Tasered }
-\CommentTok{\#\textgreater{}        94.976636         5.023364}
+\CommentTok{\#\textgreater{}        94.990112         5.009888}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3504,101 +3504,103 @@ Now it is clear to see that in about 95\% of shootings, officers used a gun and 
 \FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{armed) }\SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(shootings) }\SpecialCharTok{*} \DecValTok{100}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}                  air conditioner                       air pistol }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
 \CommentTok{\#\textgreater{}                   Airsoft pistol                               ax }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.40053405 }
+\CommentTok{\#\textgreater{}                       0.04943968                       0.39551747 }
 \CommentTok{\#\textgreater{}                         barstool                     baseball bat }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.31708945 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.31311800 }
 \CommentTok{\#\textgreater{}          baseball bat and bottle baseball bat and fireplace poker }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
 \CommentTok{\#\textgreater{}           baseball bat and knife                            baton }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.10013351 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.09887937 }
 \CommentTok{\#\textgreater{}                          bayonet                           BB gun }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.16688919 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.18127884 }
 \CommentTok{\#\textgreater{}               BB gun and vehicle                     bean{-}bag gun }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
-\CommentTok{\#\textgreater{}                      beer bottle                     blunt object }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.08344459 }
-\CommentTok{\#\textgreater{}                           bottle                    bow and arrow }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
-\CommentTok{\#\textgreater{}                       box cutter                            brick }
-\CommentTok{\#\textgreater{}                       0.21695594                       0.03337784 }
-\CommentTok{\#\textgreater{}              car, knife and mace                          carjack }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
-\CommentTok{\#\textgreater{}                            chain                        chain saw }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.03337784 }
-\CommentTok{\#\textgreater{}                         chainsaw                            chair }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.06675567 }
-\CommentTok{\#\textgreater{}              claimed to be armed               contractor\textquotesingle{}s level }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
-\CommentTok{\#\textgreater{}                   cordless drill                         crossbow }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.15020027 }
-\CommentTok{\#\textgreater{}                          crowbar                        fireworks }
-\CommentTok{\#\textgreater{}                       0.06675567                       0.01668892 }
-\CommentTok{\#\textgreater{}                         flagpole                       flashlight }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.03337784 }
-\CommentTok{\#\textgreater{}                      garden tool                      glass shard }
-\CommentTok{\#\textgreater{}                       0.03337784                       0.06675567 }
-\CommentTok{\#\textgreater{}                          grenade                              gun }
-\CommentTok{\#\textgreater{}                       0.01668892                      57.02603471 }
-\CommentTok{\#\textgreater{}                      gun and car                    gun and knife }
-\CommentTok{\#\textgreater{}                       0.18357810                       0.31708945 }
-\CommentTok{\#\textgreater{}                  gun and machete                    gun and sword }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.01668892 }
-\CommentTok{\#\textgreater{}                  gun and vehicle              guns and explosives }
-\CommentTok{\#\textgreater{}                       0.23364486                       0.05006676 }
-\CommentTok{\#\textgreater{}                           hammer                       hand torch }
-\CommentTok{\#\textgreater{}                       0.30040053                       0.01668892 }
-\CommentTok{\#\textgreater{}                          hatchet                  hatchet and gun }
-\CommentTok{\#\textgreater{}                       0.18357810                       0.03337784 }
-\CommentTok{\#\textgreater{}                         ice pick                incendiary device }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.03337784 }
-\CommentTok{\#\textgreater{}                            knife                 lawn mower blade }
-\CommentTok{\#\textgreater{}                      14.70293725                       0.03337784 }
-\CommentTok{\#\textgreater{}                          machete                  machete and gun }
-\CommentTok{\#\textgreater{}                       0.81775701                       0.01668892 }
-\CommentTok{\#\textgreater{}                     meat cleaver                  metal hand tool }
-\CommentTok{\#\textgreater{}                       0.08344459                       0.03337784 }
-\CommentTok{\#\textgreater{}                     metal object                       metal pipe }
-\CommentTok{\#\textgreater{}                       0.08344459                       0.25033378 }
-\CommentTok{\#\textgreater{}                       metal pole                       metal rake }
-\CommentTok{\#\textgreater{}                       0.06675567                       0.01668892 }
-\CommentTok{\#\textgreater{}                      metal stick                       motorcycle }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.01668892 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
+\CommentTok{\#\textgreater{}                      beer bottle                       binoculars }
+\CommentTok{\#\textgreater{}                       0.04943968                       0.01647989 }
+\CommentTok{\#\textgreater{}                     blunt object                           bottle }
+\CommentTok{\#\textgreater{}                       0.08239947                       0.01647989 }
+\CommentTok{\#\textgreater{}                    bow and arrow                       box cutter }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.21423863 }
+\CommentTok{\#\textgreater{}                            brick              car, knife and mace }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.01647989 }
+\CommentTok{\#\textgreater{}                          carjack                            chain }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.04943968 }
+\CommentTok{\#\textgreater{}                        chain saw                         chainsaw }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.01647989 }
+\CommentTok{\#\textgreater{}                            chair              claimed to be armed }
+\CommentTok{\#\textgreater{}                       0.06591958                       0.01647989 }
+\CommentTok{\#\textgreater{}               contractor\textquotesingle{}s level                   cordless drill }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
+\CommentTok{\#\textgreater{}                         crossbow                          crowbar }
+\CommentTok{\#\textgreater{}                       0.14831905                       0.06591958 }
+\CommentTok{\#\textgreater{}                        fireworks                         flagpole }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
+\CommentTok{\#\textgreater{}                       flashlight                      garden tool }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.03295979 }
+\CommentTok{\#\textgreater{}                      glass shard                          grenade }
+\CommentTok{\#\textgreater{}                       0.06591958                       0.01647989 }
+\CommentTok{\#\textgreater{}                              gun                      gun and car }
+\CommentTok{\#\textgreater{}                      57.15227423                       0.18127884 }
+\CommentTok{\#\textgreater{}                    gun and knife                  gun and machete }
+\CommentTok{\#\textgreater{}                       0.31311800                       0.04943968 }
+\CommentTok{\#\textgreater{}                    gun and sword                  gun and vehicle }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.24719842 }
+\CommentTok{\#\textgreater{}              guns and explosives                           hammer }
+\CommentTok{\#\textgreater{}                       0.04943968                       0.29663810 }
+\CommentTok{\#\textgreater{}                       hand torch                          hatchet }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.19775873 }
+\CommentTok{\#\textgreater{}                  hatchet and gun                         ice pick }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.01647989 }
+\CommentTok{\#\textgreater{}                incendiary device                            knife }
+\CommentTok{\#\textgreater{}                       0.03295979                      14.70006592 }
+\CommentTok{\#\textgreater{}                 lawn mower blade                          machete }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.80751483 }
+\CommentTok{\#\textgreater{}                  machete and gun                     meat cleaver }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.08239947 }
+\CommentTok{\#\textgreater{}                  metal hand tool                     metal object }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.08239947 }
+\CommentTok{\#\textgreater{}                       metal pipe                       metal pole }
+\CommentTok{\#\textgreater{}                       0.24719842                       0.06591958 }
+\CommentTok{\#\textgreater{}                       metal rake                      metal stick }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.04943968 }
+\CommentTok{\#\textgreater{}                       microphone                       motorcycle }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
 \CommentTok{\#\textgreater{}                         nail gun                              oar }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
 \CommentTok{\#\textgreater{}                       pellet gun                              pen }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.01668892 }
+\CommentTok{\#\textgreater{}                       0.04943968                       0.01647989 }
 \CommentTok{\#\textgreater{}                     pepper spray                         pick{-}axe }
-\CommentTok{\#\textgreater{}                       0.03337784                       0.06675567 }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.06591958 }
 \CommentTok{\#\textgreater{}                    piece of wood                             pipe }
-\CommentTok{\#\textgreater{}                       0.08344459                       0.10013351 }
+\CommentTok{\#\textgreater{}                       0.09887937                       0.09887937 }
 \CommentTok{\#\textgreater{}                        pitchfork                             pole }
-\CommentTok{\#\textgreater{}                       0.03337784                       0.03337784 }
-\CommentTok{\#\textgreater{}                   pole and knife                             rock }
-\CommentTok{\#\textgreater{}                       0.03337784                       0.10013351 }
-\CommentTok{\#\textgreater{}                    samurai sword                         scissors }
-\CommentTok{\#\textgreater{}                       0.05006676                       0.11682243 }
-\CommentTok{\#\textgreater{}                      screwdriver                     sharp object }
-\CommentTok{\#\textgreater{}                       0.25033378                       0.18357810 }
-\CommentTok{\#\textgreater{}                           shovel                            spear }
-\CommentTok{\#\textgreater{}                       0.11682243                       0.03337784 }
-\CommentTok{\#\textgreater{}                          stapler              straight edge razor }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.08344459 }
-\CommentTok{\#\textgreater{}                            sword                            Taser }
-\CommentTok{\#\textgreater{}                       0.38384513                       0.45060080 }
-\CommentTok{\#\textgreater{}                        tire iron                       toy weapon }
-\CommentTok{\#\textgreater{}                       0.05006676                       3.35447263 }
-\CommentTok{\#\textgreater{}                          unarmed                     undetermined }
-\CommentTok{\#\textgreater{}                       6.40854473                       2.80373832 }
-\CommentTok{\#\textgreater{}                   unknown weapon                          vehicle }
-\CommentTok{\#\textgreater{}                       1.46862483                       3.12082777 }
-\CommentTok{\#\textgreater{}                  vehicle and gun              vehicle and machete }
-\CommentTok{\#\textgreater{}                       0.06675567                       0.01668892 }
-\CommentTok{\#\textgreater{}                    walking stick                       wasp spray }
-\CommentTok{\#\textgreater{}                       0.01668892                       0.01668892 }
-\CommentTok{\#\textgreater{}                           wrench }
-\CommentTok{\#\textgreater{}                       0.01668892}
+\CommentTok{\#\textgreater{}                       0.03295979                       0.03295979 }
+\CommentTok{\#\textgreater{}                   pole and knife                  railroad spikes }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.01647989 }
+\CommentTok{\#\textgreater{}                             rock                    samurai sword }
+\CommentTok{\#\textgreater{}                       0.09887937                       0.06591958 }
+\CommentTok{\#\textgreater{}                         scissors                      screwdriver }
+\CommentTok{\#\textgreater{}                       0.11535926                       0.24719842 }
+\CommentTok{\#\textgreater{}                     sharp object                           shovel }
+\CommentTok{\#\textgreater{}                       0.18127884                       0.11535926 }
+\CommentTok{\#\textgreater{}                            spear                          stapler }
+\CommentTok{\#\textgreater{}                       0.03295979                       0.01647989 }
+\CommentTok{\#\textgreater{}              straight edge razor                            sword }
+\CommentTok{\#\textgreater{}                       0.08239947                       0.37903757 }
+\CommentTok{\#\textgreater{}                            Taser                        tire iron }
+\CommentTok{\#\textgreater{}                       0.46143705                       0.04943968 }
+\CommentTok{\#\textgreater{}                       toy weapon                          unarmed }
+\CommentTok{\#\textgreater{}                       3.36189848                       6.49307844 }
+\CommentTok{\#\textgreater{}                     undetermined                   unknown weapon }
+\CommentTok{\#\textgreater{}                       2.60382334                       1.46671061 }
+\CommentTok{\#\textgreater{}                          vehicle                  vehicle and gun }
+\CommentTok{\#\textgreater{}                       3.13117996                       0.06591958 }
+\CommentTok{\#\textgreater{}              vehicle and machete                    walking stick }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989 }
+\CommentTok{\#\textgreater{}                       wasp spray                           wrench }
+\CommentTok{\#\textgreater{}                       0.01647989                       0.01647989}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3612,36 +3614,36 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \NormalTok{temp}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}                              gun                            knife }
-\CommentTok{\#\textgreater{}                            57.03                            14.70 }
+\CommentTok{\#\textgreater{}                            57.15                            14.70 }
 \CommentTok{\#\textgreater{}                          unarmed                       toy weapon }
-\CommentTok{\#\textgreater{}                             6.41                             3.35 }
+\CommentTok{\#\textgreater{}                             6.49                             3.36 }
 \CommentTok{\#\textgreater{}                          vehicle                     undetermined }
-\CommentTok{\#\textgreater{}                             3.12                             2.80 }
+\CommentTok{\#\textgreater{}                             3.13                             2.60 }
 \CommentTok{\#\textgreater{}                   unknown weapon                          machete }
-\CommentTok{\#\textgreater{}                             1.47                             0.82 }
+\CommentTok{\#\textgreater{}                             1.47                             0.81 }
 \CommentTok{\#\textgreater{}                            Taser                               ax }
-\CommentTok{\#\textgreater{}                             0.45                             0.40 }
+\CommentTok{\#\textgreater{}                             0.46                             0.40 }
 \CommentTok{\#\textgreater{}                            sword                     baseball bat }
-\CommentTok{\#\textgreater{}                             0.38                             0.32 }
+\CommentTok{\#\textgreater{}                             0.38                             0.31 }
 \CommentTok{\#\textgreater{}                    gun and knife                           hammer }
-\CommentTok{\#\textgreater{}                             0.32                             0.30 }
-\CommentTok{\#\textgreater{}                       metal pipe                      screwdriver }
+\CommentTok{\#\textgreater{}                             0.31                             0.30 }
+\CommentTok{\#\textgreater{}                  gun and vehicle                       metal pipe }
 \CommentTok{\#\textgreater{}                             0.25                             0.25 }
-\CommentTok{\#\textgreater{}                  gun and vehicle                       box cutter }
-\CommentTok{\#\textgreater{}                             0.23                             0.22 }
-\CommentTok{\#\textgreater{}                      gun and car                          hatchet }
+\CommentTok{\#\textgreater{}                      screwdriver                       box cutter }
+\CommentTok{\#\textgreater{}                             0.25                             0.21 }
+\CommentTok{\#\textgreater{}                          hatchet                           BB gun }
+\CommentTok{\#\textgreater{}                             0.20                             0.18 }
+\CommentTok{\#\textgreater{}                      gun and car                     sharp object }
 \CommentTok{\#\textgreater{}                             0.18                             0.18 }
-\CommentTok{\#\textgreater{}                     sharp object                           BB gun }
-\CommentTok{\#\textgreater{}                             0.18                             0.17 }
 \CommentTok{\#\textgreater{}                         crossbow                         scissors }
 \CommentTok{\#\textgreater{}                             0.15                             0.12 }
 \CommentTok{\#\textgreater{}                           shovel                            baton }
 \CommentTok{\#\textgreater{}                             0.12                             0.10 }
-\CommentTok{\#\textgreater{}                             pipe                             rock }
+\CommentTok{\#\textgreater{}                    piece of wood                             pipe }
 \CommentTok{\#\textgreater{}                             0.10                             0.10 }
-\CommentTok{\#\textgreater{}                     blunt object                     meat cleaver }
-\CommentTok{\#\textgreater{}                             0.08                             0.08 }
-\CommentTok{\#\textgreater{}                     metal object                    piece of wood }
+\CommentTok{\#\textgreater{}                             rock                     blunt object }
+\CommentTok{\#\textgreater{}                             0.10                             0.08 }
+\CommentTok{\#\textgreater{}                     meat cleaver                     metal object }
 \CommentTok{\#\textgreater{}                             0.08                             0.08 }
 \CommentTok{\#\textgreater{}              straight edge razor                            chair }
 \CommentTok{\#\textgreater{}                             0.08                             0.07 }
@@ -3649,15 +3651,15 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \CommentTok{\#\textgreater{}                             0.07                             0.07 }
 \CommentTok{\#\textgreater{}                       metal pole                         pick{-}axe }
 \CommentTok{\#\textgreater{}                             0.07                             0.07 }
-\CommentTok{\#\textgreater{}                  vehicle and gun                   Airsoft pistol }
-\CommentTok{\#\textgreater{}                             0.07                             0.05 }
-\CommentTok{\#\textgreater{}                      beer bottle                            chain }
+\CommentTok{\#\textgreater{}                    samurai sword                  vehicle and gun }
+\CommentTok{\#\textgreater{}                             0.07                             0.07 }
+\CommentTok{\#\textgreater{}                   Airsoft pistol                      beer bottle }
 \CommentTok{\#\textgreater{}                             0.05                             0.05 }
-\CommentTok{\#\textgreater{}                  gun and machete              guns and explosives }
+\CommentTok{\#\textgreater{}                            chain                  gun and machete }
 \CommentTok{\#\textgreater{}                             0.05                             0.05 }
-\CommentTok{\#\textgreater{}                      metal stick                       pellet gun }
+\CommentTok{\#\textgreater{}              guns and explosives                      metal stick }
 \CommentTok{\#\textgreater{}                             0.05                             0.05 }
-\CommentTok{\#\textgreater{}                    samurai sword                        tire iron }
+\CommentTok{\#\textgreater{}                       pellet gun                        tire iron }
 \CommentTok{\#\textgreater{}                             0.05                             0.05 }
 \CommentTok{\#\textgreater{}                            brick                        chain saw }
 \CommentTok{\#\textgreater{}                             0.03                             0.03 }
@@ -3681,38 +3683,40 @@ This is fairly hard to interpret as it is sorted alphabetically when we'd prefer
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
 \CommentTok{\#\textgreater{}               BB gun and vehicle                     bean{-}bag gun }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                           bottle                    bow and arrow }
+\CommentTok{\#\textgreater{}                       binoculars                           bottle }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}              car, knife and mace                          carjack }
+\CommentTok{\#\textgreater{}                    bow and arrow              car, knife and mace }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                         chainsaw              claimed to be armed }
+\CommentTok{\#\textgreater{}                          carjack                         chainsaw }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}               contractor\textquotesingle{}s level                   cordless drill }
+\CommentTok{\#\textgreater{}              claimed to be armed               contractor\textquotesingle{}s level }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                        fireworks                         flagpole }
+\CommentTok{\#\textgreater{}                   cordless drill                        fireworks }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                          grenade                    gun and sword }
+\CommentTok{\#\textgreater{}                         flagpole                          grenade }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                       hand torch                         ice pick }
+\CommentTok{\#\textgreater{}                    gun and sword                       hand torch }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                  machete and gun                       metal rake }
+\CommentTok{\#\textgreater{}                         ice pick                  machete and gun }
+\CommentTok{\#\textgreater{}                             0.02                             0.02 }
+\CommentTok{\#\textgreater{}                       metal rake                       microphone }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
 \CommentTok{\#\textgreater{}                       motorcycle                         nail gun }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
 \CommentTok{\#\textgreater{}                              oar                              pen }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                          stapler              vehicle and machete }
+\CommentTok{\#\textgreater{}                  railroad spikes                          stapler }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                    walking stick                       wasp spray }
+\CommentTok{\#\textgreater{}              vehicle and machete                    walking stick }
 \CommentTok{\#\textgreater{}                             0.02                             0.02 }
-\CommentTok{\#\textgreater{}                           wrench }
-\CommentTok{\#\textgreater{}                             0.02}
+\CommentTok{\#\textgreater{}                       wasp spray                           wrench }
+\CommentTok{\#\textgreater{}                             0.02                             0.02}
 \end{Highlighting}
 \end{Shaded}
 
 Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. 15\% of the time they had a knife. And 6\% of the time they were unarmed. In 4\% of cases there is no data on any weapon. That leaves about 20\% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.
 
-Think about how you'd graph this data. There are 96 unique values in this column though fewer than ten of them are common enough to appear more than 1\% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called ``other weapons.'' And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference.
+Think about how you'd graph this data. There are 99 unique values in this column though fewer than ten of them are common enough to appear more than 1\% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called ``other weapons.'' And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you're interested in, the goal of the graph, the target audience, and personal preference.
 
 Let's keep exploring the data by looking at gender and race.
 
@@ -3721,7 +3725,7 @@ Let's keep exploring the data by looking at gender and race.
 \FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{gender) }\SpecialCharTok{/} \FunctionTok{nrow}\NormalTok{(shootings) }\SpecialCharTok{*} \DecValTok{100}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}         F         M }
-\CommentTok{\#\textgreater{}  4.389186 95.594126}
+\CommentTok{\#\textgreater{}  4.433092 95.550428}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3735,7 +3739,7 @@ Nearly all of the shootings are of a man. Given that we saw most shootings invol
 \NormalTok{temp}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}     O     N     A     H     B     W }
-\CommentTok{\#\textgreater{}  0.78  1.37  1.60 16.74 23.83 45.74}
+\CommentTok{\#\textgreater{}  0.77  1.37  1.65 16.81 23.86 45.83}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3776,7 +3780,7 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_histogram}\NormalTok{()}
 \CommentTok{\#\textgreater{} \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3788,7 +3792,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{15}\NormalTok{)}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3798,7 +3802,7 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{45}\NormalTok{)}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3813,7 +3817,7 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ (..count..)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(..count..)))}
 \CommentTok{\#\textgreater{} \textasciigrave{}stat\_bin()\textasciigrave{} using \textasciigrave{}bins = 30\textasciigrave{}. Pick better value with \textasciigrave{}binwidth\textasciigrave{}.}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_bin).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_bin).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3828,7 +3832,7 @@ Density plots are essentially smoothed versions of histograms. They're especiall
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_density}\NormalTok{()}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_density).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_density).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3843,7 +3847,7 @@ A count graph is essentially a histogram with a bar for every value in the numer
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{stat\_count}\NormalTok{()}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3855,7 +3859,7 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 \begin{Highlighting}[]
 \FunctionTok{ggplot}\NormalTok{(shootings, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age)) }\SpecialCharTok{+} 
   \FunctionTok{stat\_count}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ (..count..)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(..count..)))}
-\CommentTok{\#\textgreater{} Warning: Removed 260 rows containing non{-}finite values (stat\_count).}
+\CommentTok{\#\textgreater{} Warning: Removed 266 rows containing non{-}finite values (stat\_count).}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3885,7 +3889,7 @@ This gives us a barplot in alphabetical order. In most cases we want the data so
 \FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{race)}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}    A    B    H    N    O    W }
-\CommentTok{\#\textgreater{}   96 1428 1003   82   47 2741}
+\CommentTok{\#\textgreater{}  100 1448 1020   83   47 2781}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3896,7 +3900,7 @@ It's still alphabetical so let's wrap that in a \texttt{sort()} function.
 \FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{race))}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}    O    N    A    H    B    W }
-\CommentTok{\#\textgreater{}   47   82   96 1003 1428 2741}
+\CommentTok{\#\textgreater{}   47   83  100 1020 1448 2781}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3907,7 +3911,7 @@ It's sorted from smallest to largest. We usually want to graph from largest to s
 \FunctionTok{sort}\NormalTok{(}\FunctionTok{table}\NormalTok{(shootings}\SpecialCharTok{$}\NormalTok{race), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
 \CommentTok{\#\textgreater{} }
 \CommentTok{\#\textgreater{}    W    B    H    A    N    O }
-\CommentTok{\#\textgreater{} 2741 1428 1003   96   82   47}
+\CommentTok{\#\textgreater{} 2781 1448 1020  100   83   47}
 \end{Highlighting}
 \end{Shaded}
 

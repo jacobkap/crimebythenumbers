@@ -74,26 +74,17 @@ mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```
 
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-1)This is an example table caption}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r}
-\hline
-  & mpg & cyl & disp & hp & drat\\
-\hline
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85\\
-\hline
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08\\
-\hline
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15\\
-\hline
-\end{tabular}
-\end{table}
+
+Table: (\#tab:unnamed-chunk-1)This is an example table caption
+
+|                  |  mpg| cyl| disp|  hp| drat|
+|:-----------------|----:|---:|----:|---:|----:|
+|Mazda RX4         | 21.0|   6|  160| 110| 3.90|
+|Mazda RX4 Wag     | 21.0|   6|  160| 110| 3.90|
+|Datsun 710        | 22.8|   4|  108|  93| 3.85|
+|Hornet 4 Drive    | 21.4|   6|  258| 110| 3.08|
+|Hornet Sportabout | 18.7|   8|  360| 175| 3.15|
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
 
