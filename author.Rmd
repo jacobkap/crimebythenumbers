@@ -8,4 +8,4 @@ For a list of papers he has written (including working papers), please see [here
 
 For a list of data sets he has cleaned, aggregated, and made public, please see [here](http://jacobdkaplan.com/data.html).
 
-For a list of R packages he has created, please see [here](http://jacobdkaplan.com/data.html).
+For a list of R packages he has created, please see [here](https://jacobdkaplan.com/packages.html).
