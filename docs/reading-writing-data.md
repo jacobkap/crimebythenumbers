@@ -59,14 +59,14 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 ```r
 head(shootings)
 #> # A tibble: 6 x 14
-#>      id name  date       manner_of_death armed   age gender race  city  state
-#>   <dbl> <chr> <date>     <chr>           <chr> <dbl> <chr>  <chr> <chr> <chr>
-#> 1     3 Tim ~ 2015-01-02 shot            gun      53 M      A     Shel~ WA   
-#> 2     4 Lewi~ 2015-01-02 shot            gun      47 M      W     Aloha OR   
-#> 3     5 John~ 2015-01-03 shot and Taser~ unar~    23 M      H     Wich~ KS   
-#> 4     8 Matt~ 2015-01-04 shot            toy ~    32 M      W     San ~ CA   
-#> 5     9 Mich~ 2015-01-04 shot            nail~    39 M      H     Evans CO   
-#> 6    11 Kenn~ 2015-01-04 shot            gun      18 M      W     Guth~ OK   
+#>      id name    date       manner_of_death  armed   age gender race  city  state
+#>   <dbl> <chr>   <date>     <chr>            <chr> <dbl> <chr>  <chr> <chr> <chr>
+#> 1     3 Tim El~ 2015-01-02 shot             gun      53 M      A     Shel~ WA   
+#> 2     4 Lewis ~ 2015-01-02 shot             gun      47 M      W     Aloha OR   
+#> 3     5 John P~ 2015-01-03 shot and Tasered unar~    23 M      H     Wich~ KS   
+#> 4     8 Matthe~ 2015-01-04 shot             toy ~    32 M      W     San ~ CA   
+#> 5     9 Michae~ 2015-01-04 shot             nail~    39 M      H     Evans CO   
+#> 6    11 Kennet~ 2015-01-04 shot             gun      18 M      W     Guth~ OK   
 #> # ... with 4 more variables: signs_of_mental_illness <lgl>, threat_level <chr>,
 #> #   flee <chr>, body_camera <lgl>
 ```
