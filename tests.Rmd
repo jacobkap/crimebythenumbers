@@ -1,4 +1,4 @@
-# Tests
+# Testing your code
 
 ## Why test your code?
 

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>21 Testing your code | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="21 Testing your code | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="21 Testing your code | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-03-13" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="collaboration.html"/>
+<link rel="next" href="git.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i>Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs Easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute"><i class="fa fa-check"></i>How to Contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>1</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>1.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>1.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="1.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>1.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="1.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>1.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="1.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>1.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>1.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>1.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>1.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>1.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="2" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>2</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>2.1</b> Select specific values</a></li>
+<li class="chapter" data-level="2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>2.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>2.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>2.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="2.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>2.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="2.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>2.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="2.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>2.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="2.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>2.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>2.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>2.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="2.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>2.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="2.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>2.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>3</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>3.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="3.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>3.2</b> Graphing</a></li>
+<li class="chapter" data-level="3.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>3.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>4</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>4.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="4.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>4.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="4.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>4.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>4.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>4.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="4.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>4.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="4.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>4.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="4.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>4.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="4.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>4.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="4.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="4.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>4.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="4.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>4.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="4.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>4.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="4.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>4.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>4.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>5</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>5.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>5.1.1</b> R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>5.1.2</b> Excel</a></li>
+<li class="chapter" data-level="5.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>5.1.3</b> Stata</a></li>
+<li class="chapter" data-level="5.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>5.1.4</b> SAS</a></li>
+<li class="chapter" data-level="5.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>5.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>5.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>5.2.1</b> R</a></li>
+<li class="chapter" data-level="5.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>5.2.2</b> Excel</a></li>
+<li class="chapter" data-level="5.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>5.2.3</b> Stata</a></li>
+<li class="chapter" data-level="5.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>5.2.4</b> SAS</a></li>
+<li class="chapter" data-level="5.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>5.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="6" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>6</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>6.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="6.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>6.2</b> Graphing data</a></li>
+<li class="chapter" data-level="6.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>6.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="6.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>6.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="6.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>6.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>7</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>7.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="7.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>7.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>7.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>7.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="7.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>7.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="7.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>7.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>7.3</b> Bar graph</a></li>
+<li class="chapter" data-level="7.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>7.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="7.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>7.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="7.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>7.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>8</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>8.1</b> A simple map</a></li>
+<li class="chapter" data-level="8.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>8.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="8.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>8.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>8.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>9</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>9.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="9.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>9.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>10</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>10.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>10.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="10.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>10.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>10.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="10.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>10.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="10.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>10.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="10.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>10.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>11</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>11.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>11.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>11.2</b> Inline Code</a></li>
+<li class="chapter" data-level="11.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>11.3</b> Tables</a></li>
+<li class="chapter" data-level="11.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>11.4</b> Footnotes</a></li>
+<li class="chapter" data-level="11.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>11.5</b> Citation</a></li>
+<li class="chapter" data-level="11.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>11.6</b> Spell check</a></li>
+<li class="chapter" data-level="11.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>11.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="12" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>12</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>12.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="12.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>12.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>13</b> Functions</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>13.1</b> A simple function</a></li>
+<li class="chapter" data-level="13.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>13.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="13.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>13.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>14</b> For loops</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>14.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="14.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>14.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>15</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>15.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="15.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>15.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>16</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>16.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>16.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>17</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>17.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="17.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>17.2</b> Making a function</a></li>
+<li class="chapter" data-level="17.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>17.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="18" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>18</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>18.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>18.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>18.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="18.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>18.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="18.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>18.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="18.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>18.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="18.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>18.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="18.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>18.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="on-saying-no.html"><a href="on-saying-no.html"><i class="fa fa-check"></i><b>19</b> On Saying No</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="on-saying-no.html"><a href="on-saying-no.html#why-say-no"><i class="fa fa-check"></i><b>19.1</b> Why say no</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="on-saying-no.html"><a href="on-saying-no.html#the-problem-with-always-saying-yes"><i class="fa fa-check"></i><b>19.1.1</b> The problem with (always) saying yes</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="on-saying-no.html"><a href="on-saying-no.html#when-to-say-no"><i class="fa fa-check"></i><b>19.2</b> When to say no</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="on-saying-no.html"><a href="on-saying-no.html#what-is-mandatory-and-what-is-optional"><i class="fa fa-check"></i><b>19.2.1</b> What is mandatory and what is optional?</a></li>
+<li class="chapter" data-level="19.2.2" data-path="on-saying-no.html"><a href="on-saying-no.html#what-a-manageable-academic-workload-looks-like"><i class="fa fa-check"></i><b>19.2.2</b> What a manageable academic workload looks like</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="on-saying-no.html"><a href="on-saying-no.html#how-to-say-no"><i class="fa fa-check"></i><b>19.3</b> How to say no</a>
+<ul>
+<li class="chapter" data-level="19.3.1" data-path="on-saying-no.html"><a href="on-saying-no.html#ending-ongoing-projects"><i class="fa fa-check"></i><b>19.3.1</b> Ending ongoing projects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>20</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>20.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>20.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>20.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>20.2.1</b> Comments</a></li>
+<li class="chapter" data-level="20.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>20.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="testing-your-code.html"><a href="testing-your-code.html"><i class="fa fa-check"></i><b>21</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="testing-your-code.html"><a href="testing-your-code.html#why-test-your-code"><i class="fa fa-check"></i><b>21.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="21.2" data-path="testing-your-code.html"><a href="testing-your-code.html#unit-tests"><i class="fa fa-check"></i><b>21.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="testing-your-code.html"><a href="testing-your-code.html#modular-test-scripts"><i class="fa fa-check"></i><b>21.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="21.2.2" data-path="testing-your-code.html"><a href="testing-your-code.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>21.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="21.2.3" data-path="testing-your-code.html"><a href="testing-your-code.html#what-to-test"><i class="fa fa-check"></i><b>21.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="21.3" data-path="testing-your-code.html"><a href="testing-your-code.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>21.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>22</b> Git</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>22.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="22.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>22.2</b> Git basics</a></li>
+<li class="chapter" data-level="22.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>22.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="22.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>22.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="22.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>22.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="22.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>22.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="22.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>22.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="22.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>22.6</b> When to commit</a></li>
+<li class="chapter" data-level="22.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>22.7</b> Other resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="testing-your-code" class="section level1" number="21">
+<h1><span class="header-section-number">21</span> Testing your code</h1>
+<div id="why-test-your-code" class="section level2" number="21.1">
+<h2><span class="header-section-number">21.1</span> Why test your code?</h2>
+<p>As you write code, you will inevitably make mistakes. There are two main types of mistakes with coding - those that prevent code from working (i.e. give you an error message and don’t run the code) and those that run the code but give you the wrong result. Of these, the first is probably more frustrating as R tends to give fairly unhelpful error messages and you’ll feel you hit a roadblock since R just isn’t working right. However, the second issue - code is wrong but doesn’t tell you it’s wrong! - is far more dangerous. This is especially true for research projects.</p>
+<p>Let’s use examining whether a policy affected murder as an example. In the example data set below, we have two years of data for both murder and theft, and we’ll say that the policy changed at the start of the second year. If we want to see if murder changed from 2000 to 2001, we could (overly simply) see if the number of murders in 2001 was different from the number in 2000. And since the data also has theft, we’d want to subset to murder first.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="testing-your-code.html#cb384-1" aria-hidden="true" tabindex="-1"></a>example_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2000</span>, <span class="dv">2001</span>, <span class="dv">2001</span>),</span>
+<span id="cb384-2"><a href="testing-your-code.html#cb384-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">crime_type =</span> <span class="fu">c</span>(<span class="st">&quot;murder&quot;</span>, <span class="st">&quot;theft&quot;</span>, <span class="st">&quot;murder&quot;</span>, <span class="st">&quot;theft&quot;</span>),</span>
+<span id="cb384-3"><a href="testing-your-code.html#cb384-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">crime_count =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">50</span>))</span>
+<span id="cb384-4"><a href="testing-your-code.html#cb384-4" aria-hidden="true" tabindex="-1"></a>example_data</span>
+<span id="cb384-5"><a href="testing-your-code.html#cb384-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   year crime_type crime_count</span></span>
+<span id="cb384-6"><a href="testing-your-code.html#cb384-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2000     murder         100</span></span>
+<span id="cb384-7"><a href="testing-your-code.html#cb384-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2000      theft         100</span></span>
+<span id="cb384-8"><a href="testing-your-code.html#cb384-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 2001     murder         200</span></span>
+<span id="cb384-9"><a href="testing-your-code.html#cb384-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2001      theft          50</span></span></code></pre></div>
+<p>To see if murder changed, we can subset to the rows where the crime is murder, and then print out the year and crime_count columns to see if there is a change. So our code will be <code>example_data[example_data$crime_type == "murder", c("year", "crime_count")]</code>. Below I’ve accidentally only put one <code>=</code> instead of two, this will give us an error and not give any other results. Helpfully, the error message tells us that there’s an error with the <code>=</code> sign, though not what that exact error is.</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="testing-your-code.html#cb385-1" aria-hidden="true" tabindex="-1"></a>example_data[example_data<span class="sc">$</span>crime_type <span class="ot">=</span> <span class="st">&quot;murder&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;crime_count&quot;</span>)]</span>
+<span id="cb385-2"><a href="testing-your-code.html#cb385-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: &lt;text&gt;:1:38: unexpected &#39;=&#39;</span></span>
+<span id="cb385-3"><a href="testing-your-code.html#cb385-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1: example_data[example_data$crime_type =</span></span>
+<span id="cb385-4"><a href="testing-your-code.html#cb385-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                          ^</span></span></code></pre></div>
+<p>Now I’ve made a different mistake. Here, instead of <code>==</code>, I’ve written <code>!=</code> which is the opposite of what we want - it’ll return all rows that do <strong>not</strong> equal “murder.” Now it looks like the policy cut murder in half when in actuality the policy doubled murders! Since we don’t print out the type of crime in the output, we wouldn’t catch this from the output alone.</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="testing-your-code.html#cb386-1" aria-hidden="true" tabindex="-1"></a>example_data[example_data<span class="sc">$</span>crime_type <span class="sc">!=</span> <span class="st">&quot;murder&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;crime_count&quot;</span>)]</span>
+<span id="cb386-2"><a href="testing-your-code.html#cb386-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   year crime_count</span></span>
+<span id="cb386-3"><a href="testing-your-code.html#cb386-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 2000         100</span></span>
+<span id="cb386-4"><a href="testing-your-code.html#cb386-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2001          50</span></span></code></pre></div>
+<p>You may think this is a silly example that is unrealistic. And it is to a degree, it’s just one line of code that we’re using to evaluate an entire policy. Now think about how you would actually evaluate a policy using data that you’re familiar with. Now the code is going to be much more complex. Your code may be hundreds of lines long, deal with multiple data sets that must be joined together, and involve a number of relative subjective (though must be defensible) decisions as to how to deal with your data (e.g. what crimes constitute violent crime, what time unit to analyze), and be written by other people you are collaborating with. The increased complexity with a real analysis increases the likelihood that errors will occur - and even small issues such as an incorrect subset can have large impacts on your results.</p>
+<p>So, how do we properly test our code? There are two main methods that I’ll refer to as informally and formally. The formal method will be using something called “unit tests” that we’re discuss in great detail in the next part of this chapter.</p>
+<p>Informal methods are what you’ve likely been doing already. Essentially, just looking at your data and trying to see if it “looks right.” This includes stuff like printing summary statistics (using <code>summary()</code>) of important variables and making simple graphs to look at the data. If something is wrong, exploring the data is a fairly good way to discover it. For example, if you are looking at arson data from the FBI, you may find (as this is actually in the data) some cities with billions of car arsons in a month. This is clearly wrong so you know there’s an issue - in this case, an issue with not subsetting out obvious outliers. Knowledge about the topic and the data are also important in this approach. If you are familiar with a given topic and your results are similar to that of past studies, that’s a good sign that you did things right.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a></p>
+<p>You can also take this kind of approach when testing functions - which ideally are the way you write code, so you can use it for more than a single case. For example, if you have a function that takes a number and returns that number + 2, you can test it by checking a few cases. If you input 2, you expect 4. If you input -2, you expect 0. Do this a few times and you can be more confident that the function works properly. Now imagine a function that’s more complex - one that calls a different function and uses the result of that function. If you change the underlying function, you’ll need to check both that function and the function that calls it. As you have more intertwined pieces in your code, this gets more and more complex. It also takes a lot more time as you’ll have a lot of code that only checks a function and will have to run it line by line to see if there’s an issue. At this point, relying on informal methods becomes unfeasible and you’ll want to use unit tests, a formal way to test your code. Note, however, that this is far better suited for checking functions than for checking data, though it is possible to some degree. We’ll discuss formally testing data in Section <a href="testing-your-code.html#tests-for-research-projects">21.2.3.1</a>.</p>
+</div>
+<div id="unit-tests" class="section level2" number="21.2">
+<h2><span class="header-section-number">21.2</span> Unit tests</h2>
+<p>A unit test is simply a conditional statement where you have some input, usually a function with some parameters set, and state what you expect the result to be. You are saying “I expect that if I do X, I will get Y.” And if you get a result other than what you expected, R will tell you. In R, you can make a number of unit tests and have R run them all at once and inform you of which ones failed. Each unit test is just a function in R that is specifically for checking whether other functions - or other code or data - are correct. They operate just like a normal function. To use unit tests, we’ll use the R package <code>testthat</code> which has a number of functions that make unit testing easier and use some keyboard shortcuts in RStudio that also improve the ease of testing. Please note that these shortcuts will only work if you’re working in an R Package, a normal R Project won’t work. If you don’t have <code>testthat</code> installed, do so using <code>install.packages("testthat)</code>. For more information on the package, please see the package’s <a href="https://testthat.r-lib.org/index.html">website</a>.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="testing-your-code.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(testthat)</span>
+<span id="cb387-2"><a href="testing-your-code.html#cb387-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;testthat&#39; was built under R version 4.0.4</span></span>
+<span id="cb387-3"><a href="testing-your-code.html#cb387-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb387-4"><a href="testing-your-code.html#cb387-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;testthat&#39;</span></span>
+<span id="cb387-5"><a href="testing-your-code.html#cb387-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:devtools&#39;:</span></span>
+<span id="cb387-6"><a href="testing-your-code.html#cb387-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb387-7"><a href="testing-your-code.html#cb387-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     test_file</span></span></code></pre></div>
+<p>In <code>testthat</code>, every function follows the same <code>expect_</code> format where a type of conditional statement follows the _. For example, <code>expect_equal()</code> checks if two values are equal, <code>expect_named()</code> checks if the name of a data set is correct, and <code>expect_silent()</code> makes sure that the code that’s run doesn’t return any warnings, messages, or errors. To use this technique for our above example of the function that adds 2 to an inputted number - which we’ll call <code>add_2()</code> - we can use some <code>expect_equal()</code> functions. If we input 2, we expect 4. So we’d write <code>expect_that(add_2(2), 4)</code>.</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="testing-your-code.html#cb388-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) { <span class="fu">return</span>(number <span class="sc">+</span> <span class="dv">2</span>) }</span>
+<span id="cb388-2"><a href="testing-your-code.html#cb388-2" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_equal</span>(<span class="fu">add_2</span>(<span class="dv">2</span>), <span class="dv">4</span>)</span></code></pre></div>
+<p>Above is the code that makes the <code>add_2()</code> function and one unit test checking it. It doesn’t output anything. That is good. When a test passes, there is no information; when it fails, the function will output a message that it failed. Below is another test, this one intentionally wrong to show what happens when a test fails.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="testing-your-code.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="fu">expect_equal</span>(<span class="fu">add_2</span>(<span class="dv">2</span>), <span class="dv">5</span>)</span>
+<span id="cb389-2"><a href="testing-your-code.html#cb389-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: add_2(2) not equal to 5.</span></span>
+<span id="cb389-3"><a href="testing-your-code.html#cb389-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1/1 mismatches</span></span>
+<span id="cb389-4"><a href="testing-your-code.html#cb389-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4 - 5 == -1</span></span></code></pre></div>
+<p>It gives an error, telling us that the result of the <code>add_2(2)</code> function does not equal 5. Helpfully, it also shows us how much of a difference there is between what we expected and what we got. Note that it says “1/1 mismatches.” That says that all of the expected values - we only expect one value - are incorrect. If we expect more than one result, such as if we expect a function to return a vector, it will check each value and say exactly which ones (in the order we have the resulting vector) are incorrect. This is helpful when diagnosing exactly which part failed.</p>
+<p>There are a few different ways to run the unit tests. First, you can run them like a normal R Script by running each line directly or using <code>source()</code>. This is fairly inefficient and loses some of the benefits built into RStudio for testing.</p>
+<p>The next way is to use the <code>test_dir()</code> function from the <code>testthat</code> package where you enter the folder directory in the parentheses and it runs every test file in that folder. It’s easier to simply use the <code>test_path()</code> function which inserts the correct folder, assuming that you didn’t move folders around after <code>use_test()</code> created them. So you’d write <code>test_dir(test_path())</code> and it would run all of your tests. This also prints out a nice summary of the results for all of your tests combined, showing the number of tests that passed, that failed (i.e. didn’t pass), that returned warnings, and that were skipped (you can force R to skip some tests which is useful when you change one part of the code and know those tests will fail but still want to test other parts). Note that for this method to work you will first have to run <code>library(testthat)</code> so R knows how to run the tests. You will also need to run all the functions or load all of the data that the tests check, otherwise you’ll get an error since R doesn’t implicitly know that the functions/data exist. You can run this the normal way by highlighting and running the function (or the code to load data) in your R Project or use the shortcut Control+Shift+L (Command+Shift+L on a Mac, the L stands for “Load”) which will run every R file in your project (and every line of each file).</p>
+<p>The final way is to use the keyboard shortcut Control+Shift+T (Command+Shift+T on a Mac, the T stands for “Test”) which will load all of the files and then run all of the tests. So a quicker way of doing the above method. However, this shortcut only works when using an R Package, not a normal R Project.</p>
+<p><img src="images/test_summary.PNG" /></p>
+<div id="modular-test-scripts" class="section level3" number="21.2.1">
+<h3><span class="header-section-number">21.2.1</span> Modular test scripts</h3>
+<p>Before getting into exactly how to write a unit test correctly, we’ll talk about organizing each testing file. As with your normal R Script, you can have separate testing scripts (a testing script is only a normal R Script which people use specifically for testing code) for each major part of the code that you’re testing.<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> As with the R Scripts for your code, this is simply a way to organize your work, and doesn’t affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.</p>
+<p><img src="images/test_file_setup.PNG" /></p>
+<p>Note where the folder depicted above is located. It’s in a folder called “testthat” in the “tests” folder in the main project folder that I called “borderpatrol.” We’ll use a helpful function from the <code>usethis</code> package to organize our test files and generate them automatically. If you haven’t installed this package already, do so using <code>install.packages("usethis")</code> and then load it with <code>library(usethis)</code>.<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a></p>
+<p>You can use the function <code>use_test()</code> from the <code>usethis</code> package to create a test file inside your R Project. This will automatically create the necessary file and folders (if not created already) so you don’t have to do any more work. Run this function by putting the name of the test file you want to create (in quotes) in the parentheses. It will open the test file in the Source panel (shown in the top left). In the example shown below, I wrote <code>use_test("test")</code> to make a new file called “test.” In the Source panel, the file is called “test-test.R” which is just because <code>usethis</code> will automatically add “test-” to the name of any test file name you make. <code>use_test()</code> will also generate an example of tests, which you modify (or delete entirely) to suit your own needs.</p>
+<p><img src="images/usethis_test.PNG" /></p>
+<p>The first file in the testthat folder is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio’s keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won’t always need to have a setup.R file, but it’s useful when you want to run the same code beforehand for multiple different test scripts.</p>
+<p><img src="images/test_setup.PNG" /></p>
+</div>
+<div id="how-to-write-unit-tests" class="section level3" number="21.2.2">
+<h3><span class="header-section-number">21.2.2</span> How to write unit tests</h3>
+<p>We’ll start by looking at the default test question example made when using <code>use_test()</code> to understand the organization of a test file before getting into an example of actual tests. In the image below, there are really two pieces. First, we have the actual test on line 2 - <code>expect_equal(2 * 2, 4)</code>. This is saying, I expect 2 * 2 to equal 4, and R will check if that is true. All of you tests will be in this format, just for a specific result from a specific input. Now let’s look at the code surrounding that line - <code>test_that("multiplication works", {})</code> where the <code>expect_equal()</code> line goes inside the {}.</p>
+<p><img src="images/usethis_test_default_example.PNG" /></p>
+<p>The <code>test_that</code> code is basically a form of organization within a test file to group similar tests together. In this case it is grouping all of the tests that check if “multiplication works,” though we only have one test written. Below I’ve added three new tests to this “multiplication works” testing group. To run this code, I can either run each <code>expect_equal()</code> individually (remember to run <code>library(testthat)</code> beforehand or it won’t run) or run the entire <code>test_that()</code> group at once (you can do this like running a for loop by either highlighting it all and running or selecting either the top or bottom line [which has the squiggly brackets] and running that line - the entire thing will run.</p>
+<p>The benefit of this is that when you run all the tests you write (and you’ll often have many test groups and more individual tests than shown here), if a test in a group fails, it will tell you exactly which group failed (based on the name of the group which you specify - here, “multiplication works”). Note that the final test in this example is incorrect, and in the Console panel on the right it says that "Test failed: ‘multiplication works’ to tell you where the test failed. The test groups aren’t necessary but they make it easier to organize your tests.</p>
+<p><img src="images/usethis_test_default_example2.PNG" /></p>
+<p>As an example of actual tests, we’ll go over the tests that I wrote when I first scraped the US Border Patrol data that we scraped in Chapter <a href="scrape-table.html#scrape-table">15</a>. This test file is organized almost identically to the example one shown above. At the start I have some code that loads the data that I will test - this isn’t in the setup file since the code is for this specific test script (though it could be in the setup.R file and the results would be the same). While most tests check the result of functions, here I am checking the data that is outputted by the function, and not rerunning the function for each test. I do this because the function is relatively slow to run and I have many tests, but putting the function that gets the data in the test directly will give the exact same results. Then there are several <code>test_that()</code> groups with some <code>expect_equal()</code> tests inside each.</p>
+<p>Since these tests are checking if the code is scraping the PDFs correctly, I determine the expected result by looking at the PDFs and writing down what the values should be (be careful, this must be done by hand but that can mean you mistype - so double-check your work!). We’ll use the test on lines 21-22 as an example. Here I am asking if the values in the “cocaine_pounds” column, for rows where the sector is “coastal border” are equal to the values <code>c(6843, 1701, 3169, 1288, 6884, 20, 709, 5962, 989)</code>. If they are, then the scraping was correct (at least for this part of the PDF) and the code worked. In this case I checked every value that meets the two conditions, but that’s just because there were relatively few values. If I had many values that meet those conditions (i.e. many rows of data in that column), I would just check a small number of them.</p>
+<p><img src="images/test_example.PNG" /></p>
+</div>
+<div id="what-to-test" class="section level3" number="21.2.3">
+<h3><span class="header-section-number">21.2.3</span> What to test</h3>
+<p>Now that we’ve gone over exactly how to make unit tests, let’s talk about exactly what to test. When testing functions, you generally want to test every possible parameter in the function, and a variety of inputs. In particular, try to think of ways that the function could be used incorrectly and write a test to catch that. For example, our <code>add_2()</code> function will fail if a string (e.g. “2”) was inputted instead of a number, so you’ll want to add a test for that. You’ll also want to make sure that inputting something other than simply a single number, such as a vector of numbers, works correctly. Basically, you want to be thorough and cover all of your bases.</p>
+<p>Writing unit tests is one of the most time-efficient things you can do since it helps you avoid making costly (in time and in getting wrong results) mistakes. But don’t spend too much time writing tests. If you’ve tested that <code>add_2(2)</code> equals 4, no need to test that <code>add_2(3)</code> equals five since you’re essentially testing the exact same thing. And consider your audience (even if that is only you). If you know that <code>add_2()</code> will only be used by people who know better than to input a string, there’s no need to test for that (and testing for that will mean that you’d also want code that handles a string input in the way you want it, such as outputting a message saying strings aren’t allowed). In general, I think it’s always better to have more tests than fewer, but consider whether writing that test is a good use of you time.</p>
+<div id="tests-for-research-projects" class="section level4" number="21.2.3.1">
+<h4><span class="header-section-number">21.2.3.1</span> Tests for research projects</h4>
+<p>When you use R for a research project, you’ll usually take data that someone else collected, or scrape it yourself, do some work to clean this data (e.g. subset or aggregate the data, standardize values) and then run a regression on it. In these cases there are fewer opportunities to use unit tests to check your code. Indeed, the best checks are often content knowledge about the data and examining the results of the regression to see if it makes sense and fits prior literature.</p>
+<p>While testing is most commonly used for functions, you can use it to test data. Writing tests for research data is best if your code is scraping the data (webscrape or PDF scrape) and you want to verify that it is correct, or if you expect the data to change and want to ensure that it is still correct (while exact values will change, you can check broad categories such as whether certain groups are included). For example, if you know that you only want to look at a certain state, you can write a test that expects the only state in the data to be the one you’re analyzing. This way, if you add more data, such as a new release of that data set, the test will catch if there’s any other state that you may have forgotten to remove after adding the new data. If you’re sure that you will only use a particular data set that never changes, you’re better off just writing code in your main R Script (or a specific script for checking the data) to do these checks rather than dedicated tests.</p>
+</div>
+<div id="tests-for-data-collection" class="section level4" number="21.2.3.2">
+<h4><span class="header-section-number">21.2.3.2</span> Tests for data collection</h4>
+<p>Our example in this chapter was tests for a data collection process - in our case, PDF scraping - so we’ve already seen how to test code for gathering data. We’ll still talk briefly here about what kind of tests - and how many tests - you will want for this type of code. In normal tests, you don’t want to test the exact same thing multiple times (for example, if you test that 2 + 2 = 4, you don’t need to test that 2 + 3 = 5). This is different when it comes to testing code that collects data from a source, such as through PDF scraping or webscraping (which is different from when you download a machine-readable file like a .csv file).</p>
+<p>When testing data collection code, you want to be far more thorough, retesting something in multiple ways. This is because small differences in the data you are scraping may affect the code at different parts of the scrape. For example, imagine a PDF with 10 pages. On nine of those pages each row is a single line, but on a single page there are rows that are multiple lines. Writing tests to check results from a single page will miss the issue 9 out of 10 times. I’ve often experienced PDF or webscraping where some parts of the data are just “weird” and cause the code to scrape it incorrectly - but often not tell me that there’s an issue. So to catch this you’ll need far more tests than normal. I prefer to choose a few random pages (more if the PDF/website is longer) and test random rows and columns since that’ll give a good coverage of the results. In addition, I look at the PDF or website and try to see if there’s anything atypical about a certain part; if there is, I test that specifically. It’s easy to over-test (and that’s better than under-testing) this kind of work, but there are rapidly diminishing returns. So test comprehensively but not at the cost of having too little time to work on code - again, this is something that requires experience and doesn’t have a hard rule on what constitutes too much (or too little) testing.</p>
+</div>
+</div>
+</div>
+<div id="test-driven-development-tdd" class="section level2" number="21.3">
+<h2><span class="header-section-number">21.3</span> Test-driven development (TDD)</h2>
+<p>We’ll finish this chapter by talking about test-driven development (TDD), a philosophy in programming where you write the tests first and then write the code that meets these tests after. This is really an extension (and personally, an inspiration) to the discussion in Chapter <a href="mise-en-place.html#mise-en-place">18</a> of planning out your project before you start. In Chapter <a href="mise-en-place.html#mise-en-place">18</a> we talked about writing out every step of the project by hand sketching all the figures or tables that you intended to have. With TDD, you write tests for all of the functions you intend to write (and any variations of parameters or inputs for these functions) or data you intend to gather/clean.</p>
+<p>Test-driven development is a useful tool to make you really think about the functions that you need to write, and how they interact with each other. This is an excellent way to identify potential issues (I’ve often realized while writing tests that the approach I was going to do wouldn’t work) before you start on the code. However, for this same reason, it is a fairly advanced topic since you need to know exactly (or, mostly) what you need to do, and the likely problems that each approach will face. For that reason, I recommend holding off on using TDD until you’re fairly experienced with R or programming in general.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="19">
+<li id="fn19"><p>However, make sure that you don’t look less closely just because the results are the way you expect. Past results may be wrong, or you can have a new finding, so make sure to avoid complacency just because you like the results<a href="testing-your-code.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<li id="fn20"><p>For more info on having separate R Scripts for each major section of your code, please refer to Section <a href="mise-en-place.html#modular-r-scripts">18.3</a><a href="testing-your-code.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p>The <code>usethis</code> package is an extremely helpful package that automates a lot of work the you would do primarily for R package development so if you go down that route I recommend exploring the package more through its <a href="https://usethis.r-lib.org/index.html">website</a>.<a href="testing-your-code.html#fnref21" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="collaboration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="git.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/tests.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
