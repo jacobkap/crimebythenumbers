@@ -1,7 +1,7 @@
 --- 
 knit: "bookdown::render_book"
 title: "Crime by the Numbers"
-date: "2021-03-13"
+date: "2021-03-17"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -15,6 +15,7 @@ site: bookdown::bookdown_site
 documentclass: book
 graphics: yes
 always_allow_html: yes 
+classoption: openany
 ---
 
 

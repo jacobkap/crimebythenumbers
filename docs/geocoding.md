@@ -390,7 +390,9 @@ Another check is to make a simple scatterplot of the data. Since all the data is
 plot(marijuana$lon, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 
