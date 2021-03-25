@@ -1,7 +1,7 @@
 --- 
 knit: "bookdown::render_book"
 title: "Crime by the Numbers"
-date: "2021-03-17"
+date: "2021-03-25"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -86,6 +86,12 @@ In the course of this book we will cover things that are very simple. For exampl
 
 While this distinction may seem minor, I think it is important for newer programmers to understand that what they are doing may be simple to talk about but hard to implement. It is easy to feel like a bad programmer because something that can be articulated in 10 seconds may take hours to do. So during times when you are working with R try to keep in mind that even though a project may be simple to articulate, it may be hard to code and that there is often very little correlation between the two.
 
-## How to Contribute {-}
 
-If you have any questions, suggestions, or find any issues, make an edit to it and submit a pull request. 
+## How to contribute to this book
+
+If you have any questions, suggestions, or find any issues, please email me at jkkaplan6 [@] gmail.com. For more minor issues like typos or grammar mistakes, you can edit the book directly through its GitHub page. That'll make an update for me to accept, which will change the book to include your edit. To do that, click the edit button at the top of the site - the button is highlighted in the below figure. You will need to make a GitHub account to make edits. When you click on that button you'll be taken to a page that looks like a Word Doc where you can make edits. Make any edits you want and then scroll to the bottom of the page. There you can write a short (please, no more than a sentence or two) description of what you've done and then submit the changes for me to review.
+
+<div class="figure" style="text-align: center">
+<img src="images/edit_button.PNG" alt="The edit button for how to make edits of this book." width="90%" />
+<p class="caption">(\#fig:unnamed-chunk-1)The edit button for how to make edits of this book.</p>
+</div>
