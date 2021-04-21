@@ -45,10 +45,12 @@ fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/fi
 #> 
 #> 
 #> $candidates
-#>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
-#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#>                       address location.x location.y
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222
+#>   score       attributes.Match_addr
+#> 1   100 75 9th Ave, New York, 10011
+#>   attributes.Addr_type extent.xmin extent.ymin
+#> 1         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
 #> 1   -74.00366    40.74322
 ```
@@ -59,10 +61,12 @@ It returns a list of objects. This is a named list meaning that we can grab the 
 ```r
 address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
 address_coordinates$candidates
-#>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
-#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#>                       address location.x location.y
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222
+#>   score       attributes.Match_addr
+#> 1   100 75 9th Ave, New York, 10011
+#>   attributes.Addr_type extent.xmin extent.ymin
+#> 1         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
 #> 1   -74.00366    40.74322
 ```
@@ -77,10 +81,12 @@ address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services
 address_coordinates <- address_coordinates$candidates
 address_coordinates <- address_coordinates[1, ]
 address_coordinates
-#>                       address location.x location.y score
-#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100
-#>         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin
-#> 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122
+#>                       address location.x location.y
+#> 1 75 9th Ave, New York, 10011  -74.00466   40.74222
+#>   score       attributes.Match_addr
+#> 1   100 75 9th Ave, New York, 10011
+#>   attributes.Addr_type extent.xmin extent.ymin
+#> 1         PointAddress   -74.00566    40.74122
 #>   extent.xmax extent.ymax
 #> 1   -74.00366    40.74322
 ```
@@ -195,7 +201,7 @@ Let's read in the marijuana dispensary data which is called "san_francisco_activ
 library(readr)
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
 #> 
-#> -- Column specification --------------------------------------------------------
+#> -- Column specification --------------------------------
 #> cols(
 #>   `License Number` = col_character(),
 #>   `License Type` = col_character(),
@@ -217,13 +223,20 @@ Let's look at the top 6 rows.
 
 ```r
 head(marijuana)
-#>    License Number                License Type   Business Owner
-#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
-#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
-#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
-#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
-#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
-#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+#>    License Number                License Type
+#> 1 C10-0000614-LIC Cannabis - Retailer License
+#> 2 C10-0000586-LIC Cannabis - Retailer License
+#> 3 C10-0000587-LIC Cannabis - Retailer License
+#> 4 C10-0000539-LIC Cannabis - Retailer License
+#> 5 C10-0000522-LIC Cannabis - Retailer License
+#> 6 C10-0000523-LIC Cannabis - Retailer License
+#>     Business Owner
+#> 1     Terry Muller
+#> 2    Jeremy Goodin
+#> 3     Justin Jarin
+#> 4 Ondyn Herschelle
+#> 5      Ryan Hudson
+#> 6      Ryan Hudson
 #>                                                                                                           Business Contact Information
 #> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
 #> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
@@ -238,20 +251,27 @@ head(marijuana)
 #> 4               Corporation
 #> 5 Limited Liability Company
 #> 6 Limited Liability Company
-#>                                                 Premise Address Status
-#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active
-#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active
-#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active
-#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active
-#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active
-#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active
-#>   Issue Date Expiration Date                Activities Adult-Use/Medicinal
-#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
-#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
-#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
-#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#>                                                 Premise Address
+#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO
+#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO
+#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO
+#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO
+#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO
+#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO
+#>   Status Issue Date Expiration Date
+#> 1 Active  9/13/2019       9/12/2020
+#> 2 Active  8/26/2019       8/25/2020
+#> 3 Active  8/26/2019       8/25/2020
+#> 4 Active   8/5/2019        8/4/2020
+#> 5 Active  7/29/2019       7/28/2020
+#> 6 Active  7/29/2019       7/28/2020
+#>                  Activities Adult-Use/Medicinal
+#> 1 N/A for this license type                BOTH
+#> 2 N/A for this license type                BOTH
+#> 3 N/A for this license type                BOTH
+#> 4 N/A for this license type                BOTH
+#> 5 N/A for this license type                BOTH
+#> 6 N/A for this license type                BOTH
 ```
 
 So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will be using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
@@ -273,11 +293,16 @@ Now let's make sure we did it right.
 
 ```r
 names(marijuana)
-#>  [1] "License_Number"               "License_Type"                
-#>  [3] "Business_Owner"               "Business_Contact_Information"
-#>  [5] "Business_Structure"           "Premise_Address"             
-#>  [7] "Status"                       "Issue_Date"                  
-#>  [9] "Expiration_Date"              "Activities"                  
+#>  [1] "License_Number"              
+#>  [2] "License_Type"                
+#>  [3] "Business_Owner"              
+#>  [4] "Business_Contact_Information"
+#>  [5] "Business_Structure"          
+#>  [6] "Premise_Address"             
+#>  [7] "Status"                      
+#>  [8] "Issue_Date"                  
+#>  [9] "Expiration_Date"             
+#> [10] "Activities"                  
 #> [11] "Adult-Use/Medicinal"
 head(marijuana$Premise_Address)
 #> [1] "2165 IRVING ST san francisco, CA 94122" 
@@ -322,13 +347,20 @@ And we can check the first 6 rows to make sure the first row is the only one wit
 
 ```r
 head(marijuana)
-#>    License_Number                License_Type   Business_Owner
-#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
-#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
-#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
-#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
-#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
-#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+#>    License_Number                License_Type
+#> 1 C10-0000614-LIC Cannabis - Retailer License
+#> 2 C10-0000586-LIC Cannabis - Retailer License
+#> 3 C10-0000587-LIC Cannabis - Retailer License
+#> 4 C10-0000539-LIC Cannabis - Retailer License
+#> 5 C10-0000522-LIC Cannabis - Retailer License
+#> 6 C10-0000523-LIC Cannabis - Retailer License
+#>     Business_Owner
+#> 1     Terry Muller
+#> 2    Jeremy Goodin
+#> 3     Justin Jarin
+#> 4 Ondyn Herschelle
+#> 5      Ryan Hudson
+#> 6      Ryan Hudson
 #>                                                                                                           Business_Contact_Information
 #> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
 #> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
@@ -336,27 +368,34 @@ head(marijuana)
 #> 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com
 #> 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com
 #> 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com
-#>          Business_Structure                         Premise_Address Status
-#> 1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active
-#> 2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active
-#> 3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active
-#> 4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active
-#> 5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active
-#> 6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active
-#>   Issue_Date Expiration_Date                Activities Adult-Use/Medicinal
-#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
-#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
-#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
-#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
-#>         lon      lat
-#> 1 -122.4811 37.76314
-#> 2        NA       NA
-#> 3        NA       NA
-#> 4        NA       NA
-#> 5        NA       NA
-#> 6        NA       NA
+#>          Business_Structure
+#> 1 Limited Liability Company
+#> 2               Corporation
+#> 3               Corporation
+#> 4               Corporation
+#> 5 Limited Liability Company
+#> 6 Limited Liability Company
+#>                           Premise_Address Status
+#> 1  2165 IRVING ST san francisco, CA 94122 Active
+#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 Active
+#> 3   843 Howard ST SAN FRANCISCO, CA 94103 Active
+#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 Active
+#> 5   527 Howard ST San Francisco, CA 94105 Active
+#> 6 2414 Lombard ST San Francisco, CA 94123 Active
+#>   Issue_Date Expiration_Date                Activities
+#> 1  9/13/2019       9/12/2020 N/A for this license type
+#> 2  8/26/2019       8/25/2020 N/A for this license type
+#> 3  8/26/2019       8/25/2020 N/A for this license type
+#> 4   8/5/2019        8/4/2020 N/A for this license type
+#> 5  7/29/2019       7/28/2020 N/A for this license type
+#> 6  7/29/2019       7/28/2020 N/A for this license type
+#>   Adult-Use/Medicinal       lon      lat
+#> 1                BOTH -122.4811 37.76314
+#> 2                BOTH        NA       NA
+#> 3                BOTH        NA       NA
+#> 4                BOTH        NA       NA
+#> 5                BOTH        NA       NA
+#> 6                BOTH        NA       NA
 ```
 
 Since we are geocoding a few dozen of addresses, this may take some time. 
@@ -393,7 +432,9 @@ Another check is to make a simple scatterplot of the data. Since all the data is
 plot(marijuana$lon, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

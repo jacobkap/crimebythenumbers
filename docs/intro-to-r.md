@@ -112,20 +112,27 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population actual_murder actual_rape_total
-#> 1 AK00101 2017   anchorage alaska     296188            27               391
-#> 2 AK00102 2017   fairbanks alaska      32937            10                24
-#> 3 AK00103 2017      juneau alaska      32344             1                50
-#> 4 AK00104 2017   ketchikan alaska       8230             1                19
-#> 5 AK00105 2017      kodiak alaska       6198             0                15
-#> 6 AK00106 2017        nome alaska       3829             0                 7
-#>   actual_robbery_total actual_assault_aggravated
-#> 1                  778                      2368
-#> 2                   40                       131
-#> 3                   46                       206
-#> 4                    0                        14
-#> 5                    4                        41
-#> 6                    0                        52
+#>       ori year agency_name  state population
+#> 1 AK00101 2017   anchorage alaska     296188
+#> 2 AK00102 2017   fairbanks alaska      32937
+#> 3 AK00103 2017      juneau alaska      32344
+#> 4 AK00104 2017   ketchikan alaska       8230
+#> 5 AK00105 2017      kodiak alaska       6198
+#> 6 AK00106 2017        nome alaska       3829
+#>   actual_murder actual_rape_total actual_robbery_total
+#> 1            27               391                  778
+#> 2            10                24                   40
+#> 3             1                50                   46
+#> 4             1                19                    0
+#> 5             0                15                    4
+#> 6             0                 7                    0
+#>   actual_assault_aggravated
+#> 1                      2368
+#> 2                       131
+#> 3                       206
+#> 4                        14
+#> 5                        41
+#> 6                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
@@ -143,20 +150,27 @@ The six values it returns for numeric and Date columns are
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name           state          
-#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
-#>                     Mean   :2017                                        
-#>                     3rd Qu.:2017                                        
-#>                     Max.   :2017                                        
-#>    population      actual_murder     actual_rape_total  actual_robbery_total
-#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
-#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
-#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
-#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
-#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
-#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
+#>      ori                 year      agency_name       
+#>  Length:15764       Min.   :2017   Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character  
+#>                     Mean   :2017                     
+#>                     3rd Qu.:2017                     
+#>                     Max.   :2017                     
+#>     state             population      actual_murder    
+#>  Length:15764       Min.   :      0   Min.   :  0.000  
+#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
+#>  Mode  :character   Median :   4460   Median :  0.000  
+#>                     Mean   :  19872   Mean   :  1.069  
+#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
+#>                     Max.   :8616333   Max.   :653.000  
+#>  actual_rape_total  actual_robbery_total
+#>  Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   1.000   Median :    0.00    
+#>  Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :2455.000   Max.   :13995.00    
 #>  actual_assault_aggravated
 #>  Min.   :   -1.00         
 #>  1st Qu.:    1.00         
@@ -175,7 +189,9 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-5-1} \end{center}
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 

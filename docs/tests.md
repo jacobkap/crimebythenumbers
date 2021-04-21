@@ -55,7 +55,8 @@ A unit test is simply a conditional statement where you have some input, usually
 
 ```r
 library(testthat)
-#> Warning: package 'testthat' was built under R version 4.0.4
+#> Warning: package 'testthat' was built under R version
+#> 4.0.4
 #> 
 #> Attaching package: 'testthat'
 #> The following object is masked from 'package:devtools':

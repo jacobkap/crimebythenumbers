@@ -220,20 +220,27 @@ If we check the `head()` we can see that we have the proper columns now but this
 
 ```r
 head(sector_profile)
-#>      [,1]                           [,2]  [,3]    [,4]    [,5]    [,6]    [,7] 
-#> [1,] "Miami"                        "111" "2,280" "1,646" "2,253" "231"   "292"
-#> [2,] "New Orleans"                  "63"  "920"   "528"   "21"    "6"     "10" 
-#> [3,] "Ramey"                        "38"  "388"   "387"   "3"     "2,932" "89" 
-#> [4,] "Coastal Border Sectors Total" "212" "3,588" "2,561" "2,277" "3,169" "391"
-#> [5,] "Blaine"                       "296" "288"   "237"   "0"     "0"     "9"  
-#> [6,] "Buffalo"                      "277" "447"   "293"   "228"   "2"     "37" 
-#>      [,8] [,9]                [,10]
-#> [1,] "1"  "N/A"               "N/A"
-#> [2,] "0"  "N/A"               "N/A"
-#> [3,] "0"  "N/A"               "N/A"
-#> [4,] "1"  "N/A **** N/A ****" ""   
-#> [5,] "0"  "N/A"               "N/A"
-#> [6,] "2"  "N/A"               "N/A"
+#>      [,1]                           [,2]  [,3]   
+#> [1,] "Miami"                        "111" "2,280"
+#> [2,] "New Orleans"                  "63"  "920"  
+#> [3,] "Ramey"                        "38"  "388"  
+#> [4,] "Coastal Border Sectors Total" "212" "3,588"
+#> [5,] "Blaine"                       "296" "288"  
+#> [6,] "Buffalo"                      "277" "447"  
+#>      [,4]    [,5]    [,6]    [,7]  [,8]
+#> [1,] "1,646" "2,253" "231"   "292" "1" 
+#> [2,] "528"   "21"    "6"     "10"  "0" 
+#> [3,] "387"   "3"     "2,932" "89"  "0" 
+#> [4,] "2,561" "2,277" "3,169" "391" "1" 
+#> [5,] "237"   "0"     "0"     "9"   "0" 
+#> [6,] "293"   "228"   "2"     "37"  "2" 
+#>      [,9]                [,10]
+#> [1,] "N/A"               "N/A"
+#> [2,] "N/A"               "N/A"
+#> [3,] "N/A"               "N/A"
+#> [4,] "N/A **** N/A ****" ""   
+#> [5,] "N/A"               "N/A"
+#> [6,] "N/A"               "N/A"
 ```
 
 We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
@@ -258,27 +265,34 @@ We have now taken a table from a PDF and successfully scraped it to a data.frame
 
 ```r
 head(sector_profile)
-#>                         sector agent_staffing apprehensions
-#> 1                        Miami            111         2,280
-#> 2                  New Orleans             63           920
-#> 3                        Ramey             38           388
-#> 4 Coastal Border Sectors Total            212         3,588
-#> 5                       Blaine            296           288
-#> 6                      Buffalo            277           447
-#>   other_than_mexican_apprehensions marijuana_pounds cocaine_pounds
-#> 1                            1,646            2,253            231
-#> 2                              528               21              6
-#> 3                              387                3          2,932
-#> 4                            2,561            2,277          3,169
-#> 5                              237                0              0
-#> 6                              293              228              2
-#>   accepted_prosecutions assaults           rescues deaths
-#> 1                   292        1               N/A    N/A
-#> 2                    10        0               N/A    N/A
-#> 3                    89        0               N/A    N/A
-#> 4                   391        1 N/A **** N/A ****       
-#> 5                     9        0               N/A    N/A
-#> 6                    37        2               N/A    N/A
+#>                         sector agent_staffing
+#> 1                        Miami            111
+#> 2                  New Orleans             63
+#> 3                        Ramey             38
+#> 4 Coastal Border Sectors Total            212
+#> 5                       Blaine            296
+#> 6                      Buffalo            277
+#>   apprehensions other_than_mexican_apprehensions
+#> 1         2,280                            1,646
+#> 2           920                              528
+#> 3           388                              387
+#> 4         3,588                            2,561
+#> 5           288                              237
+#> 6           447                              293
+#>   marijuana_pounds cocaine_pounds accepted_prosecutions
+#> 1            2,253            231                   292
+#> 2               21              6                    10
+#> 3                3          2,932                    89
+#> 4            2,277          3,169                   391
+#> 5                0              0                     9
+#> 6              228              2                    37
+#>   assaults           rescues deaths
+#> 1        1               N/A    N/A
+#> 2        0               N/A    N/A
+#> 3        0               N/A    N/A
+#> 4        1 N/A **** N/A ****       
+#> 5        0               N/A    N/A
+#> 6        2               N/A    N/A
 ```
 
 To really be able to use this data we'll want to clean the columns to turn the values to numeric type but we can leave that until later. For now let's write a function that replicates much of this work for the next tables. 
@@ -394,34 +408,48 @@ Let's take a look at the `head()` of this combined data.
 
 ```r
 head(final_data)
-#>                         sector agent_staffing total_apprehensions
-#> 1                        Miami            111               2,280
-#> 2                  New Orleans             63                 920
-#> 3                        Ramey             38                 388
-#> 4 Coastal Border Sectors Total            212               3,588
-#> 5                       Blaine            296                 288
-#> 6                      Buffalo            277                 447
-#>   other_than_mexican_apprehensions marijuana_pounds cocaine_pounds
-#> 1                            1,646            2,253            231
-#> 2                              528               21              6
-#> 3                              387                3          2,932
-#> 4                            2,561            2,277          3,169
-#> 5                              237                0              0
-#> 6                              293              228              2
-#>   accepted_prosecutions assaults           rescues deaths accompanied_juveniles
-#> 1                   292        1               N/A    N/A                    19
-#> 2                    10        0               N/A    N/A                     1
-#> 3                    89        0               N/A    N/A                     7
-#> 4                   391        1 N/A **** N/A ****                           27
-#> 5                     9        0               N/A    N/A                    29
-#> 6                    37        2               N/A    N/A                     3
-#>   unaccompanied_juveniles total_juveniles total_adults female  male
-#> 1                      42              61        2,219    219 2,061
-#> 2                      22              23          897     92   828
-#> 3                       1               8          380     65   323
-#> 4                      65              92        3,496    376 3,212
-#> 5                       7              36          252     97   191
-#> 6                       3               6          441     69   378
+#>                         sector agent_staffing
+#> 1                        Miami            111
+#> 2                  New Orleans             63
+#> 3                        Ramey             38
+#> 4 Coastal Border Sectors Total            212
+#> 5                       Blaine            296
+#> 6                      Buffalo            277
+#>   total_apprehensions other_than_mexican_apprehensions
+#> 1               2,280                            1,646
+#> 2                 920                              528
+#> 3                 388                              387
+#> 4               3,588                            2,561
+#> 5                 288                              237
+#> 6                 447                              293
+#>   marijuana_pounds cocaine_pounds accepted_prosecutions
+#> 1            2,253            231                   292
+#> 2               21              6                    10
+#> 3                3          2,932                    89
+#> 4            2,277          3,169                   391
+#> 5                0              0                     9
+#> 6              228              2                    37
+#>   assaults           rescues deaths
+#> 1        1               N/A    N/A
+#> 2        0               N/A    N/A
+#> 3        0               N/A    N/A
+#> 4        1 N/A **** N/A ****       
+#> 5        0               N/A    N/A
+#> 6        2               N/A    N/A
+#>   accompanied_juveniles unaccompanied_juveniles
+#> 1                    19                      42
+#> 2                     1                      22
+#> 3                     7                       1
+#> 4                    27                      65
+#> 5                    29                       7
+#> 6                     3                       3
+#>   total_juveniles total_adults female  male
+#> 1              61        2,219    219 2,061
+#> 2              23          897     92   828
+#> 3               8          380     65   323
+#> 4              92        3,496    376 3,212
+#> 5              36          252     97   191
+#> 6               6          441     69   378
 ```
 
 In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove commas then using `as.numeric()`  (or the `parse_numeric()` function from `readr`) on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  

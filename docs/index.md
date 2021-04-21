@@ -16,6 +16,8 @@ documentclass: book
 graphics: yes
 always_allow_html: yes 
 classoption: openany
+linestretch: 1.15
+geometry: margin=1in
 ---
 
 
@@ -94,7 +96,11 @@ While this distinction may seem minor, I think it is important for newer program
 
 If you have any questions, suggestions, or find any issues, please email me at jkkaplan6 [@] gmail.com. For more minor issues like typos or grammar mistakes, you can edit the book directly through its GitHub page. That'll make an update for me to accept, which will change the book to include your edit. To do that, click the edit button at the top of the site - the button is highlighted in the below figure. You will need to make a GitHub account to make edits. When you click on that button you'll be taken to a page that looks like a Word Doc where you can make edits. Make any edits you want and then scroll to the bottom of the page. There you can write a short (please, no more than a sentence or two) description of what you've done and then submit the changes for me to review.
 
-<div class="figure" style="text-align: center">
-<img src="images/edit_button.PNG" alt="The edit button for how to make edits of this book." width="90%" />
-<p class="caption">(\#fig:unnamed-chunk-2)The edit button for how to make edits of this book.</p>
-</div>
+\begin{figure}
+
+{\centering \includegraphics[width=0.9\linewidth]{images/edit_button} 
+
+}
+
+\caption{The edit button for how to make edits of this book.}(\#fig:unnamed-chunk-2)
+\end{figure}
