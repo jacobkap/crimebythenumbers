@@ -1,5 +1,8 @@
 # For loops
 
+
+
+
 We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through "for loops". Earlier in this course we learned how to scrape the recipe website [All Recipes](https://www.allrecipes.com/). We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section \@ref(recipes-function). In this lesson we will use a for loop to scrape multiple recipes very quickly. 
 
 ## Basic for loops
@@ -130,7 +133,7 @@ Below is the function copied from Section \@ref(recipes-function) which takes a 
 
 ```r
 library(rvest)
-#> Loading required package: xml2
+#> Warning: package 'rvest' was built under R version 4.0.5
 scrape_recipes <- function(URL) {
   
   brownies <- read_html(URL)

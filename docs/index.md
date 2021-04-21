@@ -1,7 +1,7 @@
 --- 
 knit: "bookdown::render_book"
 title: "Crime by the Numbers"
-date: "2021-03-28"
+date: "2021-04-21"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -17,6 +17,9 @@ graphics: yes
 always_allow_html: yes 
 classoption: openany
 ---
+
+
+
 
 
 
@@ -93,5 +96,5 @@ If you have any questions, suggestions, or find any issues, please email me at j
 
 <div class="figure" style="text-align: center">
 <img src="images/edit_button.PNG" alt="The edit button for how to make edits of this book." width="90%" />
-<p class="caption">(\#fig:unnamed-chunk-1)The edit button for how to make edits of this book.</p>
+<p class="caption">(\#fig:unnamed-chunk-2)The edit button for how to make edits of this book.</p>
 </div>

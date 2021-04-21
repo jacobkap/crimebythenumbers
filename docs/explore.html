@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-03-28" />
+<meta name="date" content="2021-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -644,7 +644,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter <a href="graphing-intro.html#graphing-intro">7</a> but for now let’s use the function <code>plot()</code>.</p>
 <p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
 <div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="explore.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017<span class="sc">$</span>actual_murder, ucr2017<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
 <p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the square bracket <code>[]</code> notation to subset. Remember it is</p>
 <p><code>[rows, columns]</code></p>
@@ -656,7 +656,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="explore.html#cb72-1" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> ucr2017[ucr2017<span class="sc">$</span>population <span class="sc">&gt;</span> <span class="dv">1000000</span>, ]</span></code></pre></div>
 <p>Now we can do the same graph as above but using this new data set.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="explore.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder, ucr2017_big_cities<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
 <p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).</p>
 <ul>
@@ -669,7 +669,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb74-2"><a href="explore.html#cb74-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Murder&quot;</span>,</span>
 <span id="cb74-3"><a href="explore.html#cb74-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</span>
 <span id="cb74-4"><a href="explore.html#cb74-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="aggregate" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Aggregating (summaries of groups)</h2>
@@ -722,16 +722,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison area that is similar to Colorado prior to legalization (and didn’t legalize marijuana) and see if the murder rates changes following Colorado’s legalization.</p>
 <p>We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="explore.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>By default <code>plot()</code> makes a scatterplot. If we set the parameter <code>type</code> to “l” it will be a <strong>l</strong>ine plot.</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="explore.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>We can add some labels and a title to make this graph easier to read.</p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="explore.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year, <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
 <span id="cb83-2"><a href="explore.html#cb83-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
 <span id="cb83-3"><a href="explore.html#cb83-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</span>
 <span id="cb83-4"><a href="explore.html#cb83-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</span></code></pre></div>
-<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
@@ -774,7 +774,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"download": [["crimebythenumbers.pdf", "PDF"]],
 "toc": {
 "collapse": "section"
 }

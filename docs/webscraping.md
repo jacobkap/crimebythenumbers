@@ -1,5 +1,7 @@
 # (PART) Collect {-}
 
+
+
 # Webscraping with `rvest`
 
 If I ever stop working in the field of criminology, I would certainly be a baker. So for the next few chapters we are going to work with "data" on baking. What we'll learn to do is find a recipe from the website [All Recipes](https://www.allrecipes.com/) and webscrape the ingredients and directions of that recipe.     
@@ -18,7 +20,7 @@ And every time you start R, if you want to use `rvest` you must tell R so by usi
 
 ```r
 library(rvest)
-#> Loading required package: xml2
+#> Warning: package 'rvest' was built under R version 4.0.5
 ```
 
 Here is a screenshot of the recipe for the "MMMMM... Brownies" (an excellent brownies recipe) [page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
@@ -81,15 +83,11 @@ Now let's check what we got.
 
 ```r
 ingredients
-#> [1] "\n                                                ½ cup white sugar \n                                            "                 
-#> [2] "\n                                                2 tablespoons butter \n                                            "              
-#> [3] "\n                                                2 tablespoons water \n                                            "               
-#> [4] "\n                                                1 ½ cups semisweet chocolate chips \n                                            "
-#> [5] "\n                                                2  eggs \n                                            "                           
-#> [6] "\n                                                ½ teaspoon vanilla extract \n                                            "        
-#> [7] "\n                                                <U+2154> cup all-purpose flour \n                                            "    
-#> [8] "\n                                                ¼ teaspoon baking soda \n                                            "            
-#> [9] "\n                                                ½ teaspoon salt \n                                            "
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2  eggs "                            "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
+#> [9] "½ teaspoon salt "
 ```
 
 We have successfully scraped the ingredients for this brownies recipes. 
@@ -113,9 +111,9 @@ Did it work?
 
 ```r
 directions
-#> [1] "\n                                    \n                                      \n                                        \n                                          Step 1\n                                        \n                                      \n                                    \n                                      \n                                        \n                                          Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                                        \n                                        \n                                      \n                                        \n                                          \n                                        \n                                      Advertisement\n                                  "                                           
-#> [2] "\n                                    \n                                      \n                                        \n                                          Step 2\n                                        \n                                      \n                                    \n                                      \n                                        \n                                          In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                                        \n                                        \n                                      \n                                  "
-#> [3] "\n                                    \n                                      \n                                        \n                                          Step 3\n                                        \n                                      \n                                    \n                                      \n                                        \n                                          Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                                        \n                                        \n                                      \n                                  "
+#> [1] "\n                                  \n                                    \n                                      Step 1\n                                    \n                                  \n                                    Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.\n                    \n                                    \n                    \n                                    Advertisement\n                                "                                                                                                                                                       
+#> [2] "\n                                  \n                                    \n                                      Step 2\n                                    \n                                  \n                                    In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.\n                    \n                                    \n                                "
+#> [3] "\n                                  \n                                    \n                                      Step 3\n                                    \n                                  \n                                    Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.\n                    \n                                    \n                                "
 ```
 
 Yes! The final value in our vector is blank so we will have to remove that. 
@@ -138,19 +136,15 @@ And let's print out both objects to make sure it worked.
 
 ```r
 ingredients
-#> [1] "                                                ½ cup white sugar                                             "                 
-#> [2] "                                                2 tablespoons butter                                             "              
-#> [3] "                                                2 tablespoons water                                             "               
-#> [4] "                                                1 ½ cups semisweet chocolate chips                                             "
-#> [5] "                                                2  eggs                                             "                           
-#> [6] "                                                ½ teaspoon vanilla extract                                             "        
-#> [7] "                                                <U+2154> cup all-purpose flour                                             "    
-#> [8] "                                                ¼ teaspoon baking soda                                             "            
-#> [9] "                                                ½ teaspoon salt                                             "
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2  eggs "                            "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
+#> [9] "½ teaspoon salt "
 directions
-#> [1] "                                                                                                                                                            Step 1                                                                                                                                                                                                                                          Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                                                                                                                                                                                      Advertisement                                  "                                                   
-#> [2] "                                                                                                                                                            Step 2                                                                                                                                                                                                                                          In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                                                                                                                                                        "
-#> [3] "                                                                                                                                                            Step 3                                                                                                                                                                                                                                          Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                                                                                                                                                        "
+#> [1] "                                                                                                            Step 1                                                                                                          Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                Advertisement                                "                                                                                                                                                           
+#> [2] "                                                                                                            Step 2                                                                                                          In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.                                                                                        "
+#> [3] "                                                                                                            Step 3                                                                                                          Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.                                                                                        "
 ```
 
 It got rid of the `\n` but there's still white space at the start and end of our text. We can remove that using `trimws()`.
@@ -172,9 +166,9 @@ ingredients
 #> [7] "<U+2154> cup all-purpose flour"     "¼ teaspoon baking soda"            
 #> [9] "½ teaspoon salt"
 directions
-#> [1] "Step 1                                                                                                                                                                                                                                          Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                                                                                                                                                                                      Advertisement"
-#> [2] "Step 2                                                                                                                                                                                                                                          In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."                                                                   
-#> [3] "Step 3                                                                                                                                                                                                                                          Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
+#> [1] "Step 1                                                                                                          Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.                                                                                                                Advertisement"                                                                                                   
+#> [2] "Step 2                                                                                                          In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."
+#> [3] "Step 3                                                                                                          Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares."
 ```
 
 Now *ingredients* is as it should be (note that all of the ingredient amounts - e.g. 2/3 cups - looks fine when in R. But when exporting it to PDF and on the site it shows weird characters like '<U+2154>'. This is because the conversion from R to PDF or HTML isn't working right. I'm keeping this unfixed as a demonstration of how things can look right in R but look wrong when moving it elsewhere. So when working on something that you export out of R (including from R to PDF/HTML or even R to Excel), you should make sure to check that no issue occurred during the conversion.) but *directions* has a bunch of space between the step number and the instructions. Let's use `gsub()` again to remove the multiple spaces and replace it with a colon followed by a single space.
