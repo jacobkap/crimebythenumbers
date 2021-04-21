@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 Choropleth maps | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 Choropleth maps | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Choropleth maps | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-04-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hotspot-maps.html"/>
+<link rel="next" href="interactive-maps.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i><b>1.1</b> Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i><b>1.1.1</b> Scale</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i><b>1.1.2</b> Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i><b>1.2</b> What you will learn</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i><b>1.2.1</b> Skills</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.2.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i><b>1.3</b> What you won’t learn</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i><b>1.4</b> Simple vs Easy</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.5</b> How to contribute to this book</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>2.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>2.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="3" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>3.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>3.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>3.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>3.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="3.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>3.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="3.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>4.2</b> Graphing</a></li>
+<li class="chapter" data-level="4.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>5</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>5.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="5.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>5.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="5.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>5.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>5.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="5.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>5.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>5.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>5.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="5.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>5.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="5.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>5.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="5.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="5.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="5.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>5.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="5.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>5.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="5.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>5.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>5.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>6</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>6.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>6.1.1</b> R</a></li>
+<li class="chapter" data-level="6.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>6.1.2</b> Excel</a></li>
+<li class="chapter" data-level="6.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>6.1.3</b> Stata</a></li>
+<li class="chapter" data-level="6.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>6.1.4</b> SAS</a></li>
+<li class="chapter" data-level="6.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>6.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>6.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>6.2.1</b> R</a></li>
+<li class="chapter" data-level="6.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>6.2.2</b> Excel</a></li>
+<li class="chapter" data-level="6.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>6.2.3</b> Stata</a></li>
+<li class="chapter" data-level="6.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>6.2.4</b> SAS</a></li>
+<li class="chapter" data-level="6.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>6.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="7" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="7.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="7.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>7.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="7.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>7.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>8</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>8.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="8.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>8.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>8.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>8.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>8.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="8.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>8.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>8.3</b> Bar graph</a></li>
+<li class="chapter" data-level="8.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>8.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="8.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>8.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>8.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>9</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>9.1</b> A simple map</a></li>
+<li class="chapter" data-level="9.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>9.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="9.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>9.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>9.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>10</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>10.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="10.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>10.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>11</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>11.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>11.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="11.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>11.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>11.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="11.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>11.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="11.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>11.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="11.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>11.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>12.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>12.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>12.2</b> Inline Code</a></li>
+<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>12.3</b> Tables</a></li>
+<li class="chapter" data-level="12.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>12.4</b> Footnotes</a></li>
+<li class="chapter" data-level="12.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>12.5</b> Citation</a></li>
+<li class="chapter" data-level="12.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>12.6</b> Spell check</a></li>
+<li class="chapter" data-level="12.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>12.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="13" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>13</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>13.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="13.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>13.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>14</b> Functions</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>14.1</b> A simple function</a></li>
+<li class="chapter" data-level="14.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>14.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="14.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>14.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>15</b> For loops</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>15.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="15.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>15.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>16</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>16.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>16.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>17</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>17.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="17.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>17.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>18</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>18.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="18.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>18.2</b> Making a function</a></li>
+<li class="chapter" data-level="18.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>18.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="19" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>19</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>19.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>19.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>19.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>19.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>19.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="19.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>19.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>19.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="19.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>19.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="on-saying-no.html"><a href="on-saying-no.html"><i class="fa fa-check"></i><b>20</b> On Saying No</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="on-saying-no.html"><a href="on-saying-no.html#why-say-no"><i class="fa fa-check"></i><b>20.1</b> Why say no</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="on-saying-no.html"><a href="on-saying-no.html#the-problem-with-always-saying-yes"><i class="fa fa-check"></i><b>20.1.1</b> The problem with (always) saying yes</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="on-saying-no.html"><a href="on-saying-no.html#when-to-say-no"><i class="fa fa-check"></i><b>20.2</b> When to say no</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="on-saying-no.html"><a href="on-saying-no.html#what-is-mandatory-and-what-is-optional"><i class="fa fa-check"></i><b>20.2.1</b> What is mandatory and what is optional?</a></li>
+<li class="chapter" data-level="20.2.2" data-path="on-saying-no.html"><a href="on-saying-no.html#what-a-manageable-academic-workload-looks-like"><i class="fa fa-check"></i><b>20.2.2</b> What a manageable academic workload looks like</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="on-saying-no.html"><a href="on-saying-no.html#how-to-say-no"><i class="fa fa-check"></i><b>20.3</b> How to say no</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="on-saying-no.html"><a href="on-saying-no.html#ending-ongoing-projects"><i class="fa fa-check"></i><b>20.3.1</b> Ending ongoing projects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>21</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>21.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>21.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>21.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>21.2.1</b> Comments</a></li>
+<li class="chapter" data-level="21.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>21.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>22</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>22.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="22.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>22.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>22.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="22.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>22.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="22.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>22.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>22.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>23</b> Git</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>23.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="23.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>23.2</b> Git basics</a></li>
+<li class="chapter" data-level="23.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>23.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>23.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="23.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>23.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>23.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="23.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>23.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="23.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>23.6</b> When to commit</a></li>
+<li class="chapter" data-level="23.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>23.7</b> Other resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="choropleth-maps" class="section level1" number="10">
+<h1><span class="header-section-number">10</span> Choropleth maps</h1>
+<p>In Chapter <a href="hotspot-maps.html#hotspot-maps">9</a> we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in northeast San Francisco. In this lesson we will make choropleth maps, which are shaded maps where each “unit” is some known area such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the lesson) in the city.</p>
+<p>Since we will be working more on the suicide data from San Francisco, let’s read it in now.</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="choropleth-maps.html#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb218-2"><a href="choropleth-maps.html#cb218-2" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</span>
+<span id="cb218-3"><a href="choropleth-maps.html#cb218-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb218-4"><a href="choropleth-maps.html#cb218-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
+<span id="cb218-5"><a href="choropleth-maps.html#cb218-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb218-6"><a href="choropleth-maps.html#cb218-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum = col_double(),</span></span>
+<span id="cb218-7"><a href="choropleth-maps.html#cb218-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Category = col_character(),</span></span>
+<span id="cb218-8"><a href="choropleth-maps.html#cb218-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Descript = col_character(),</span></span>
+<span id="cb218-9"><a href="choropleth-maps.html#cb218-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   DayOfWeek = col_character(),</span></span>
+<span id="cb218-10"><a href="choropleth-maps.html#cb218-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Date = col_character(),</span></span>
+<span id="cb218-11"><a href="choropleth-maps.html#cb218-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Time = col_time(format = &quot;&quot;),</span></span>
+<span id="cb218-12"><a href="choropleth-maps.html#cb218-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   PdDistrict = col_character(),</span></span>
+<span id="cb218-13"><a href="choropleth-maps.html#cb218-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Resolution = col_character(),</span></span>
+<span id="cb218-14"><a href="choropleth-maps.html#cb218-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Address = col_character(),</span></span>
+<span id="cb218-15"><a href="choropleth-maps.html#cb218-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X = col_double(),</span></span>
+<span id="cb218-16"><a href="choropleth-maps.html#cb218-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Y = col_double(),</span></span>
+<span id="cb218-17"><a href="choropleth-maps.html#cb218-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Location = col_character(),</span></span>
+<span id="cb218-18"><a href="choropleth-maps.html#cb218-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   PdId = col_double(),</span></span>
+<span id="cb218-19"><a href="choropleth-maps.html#cb218-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   year = col_double()</span></span>
+<span id="cb218-20"><a href="choropleth-maps.html#cb218-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; )</span></span>
+<span id="cb218-21"><a href="choropleth-maps.html#cb218-21" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(suicide)</span></code></pre></div>
+<p>The package that we will use to handle geographic data and do most of the work in this lesson is <code>sf</code>. <code>sf</code> is a sophisticated package and does far more than what we will cover in this lesson. For more information about the package’s features please see the website for it <a href="http://r-spatial.github.io/sf/">here</a>.</p>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="choropleth-maps.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;sf&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="choropleth-maps.html#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb220-2"><a href="choropleth-maps.html#cb220-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;sf&#39; was built under R version 4.0.5</span></span>
+<span id="cb220-3"><a href="choropleth-maps.html#cb220-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1</span></span></code></pre></div>
+<p>For this lesson we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco. A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we’ll call the object <em>sf_neighborhoods</em>.</p>
+<p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to understand file names so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="choropleth-maps.html#cb221-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/san_francisco_neighborhoods.shp&quot;</span>)</span>
+<span id="cb221-2"><a href="choropleth-maps.html#cb221-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading layer `san_francisco_neighborhoods&#39; from data source `C:\Users\jkkap\Dropbox\R_project\crimebythenumbers\data\san_francisco_neighborhoods.shp&#39; using driver `ESRI Shapefile&#39;</span></span>
+<span id="cb221-3"><a href="choropleth-maps.html#cb221-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 41 features and 1 field</span></span>
+<span id="cb221-4"><a href="choropleth-maps.html#cb221-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span id="cb221-5"><a href="choropleth-maps.html#cb221-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb221-6"><a href="choropleth-maps.html#cb221-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -122.5149 ymin: 37.70813 xmax: -122.357 ymax: 37.8333</span></span>
+<span id="cb221-7"><a href="choropleth-maps.html#cb221-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  WGS84(DD)</span></span></code></pre></div>
+<p>As usual when dealing with a new data set, let’s look at the first 6 rows.</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="choropleth-maps.html#cb222-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf_neighborhoods)</span>
+<span id="cb222-2"><a href="choropleth-maps.html#cb222-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 1 field</span></span>
+<span id="cb222-3"><a href="choropleth-maps.html#cb222-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span id="cb222-4"><a href="choropleth-maps.html#cb222-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb222-5"><a href="choropleth-maps.html#cb222-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -122.4543 ymin: 37.70822 xmax: -122.357 ymax: 37.80602</span></span>
+<span id="cb222-6"><a href="choropleth-maps.html#cb222-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  WGS84(DD)</span></span>
+<span id="cb222-7"><a href="choropleth-maps.html#cb222-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            nhood                       geometry</span></span>
+<span id="cb222-8"><a href="choropleth-maps.html#cb222-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1          Bayview Hunters Point MULTIPOLYGON (((-122.3816 3...</span></span>
+<span id="cb222-9"><a href="choropleth-maps.html#cb222-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                 Bernal Heights MULTIPOLYGON (((-122.4036 3...</span></span>
+<span id="cb222-10"><a href="choropleth-maps.html#cb222-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3            Castro/Upper Market MULTIPOLYGON (((-122.4266 3...</span></span>
+<span id="cb222-11"><a href="choropleth-maps.html#cb222-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                      Chinatown MULTIPOLYGON (((-122.4062 3...</span></span>
+<span id="cb222-12"><a href="choropleth-maps.html#cb222-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                      Excelsior MULTIPOLYGON (((-122.424 37...</span></span>
+<span id="cb222-13"><a href="choropleth-maps.html#cb222-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...</span></span></code></pre></div>
+<p>The last column is important. In shapefiles, the “geometry” column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the “geometry” column in each row has a list of coordinates which, if connected in order, make up that neighborhood. Since the “geometry” column contains the instructions to map, we can <code>plot()</code> it to show a map of the data.</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="choropleth-maps.html#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city’s attempt to create definitions of neighborhoods. Indeed, you’re likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a> but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind.</p>
+<p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string.” Let’s talk about that specifically since they are important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Let’s look at the “coordinate reference system” (CRS) for <code>sf_neighborhoods</code>.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="choropleth-maps.html#cb224-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(sf_neighborhoods)</span>
+<span id="cb224-2"><a href="choropleth-maps.html#cb224-2" aria-hidden="true" tabindex="-1"></a>Coordinate Reference System<span class="sc">:</span></span>
+<span id="cb224-3"><a href="choropleth-maps.html#cb224-3" aria-hidden="true" tabindex="-1"></a>  User input<span class="sc">:</span> <span class="fu">WGS84</span>(DD) </span>
+<span id="cb224-4"><a href="choropleth-maps.html#cb224-4" aria-hidden="true" tabindex="-1"></a>  wkt<span class="sc">:</span></span>
+<span id="cb224-5"><a href="choropleth-maps.html#cb224-5" aria-hidden="true" tabindex="-1"></a>GEOGCRS[<span class="st">&quot;WGS84(DD)&quot;</span>,</span>
+<span id="cb224-6"><a href="choropleth-maps.html#cb224-6" aria-hidden="true" tabindex="-1"></a>    DATUM[<span class="st">&quot;WGS84&quot;</span>,</span>
+<span id="cb224-7"><a href="choropleth-maps.html#cb224-7" aria-hidden="true" tabindex="-1"></a>        ELLIPSOID[<span class="st">&quot;WGS84&quot;</span>,<span class="dv">6378137</span>,<span class="fl">298.257223563</span>,</span>
+<span id="cb224-8"><a href="choropleth-maps.html#cb224-8" aria-hidden="true" tabindex="-1"></a>            LENGTHUNIT[<span class="st">&quot;metre&quot;</span>,<span class="dv">1</span>,</span>
+<span id="cb224-9"><a href="choropleth-maps.html#cb224-9" aria-hidden="true" tabindex="-1"></a>                ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">9001</span>]]]],</span>
+<span id="cb224-10"><a href="choropleth-maps.html#cb224-10" aria-hidden="true" tabindex="-1"></a>    PRIMEM[<span class="st">&quot;Greenwich&quot;</span>,<span class="dv">0</span>,</span>
+<span id="cb224-11"><a href="choropleth-maps.html#cb224-11" aria-hidden="true" tabindex="-1"></a>        ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>]],</span>
+<span id="cb224-12"><a href="choropleth-maps.html#cb224-12" aria-hidden="true" tabindex="-1"></a>    CS[ellipsoidal,<span class="dv">2</span>],</span>
+<span id="cb224-13"><a href="choropleth-maps.html#cb224-13" aria-hidden="true" tabindex="-1"></a>        AXIS[<span class="st">&quot;geodetic longitude&quot;</span>,east,</span>
+<span id="cb224-14"><a href="choropleth-maps.html#cb224-14" aria-hidden="true" tabindex="-1"></a>            ORDER[<span class="dv">1</span>],</span>
+<span id="cb224-15"><a href="choropleth-maps.html#cb224-15" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>]],</span>
+<span id="cb224-16"><a href="choropleth-maps.html#cb224-16" aria-hidden="true" tabindex="-1"></a>        AXIS[<span class="st">&quot;geodetic latitude&quot;</span>,north,</span>
+<span id="cb224-17"><a href="choropleth-maps.html#cb224-17" aria-hidden="true" tabindex="-1"></a>            ORDER[<span class="dv">2</span>],</span>
+<span id="cb224-18"><a href="choropleth-maps.html#cb224-18" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>]]]</span></code></pre></div>
+<p>An issue with working with geographic data is that <a href="https://en.wikipedia.org/wiki/Spherical_Earth">the Earth is not flat</a>. Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by “projecting” our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it.</p>
+<p>If we look at the output of <code>st_crs(sf_neighborhoods)</code> we can see that the EPSG is set to 4326 and the proj4string (which tells us the current map projection) is “+proj=longlat +datum=WGS84 +no_defs.” This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see <a href="https://spatialreference.org/">here</a>. If you search that site for “California” you’ll see that California is broken into 6 zones. The site isn’t that helpful on which zones are which but some Googling can often find state or region maps with the zones depicted there. We want California zone 3 which has the EPSG code 2227. We’ll use this code to project this data properly.</p>
+<p>If we want to get the proj4string for 2227 we can use</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="choropleth-maps.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(<span class="dv">2227</span>)</span>
+<span id="cb225-2"><a href="choropleth-maps.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate Reference System:</span></span>
+<span id="cb225-3"><a href="choropleth-maps.html#cb225-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   User input: EPSG:2227 </span></span>
+<span id="cb225-4"><a href="choropleth-maps.html#cb225-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   wkt:</span></span>
+<span id="cb225-5"><a href="choropleth-maps.html#cb225-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; PROJCRS[&quot;NAD83 / California zone 3 (ftUS)&quot;,</span></span>
+<span id="cb225-6"><a href="choropleth-maps.html#cb225-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     BASEGEOGCRS[&quot;NAD83&quot;,</span></span>
+<span id="cb225-7"><a href="choropleth-maps.html#cb225-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         DATUM[&quot;North American Datum 1983&quot;,</span></span>
+<span id="cb225-8"><a href="choropleth-maps.html#cb225-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ELLIPSOID[&quot;GRS 1980&quot;,6378137,298.257222101,</span></span>
+<span id="cb225-9"><a href="choropleth-maps.html#cb225-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 LENGTHUNIT[&quot;metre&quot;,1]]],</span></span>
+<span id="cb225-10"><a href="choropleth-maps.html#cb225-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PRIMEM[&quot;Greenwich&quot;,0,</span></span>
+<span id="cb225-11"><a href="choropleth-maps.html#cb225-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],</span></span>
+<span id="cb225-12"><a href="choropleth-maps.html#cb225-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         ID[&quot;EPSG&quot;,4269]],</span></span>
+<span id="cb225-13"><a href="choropleth-maps.html#cb225-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CONVERSION[&quot;SPCS83 California zone 3 (US Survey feet)&quot;,</span></span>
+<span id="cb225-14"><a href="choropleth-maps.html#cb225-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         METHOD[&quot;Lambert Conic Conformal (2SP)&quot;,</span></span>
+<span id="cb225-15"><a href="choropleth-maps.html#cb225-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,9802]],</span></span>
+<span id="cb225-16"><a href="choropleth-maps.html#cb225-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of false origin&quot;,36.5,</span></span>
+<span id="cb225-17"><a href="choropleth-maps.html#cb225-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb225-18"><a href="choropleth-maps.html#cb225-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8821]],</span></span>
+<span id="cb225-19"><a href="choropleth-maps.html#cb225-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Longitude of false origin&quot;,-120.5,</span></span>
+<span id="cb225-20"><a href="choropleth-maps.html#cb225-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb225-21"><a href="choropleth-maps.html#cb225-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8822]],</span></span>
+<span id="cb225-22"><a href="choropleth-maps.html#cb225-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of 1st standard parallel&quot;,38.4333333333333,</span></span>
+<span id="cb225-23"><a href="choropleth-maps.html#cb225-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb225-24"><a href="choropleth-maps.html#cb225-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8823]],</span></span>
+<span id="cb225-25"><a href="choropleth-maps.html#cb225-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Latitude of 2nd standard parallel&quot;,37.0666666666667,</span></span>
+<span id="cb225-26"><a href="choropleth-maps.html#cb225-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433],</span></span>
+<span id="cb225-27"><a href="choropleth-maps.html#cb225-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8824]],</span></span>
+<span id="cb225-28"><a href="choropleth-maps.html#cb225-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Easting at false origin&quot;,6561666.667,</span></span>
+<span id="cb225-29"><a href="choropleth-maps.html#cb225-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;US survey foot&quot;,0.304800609601219],</span></span>
+<span id="cb225-30"><a href="choropleth-maps.html#cb225-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8826]],</span></span>
+<span id="cb225-31"><a href="choropleth-maps.html#cb225-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         PARAMETER[&quot;Northing at false origin&quot;,1640416.667,</span></span>
+<span id="cb225-32"><a href="choropleth-maps.html#cb225-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;US survey foot&quot;,0.304800609601219],</span></span>
+<span id="cb225-33"><a href="choropleth-maps.html#cb225-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ID[&quot;EPSG&quot;,8827]]],</span></span>
+<span id="cb225-34"><a href="choropleth-maps.html#cb225-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     CS[Cartesian,2],</span></span>
+<span id="cb225-35"><a href="choropleth-maps.html#cb225-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;easting (X)&quot;,east,</span></span>
+<span id="cb225-36"><a href="choropleth-maps.html#cb225-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[1],</span></span>
+<span id="cb225-37"><a href="choropleth-maps.html#cb225-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;US survey foot&quot;,0.304800609601219]],</span></span>
+<span id="cb225-38"><a href="choropleth-maps.html#cb225-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AXIS[&quot;northing (Y)&quot;,north,</span></span>
+<span id="cb225-39"><a href="choropleth-maps.html#cb225-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ORDER[2],</span></span>
+<span id="cb225-40"><a href="choropleth-maps.html#cb225-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             LENGTHUNIT[&quot;US survey foot&quot;,0.304800609601219]],</span></span>
+<span id="cb225-41"><a href="choropleth-maps.html#cb225-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     USAGE[</span></span>
+<span id="cb225-42"><a href="choropleth-maps.html#cb225-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         SCOPE[&quot;Engineering survey, topographic mapping.&quot;],</span></span>
+<span id="cb225-43"><a href="choropleth-maps.html#cb225-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         AREA[&quot;United States (USA) - California - counties Alameda; Calaveras; Contra Costa; Madera; Marin; Mariposa; Merced; Mono; San Francisco; San Joaquin; San Mateo; Santa Clara; Santa Cruz; Stanislaus; Tuolumne.&quot;],</span></span>
+<span id="cb225-44"><a href="choropleth-maps.html#cb225-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         BBOX[36.73,-123.02,38.71,-117.83]],</span></span>
+<span id="cb225-45"><a href="choropleth-maps.html#cb225-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ID[&quot;EPSG&quot;,2227]]</span></span></code></pre></div>
+<p>Note the text in “prj4string” that says “+units=us-ft.” This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area.</p>
+<p>Let’s convert our sf_neighborhoods data to coordinate reference system 2227.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="choropleth-maps.html#cb226-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_neighborhoods, <span class="at">crs =</span> <span class="dv">2227</span>)</span>
+<span id="cb226-2"><a href="choropleth-maps.html#cb226-2" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(sf_neighborhoods)</span>
+<span id="cb226-3"><a href="choropleth-maps.html#cb226-3" aria-hidden="true" tabindex="-1"></a>Coordinate Reference System<span class="sc">:</span></span>
+<span id="cb226-4"><a href="choropleth-maps.html#cb226-4" aria-hidden="true" tabindex="-1"></a>  User input<span class="sc">:</span> EPSG<span class="sc">:</span><span class="dv">2227</span> </span>
+<span id="cb226-5"><a href="choropleth-maps.html#cb226-5" aria-hidden="true" tabindex="-1"></a>  wkt<span class="sc">:</span></span>
+<span id="cb226-6"><a href="choropleth-maps.html#cb226-6" aria-hidden="true" tabindex="-1"></a>PROJCRS[<span class="st">&quot;NAD83 / California zone 3 (ftUS)&quot;</span>,</span>
+<span id="cb226-7"><a href="choropleth-maps.html#cb226-7" aria-hidden="true" tabindex="-1"></a>    BASEGEOGCRS[<span class="st">&quot;NAD83&quot;</span>,</span>
+<span id="cb226-8"><a href="choropleth-maps.html#cb226-8" aria-hidden="true" tabindex="-1"></a>        DATUM[<span class="st">&quot;North American Datum 1983&quot;</span>,</span>
+<span id="cb226-9"><a href="choropleth-maps.html#cb226-9" aria-hidden="true" tabindex="-1"></a>            ELLIPSOID[<span class="st">&quot;GRS 1980&quot;</span>,<span class="dv">6378137</span>,<span class="fl">298.257222101</span>,</span>
+<span id="cb226-10"><a href="choropleth-maps.html#cb226-10" aria-hidden="true" tabindex="-1"></a>                LENGTHUNIT[<span class="st">&quot;metre&quot;</span>,<span class="dv">1</span>]]],</span>
+<span id="cb226-11"><a href="choropleth-maps.html#cb226-11" aria-hidden="true" tabindex="-1"></a>        PRIMEM[<span class="st">&quot;Greenwich&quot;</span>,<span class="dv">0</span>,</span>
+<span id="cb226-12"><a href="choropleth-maps.html#cb226-12" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>]],</span>
+<span id="cb226-13"><a href="choropleth-maps.html#cb226-13" aria-hidden="true" tabindex="-1"></a>        ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">4269</span>]],</span>
+<span id="cb226-14"><a href="choropleth-maps.html#cb226-14" aria-hidden="true" tabindex="-1"></a>    CONVERSION[<span class="st">&quot;SPCS83 California zone 3 (US Survey feet)&quot;</span>,</span>
+<span id="cb226-15"><a href="choropleth-maps.html#cb226-15" aria-hidden="true" tabindex="-1"></a>        METHOD[<span class="st">&quot;Lambert Conic Conformal (2SP)&quot;</span>,</span>
+<span id="cb226-16"><a href="choropleth-maps.html#cb226-16" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">9802</span>]],</span>
+<span id="cb226-17"><a href="choropleth-maps.html#cb226-17" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Latitude of false origin&quot;</span>,<span class="fl">36.5</span>,</span>
+<span id="cb226-18"><a href="choropleth-maps.html#cb226-18" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>],</span>
+<span id="cb226-19"><a href="choropleth-maps.html#cb226-19" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8821</span>]],</span>
+<span id="cb226-20"><a href="choropleth-maps.html#cb226-20" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Longitude of false origin&quot;</span>,<span class="sc">-</span><span class="fl">120.5</span>,</span>
+<span id="cb226-21"><a href="choropleth-maps.html#cb226-21" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>],</span>
+<span id="cb226-22"><a href="choropleth-maps.html#cb226-22" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8822</span>]],</span>
+<span id="cb226-23"><a href="choropleth-maps.html#cb226-23" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Latitude of 1st standard parallel&quot;</span>,<span class="fl">38.4333333333333</span>,</span>
+<span id="cb226-24"><a href="choropleth-maps.html#cb226-24" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>],</span>
+<span id="cb226-25"><a href="choropleth-maps.html#cb226-25" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8823</span>]],</span>
+<span id="cb226-26"><a href="choropleth-maps.html#cb226-26" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Latitude of 2nd standard parallel&quot;</span>,<span class="fl">37.0666666666667</span>,</span>
+<span id="cb226-27"><a href="choropleth-maps.html#cb226-27" aria-hidden="true" tabindex="-1"></a>            ANGLEUNIT[<span class="st">&quot;degree&quot;</span>,<span class="fl">0.0174532925199433</span>],</span>
+<span id="cb226-28"><a href="choropleth-maps.html#cb226-28" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8824</span>]],</span>
+<span id="cb226-29"><a href="choropleth-maps.html#cb226-29" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Easting at false origin&quot;</span>,<span class="fl">6561666.667</span>,</span>
+<span id="cb226-30"><a href="choropleth-maps.html#cb226-30" aria-hidden="true" tabindex="-1"></a>            LENGTHUNIT[<span class="st">&quot;US survey foot&quot;</span>,<span class="fl">0.304800609601219</span>],</span>
+<span id="cb226-31"><a href="choropleth-maps.html#cb226-31" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8826</span>]],</span>
+<span id="cb226-32"><a href="choropleth-maps.html#cb226-32" aria-hidden="true" tabindex="-1"></a>        PARAMETER[<span class="st">&quot;Northing at false origin&quot;</span>,<span class="fl">1640416.667</span>,</span>
+<span id="cb226-33"><a href="choropleth-maps.html#cb226-33" aria-hidden="true" tabindex="-1"></a>            LENGTHUNIT[<span class="st">&quot;US survey foot&quot;</span>,<span class="fl">0.304800609601219</span>],</span>
+<span id="cb226-34"><a href="choropleth-maps.html#cb226-34" aria-hidden="true" tabindex="-1"></a>            ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">8827</span>]]],</span>
+<span id="cb226-35"><a href="choropleth-maps.html#cb226-35" aria-hidden="true" tabindex="-1"></a>    CS[Cartesian,<span class="dv">2</span>],</span>
+<span id="cb226-36"><a href="choropleth-maps.html#cb226-36" aria-hidden="true" tabindex="-1"></a>        AXIS[<span class="st">&quot;easting (X)&quot;</span>,east,</span>
+<span id="cb226-37"><a href="choropleth-maps.html#cb226-37" aria-hidden="true" tabindex="-1"></a>            ORDER[<span class="dv">1</span>],</span>
+<span id="cb226-38"><a href="choropleth-maps.html#cb226-38" aria-hidden="true" tabindex="-1"></a>            LENGTHUNIT[<span class="st">&quot;US survey foot&quot;</span>,<span class="fl">0.304800609601219</span>]],</span>
+<span id="cb226-39"><a href="choropleth-maps.html#cb226-39" aria-hidden="true" tabindex="-1"></a>        AXIS[<span class="st">&quot;northing (Y)&quot;</span>,north,</span>
+<span id="cb226-40"><a href="choropleth-maps.html#cb226-40" aria-hidden="true" tabindex="-1"></a>            ORDER[<span class="dv">2</span>],</span>
+<span id="cb226-41"><a href="choropleth-maps.html#cb226-41" aria-hidden="true" tabindex="-1"></a>            LENGTHUNIT[<span class="st">&quot;US survey foot&quot;</span>,<span class="fl">0.304800609601219</span>]],</span>
+<span id="cb226-42"><a href="choropleth-maps.html#cb226-42" aria-hidden="true" tabindex="-1"></a>    USAGE[</span>
+<span id="cb226-43"><a href="choropleth-maps.html#cb226-43" aria-hidden="true" tabindex="-1"></a>        SCOPE[<span class="st">&quot;Engineering survey, topographic mapping.&quot;</span>],</span>
+<span id="cb226-44"><a href="choropleth-maps.html#cb226-44" aria-hidden="true" tabindex="-1"></a>        AREA[<span class="st">&quot;United States (USA) - California - counties Alameda; Calaveras; Contra Costa; Madera; Marin; Mariposa; Merced; Mono; San Francisco; San Joaquin; San Mateo; Santa Clara; Santa Cruz; Stanislaus; Tuolumne.&quot;</span>],</span>
+<span id="cb226-45"><a href="choropleth-maps.html#cb226-45" aria-hidden="true" tabindex="-1"></a>        BBOX[<span class="fl">36.73</span>,<span class="sc">-</span><span class="fl">123.02</span>,<span class="fl">38.71</span>,<span class="sc">-</span><span class="fl">117.83</span>]],</span>
+<span id="cb226-46"><a href="choropleth-maps.html#cb226-46" aria-hidden="true" tabindex="-1"></a>    ID[<span class="st">&quot;EPSG&quot;</span>,<span class="dv">2227</span>]]</span></code></pre></div>
+<div id="spatial-joins" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> Spatial joins</h2>
+<p>What we want to do with these neighborhoods is to find out which neighborhood each suicide occurred in and sum up the number of suicides per neighborhood. Once we do that, we can make a map at the neighborhood level and be able to measure suicides-per-neighborhood. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area.</p>
+<p>Right now our <em>suicide</em> data is in a data.frame with some info on each suicide and the longitude and latitude of the suicide in separate columns. We want to turn this data.frame into a spatial object to allow us to find which neighborhood each suicide happened in. We can convert it into a spatial object using the <code>st_as_sf()</code> function from <code>sf</code>. Our input is first our data, <em>suicide.</em> Then in the <code>coords</code> parameter we put a vector of the column names so the function knows which columns the longitude and latitude columns are so it can convert those columns to a “geometry” column like we saw in <em>sf_neighborhoods</em> earlier. We’ll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the neighborhood data has.</p>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="choropleth-maps.html#cb227-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(suicide, </span>
+<span id="cb227-2"><a href="choropleth-maps.html#cb227-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;X&quot;</span>, <span class="st">&quot;Y&quot;</span>),</span>
+<span id="cb227-3"><a href="choropleth-maps.html#cb227-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">crs =</span> <span class="st">&quot;+proj=longlat +ellps=WGS84 +no_defs&quot;</span>)</span></code></pre></div>
+<p>We want our suicides data in the same projection as the neighborhoods data so we need to use <code>st_transform()</code> to change the projection. Since we want the CRS to be the same as in <em>sf_neighborhoods</em>, we can set it using <code>st_crs(sf_neighborhoods)</code> to use the right CRS.</p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="choropleth-maps.html#cb228-1" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(suicide, </span>
+<span id="cb228-2"><a href="choropleth-maps.html#cb228-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">crs =</span> <span class="fu">st_crs</span>(sf_neighborhoods))</span></code></pre></div>
+<p>Now we can take a look at <code>head()</code> to see if it was projected.</p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="choropleth-maps.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span>
+<span id="cb229-2"><a href="choropleth-maps.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 12 fields</span></span>
+<span id="cb229-3"><a href="choropleth-maps.html#cb229-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: POINT</span></span>
+<span id="cb229-4"><a href="choropleth-maps.html#cb229-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb229-5"><a href="choropleth-maps.html#cb229-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
+<span id="cb229-6"><a href="choropleth-maps.html#cb229-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
+<span id="cb229-7"><a href="choropleth-maps.html#cb229-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek       Date</span></span>
+<span id="cb229-8"><a href="choropleth-maps.html#cb229-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018</span></span>
+<span id="cb229-9"><a href="choropleth-maps.html#cb229-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018</span></span>
+<span id="cb229-10"><a href="choropleth-maps.html#cb229-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018</span></span>
+<span id="cb229-11"><a href="choropleth-maps.html#cb229-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018</span></span>
+<span id="cb229-12"><a href="choropleth-maps.html#cb229-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018</span></span>
+<span id="cb229-13"><a href="choropleth-maps.html#cb229-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018</span></span>
+<span id="cb229-14"><a href="choropleth-maps.html#cb229-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Time PdDistrict Resolution                 Address</span></span>
+<span id="cb229-15"><a href="choropleth-maps.html#cb229-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb229-16"><a href="choropleth-maps.html#cb229-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb229-17"><a href="choropleth-maps.html#cb229-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb229-18"><a href="choropleth-maps.html#cb229-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb229-19"><a href="choropleth-maps.html#cb229-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb229-20"><a href="choropleth-maps.html#cb229-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb229-21"><a href="choropleth-maps.html#cb229-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
+<span id="cb229-22"><a href="choropleth-maps.html#cb229-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb229-23"><a href="choropleth-maps.html#cb229-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb229-24"><a href="choropleth-maps.html#cb229-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb229-25"><a href="choropleth-maps.html#cb229-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb229-26"><a href="choropleth-maps.html#cb229-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb229-27"><a href="choropleth-maps.html#cb229-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span>
+<span id="cb229-28"><a href="choropleth-maps.html#cb229-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  geometry</span></span>
+<span id="cb229-29"><a href="choropleth-maps.html#cb229-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 POINT (5997229 2091310)</span></span>
+<span id="cb229-30"><a href="choropleth-maps.html#cb229-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 POINT (6004262 2110838)</span></span>
+<span id="cb229-31"><a href="choropleth-maps.html#cb229-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 POINT (5996881 2115353)</span></span>
+<span id="cb229-32"><a href="choropleth-maps.html#cb229-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 POINT (6013739 2117180)</span></span>
+<span id="cb229-33"><a href="choropleth-maps.html#cb229-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 POINT (5993921 2093059)</span></span>
+<span id="cb229-34"><a href="choropleth-maps.html#cb229-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (5986822 2113584)</span></span></code></pre></div>
+<p>We can see it is now a “simple feature collection” with the correct projection. And we can see there is a new column called “geometry” just like in <em>sf_neighborhoods</em>. The type of data in “geometry” is POINT since our data is just a single location instead of a polygon like in the neighborhoods data.</p>
+<p>Since we have both the neighborhoods and the suicides data let’s make a quick map to see the data.</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="choropleth-maps.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span>
+<span id="cb230-2"><a href="choropleth-maps.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let’s plan it out before beginning. Our suicide data is one row for each suicide, our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with that the original neighborhood data (since we need the “geometry” column) and we can then map it.</p>
+<ol style="list-style-type: decimal">
+<li>Find which neighborhood each suicide happened in</li>
+<li>Aggregate suicide data until we get one row per neighborhood and a column showing the number of suicides in that neighborhood</li>
+<li>Combine with the neighborhood data</li>
+<li>Make a map</li>
+</ol>
+<p>We’ll start by finding the neighborhood where each suicide occurred using the function <code>st_join()</code> which is a function in <code>sf</code>. This does a spatial join and finds the polygon (neighborhood in our case) where each point is located in. Since we will be aggregating the data, let’s call the output of this function <em>suicide_agg</em>. The order in the () is important! For our aggregation we want the output to be at the suicide-level so we start with the <em>suicide</em> data. In the next step we’ll see why this matters.</p>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="choropleth-maps.html#cb231-1" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> <span class="fu">st_join</span>(suicide, sf_neighborhoods)</span></code></pre></div>
+<p>Let’s look at the first 6 rows.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="choropleth-maps.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide_agg)</span>
+<span id="cb232-2"><a href="choropleth-maps.html#cb232-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 13 fields</span></span>
+<span id="cb232-3"><a href="choropleth-maps.html#cb232-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: POINT</span></span>
+<span id="cb232-4"><a href="choropleth-maps.html#cb232-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb232-5"><a href="choropleth-maps.html#cb232-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
+<span id="cb232-6"><a href="choropleth-maps.html#cb232-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
+<span id="cb232-7"><a href="choropleth-maps.html#cb232-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek       Date</span></span>
+<span id="cb232-8"><a href="choropleth-maps.html#cb232-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018</span></span>
+<span id="cb232-9"><a href="choropleth-maps.html#cb232-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018</span></span>
+<span id="cb232-10"><a href="choropleth-maps.html#cb232-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018</span></span>
+<span id="cb232-11"><a href="choropleth-maps.html#cb232-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018</span></span>
+<span id="cb232-12"><a href="choropleth-maps.html#cb232-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018</span></span>
+<span id="cb232-13"><a href="choropleth-maps.html#cb232-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018</span></span>
+<span id="cb232-14"><a href="choropleth-maps.html#cb232-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Time PdDistrict Resolution                 Address</span></span>
+<span id="cb232-15"><a href="choropleth-maps.html#cb232-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb232-16"><a href="choropleth-maps.html#cb232-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb232-17"><a href="choropleth-maps.html#cb232-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb232-18"><a href="choropleth-maps.html#cb232-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb232-19"><a href="choropleth-maps.html#cb232-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb232-20"><a href="choropleth-maps.html#cb232-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb232-21"><a href="choropleth-maps.html#cb232-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
+<span id="cb232-22"><a href="choropleth-maps.html#cb232-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb232-23"><a href="choropleth-maps.html#cb232-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb232-24"><a href="choropleth-maps.html#cb232-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb232-25"><a href="choropleth-maps.html#cb232-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb232-26"><a href="choropleth-maps.html#cb232-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb232-27"><a href="choropleth-maps.html#cb232-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span>
+<span id="cb232-28"><a href="choropleth-maps.html#cb232-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            nhood                geometry</span></span>
+<span id="cb232-29"><a href="choropleth-maps.html#cb232-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     Oceanview/Merced/Ingleside POINT (5997229 2091310)</span></span>
+<span id="cb232-30"><a href="choropleth-maps.html#cb232-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                   Hayes Valley POINT (6004262 2110838)</span></span>
+<span id="cb232-31"><a href="choropleth-maps.html#cb232-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Presidio Heights POINT (5996881 2115353)</span></span>
+<span id="cb232-32"><a href="choropleth-maps.html#cb232-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Financial District/South Beach POINT (6013739 2117180)</span></span>
+<span id="cb232-33"><a href="choropleth-maps.html#cb232-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5             West of Twin Peaks POINT (5993921 2093059)</span></span>
+<span id="cb232-34"><a href="choropleth-maps.html#cb232-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                 Outer Richmond POINT (5986822 2113584)</span></span></code></pre></div>
+<p>There is now the <em>nhood</em> column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level.
+For now we will use the code to aggregate the number of suicides per neighborhood. Remember, the <code>aggregate()</code> command aggregates a numeric value by some categorical value. Here we aggregate the number of suicides per neighborhood. So our code will be</p>
+<p><code>aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)</code></p>
+<p>We actually don’t have a variable with the number of suicides so we need to make that. We can simply call it <em>number_suicides</em> and give it that value of 1 since each row is only one suicide.</p>
+<div class="sourceCode" id="cb233"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb233-1"><a href="choropleth-maps.html#cb233-1" aria-hidden="true" tabindex="-1"></a>suicide_agg<span class="sc">$</span>number_suicides <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
+<p>Now we can write the <code>aggregate()</code> code and save the results back into <em>suicide_agg</em>.</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="choropleth-maps.html#cb234-1" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(number_suicides <span class="sc">~</span> nhood, <span class="at">data =</span> suicide_agg, <span class="at">FUN =</span> sum)</span></code></pre></div>
+<p>Let’s check a summary of the <em>number_suicides</em> variable we made.</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="choropleth-maps.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(suicide_agg<span class="sc">$</span>number_suicides)</span>
+<span id="cb235-2"><a href="choropleth-maps.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb235-3"><a href="choropleth-maps.html#cb235-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    1.00   15.00   24.00   33.08   38.50  141.00</span></span></code></pre></div>
+<p>The minimum is one suicide per neighborhood, 33 on average, and 141 in the neighborhood with the most suicides. So what do we make of this data? Well, there are some data issues that cause problems in these results. Let’s think about the minimum value. Did every single neighborhood in the city have at least one suicide? No. Take a look at the number of rows in this data, keeping in mind there should be one row per neighborhood.</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="choropleth-maps.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(suicide_agg)</span>
+<span id="cb236-2"><a href="choropleth-maps.html#cb236-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 39</span></span></code></pre></div>
+<p>And let’s compare it to the <em>sf_neighborhoods</em> data.</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="choropleth-maps.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sf_neighborhoods)</span>
+<span id="cb237-2"><a href="choropleth-maps.html#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 41</span></span></code></pre></div>
+<p>The suicides data is missing 2 neighborhoods. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn’t appear in the suicide data. That’s not going to be a major issue here but is something to keep in mind in future research.</p>
+<p>The data is ready to merge with the <em>sf_neighborhoods</em> data. We’ll introduce a new function that makes merging data simple. This function comes from the <code>dplyr</code> package so we need to install and tell R we want to use it using <code>library()</code>.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="choropleth-maps.html#cb238-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="choropleth-maps.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb239-2"><a href="choropleth-maps.html#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;dplyr&#39; was built under R version 4.0.5</span></span>
+<span id="cb239-3"><a href="choropleth-maps.html#cb239-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb239-4"><a href="choropleth-maps.html#cb239-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb239-5"><a href="choropleth-maps.html#cb239-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb239-6"><a href="choropleth-maps.html#cb239-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb239-7"><a href="choropleth-maps.html#cb239-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb239-8"><a href="choropleth-maps.html#cb239-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb239-9"><a href="choropleth-maps.html#cb239-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb239-10"><a href="choropleth-maps.html#cb239-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<p>The function we will use is <code>left_join()</code> which takes two parameters, the two data sets to join together.</p>
+<p><code>left_join(data1, data2)</code></p>
+<p>This function joins these data and keeps all of the rows from the left data and every column from both data sets. It combines the data based on any matching columns (matching meaning same column name) in both data sets. Since in our data sets, the column <em>nhood</em> exists in both, it will merge the data based on that column.</p>
+<p>There are two other functions that are similar but differ based on which rows they keep.</p>
+<ul>
+<li><code>left_join()</code> - All rows from Left data and all columns from Left and Right data</li>
+<li><code>right_join()</code> - All rows from Right data and all columns from Left and Right data</li>
+<li><code>full_join()</code> - All rows and all columns from Left and Right data</li>
+</ul>
+<p>We could alternatively use the <code>merge()</code> function which is built into R but that function is slower than the <code>dplyr</code> functions and requires us to manually set the matching columns.</p>
+<p>We want to keep all rows in <em>sf_neighborhoods</em> (keep all neighborhoods) so we can use <code>left_join(sf_neighborhoods, suicide_agg)</code>. Let’s save the results into a new data.frame called <em>sf_neighborhoods_suicide</em>.</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="choropleth-maps.html#cb240-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sf_neighborhoods, suicide_agg)</span>
+<span id="cb240-2"><a href="choropleth-maps.html#cb240-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Joining, by = &quot;nhood&quot;</span></span></code></pre></div>
+<p>If we look at <code>summary()</code> again for <em>number_suicides</em> we can see that there are now 2 rows with NAs. These are the neighborhoods where there were no suicides so they weren’t present in the <em>suicide_agg</em> data.</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="choropleth-maps.html#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
+<span id="cb241-2"><a href="choropleth-maps.html#cb241-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span></span>
+<span id="cb241-3"><a href="choropleth-maps.html#cb241-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    1.00   15.00   24.00   33.08   38.50  141.00       2</span></span></code></pre></div>
+<p>We need to convert these values to 0. We will use the <code>is.na()</code> function to conditionally find all rows with an NA value in the <em>number_suicides</em> column and use square bracket notation to change the value to 0.</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="choropleth-maps.html#cb242-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide<span class="sc">$</span>number_suicides[<span class="fu">is.na</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code></pre></div>
+<p>Checking it again we see that the minimum is now 0 and the mean number of suicides decreases a bit to about 31.5 per neighborhood.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="choropleth-maps.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
+<span id="cb243-2"><a href="choropleth-maps.html#cb243-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb243-3"><a href="choropleth-maps.html#cb243-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    0.00   12.00   23.00   31.46   36.00  141.00</span></span></code></pre></div>
+</div>
+<div id="making-choropleth-maps" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> Making choropleth maps</h2>
+<p><strong>Finally</strong> we are ready to make some choropleth maps.</p>
+<p>For these maps we are going to use <code>ggplot2</code> again so we need to load it.</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="choropleth-maps.html#cb244-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<p><code>ggplot2</code>’s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as <code>geom_line()</code> for line graphs and <code>geom_point()</code> for scatter plots. For mapping these polygons we will use <code>geom_sf()</code> which knows how to handle spatial data.</p>
+<p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the <em>number_suicides</em> column and it will color the polygons (neighborhoods) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="choropleth-maps.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb245-2"><a href="choropleth-maps.html#cb245-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() </span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we’d want the opposite, with darker areas signifying a greater amount of whatever the map is showing.</p>
+<p>We can use <code>scale_fill_gradient()</code> to set the colors to what we want. We input a color for low value and a color for high value and it’ll make the map shade by those colors.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="choropleth-maps.html#cb246-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb246-2"><a href="choropleth-maps.html#cb246-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb246-3"><a href="choropleth-maps.html#cb246-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) </span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.</p>
+<p>To make this map easier to read and look better, let’s add a title to the map and to the legend.</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="choropleth-maps.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb247-2"><a href="choropleth-maps.html#cb247-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb247-3"><a href="choropleth-maps.html#cb247-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb247-4"><a href="choropleth-maps.html#cb247-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">&quot;# of suicides&quot;</span>,</span>
+<span id="cb247-5"><a href="choropleth-maps.html#cb247-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Suicides in San Francisco, by neighborhood&quot;</span>,</span>
+<span id="cb247-6"><a href="choropleth-maps.html#cb247-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;2003 - 2017&quot;</span>) </span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Since the coordinates don’t add anything to the map, let’s get rid of them.</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="choropleth-maps.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
+<span id="cb248-2"><a href="choropleth-maps.html#cb248-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
+<span id="cb248-3"><a href="choropleth-maps.html#cb248-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb248-4"><a href="choropleth-maps.html#cb248-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">&quot;# of suicides&quot;</span>,</span>
+<span id="cb248-5"><a href="choropleth-maps.html#cb248-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Suicides in San Francisco, by neighborhood&quot;</span>,</span>
+<span id="cb248-6"><a href="choropleth-maps.html#cb248-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;2003 - 2017&quot;</span>) <span class="sc">+</span></span>
+<span id="cb248-7"><a href="choropleth-maps.html#cb248-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb248-8"><a href="choropleth-maps.html#cb248-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb248-9"><a href="choropleth-maps.html#cb248-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we’d really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn’t really correct) to control for population differences.</p>
+<p>We’ll use this data in Chapter <a href="interactive-maps.html#interactive-maps">11</a> to make interactive choropleth maps so let’s save it.</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="choropleth-maps.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(sf_neighborhoods_suicide, <span class="at">file =</span> <span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hotspot-maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interactive-maps.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/choropleth-maps.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>18 Geocoding | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="18 Geocoding | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="18 Geocoding | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-04-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="scrape-table2.html"/>
+<link rel="next" href="mise-en-place.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i><b>1.1</b> Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i><b>1.1.1</b> Scale</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i><b>1.1.2</b> Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i><b>1.2</b> What you will learn</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i><b>1.2.1</b> Skills</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.2.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i><b>1.3</b> What you won’t learn</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i><b>1.4</b> Simple vs Easy</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.5</b> How to contribute to this book</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>2.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>2.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="3" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>3.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>3.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>3.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>3.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="3.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>3.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="3.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>4.2</b> Graphing</a></li>
+<li class="chapter" data-level="4.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>5</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>5.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="5.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>5.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="5.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>5.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>5.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="5.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>5.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>5.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>5.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="5.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>5.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="5.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>5.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="5.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="5.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="5.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>5.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="5.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>5.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="5.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>5.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>5.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>6</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>6.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>6.1.1</b> R</a></li>
+<li class="chapter" data-level="6.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>6.1.2</b> Excel</a></li>
+<li class="chapter" data-level="6.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>6.1.3</b> Stata</a></li>
+<li class="chapter" data-level="6.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>6.1.4</b> SAS</a></li>
+<li class="chapter" data-level="6.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>6.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>6.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>6.2.1</b> R</a></li>
+<li class="chapter" data-level="6.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>6.2.2</b> Excel</a></li>
+<li class="chapter" data-level="6.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>6.2.3</b> Stata</a></li>
+<li class="chapter" data-level="6.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>6.2.4</b> SAS</a></li>
+<li class="chapter" data-level="6.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>6.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="7" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="7.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="7.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>7.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="7.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>7.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>8</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>8.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="8.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>8.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>8.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>8.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>8.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="8.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>8.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>8.3</b> Bar graph</a></li>
+<li class="chapter" data-level="8.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>8.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="8.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>8.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>8.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>9</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>9.1</b> A simple map</a></li>
+<li class="chapter" data-level="9.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>9.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="9.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>9.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>9.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>10</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>10.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="10.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>10.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>11</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>11.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>11.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="11.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>11.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>11.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="11.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>11.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="11.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>11.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="11.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>11.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>12.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>12.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>12.2</b> Inline Code</a></li>
+<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>12.3</b> Tables</a></li>
+<li class="chapter" data-level="12.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>12.4</b> Footnotes</a></li>
+<li class="chapter" data-level="12.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>12.5</b> Citation</a></li>
+<li class="chapter" data-level="12.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>12.6</b> Spell check</a></li>
+<li class="chapter" data-level="12.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>12.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="13" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>13</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>13.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="13.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>13.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>14</b> Functions</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>14.1</b> A simple function</a></li>
+<li class="chapter" data-level="14.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>14.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="14.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>14.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>15</b> For loops</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>15.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="15.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>15.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>16</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>16.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>16.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>17</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>17.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="17.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>17.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>18</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>18.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="18.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>18.2</b> Making a function</a></li>
+<li class="chapter" data-level="18.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>18.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="19" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>19</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>19.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>19.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>19.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>19.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>19.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="19.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>19.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>19.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="19.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>19.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="on-saying-no.html"><a href="on-saying-no.html"><i class="fa fa-check"></i><b>20</b> On Saying No</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="on-saying-no.html"><a href="on-saying-no.html#why-say-no"><i class="fa fa-check"></i><b>20.1</b> Why say no</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="on-saying-no.html"><a href="on-saying-no.html#the-problem-with-always-saying-yes"><i class="fa fa-check"></i><b>20.1.1</b> The problem with (always) saying yes</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="on-saying-no.html"><a href="on-saying-no.html#when-to-say-no"><i class="fa fa-check"></i><b>20.2</b> When to say no</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="on-saying-no.html"><a href="on-saying-no.html#what-is-mandatory-and-what-is-optional"><i class="fa fa-check"></i><b>20.2.1</b> What is mandatory and what is optional?</a></li>
+<li class="chapter" data-level="20.2.2" data-path="on-saying-no.html"><a href="on-saying-no.html#what-a-manageable-academic-workload-looks-like"><i class="fa fa-check"></i><b>20.2.2</b> What a manageable academic workload looks like</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="on-saying-no.html"><a href="on-saying-no.html#how-to-say-no"><i class="fa fa-check"></i><b>20.3</b> How to say no</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="on-saying-no.html"><a href="on-saying-no.html#ending-ongoing-projects"><i class="fa fa-check"></i><b>20.3.1</b> Ending ongoing projects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>21</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>21.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>21.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>21.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>21.2.1</b> Comments</a></li>
+<li class="chapter" data-level="21.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>21.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>22</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>22.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="22.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>22.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>22.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="22.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>22.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="22.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>22.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>22.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>23</b> Git</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>23.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="23.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>23.2</b> Git basics</a></li>
+<li class="chapter" data-level="23.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>23.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>23.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="23.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>23.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>23.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="23.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>23.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="23.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>23.6</b> When to commit</a></li>
+<li class="chapter" data-level="23.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>23.7</b> Other resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="geocoding" class="section level1" number="18">
+<h1><span class="header-section-number">18</span> Geocoding</h1>
+<p>Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.</p>
+<div id="geocoding-a-single-address" class="section level2" number="18.1">
+<h2><span class="header-section-number">18.1</span> Geocoding a single address</h2>
+<p>In this chapter we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use its geocoder so we will not be using it.</p>
+<p>The URL for geocoding using ArcGIS is the following:</p>
+<p><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=ADDRESS&amp;outFields=Match_addr,Addr_type</code></p>
+<p>where instead of “ADDRESS” we put in the address whose coordinates we want. As an example, let’s look at Food Network’s Corporate office where they film many of their shows. The address is 75 9th Ave, New York, NY 10011.</p>
+<p><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type</code></p>
+<p>Including spaces in the address causes errors so all spaces need to be replaced with <code>%20</code>. Let’s see what data we get back from this URL. Enter the URL above in your browser and you’ll see these results.</p>
+<p><img src="images/geocoding_1.PNG" /></p>
+<p>It gives us a page with several important values. For our purposes we want the “lat” and “lon” sections which are the latitude and longitude parts of a location’s coordinates.</p>
+<p>This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. We can concert it to a data.frame that we’re more familiar with using the package <code>jsonlite</code>.</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="geocoding.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;jsonlite&quot;</span>)</span></code></pre></div>
+<p>We will use the <code>fromJSON()</code> function and enter in the URL right in the ().</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="geocoding.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jsonlite)</span>
+<span id="cb360-2"><a href="geocoding.html#cb360-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type&quot;</span>)</span>
+<span id="cb360-3"><a href="geocoding.html#cb360-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $spatialReference</span></span>
+<span id="cb360-4"><a href="geocoding.html#cb360-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $spatialReference$wkid</span></span>
+<span id="cb360-5"><a href="geocoding.html#cb360-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4326</span></span>
+<span id="cb360-6"><a href="geocoding.html#cb360-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb360-7"><a href="geocoding.html#cb360-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $spatialReference$latestWkid</span></span>
+<span id="cb360-8"><a href="geocoding.html#cb360-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4326</span></span>
+<span id="cb360-9"><a href="geocoding.html#cb360-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb360-10"><a href="geocoding.html#cb360-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb360-11"><a href="geocoding.html#cb360-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $candidates</span></span>
+<span id="cb360-12"><a href="geocoding.html#cb360-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       address location.x location.y score</span></span>
+<span id="cb360-13"><a href="geocoding.html#cb360-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100</span></span>
+<span id="cb360-14"><a href="geocoding.html#cb360-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin</span></span>
+<span id="cb360-15"><a href="geocoding.html#cb360-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122</span></span>
+<span id="cb360-16"><a href="geocoding.html#cb360-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   extent.xmax extent.ymax</span></span>
+<span id="cb360-17"><a href="geocoding.html#cb360-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   -74.00366    40.74322</span></span></code></pre></div>
+<p>It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called <em>candidates</em>. To avoid having a very long line of code, let’s call the list <code>fromJSON()</code> returns <em>address_coordinate</em> and grab the <em>candidates</em> object from that list.</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="geocoding.html#cb361-1" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type&quot;</span>)</span>
+<span id="cb361-2"><a href="geocoding.html#cb361-2" aria-hidden="true" tabindex="-1"></a>address_coordinates<span class="sc">$</span>candidates</span>
+<span id="cb361-3"><a href="geocoding.html#cb361-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       address location.x location.y score</span></span>
+<span id="cb361-4"><a href="geocoding.html#cb361-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100</span></span>
+<span id="cb361-5"><a href="geocoding.html#cb361-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin</span></span>
+<span id="cb361-6"><a href="geocoding.html#cb361-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122</span></span>
+<span id="cb361-7"><a href="geocoding.html#cb361-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   extent.xmax extent.ymax</span></span>
+<span id="cb361-8"><a href="geocoding.html#cb361-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   -74.00366    40.74322</span></span></code></pre></div>
+<p><em>candidates</em> is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the “score” column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the “most confident” one - so we will just keep the first row.</p>
+<p>Since we are grabbing the first row of a data.frame, our square bracket notation must be <code>[row, column]</code>. For row we put 1 since we want the first row. Since we want every column, we can leave it blank but make sure to keep the comma.</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="geocoding.html#cb362-1" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type&quot;</span>)</span>
+<span id="cb362-2"><a href="geocoding.html#cb362-2" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> address_coordinates<span class="sc">$</span>candidates</span>
+<span id="cb362-3"><a href="geocoding.html#cb362-3" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> address_coordinates[<span class="dv">1</span>, ]</span>
+<span id="cb362-4"><a href="geocoding.html#cb362-4" aria-hidden="true" tabindex="-1"></a>address_coordinates</span>
+<span id="cb362-5"><a href="geocoding.html#cb362-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       address location.x location.y score</span></span>
+<span id="cb362-6"><a href="geocoding.html#cb362-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011  -74.00466   40.74222   100</span></span>
+<span id="cb362-7"><a href="geocoding.html#cb362-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         attributes.Match_addr attributes.Addr_type extent.xmin extent.ymin</span></span>
+<span id="cb362-8"><a href="geocoding.html#cb362-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 75 9th Ave, New York, 10011         PointAddress   -74.00566    40.74122</span></span>
+<span id="cb362-9"><a href="geocoding.html#cb362-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   extent.xmax extent.ymax</span></span>
+<span id="cb362-10"><a href="geocoding.html#cb362-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   -74.00366    40.74322</span></span></code></pre></div>
+<p>This data.frame has something we’ve never seen before. It has columns that are themselves data.frames. For example, the column “location” is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="geocoding.html#cb363-1" aria-hidden="true" tabindex="-1"></a>address_coordinates<span class="sc">$</span>location</span>
+<span id="cb363-2"><a href="geocoding.html#cb363-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           x        y</span></span>
+<span id="cb363-3"><a href="geocoding.html#cb363-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -74.00466 40.74222</span></span></code></pre></div>
+<p>Since our end goal is to get the coordinates of an address, the data.frame in the “location” column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address.</p>
+</div>
+<div id="making-a-function-1" class="section level2" number="18.2">
+<h2><span class="header-section-number">18.2</span> Making a function</h2>
+<p>We want to geocode every single address from the officer-involved shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us.</p>
+<p>Let’s start by copying the code used to geocode a single address.</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="geocoding.html#cb364-1" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type&quot;</span>)</span>
+<span id="cb364-2"><a href="geocoding.html#cb364-2" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> address_coordinates<span class="sc">$</span>candidates</span>
+<span id="cb364-3"><a href="geocoding.html#cb364-3" aria-hidden="true" tabindex="-1"></a>address_coordinates <span class="ot">&lt;-</span> address_coordinates[<span class="dv">1</span>, ]</span>
+<span id="cb364-4"><a href="geocoding.html#cb364-4" aria-hidden="true" tabindex="-1"></a>address_coordinates<span class="sc">$</span>location</span>
+<span id="cb364-5"><a href="geocoding.html#cb364-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           x        y</span></span>
+<span id="cb364-6"><a href="geocoding.html#cb364-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -74.00466 40.74222</span></span></code></pre></div>
+<p>Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address.</p>
+<p>We can call the function <em>geocode_address</em>, the input <em>address</em> and the returning value <em>address_coordinates</em> just to stay consistent with the code we already wrote.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="geocoding.html#cb365-1" aria-hidden="true" tabindex="-1"></a>geocode_address <span class="ot">&lt;-</span> <span class="cf">function</span>(address) {</span>
+<span id="cb365-2"><a href="geocoding.html#cb365-2" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb365-3"><a href="geocoding.html#cb365-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(address_coordinates)</span>
+<span id="cb365-4"><a href="geocoding.html#cb365-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now we can add the code.</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="geocoding.html#cb366-1" aria-hidden="true" tabindex="-1"></a>geocode_address <span class="ot">&lt;-</span> <span class="cf">function</span>(address) {</span>
+<span id="cb366-2"><a href="geocoding.html#cb366-2" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&amp;outFields=Match_addr,Addr_type&quot;</span>)</span>
+<span id="cb366-3"><a href="geocoding.html#cb366-3" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> address_coordinates<span class="sc">$</span>candidates</span>
+<span id="cb366-4"><a href="geocoding.html#cb366-4" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> address_coordinates[<span class="dv">1</span>, ]</span>
+<span id="cb366-5"><a href="geocoding.html#cb366-5" aria-hidden="true" tabindex="-1"></a>   address_coordinates<span class="sc">$</span>location</span>
+<span id="cb366-6"><a href="geocoding.html#cb366-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(address_coordinates)</span>
+<span id="cb366-7"><a href="geocoding.html#cb366-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Finally we need to replace the value in <code>fromJSON()</code> which is for a specific address with something that works for any address we input.</p>
+<p>Since the URL is in the form</p>
+<p><code>https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=ADDRESS&amp;outFields=Match_addr,Addr_type</code></p>
+<p>we can use the <code>paste()</code> function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with <code>%20</code>. We can do that using <code>gsub()</code> which is perfect for replacing characters. Let’s try a simple example using <code>gsub()</code> before including it in our function. We just want to find every <code>" "</code> and replace it with <code>"%20"</code>.</p>
+<p>We will use the address for the Food Network’s Corporate office as our example.</p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="geocoding.html#cb367-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;%20&quot;</span>, <span class="st">&quot;75 9th Ave, New York, NY 10011&quot;</span>)</span>
+<span id="cb367-2"><a href="geocoding.html#cb367-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;75%209th%20Ave,%20New%20York,%20NY%2010011&quot;</span></span></code></pre></div>
+<p>It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use <code>paste()</code> to combine the parts of the URL with the address and have that as the input in <code>fromJSON()</code>. Let’s do that in two steps. First, we do the <code>paste()</code>, saving it in an object we can call <em>url</em>, and then use <em>url</em> as our input in <code>fromJSON()</code>. Since we do not want spaces in the URL, we need to set the <code>sep</code> parameter in <code>paste()</code> to "".</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="geocoding.html#cb368-1" aria-hidden="true" tabindex="-1"></a>geocode_address <span class="ot">&lt;-</span> <span class="cf">function</span>(address) {</span>
+<span id="cb368-2"><a href="geocoding.html#cb368-2" aria-hidden="true" tabindex="-1"></a>   address <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;%20&quot;</span>, address)</span>
+<span id="cb368-3"><a href="geocoding.html#cb368-3" aria-hidden="true" tabindex="-1"></a>   url <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&amp;singleLine=&quot;</span>,</span>
+<span id="cb368-4"><a href="geocoding.html#cb368-4" aria-hidden="true" tabindex="-1"></a>                address,</span>
+<span id="cb368-5"><a href="geocoding.html#cb368-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;&amp;outFields=Match_addr,Addr_type&quot;</span>,</span>
+<span id="cb368-6"><a href="geocoding.html#cb368-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb368-7"><a href="geocoding.html#cb368-7" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(url)</span>
+<span id="cb368-8"><a href="geocoding.html#cb368-8" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb368-9"><a href="geocoding.html#cb368-9" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> address_coordinates<span class="sc">$</span>candidates</span>
+<span id="cb368-10"><a href="geocoding.html#cb368-10" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> address_coordinates[<span class="dv">1</span>, ]</span>
+<span id="cb368-11"><a href="geocoding.html#cb368-11" aria-hidden="true" tabindex="-1"></a>   address_coordinates <span class="ot">&lt;-</span> address_coordinates<span class="sc">$</span>location</span>
+<span id="cb368-12"><a href="geocoding.html#cb368-12" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb368-13"><a href="geocoding.html#cb368-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(address_coordinates)</span>
+<span id="cb368-14"><a href="geocoding.html#cb368-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>We can try it using the same address we did earlier, “75 9th Ave, New York, NY 10011.”</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="geocoding.html#cb369-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode_address</span>(<span class="st">&quot;75 9th Ave, New York, NY 10011&quot;</span>)</span>
+<span id="cb369-2"><a href="geocoding.html#cb369-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           x        y</span></span>
+<span id="cb369-3"><a href="geocoding.html#cb369-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -74.00466 40.74222</span></span></code></pre></div>
+<p>It returns the same data.frame as earlier so our function works!</p>
+</div>
+<div id="geocoding-san-francisco-marijuana-dispensary-locations" class="section level2" number="18.3">
+<h2><span class="header-section-number">18.3</span> Geocoding San Francisco marijuana dispensary locations</h2>
+<p>We now have a function capable of returning the coordinates of every location in our marijuana dispensary data. We can write a for loop to go through every row of data and get the coordinates for that row’s location.</p>
+<p>Let’s read in the marijuana dispensary data which is called “san_francisco_active_marijuana_retailers.csv” and call the object <em>marijuana</em>. Note the “data/” part in front of the name of the .csv file. This is to tell R that the file we want is in the “data” folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="geocoding.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb370-2"><a href="geocoding.html#cb370-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_active_marijuana_retailers.csv&quot;</span>)</span>
+<span id="cb370-3"><a href="geocoding.html#cb370-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb370-4"><a href="geocoding.html#cb370-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
+<span id="cb370-5"><a href="geocoding.html#cb370-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb370-6"><a href="geocoding.html#cb370-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `License Number` = col_character(),</span></span>
+<span id="cb370-7"><a href="geocoding.html#cb370-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `License Type` = col_character(),</span></span>
+<span id="cb370-8"><a href="geocoding.html#cb370-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Business Owner` = col_character(),</span></span>
+<span id="cb370-9"><a href="geocoding.html#cb370-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Business Contact Information` = col_character(),</span></span>
+<span id="cb370-10"><a href="geocoding.html#cb370-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Business Structure` = col_character(),</span></span>
+<span id="cb370-11"><a href="geocoding.html#cb370-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Premise Address` = col_character(),</span></span>
+<span id="cb370-12"><a href="geocoding.html#cb370-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Status = col_character(),</span></span>
+<span id="cb370-13"><a href="geocoding.html#cb370-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Issue Date` = col_character(),</span></span>
+<span id="cb370-14"><a href="geocoding.html#cb370-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Expiration Date` = col_character(),</span></span>
+<span id="cb370-15"><a href="geocoding.html#cb370-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Activities = col_character(),</span></span>
+<span id="cb370-16"><a href="geocoding.html#cb370-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `Adult-Use/Medicinal` = col_character()</span></span>
+<span id="cb370-17"><a href="geocoding.html#cb370-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; )</span></span>
+<span id="cb370-18"><a href="geocoding.html#cb370-18" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(marijuana)</span></code></pre></div>
+<p>Let’s look at the top 6 rows.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="geocoding.html#cb371-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
+<span id="cb371-2"><a href="geocoding.html#cb371-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    License Number                License Type   Business Owner</span></span>
+<span id="cb371-3"><a href="geocoding.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller</span></span>
+<span id="cb371-4"><a href="geocoding.html#cb371-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin</span></span>
+<span id="cb371-5"><a href="geocoding.html#cb371-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin</span></span>
+<span id="cb371-6"><a href="geocoding.html#cb371-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle</span></span>
+<span id="cb371-7"><a href="geocoding.html#cb371-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb371-8"><a href="geocoding.html#cb371-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb371-9"><a href="geocoding.html#cb371-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                           Business Contact Information</span></span>
+<span id="cb371-10"><a href="geocoding.html#cb371-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246</span></span>
+<span id="cb371-11"><a href="geocoding.html#cb371-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com</span></span>
+<span id="cb371-12"><a href="geocoding.html#cb371-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com</span></span>
+<span id="cb371-13"><a href="geocoding.html#cb371-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com</span></span>
+<span id="cb371-14"><a href="geocoding.html#cb371-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com</span></span>
+<span id="cb371-15"><a href="geocoding.html#cb371-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com</span></span>
+<span id="cb371-16"><a href="geocoding.html#cb371-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Business Structure</span></span>
+<span id="cb371-17"><a href="geocoding.html#cb371-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Limited Liability Company</span></span>
+<span id="cb371-18"><a href="geocoding.html#cb371-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2               Corporation</span></span>
+<span id="cb371-19"><a href="geocoding.html#cb371-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Corporation</span></span>
+<span id="cb371-20"><a href="geocoding.html#cb371-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4               Corporation</span></span>
+<span id="cb371-21"><a href="geocoding.html#cb371-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Limited Liability Company</span></span>
+<span id="cb371-22"><a href="geocoding.html#cb371-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Limited Liability Company</span></span>
+<span id="cb371-23"><a href="geocoding.html#cb371-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 Premise Address Status</span></span>
+<span id="cb371-24"><a href="geocoding.html#cb371-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-25"><a href="geocoding.html#cb371-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-26"><a href="geocoding.html#cb371-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-27"><a href="geocoding.html#cb371-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-28"><a href="geocoding.html#cb371-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-29"><a href="geocoding.html#cb371-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active</span></span>
+<span id="cb371-30"><a href="geocoding.html#cb371-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Issue Date Expiration Date                Activities Adult-Use/Medicinal</span></span>
+<span id="cb371-31"><a href="geocoding.html#cb371-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  9/13/2019       9/12/2020 N/A for this license type                BOTH</span></span>
+<span id="cb371-32"><a href="geocoding.html#cb371-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb371-33"><a href="geocoding.html#cb371-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb371-34"><a href="geocoding.html#cb371-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   8/5/2019        8/4/2020 N/A for this license type                BOTH</span></span>
+<span id="cb371-35"><a href="geocoding.html#cb371-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb371-36"><a href="geocoding.html#cb371-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span></code></pre></div>
+<p>So the column with the address is called <em>Premise Address</em>. Since it’s easier to deal with columns that don’t have spacing in the name, we will be using <code>gsub()</code> to remove spacing from the column names. Each address also ends with “County:” followed by that address’s county, which in this case is always San Francisco. That isn’t normal in an address so it may affect our geocode. We need to <code>gsub()</code> that column to remove that part of the address.</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="geocoding.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(marijuana) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, <span class="fu">names</span>(marijuana))</span></code></pre></div>
+<p>Since the address issue is always " County: SAN FRANCISCO" we can just <code>gsub()</code> out that entire string.</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="geocoding.html#cb373-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>Premise_Address <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; County: SAN FRANCISCO&quot;</span>, <span class="st">&quot;&quot;</span>, marijuana<span class="sc">$</span>Premise_Address)</span></code></pre></div>
+<p>Now let’s make sure we did it right.</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="geocoding.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(marijuana)</span>
+<span id="cb374-2"><a href="geocoding.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;License_Number&quot;               &quot;License_Type&quot;                </span></span>
+<span id="cb374-3"><a href="geocoding.html#cb374-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Business_Owner&quot;               &quot;Business_Contact_Information&quot;</span></span>
+<span id="cb374-4"><a href="geocoding.html#cb374-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Business_Structure&quot;           &quot;Premise_Address&quot;             </span></span>
+<span id="cb374-5"><a href="geocoding.html#cb374-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Status&quot;                       &quot;Issue_Date&quot;                  </span></span>
+<span id="cb374-6"><a href="geocoding.html#cb374-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Expiration_Date&quot;              &quot;Activities&quot;                  </span></span>
+<span id="cb374-7"><a href="geocoding.html#cb374-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Adult-Use/Medicinal&quot;</span></span>
+<span id="cb374-8"><a href="geocoding.html#cb374-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana<span class="sc">$</span>Premise_Address)</span>
+<span id="cb374-9"><a href="geocoding.html#cb374-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2165 IRVING ST san francisco, CA 94122&quot; </span></span>
+<span id="cb374-10"><a href="geocoding.html#cb374-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;122 10TH ST SAN FRANCISCO, CA 941032605&quot;</span></span>
+<span id="cb374-11"><a href="geocoding.html#cb374-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;843 Howard ST SAN FRANCISCO, CA 94103&quot;  </span></span>
+<span id="cb374-12"><a href="geocoding.html#cb374-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;70 SECOND ST SAN FRANCISCO, CA 94105&quot;   </span></span>
+<span id="cb374-13"><a href="geocoding.html#cb374-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;527 Howard ST San Francisco, CA 94105&quot;  </span></span>
+<span id="cb374-14"><a href="geocoding.html#cb374-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;2414 Lombard ST San Francisco, CA 94123&quot;</span></span></code></pre></div>
+<p>We can now write a for loop to go through every row in our data and geocode that address. The function <code>geocode_address()</code> we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame <em>marijuana</em> we can save the output of <code>geocode_address()</code> to a temporary file and add each of the columns it produces to a column in <em>marijuana</em>.</p>
+<p>We need to make columns for the coordinates in <em>marijuana</em> now to be filled in during the for loop. We can call them <em>lon</em> and <em>lat</em> for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good idea to start by assigning the column NA. That way any row that you don’t fill in during the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation.</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="geocoding.html#cb375-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>lon <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb375-2"><a href="geocoding.html#cb375-2" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>lat <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
+<p>Let’s start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let’s now save that output to an object we’ll call <em>temp</em>.</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="geocoding.html#cb376-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">geocode_address</span>(marijuana<span class="sc">$</span>Premise_Address[<span class="dv">1</span>])</span>
+<span id="cb376-2"><a href="geocoding.html#cb376-2" aria-hidden="true" tabindex="-1"></a>temp</span>
+<span id="cb376-3"><a href="geocoding.html#cb376-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           x        y</span></span>
+<span id="cb376-4"><a href="geocoding.html#cb376-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -122.4811 37.76314</span></span></code></pre></div>
+<p>We can use square bracket <code>[]</code> notation to assign the value from the <em>x</em> column of <em>temp</em> to our <em>lon</em> column in <em>marijuana</em> and do the same for the <em>y</em> and <em>lat</em> columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="geocoding.html#cb377-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>lon[<span class="dv">1</span>] <span class="ot">&lt;-</span> temp<span class="sc">$</span>x</span>
+<span id="cb377-2"><a href="geocoding.html#cb377-2" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>lat[<span class="dv">1</span>] <span class="ot">&lt;-</span> temp<span class="sc">$</span>y</span></code></pre></div>
+<p>And we can check the first 6 rows to make sure the first row is the only one with values in these new columns.</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="geocoding.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
+<span id="cb378-2"><a href="geocoding.html#cb378-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    License_Number                License_Type   Business_Owner</span></span>
+<span id="cb378-3"><a href="geocoding.html#cb378-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller</span></span>
+<span id="cb378-4"><a href="geocoding.html#cb378-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin</span></span>
+<span id="cb378-5"><a href="geocoding.html#cb378-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin</span></span>
+<span id="cb378-6"><a href="geocoding.html#cb378-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle</span></span>
+<span id="cb378-7"><a href="geocoding.html#cb378-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb378-8"><a href="geocoding.html#cb378-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb378-9"><a href="geocoding.html#cb378-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                           Business_Contact_Information</span></span>
+<span id="cb378-10"><a href="geocoding.html#cb378-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246</span></span>
+<span id="cb378-11"><a href="geocoding.html#cb378-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com</span></span>
+<span id="cb378-12"><a href="geocoding.html#cb378-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com</span></span>
+<span id="cb378-13"><a href="geocoding.html#cb378-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com</span></span>
+<span id="cb378-14"><a href="geocoding.html#cb378-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com</span></span>
+<span id="cb378-15"><a href="geocoding.html#cb378-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com</span></span>
+<span id="cb378-16"><a href="geocoding.html#cb378-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Business_Structure                         Premise_Address Status</span></span>
+<span id="cb378-17"><a href="geocoding.html#cb378-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active</span></span>
+<span id="cb378-18"><a href="geocoding.html#cb378-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active</span></span>
+<span id="cb378-19"><a href="geocoding.html#cb378-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active</span></span>
+<span id="cb378-20"><a href="geocoding.html#cb378-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active</span></span>
+<span id="cb378-21"><a href="geocoding.html#cb378-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active</span></span>
+<span id="cb378-22"><a href="geocoding.html#cb378-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active</span></span>
+<span id="cb378-23"><a href="geocoding.html#cb378-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Issue_Date Expiration_Date                Activities Adult-Use/Medicinal</span></span>
+<span id="cb378-24"><a href="geocoding.html#cb378-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  9/13/2019       9/12/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-25"><a href="geocoding.html#cb378-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-26"><a href="geocoding.html#cb378-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-27"><a href="geocoding.html#cb378-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   8/5/2019        8/4/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-28"><a href="geocoding.html#cb378-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-29"><a href="geocoding.html#cb378-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb378-30"><a href="geocoding.html#cb378-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         lon      lat</span></span>
+<span id="cb378-31"><a href="geocoding.html#cb378-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 -122.4811 37.76314</span></span>
+<span id="cb378-32"><a href="geocoding.html#cb378-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        NA       NA</span></span>
+<span id="cb378-33"><a href="geocoding.html#cb378-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        NA       NA</span></span>
+<span id="cb378-34"><a href="geocoding.html#cb378-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        NA       NA</span></span>
+<span id="cb378-35"><a href="geocoding.html#cb378-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5        NA       NA</span></span>
+<span id="cb378-36"><a href="geocoding.html#cb378-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6        NA       NA</span></span></code></pre></div>
+<p>Since we are geocoding a few dozen of addresses, this may take some time.</p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="geocoding.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(marijuana)) {</span>
+<span id="cb379-2"><a href="geocoding.html#cb379-2" aria-hidden="true" tabindex="-1"></a>   temp <span class="ot">&lt;-</span> <span class="fu">geocode_address</span>(marijuana<span class="sc">$</span>Premise_Address[i])</span>
+<span id="cb379-3"><a href="geocoding.html#cb379-3" aria-hidden="true" tabindex="-1"></a>   marijuana<span class="sc">$</span>lon[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>x</span>
+<span id="cb379-4"><a href="geocoding.html#cb379-4" aria-hidden="true" tabindex="-1"></a>   marijuana<span class="sc">$</span>lat[i] <span class="ot">&lt;-</span> temp<span class="sc">$</span>y</span>
+<span id="cb379-5"><a href="geocoding.html#cb379-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="geocoding.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(marijuana<span class="sc">$</span>lat)</span>
+<span id="cb380-2"><a href="geocoding.html#cb380-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb380-3"><a href="geocoding.html#cb380-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   37.71   37.76   37.77   37.77   37.78   37.80</span></span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="geocoding.html#cb381-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(marijuana<span class="sc">$</span>lon)</span>
+<span id="cb381-2"><a href="geocoding.html#cb381-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span id="cb381-3"><a href="geocoding.html#cb381-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4</span></span></code></pre></div>
+<p>Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="geocoding.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marijuana<span class="sc">$</span>lon, marijuana<span class="sc">$</span>lat)</span></code></pre></div>
+<p><img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Most points are within a very narrow range so it appears that our geocoding worked properly.</p>
+<p>To finish this lesson we want to save the <em>marijuana</em> data.frame. We’ll use the <code>write_csv()</code> function from the <code>readr</code> package to save it as a .csv file. Since this data is now geocoded and it is specifically for San Francisco, we’ll save it as “san_francisco_marijuana_geocoded.csv.”</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="geocoding.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;data&quot;</span>))</span>
+<span id="cb383-2"><a href="geocoding.html#cb383-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(marijuana, <span class="at">path =</span> <span class="st">&quot;san_francisco_marijuana_geocoded.csv&quot;</span>)</span>
+<span id="cb383-3"><a href="geocoding.html#cb383-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.</span></span>
+<span id="cb383-4"><a href="geocoding.html#cb383-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Please use the `file` argument instead.</span></span></code></pre></div>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="scrape-table2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mise-en-place.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/geocoding.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

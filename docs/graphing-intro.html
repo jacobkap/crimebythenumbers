@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Graphing with ggplot2 | Crime by the Numbers</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Graphing with ggplot2 | Crime by the Numbers" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Graphing with ggplot2 | Crime by the Numbers" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-04-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reading-and-writing-data.html"/>
+<link rel="next" href="ois-graphs.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i><b>1.1</b> Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i><b>1.1.1</b> Scale</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i><b>1.1.2</b> Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i><b>1.2</b> What you will learn</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i><b>1.2.1</b> Skills</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.2.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i><b>1.3</b> What you won’t learn</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i><b>1.4</b> Simple vs Easy</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.5</b> How to contribute to this book</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>2.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>2.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="3" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>3.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>3.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>3.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>3.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="3.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>3.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="3.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>4.2</b> Graphing</a></li>
+<li class="chapter" data-level="4.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>5</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>5.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="5.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>5.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="5.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>5.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>5.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="5.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>5.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>5.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>5.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="5.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>5.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="5.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>5.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="5.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="5.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="5.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>5.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="5.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>5.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="5.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>5.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>5.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>6</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>6.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>6.1.1</b> R</a></li>
+<li class="chapter" data-level="6.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>6.1.2</b> Excel</a></li>
+<li class="chapter" data-level="6.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>6.1.3</b> Stata</a></li>
+<li class="chapter" data-level="6.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>6.1.4</b> SAS</a></li>
+<li class="chapter" data-level="6.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>6.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>6.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>6.2.1</b> R</a></li>
+<li class="chapter" data-level="6.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>6.2.2</b> Excel</a></li>
+<li class="chapter" data-level="6.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>6.2.3</b> Stata</a></li>
+<li class="chapter" data-level="6.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>6.2.4</b> SAS</a></li>
+<li class="chapter" data-level="6.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>6.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="7" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="7.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="7.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>7.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="7.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>7.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>8</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>8.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="8.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>8.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>8.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>8.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>8.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="8.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>8.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>8.3</b> Bar graph</a></li>
+<li class="chapter" data-level="8.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>8.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="8.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>8.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>8.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>9</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>9.1</b> A simple map</a></li>
+<li class="chapter" data-level="9.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>9.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="9.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>9.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>9.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>10</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>10.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="10.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>10.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>11</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>11.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>11.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="11.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>11.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>11.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="11.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>11.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="11.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>11.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="11.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>11.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>12.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>12.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>12.2</b> Inline Code</a></li>
+<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>12.3</b> Tables</a></li>
+<li class="chapter" data-level="12.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>12.4</b> Footnotes</a></li>
+<li class="chapter" data-level="12.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>12.5</b> Citation</a></li>
+<li class="chapter" data-level="12.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>12.6</b> Spell check</a></li>
+<li class="chapter" data-level="12.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>12.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="13" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>13</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>13.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="13.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>13.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>14</b> Functions</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>14.1</b> A simple function</a></li>
+<li class="chapter" data-level="14.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>14.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="14.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>14.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>15</b> For loops</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>15.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="15.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>15.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>16</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>16.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>16.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>17</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>17.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="17.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>17.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>18</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>18.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="18.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>18.2</b> Making a function</a></li>
+<li class="chapter" data-level="18.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>18.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="19" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>19</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>19.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>19.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>19.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>19.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>19.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="19.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>19.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>19.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="19.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>19.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="on-saying-no.html"><a href="on-saying-no.html"><i class="fa fa-check"></i><b>20</b> On Saying No</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="on-saying-no.html"><a href="on-saying-no.html#why-say-no"><i class="fa fa-check"></i><b>20.1</b> Why say no</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="on-saying-no.html"><a href="on-saying-no.html#the-problem-with-always-saying-yes"><i class="fa fa-check"></i><b>20.1.1</b> The problem with (always) saying yes</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="on-saying-no.html"><a href="on-saying-no.html#when-to-say-no"><i class="fa fa-check"></i><b>20.2</b> When to say no</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="on-saying-no.html"><a href="on-saying-no.html#what-is-mandatory-and-what-is-optional"><i class="fa fa-check"></i><b>20.2.1</b> What is mandatory and what is optional?</a></li>
+<li class="chapter" data-level="20.2.2" data-path="on-saying-no.html"><a href="on-saying-no.html#what-a-manageable-academic-workload-looks-like"><i class="fa fa-check"></i><b>20.2.2</b> What a manageable academic workload looks like</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="on-saying-no.html"><a href="on-saying-no.html#how-to-say-no"><i class="fa fa-check"></i><b>20.3</b> How to say no</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="on-saying-no.html"><a href="on-saying-no.html#ending-ongoing-projects"><i class="fa fa-check"></i><b>20.3.1</b> Ending ongoing projects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>21</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>21.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>21.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>21.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>21.2.1</b> Comments</a></li>
+<li class="chapter" data-level="21.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>21.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>22</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>22.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="22.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>22.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>22.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="22.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>22.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="22.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>22.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>22.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>23</b> Git</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>23.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="23.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>23.2</b> Git basics</a></li>
+<li class="chapter" data-level="23.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>23.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>23.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="23.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>23.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>23.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="23.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>23.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="23.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>23.6</b> When to commit</a></li>
+<li class="chapter" data-level="23.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>23.7</b> Other resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="graphing-intro" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Graphing with <code>ggplot2</code></h1>
+<p>We’ve made some simple graphs earlier; in this lesson we will use the package <code>ggplot2</code> to make simple and elegant looking graphs.</p>
+<p>The ‘gg’ part of <code>ggplot2</code> stands for ‘grammar of graphics’ which is the idea that most graphs can be made using the same few ‘pieces.’ We’ll get into those pieces during this lesson. For a useful cheat sheet for this package see <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">here</a></p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="graphing-intro.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="graphing-intro.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<p>When working with new data, It’s often useful to quickly graph the data to try to understand what you’re working with. It is also useful when understanding how much to trust the data.</p>
+<p>The data we will work on is data about alcohol consumption in U.S. states from 1977-2017 from the National Institute of Health. It contains the per capita alcohol consumption for each state for every year. Their method to determine per capita consumption is amount of alcohol sold / number of people aged 14+ living in the state. More details on the data are available <a href="https://www.openicpsr.org/openicpsr/project/105583/version/V2/view">here</a>.</p>
+<p>Now we need to load the data.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="graphing-intro.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/apparent_per_capita_alcohol_consumption.rda&quot;</span>)</span></code></pre></div>
+<p>The name of the data is quite long so for convenience let’s copy it to a new object with a better name, <em>alcohol</em>.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="graphing-intro.html#cb138-1" aria-hidden="true" tabindex="-1"></a>alcohol <span class="ot">&lt;-</span> apparent_per_capita_alcohol_consumption</span></code></pre></div>
+<p>The original data has every state, region, and the US as a whole. For this lesson we’re using data subsetted to just include states. For now let’s just look at Pennsylvania.</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="graphing-intro.html#cb139-1" aria-hidden="true" tabindex="-1"></a>penn_alcohol <span class="ot">&lt;-</span> alcohol[alcohol<span class="sc">$</span>state <span class="sc">==</span> <span class="st">&quot;pennsylvania&quot;</span>, ]</span></code></pre></div>
+<div id="what-does-the-data-look-like" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> What does the data look like?</h2>
+<p>Before graphing, it’s helpful to see what the data includes. An important thing to check is what variables are available and the units of these variables.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="graphing-intro.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(penn_alcohol)</span>
+<span id="cb140-2"><a href="graphing-intro.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;state&quot;                                </span></span>
+<span id="cb140-3"><a href="graphing-intro.html#cb140-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2] &quot;year&quot;                                 </span></span>
+<span id="cb140-4"><a href="graphing-intro.html#cb140-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;ethanol_beer_gallons_per_capita&quot;      </span></span>
+<span id="cb140-5"><a href="graphing-intro.html#cb140-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] &quot;ethanol_wine_gallons_per_capita&quot;      </span></span>
+<span id="cb140-6"><a href="graphing-intro.html#cb140-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;ethanol_spirit_gallons_per_capita&quot;    </span></span>
+<span id="cb140-7"><a href="graphing-intro.html#cb140-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;ethanol_all_drinks_gallons_per_capita&quot;</span></span>
+<span id="cb140-8"><a href="graphing-intro.html#cb140-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;number_of_beers&quot;                      </span></span>
+<span id="cb140-9"><a href="graphing-intro.html#cb140-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] &quot;number_of_glasses_wine&quot;               </span></span>
+<span id="cb140-10"><a href="graphing-intro.html#cb140-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;number_of_shots_liquor&quot;               </span></span>
+<span id="cb140-11"><a href="graphing-intro.html#cb140-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] &quot;number_of_drinks_total&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="graphing-intro.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penn_alcohol)</span>
+<span id="cb141-2"><a href="graphing-intro.html#cb141-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     state               year           ethanol_beer_gallons_per_capita</span></span>
+<span id="cb141-3"><a href="graphing-intro.html#cb141-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Length:41          Length:41          Min.   :1.210                  </span></span>
+<span id="cb141-4"><a href="graphing-intro.html#cb141-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Class :character   Class :character   1st Qu.:1.310                  </span></span>
+<span id="cb141-5"><a href="graphing-intro.html#cb141-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mode  :character   Mode  :character   Median :1.350                  </span></span>
+<span id="cb141-6"><a href="graphing-intro.html#cb141-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        Mean   :1.344                  </span></span>
+<span id="cb141-7"><a href="graphing-intro.html#cb141-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        3rd Qu.:1.380                  </span></span>
+<span id="cb141-8"><a href="graphing-intro.html#cb141-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                        Max.   :1.450                  </span></span>
+<span id="cb141-9"><a href="graphing-intro.html#cb141-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span></span>
+<span id="cb141-10"><a href="graphing-intro.html#cb141-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :0.1700                  Min.   :0.4500                   </span></span>
+<span id="cb141-11"><a href="graphing-intro.html#cb141-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:0.1900                  1st Qu.:0.5100                   </span></span>
+<span id="cb141-12"><a href="graphing-intro.html#cb141-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :0.2100                  Median :0.6100                   </span></span>
+<span id="cb141-13"><a href="graphing-intro.html#cb141-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :0.2276                  Mean   :0.5939                   </span></span>
+<span id="cb141-14"><a href="graphing-intro.html#cb141-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:0.2500                  3rd Qu.:0.6800                   </span></span>
+<span id="cb141-15"><a href="graphing-intro.html#cb141-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :0.3300                  Max.   :0.7400                   </span></span>
+<span id="cb141-16"><a href="graphing-intro.html#cb141-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  ethanol_all_drinks_gallons_per_capita number_of_beers number_of_glasses_wine</span></span>
+<span id="cb141-17"><a href="graphing-intro.html#cb141-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :1.850                         Min.   :286.8   Min.   :33.74         </span></span>
+<span id="cb141-18"><a href="graphing-intro.html#cb141-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:2.040                         1st Qu.:310.5   1st Qu.:37.71         </span></span>
+<span id="cb141-19"><a href="graphing-intro.html#cb141-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :2.220                         Median :320.0   Median :41.67         </span></span>
+<span id="cb141-20"><a href="graphing-intro.html#cb141-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :2.167                         Mean   :318.7   Mean   :45.16         </span></span>
+<span id="cb141-21"><a href="graphing-intro.html#cb141-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:2.330                         3rd Qu.:327.1   3rd Qu.:49.61         </span></span>
+<span id="cb141-22"><a href="graphing-intro.html#cb141-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :2.390                         Max.   :343.7   Max.   :65.49         </span></span>
+<span id="cb141-23"><a href="graphing-intro.html#cb141-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  number_of_shots_liquor number_of_drinks_total</span></span>
+<span id="cb141-24"><a href="graphing-intro.html#cb141-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   : 93.43         Min.   :394.7         </span></span>
+<span id="cb141-25"><a href="graphing-intro.html#cb141-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:105.89         1st Qu.:435.2         </span></span>
+<span id="cb141-26"><a href="graphing-intro.html#cb141-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :126.65         Median :473.6         </span></span>
+<span id="cb141-27"><a href="graphing-intro.html#cb141-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :123.31         Mean   :462.3         </span></span>
+<span id="cb141-28"><a href="graphing-intro.html#cb141-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:141.18         3rd Qu.:497.1         </span></span>
+<span id="cb141-29"><a href="graphing-intro.html#cb141-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :153.64         Max.   :509.9</span></span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="graphing-intro.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(penn_alcohol)</span>
+<span id="cb142-2"><a href="graphing-intro.html#cb142-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             state year ethanol_beer_gallons_per_capita</span></span>
+<span id="cb142-3"><a href="graphing-intro.html#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1559 pennsylvania 2017                            1.29</span></span>
+<span id="cb142-4"><a href="graphing-intro.html#cb142-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1560 pennsylvania 2016                            1.31</span></span>
+<span id="cb142-5"><a href="graphing-intro.html#cb142-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1561 pennsylvania 2015                            1.31</span></span>
+<span id="cb142-6"><a href="graphing-intro.html#cb142-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1562 pennsylvania 2014                            1.32</span></span>
+<span id="cb142-7"><a href="graphing-intro.html#cb142-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1563 pennsylvania 2013                            1.34</span></span>
+<span id="cb142-8"><a href="graphing-intro.html#cb142-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1564 pennsylvania 2012                            1.36</span></span>
+<span id="cb142-9"><a href="graphing-intro.html#cb142-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita</span></span>
+<span id="cb142-10"><a href="graphing-intro.html#cb142-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1559                            0.33                              0.71</span></span>
+<span id="cb142-11"><a href="graphing-intro.html#cb142-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1560                            0.33                              0.72</span></span>
+<span id="cb142-12"><a href="graphing-intro.html#cb142-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1561                            0.32                              0.70</span></span>
+<span id="cb142-13"><a href="graphing-intro.html#cb142-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1562                            0.32                              0.70</span></span>
+<span id="cb142-14"><a href="graphing-intro.html#cb142-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1563                            0.31                              0.68</span></span>
+<span id="cb142-15"><a href="graphing-intro.html#cb142-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1564                            0.31                              0.67</span></span>
+<span id="cb142-16"><a href="graphing-intro.html#cb142-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      ethanol_all_drinks_gallons_per_capita number_of_beers</span></span>
+<span id="cb142-17"><a href="graphing-intro.html#cb142-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1559                                  2.34        305.7778</span></span>
+<span id="cb142-18"><a href="graphing-intro.html#cb142-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1560                                  2.36        310.5185</span></span>
+<span id="cb142-19"><a href="graphing-intro.html#cb142-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1561                                  2.33        310.5185</span></span>
+<span id="cb142-20"><a href="graphing-intro.html#cb142-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1562                                  2.34        312.8889</span></span>
+<span id="cb142-21"><a href="graphing-intro.html#cb142-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1563                                  2.33        317.6296</span></span>
+<span id="cb142-22"><a href="graphing-intro.html#cb142-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1564                                  2.34        322.3704</span></span>
+<span id="cb142-23"><a href="graphing-intro.html#cb142-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span></span>
+<span id="cb142-24"><a href="graphing-intro.html#cb142-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1559               65.48837               147.4128               499.2000</span></span>
+<span id="cb142-25"><a href="graphing-intro.html#cb142-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1560               65.48837               149.4891               503.4667</span></span>
+<span id="cb142-26"><a href="graphing-intro.html#cb142-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1561               63.50388               145.3366               497.0667</span></span>
+<span id="cb142-27"><a href="graphing-intro.html#cb142-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1562               63.50388               145.3366               499.2000</span></span>
+<span id="cb142-28"><a href="graphing-intro.html#cb142-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1563               61.51938               141.1841               497.0667</span></span>
+<span id="cb142-29"><a href="graphing-intro.html#cb142-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1564               61.51938               139.1079               499.2000</span></span></code></pre></div>
+<p>So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!</p>
+</div>
+<div id="graphing-data" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Graphing data</h2>
+<p>To make a plot using <code>ggplot()</code>, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.</p>
+<p>For <code>ggplot()</code> we need to specify 4 things</p>
+<ol style="list-style-type: decimal">
+<li>The data set</li>
+<li>The x-axis variable</li>
+<li>The y-axis variable</li>
+<li>The type of graph - e.g. line, point, etc.</li>
+</ol>
+<p>Some useful types of graphs are</p>
+<ul>
+<li><code>geom_point()</code> - A point graph, can be used for scatter plots</li>
+<li><code>geom_line()</code> - A line graph</li>
+<li><code>geom_smooth()</code> - Adds a regression line to the graph</li>
+<li><code>geom_bar()</code> - A barplot</li>
+</ul>
+</div>
+<div id="time-series-plots" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Time-Series Plots</h2>
+<p>Let’s start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we’re interested in. When you see a graph showing crime rates over time, this is the type of graph you’re looking at.</p>
+<p>The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called <code>aes()</code>. <code>aes()</code> stands for aesthetic and what’s included inside here describes how the graph will look. It’s not intuitive to remember, but you need to include it.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="graphing-intro.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
+<span id="cb143-2"><a href="graphing-intro.html#cb143-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> number_of_beers))</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the “year” column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and <code>ggplot()</code> will be smarter about printing fewer years.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="graphing-intro.html#cb144-1" aria-hidden="true" tabindex="-1"></a>penn_alcohol<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(penn_alcohol<span class="sc">$</span>year)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="graphing-intro.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year,</span>
+<span id="cb145-2"><a href="graphing-intro.html#cb145-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> number_of_beers))</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.</p>
+<p>Let’s start with point and line graphs.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="graphing-intro.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb146-2"><a href="graphing-intro.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="graphing-intro.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb147-2"><a href="graphing-intro.html#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can also combine different types of graphs.</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="graphing-intro.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb148-2"><a href="graphing-intro.html#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb148-3"><a href="graphing-intro.html#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>It looks like there’s a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That’s because when graphs don’t start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add <code>expand_limits(y = 0)</code> to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="graphing-intro.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb149-2"><a href="graphing-intro.html#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb149-3"><a href="graphing-intro.html#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb149-4"><a href="graphing-intro.html#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">y =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It’s hard to say.</p>
+<p>Inside the types of graphs we can change how it is displayed. As with using <code>plot()</code>, we can specify the color and size of our lines or points.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="graphing-intro.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb150-2"><a href="graphing-intro.html#cb150-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="at">size =</span> <span class="fl">1.3</span>)</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Some other useful features are changing the axis labels and the graph title. Unlike in <code>plot()</code> we do not need to include it in the () of <code>ggplot()</code> but use their own functions to add them to the graph.</p>
+<ul>
+<li><code>xlab()</code> - x-axis label</li>
+<li><code>ylab()</code> - y-axis label</li>
+<li><code>ggtitle()</code> - graph title</li>
+</ul>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="graphing-intro.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb151-2"><a href="graphing-intro.html#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>, <span class="at">size =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb151-3"><a href="graphing-intro.html#cb151-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Year&quot;</span>) <span class="sc">+</span></span>
+<span id="cb151-4"><a href="graphing-intro.html#cb151-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Number of Beers&quot;</span>) <span class="sc">+</span></span>
+<span id="cb151-5"><a href="graphing-intro.html#cb151-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;PA Annual Beer Consumption Per Capita (1977-2017)&quot;</span>)</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let’s stick with the data we currently have and just change <code>ggplot()</code>.</p>
+<p>Start with a normal line graph, this time looking at wine.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="graphing-intro.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine)) <span class="sc">+</span></span>
+<span id="cb152-2"><a href="graphing-intro.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Then include a second geom_line() with its own aes() for the second variable.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="graphing-intro.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine)) <span class="sc">+</span></span>
+<span id="cb153-2"><a href="graphing-intro.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb153-3"><a href="graphing-intro.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_shots_liquor))</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>A problem with this is that both lines are the same color. We need to set a color for each line and do so within <code>aes()</code>. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="graphing-intro.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine,</span>
+<span id="cb154-2"><a href="graphing-intro.html#cb154-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb154-3"><a href="graphing-intro.html#cb154-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb154-4"><a href="graphing-intro.html#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_shots_liquor,</span>
+<span id="cb154-5"><a href="graphing-intro.html#cb154-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;Shots of Liquor&quot;</span>))</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>We can change the legend title by using the function <code>labs()</code> and changing the value <code>color</code> to what we want the legend title to be.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="graphing-intro.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine,</span>
+<span id="cb155-2"><a href="graphing-intro.html#cb155-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb155-3"><a href="graphing-intro.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb155-4"><a href="graphing-intro.html#cb155-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_shots_liquor,</span>
+<span id="cb155-5"><a href="graphing-intro.html#cb155-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;Shots of Liquor&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb155-6"><a href="graphing-intro.html#cb155-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>)</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>Finally, a useful option to move the legend from the side to the bottom is setting the <code>theme()</code> function to move the <code>legend.position</code> to “bottom.” This will allow the graph to be wider.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="graphing-intro.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine,</span>
+<span id="cb156-2"><a href="graphing-intro.html#cb156-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb156-3"><a href="graphing-intro.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb156-4"><a href="graphing-intro.html#cb156-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_shots_liquor,</span>
+<span id="cb156-5"><a href="graphing-intro.html#cb156-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;Shots of Liquor&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb156-6"><a href="graphing-intro.html#cb156-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="sc">+</span></span>
+<span id="cb156-7"><a href="graphing-intro.html#cb156-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="scatter-plots" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> Scatter Plots</h2>
+<p>Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="graphing-intro.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> number_of_shots_liquor,</span>
+<span id="cb157-2"><a href="graphing-intro.html#cb157-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> number_of_beers)) <span class="sc">+</span></span>
+<span id="cb157-3"><a href="graphing-intro.html#cb157-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>This graph shows us that when liquor consumption increases, beer consumption also tends to increase.</p>
+<p>While scatterplots can help show the relationship between variables, we lose the information of how consumption changes over time.</p>
+</div>
+<div id="color-blindness" class="section level2" number="7.5">
+<h2><span class="header-section-number">7.5</span> Color blindness</h2>
+<p>Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose the incorrect colors. A helpful site for choosing colors for graphs is <a href="http://colorbrewer2.org">colorbrewer2.org</a></p>
+<p><img src="images/colorbrewer.PNG" /></p>
+<p>This site lets you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the “Only show:” section you can set it to “colorblind safe” to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is).</p>
+<p>Let’s use an example of a color blind friendly color from the “qualitative” section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We’ll use the orange and purple colors. To manually set colors in <code>ggplot()</code> we use <code>scale_color_manual(values = c())</code> and include a vector of color names or HEX codes inside the <code>c()</code>. Doing that using the orange and purple HEX codes will change our graph colors to these two colors.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="graphing-intro.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penn_alcohol, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_glasses_wine,</span>
+<span id="cb158-2"><a href="graphing-intro.html#cb158-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">color =</span> <span class="st">&quot;Glasses of Wine&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb158-3"><a href="graphing-intro.html#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb158-4"><a href="graphing-intro.html#cb158-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> number_of_shots_liquor,</span>
+<span id="cb158-5"><a href="graphing-intro.html#cb158-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">&quot;number_of_shots_liquor&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb158-6"><a href="graphing-intro.html#cb158-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;Alcohol Type&quot;</span>) <span class="sc">+</span></span>
+<span id="cb158-7"><a href="graphing-intro.html#cb158-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>) <span class="sc">+</span></span>
+<span id="cb158-8"><a href="graphing-intro.html#cb158-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#7570b3&quot;</span>, <span class="st">&quot;#d95f02&quot;</span>))</span></code></pre></div>
+<p><img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reading-and-writing-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ois-graphs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/graphing.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
