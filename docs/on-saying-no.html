@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>20 On Saying No | Crime by the Numbers: A Criminologist’s Guide to R</title>
+  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="20 On Saying No | Crime by the Numbers: A Criminologist’s Guide to R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="20 On Saying No | Crime by the Numbers: A Criminologist’s Guide to R" />
+  
+  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2021-04-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="mise-en-place.html"/>
+<link rel="next" href="collaboration.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.css" rel="stylesheet" />
+<link href="libs/leaflet-markercluster-1.0.5/MarkerCluster.Default.css" rel="stylesheet" />
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.freezable.js"></script>
+<script src="libs/leaflet-markercluster-1.0.5/leaflet.markercluster.layersupport.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i><b>1.1</b> Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i><b>1.1.1</b> Scale</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i><b>1.1.2</b> Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i><b>1.2</b> What you will learn</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i><b>1.2.1</b> Skills</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.2.2</b> Data</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i><b>1.3</b> What you won’t learn</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i><b>1.4</b> Simple vs Easy</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#citing-this-book"><i class="fa fa-check"></i><b>1.5</b> Citing this book</a></li>
+<li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.6</b> How to contribute to this book</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author-jacob-kaplan.html"><a href="about-the-author-jacob-kaplan.html"><i class="fa fa-check"></i>About the author (Jacob Kaplan)</a></li>
+<li class="chapter" data-level="2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.2</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#loading-data"><i class="fa fa-check"></i><b>2.2.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.3</b> First steps to exploring data</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-r-and-rstudio.html"><a href="introduction-to-r-and-rstudio.html#finding-help-about-functions"><i class="fa fa-check"></i><b>2.4</b> Finding help about functions</a></li>
+</ul></li>
+<li class="part"><span><b>I Clean</b></span></li>
+<li class="chapter" data-level="3" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>3</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>3.1</b> Select specific values</a></li>
+<li class="chapter" data-level="3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#assignment"><i class="fa fa-check"></i><b>3.2</b> Assigning values to objects (Making “things”)</a></li>
+<li class="chapter" data-level="3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#vectors"><i class="fa fa-check"></i><b>3.3</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="3.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>3.4</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>3.4.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="3.4.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>3.4.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="3.4.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>3.4.3</b> Does not match</a></li>
+<li class="chapter" data-level="3.4.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>3.4.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="3.4.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>3.4.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>3.5</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="3.5.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>3.5.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="3.5.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>3.5.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="3.5.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>3.5.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>4.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="4.2" data-path="explore.html"><a href="explore.html#graphing"><i class="fa fa-check"></i><b>4.2</b> Graphing</a></li>
+<li class="chapter" data-level="4.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>4.3</b> Aggregating (summaries of groups)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>5</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>5.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="5.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>5.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="5.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>5.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>5.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="5.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>5.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="5.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>5.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="5.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>5.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="5.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>5.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="5.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>5.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="5.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="5.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>5.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="5.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>5.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="5.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>5.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="5.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>5.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>5.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>6</b> Reading and Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>6.1</b> Reading Data into R</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>6.1.1</b> R</a></li>
+<li class="chapter" data-level="6.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>6.1.2</b> Excel</a></li>
+<li class="chapter" data-level="6.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>6.1.3</b> Stata</a></li>
+<li class="chapter" data-level="6.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>6.1.4</b> SAS</a></li>
+<li class="chapter" data-level="6.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>6.1.5</b> SPSS</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>6.2</b> Writing Data</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>6.2.1</b> R</a></li>
+<li class="chapter" data-level="6.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>6.2.2</b> Excel</a></li>
+<li class="chapter" data-level="6.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>6.2.3</b> Stata</a></li>
+<li class="chapter" data-level="6.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>6.2.4</b> SAS</a></li>
+<li class="chapter" data-level="6.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>6.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Visualize</b></span></li>
+<li class="chapter" data-level="7" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>7</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>7.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="7.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>7.2</b> Graphing data</a></li>
+<li class="chapter" data-level="7.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>7.3</b> Time-Series Plots</a></li>
+<li class="chapter" data-level="7.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>7.4</b> Scatter Plots</a></li>
+<li class="chapter" data-level="7.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>7.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>8</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>8.1</b> Exploring Data</a></li>
+<li class="chapter" data-level="8.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>8.2</b> Graphing a Single Numeric Variable</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>8.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="8.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>8.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="8.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>8.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="8.2.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>8.2.4</b> Graphing a Categorical Variable</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>8.3</b> Bar graph</a></li>
+<li class="chapter" data-level="8.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>8.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="8.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>8.5</b> Pretty Graphs</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>8.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>9</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>9.1</b> A simple map</a></li>
+<li class="chapter" data-level="9.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>9.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="9.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>9.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>9.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>10</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>10.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="10.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>10.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>11</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>11.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>11.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="11.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>11.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="11.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>11.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="11.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>11.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="11.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>11.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="11.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>11.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>12</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>12.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>12.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>12.2</b> Inline Code</a></li>
+<li class="chapter" data-level="12.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>12.3</b> Tables</a></li>
+<li class="chapter" data-level="12.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>12.4</b> Footnotes</a></li>
+<li class="chapter" data-level="12.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>12.5</b> Citation</a></li>
+<li class="chapter" data-level="12.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>12.6</b> Spell check</a></li>
+<li class="chapter" data-level="12.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>12.7</b> Making the output file</a></li>
+</ul></li>
+<li class="part"><span><b>III Collect</b></span></li>
+<li class="chapter" data-level="13" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>13</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>13.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="13.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>13.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>14</b> Functions</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>14.1</b> A simple function</a></li>
+<li class="chapter" data-level="14.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>14.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="14.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>14.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>15</b> For loops</a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>15.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="15.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>15.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>16</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>16.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="16.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>16.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>17</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>17.1</b> Pregnant Women Incarcerated</a></li>
+<li class="chapter" data-level="17.2" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>17.2</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>18</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>18.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="18.2" data-path="geocoding.html"><a href="geocoding.html#making-a-function-1"><i class="fa fa-check"></i><b>18.2</b> Making a function</a></li>
+<li class="chapter" data-level="18.3" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>18.3</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+<li class="part"><span><b>IV Project Management</b></span></li>
+<li class="chapter" data-level="19" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>19</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>19.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>19.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>19.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>19.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="19.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>19.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="19.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>19.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="19.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>19.4.1</b> Section Labels</a></li>
+<li class="chapter" data-level="19.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>19.4.2</b> Helper R Scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="on-saying-no.html"><a href="on-saying-no.html"><i class="fa fa-check"></i><b>20</b> On Saying No</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="on-saying-no.html"><a href="on-saying-no.html#why-say-no"><i class="fa fa-check"></i><b>20.1</b> Why say no</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="on-saying-no.html"><a href="on-saying-no.html#the-problem-with-always-saying-yes"><i class="fa fa-check"></i><b>20.1.1</b> The problem with (always) saying yes</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="on-saying-no.html"><a href="on-saying-no.html#when-to-say-no"><i class="fa fa-check"></i><b>20.2</b> When to say no</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="on-saying-no.html"><a href="on-saying-no.html#what-is-mandatory-and-what-is-optional"><i class="fa fa-check"></i><b>20.2.1</b> What is mandatory and what is optional?</a></li>
+<li class="chapter" data-level="20.2.2" data-path="on-saying-no.html"><a href="on-saying-no.html#what-a-manageable-academic-workload-looks-like"><i class="fa fa-check"></i><b>20.2.2</b> What a manageable academic workload looks like</a></li>
+</ul></li>
+<li class="chapter" data-level="20.3" data-path="on-saying-no.html"><a href="on-saying-no.html#how-to-say-no"><i class="fa fa-check"></i><b>20.3</b> How to say no</a>
+<ul>
+<li class="chapter" data-level="20.3.1" data-path="on-saying-no.html"><a href="on-saying-no.html#ending-ongoing-projects"><i class="fa fa-check"></i><b>20.3.1</b> Ending ongoing projects</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>21</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>21.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="21.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>21.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="21.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>21.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="21.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>21.2.1</b> Comments</a></li>
+<li class="chapter" data-level="21.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>21.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>22</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>22.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="22.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>22.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="22.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>22.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="22.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>22.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="22.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>22.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="22.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>22.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>23</b> Git</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>23.1</b> What is Git and why do I need it?</a></li>
+<li class="chapter" data-level="23.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>23.2</b> Git basics</a></li>
+<li class="chapter" data-level="23.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>23.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>23.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="23.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>23.3.2</b> Setting up Github</a></li>
+</ul></li>
+<li class="chapter" data-level="23.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>23.4</b> Setting up Git on an already made R Project</a></li>
+<li class="chapter" data-level="23.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>23.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="23.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>23.6</b> When to commit</a></li>
+<li class="chapter" data-level="23.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>23.7</b> Other resources</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="useful-resources.html"><a href="useful-resources.html"><i class="fa fa-check"></i><b>A</b> Useful resources</a>
+<ul>
+<li class="chapter" data-level="A.1" data-path="useful-resources.html"><a href="useful-resources.html#learning-r-and-coding-issues"><i class="fa fa-check"></i><b>A.1</b> Learning R and coding issues</a></li>
+<li class="chapter" data-level="A.2" data-path="useful-resources.html"><a href="useful-resources.html#data-1"><i class="fa fa-check"></i><b>A.2</b> Data</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers: A Criminologist’s Guide to R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="on-saying-no" class="section level1" number="20">
+<h1><span class="header-section-number">20</span> On Saying No</h1>
+<div id="why-say-no" class="section level2" number="20.1">
+<h2><span class="header-section-number">20.1</span> Why say no</h2>
+<p><em>This chapter is primarily focused towards academics conducting research. While it may apply to other fields, it discusses choosing which studies to conduct, which may be a privilege not afforded to other jobs. For this reason, please feel free to skip this chapter if you’d like.</em><a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></p>
+<p>Academia is built on uncertainty. This is most clearly evident in how our currency of published papers are evaluated - through anonymous reviewers that in many cases want different things from your paper which means that you may spend equal time writing the paper as revising it for the whims of reviewers, often in areas that don’t actually address the core of the paper.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> But the most serious avenue of uncertainty for academics, and the least visible, is that you never know what you have to do to achieve your career goals. If you’re a PhD student, how many papers do you need to be hired? If you’re an assistant professor, how many papers or service committees do you need to get tenure? There is no clear answer - other than that “more is always better.” For this reason, academics tend to say yes to everything.</p>
+<p>Academics are <em>terrible</em> at saying no. This has become a (often playful or self-pitying) meme about how academics juggle too many things and can’t focus (or have no free time). But it is, in my opinion, a serious problem in the field and one that’s actually not that hard to solve.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> In my experience, academics - and particularly early career academics - approach every offer to do something with the question “will this help me?” The answer is, in almost every case, YES. Almost everything that you’re asked to do will help you.</p>
+<p>This isn’t to say that academics just accept everything for no reason. Part of the reason that I think academics accept doing so much is because so much turns out to be useless (in terms of career benefit) because many projects don’t pan out - data sometimes can’t answer your question at all, results may be non-significant (which shouldn’t be a reason to kill a project but null results are harder to publish so some people don’t try to publish them), co-authors stop responding to emails.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> So by necessity you need to accept more than you think is necessary since you know that some of it won’t work out. The second, and a major factor in this, is that the entire culture of academia supports always saying yes. And, importantly, people see agreeing to everything as demonstrating that you are providing “service” to your department and to the field by doing everything they ask for - even when saying yes actually makes you worse at doing each of the things you agreed to do. Another potential reason is that academia tends to come in waves. All the bad news tends to come at once, as does all the good news. Given this lack of consistency it makes sense to try to keep doing even more since you know that the good times never last - and the bad times can last for a very long time.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> It’s easy to feel good about your work when you get good news and be willing to do more work. It’s also easy - easier in fact - to be willing to do more work just to try to eventually get something with a positive outcome during the bad periods.</p>
+<p>This book is focused on making research more efficient. Nearly everything in this book can be done manually - from subsetting data to webscraping, you can do it by hand - though doing so would be incredibly inefficient. Over-extending oneself, which is the inevitable outcome of not being able to say no to things, is also inefficient. Research takes time. If you have 10 active projects, you will be less effective than working on 3. If you’re trying to solve a complicated programming question, like one you’ve encountered in this book, it may, for example, take you an hour to solve it. But this is an hour focusing on the problem and not being distracted by anything else. If you spend 30 minutes on it and then get distracted you may lose all the work (which in many cases in solving programming problems is all in your head, not writing code) you’ve done and have to start from scratch. To give another example, if you need to bake a cake for an hour you need to keep it in the oven the whole time. You can’t put it in for 10 minutes and take it out then put it back it - you need to leave it to cook!</p>
+<p>Research works the same way. You need to spend a lot of time focusing and thinking (literally just thinking, not writing or reading or anything visible. Just thinking about whether what you’re doing makes sense and what it means) about the project to get it done. So splitting up that time is far more destructive to efficiency than it may seem if you believe that finishing a project is merely spending X hours on the project, no matter how you split up X.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a></p>
+<div id="the-problem-with-always-saying-yes" class="section level3" number="20.1.1">
+<h3><span class="header-section-number">20.1.1</span> The problem with (always) saying yes</h3>
+<p>There is also a good reason to say no even when you’re not overwhelmed with work - you don’t want to get a reputation for always saying yes. Saying yes all the time means that when someone is trying to figure out who to ask to do something that people don’t want to do, they’ll likely end up asking you since you’re the easiest person to ask. If you, for example, always say yes to review requests then editors will likely send you an increasing amount of requests. If you always have time to serve on a committee, you’re going to be asked to serve on more committees. So it’s useful to say no (at least) every once in a while so you can avoid even being asked to do the unpleasant work that no one wants to do.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
+</div>
+</div>
+<div id="when-to-say-no" class="section level2" number="20.2">
+<h2><span class="header-section-number">20.2</span> When to say no</h2>
+<p>As an academic - even for early graduate students - there is a growing number of things you’re asked to do: teach classes, attend class, serve on committees, do research many different research projects with many different people, give lectures to other people’s classes, present at conferences, review papers, etc. Doing everything is unfeasible - so you need a way to narrow down what you want to do. Some of these are mandatory - you need to, for example, write papers and teach classes as a professor. For the optional items, I think that it is important to determine your short and long term goals and use them to guide your choices. If, for example, you’re a professor at a teaching university where research requirements are light, then there is no need to do a lot of research unless you like doing it. Personally I enjoy doing research and don’t see the need to network much so I turn down requests to guest lecture or present my research and focus on writing papers. Even once you chose your goals, you may still have too many things you’re asked or expected to do. So how do you narrow it down further? For the most part, you don’t. There is no foolproof way to rank or choose the most valuable projects but below are some ways I’ve used that I think will be helpful.</p>
+<p>As you become more experienced with the field you get to know what (broadly speaking) timelines are for certain types of projects and the reward you get from it (e.g. novel research is generally considered more important than replication research). So you can get a very rough sketch of where a project will go and how long it will take. Though, of course these estimates can be very off - and generally everything takes much longer than expected. This will be helpful at least in managing your time since you’re be better able to estimate when you’ve reached maximum capacity - once you have, just say no to all future projects until you’ve finished these. This is something that you can really only learn through experience or by talking to someone who has more experience.</p>
+<p>If you don’t want to do something, don’t do it. Really. Some unpleasant tasks are unavoidable but when given the choice between an unpleasant tasks and an enjoyable one, chose the enjoyable one. You’ll be happier and work better for it.</p>
+<p>A major part of the pleasantness of a task is who you do it with or for. There are some awful people in academia. Truly awful people - and people who may be influential in the field. These run the gamut from those who will belittle you to the sexual predators at conferences - or among their own graduate students - and everything in between.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a> It seems obvious to say, but don’t work with these people. Even if these people are on the lower end of the awful spectrum, and if they could potentially help your career in the future, don’t work with them. From a work standpoint, you will do your best work with people who respect you and will build you up. From a personal standpoint, you should (I hope) want to work with smart people who are fun to work with. Don’t allow yourself to live by a lower standard!</p>
+<p>Finally, <strong>public labor is more valuable than private labor.</strong> This is important. Your reputation as an academic is built in large part based on what you do in public. If you spend a month writing the greatest paper ever but never publish it, you’ve essentially wasted a month. The question for me when a request comes is “what will I have to show for it?” And I mean show very literally. If someone can’t read it (e.g. a paper) or see it (e.g. a conference talk) or use it (e.g. an R package) then I am not interested in doing it.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a> When given the choice between doing public work such as writing a paper or private work such as being on an internal committee, the public work is almost always going to be better for your career - though maybe not better for your particular goals so you need to clearly understand what your goal is. One major exception to this is in being a reviewer for a journal. Reviewing is anonymous except to the editor but is necessary for the field to function so I recommend doing it when asked and if you believe you can review the paper well. However, as this is anonymous work, keep it limited - you <em>don’t</em> need to review every paper you’re asked to review. And if you did, expect even more review requests since the editor will know that you’ll always review.</p>
+<div id="what-is-mandatory-and-what-is-optional" class="section level3" number="20.2.1">
+<h3><span class="header-section-number">20.2.1</span> What is mandatory and what is optional?</h3>
+<p>A key question in deciding what to say no to is determining which requests are mandatory and which are optional. The problem is that it’s often very unclear which is which because so much in academia is vague requests that you’re never quite sure about, a problem exacerbated by the power differential in most relationships. For example, say you’re a grad student and I email you and ask you to do a task that’ll take you six hours to do. And now imagine that your adviser asks you to do the exact same task (and this task is not related to any project you’re working on or a class or anything in your contract). Which is mandatory and which is optional? Obviously if I email you then it’s optional since I’m just a random person with no power over you. When your advisor asks you, is it optional? Here it’s much less clear. The task isn’t related to a class or ongoing project or in your contract so it’s not explicitly required for you to do. But your advisor also can affect your graduation and career prospects, and in academia the custom is usually that you do what your advisor says when they ask you to do something. So in this case the line between mandatory and optional is blurry.</p>
+<p>Now, what if someone senior in your field or a funder asks you to do something - say, attend a roundtable they’re putting on. These seem pretty clearly optional. However, you may know (and this is true) that some funders will ask you to do work for free and then pay you for later work. That senior person in your field may have access to resources, or may be a tenure letter writer, so it’d be better to get on their good side by saying yes. These two are certainly optional but there are, as there is with any decision, tradeoffs to saying yes or no. And, as with many things in academia, tradeoffs whose true ramifications may not be known for a long time. This is made even trickier because the costs - e.g. time to do the work - are generally immediate while any benefit is generally long term.</p>
+<p>In cases of blurriness, how do you know if it’s actually mandatory or if it’s optional? One easy way is to ask. If your advisor asks you to do something like in the above example, you can ask if it’s required to do (if you feel it necessary maybe say something like you have a lot of ongoing projects as a reason you’re not able to do it unless it’s necessary). Since that gives a lot of power to the person making the request, I prefer to just say no. If it’s actually mandatory then they’ll tell me. If it’s optional then saying no is the end of it. For requests like in the second example, they are optional so the choice now is whether doing the work is worth it.</p>
+</div>
+<div id="what-a-manageable-academic-workload-looks-like" class="section level3" number="20.2.2">
+<h3><span class="header-section-number">20.2.2</span> What a manageable academic workload looks like</h3>
+<p>It’s hard to give a definition that’ll suit everyone’s unique circumstances but I consider it being able to work substantially on the project in the near future without added stress or guilt.<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a> I think the ending part is really the key feature. If I ask you to do something and saying yes adds stress or guilt (say, because you will have to push something else aside to do it) to your life, you are under an unmanageable workload. In these cases, it’s best to reject any added requests until you’re done with something you’ve already started (or end a project you’ve started. But don’t overextend yourself). This is, of course, a very simple definition but one that I think is versitile enough to be useful to a broad group of readers and easy enough to understand to be applicable.</p>
+<p>One particularly annoying part of academia I’ve noticed is that people tend to do far more than they’re capable of because of the quiet agreement that everything takes a very long time. If, for example, there’s a yearlong break during a research project, that’s totally fine according to the customs of the field. I find this to be particularly problematic as both a researcher and a criminologist (the problems we’re trying to solve should have the urgency they require.). Certainly this is, in large part, a personal choice in how I approach work, but I think it goes beyond choice into ensuring good research. Consider the first research project you’ve done (or the most recent one). Can you remember every single decision you made in cleaning data or conducting an analysis? When you look at the code you’ve written for the project, does everything make sense? I’d guess the answer is no. Research is often pretty complicated so taking breaks during projects can introduce potentially large problems into your research. If, for example, you understand while examining the data that a particular variable is flawed, you may chose to not use it in your study. But if you take a six month break in the project, will you still remember that issue? Considering how many criminology papers are published, and how often authors tend to divide the research and trust that the person doing the data did it right, I believe this is a serious problem.<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a> This problem is more that simply theoretical. Lots of sloppy work occurs in criminology research, partially due to how people decide to allocate their time. So for this reason I’d go a step further in defining a manageable academic workload. If this project cannot be a priority of yours, it is something you should pass on - for the good of the research in our field.</p>
+</div>
+</div>
+<div id="how-to-say-no" class="section level2" number="20.3">
+<h2><span class="header-section-number">20.3</span> How to say no</h2>
+<p>This seems obvious. If you don’t want to do something - or don’t have the time to do it well - just decline an offer. Be polite, thank them for the offer and then say no. If you feel the need to explain yourself - you don’t! - then say something like you have too many projects at the moment and can’t do this new thing. When you say no, just say no. Just consider it another of the many lies like “thank you to the reviewers for their helpful comments.” If someone asks you to do something, they either value your work and input or are just using you since they know you’ll say yes. In the first case, they won’t look negatively upon you for saying no - and if they do, they aren’t someone you want to work with.<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a> In the second case, not working with them is certainly the good choice.</p>
+<p>If any of this - that the way to say no is to say no - seems facetious, it isn’t. Saying no simply, promptly, and politely is, in my opinion, the best way to do it. Doing so will also reduce the level of uncertainty for others since they will have a clear - and importantly, prompt - decision from you and can ask someone else.</p>
+<div id="ending-ongoing-projects" class="section level3" number="20.3.1">
+<h3><span class="header-section-number">20.3.1</span> Ending ongoing projects</h3>
+<p>While this chapter focuses on saying no when initially asked, it is occasionally important to end participation in ongoing projects. In general I’d advise again doing this without a good reason - and the best reason is that you don’t have time to do the project well or quickly enough for your collaborators. When you do have to end your involvement in these projects I’d recommend doing so the same as saying no to a request: do so politely, promptly (as soon as you have made your decision) and simply. I’d probably give a reason you’re quitting but there’s no need for an elaborate explanation, just keep it simple. Your collaborators will appreciate knowing as soon as possible so they can proceed with the project - if they are greatly offended by your decision, they generally aren’t the people you want to work with anyways. If you’re involved with parts of the project that only you know (e.g. if you did some code work), I’d also recommend producing some documentation so the remaining people in the project can carry on from your work. If the project is likely to end in a published paper, this is the time to discuss authorship in the resulting product and how your leaving affects that.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="5">
+<li id="fn5"><p>Academics who have more hourly tweets than lifetime publications should stop reading this chapter and start writing more papers.<a href="on-saying-no.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>The idea that reviewers are indeed anonymous is one lie that academics like to tell others in public but all should know to be false. The prevalence of working papers published on personal websites or preprint websites mean that few papers are truly anonymous. The insistence of certain reviewers to (pathetically) demand that several of their own papers be cited in the paper that they are reviewing (and the editor’s acceptance of these ridiculous ‘suggestions’) also means that not all reviewers are anonymous.<a href="on-saying-no.html#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Over-extending oneself is often seen publicly in people’s affiliations where one academic is affiliated to multiple organizations or causes and actually spends very little time doing any work on these affiliated projects.<a href="on-saying-no.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>If you are one of my co-authors who is currently waiting for my email, please be patient.<a href="on-saying-no.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>My first paper was accepted in its first round of reviews for the first journal it was submitted to. Every paper after that for two years was rejected.<a href="on-saying-no.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>A small number of criminologists seem to put out an incredible number of papers each year. I commend their co-authors for this accomplishment.<a href="on-saying-no.html#fnref10" class="footnote-back">↩︎</a></p></li>
+<li id="fn11"><p>My high school criminal law teacher said that a trick lawyers do when meeting with a new client is to <em>pretend</em> to be on the phone with someone as the client walked into their office. So the client thought that the lawyer was busy and in demand, and would therefore respect them and their time more. For academics, if you don’t respect your own time (e.g. being available for everything) then why should anyone else?<a href="on-saying-no.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>In academia you can - in some cases - make up data or, as a professor, sexually harass or have sexual relationships with your graduate students and you’ll be rewarded with journal editorship or at least keep your job just as long as you publish well or already have tenure.<a href="on-saying-no.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Just so I don’t seem entirely heartless, I’ve received about 150 emails from people (mostly grad students) asking me questions about the data I released and I’ve responded to almost all of them. There’s actually a lot of good documentation on the data that I’ve compiled from the FBI so it’s pretty easy to know who read the manual before emailing me and who didn’t.<a href="on-saying-no.html#fnref13" class="footnote-back">↩︎</a></p></li>
+<li id="fn14"><p>Near future, of course, is defined by what you consider “near” to be.<a href="on-saying-no.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>I am extremely familiar with the UCR data released by the FBI and from my reading of the literature using this data, a significant chunk of papers on this topic are wrong (by how much is unclear, but their refusal to even address the limitations makes me extremely suspicious of their results.).<a href="on-saying-no.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>Personally, I’d be much more likely to work with someone if I knew they prioritized a few key projects rather than work a tiny bit on many projects and took forever to finish any of them.<a href="on-saying-no.html#fnref16" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="mise-en-place.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="collaboration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/saying_no.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": [["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"]],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
