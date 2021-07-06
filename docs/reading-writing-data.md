@@ -93,6 +93,7 @@ install.packages("haven")
 
 ```r
 library(haven)
+#> Warning: package 'haven' was built under R version 4.0.5
 ```
 
 `haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.

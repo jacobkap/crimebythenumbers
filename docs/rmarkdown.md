@@ -73,6 +73,7 @@ The easiest way to make a table in Markdown is to make a data.frame with all the
 
 ```r
 library(knitr)
+#> Warning: package 'knitr' was built under R version 4.0.5
 mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```

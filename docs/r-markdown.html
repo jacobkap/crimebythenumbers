@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>12 R Markdown | Crime by the Numbers: A Criminologist’s Guide to R</title>
   <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 R Markdown | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-04-28" />
+<meta name="date" content="2021-07-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,7 @@
   
 <link rel="prev" href="interactive-maps.html"/>
 <link rel="next" href="webscraping-with-rvest.html"/>
-<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,6 +51,8 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
@@ -137,6 +139,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 </head>
@@ -489,8 +514,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are a number of packages that make nice tables in R Markdown. We will use the <code>knitr</code> package for this example.</p>
 <p>The easiest way to make a table in Markdown is to make a data.frame with all the data (and column names) you want and then show that data.frame (there are also packages that can make tables from regression output though that won’t be covered in this lesson). For this example we will subset the <em>mtcars</em> data (which is included in R) to just the first 5 rows and columns. The <code>kable</code> function from the <code>knitr</code> package will then make a nice looking table. With <code>kable</code> you can add the caption directly in the <code>kable()</code> function. The option <code>echo</code> in our code chunk is not set to FALSE here so you can see the code.</p>
 <div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="r-markdown.html#cb274-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb274-2"><a href="r-markdown.html#cb274-2" aria-hidden="true" tabindex="-1"></a>mtcars_small <span class="ot">&lt;-</span> mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb274-3"><a href="r-markdown.html#cb274-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mtcars_small, <span class="at">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
+<span id="cb274-2"><a href="r-markdown.html#cb274-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;knitr&#39; was built under R version 4.0.5</span></span>
+<span id="cb274-3"><a href="r-markdown.html#cb274-3" aria-hidden="true" tabindex="-1"></a>mtcars_small <span class="ot">&lt;-</span> mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb274-4"><a href="r-markdown.html#cb274-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mtcars_small, <span class="at">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:unnamed-chunk-2">Table 12.1: </span>This is an example table caption</caption>
 <thead>
@@ -571,11 +597,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/rmarkdown_bib.PNG" /></p>
 <p>Now that we have the citation in BibTeX format, put it in our .bib file, and told RMarkdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case “reaves1993using”) so we would write <code>@reaves1993using</code>. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author’s name. You’ll usually want to use this if you’re already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this <code>[@reaves1993using]</code>. If we’re citing multiple articles, we separate each citation using a semicolon <code>[@reaves1993using; @jain2000recruitment]</code>.</p>
 <p>Here’s what the results look like when citing that Reaves article, see the photo below for what this looks like just as code.</p>
-<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>)</span></p>
-<p><span class="citation"><a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves</a> (<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
-<p><span class="citation">(<a href="useful-resources.html#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>; <a href="useful-resources.html#ref-jain2000recruitment" role="doc-biblioref">Jain, Singh, and Agocs 2000</a>)</span></p>
+<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>)</span></p>
+<p><span class="citation"><a href="#ref-reaves1993using" role="doc-biblioref">Reaves</a> (<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">1993</a>)</span></p>
+<p><span class="citation">(<a href="#ref-reaves1993using" role="doc-biblioref">Reaves 1993</a>; <a href="#ref-jain2000recruitment" role="doc-biblioref">Jain, Singh, and Agocs 2000</a>)</span></p>
 <p>If you use a citation that isn’t in your .bib file, RMarkdown will present three question marks in place of the citation.</p>
 <p><span class="citation">(<a href="#ref-wrongCitation" role="doc-biblioref"><strong>wrongCitation?</strong></a>)</span></p>
 <p><img src="images/citation_raw.PNG" /></p>
@@ -595,6 +621,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-jain2000recruitment" class="csl-entry">
+Jain, Harish C, Parbudyal Singh, and Carol Agocs. 2000. <span>“Recruitment, Selection and Promotion of Visible-Minority and <span>A</span>boriginal Police Officers in Selected <span>C</span>anadian Police Services.”</span> <em>Canadian Public Administration</em> 43 (1): 46–74.
+</div>
+<div id="ref-reaves1993using" class="csl-entry">
+Reaves, Brian. 1993. <em>Using <span>NIBRS</span> Data to Analyze Violent Crime</em>. US Department of Justice, Office of Justice Programs, Bureau of Justice.
+</div>
+</div>
 <div class="footnotes">
 <hr />
 <ol start="3">

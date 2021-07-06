@@ -407,7 +407,6 @@ install.packages("dplyr")
 
 ```r
 library(dplyr)
-#> Warning: package 'dplyr' was built under R version 4.0.5
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':
