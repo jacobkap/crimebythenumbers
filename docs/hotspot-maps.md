@@ -13,24 +13,15 @@ Here, we will make hotspot maps using data on suicides in San Francisco between 
 ```r
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
+#> Rows: 1292 Columns: 14
+#> -- Column specification --------------------------------
+#> Delimiter: ","
+#> chr  (8): Category, Descript, DayOfWeek, Date, PdDis...
+#> dbl  (5): IncidntNum, X, Y, PdId, year
+#> time (1): Time
 #> 
-#> -- Column specification --------------------------------------------------------
-#> cols(
-#>   IncidntNum = col_double(),
-#>   Category = col_character(),
-#>   Descript = col_character(),
-#>   DayOfWeek = col_character(),
-#>   Date = col_character(),
-#>   Time = col_time(format = ""),
-#>   PdDistrict = col_character(),
-#>   Resolution = col_character(),
-#>   Address = col_character(),
-#>   X = col_double(),
-#>   Y = col_double(),
-#>   Location = col_character(),
-#>   PdId = col_double(),
-#>   year = col_double()
-#> )
+#> i Use `spec()` to retrieve the full column specification for this data.
+#> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 suicide <- as.data.frame(suicide)
 ```
 
@@ -39,27 +30,48 @@ This data contains information on each crime reported in San Francisco including
 
 ```r
 head(suicide)
-#>   IncidntNum Category                           Descript DayOfWeek       Date
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
-#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
-#>       Time PdDistrict Resolution                 Address         X        Y
-#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV -122.4517 37.72218
-#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST -122.4288 37.77620
-#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST -122.4546 37.78818
-#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST -122.3964 37.79414
-#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679
-#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV -122.4893 37.78274
-#>                                         Location         PdId year
-#> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
-#> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
-#> 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
-#> 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
-#> 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
-#> 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
+#>   IncidntNum Category
+#> 1  180318931  SUICIDE
+#> 2  180315501  SUICIDE
+#> 3  180295674  SUICIDE
+#> 4  180263659  SUICIDE
+#> 5  180235523  SUICIDE
+#> 6  180236515  SUICIDE
+#>                             Descript DayOfWeek
+#> 1 ATTEMPTED SUICIDE BY STRANGULATION    Monday
+#> 2       ATTEMPTED SUICIDE BY JUMPING  Saturday
+#> 3              SUICIDE BY LACERATION  Saturday
+#> 4                            SUICIDE   Tuesday
+#> 5     ATTEMPTED SUICIDE BY INGESTION    Friday
+#> 6            SUICIDE BY ASPHYXIATION  Thursday
+#>         Date     Time PdDistrict Resolution
+#> 1 04/30/2018 06:30:00    TARAVAL       NONE
+#> 2 04/28/2018 17:54:00   NORTHERN       NONE
+#> 3 04/21/2018 12:20:00   RICHMOND       NONE
+#> 4 04/10/2018 05:13:00    CENTRAL       NONE
+#> 5 03/30/2018 09:15:00    TARAVAL       NONE
+#> 6 03/29/2018 17:30:00   RICHMOND       NONE
+#>                   Address         X        Y
+#> 1     0 Block of BRUCE AV -122.4517 37.72218
+#> 2   700 Block of HAYES ST -122.4288 37.77620
+#> 3   3700 Block of CLAY ST -122.4546 37.78818
+#> 4     0 Block of DRUMM ST -122.3964 37.79414
+#> 5 0 Block of FAIRFIELD WY -122.4632 37.72679
+#> 6    300 Block of 29TH AV -122.4893 37.78274
+#>                                         Location
+#> 1  POINT (-122.45168059935614 37.72218061554315)
+#> 2  POINT (-122.42876060987851 37.77620120112792)
+#> 3   POINT (-122.45462091999406 37.7881754224736)
+#> 4  POINT (-122.39642194376758 37.79414474237039)
+#> 5  POINT (-122.46324153155875 37.72679184368551)
+#> 6 POINT (-122.48929119750689 37.782735835121265)
+#>           PdId year
+#> 1 1.803189e+13 2018
+#> 2 1.803155e+13 2018
+#> 3 1.802957e+13 2018
+#> 4 1.802637e+13 2018
+#> 5 1.802355e+13 2018
+#> 6 1.802365e+13 2018
 ```
 
 ## A simple map
@@ -87,8 +99,8 @@ An easy way to find the four coordinates for a bounding box is to go to the site
 
 
 ```r
-sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996), 
-                            source = "stamen"))
+sf_map <- ggmap(get_map(c(-122.530392, 37.698887, -122.351177,
+  37.812996), source = "stamen"))
 #> Source : http://tile.stamen.com/terrain/12/653/1582.png
 #> Source : http://tile.stamen.com/terrain/12/654/1582.png
 #> Source : http://tile.stamen.com/terrain/12/655/1582.png
@@ -101,73 +113,75 @@ sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996),
 sf_map
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
 
 
 ```r
-sf_map +
-  geom_point(aes(x = X, y = Y),
-             data  = suicide)
-#> Warning: Removed 1 rows containing missing values (geom_point).
+sf_map + geom_point(aes(x = X, y = Y), data = suicide)
+#> Warning: Removed 1 rows containing missing values
+#> (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 If we wanted to color the dots, we can use `color = ` and then select a color. Let's try it with "forestgreen".
 
 
 ```r
-sf_map +
-  geom_point(aes(x = X, y = Y),
-             data  = suicide,
-             color = "forestgreen")
-#> Warning: Removed 1 rows containing missing values (geom_point).
+sf_map + geom_point(aes(x = X, y = Y), data = suicide, color = "forestgreen")
+#> Warning: Removed 1 rows containing missing values
+#> (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 As with other graphs we can change the size of the dot using `size = `.
 
 
 ```r
-sf_map +
-  geom_point(aes(x = X, y = Y),
-             data  = suicide,
-             color = "forestgreen",
-             size  = 0.5)
-#> Warning: Removed 1 rows containing missing values (geom_point).
+sf_map + geom_point(aes(x = X, y = Y), data = suicide, color = "forestgreen",
+  size = 0.5)
+#> Warning: Removed 1 rows containing missing values
+#> (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 
 ```r
-sf_map +
-  geom_point(aes(x = X, y = Y),
-             data  = suicide,
-             color = "forestgreen",
-             size  = 2)
-#> Warning: Removed 1 rows containing missing values (geom_point).
+sf_map + geom_point(aes(x = X, y = Y), data = suicide, color = "forestgreen",
+  size = 2)
+#> Warning: Removed 1 rows containing missing values
+#> (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
 
 ```r
-sf_map +
-  geom_point(aes(x = X, y = Y),
-             data  = suicide,
-             color = "forestgreen",
-             size  = 2,
-             alpha = 0.5)
-#> Warning: Removed 1 rows containing missing values (geom_point).
+sf_map + geom_point(aes(x = X, y = Y), data = suicide, color = "forestgreen",
+  size = 2, alpha = 0.5)
+#> Warning: Removed 1 rows containing missing values
+#> (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost. 
 
@@ -180,7 +194,9 @@ Let's pause for a moment to think about what a map really is. Below, I made a si
 plot(suicide$X, suicide$Y, col = "forestgreen")
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 ## Making a hotspot map
 
@@ -194,19 +210,18 @@ Let's start with 60 bins and then try some other number of bins to see how it ch
 
 
 ```r
-sf_map +
-  stat_binhex(aes(x = X, y = Y),
-              bins = 60,
-              data = suicide) +
-  coord_cartesian() 
+sf_map + stat_binhex(aes(x = X, y = Y), bins = 60, data = suicide) +
+  coord_cartesian()
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values
+#> (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
-#>   Package `hexbin` required for `stat_binhex`.
-#>   Please install and try again.
+#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
 
@@ -214,19 +229,18 @@ What happens when we drop the number of bins to 30?
 
 
 ```r
-sf_map +
-  stat_binhex(aes(x = X, y = Y),
-              bins = 30,
-              data = suicide) +
-  coord_cartesian() 
+sf_map + stat_binhex(aes(x = X, y = Y), bins = 30, data = suicide) +
+  coord_cartesian()
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values
+#> (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
-#>   Package `hexbin` required for `stat_binhex`.
-#>   Please install and try again.
+#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
@@ -234,19 +248,18 @@ What about looking at 100 bins?
 
 
 ```r
-sf_map +
-  stat_binhex(aes(x = X, y = Y),
-              bins = 100,
-              data = suicide) +
-  coord_cartesian() 
+sf_map + stat_binhex(aes(x = X, y = Y), bins = 100, data = suicide) +
+  coord_cartesian()
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values
+#> (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
-#>   Package `hexbin` required for `stat_binhex`.
-#>   Please install and try again.
+#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself. 
 
@@ -256,39 +269,34 @@ To change the bin colors we can use the parameter `scale_fill_gradient()`. This 
 
 
 ```r
-sf_map +
-  stat_binhex(aes(x = X, y = Y),
-              bins  = 60,
-              data = suicide) +
-  coord_cartesian() +
-  scale_fill_gradient(low = "#ffeda0",
-                      high = "#f03b20")
+sf_map + stat_binhex(aes(x = X, y = Y), bins = 60, data = suicide) +
+  coord_cartesian() + scale_fill_gradient(low = "#ffeda0",
+  high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values
+#> (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
-#>   Package `hexbin` required for `stat_binhex`.
-#>   Please install and try again.
+#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 By default it labels the legend as "count". Since we know these are counts of suicides let's relabel that as such.
 
 
 ```r
-sf_map +
-  stat_binhex(aes(x = X, y = Y),
-              bins  = 60,
-              data = suicide) +
-  coord_cartesian() +
-  scale_fill_gradient('Suicides',
-                      low = "#ffeda0",
-                      high = "#f03b20")
+sf_map + stat_binhex(aes(x = X, y = Y), bins = 60, data = suicide) +
+  coord_cartesian() + scale_fill_gradient("Suicides", low = "#ffeda0",
+  high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values
+#> (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
-#>   Package `hexbin` required for `stat_binhex`.
-#>   Please install and try again.
+#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}

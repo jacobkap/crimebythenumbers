@@ -12,8 +12,8 @@ Let's use examining whether a policy affected murder as an example. In the examp
 
 ```r
 example_data <- data.frame(year = c(2000, 2000, 2001, 2001),
-                           crime_type = c("murder", "theft", "murder", "theft"),
-                           crime_count = c(100, 100, 200, 50))
+  crime_type = c("murder", "theft", "murder", "theft"),
+  crime_count = c(100, 100, 200, 50))
 example_data
 #>   year crime_type crime_count
 #> 1 2000     murder         100
@@ -35,7 +35,8 @@ Now I've made a different mistake. Here, instead of `==`, I've written `!=` whic
 
 
 ```r
-example_data[example_data$crime_type != "murder", c("year", "crime_count")]
+example_data[example_data$crime_type != "murder", c("year",
+  "crime_count")]
 #>   year crime_count
 #> 2 2000         100
 #> 4 2001          50
@@ -55,7 +56,6 @@ A unit test is simply a conditional statement where you have some input, usually
 
 ```r
 library(testthat)
-#> Warning: package 'testthat' was built under R version 4.0.4
 #> 
 #> Attaching package: 'testthat'
 #> The following object is masked from 'package:devtools':
@@ -67,7 +67,9 @@ In `testthat`, every function follows the same `expect_` format where a type of 
 
 
 ```r
-add_2 <- function(number) { return(number + 2) }
+add_2 <- function(number) {
+  return(number + 2)
+}
 expect_equal(add_2(2), 4)
 ```
 

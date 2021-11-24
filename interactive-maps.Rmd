@@ -5,7 +5,7 @@
 if (!knitr:::is_html_output()) {
   options("width" = 56)
   knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
+}
 ```
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
@@ -76,7 +76,7 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addMarkers(lng = marijuana$lon, 
+  addMarkers(lng = marijuana$long, 
              lat = marijuana$lat)
 
 ```
@@ -88,7 +88,7 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
+  addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat)
 
 ```
@@ -100,7 +100,7 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
+  addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat,
                    radius = 5)
 ```
@@ -116,8 +116,8 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
-             lat = marijuana$lat,
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
                    radius = 5,
                    popup = marijuana$Business_Owner)
 ```
@@ -129,8 +129,8 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
-             lat = marijuana$lat,
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
                    radius = 5,
                    popup = paste("Business Owner:", marijuana$Business_Owner))
 ```
@@ -142,8 +142,8 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
-             lat = marijuana$lat,
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
                    radius = 5,
                    popup = paste("Business Owner:", marijuana$Business_Owner,
                                  "Address:", marijuana$Premise_Address,
@@ -157,8 +157,8 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
-             lat = marijuana$lat,
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
                    radius = 5,
                    popup = paste("Business Owner:", marijuana$Business_Owner,
                                  "<br>",
@@ -178,8 +178,8 @@ leaflet() %>%
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
                 OpenStreetMap</a> contributors') %>%
-  addCircleMarkers(lng = marijuana$lon, 
-             lat = marijuana$lat,
+  addCircleMarkers(lng = marijuana$long, 
+                   lat = marijuana$lat,
                    radius = 5,
                    popup = paste("Business Owner:", marijuana$Business_Owner,
                                  "<br>",
@@ -218,7 +218,7 @@ It gives us a blank map because our polygons are projected to San Francisco's pr
 ```{r}
 library(sf)
 sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide,
-                                        crs = "+proj=longlat +datum=WGS84")
+                                         crs = "+proj=longlat +datum=WGS84")
 ```
 
 Now let's try again. 

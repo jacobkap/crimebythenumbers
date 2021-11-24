@@ -36,24 +36,16 @@ The input in the () is the file name ending in ".csv". As it is telling R to rea
 
 ```r
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
+#> Rows: 4371 Columns: 14
+#> -- Column specification --------------------------------
+#> Delimiter: ","
+#> chr  (9): name, manner_of_death, armed, gender, race...
+#> dbl  (2): id, age
+#> lgl  (2): signs_of_mental_illness, body_camera
+#> date (1): date
 #> 
-#> -- Column specification --------------------------------------------------------
-#> cols(
-#>   id = col_double(),
-#>   name = col_character(),
-#>   date = col_date(format = ""),
-#>   manner_of_death = col_character(),
-#>   armed = col_character(),
-#>   age = col_double(),
-#>   gender = col_character(),
-#>   race = col_character(),
-#>   city = col_character(),
-#>   state = col_character(),
-#>   signs_of_mental_illness = col_logical(),
-#>   threat_level = col_character(),
-#>   flee = col_character(),
-#>   body_camera = col_logical()
-#> )
+#> i Use `spec()` to retrieve the full column specification for this data.
+#> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 `read_csv()` also reads in data to an object called a `tibble` which is very similar to a data.frame but has some differences in displaying the data. If we run `head()` on the data it doesn't show all columns. This is useful to avoid accidentally printing out a massive amounts of columns.
@@ -62,15 +54,17 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 ```r
 head(shootings)
 #> # A tibble: 6 x 14
-#>      id name    date       manner_of_death  armed   age gender race  city  state
-#>   <dbl> <chr>   <date>     <chr>            <chr> <dbl> <chr>  <chr> <chr> <chr>
-#> 1     3 Tim El~ 2015-01-02 shot             gun      53 M      A     Shel~ WA   
-#> 2     4 Lewis ~ 2015-01-02 shot             gun      47 M      W     Aloha OR   
-#> 3     5 John P~ 2015-01-03 shot and Tasered unar~    23 M      H     Wich~ KS   
-#> 4     8 Matthe~ 2015-01-04 shot             toy ~    32 M      W     San ~ CA   
-#> 5     9 Michae~ 2015-01-04 shot             nail~    39 M      H     Evans CO   
-#> 6    11 Kennet~ 2015-01-04 shot             gun      18 M      W     Guth~ OK   
-#> # ... with 4 more variables: signs_of_mental_illness <lgl>, threat_level <chr>,
+#>      id name     date       manner_of_death armed    age
+#>   <dbl> <chr>    <date>     <chr>           <chr>  <dbl>
+#> 1     3 Tim Ell~ 2015-01-02 shot            gun       53
+#> 2     4 Lewis L~ 2015-01-02 shot            gun       47
+#> 3     5 John Pa~ 2015-01-03 shot and Taser~ unarm~    23
+#> 4     8 Matthew~ 2015-01-04 shot            toy w~    32
+#> 5     9 Michael~ 2015-01-04 shot            nail ~    39
+#> 6    11 Kenneth~ 2015-01-04 shot            gun       18
+#> # ... with 8 more variables: gender <chr>, race <chr>,
+#> #   city <chr>, state <chr>,
+#> #   signs_of_mental_illness <lgl>, threat_level <chr>,
 #> #   flee <chr>, body_camera <lgl>
 ```
 
@@ -93,7 +87,6 @@ install.packages("haven")
 
 ```r
 library(haven)
-#> Warning: package 'haven' was built under R version 4.0.5
 ```
 
 `haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.
@@ -150,7 +143,7 @@ For saving an .rda file we must set the parameter `file` to be the name we're sa
 
 
 ```r
-save(shootings, file =  "data/shootings.rda")
+save(shootings, file = "data/shootings.rda")
 ```
 
 ### Excel 

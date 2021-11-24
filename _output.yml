@@ -1,8 +1,6 @@
 bookdown::gitbook:
   includes:
     in_header: [ga_script.html]
-  config:
-    download: [ ["crimebythenumbers.pdf", "PDF"], ["crimebythenumbers.epub", "EPUB"] ]
     toc:
       collapse: section
       before: |
@@ -12,12 +10,10 @@ bookdown::gitbook:
       text: "Edit"
     sharing: yes
   stylesheet: style.css
-bookdown::epub_book:
-  dev: svglite
-  stylesheet: style.css
-bookdown::html_chapters:
-  css: style.css
 bookdown::pdf_book:
+ includes:
+    in_header: latex/preamble.tex
+    after_body: latex/after_body.tex
  keep_tex: true
  dev: "cairo_pdf"
  latex_engine: xelatex
@@ -25,11 +21,8 @@ bookdown::pdf_book:
  template: null
  pandoc_args: --top-level-division=chapter
  toc_depth: 3
- toc_unnumbered: false
- toc_appendix: true
+ toc_unnumbered: no
+ toc_appendix: yes
  quote_footer: ["\\VA{", "}{}"]
  highlight_bw: true
- stylesheet: style.css
- classoption: openany
- linestretch: 1.15
- geometry: margin=1in
+ 

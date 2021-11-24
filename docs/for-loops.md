@@ -12,7 +12,7 @@ We'll start with a simple example, making R print the numbers 1-10.
 
 ```r
 for (i in 1:10) {
-   print(i)
+  print(i)
 }
 #> [1] 1
 #> [1] 2
@@ -35,7 +35,7 @@ Let's go through a few examples with different names for `i` and different value
 
 ```r
 for (a_number in 1:10) {
-   print(a_number)
+  print(a_number)
 }
 #> [1] 1
 #> [1] 2
@@ -52,9 +52,10 @@ for (a_number in 1:10) {
 
 
 ```r
-animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
+animals <- c("cat", "dog", "gorilla", "buffalo", "lion",
+  "snake")
 for (animal in animals) {
-   print(animal)
+  print(animal)
 }
 #> [1] "cat"
 #> [1] "dog"
@@ -69,7 +70,7 @@ Now let's make our code a bit more complicated, adding the number 2 every loop.
 
 ```r
 for (a_number in 1:10) {
-   print(a_number + 2)
+  print(a_number + 2)
 }
 #> [1] 3
 #> [1] 4
@@ -133,22 +134,21 @@ Below is the function copied from Section \@ref(recipes-function) which takes a 
 
 ```r
 library(rvest)
-#> Warning: package 'rvest' was built under R version 4.0.5
 scrape_recipes <- function(URL) {
-  
+
   brownies <- read_html(URL)
-  
+
   ingredients <- html_nodes(brownies, ".added")
   ingredients <- html_text(ingredients)
-  
+
   directions <- html_nodes(brownies, ".recipe-directions__list--item")
   directions <- html_text(directions)
-  
+
   ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions  <- directions[directions != ""]
-  directions  <- gsub("\n", "", directions)
-  directions  <- gsub(" {2,}", "", directions)
-  
+  directions <- directions[directions != ""]
+  directions <- gsub("\n", "", directions)
+  directions <- gsub(" {2,}", "", directions)
+
   print(ingredients)
   print(directions)
 }
@@ -161,12 +161,11 @@ Here I am making a vector called *recipe_urls* with the URLs of several recipes 
 
 ```r
 recipe_urls <- c("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/",
-                 "https://www.allrecipes.com/recipe/27188/crepes/",
-                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/",
-                 "https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/",
-                 "https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/",
-                 "https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/",
-                 "https://www.allrecipes.com/recipe/189058/super-simple-salmon/")
+  "https://www.allrecipes.com/recipe/27188/crepes/", "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/",
+  "https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/",
+  "https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/",
+  "https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/",
+  "https://www.allrecipes.com/recipe/189058/super-simple-salmon/")
 ```
 
 

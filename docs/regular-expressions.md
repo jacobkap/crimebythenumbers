@@ -16,58 +16,21 @@ For this lesson we will use a vector of 50 crime categories. These are all of th
 
 
 ```r
-crimes <- c(
-  "Arson",
-  "Assault",                                  
-  "Burglary",                                 
-  "Case Closure",                             
-  "Civil Sidewalks",                          
-  "Courtesy Report",                          
-  "Disorderly Conduct",                       
-  "Drug Offense",                             
-  "Drug Violation",                           
-  "Embezzlement",                             
-  "Family Offense",                           
-  "Fire Report",                              
-  "Forgery And Counterfeiting",               
-  "Fraud",                                    
-  "Gambling",                                 
-  "Homicide",                                 
-  "Human Trafficking (A), Commercial Sex Acts",
-  "Human Trafficking, Commercial Sex Acts",   
-  "Juvenile Offenses",                        
-  "Larceny Theft",                            
-  "Liquor Laws",                              
-  "Lost Property",                            
-  "Malicious Mischief",                       
-  "Miscellaneous Investigation",              
-  "Missing Person",                           
-  "Motor Vehicle Theft",                      
-  "Motor Vehicle Theft?",                     
-  "Non-Criminal",                             
-  "Offences Against The Family And Children", 
-  "Other",                                    
-  "Other Miscellaneous",                      
-  "Other Offenses",                           
-  "Prostitution",                             
-  "Rape",                                     
-  "Recovered Vehicle",                        
-  "Robbery",                                  
-  "Sex Offense",                              
-  "Stolen Property",                          
-  "Suicide",                                  
-  "Suspicious",                               
-  "Suspicious Occ",                           
-  "Traffic Collision",                        
-  "Traffic Violation Arrest",                 
-  "Vandalism",                                
-  "Vehicle Impounded",                        
-  "Vehicle Misplaced",                        
-  "Warrant",                                  
-  "Weapons Carrying Etc",                     
-  "Weapons Offence",                          
-  "Weapons Offense"
-)
+crimes <- c("Arson", "Assault", "Burglary", "Case Closure",
+  "Civil Sidewalks", "Courtesy Report", "Disorderly Conduct",
+  "Drug Offense", "Drug Violation", "Embezzlement", "Family Offense",
+  "Fire Report", "Forgery And Counterfeiting", "Fraud",
+  "Gambling", "Homicide", "Human Trafficking (A), Commercial Sex Acts",
+  "Human Trafficking, Commercial Sex Acts", "Juvenile Offenses",
+  "Larceny Theft", "Liquor Laws", "Lost Property", "Malicious Mischief",
+  "Miscellaneous Investigation", "Missing Person", "Motor Vehicle Theft",
+  "Motor Vehicle Theft?", "Non-Criminal", "Offences Against The Family And Children",
+  "Other", "Other Miscellaneous", "Other Offenses", "Prostitution",
+  "Rape", "Recovered Vehicle", "Robbery", "Sex Offense",
+  "Stolen Property", "Suicide", "Suspicious", "Suspicious Occ",
+  "Traffic Collision", "Traffic Violation Arrest", "Vandalism",
+  "Vehicle Impounded", "Vehicle Misplaced", "Warrant",
+  "Weapons Carrying Etc", "Weapons Offence", "Weapons Offense")
 ```
 
 When looking closely at these crimes it is clear that some may overlap in certain categories such as theft, and there are several duplicates with slight differences in spelling. For example the last two crimes are "Weapons Offence" and "Weapons Offense". These should be the same crime but the first one spelled "offense" wrong. And take a look at "motor vehicle theft". There are two crimes here because one of them adds a question mark at the end for some reason. 
@@ -91,8 +54,8 @@ Let's start with the letter "a".
 
 ```r
 grep("a", crimes)
-#>  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47 48 49
-#> [26] 50
+#>  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31
+#> [18] 34 42 43 44 46 47 48 49 50
 ```
 
 It gives us a bunch of numbers where the letter "a" is present in that element of *crimes*. What this is useful for is subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 
@@ -139,7 +102,8 @@ grep("Theft", crimes)
 
 ```r
 crimes[grep("Theft", crimes)]
-#> [1] "Larceny Theft"        "Motor Vehicle Theft"  "Motor Vehicle Theft?"
+#> [1] "Larceny Theft"        "Motor Vehicle Theft" 
+#> [3] "Motor Vehicle Theft?"
 ```
 
 A very useful parameter is `value`. When we set `value` to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset (since R no longer knows which rows are a match), it is an excellent tool to check if the `grep()` was successful as we can visually confirm it returns what we want. When we start to learn about special characters which make the patterns more complicated, this will be important.
@@ -147,7 +111,8 @@ A very useful parameter is `value`. When we set `value` to TRUE, it will print o
 
 ```r
 grep("Theft", crimes, value = TRUE)
-#> [1] "Larceny Theft"        "Motor Vehicle Theft"  "Motor Vehicle Theft?"
+#> [1] "Larceny Theft"        "Motor Vehicle Theft" 
+#> [3] "Motor Vehicle Theft?"
 ```
 
 Note that `grep()` (and `gsub()`) is case sensitive so you must capitalize properly.
@@ -163,7 +128,8 @@ Setting the parameter `ignore.case` to be TRUE makes `grep()` ignore capitalizat
 
 ```r
 grep("theft", crimes, value = TRUE, ignore.case = TRUE)
-#> [1] "Larceny Theft"        "Motor Vehicle Theft"  "Motor Vehicle Theft?"
+#> [1] "Larceny Theft"        "Motor Vehicle Theft" 
+#> [3] "Motor Vehicle Theft?"
 ```
 
 If we want to find values which do *not* match with "theft", we can set the parameter `invert` to TRUE.
@@ -433,8 +399,10 @@ If we wanted to search for a pattern, such as vowels, that is repeated we could 
 
 ```r
 grep("[aeiou][aeiou][aeiou]", crimes, value = TRUE)
-#> [1] "Malicious Mischief"          "Miscellaneous Investigation"
-#> [3] "Other Miscellaneous"         "Suspicious"                 
+#> [1] "Malicious Mischief"         
+#> [2] "Miscellaneous Investigation"
+#> [3] "Other Miscellaneous"        
+#> [4] "Suspicious"                 
 #> [5] "Suspicious Occ"
 ```
 
@@ -469,8 +437,10 @@ We can use it to rewrite the above `grep()` to saw the values in the `[]` should
 
 ```r
 grep("[aeiou]{3}", crimes, value = TRUE)
-#> [1] "Malicious Mischief"          "Miscellaneous Investigation"
-#> [3] "Other Miscellaneous"         "Suspicious"                 
+#> [1] "Malicious Mischief"         
+#> [2] "Miscellaneous Investigation"
+#> [3] "Other Miscellaneous"        
+#> [4] "Suspicious"                 
 #> [5] "Suspicious Occ"
 ```
 
@@ -512,8 +482,10 @@ If we wanted only crimes with exactly three vowels in a row we'd use `{3,3}`.
 
 ```r
 grep("[aeiou]{3,3}", crimes, value = TRUE)
-#> [1] "Malicious Mischief"          "Miscellaneous Investigation"
-#> [3] "Other Miscellaneous"         "Suspicious"                 
+#> [1] "Malicious Mischief"         
+#> [2] "Miscellaneous Investigation"
+#> [3] "Other Miscellaneous"        
+#> [4] "Suspicious"                 
 #> [5] "Suspicious Occ"
 ```
 
@@ -582,8 +554,10 @@ And the same works for leaving m blank but it will be "present at least n times"
 
 ```r
 grep("[aeiou]{3,}", crimes, value = TRUE)
-#> [1] "Malicious Mischief"          "Miscellaneous Investigation"
-#> [3] "Other Miscellaneous"         "Suspicious"                 
+#> [1] "Malicious Mischief"         
+#> [2] "Miscellaneous Investigation"
+#> [3] "Other Miscellaneous"        
+#> [4] "Suspicious"                 
 #> [5] "Suspicious Occ"
 ```
 
@@ -626,19 +600,32 @@ The `+` means that the character immediately before it is present at least one t
 
 ```r
 grep("^[A-Za-z]+ [A-Za-z]+$", crimes, value = TRUE)
-#>  [1] "Case Closure"                "Civil Sidewalks"            
-#>  [3] "Courtesy Report"             "Disorderly Conduct"         
-#>  [5] "Drug Offense"                "Drug Violation"             
-#>  [7] "Family Offense"              "Fire Report"                
-#>  [9] "Juvenile Offenses"           "Larceny Theft"              
-#> [11] "Liquor Laws"                 "Lost Property"              
-#> [13] "Malicious Mischief"          "Miscellaneous Investigation"
-#> [15] "Missing Person"              "Other Miscellaneous"        
-#> [17] "Other Offenses"              "Recovered Vehicle"          
-#> [19] "Sex Offense"                 "Stolen Property"            
-#> [21] "Suspicious Occ"              "Traffic Collision"          
-#> [23] "Vehicle Impounded"           "Vehicle Misplaced"          
-#> [25] "Weapons Offence"             "Weapons Offense"
+#>  [1] "Case Closure"               
+#>  [2] "Civil Sidewalks"            
+#>  [3] "Courtesy Report"            
+#>  [4] "Disorderly Conduct"         
+#>  [5] "Drug Offense"               
+#>  [6] "Drug Violation"             
+#>  [7] "Family Offense"             
+#>  [8] "Fire Report"                
+#>  [9] "Juvenile Offenses"          
+#> [10] "Larceny Theft"              
+#> [11] "Liquor Laws"                
+#> [12] "Lost Property"              
+#> [13] "Malicious Mischief"         
+#> [14] "Miscellaneous Investigation"
+#> [15] "Missing Person"             
+#> [16] "Other Miscellaneous"        
+#> [17] "Other Offenses"             
+#> [18] "Recovered Vehicle"          
+#> [19] "Sex Offense"                
+#> [20] "Stolen Property"            
+#> [21] "Suspicious Occ"             
+#> [22] "Traffic Collision"          
+#> [23] "Vehicle Impounded"          
+#> [24] "Vehicle Misplaced"          
+#> [25] "Weapons Offence"            
+#> [26] "Weapons Offense"
 ```
 
 ### Zero or more of previous `*`
@@ -711,8 +698,9 @@ The vertical bar `|` special character allows us to check for multiple patterns.
 
 ```r
 grep("Drug|Weapons", crimes, value = TRUE)
-#> [1] "Drug Offense"         "Drug Violation"       "Weapons Carrying Etc"
-#> [4] "Weapons Offence"      "Weapons Offense"
+#> [1] "Drug Offense"         "Drug Violation"      
+#> [3] "Weapons Carrying Etc" "Weapons Offence"     
+#> [5] "Weapons Offense"
 ```
 
 ### Parentheses `()`
@@ -722,8 +710,9 @@ Parentheses act similar to the square brackets `[]` where we want everything ins
 
 ```r
 grep("(Offense)", crimes, value = TRUE)
-#> [1] "Drug Offense"      "Family Offense"    "Juvenile Offenses"
-#> [4] "Other Offenses"    "Sex Offense"       "Weapons Offense"
+#> [1] "Drug Offense"      "Family Offense"   
+#> [3] "Juvenile Offenses" "Other Offenses"   
+#> [5] "Sex Offense"       "Weapons Offense"
 ```
 
 Running the above code returns the same results as if we didn't include the parentheses. The usefulness of parentheses comes when combining it with the `|` symbol to be able to check "(X|Y) Z"), which says, "look for either X or Y which must be followed by Z". 
@@ -760,7 +749,8 @@ We can further combine it with `()` and `|` to get both spellings of Weapon Offe
 
 ```r
 grep("(Drug|Weapons) Offens?", crimes, value = TRUE)
-#> [1] "Drug Offense"    "Weapons Offence" "Weapons Offense"
+#> [1] "Drug Offense"    "Weapons Offence"
+#> [3] "Weapons Offense"
 ```
 
 ## Changing capitalization

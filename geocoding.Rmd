@@ -1,6 +1,5 @@
 # Geocoding 
 
-
 ```{r include = FALSE}
 if (!knitr:::is_html_output()) {
   options("width" = 56)
@@ -12,141 +11,99 @@ Several recent studies have looked at the effect of marijuana dispensaries on cr
 
 ## Geocoding a single address
 
-In this chapter we will cover using the free geocoder from ArcGIS, a software that people frequently use when dealing primarily with mapping projects. Google Maps used to be easily usable in R but since 2018 requires an account to use its geocoder so we will not be using it.
+In this chapter we will cover how to geocode addresses. Geocoding is the process of taking an address (e.g. 123 Main Street, Somewhere, CA, 12345) and getting the longitude and latitude coordinates of that address. With these coordinates we can then do spatial analyses on the data ranging from simply making a map and showing where each address is to merging these coordinates with some other spatial data (such as seeing which police district the address is in) and seeing how it relates to other variables, such as crime.
 
-The URL for geocoding using ArcGIS is the following:
-
-`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
-
-where instead of "ADDRESS" we put in the address whose coordinates we want. As an example, let's look at Food Network's Corporate office where they film many of their shows. The address is 75 9th Ave, New York, NY 10011.
-
-`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type`
-
-Including spaces in the address causes errors so all spaces need to be replaced with `%20`. Let's see what data we get back from this URL. Enter the URL above in your browser and you'll see these results.
-
-![](images/geocoding_1.PNG)
-
-It gives us a page with several important values. For our purposes we want the "lat" and "lon" sections which are the latitude and longitude parts of a location's coordinates. 
-
-This data is stored on the page in a JSON format which is a convenient (for computers to read) way data is stored online. We can concert it to a data.frame that we're more familiar with using the package `jsonlite`.
+To do our geocoding, we're going to use the package `tidygeocoder` which greatly simplifies the work of geocoding addresses in R. For more information about this package, please see the package's site [here](https://jessecambon.github.io/tidygeocoder/). If you've never used this package before you'll need to install it using `install.packages("tidygeocoder")`
 
 ```{r eval = FALSE}
-install.packages("jsonlite")
+install.packages("tidygeocoder")
 ```
 
-We will use the `fromJSON()` function and enter in the URL right in the (). 
+
+Now we need to tell R that we want to use this package by running `library(tidygeocoder)`.
 
 ```{r}
-library(jsonlite)
-fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
+library(tidygeocoder)
 ```
 
-It returns a list of objects. This is a named list meaning that we can grab the part of the list we want using dollar sign notation as if it were a column in a data.frame. In this case we want the part of the object called *candidates*. To avoid having a very long line of code, let's call the list `fromJSON()` returns *address_coordinate* and grab the *candidates* object from that list. 
+To geocode our addresses we'll use the helpfully named `geocode()` function inside of `tidygeocoder`. For `geocode()` we input an address and it returns the coordinates for that address. For our address we'll use "750 Race St. Philadelphia, PA 19106" which is the address of the Philadelphia Police Department headquarters.
+
+```{r, error = TRUE}
+geocode("750 Race St. Philadelphia, PA 19106")
+```
+As shown above, running `geocode("750 Race St. Philadelphia, PA 19106")` gives us an error that tells us that ".tbl is not a dataframe." The issue is that `geocode()` expects a data.frame (and .tbl is an abbreviation for tibble which is a kind of data.frame), but we entered only the string with our one address, not a data.frame. For this function to work we need to enter two parameters into `geocode()`: a data.frame (or something similar such as a tibble) and the name of the column which has the addresses.^[We can look at all of the parameters for this function by running the code `help(geocode)` or `?geocode()` to look at the functions Help page.] Since we need a data.frame, we'll make one below. I'm calling it `address_to_geocode` and calling the column with the address "address", but you can call both the data.frame and the column whatever name you want. 
 
 ```{r}
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
-address_coordinates$candidates
+address_to_geocode <- data.frame(address = "750 Race St. Philadelphia, PA 19106")
 ```
 
-*candidates* is a data.frame which includes 12 (slightly) different coordinates for our address. The first one is the one we want and if you look at the "score" column you can see it has the highest score of those 12. The ArcGIS geocoder provides a number of potential coordinates for an inputted address and ranks them in order of how confident it is that this is the address you want. Since we just want the top address - the "most confident" one - so we will just keep the first row.
-
-Since we are grabbing the first row of a data.frame, our square bracket notation must be `[row, column]`. For row we put 1 since we want the first row. Since we want every column, we can leave it blank but make sure to keep the comma.
+Now let's try again. We'll enter our data.frame `address_to_geocode` first and then the name of our column which is "address".
 
 ```{r}
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
-address_coordinates <- address_coordinates$candidates
-address_coordinates <- address_coordinates[1, ]
-address_coordinates
+geocode(address_to_geocode, address)
 ```
 
-This data.frame has something we've never seen before. It has columns that are themselves data.frames. For example, the column "location" is a data.frame with the x- and y-coordinates that we want. We can select this exactly as we do with any column but instead of returning a vector of values it returns a data.frame.
+It worked, returning the same data.frame but with two additional columns with the latitude and longitude of that address.
+
+You might be wondering why we put "address" into `geocode()` without quotes when usually when we talk about a column we need to do so in quotes. The simple answer is that the authors of the `tidygeocoder` package spent the time allowing users to input the column name either with or without quotes. Trying it again and now having "address" in quotes gives us the same result.
 
 ```{r}
-address_coordinates$location
+geocode(address_to_geocode, "address")
 ```
 
-Since our end goal is to get the coordinates of an address, the data.frame in the "location" column is exactly what we want. It took a few steps but now we have code that returns the coordinates of an address. 
+There are two additional parameters which are important to talk about for this function, especially when you encounter an address not geocoding. 
 
-## Making a function
+First, there are actually multiple sources where you can enter an address and get the coordinates for that address. Just think about the big mapping apps or sites, such as Google Maps and Apple Maps. For these sources you can enter in the same address and you'll get different results. In most cases you'll get extremely similar coordinates, usually off only after a few decimals points, so they are functionally identical. But occasionally you'll have some addresses that can be geocoded through some sources but not others. This is because some sources have a more comprehensive list of addresses than others. 
 
-We want to geocode every single address from the officer-involved shooting data. As with most things where we do the same thing many times except for one minor change - here, the address being geocoded - we will make a function to help us. 
-
-Let's start by copying the code used to geocode a single address. 
+At the time of this writing the `tidygeocoder` package can handle geocoding from 13 different sources. For 10 of these, however, you need to setup an API key and some also require paying money (usually after a set number of addresses that it'll geocode for free each day). So here I'll just cover the three sources of geocoding that don't require any setup: "osm" (Open Street Map or OSM is similar to Google Maps), "census" (the US Census Bureau's geocoder), and "arcgis" (ArcGIS is a clunky mapping software that nonetheless has an excellent geocoder that R can use). To select which of these to use ("osm" is the default), you add the parameter "method" and set that equal to which one you want to use. As "osm" is the default we actually don't need to set it explicitly, but we'll do so anyways here as an example of the three geocoding sources we want to use.
 
 ```{r}
-address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
-address_coordinates <- address_coordinates$candidates
-address_coordinates <- address_coordinates[1, ]
-address_coordinates$location
+geocode(address_to_geocode, "address", method = "osm")
 ```
-
-Now we can make the skeleton of a function without including any code. What do we want to input to the function and what do we want it to return? We want it so we input an address and it returns the coordinates of that address. 
-
-We can call the function *geocode_address*, the input *address* and the returning value *address_coordinates* just to stay consistent with the code we already wrote.
 
 ```{r}
-geocode_address <- function(address) {
-   
-   return(address_coordinates)
-}
+geocode(address_to_geocode, "address", method = "census")
 ```
-
-Now we can add the code.
 
 ```{r}
-geocode_address <- function(address) {
-   address_coordinates <- fromJSON("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=75%209th%20Ave,%20New%20York,%20NY%2010011&outFields=Match_addr,Addr_type")
-   address_coordinates <- address_coordinates$candidates
-   address_coordinates <- address_coordinates[1, ]
-   address_coordinates$location
-   return(address_coordinates)
-}
+geocode(address_to_geocode, "address", method = "arcgis")
 ```
 
-Finally we need to replace the value in `fromJSON()` which is for a specific address with something that works for any address we input.
-
-Since the URL is in the form
-
-`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=ADDRESS&outFields=Match_addr,Addr_type`
-
-we can use the `paste()` function to combine the address inputted with the URL format. There is one step necessary before that, however. Since spaces cause issues in the data, we need to replace every space in the address with `%20`. We can do that using `gsub()` which is perfect for replacing characters. Let's try a simple example using `gsub()` before including it in our function. We just want to find every `" "` and replace it with `"%20"`. 
-
-We will use the address for the Food Network's Corporate office as our example.
+If you compare the longitude and latitudes from these three sources you'll notice that they're all different but only slightly so. By default this function returns a tibble instead of a normal data.frame so it only shows one decimal point by default - though it doesn't actually round the number, merely shorten what it shows us. We can change the output back into a data.frame by using the `data.frame()` function. 
 
 ```{r}
-gsub(" ", "%20", "75 9th Ave, New York, NY 10011")
+example <- geocode(address_to_geocode, "address", method = "arcgis")
+example <- data.frame(example)
+example
 ```
 
-It works so we can use the code to fix the address before putting it in the URL. To avoid having very long lines of code, we can break down the code into smaller pieces. We want to use `paste()` to combine the parts of the URL with the address and have that as the input in `fromJSON()`. Let's do that in two steps. First, we do the `paste()`, saving it in an object we can call *url*, and then use *url* as our input in `fromJSON()`. Since we do not want spaces in the URL, we need to set the `sep` parameter in `paste()` to "".
+Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address. 
+
+The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three.
 
 ```{r}
-geocode_address <- function(address) {
-   address <- gsub(" ", "%20", address)
-   url <- paste("https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=",
-                address,
-                "&outFields=Match_addr,Addr_type",
-                sep = "")
-   address_coordinates <- fromJSON(url)
-   
-   address_coordinates <- address_coordinates$candidates
-   address_coordinates <- address_coordinates[1, ]
-   address_coordinates <- address_coordinates$location
-   
-   return(address_coordinates)
-}
+geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
 ```
 
-We can try it using the same address we did earlier, "75 9th Ave, New York, NY 10011".
+For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don't seem very useful for our purposes such as the "importance" of the address. It's interesting that OSM classifies this address as a "house" as the police headquarters for a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the "display_name". 
+
+Sometimes geocoders will be quite a bit off in their geocoding because they match the address you inputted incorrectly to one in their database. For example, if you input "123 Main Street" and the geocoder thinks you mean "123 Maine Street" you may be quite a bit off in the resulting coordinates. When you only get coordinates returns you won't know that the coordinates are wrong. Even if you know where an address is supposed to be it's hard to catch errors like this. If you're geocoding addresses in a single city and one point is in a different city (or completely different part of the world), then it's pretty clear that there's an error. But if the coordinates are simply in a wrong part of the city, but near other coordinates, then it's very hard to notice a problem. So having an address to check against the one you inputted is a very useful way of validate the geocoding. 
 
 ```{r}
-geocode_address("75 9th Ave, New York, NY 10011")
+geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
 ```
 
-It returns the same data.frame as earlier so our function works!
+These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
+
+```{r}
+geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+```
+
+For the ArcGIS results we have the matched address again, and then an important variable called "score" which is basically a measure of how confidence ArcGIS is that it matched the right address. Higher values are more confidence, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as "location.x" and "location.y" columns, and I'm not sure why they do so. 
 
 ## Geocoding San Francisco marijuana dispensary locations
 
-We now have a function capable of returning the coordinates of every location in our marijuana dispensary data. We can write a for loop to go through every row of data and get the coordinates for that row's location. 
+So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispersary data.
 
 Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly.
 
@@ -180,61 +137,43 @@ Now let's make sure we did it right.
 names(marijuana)
 head(marijuana$Premise_Address)
 ```
-
-
-We can now write a for loop to go through every row in our data and geocode that address. The function `geocode_address()` we made returns a data.frame with one column for the longitude and one for the latitude. To make it so we only work with the data.frame *marijuana* we can save the output of `geocode_address()` to a temporary file and add each of the columns it produces to a column in *marijuana*.
-
-We need to make columns for the coordinates in *marijuana* now to be filled in during the for loop. We can call them *lon* and *lat* for the longitude and latitude values we get from the coordinates. When making a new column which you will fill through a for loop, it is a good idea to start by assigning the column NA. That way any row that you don't fill in during the loop (such as if there is no match for the address), will still be NA. NAs are easy to detect in your data for future subsetting or to ignore in a mathematical operation. 
+To do the geocoding we'll just tell `geocode` our data.frame name and the name of the column with the addresses. We'll save the results back into the `marijuana` object. As noted earlier, we don't need to put the name of our column in quotes, but I like to do so because it is consistent with some other functions that require it. Running this code may take up to a minute because it's geocoding 33 different addresses.
 
 ```{r}
-marijuana$lon <- NA
-marijuana$lat <- NA
-```
-
-Let's start with an example using the first row. Inputting the address from the first row gives a data.frame with the coordinates. Let's now save that output to an object we'll call *temp*.
-
-```{r}
-temp <- geocode_address(marijuana$Premise_Address[1])
-temp
-```
-
-We can use square bracket `[]` notation to assign the value from the *x* column of *temp* to our *lon* column in *marijuana* and do the same for the *y* and *lat* columns. Since we got the address from the first row, we need to put the coordinates in the first row so they are with the right address.
-
-```{r}
-marijuana$lon[1] <- temp$x
-marijuana$lat[1] <- temp$y
-```
-
-And we can check the first 6 rows to make sure the first row is the only one with values in these new columns.
-
-```{r}
-head(marijuana)
-```
-
-Since we are geocoding a few dozen of addresses, this may take some time. 
-
-```{r cache = TRUE}
-for (i in 1:nrow(marijuana)) {
-   temp <- geocode_address(marijuana$Premise_Address[i])
-   marijuana$lon[i] <- temp$x
-   marijuana$lat[i] <- temp$y
-}
+marijuana <- geocode(marijuana, "Premise_Address")
 ```
 
 Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.
 
 ```{r}
+summary(marijuana$long)
+```
+
+```{r}
 summary(marijuana$lat)
 ```
+The minimum and maximum are very similar to each other for both longitude and latitude so that's a sign that it geocoded correctly. The 10 NA values mean that it didn't find a match for 10 of the addresses. Let's try again and now set `method` to "arcgis" which generally has a very high match rate. Before we do this let's just remove the entire latitude and longitude columns from our data. How the `geocode()` function works is that if we keep the "long" and "lat" columns that are currently in the data from when we just geocoded, when we run it again it'll make new columns that have nearly identical names. We usually want as few columns in our data as possible so there's no point having the "lat" column from the last geocode run with the 10 NAs and another "lat" (though slightly different, automatically chosen name) column from this time we run `geocode().` 
+
+We could also just geocode the 10 addresses that failed on the first run, but given that we'll only geocoding a small number of addresses it won't take much extra time to have ArcGIS run it all. Running this function on just the NA rows requires a bit more work than just rerunning them all. In general, when the choice is between you spending time writing code and letting the computer do more work, let the computer do the work. And in general I'd recommend starting with ArcGIS as it is more reliable for geocoding. We'll remove the current coordinate columns by setting them each to NULL.
 
 ```{r}
-summary(marijuana$lon)
+marijuana$long <- NULL
+marijuana$lat  <- NULL
+marijuana      <- geocode(marijuana, "Premise_Address", method = "arcgis")
+```
+And let's do the `summary()` check again. 
+
+```{r}
+summary(marijuana$long)
 ```
 
-Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
+```{r}
+summary(marijuana$lat)
+```
+No more NAs which means that we successfully geocoded our addresses. Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
 
 ```{r}
-plot(marijuana$lon, marijuana$lat)
+plot(marijuana$long, marijuana$lat)
 ```
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
@@ -242,6 +181,5 @@ Most points are within a very narrow range so it appears that our geocoding work
 To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since this data is now geocoded and it is specifically for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
 
 ```{r}
-setwd(here::here("data"))
-write_csv(marijuana, path = "san_francisco_marijuana_geocoded.csv")
+write_csv(marijuana, file = "data/san_francisco_marijuana_geocoded.csv")
 ```
