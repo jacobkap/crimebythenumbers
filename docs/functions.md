@@ -69,11 +69,11 @@ Now we have added a parameter called `time_5` to the () part of the function and
 ```r
 add_2 <- function(number, times_5 = FALSE) {
   number <- number + 2
-
+  
   if (times_5 == TRUE) {
     number <- number * 5
   }
-
+  
   return(number)
 }
 ```
@@ -110,7 +110,7 @@ Let's start by writing a shell of the function - everything but the code. We can
 
 ```r
 scrape_recipes <- function(URL) {
-
+  
 }
 ```
 
@@ -119,15 +119,15 @@ Now we need to add the code that takes the date, scrapes the website, and saves 
 
 ```r
 scrape_recipes <- function(URL) {
-
+  
   brownies <- read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
-
+  
   ingredients <- html_nodes(brownies, ".ingredients-item-name")
   ingredients <- html_text(ingredients)
-
+  
   directions <- html_nodes(brownies, ".instructions-section")
   directions <- html_text(directions)
-
+  
   ingredients <- ingredients[ingredients != "Add all ingredients to list"]
   directions <- directions[directions != ""]
 }
@@ -138,15 +138,15 @@ The part inside the () of `read_html()` is the URL of the page we want to scrape
 
 ```r
 scrape_recipes <- function(URL) {
-
+  
   brownies <- read_html(URL)
-
+  
   ingredients <- html_nodes(brownies, ".added")
   ingredients <- html_text(ingredients)
-
+  
   directions <- html_nodes(brownies, ".recipe-directions__list--item")
   directions <- html_text(directions)
-
+  
   ingredients <- ingredients[ingredients != "Add all ingredients to list"]
   directions <- directions[directions != ""]
 }
@@ -157,20 +157,20 @@ To make this function print something to the console we need to specifically tel
 
 ```r
 scrape_recipes <- function(URL) {
-
+  
   brownies <- read_html(URL)
-
+  
   ingredients <- html_nodes(brownies, ".added")
   ingredients <- html_text(ingredients)
-
+  
   directions <- html_nodes(brownies, ".recipe-directions__list--item")
   directions <- html_text(directions)
-
+  
   ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions <- directions[directions != ""]
-  directions <- gsub("\n", "", directions)
-  directions <- gsub(" {2,}", "", directions)
-
+  directions  <- directions[directions != ""]
+  directions  <- gsub("\n", "", directions)
+  directions  <- gsub(" {2,}", "", directions)
+  
   print(ingredients)
   print(directions)
 }

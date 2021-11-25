@@ -1,6 +1,9 @@
 # A soup to nuts project example
 
-We'll finish the Introduction part of the book by going over a brief example of a kind of data project that you'd do in the real world. Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a dataset to making a graph that answers you research question. I don't expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers, including myself, seeing a bunch of code that you don't understand is scary and overwhelming - feel free to ignore the code itself. We'll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly why R can do (and this is only a tiny example of R's flexibility) and think about the process to get there (which we'll talk about below). 
+We'll finish the Introduction part of the book by going over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here](https://github.com/jacobkap/r4crimz/tree/master/data). The file is called "shr_1976_2020.rds".
+
+
+Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a dataset to making a graph that answers you research question. I don't expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers, including myself, seeing a bunch of code that you don't understand is scary and overwhelming - feel free to ignore the code itself. We'll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly why R can do (and this is only a tiny example of R's flexibility) and think about the process to get there (which we'll talk about below). 
 
 At the time of this writing, the FBI had just released 2020 crime data which showed about a 30% increase in murders relative to 2019. This had led to an explosion of (in my opinion highly premature) explanations of why exactly murder went up so much in 2020. A common explanation is that it is largely driven by gun violence among gang members who are killing each other in a cyclical pattern of murders followed by retaliatory murders. For our coding example, we'll examine that claim by seeing if gang violence did indeed increase, and whether they increased more than other types of murders. 
 
@@ -85,9 +88,7 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-1-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" />
 
 One of the main benefits of programming is that once you write code to do one thing, it's usually very easy to adapt it to do a similar thing. Below I've copied some of the code we used above and changed only one thing - instead of looking at the column "victim_1_relation_to_offender_1" we're now looking at the column "offender_1_weapon". That's all I did, everything else is identical. Now after about 10 seconds of copying and changing the column name, we have a graph that shows weapon usage changes from 2019 to 2020 instead of victim-offender relationship. 
 
@@ -116,7 +117,5 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-2-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
 

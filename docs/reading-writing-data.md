@@ -3,7 +3,9 @@
 
 
 
-So far in these lessons we've used data from a number of sources but which all came as .rda files which is the standard R data format. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, and fatal-police-shootings-data.sav.
+
+So far in these lessons we've used data from a number of sources but which all came as .rda or .rds files which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
 Fixed-width ASCII files are not very common and require a bit more effort than the other formats so we'll leave those until later to discuss.
 
@@ -37,9 +39,9 @@ The input in the () is the file name ending in ".csv". As it is telling R to rea
 ```r
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
 #> Rows: 4371 Columns: 14
-#> -- Column specification --------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr  (9): name, manner_of_death, armed, gender, race...
+#> chr  (9): name, manner_of_death, armed, gender, race, city, state, threat_le...
 #> dbl  (2): id, age
 #> lgl  (2): signs_of_mental_illness, body_camera
 #> date (1): date
@@ -54,17 +56,15 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 ```r
 head(shootings)
 #> # A tibble: 6 x 14
-#>      id name     date       manner_of_death armed    age
-#>   <dbl> <chr>    <date>     <chr>           <chr>  <dbl>
-#> 1     3 Tim Ell~ 2015-01-02 shot            gun       53
-#> 2     4 Lewis L~ 2015-01-02 shot            gun       47
-#> 3     5 John Pa~ 2015-01-03 shot and Taser~ unarm~    23
-#> 4     8 Matthew~ 2015-01-04 shot            toy w~    32
-#> 5     9 Michael~ 2015-01-04 shot            nail ~    39
-#> 6    11 Kenneth~ 2015-01-04 shot            gun       18
-#> # ... with 8 more variables: gender <chr>, race <chr>,
-#> #   city <chr>, state <chr>,
-#> #   signs_of_mental_illness <lgl>, threat_level <chr>,
+#>      id name    date       manner_of_death  armed   age gender race  city  state
+#>   <dbl> <chr>   <date>     <chr>            <chr> <dbl> <chr>  <chr> <chr> <chr>
+#> 1     3 Tim El~ 2015-01-02 shot             gun      53 M      A     Shel~ WA   
+#> 2     4 Lewis ~ 2015-01-02 shot             gun      47 M      W     Aloha OR   
+#> 3     5 John P~ 2015-01-03 shot and Tasered unar~    23 M      H     Wich~ KS   
+#> 4     8 Matthe~ 2015-01-04 shot             toy ~    32 M      W     San ~ CA   
+#> 5     9 Michae~ 2015-01-04 shot             nail~    39 M      H     Evans CO   
+#> 6    11 Kennet~ 2015-01-04 shot             gun      18 M      W     Guth~ OK   
+#> # ... with 4 more variables: signs_of_mental_illness <lgl>, threat_level <chr>,
 #> #   flee <chr>, body_camera <lgl>
 ```
 
@@ -143,7 +143,7 @@ For saving an .rda file we must set the parameter `file` to be the name we're sa
 
 
 ```r
-save(shootings, file = "data/shootings.rda")
+save(shootings, file =  "data/shootings.rda")
 ```
 
 ### Excel 

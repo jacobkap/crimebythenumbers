@@ -9,6 +9,8 @@ This chapter will only briefly introduce R Markdown, for a comprehensive guide p
 
 What R Markdown does is let you type exactly as you would in Microsoft Word and insert the code to make the table or graph in the places you want it. If you change the code, the document will have the up-to-date result already, reducing your workload. There is some additional formatting you have to do when using R Markdown but it is minimal and is well-worth the return on the effort. This book, for example, was made entirely using R Markdown. 
 
+I include this chapter early in the book - and likely before you are really comfortable with using R - since some new R programmers do like to do all of their work using this method. In my experience this is relatively rare, but I still wanted to make the info available for those that do. For new programmers I recommend reading this chapter so you understand R Markdown, but still use normal R scripts when writing code - don't use R Markdown for everything. Focus on learning how to write good code before adding the complexity of writing full documents using R Markdown. 
+
 To open up a R Markdown file click File from the top menu, then New File, and then R Markdown...
 
 ![](images/markdown1.png)
@@ -77,26 +79,17 @@ mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```
 
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-2)This is an example table caption}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r}
-\hline
-  & mpg & cyl & disp & hp & drat\\
-\hline
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85\\
-\hline
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08\\
-\hline
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15\\
-\hline
-\end{tabular}
-\end{table}
+
+Table: (\#tab:unnamed-chunk-2)This is an example table caption
+
+|                  |  mpg| cyl| disp|  hp| drat|
+|:-----------------|----:|---:|----:|---:|----:|
+|Mazda RX4         | 21.0|   6|  160| 110| 3.90|
+|Mazda RX4 Wag     | 21.0|   6|  160| 110| 3.90|
+|Datsun 710        | 22.8|   4|  108|  93| 3.85|
+|Hornet 4 Drive    | 21.4|   6|  258| 110| 3.08|
+|Hornet Sportabout | 18.7|   8|  360| 175| 3.15|
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
 

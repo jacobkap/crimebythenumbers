@@ -5,6 +5,8 @@
 
 # Graphing with `ggplot2` {#graphing-intro}
 
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): apparent_per_capita_alcohol_consumption.rda.
+
 We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
 
 The 'gg' part of `ggplot2` stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces.' We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
@@ -41,8 +43,7 @@ The original data has every state, region, and the US as a whole. For this lesso
 
 
 ```r
-penn_alcohol <- alcohol[alcohol$state == "pennsylvania",
-  ]
+penn_alcohol <- alcohol[alcohol$state == "pennsylvania", ]
 ```
 
 ## What does the data look like? 
@@ -67,55 +68,34 @@ names(penn_alcohol)
 
 ```r
 summary(penn_alcohol)
-#>     state               year          
-#>  Length:41          Length:41         
-#>  Class :character   Class :character  
-#>  Mode  :character   Mode  :character  
-#>                                       
-#>                                       
-#>                                       
-#>  ethanol_beer_gallons_per_capita
-#>  Min.   :1.210                  
-#>  1st Qu.:1.310                  
-#>  Median :1.350                  
-#>  Mean   :1.344                  
-#>  3rd Qu.:1.380                  
-#>  Max.   :1.450                  
-#>  ethanol_wine_gallons_per_capita
-#>  Min.   :0.1700                 
-#>  1st Qu.:0.1900                 
-#>  Median :0.2100                 
-#>  Mean   :0.2276                 
-#>  3rd Qu.:0.2500                 
-#>  Max.   :0.3300                 
-#>  ethanol_spirit_gallons_per_capita
-#>  Min.   :0.4500                   
-#>  1st Qu.:0.5100                   
-#>  Median :0.6100                   
-#>  Mean   :0.5939                   
-#>  3rd Qu.:0.6800                   
-#>  Max.   :0.7400                   
-#>  ethanol_all_drinks_gallons_per_capita number_of_beers
-#>  Min.   :1.850                         Min.   :286.8  
-#>  1st Qu.:2.040                         1st Qu.:310.5  
-#>  Median :2.220                         Median :320.0  
-#>  Mean   :2.167                         Mean   :318.7  
-#>  3rd Qu.:2.330                         3rd Qu.:327.1  
-#>  Max.   :2.390                         Max.   :343.7  
-#>  number_of_glasses_wine number_of_shots_liquor
-#>  Min.   :33.74          Min.   : 93.43        
-#>  1st Qu.:37.71          1st Qu.:105.89        
-#>  Median :41.67          Median :126.65        
-#>  Mean   :45.16          Mean   :123.31        
-#>  3rd Qu.:49.61          3rd Qu.:141.18        
-#>  Max.   :65.49          Max.   :153.64        
-#>  number_of_drinks_total
-#>  Min.   :394.7         
-#>  1st Qu.:435.2         
-#>  Median :473.6         
-#>  Mean   :462.3         
-#>  3rd Qu.:497.1         
-#>  Max.   :509.9
+#>     state               year           ethanol_beer_gallons_per_capita
+#>  Length:41          Length:41          Min.   :1.210                  
+#>  Class :character   Class :character   1st Qu.:1.310                  
+#>  Mode  :character   Mode  :character   Median :1.350                  
+#>                                        Mean   :1.344                  
+#>                                        3rd Qu.:1.380                  
+#>                                        Max.   :1.450                  
+#>  ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita
+#>  Min.   :0.1700                  Min.   :0.4500                   
+#>  1st Qu.:0.1900                  1st Qu.:0.5100                   
+#>  Median :0.2100                  Median :0.6100                   
+#>  Mean   :0.2276                  Mean   :0.5939                   
+#>  3rd Qu.:0.2500                  3rd Qu.:0.6800                   
+#>  Max.   :0.3300                  Max.   :0.7400                   
+#>  ethanol_all_drinks_gallons_per_capita number_of_beers number_of_glasses_wine
+#>  Min.   :1.850                         Min.   :286.8   Min.   :33.74         
+#>  1st Qu.:2.040                         1st Qu.:310.5   1st Qu.:37.71         
+#>  Median :2.220                         Median :320.0   Median :41.67         
+#>  Mean   :2.167                         Mean   :318.7   Mean   :45.16         
+#>  3rd Qu.:2.330                         3rd Qu.:327.1   3rd Qu.:49.61         
+#>  Max.   :2.390                         Max.   :343.7   Max.   :65.49         
+#>  number_of_shots_liquor number_of_drinks_total
+#>  Min.   : 93.43         Min.   :394.7         
+#>  1st Qu.:105.89         1st Qu.:435.2         
+#>  Median :126.65         Median :473.6         
+#>  Mean   :123.31         Mean   :462.3         
+#>  3rd Qu.:141.18         3rd Qu.:497.1         
+#>  Max.   :153.64         Max.   :509.9
 ```
 
 
@@ -128,41 +108,27 @@ head(penn_alcohol)
 #> 1562 pennsylvania 2014                            1.32
 #> 1563 pennsylvania 2013                            1.34
 #> 1564 pennsylvania 2012                            1.36
-#>      ethanol_wine_gallons_per_capita
-#> 1559                            0.33
-#> 1560                            0.33
-#> 1561                            0.32
-#> 1562                            0.32
-#> 1563                            0.31
-#> 1564                            0.31
-#>      ethanol_spirit_gallons_per_capita
-#> 1559                              0.71
-#> 1560                              0.72
-#> 1561                              0.70
-#> 1562                              0.70
-#> 1563                              0.68
-#> 1564                              0.67
-#>      ethanol_all_drinks_gallons_per_capita
-#> 1559                                  2.34
-#> 1560                                  2.36
-#> 1561                                  2.33
-#> 1562                                  2.34
-#> 1563                                  2.33
-#> 1564                                  2.34
-#>      number_of_beers number_of_glasses_wine
-#> 1559        305.7778               65.48837
-#> 1560        310.5185               65.48837
-#> 1561        310.5185               63.50388
-#> 1562        312.8889               63.50388
-#> 1563        317.6296               61.51938
-#> 1564        322.3704               61.51938
-#>      number_of_shots_liquor number_of_drinks_total
-#> 1559               147.4128               499.2000
-#> 1560               149.4891               503.4667
-#> 1561               145.3366               497.0667
-#> 1562               145.3366               499.2000
-#> 1563               141.1841               497.0667
-#> 1564               139.1079               499.2000
+#>      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita
+#> 1559                            0.33                              0.71
+#> 1560                            0.33                              0.72
+#> 1561                            0.32                              0.70
+#> 1562                            0.32                              0.70
+#> 1563                            0.31                              0.68
+#> 1564                            0.31                              0.67
+#>      ethanol_all_drinks_gallons_per_capita number_of_beers
+#> 1559                                  2.34        305.7778
+#> 1560                                  2.36        310.5185
+#> 1561                                  2.33        310.5185
+#> 1562                                  2.34        312.8889
+#> 1563                                  2.33        317.6296
+#> 1564                                  2.34        322.3704
+#>      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
+#> 1559               65.48837               147.4128               499.2000
+#> 1560               65.48837               149.4891               503.4667
+#> 1561               63.50388               145.3366               497.0667
+#> 1562               63.50388               145.3366               499.2000
+#> 1563               61.51938               141.1841               497.0667
+#> 1564               61.51938               139.1079               499.2000
 ```
 
 So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
@@ -194,12 +160,11 @@ The code below starts by writing our data set name. Then says what our x- and y-
 
 
 ```r
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers))
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the "year" column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and `ggplot()` will be smarter about printing fewer years.
 
@@ -210,12 +175,11 @@ penn_alcohol$year <- as.numeric(penn_alcohol$year)
 
 
 ```r
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers))
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.
 
@@ -227,9 +191,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_point()
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -237,33 +199,30 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can also combine different types of graphs.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
-  geom_point() + geom_line()
+  geom_point() +
+  geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
-  geom_point() + geom_line() + expand_limits(y = 0)
+  geom_point() +
+  geom_line() +
+  expand_limits(y = 0)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -275,9 +234,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not need to include it in the () of `ggplot()` but use their own functions to add them to the graph.
 
@@ -289,13 +246,13 @@ Some other useful features are changing the axis labels and the graph title. Unl
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
-  geom_line(color = "forestgreen", size = 1.3) + xlab("Year") +
-  ylab("Number of Beers") + ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
+  geom_line(color = "forestgreen", size = 1.3) +
+  xlab("Year") +
+  ylab("Number of Beers") +
+  ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let's stick with the data we currently have and just change `ggplot()`.
 
@@ -307,62 +264,60 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 Then include a second geom_line() with its own aes() for the second variable.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
-  geom_line() + geom_line(aes(x = year, y = number_of_shots_liquor))
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
-  color = "Glasses of Wine")) + geom_line() + geom_line(aes(x = year,
-  y = number_of_shots_liquor, color = "Shots of Liquor"))
+                         color = "Glasses of Wine")) +
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor,
+                color = "Shots of Liquor"))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
-  color = "Glasses of Wine")) + geom_line() + geom_line(aes(x = year,
-  y = number_of_shots_liquor, color = "Shots of Liquor")) +
+                         color = "Glasses of Wine")) +
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor,
+                color = "Shots of Liquor")) +
   labs(color = "Alcohol Type")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-22-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
-  color = "Glasses of Wine")) + geom_line() + geom_line(aes(x = year,
-  y = number_of_shots_liquor, color = "Shots of Liquor")) +
-  labs(color = "Alcohol Type") + theme(legend.position = "bottom")
+                         color = "Glasses of Wine")) +
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor,
+                color = "Shots of Liquor")) +
+  labs(color = "Alcohol Type") +
+  theme(legend.position = "bottom")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Scatter Plots
 
@@ -370,13 +325,12 @@ Making a scatter plot simply requires changing the x-axis from year to another n
 
 
 ```r
-ggplot(penn_alcohol, aes(x = number_of_shots_liquor, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
+                         y = number_of_beers)) +
   geom_point()
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 This graph shows us that when liquor consumption increases, beer consumption also tends to increase.
 
@@ -395,12 +349,13 @@ Let's use an example of a color blind friendly color from the "qualitative" sect
 
 ```r
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
-  color = "Glasses of Wine")) + geom_line() + geom_line(aes(x = year,
-  y = number_of_shots_liquor, color = "number_of_shots_liquor")) +
-  labs(color = "Alcohol Type") + theme(legend.position = "bottom") +
+                         color = "Glasses of Wine")) +
+  geom_line() +
+  geom_line(aes(x = year, y = number_of_shots_liquor,
+                color = "number_of_shots_liquor")) +
+  labs(color = "Alcohol Type") +
+  theme(legend.position = "bottom") +
   scale_color_manual(values = c("#7570b3", "#d95f02"))
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />

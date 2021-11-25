@@ -10,6 +10,8 @@ if (!knitr:::is_html_output()) {
 
 # Subsetting: Making big things small {#subsetting-intro}
 
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
+
 Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you'd subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R. 
 
 ## Select specific values
@@ -294,32 +296,32 @@ For `&`, all of the conditions must be true. If even one condition is not true i
 
 Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which you can imagine as being like an Excel file with multiple rows and columns. 
 
-Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2017 and for nearly every agency in the country.
+Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2020 and for nearly every agency in the country.
 
 ```{r}
-load("data/offenses_known_yearly_1960_2017.rda")
+offenses_known_yearly_1960_2020 <- readRDS("data/offenses_known_yearly_1960_2020.rds")
 ```
 
 Let's peak at the first 6 rows and 6 columns using the square bracket notation `[]` for data.frames which we'll explain more below.
 
 ```{r}
-offenses_known_yearly_1960_2017[1:6, 1:6]
+offenses_known_yearly_1960_2020[1:6, 1:6]
 ```
 
 The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2017-2012. For good measure let's check how many rows and columns are in this data. This will give us some guidance on subsetting which we'll see below. `nrow()` gives us the number of rows and `ncol()` gives us the number of columns.
 
 ```{r}
-nrow(offenses_known_yearly_1960_2017)
+nrow(offenses_known_yearly_1960_2020)
 ```
 
 ```{r}
-ncol(offenses_known_yearly_1960_2017)
+ncol(offenses_known_yearly_1960_2020)
 ```
 
 This is a large file with 159 columns and nearly a million rows. Normally we wouldn't want to print out the names of all 159 columns but let's do this here as we want to know the variables available to subset.
 
 ```{r}
-names(offenses_known_yearly_1960_2017)
+names(offenses_known_yearly_1960_2020)
 ```
 
 Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?" Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
@@ -345,13 +347,13 @@ We write the data name followed by a `$` and then the column name. Make sure the
 We can do this for the column *agency_name* in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
 
 ```{r}
-head(offenses_known_yearly_1960_2017$agency_name)
+head(offenses_known_yearly_1960_2020$agency_name)
 ```
 
 They're all the same name because Anchorage Police reported many times and are in the data set multiple times. Let's look at the column *actual_murder* which shows the annual number of murders in that agency. 
 
 ```{r}
-head(offenses_known_yearly_1960_2017$actual_murder)
+head(offenses_known_yearly_1960_2020$actual_murder)
 ```
 
 One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
@@ -370,19 +372,19 @@ The exception to this is when we use the dollar sign notation to select a single
 
 
 ```{r}
-offenses_known_yearly_1960_2017[1, 1]
+offenses_known_yearly_1960_2020[1, 1]
 ```
 
 If we input multiple numbers, we can get multiple rows and columns.
 
 ```{r}
-offenses_known_yearly_1960_2017[1:6, 1:6]
+offenses_known_yearly_1960_2020[1:6, 1:6]
 ```
 
 The column section also accepts a vector of the names of the columns. These names must be spelled correctly and in quotes.
 
 ```{r}
-offenses_known_yearly_1960_2017[1:6, c("ori", "year")]
+offenses_known_yearly_1960_2020[1:6, c("ori", "year")]
 ```
 
 
@@ -391,7 +393,7 @@ In cases where we want every row or every column, we just don't put a number. By
 Here is every column in the first row.
 
 ```{r}
-offenses_known_yearly_1960_2017[1, ]
+offenses_known_yearly_1960_2020[1, ]
 ```
 
 Since there are 159 columns in our data, normally we'd want to avoid printing out all of them. And in most cases, we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
@@ -399,25 +401,25 @@ Since there are 159 columns in our data, normally we'd want to avoid printing ou
 What happens if we forget the comma? If we put in numbers for both rows and columns but don't include a comma between them it will have an error.
 
 ```{r error = TRUE}
-offenses_known_yearly_1960_2017[1 1]
+offenses_known_yearly_1960_2020[1 1]
 ```
 
 If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We'll wrap it in `head()` so it doesn't print out a million rows.
 
 ```{r}
-head(offenses_known_yearly_1960_2017[1])
+head(offenses_known_yearly_1960_2020[1])
 ```
 
 Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.
 
 ```{r error = TRUE}
-head(offenses_known_yearly_1960_2017[1000])
+head(offenses_known_yearly_1960_2020[1000])
 ```
 
 If you already specify a column using dollar sign notation `$`, you do not need to indicate any column in the square brackets`[]`. All you need to do is say which row or rows you want. 
 
 ```{r}
-offenses_known_yearly_1960_2017$agency_name[15]
+offenses_known_yearly_1960_2020$agency_name[15]
 ```
 
 So make sure when you want a row from a data.frame you always include the comma!
@@ -435,10 +437,10 @@ We could use the `&` operator to say rows must meet condition 1 and condition 2.
 Remember that we want to put the object to the left of the `[]` (and touching the `[]`) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns, we don't need to put anything after the comma (but we must include the comma!).
 
 ```{r}
-colorado <- offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017$state == "colorado", ]
+colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
 ```
 
-Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector `2011:2017`. This time our primary data set is *colorado*, not *offenses_known_yearly_1960_2017* since *colorado* has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
+Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector `2011:2017`. This time our primary data set is *colorado*, not *offenses_known_yearly_1960_2020* since *colorado* has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
 
 ```{r}
 colorado <- colorado[colorado$year %in% 2011:2017, ]

@@ -1,5 +1,7 @@
 # Introduction to R and RStudio
 
+In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda" which you'll need to download from the data repository available [here](https://github.com/jacobkap/r4crimz/tree/master/data).
+
 
 
 
@@ -71,7 +73,7 @@ The Appearance tab lets you change the background, color, and size of text. Chan
 
 The final tab we'll look at is Pane Layout. This lets you move around the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, it doesn't remove it from RStudio) and we'll talk about three of them. The Environment tab shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment tab. If it is there, you have loaded the file correctly. 
 
-As we'll discuss more in Section \@ref(finding-help-about-functions), the Help tab will open up to show you a help page for a function you want more information on. The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
+As we'll discuss more in Section \@ref(finding-help-about-functions), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
 
 ![](images/rstudio_9.PNG)
 
@@ -81,9 +83,112 @@ RStudio also includes a number of links to helpful cheat sheets for a few import
 
 ![](images/rstudio_4.PNG)
 
+## Assigning variables
+
+When we're using R for research the general process is to load data, change it somehow (such as deleting rows we don't want, aggregating from some small unit such as monthly crime to a higher unit such as yearly crime), and then analyze it. To do all this we need to be able to make sure each step we do actually changes the data. This seems simple but is actually a very common issue I've noticed when working with new R programmers - they run code on the data (e.g. deleting certain rows) but forget to save the change on that data. 
+
+Let's look at an example of this. First, we need to know how to create objects in R. I use "object" in a very vague sense to mean anything that is loaded into R and can be manipulated. To create something in R we assign "something" to an object name. This is a very technical sentence so let's look at an example and then step back and try to understand that sentence.
+
+
+```r
+a <- 1
+```
+
+Above I am creating the object "a" by assigning it the value of 1. In R term, "a is assigned 1" or "a gets 1". In non-technical terms: a equals 1. 
+
+We can print out a to see if this is true.
+
+
+```r
+a
+#> [1] 1
+```
+When we print out a, it returns 1 since that was what a was assigned to. We can assign a another value and it will overwrite 1 with whatever value we choose.
+
+
+```r
+a <- 33
+a
+#> [1] 33
+```
+Now a is 33. Or a equals 33. Or a was assigned 33. Or a gets 33. Or we assigned 33 to a. There are a lot of ways to explain what we did here, which is quite frustrating and confusing to new R programmers. I use the term assignment and gets only because that is the convention in R, but if it's easier for you to talk about something equaling something else (instead of being assigned to that value), please do so!
+
+The `<-` is what does the assignment, or what makes the thing on the left equal to the thing on the right. You might be thinking that it'd be easier to simple use the equal sign instead of the `<-` - we are making things equal after all. And you'd be right. Using `=` does the exact same thing as `<-`. 
+
+
+```r
+a = 13
+a
+#> [1] 13
+```
+We can use `=` instead of `<-` and get the same results (with very few exceptions and none that are relevant in this book). The reason that people use `<-` instead of `=` is largely a matter of convention. It's just the thing that R programmers do so new programmers adopt that. If it's easier for you to use `=` instead of `<-`, feel free to do that. In this book I'll use `<-` and talking about "assigning" values because that is the convention in R. And while that's not really a good reason to do anything, I think that it's important that new R programmers at least know what the proper conventions are and be able to speak the language (so to speak) of R programmers. 
+
+So far we've just been assigning "a" a value, or overwriting that value with a new value. We can also assign something new to have the same value as a. Let's make the object "example_123_value.demonstration" get the value that a has - or in other words make "example_123_value.demonstration" be equal to a.
+
+
+```r
+example_123_value.demonstration <- a
+example_123_value.demonstration
+#> [1] 13
+```
+I use name "example_123_value.demonstration" just an example of what you can include in an object name - any character (lower or uppercase), an number (just can't start with a number) and some punctuation (e.g. underscores and periods). Spaces are not allowed. In practice you'll want to call each object something specific so you know what it is, and ideally as short as possible. For example, if you are using crime data from Houston you'll want to call it something like "houston_crime". The R convention is to only use lowercase characters and include only underscores as the punctuation, but you can name it whatever is most useful to you. 
+
+As noted at the start of the section, a lot of new programmers will make a change to an object but forget to assign the result back into the object (or into a new object). This means that that object won't actually change. For example, let's say we want to multiply example_123_value.demonstration by 10.
+
+If we do `example_123_value.demonstration * 10` then it'll print out the result in the console, but not actually change example_123_value.demonstration. What we need to do is assign that result of the multiplication back into example_123_value.demonstration. Lots of new programmers forget to assign the results back into the object, which understandably leads to lots of confusing since the object is now not what they expect it to be. 
+
+
+```r
+example_123_value.demonstration <- example_123_value.demonstration * 10
+example_123_value.demonstration
+#> [1] 130
+```
+I've been saying "object" a lot, without defining it. An object is a bit tricky to define, especially at this stage in the book. Throughout this book I'll be using object to describe something that has been assigned value, such as "a" and "example_123_value.demonstration". This also includes outside datasets read into R, such as loading an Excel file into R and even a set of R code that has been assigned to an object (which is called a function). Each object that you have created yourself can be found in the Environment tab. 
+
+## What are functions (and packages)?
+
+When programming to do research you'll often have to do the same thing multiple times. For example, many crime datasets are available as one file for each year of data. So if you are analyzing multiple years of data you'll need to clean each file separately - and in most cases that involves using the exact same code for every file. This also includes doing things that other people have done. For example, most research leads to at least one graph made. Since making graphs is so common, many people have spent a long time writing code to make it easy to make publication-ready graphs. Instead of doing all that work ourselves we can just use code that other people have written and made available to us. 
+
+Luckily R has made it fairly easy to use code that other people have written and also reuse our own code to avoid copy and pasting code multiple times.
+
+It does this through something called a function. A function is essentially just a set of code assigned to a particular object. We'll go into detail on what functions are and how to create ones yourself in Chapter \@ref(functions), but it's such an importance concept that we'll briefly discuss them here. Let's look at the function `head()` as an example. 
+
+The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(#data_types)). We'll look at the very commonly used data called `mtcars`. `mtcars` is one in a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out the file info; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
+
+We'll use the `head()` function to print out just the first 6 rows of the `mtcars` data, but first let's talk about how functions work. Functions just run pre-written lines of code - 
+
+All functions work is the same way. You have the function name - w. If you're looking at code and see a word immediately followed by parentheses, you can be confidence that that is a function. 
+
+
+```r
+head(mtcars)
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+These packages are usually a
+
+![](images/install_packages.PNG)
+
+
+
+There are many function in R that are there 
+
+If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
+
+If we wrote `help(plot)` to figure out what the `plot()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `plot()`) are optional.
+
+![](images/help_page.PNG)
+
+
 ## Reading data into R
 
-For many research projects you'll have data produced by some outside group (FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \@ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
+For many research projects you'll have data produced by some outside group (e.g. FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \@ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
 
 ### Loading data
 
@@ -112,27 +217,20 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population
-#> 1 AK00101 2017   anchorage alaska     296188
-#> 2 AK00102 2017   fairbanks alaska      32937
-#> 3 AK00103 2017      juneau alaska      32344
-#> 4 AK00104 2017   ketchikan alaska       8230
-#> 5 AK00105 2017      kodiak alaska       6198
-#> 6 AK00106 2017        nome alaska       3829
-#>   actual_murder actual_rape_total actual_robbery_total
-#> 1            27               391                  778
-#> 2            10                24                   40
-#> 3             1                50                   46
-#> 4             1                19                    0
-#> 5             0                15                    4
-#> 6             0                 7                    0
-#>   actual_assault_aggravated
-#> 1                      2368
-#> 2                       131
-#> 3                       206
-#> 4                        14
-#> 5                        41
-#> 6                        52
+#>       ori year agency_name  state population actual_murder actual_rape_total
+#> 1 AK00101 2017   anchorage alaska     296188            27               391
+#> 2 AK00102 2017   fairbanks alaska      32937            10                24
+#> 3 AK00103 2017      juneau alaska      32344             1                50
+#> 4 AK00104 2017   ketchikan alaska       8230             1                19
+#> 5 AK00105 2017      kodiak alaska       6198             0                15
+#> 6 AK00106 2017        nome alaska       3829             0                 7
+#>   actual_robbery_total actual_assault_aggravated
+#> 1                  778                      2368
+#> 2                   40                       131
+#> 3                   46                       206
+#> 4                    0                        14
+#> 5                    4                        41
+#> 6                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
@@ -150,27 +248,20 @@ The six values it returns for numeric and Date columns are
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name       
-#>  Length:15764       Min.   :2017   Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character  
-#>                     Mean   :2017                     
-#>                     3rd Qu.:2017                     
-#>                     Max.   :2017                     
-#>     state             population      actual_murder    
-#>  Length:15764       Min.   :      0   Min.   :  0.000  
-#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
-#>  Mode  :character   Median :   4460   Median :  0.000  
-#>                     Mean   :  19872   Mean   :  1.069  
-#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
-#>                     Max.   :8616333   Max.   :653.000  
-#>  actual_rape_total  actual_robbery_total
-#>  Min.   :  -2.000   Min.   :   -1.00    
-#>  1st Qu.:   0.000   1st Qu.:    0.00    
-#>  Median :   1.000   Median :    0.00    
-#>  Mean   :   8.262   Mean   :   19.85    
-#>  3rd Qu.:   5.000   3rd Qu.:    4.00    
-#>  Max.   :2455.000   Max.   :13995.00    
+#>      ori                 year      agency_name           state          
+#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
+#>                     Mean   :2017                                        
+#>                     3rd Qu.:2017                                        
+#>                     Max.   :2017                                        
+#>    population      actual_murder     actual_rape_total  actual_robbery_total
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
 #>  actual_assault_aggravated
 #>  Min.   :   -1.00         
 #>  1st Qu.:    1.00         
@@ -189,9 +280,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-5-1} \end{center}
+<img src="intro-to-r_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 
@@ -199,11 +288,3 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 ```r
 View(ucr2017)
 ```
-
-## Finding help about functions
-
-If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
-
-If we wrote `help(plot)` to figure out what the `plot()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `plot()`) are optional.
-
-![](images/help_page.PNG)

@@ -1,5 +1,7 @@
 # Git
 
+This chapter covers git, which is a way to have version control for your code - like a programming version of Dropbox, but with a few added features. This is relatively advanced material and isn't necessary for using R. However, when you're dealing with complex projects or with multiple collaborators it is helpful to use. Given the advanceness of the material, feel free to skim or skip this chapter entirely, and come back to it when you think you need it - which will likely be after you finish the rest of the book. 
+
 
 
 ## What is Git and why do I need it?

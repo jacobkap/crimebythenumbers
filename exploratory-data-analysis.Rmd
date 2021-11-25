@@ -7,6 +7,8 @@ if (!knitr:::is_html_output()) {
   }
 ```
 
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
+
 When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
 While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.
@@ -161,8 +163,8 @@ FUN is the parameter where we tell `aggregate()` which mathematical operator to 
 In Chapter \@ref(subsetting-intro) we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
 
 ```{r comment="", results='hold'}
-load("data/offenses_known_yearly_1960_2017.rda")
-colorado <- offenses_known_yearly_1960_2017[offenses_known_yearly_1960_2017$state == "colorado", ]
+offenses_known_yearly_1960_2020 <- readRDS("data/offenses_known_yearly_1960_2020.rds")
+colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
 ```
