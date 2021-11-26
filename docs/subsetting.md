@@ -44,7 +44,7 @@ animals[3]
 #> [1] "gorilla"
 ```
 
-If we want multiple values, we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. We'll learn more about vectors and using `c()` in Section \@ref(vectors) shortly. If we wanted values 1-3, we could use `c(1, 2, 3)`, with each number separated by a comma.
+If we want multiple values, we can enter multiple numbers. If you have multiple values, you need to make a vector using `c()` and put the numbers inside the parentheses separated by a comma. If we wanted values 1-3, we could use `c(1, 2, 3)`, with each number separated by a comma.
 
 
 ```r
@@ -138,27 +138,6 @@ Now the first value, "cats", is back. Why? To make changes in R you need to tell
 This is an important point that a lot of students struggle with. R doesn't know when you want to save (in this context I am referring to creating or updating an object that is entirely in R, not saving a file to your computer) a value or update an object. If *x* is an object with a value of 2, and you write `x + 2`, it would print out 4 because 2 + 2 = 4. But that won't change the value of *x*. *x* will remain as 2 until you explicitly tell R to change its value. If you want to update *x* you need to run `x <- somevalue` where "somevalue" is whatever you want to change *x* to. 
 
 So to return to our *animals* example, if we wanted to delete the first value and keep it removed, we'd need to write `animals <- animals[-1]`. Which is essentially making a new object, also called *animals* (to avoid having many, slightly different objects that are hard to keep track of we'll reuse the name) with the same values as the original *animals* except this time excluding the first value, "cats".
-
-## Vectors (collections of "things") {#vectors}
-
-When we made *x*, we wrote `x <- 2` while when we made *animals*, we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")`. The important difference is that when assigning multiple values to an object we must use the function `c()` which **c**ombines them together. With multiple values we follow the same pattern of `object <- value` but put the value inside of `c()` and separate each value by a comma.
-
-
-```r
-x <- c(1, 2, 3)
-```
-
-The result of the `c()` is called a vector and you can think of it as a collection of values. 
-
-Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string  (a character type such as words or values with letters. In R they are put in quotes.). If they aren't the same type R will automatically convert it. 
-
-
-```r
-c("cat", "dog", 2)
-#> [1] "cat" "dog" "2"
-```
-
-Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type, R automatically converted the 2 to a string of "2".
 
 ## Logical values and operations
 

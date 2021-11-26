@@ -1,3 +1,7 @@
+# (PART) Project Management {-}
+
+In the next few chapters we'll cover proper project management including collaborating with other people (including yourself in the future who, in all likelihood, will forget a lot of the code you wrote), testing your code, and using the version control software Git.
+
 # *Mise en place*
 
 If you're familiar with cooking you might have heard the phrase [*mise en place*](https://en.wikipedia.org/wiki/Mise_en_place) which is French for "everything in its place". In cooking this concept means that you get everything - ingredients, pots, pans, bowls, utensils, etc. - needed to cook that item ready before you begin cooking. This saves time as you have everything you need in front of you and can just cook from start to finish without stopping to find something. This is also a useful idea in programming, especially when you're programming to conduct research. 

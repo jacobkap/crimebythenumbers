@@ -1,4 +1,4 @@
-# Introduction to R and RStudio
+# Introduction to R and RStudio {#intro-to-r}
 
 In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda" which you'll need to download from the data repository available [here](https://github.com/jacobkap/r4crimz/tree/master/data).
 
@@ -73,7 +73,7 @@ The Appearance tab lets you change the background, color, and size of text. Chan
 
 The final tab we'll look at is Pane Layout. This lets you move around the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, it doesn't remove it from RStudio) and we'll talk about three of them. The Environment tab shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment tab. If it is there, you have loaded the file correctly. 
 
-As we'll discuss more in Section \@ref(finding-help-about-functions), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
+As we'll discuss more in Section \@ref(#functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
 
 ![](images/rstudio_9.PNG)
 
@@ -145,19 +145,25 @@ example_123_value.demonstration
 ```
 I've been saying "object" a lot, without defining it. An object is a bit tricky to define, especially at this stage in the book. Throughout this book I'll be using object to describe something that has been assigned value, such as "a" and "example_123_value.demonstration". This also includes outside datasets read into R, such as loading an Excel file into R and even a set of R code that has been assigned to an object (which is called a function). Each object that you have created yourself can be found in the Environment tab. 
 
-## What are functions (and packages)?
+## What are functions (and packages)? {#functions-intro}
 
-When programming to do research you'll often have to do the same thing multiple times. For example, many crime datasets are available as one file for each year of data. So if you are analyzing multiple years of data you'll need to clean each file separately - and in most cases that involves using the exact same code for every file. This also includes doing things that other people have done. For example, most research leads to at least one graph made. Since making graphs is so common, many people have spent a long time writing code to make it easy to make publication-ready graphs. Instead of doing all that work ourselves we can just use code that other people have written and made available to us. 
+When programming to do research you'll often have to do the same thing multiple times. For example, many crime datasets are available as one file for each year of data. So if you are analyzing multiple years of data you'll need to clean each file separately - and in most cases that involves using the exact same code for every file. This also includes doing things that other people have done. For example, most research leads to at least one graph made. Since making graphs is so common, many people have spent a long time writing code to make it easy to make publication-ready graphs. Instead of doing all that work ourselves we can just use code that other people have written and made available to us. While we could do this by copying code, the easiest way to reuse code it to use functions. 
 
-Luckily R has made it fairly easy to use code that other people have written and also reuse our own code to avoid copy and pasting code multiple times.
+As noted in the previous section, a function is a bunch of code (it could range from a single line of code to hundreds of lines) that has been assigned to an object.We'll dive into this topic in detail in Chapter \@ref(functions) - including how to make your own functions - but using functions is such an important concept that we'll briefly introduce them here. Almost everything that you will do in R is through functions. For the most part that'll be using functions that other people have written that are available to use - and this includes functions that are built into R already and ones we have to download from other R programmers. 
 
-It does this through something called a function. A function is essentially just a set of code assigned to a particular object. We'll go into detail on what functions are and how to create ones yourself in Chapter \@ref(functions), but it's such an importance concept that we'll briefly discuss them here. Let's look at the function `head()` as an example. 
+Let's look at the function `head()` as an example. This is a function that is already built into R which means we don't need to do anything to use it. For functions that are written by other R programmers we'll need to download those functions and tell R we want to use it - and we'll show how in a bit. The way to identify a function is through the parentheses after the function name (the naming convention is the same as for objects as discussed in the previous section. We want a short, descriptive name that explains what the function does.). If we see a word followed by parentheses, we can be confident that we're looking at a function.
 
-The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(#data_types)). We'll look at the very commonly used data called `mtcars`. `mtcars` is one in a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out the file info; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
+The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(#data_types)). `head()` is an extremely useful and common function in R, but just the name alone doesn't make it clear what it does or that we need to put a data object inside the parentheses. 
 
-We'll use the `head()` function to print out just the first 6 rows of the `mtcars` data, but first let's talk about how functions work. Functions just run pre-written lines of code - 
+If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
 
-All functions work is the same way. You have the function name - w. If you're looking at code and see a word immediately followed by parentheses, you can be confidence that that is a function. 
+If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `head()`) are optional. Unfortunately, many help pages are not that useful. The image below shows the help page for `head()` and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow](https://stackoverflow.com/) where people can ask questions about programming. 
+
+![](images/help_page.PNG)
+
+For `head()` all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one in a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out the file info; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
+
+We'll use the `head()` function to print out just the first 6 rows of the `mtcars` data. 
 
 
 ```r
@@ -171,20 +177,36 @@ head(mtcars)
 #> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
-These packages are usually a
+Now we have the first 6 rows of every column from the `mtcars` data. This is a fairly simple function and is useful for quickly looking at our data. Many functions are more complicated that `head()` and involve multiple inputs rather than just the single input we had here. Some functions, for example, let you choose how you want the function to operate, as it can do so in multiple ways. Even in `head()` there's an optional input to choose how many rows you want it to return, with the default being 6. Since we didn't choose anything, the function stuck to the default and returned only 6 rows. 
+
+Throughout this book we'll spend a lot of time introducing functions that other people have made and learning how to combine the functions together to be able to get our raw data (e.g. a CSV file downloaded from a police site) into a usable format for research (e.g. cleaned to include only the rows and columns we need to analyze). For functions that other people wrote (i.e. functions built into R) we need to tell R that we want to use these functions. We do so by having R download that person's package. A package is just the name for a collection of functions in an easily downloadable format. We can do all of the downloading through R, so we don't have to go searching for them. There are two ways to download a package in R: through writing R code or through a shortcut in RStudio.
+
+Downloading a package through R code uses - like pretty much everything else in R - a function. This function is `install.packages()` where we put the name of the package we want in the (). This name also has to be in quotes since it is an object that is not currently in R. Let's install the package "meditations" which is a simple package I made that gives a random quote from the book Meditations by Marcus Aurelius. We need to run the code `install.packages("meditations")` and be sure to spell "meditations" right and put it in quotes.
+
+
+```r
+install.packages("meditations")
+#> Warning: package 'meditations' is in use and will not be installed
+```
+
+The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
 
 ![](images/install_packages.PNG)
 
+Once we have downloaded the package we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. So we need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting R. The way to do this in R is to use the function `library()` where we put the package name in the parentheses. Since the package is something that has been install to R, we don't need to quotes around the name.
 
 
-There are many function in R that are there 
+```r
+library(meditations)
+```
 
-If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
+Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincident that the function name is the same as the package name). 
 
-If we wrote `help(plot)` to figure out what the `plot()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `plot()`) are optional.
 
-![](images/help_page.PNG)
-
+```r
+meditations()
+#> [1] "The idle business of show, plays on the stage, flocks of sheep, herds, exercises with spears, a bone cast to little dogs, a bit of bread into fish-ponds, labourings of ants and burden-carrying, runnings about of frightened little mice, puppets pulled by strings- all alike. It is thy duty then in the midst of such things to show good humour and not a proud air; to understand however that every man is worth just so much as the things are worth about which he busies himself."
+```
 
 ## Reading data into R
 
@@ -280,7 +302,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="intro-to-r_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 

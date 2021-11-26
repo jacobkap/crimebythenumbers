@@ -1,7 +1,3 @@
-# (PART) Project Management {-}
-
-In the next few chapters we'll cover collaborating with other people (including yourself in the future who, in all likelihood, will forget a lot of the code you wrote), testing your code, and using the version control software Git. 
-
 # Collaboration
 
 
