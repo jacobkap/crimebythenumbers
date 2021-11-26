@@ -167,7 +167,7 @@ is.numeric(ucr2017$year)
 
 
 
-## Vectors (collections of "things") {#vectors}
+### Vectors (collections of "things") {#vectors}
 
 The first data structure we'll discuss is a vector. A vector is a collection of same type (numeric, character, logical) values in a single object. When we made *a* in Chapter \@ref(#intro-to-r), we assigned it only a single value, such as `a <- 1`. Usually we'll want to have a group of values - such as a set of years or a group of crime types - rather than just a single value. We can do this by using the same assignment method as `a <- 1` but put all of the values we want to assign to a into the function `c()` and separate each value by a comma. The `c()` function **c**ombines each value together into a single vector.
 
@@ -216,7 +216,7 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ### Data.frames
 
-Nearly everything you do in this book and in research will be through data.frames. 
+Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. Each data.frame has one or more columns and one or more rows. 
 
 You may encounter something called a data.table or a tibble. These are two popular variations of data.frames that operate much the same way as data.frames but with some different features. 
 
