@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-25" />
+<meta name="date" content="2021-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,6 +194,8 @@ div.csl-indent {
 <li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#how-to-read-this-book"><i class="fa fa-check"></i><b>1.5</b> How to read this book</a></li>
 <li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#citing-this-book"><i class="fa fa-check"></i><b>1.6</b> Citing this book</a></li>
 <li class="chapter" data-level="1.7" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.7</b> How to contribute to this book</a></li>
+<li class="chapter" data-level="1.8" data-path="index.html"><a href="index.html#where-to-find-data-included-in-this-book"><i class="fa fa-check"></i><b>1.8</b> Where to find data included in this book</a></li>
+<li class="chapter" data-level="1.9" data-path="index.html"><a href="index.html#where-to-find-code-included-in-this-book"><i class="fa fa-check"></i><b>1.9</b> Where to find code included in this book</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="2" data-path="intro-to-r.html"><a href="intro-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
@@ -223,7 +225,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.2.3" data-path="data_types.html"><a href="data_types.html#other-data-structures"><i class="fa fa-check"></i><b>3.2.3</b> Other data structures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>4</b> A soup to nuts project example</a></li>
+<li class="chapter" data-level="4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>4</b> A soup to nuts project example</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#reusing-and-modifying-code"><i class="fa fa-check"></i><b>4.1</b> Reusing and modifying code</a></li>
+</ul></li>
 <li class="part"><span><b>II Project Management</b></span></li>
 <li class="chapter" data-level="5" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>5</b> <em>Mise en place</em></a>
 <ul>
@@ -338,7 +343,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>12.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="reshaping-data-reshaping.html"><a href="reshaping-data-reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data {#reshaping{}}</a></li>
+<li class="chapter" data-level="13" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data</a></li>
 <li class="chapter" data-level="14" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>14</b> Reading and Writing Data</a>
 <ul>
 <li class="chapter" data-level="14.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>14.1</b> Reading Data into R</a>
@@ -502,11 +507,11 @@ div.csl-indent {
 <h2><span class="header-section-number">7.3</span> Tables</h2>
 <p>There are a number of packages that make nice tables in R Markdown. We will use the <code>knitr</code> package for this example.</p>
 <p>The easiest way to make a table in Markdown is to make a data.frame with all the data (and column names) you want and then show that data.frame (there are also packages that can make tables from regression output though that won’t be covered in this lesson). For this example we will subset the <em>mtcars</em> data (which is included in R) to just the first 5 rows and columns. The <code>kable</code> function from the <code>knitr</code> package will then make a nice looking table. With <code>kable</code> you can add the caption directly in the <code>kable()</code> function. The option <code>echo</code> in our code chunk is not set to FALSE here so you can see the code.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="r-markdown.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb44-2"><a href="r-markdown.html#cb44-2" aria-hidden="true" tabindex="-1"></a>mtcars_small <span class="ot">&lt;-</span> mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb44-3"><a href="r-markdown.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mtcars_small, <span class="at">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="r-markdown.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb50-2"><a href="r-markdown.html#cb50-2" aria-hidden="true" tabindex="-1"></a>mtcars_small <span class="ot">&lt;-</span> mtcars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb50-3"><a href="r-markdown.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(mtcars_small, <span class="at">caption =</span> <span class="st">&quot;This is an example table caption&quot;</span>)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-2">Table 7.1: </span>This is an example table caption</caption>
+<caption><span id="tab:unnamed-chunk-1">Table 7.1: </span>This is an example table caption</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -564,7 +569,7 @@ div.csl-indent {
 </div>
 <div id="footnotes" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Footnotes</h2>
-<p>In your writing, you’ll often have sentences that you want to include but are auxiliary to your main point (or, frequently, to include links to specific resources such as a website where you got data from). In these cases you’ll want to include that info as a footnote, which is a section at the bottom of the page for this kind of information. To create a footnote in RMarkdown, you use the carrot ^ followed immediately by square brackets []. Put the text inside of the [] and it’ll print that at the bottom of the page. A footnote will look like this: <code>^[This sentence will be printed as a footnote]</code>. In cases where you have a very long footnote it may extend to the next page and will be again at the bottom of the page. Look down at the bottom of this page to see the footnote (in a PDF or Word Doc, the footnote will be on the page you create it on, however since websites are just one long page without breaks, this footnote is at the very bottom of this entire page.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> When you use a footnote, you’ll usually put it immediately after the punctuation of the sentence it should be after. Note that footnotes are numbered so you can identify them. There’s a blue superscript 1 where we made the footnote so people reading know the context - i.e. which part of the text they relate to. If we make another footnote, it’ll be numbered sequentially, such that the next one is 2, the next is 3, etc.</p>
+<p>In your writing, you’ll often have sentences that you want to include but are auxiliary to your main point (or, frequently, to include links to specific resources such as a website where you got data from). In these cases you’ll want to include that info as a footnote, which is a section at the bottom of the page for this kind of information. To create a footnote in RMarkdown, you use the carrot ^ followed immediately by square brackets []. Put the text inside of the [] and it’ll print that at the bottom of the page. A footnote will look like this: <code>^[This sentence will be printed as a footnote]</code>. In cases where you have a very long footnote it may extend to the next page and will be again at the bottom of the page. Look down at the bottom of this page to see the footnote (in a PDF or Word Doc, the footnote will be on the page you create it on, however since websites are just one long page without breaks, this footnote is at the very bottom of this entire page.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> When you use a footnote, you’ll usually put it immediately after the punctuation of the sentence it should be after. Note that footnotes are numbered so you can identify them. There’s a blue superscript 1 where we made the footnote so people reading know the context - i.e. which part of the text they relate to. If we make another footnote, it’ll be numbered sequentially, such that the next one is 2, the next is 3, etc.</p>
 <p>If you’re familiar with LaTeX you can use LaTeX code such as <code>\footnote{}</code> where the text goes inside the {}. But note that citations (which we’ll learn in Section <a href="r-markdown.html#citation">7.5</a>) won’t work properly in the footnote if made this way. You can use LaTeX code - and use LaTeX packages - in RMarkdown if you’d like and it’ll operate (in most cases) like normal LaTeX.</p>
 </div>
 <div id="citation" class="section level2" number="7.5">
@@ -617,8 +622,8 @@ Reaves, Brian. 1993. <em>Using <span>NIBRS</span> Data to Analyze Violent Crime<
 </div>
 <div class="footnotes">
 <hr />
-<ol start="5">
-<li id="fn5"><p>This is an example of a footnote.<a href="r-markdown.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<ol start="7">
+<li id="fn7"><p>This is an example of a footnote.<a href="r-markdown.html#fnref7" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

@@ -59,8 +59,8 @@ Checking what 2 is tells us that it is both a "numeric" type and a "vector" type
 
 ```r
 is("2")
-#> [1] "character"           "vector"              "data.frameRowLabels"
-#> [4] "SuperClassMethod"
+#> [1] "character"           "vector"             
+#> [3] "data.frameRowLabels" "SuperClassMethod"
 ```
 
 Checking "2" (in quotes), gives us four different types of data for this value: "character", "vector", "data.frameRowLabels", and "SuperClassMethod". You can ignore the last two types, we just are interested in that it is a "character" type and, like the type of 2, is a "vector".
@@ -76,8 +76,8 @@ Finally, checking what TRUE is returns both "logical" and "vector". We expected 
 
 ```r
 is("TRUE")
-#> [1] "character"           "vector"              "data.frameRowLabels"
-#> [4] "SuperClassMethod"
+#> [1] "character"           "vector"             
+#> [3] "data.frameRowLabels" "SuperClassMethod"
 ```
 
 
@@ -128,7 +128,7 @@ is.logical(TRUE)
 
 So far we've just been checking the value of a single thing: a single number, a single character/string, or a single Boolean value. In practice almost everything we do will be on a column of a data set. These functions still work in the exact same way. We input the column (using the data$column syntax discussed in Chapter \@ref(#intro-to-r) to specify which data set we want and which column in that data set) and the function will behave just like it did above. That's because each column can only be a single type of data; if the column is numeric, all values will be numeric; if the column is character, all values in that column are character; if the column is logical, every value in that column is also logical. There's no confusion on columns have some values be, for example, numeric and others be character or logical.
 
-Let's use the UCR data from 2017 that was introduced in Chapter \@ref(#intro-to-r)
+Let's use the UCR data from 2017 that was introduced in Chapter \@ref(#intro-to-r). Remember that the data must be in your working directory to load it. And here I have "data/" before the data name because the data is in a folder called "data" in my working directory. For more on working directories, please see Section \@ref(setting-the-working-directory).
 
 
 ```r
@@ -140,10 +140,14 @@ We need to know the column names before using them, so we can use the `names()` 
 
 ```r
 names(ucr2017)
-#> [1] "ori"                       "year"                     
-#> [3] "agency_name"               "state"                    
-#> [5] "population"                "actual_murder"            
-#> [7] "actual_rape_total"         "actual_robbery_total"     
+#> [1] "ori"                      
+#> [2] "year"                     
+#> [3] "agency_name"              
+#> [4] "state"                    
+#> [5] "population"               
+#> [6] "actual_murder"            
+#> [7] "actual_rape_total"        
+#> [8] "actual_robbery_total"     
 #> [9] "actual_assault_aggravated"
 ```
 
@@ -162,10 +166,9 @@ is.numeric(ucr2017$year)
 #> [1] TRUE
 ```
 
-
 ## Data structures
 
-
+We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(#subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
 
 ### Vectors (collections of "things") {#vectors}
 
@@ -216,7 +219,88 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ### Data.frames
 
-Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. Each data.frame has one or more columns and one or more rows. 
+Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of values. You can't have, for example, a data.frame with 10 rows of data for the city and only 8 for the year. It must be 10 for each. Since vectors can only be a single type, each column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame which has both numeric and character type columns. 
+
+In this book I'll refer data.frames by keeping it all lower case and with a dot between the words. This is just because the function to make one is `data.frame()` and writing it this way is the normal convention. But writing it as a data frame is also fine. In nearly all cases we'll be using data that is loaded into R and is already in the structure of a data.frame (usually these will be Excel files or R data files like an .Rda or .Rds file).
+
+If we wanted to create out own data.frame we would use the `data.frame()` function and the input would be vectors which will become our columns. Let's make a simple one. If the vector is already created then R would automatically take the name of that object as the column name, otherwise we could name it ourselves
+
+
+```r
+example <- data.frame(column_1 = c(1, 3, 5, 7, 9),
+                      column2  = c("hello", "darkness", "my", "old", "friend"))
+example
+#>   column_1  column2
+#> 1        1    hello
+#> 2        3 darkness
+#> 3        5       my
+#> 4        7      old
+#> 5        9   friend
+```
+
+Now we have a new data.frame called example which has two columns and five rows. I named the column myself and in this case we don't need to put the column name in quotes, though doing so would give the same result. Here we're saying that the column "column_1" is equal to the vector `c(1, 3, 5, 7, 9)` and "column_2" is equal to the vector `c("hello", "darkness", "my", "old", "friend")`. We're essentially creating an object inside of the `data.frame()` function but in this case we need to use the equal sign and not the `<-` because R doesn't allow the use of `<-` inside of a function. 
+
+If we forget to name the columns, and our vectors aren't already created with their own name, R will create a name based on the values in that vector. As shown below, this looks really bad so make sure to always name your columns. 
+
+
+```r
+example <- data.frame(c(1, 3, 5, 7, 9),
+                      c("hello", "darkness", "my", "old", "friend"))
+example
+#>   c.1..3..5..7..9.
+#> 1                1
+#> 2                3
+#> 3                5
+#> 4                7
+#> 5                9
+#>   c..hello....darkness....my....old....friend..
+#> 1                                         hello
+#> 2                                      darkness
+#> 3                                            my
+#> 4                                           old
+#> 5                                        friend
+```
+
+If the vectors are already made then we won't have an issue. R will default to the vector name but we can override that if we want.
+
+
+```r
+column_1 = c(1, 3, 5, 7, 9)
+column2  = c("hello", "darkness", "my", "old", "friend")
+example <- data.frame(column_1, 
+           overridden_name = column2)
+example
+#>   column_1 overridden_name
+#> 1        1           hello
+#> 2        3        darkness
+#> 3        5              my
+#> 4        7             old
+#> 5        9          friend
+```
+
+As with other objects, we can use the `is()` function to see what type it is. If we use `is()` on our example object it'll tell us that it is a data.frame.
+
+
+```r
+is(example)
+#> [1] "data.frame" "list"       "oldClass"   "vector"
+```
+
+We also often will want to know how many columns and rows as data.frame has. For finding the number of rows we use the function `nrow()` and for finding the number of columns we'll use the `ncol()` column.^[We could also use the `dim()` function which tells the dimensions of the data.frame - so how many rows and columns it has. This function returns a vector showing first the number of rows and then the number of columns. But I find it easier to simply ask for the number of rows or columns separately, and to not deal with the result which has two values.] In each the "n" part of the function just stands for number. So `nrow()` is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R, so R knows it exists as an object) and it will return the number of rows/columns.
+
+
+```r
+nrow(example)
+#> [1] 5
+```
+
+
+```r
+ncol(example)
+#> [1] 2
+```
+
+Alternatively, we could have looked in the Environment tab which shows us the number of rows and columns of each data.frame that is loaded to R. For example, ucr2017 says it has "15764 obs. of 9 variables". This just means there are 15,764 rows and 9 variables. A variable in this context is just another way to say a column. However, you'll occasionally want to have the exact number of rows and columns and as you'll often delete certain rows and columns from your data this can change throughout your code so being able to use `nrow()` and `ncol()` is easier than repeatedly checking the Environment tab. 
 
 You may encounter something called a data.table or a tibble. These are two popular variations of data.frames that operate much the same way as data.frames but with some different features. 
 
@@ -245,13 +329,20 @@ head(list_example)
 #> 
 #> 
 #> [[5]]
-#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+#>                    mpg cyl disp  hp drat    wt  qsec vs
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1
+#>                   am gear carb
+#> Mazda RX4          1    4    4
+#> Mazda RX4 Wag      1    4    4
+#> Datsun 710         1    4    1
+#> Hornet 4 Drive     0    3    1
+#> Hornet Sportabout  0    3    2
+#> Valiant            0    3    1
 ```
 The list that I called list_example contains six different elements in it: a character, two numeric vectors, a list of a numeric vector, and the first six rows of the mtcars data.frame. Lists can be useful when storing many different objects at once, but as they are not used too often for research-related programming I'll say no more of them. 
 

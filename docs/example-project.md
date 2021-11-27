@@ -6,18 +6,19 @@ Below is a large chunk of R code along with some comments about what the code do
 
 At the time of this writing, the FBI had just released 2020 crime data which showed about a 30% increase in murders relative to 2019. This had led to an explosion of (in my opinion highly premature) explanations of why exactly murder went up so much in 2020. A common explanation is that it is largely driven by gun violence among gang members who are killing each other in a cyclical pattern of murders followed by retaliatory murders. For our coding example, we'll examine that claim by seeing if gang violence did indeed increase, and whether they increased more than other types of murders. 
 
-The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site [FiveThirtyEight](https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/) in discussing the murder increase in 2020. So this is an actual work product that is used in major media publications - and is something that you'll be able to do by the end of this book. 
+The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data which technically does have a variable that says if the murder is gang related, but it's a very flawed variable (i.e. vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and was not driven merely by an increase in one or a few groups. 
+
 
 ![](images/shr_motivation_example.png)
 
-This is using FBI murder data which technically does have a variable that says if the murder is gang related, but it's a flawed variable so I prefer to use stranger and acquaintance murders as a proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and was not driven merely by an increase in one or a few groups. 
 
+These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site [FiveThirtyEight](https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/) in discussing the murder increase in 2020. So this is an actual work product that is used in major media publications - and is something that you'll be able to do by the end of this book. For nearly all research you do you'll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.
 
-
+Please look below at the large chunk of code. It is a lot of code and includes mostly things that we haven't covered yet. Still, try to read the code - especially the comments - 
 
 
 ```r
-library(dplyr)
+library(dplyr)      # Used to aggregate data
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':
@@ -26,9 +27,9 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-library(ggplot2)
-library(crimeutils)
-library(tidyr)
+library(ggplot2)    # Used to make the graph
+library(crimeutils) # Used to capitalize words in a column
+library(tidyr)      # Used to reshape the data
 
 # Load in the data
 shr <- readRDS("data/shr_1976_2020.rds") 
@@ -43,12 +44,11 @@ agencies_in_both <- agencies_2019[agencies_2019 %in% agencies_2020]
 agencies_in_both <- unique(agencies_in_both)
 
 # Keep just data from 2019 and 2020 and where the agencies is one of the
-# agencies chosen above
-shr_2019_and_2020 <-
-  shr %>%
-  filter(year %in% 2019:2020,
-         ori %in% agencies_in_both,
-         homicide_type %in% "murder and nonnegligent manslaughter")
+# agencies chosen above. Also keep only murder and nonnegligent manslaughter (so excluding 
+# negligent manslaughter). 
+shr_2019_and_2020 <- shr[shr$year %in% 2019:2020,]
+shr_2019_and_2020 <- shr[shr$ori  %in% agencies_in_both,]
+shr_2019_and_2020 <- shr[shr$homicide_type %in% "murder and nonnegligent manslaughter",]
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
@@ -63,11 +63,6 @@ shr_difference <-
          victim_1_relation_to_offender_1 = capitalize_words(victim_1_relation_to_offender_1)) %>%
   filter(`2019` >= 50) %>%
   arrange(percent_change)
-
-# Print out some summary statistics (e.g. mean, median, max) about the percent change
-print(summary(shr_difference$percent_change))
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#> -10.909   5.215  14.644  14.778  24.840  36.808
 
 # This is only for the graph. By default graphs order alphabetically but this makes
 # sure it orders it based on the ordering we made above (largest to smallest percent
@@ -92,7 +87,11 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
 
 <img src="example-project_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" />
 
-One of the main benefits of programming is that once you write code to do one thing, it's usually very easy to adapt it to do a similar thing. Below I've copied some of the code we used above and changed only one thing - instead of looking at the column "victim_1_relation_to_offender_1" we're now looking at the column "offender_1_weapon". That's all I did, everything else is identical. Now after about 30 seconds of copying and changing the column name, we have a graph that shows weapon usage changes from 2019 to 2020 instead of victim-offender relationship.
+## Reusing and modifying code
+
+One of the main benefits of programming is that once you write code to do one thing, it's usually very easy to adapt it to do a similar thing. Below I've copied some of the code we used above and changed only one thing: instead of looking at the column "victim_1_relation_to_offender_1" we're now looking at the column "offender_1_weapon". That's all I did, everything else is identical. Now after about 30 seconds of copying and changing the column name, we have a graph that shows weapon usage changes from 2019 to 2020 instead of victim-offender relationship. 
+
+This is one of the key benefits of programming over something more click intensive like using Excel or SPSS.^[I'm aware that technically you can write SPSS code. However, every single person I know who has ever used SPSS does so by clicking buttons and is afraid of writing code.] There's certainly more upfront work than just clicking buttons, but once we have working code we can very quickly reuse it or modify it slightly. 
 
 
 ```r
@@ -121,4 +120,4 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
 
 <img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
 
-While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and examine the data in any way you'd like. 
+While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph. 

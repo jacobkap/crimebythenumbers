@@ -6,5 +6,8 @@ knitr::opts_chunk$set(
   fig.width = 10,
   fig.asp = 0.7,  # 0.618 1 / phi
   fig.show = "hold",
-  error = TRUE
+  error = TRUE,
+  tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE
 )
+
+options("width" = 56)

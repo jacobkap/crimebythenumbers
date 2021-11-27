@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-25" />
+<meta name="date" content="2021-11-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -194,6 +194,8 @@ div.csl-indent {
 <li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#how-to-read-this-book"><i class="fa fa-check"></i><b>1.5</b> How to read this book</a></li>
 <li class="chapter" data-level="1.6" data-path="index.html"><a href="index.html#citing-this-book"><i class="fa fa-check"></i><b>1.6</b> Citing this book</a></li>
 <li class="chapter" data-level="1.7" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i><b>1.7</b> How to contribute to this book</a></li>
+<li class="chapter" data-level="1.8" data-path="index.html"><a href="index.html#where-to-find-data-included-in-this-book"><i class="fa fa-check"></i><b>1.8</b> Where to find data included in this book</a></li>
+<li class="chapter" data-level="1.9" data-path="index.html"><a href="index.html#where-to-find-code-included-in-this-book"><i class="fa fa-check"></i><b>1.9</b> Where to find code included in this book</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
 <li class="chapter" data-level="2" data-path="intro-to-r.html"><a href="intro-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
@@ -223,7 +225,10 @@ div.csl-indent {
 <li class="chapter" data-level="3.2.3" data-path="data_types.html"><a href="data_types.html#other-data-structures"><i class="fa fa-check"></i><b>3.2.3</b> Other data structures</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>4</b> A soup to nuts project example</a></li>
+<li class="chapter" data-level="4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>4</b> A soup to nuts project example</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#reusing-and-modifying-code"><i class="fa fa-check"></i><b>4.1</b> Reusing and modifying code</a></li>
+</ul></li>
 <li class="part"><span><b>II Project Management</b></span></li>
 <li class="chapter" data-level="5" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>5</b> <em>Mise en place</em></a>
 <ul>
@@ -338,7 +343,7 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="12.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>12.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="reshaping-data-reshaping.html"><a href="reshaping-data-reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data {#reshaping{}}</a></li>
+<li class="chapter" data-level="13" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data</a></li>
 <li class="chapter" data-level="14" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>14</b> Reading and Writing Data</a>
 <ul>
 <li class="chapter" data-level="14.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>14.1</b> Reading Data into R</a>
@@ -506,7 +511,7 @@ div.csl-indent {
 <p>If you are like many people who start programming, all of your code will be in a single R script. This is fine when you’re first getting familiar with R and don’t want to go searching for code in places when you’re still uncomfortable with the language. As you become more familiar with R - and as your projects get more complex - you’ll want to start making multiple R scripts in a single project.</p>
 <p>When you’re writing a paper you don’t just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize your thoughts and to make it readable for others. It’s also useful when working since you know, for example, “Section 1 is done but I still need to finish Section 2 and the last of Section 3.” This way you don’t confront working on the entire paper at once. You’ll want to follow these lessons in the code you write, with each “section” of code being its own R Script and within a script split up code into particular “paragraphs.” The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let’s use a real example from one of my recent projects.</p>
 <p><img src="images/modular_scripts.PNG" /></p>
-<p>Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate dataset than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. While you could combine the code in these files into a single R script - and the code in each is not very long (shorter than the code in almost every chapter in this book) - it makes it harder to handle (much like reading an article with no space between the lines). I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper.</p>
+<p>Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate dataset than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. While you could combine the code in these files into a single R script - and the code in each is not very long (shorter than the code in almost every chapter in this book) - it makes it harder to handle (much like reading an article with no space between the lines). I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper.</p>
 <p>This is an example of how I approach making R scripts, not necessarily the best way to do so. Even here, other decisions could be made. For example, I could have put the code from census.R into clean.R since they’re both about cleaning data (and maybe rename clean.R to something like clean_survey.R). While you should try to make separate R scripts for broadly different tasks (regardless of how much code that task requires), you should experiment with how you prefer to separate these scripts, and balance between having one (or a few) super scripts that comprise everything with having too many scripts that do too little - this balance requires experience and experimentation so keep at it!</p>
 </div>
 <div id="modular-code" class="section level2" number="5.4">
@@ -531,8 +536,8 @@ div.csl-indent {
 </div>
 <div class="footnotes">
 <hr />
-<ol start="1">
-<li id="fn1"><p>Analysis was done in Stata so there are separate files for that<a href="mise-en-place.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<ol start="3">
+<li id="fn3"><p>Analysis was done in Stata so there are separate files for that<a href="mise-en-place.html#fnref3" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

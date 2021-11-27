@@ -1,6 +1,6 @@
 --- 
 title: "Crime by the Numbers: A Criminologist's Guide to R"
-date: "2021-11-25"
+date: "2021-11-27"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -16,16 +16,13 @@ graphics: yes
 \mainmatter
 
 
-
-
-
 # (PART) Introduction {-}
 
 # Preface
 
 This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
 
-For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (The free version)](https://www.rstudio.com/products/rstudio/download/) . We'll get into what R and  RStudio are soon but please have them installed to be able to follow along with each chapter. I highly recommend following along with the code for each lesson and then try to use the lessons learned on a data set you are interested in. To download the data used in this book please see [here](https://github.com/jacobkap/r4crimz/tree/master/data).
+For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (The free version)](https://www.rstudio.com/products/rstudio/download/). We'll get into what R and  RStudio are soon but please have them installed to be able to follow along with each chapter. I highly recommend following along with the code for each lesson and then try to use the lessons learned on a data set you are interested in. 
 
 ## Why learn to program?
 
@@ -116,7 +113,15 @@ For more minor issues like typos or grammar mistakes, you can edit the book dire
 
 <div class="figure" style="text-align: center">
 <img src="images/edit_button.PNG" alt="The edit button for how to make edits of this book." width="90%" />
-<p class="caption">(\#fig:unnamed-chunk-2)The edit button for how to make edits of this book.</p>
+<p class="caption">(\#fig:unnamed-chunk-1)The edit button for how to make edits of this book.</p>
 </div>
 
 Please only use the above two methods to contribute or make suggestions about the book. Don't email me. While it's a bit more work for you to do it this way, since you'll need to make a GitHub account if you don't already have one, it helps me. I wrote this book, in part, to help my career so having evidence that people read it and are contributing to it is important to me. It's a way to publicly measure the book's impact. 
+
+## Where to find data included in this book
+
+To download the data used in this book please see [here](https://github.com/jacobkap/r4crimz/tree/master/data).
+
+## Where to find code included in this book
+
+
