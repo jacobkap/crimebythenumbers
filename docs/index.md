@@ -76,7 +76,7 @@ We'll also cover a number of other data sets such as local police data and gover
 
 ## What you won't learn 
 
-This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as data that are too large for my computer to handle) requires special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. For a comprehensive look at geographic data please see this [book](https://geocompr.robinlovelace.net/). This book also will not cover any qualitative data or analysis. While qualitative research is an important part of criminology, this book only focuses on working with qualitative data. Some parts of this book may apply to dealing with qualitative data, such as PDF scraping and regular expressions, but the examples I use in those chapters still deal with quantative data.
+This book is not a statistics book so we will not be covering any statistical techniques. Though some data sets we handle are fairly large, this book does not discuss how to deal with Big Data. While the lessons you learn in this book can apply to larger data sets, Big Data (which I tend to define loosely as data that are too large for my computer to handle) requires special skills that are outside the realm of this book. If you do intend to deal with huge data sets I recommend you look at the R package [data.table](https://github.com/Rdatatable/data.table/wiki) which is an excellent resource for it. While we briefly cover mapping, this book will not cover working with geographic data in detail. For a comprehensive look at geographic data please see this [book](https://geocompr.robinlovelace.net/). This book also will not cover any qualitative data or analysis. While qualitative research is an important part of criminology, this book only focuses on working with qualitative data. Some parts of this book may apply to dealing with qualitative data, such as PDF scraping and regular expressions, but the examples I use in those chapters still deal with quantitative data.
 
 ## Simple vs Easy 
 
@@ -120,8 +120,12 @@ Please only use the above two methods to contribute or make suggestions about th
 
 ## Where to find data included in this book
 
-To download the data used in this book please see [here](https://github.com/jacobkap/r4crimz/tree/master/data).
+To download the data used in this book please see [here](https://github.com/jacobkap/r4crimz/tree/master/data). Each of the files that are used in this book are available to download here. At the top of every chapter that uses one of these files I'll say exactly which file you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
 
 ## Where to find code included in this book
 
+If you're reading this book through its [website](https://crimebythenumbers.com) you can easily copy the code by clicking on the "Copy to clipboard" option on the top right of every chunk of code. This button, shown in the image below, will copy all of the code in the chunk and you can then paste (through Control/Command+V) into R.
 
+<img src="images/copy_code.PNG" width="90%" style="display: block; margin: auto;" />
+
+I've also made each chapter available to download as an R file that has every line of code used in each chapter available to you to run. To download the files, please go to the book's GitHub page [here](https://github.com/jacobkap/crimebythenumbers/tree/master/code_repository). I've saved each chapter twice - once where it only includes the code used (in the "just_code" folder) and once where it includes the code and all of the text in the chapter (in the "code_and_text" folder). So download whichever one you want to use - the code is identical in each. 
