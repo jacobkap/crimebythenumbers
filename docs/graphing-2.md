@@ -791,13 +791,24 @@ head(shootings$year)
 
 Since the data is already sorted by date, all the values printed from `head()` are the same. But you can look at the data using `View()` to confirm that the code worked properly. 
 
-We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. For a refresher on aggregating, please see Section \@ref(aggregate)
+We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. We'll use the `group_by()` and `summarize()` functions from `dplyr` that were introduced in Chapter \@ref(#explore) to do this. And we'll use the pipe method of writing `dplyr` code that was discussed in Section \@ref(#dplyr-pipes)
 
 
 ```r
-monthly_shootings <- aggregate(dummy ~ month_year, data = shootings, FUN = sum)
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+monthly_shootings <- shootings %>% group_by(month_year) %>% summarize(dummy = sum(dummy))
 head(monthly_shootings)
+#> # A tibble: 6 x 2
 #>   month_year dummy
+#>   <date>     <dbl>
 #> 1 2015-01-01    76
 #> 2 2015-02-01    77
 #> 3 2015-03-01    92
@@ -805,6 +816,7 @@ head(monthly_shootings)
 #> 5 2015-05-01    71
 #> 6 2015-06-01    65
 ```
+
 Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We'll use the same process as earlier but our dataset is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
 
 
@@ -818,7 +830,7 @@ The process is the same for yearly data.
 
 
 ```r
-yearly_shootings <- aggregate(dummy ~ year, data = shootings, FUN = sum)
+yearly_shootings <- shootings %>% group_by(year) %>% summarize(dummy = sum(dummy))
 ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```

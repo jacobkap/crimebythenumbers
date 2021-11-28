@@ -305,7 +305,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 
 ## Graphing
 
-We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter \@ref(graphing-intro) but for now let's use the function `plot()`. 
+We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters \@ref(graphing-intro) but for now let's use the function `plot()`. The `plot()` function is built into R so we don't need to use any packages for it.
 
 Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
@@ -318,24 +318,25 @@ plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
-To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket `[]` notation to subset. Remember it is 
+To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the `filter()` function from the `dplyr` package that was introduced in Chapter \@ref(#subsetting-intro). For `filter()` we need to first include our dataset name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the "population" column have a value of over 1 million. For the `dplyr` functions we don't put our column name in quotes. 
 
-`[rows, columns]`
-
-where we either say exactly which rows or columns we want or give a conditional statement and it'll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.
-
-`[ucr2017$population > 1000000, ]`
-
-Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don't forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.
-
-`ucr2017[ucr2017$population > 1000000, ]`
-
-And let's save the results in a new object called "ucr2017_big_cities".
+And we'll save our results into a new object called ucr2017_big_cities Since we're using the `dplyr` package we need to tell R that we want to use it by using `library(dplyr)`.
 
 
 ```r
-ucr2017_big_cities <- ucr2017[ucr2017$population > 1000000, ]
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+ucr2017_big_cities <- filter(ucr2017, population > 1000000) 
 ```
+
+Now we have 18 agencies with a population of over 1 million people. 
 
 Now we can do the same graph as above but using this new data set.
 
@@ -368,99 +369,148 @@ plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
 
 ## Aggregating (summaries of groups) {#aggregate}
 
-Right now we have the number of crimes in each agency. For many policy analyses we'd be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data, we would need to **aggregate** up to the state level. What the `aggregate()` function does is group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group. 
+Right now we have the number of crimes in each agency. For many policy analyses we'd be looking at the effect on the state as a whole, rather than at the agency-level. If we wanted to do this in our data, we would need to **aggregate** up to the state level. Aggregating data means that we group values at some higher level than they currently are (e.g. from agency to state, from day to month, from city street to city neighborhood) and then do some mathematical operation of our choosing (in our case usually sum) to that group. 
 
 In Section \@ref(subset-colorado-data) we started to see if marijuana legalization affected murder in Colorado. We subsetted the data to only include agencies in Colorado from 2011-2017. Now we can continue to answer the question by aggregating to the state-level to see the total number of murders per year.
 
 Let's think about how our data are and how we would (theoretically, before we write any code) find that out. 
 
-Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2011 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2012 and add up their murders. And so on for all the years. That is essentially what `aggregate()` does. It takes each row and groups them according to the category we specify and then adds up (or does the mathematical operator we specify) each value in each group.
+Our data is a single row for each agency and we have a column indicating the year the agency reported. So how would be find out how many murders happened in Colorado for each year? Well, first we take all the agencies in 2011 (the first year available) and add up the murders for all agencies that reported that year. Then take all the rows in 2012 and add up their murders. And so on for all the years. 
 
-The syntax (how we write the code) is as follows
+To do this in R we'll be using two new functions from the `dplyr` package: `group_by()` and `summarize()`. 
 
-`aggregate(numerical_column ~ category_column, FUN = math, data = data_set)`
+These functions do the aggregation process in two steps. First we use `group_by()` to tell R which columns we want to group our data by - these are the higher level of aggregation columns so in our case will be the year of data (as we will already subset data to only Colorado and only the years 2011 through 2017). Then we need to sum up the number of murders each year. We do this using `summarize()` and we'll specify in the function that we want to sum up the data, rather than use some other math on it like finding the average number of murders each year. 
 
-The numerical column is the column that we are doing the mathematical operation (sum, mean, median) on. The category column is the one we are using to group (e.g. state, year). Note the ~ between the numerical and category columns. Unlike most functions where we specify a column name, in `aggregate()` we do **not** use quotes for the columns. 
-
-FUN is the parameter where we tell `aggregate()` which mathematical operator to use. Note that FUN is all in capital letters. That is just how this function calls the parameter so we need to make sure we write it in capital letters. data_set is the name of the data set we are aggregating.
-
-In Chapter \@ref(subsetting-intro) we wanted to see if marijuana legalization in Colorado affected murder. To do this we need to have data showing the number of murders for a few years before and after legalization. We have subsetted UCR data to get all agencies in Colorado for the 3 years before and after 2014, the year of legalization. Let's reload that data and rerun the subsetting code. 
+First, let's load back in the data and then repeat the subsetting code we did in Chapter \@ref(subset-colorado-data) to keep only data for Colorado from 2011 through 2017. We'll also include the "actual_robbery_total" column that we excluded in Chapter \@ref(subset-colorado-data) so we can see how easy it is to aggregate multiple columns at once using this method.
 
 
 ```r
 offenses_known_yearly_1960_2020 <- readRDS("data/offenses_known_yearly_1960_2020.rds")
-colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
-colorado <- colorado[colorado$year %in% 2011:2017, ]
-colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
 ```
 
-Now we can run `aggregate()` to get the number of murders per year.
+First we must group the data by using the `group()` by function. Here we're just grouping the data by year, but we could group it by multiple columns if we want by adding a comma and then the next column we want. 
 
 
 ```r
-aggregate(actual_murder ~ year, FUN = sum, data = colorado)
-  year actual_murder
-1 2011           154
-2 2012           163
-3 2013           172
-4 2014           148
-5 2015           173
-6 2016           203
-7 2017           218
+colorado <- group_by(colorado, year)
 ```
 
-If we had more grouping categories we could add them by literally using `+` and then writing the next grouping variable name. In our case since all agencies are in the same state it doesn't actually change the results.
+Now we can summarize the data using the `summarize()` function. As with other `dplyr` functions the first input is the dataset name. Then we choose our math function (sum, mean, median, etc.) and just apply that function on the column we want. So in our case we want the sum of murders so we use `sum()` and include the column we want to aggregate inside of `sum()`'s parentheses. 
 
 
 ```r
-aggregate(actual_murder ~ year + state, FUN = sum, data = colorado)
-  year    state actual_murder
-1 2011 colorado           154
-2 2012 colorado           163
-3 2013 colorado           172
-4 2014 colorado           148
-5 2015 colorado           173
-6 2016 colorado           203
-7 2017 colorado           218
+summarize(colorado, sum(actual_murder))
+#> # A tibble: 7 x 2
+#>    year `sum(actual_murder)`
+#>   <dbl>                <dbl>
+#> 1  2011                  154
+#> 2  2012                  163
+#> 3  2013                  172
+#> 4  2014                  148
+#> 5  2015                  173
+#> 6  2016                  203
+#> 7  2017                  218
 ```
 
-If we want to aggregate multiple numeric columns, we would use the `cbind()` function which binds together columns. Many times we care more about the crime rate (per 100,000 population usually) than the total number of crimes as a larger population tends to also mean more crime. We can aggregate both the population column and the actual_murder column to get totals for each year which we can use to make a murder rate column. Since we need the output of this aggregate saved somewhere to make that column, let's call it *colorado_agg*.
+If we want to aggregate another column we just add a comma after our initial column and add another math operation function and the column we want. Here we're also using `sum()` but we could use different math operations if we want - they don't need to be the same.
 
 
 ```r
-colorado_agg <- aggregate(cbind(population, actual_murder) ~ year, FUN = sum, data = colorado)
+summarize(colorado, sum(actual_murder), sum(actual_robbery_total))
+#> # A tibble: 7 x 3
+#>    year `sum(actual_murder)` `sum(actual_robbery_total)`
+#>   <dbl>                <dbl>                       <dbl>
+#> 1  2011                  154                        3287
+#> 2  2012                  163                        3369
+#> 3  2013                  172                        3122
+#> 4  2014                  148                        3021
+#> 5  2015                  173                        3305
+#> 6  2016                  203                        3513
+#> 7  2017                  218                        3811
 ```
 
-To make the murder rate we simply make a new column, which we can call *murder_rate* which is the number of murders divided by population multiplied by 100,000.
+We could even do different math operations on the same column and we'd get multiple columns from it. Let's add another column showing the average number of robberies as an example.
 
 
 ```r
-colorado_agg$murder_rate <- colorado_agg$actual_murder / colorado_agg$population * 100000
+summarize(colorado, sum(actual_murder), sum(actual_robbery_total), mean(actual_robbery_total))
+#> # A tibble: 7 x 4
+#>    year `sum(actual_murder)` `sum(actual_robbery_total)`
+#>   <dbl>                <dbl>                       <dbl>
+#> 1  2011                  154                        3287
+#> 2  2012                  163                        3369
+#> 3  2013                  172                        3122
+#> 4  2014                  148                        3021
+#> 5  2015                  173                        3305
+#> 6  2016                  203                        3513
+#> 7  2017                  218                        3811
+#> # ... with 1 more variable:
+#> #   mean(actual_robbery_total) <dbl>
 ```
+
+By default `summarize()` calls the columns it makes using what we include in the parentheses. Since we said "sum(actual_murder)" to get the sum of the murder column, it names that new column "sum(actual_murder)". Usually we'll want to name the columns ourselves. We can do this by assigning the summarized column to a name using "name = " before it. For example, we could write "murders = sum(actual_murder)" and it will name that column "murders" instead of "sum(actual_murder)". Like other things in `dplyr` functions, we don't need to put quotes around our new column name. We'll save this final summarized data into an object called "colorado_agg" so we can use it to make graphs. And to be able to create crime rates per population, we'll also find the sum of the population for each year.
 
 
 ```r
+colorado_agg <- summarize(colorado, murders = sum(actual_murder), robberies = sum(actual_robbery_total), population = sum(population))
 colorado_agg
-#>   year population actual_murder murder_rate
-#> 1 2011    5155993           154    2.986816
-#> 2 2012    5227884           163    3.117896
-#> 3 2013    5308236           172    3.240248
-#> 4 2014    5402555           148    2.739445
-#> 5 2015    5505856           173    3.142109
-#> 6 2016    5590124           203    3.631404
-#> 7 2017    5661529           218    3.850550
+#> # A tibble: 7 x 4
+#>    year murders robberies population
+#>   <dbl>   <dbl>     <dbl>      <dbl>
+#> 1  2011     154      3287    5155993
+#> 2  2012     163      3369    5227884
+#> 3  2013     172      3122    5308236
+#> 4  2014     148      3021    5402555
+#> 5  2015     173      3305    5505856
+#> 6  2016     203      3513    5590124
+#> 7  2017     218      3811    5661529
 ```
 
-Now we can see that the total number of murders increased as did the murder rate. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you'd need a comparison area that is similar to Colorado prior to legalization (and didn't legalize marijuana) and see if the murder rates changes following Colorado's legalization.
+Now we can see that the total number of murders increased over time. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you'd need a comparison area that is similar to Colorado prior to legalization (and didn't legalize marijuana) and see if their murders changes following Colorado's legalization.
 
-We can also make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.
+To control for population, we'll standardize our murder data by creating a murder rate per 100,000 people. We can do this by dividing the murder column by the population column and then multiplying by 100,000. Let's do that and save the result into a new column called "murder_rate".
+
+
+```r
+colorado_agg$murder_rate <- colorado_agg$murders / colorado_agg$population * 100000
+```
+
+If we also wanted a robbery rate we'd do the same with the robberies column.
+
+
+```r
+colorado_agg$robbery_rate <- colorado_agg$robberies / colorado_agg$population * 100000
+```
+
+The `dplyr` package has a helpful function that can do this too, and allows us to do it while writing less code. The `mutate()` function lets us create or alter columns in our data. Like other `dplyr` functions we start by including our dataset in the parentheses, and then we can follow standard assignment (covered in Section \@ref(#assignment)) though we must use `=` here and not `<-`. A benefit of using `mutate()` is that we don't have to write out our dataset name each time. So we'd write `murder_rate = murders / population * 100000`. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment. 
+
+
+```r
+mutate(colorado_agg, murder_rate = murders / population * 100000, robbery_rate = robberies / population * 100000)
+#> # A tibble: 7 x 6
+#>    year murders robberies population murder_rate
+#>   <dbl>   <dbl>     <dbl>      <dbl>       <dbl>
+#> 1  2011     154      3287    5155993        2.99
+#> 2  2012     163      3369    5227884        3.12
+#> 3  2013     172      3122    5308236        3.24
+#> 4  2014     148      3021    5402555        2.74
+#> 5  2015     173      3305    5505856        3.14
+#> 6  2016     203      3513    5590124        3.63
+#> 7  2017     218      3811    5661529        3.85
+#> # ... with 1 more variable: robbery_rate <dbl>
+```
+
+
+Mpw let's make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable we are measuring to the on the y-axis.
 
 
 ```r
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -469,7 +519,7 @@ By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" i
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -481,4 +531,31 @@ plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l",
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+## Pipes in `dplyr` {#dplyr-pipes}
+
+To end this chapter we'll talk about something called a pipe that is a very useful and powerful part of `dplyr`. 
+
+
+
+```r
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+```
+
+
+
+```r
+colorado <- offenses_known_yearly_1960_2020 %>%
+  filter(state == "colorado",
+         year %in% 2011:2017) %>%
+  select(actual_murder, 
+         actual_robbery_total,
+         state, 
+         year,
+         population,
+         ori, 
+         agency_name)
+```
+

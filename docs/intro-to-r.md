@@ -81,7 +81,7 @@ RStudio also includes a number of links to helpful cheat sheets for a few import
 
 ![](images/rstudio_4.PNG)
 
-## Assigning variables
+## Assigning variables {#assignment}
 
 When we're using R for research the general process is to load data, change it somehow (such as deleting rows we don't want, aggregating from some small unit such as monthly crime to a higher unit such as yearly crime), and then analyze it. To do all this we need to be able to make sure each step we do actually changes the data. This seems simple but is actually a very common issue I've noticed when working with new R programmers - they run code on the data (e.g. deleting certain rows) but forget to save the change on that data. 
 
@@ -211,7 +211,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "A black character, a womanish character, a stubborn character, bestial, childish, animal, stupid, counterfeit, scurrilous, fraudulent, tyrannical."
+#> [1] "Judge every word and deed which are according to nature to be fit for thee; and be not diverted by the blame which follows from any people nor by their words, but if a thing is good to be done or said, do not consider it unworthy of thee. For those persons have their peculiar leading principle and follow their peculiar movement; which things do not thou regard, but go straight on, following thy own nature and the common nature; and the way of both is one."
 ```
 
 ## Reading data into R

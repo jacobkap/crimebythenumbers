@@ -383,10 +383,7 @@ head(suicide_agg)
 #> 6 POINT (5986822 2113584)
 ```
 
-There is now the *nhood* column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level. 
-For now we will use the code to aggregate the number of suicides per neighborhood. Remember, the `aggregate()` command aggregates a numeric value by some categorical value. Here we aggregate the number of suicides per neighborhood. So our code will be
-
-`aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)`
+There is now the *nhood* column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level using `group_by()` and `summarize()` functions from the `dplyr` package. 
 
 We actually don't have a variable with the number of suicides so we need to make that. We can simply call it *number_suicides* and give it that value of 1 since each row is only one suicide.
 
@@ -395,46 +392,7 @@ We actually don't have a variable with the number of suicides so we need to make
 suicide_agg$number_suicides <- 1
 ```
 
-Now we can write the `aggregate()` code and save the results back into *suicide_agg*. 
-
-
-```r
-suicide_agg <- aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)
-```
-
-Let's check a summary of the *number_suicides* variable we made.
-
-
-```r
-summary(suicide_agg$number_suicides)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>    1.00   15.00   24.00   33.08   38.50  141.00
-```
-
-The minimum is one suicide per neighborhood, 33 on average, and 141 in the neighborhood with the most suicides. So what do we make of this data? Well, there are some data issues that cause problems in these results. Let's think about the minimum value. Did every single neighborhood in the city have at least one suicide? No. Take a look at the number of rows in this data, keeping in mind there should be one row per neighborhood.
-
-
-```r
-nrow(suicide_agg)
-#> [1] 39
-```
-
-And let's compare it to the *sf_neighborhoods* data.
-
-
-```r
-nrow(sf_neighborhoods)
-#> [1] 41
-```
-
-The suicides data is missing 2 neighborhoods. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
-
-The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()`.
-
-
-```r
-install.packages("dplyr")
-```
+Now we can aggregate the data and save the results back into *suicide_agg*. 
 
 
 ```r
@@ -447,7 +405,37 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
+suicide_agg <- suicide_agg %>% group_by(nhood) %>% summarize(number_suicides = sum(number_suicides))
 ```
+
+Let's check a summary of the *number_suicides* variable we made.
+
+
+```r
+summary(suicide_agg$number_suicides)
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>    1.00   13.50   23.50   32.30   37.25  141.00
+```
+
+The minimum is one suicide per neighborhood, 33 on average, and 141 in the neighborhood with the most suicides. So what do we make of this data? Well, there are some data issues that cause problems in these results. Let's think about the minimum value. Did every single neighborhood in the city have at least one suicide? No. Take a look at the number of rows in this data, keeping in mind there should be one row per neighborhood.
+
+
+```r
+nrow(suicide_agg)
+#> [1] 40
+```
+
+And let's compare it to the *sf_neighborhoods* data.
+
+
+```r
+nrow(sf_neighborhoods)
+#> [1] 41
+```
+
+The suicides data is missing 1 neighborhood. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
+
+The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package.
 
 The function we will use is `left_join()` which takes two parameters, the two data sets to join together. 
 
@@ -464,6 +452,15 @@ There are two other functions that are similar but differ based on which rows th
 We could alternatively use the `merge()` function which is built into R but that function is slower than the `dplyr` functions and requires us to manually set the matching columns. 
 
 We want to keep all rows in *sf_neighborhoods* (keep all neighborhoods) so we can use `left_join(sf_neighborhoods, suicide_agg)`. Let's save the results into a new data.frame called *sf_neighborhoods_suicide*. 
+
+We don't need the spatial data for "suicide_agg" anymore and it will cause problems with our join if we keep it, so let's delete the "geometry" column from that data. We can do this by assigning the column the value of NULL.
+
+
+```r
+suicide_agg$geometry <- NULL
+```
+
+Now we can do our join. 
 
 
 ```r
@@ -517,7 +514,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -530,7 +527,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   scale_fill_gradient(low = "white", high = "red") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -546,7 +543,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
        subtitle = "2003 - 2017") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
@@ -563,7 +560,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
         axis.ticks = element_blank())
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-31-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 
