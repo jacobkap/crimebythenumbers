@@ -90,31 +90,6 @@ animals[-c(1, 2, 3)]
 #> [1] "buffalo" "lion"    "snake"
 ```
 
-## Assigning values to objects (Making "things") {#assignment}
-
-Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object *animals* with the value of each of the different animals we wrote. 
-
-We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had `x <- 5` the object *x* gets the value 5. We could also say "five was assigned to x". 
-
-The terminology is "object gets value" or "value assigned to object", both work. 
-
-You can use the `=` instead of `<-`. Again, the thing on the left gets the value of the thing on the right even when using `=`.
-
-
-```r
-x = 2
-```
-
-*x* now has the value of the number 2.
-
-
-```r
-x
-#> [1] 2
-```
-
-It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work properly. For those reasons we will use `<-` for this class. 
-
 Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, `animals[-1]` prints every value in *animals* except for the first value.
 
 

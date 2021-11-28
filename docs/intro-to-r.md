@@ -211,7 +211,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Receive wealth or prosperity without arrogance; and be ready to let it go."
+#> [1] "A black character, a womanish character, a stubborn character, bestial, childish, animal, stupid, counterfeit, scurrilous, fraudulent, tyrannical."
 ```
 
 ## Reading data into R

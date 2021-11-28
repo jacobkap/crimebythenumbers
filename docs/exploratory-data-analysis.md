@@ -21,20 +21,6 @@ First, we need to load the data. Make sure your working directory is set to the 
 load("data/ucr2017.rda")
 ```
 
-As a first step, let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
-
-
-```r
-nrow(ucr2017)
-#> [1] 15764
-```
-
-
-```r
-ncol(ucr2017)
-#> [1] 9
-```
-
 The function `head()` will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.
 
 
@@ -328,7 +314,7 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -358,7 +344,7 @@ Now we can do the same graph as above but using this new data set.
 plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
@@ -378,7 +364,7 @@ plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
      main = "Relationship between murder and robbery")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -474,7 +460,7 @@ We can also make a plot of this data showing the murder rate over time. With tim
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -483,7 +469,7 @@ By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" i
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -495,4 +481,4 @@ plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l",
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />

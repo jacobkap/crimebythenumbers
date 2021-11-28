@@ -20,16 +20,6 @@ First, we need to load the data. Make sure your working directory is set to the 
 load("data/ucr2017.rda")
 ```
 
-As a first step, let's see how many rows and columns are in the data, and glance at the first several rows from each column. `nrow()` and `ncol()` tell us the number of rows and columns it has, respectively. Like most functions, what you need to do is put the data set name inside the () (exactly as it is spelled without any quotes).
-
-```{r}
-nrow(ucr2017)
-```
-
-```{r}
-ncol(ucr2017)
-```
-
 The function `head()` will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.
 
 ```{r}
@@ -84,7 +74,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 
 ## Graphing
 
-We often want to make quick plots of our data to get a visual understanding of the data. We will learn a more different way to make graphs in Chapter \@ref(graphing-intro) but for now let's use the function `plot()`. 
+We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters \@ref(graphing-intro) but for now let's use the function `plot()`. The `plot()` function is built into R so we don't need to use any packages for it.
 
 Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
@@ -94,23 +84,16 @@ plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
-To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the square bracket `[]` notation to subset. Remember it is 
+To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the `filter()` function from the `dplyr` package that was introduced in Chapter \@ref(#subsetting-intro). For `filter()` we need to first include our dataset name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the "population" column have a value of over 1 million. For the `dplyr` functions we don't put our column name in quotes. 
 
-`[rows, columns]`
-
-where we either say exactly which rows or columns we want or give a conditional statement and it'll return only those that meet the condition. We will use the condition that we only want rows where the population is over 1 million.
-
-`[ucr2017$population > 1000000, ]`
-
-Now our row conditional is done. We want all the columns in the data so leave the section after the comma empty (don't forget to include that comma!). Now our square bracket notation is done but we need to put it directly to the right of our data so that we take the rows from the right data set.
-
-`ucr2017[ucr2017$population > 1000000, ]`
-
-And let's save the results in a new object called "ucr2017_big_cities".
+And we'll save our results into a new object called ucr2017_big_cities Since we're using the `dplyr` package we need to tell R that we want to use it by using `library(dplyr)`.
 
 ```{r}
-ucr2017_big_cities <- ucr2017[ucr2017$population > 1000000, ]
+library(dplyr)
+ucr2017_big_cities <- filter(ucr2017, population > 1000000) 
 ```
+
+Now we have 18 agencies with a population of over 1 million people. 
 
 Now we can do the same graph as above but using this new data set.
 

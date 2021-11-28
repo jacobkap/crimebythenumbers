@@ -330,10 +330,3 @@ plot(marijuana$long, marijuana$lat)
 <img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
-
-To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since this data is now geocoded and it is specifically for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
-
-
-```r
-write_csv(marijuana, file = "data/san_francisco_marijuana_geocoded.csv")
-```
