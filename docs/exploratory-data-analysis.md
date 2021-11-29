@@ -545,6 +545,25 @@ colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, p
 ```
 
 
+```r
+colorado <- offenses_known_yearly_1960_2020 %>%  filter(state == "colorado", year %in% 2011:2017) %>%   select(actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+head(colorado)
+#>   actual_murder actual_robbery_total    state year
+#> 1             7                   80 colorado 2017
+#> 2            11                   93 colorado 2016
+#> 3             6                   68 colorado 2015
+#> 4             6                   58 colorado 2014
+#> 5             7                   44 colorado 2013
+#> 6             7                   55 colorado 2012
+#>   population     ori agency_name
+#> 1      99940 CO00100       adams
+#> 2     100526 CO00100       adams
+#> 3     100266 CO00100       adams
+#> 4      98569 CO00100       adams
+#> 5      97146 CO00100       adams
+#> 6      93542 CO00100       adams
+```
+
 
 ```r
 colorado <- offenses_known_yearly_1960_2020 %>%
@@ -557,5 +576,22 @@ colorado <- offenses_known_yearly_1960_2020 %>%
          population,
          ori, 
          agency_name)
+head(colorado)
+#>   actual_murder actual_robbery_total    state year
+#> 1             7                   80 colorado 2017
+#> 2            11                   93 colorado 2016
+#> 3             6                   68 colorado 2015
+#> 4             6                   58 colorado 2014
+#> 5             7                   44 colorado 2013
+#> 6             7                   55 colorado 2012
+#>   population     ori agency_name
+#> 1      99940 CO00100       adams
+#> 2     100526 CO00100       adams
+#> 3     100266 CO00100       adams
+#> 4      98569 CO00100       adams
+#> 5      97146 CO00100       adams
+#> 6      93542 CO00100       adams
 ```
+
+
 

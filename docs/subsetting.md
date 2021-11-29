@@ -1,5 +1,3 @@
-# (PART) Clean {-}
-
 # Subsetting: Making big things small {#subsetting-intro}
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
@@ -1009,3 +1007,4 @@ The only state is Colorado and the only years are 2011-2017 so our subset worked
 
 #### Subsetting using `dplyr`
 
+Above we did subsetting through what's called the "base R" method. "Base R" just means that we use functions that are built into R and don't use any packages. 

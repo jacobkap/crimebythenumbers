@@ -211,14 +211,14 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Judge every word and deed which are according to nature to be fit for thee; and be not diverted by the blame which follows from any people nor by their words, but if a thing is good to be done or said, do not consider it unworthy of thee. For those persons have their peculiar leading principle and follow their peculiar movement; which things do not thou regard, but go straight on, following thy own nature and the common nature; and the way of both is one."
+#> [1] "If any man has done wrong, the harm is his own. But perhaps he has not done wrong."
 ```
 
 ## Reading data into R
 
 For many research projects you'll have data produced by some outside group (e.g. FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \@ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
 
-### Loading data {#loading-data}
+### Loading data {#loading-data-intro}
 
 As we learned above in Section \@ref(setting-the-working-directory), we need to set our working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.
 

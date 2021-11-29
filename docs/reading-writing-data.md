@@ -1,3 +1,5 @@
+# (PART) Clean {-}
+
 # Reading and writing Data
 
 For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and "shr_1976_2020.rds.
@@ -105,7 +107,6 @@ library(readxl)
 ```
 
 
-
 ```r
 sqf <- read_excel("data/sqf-2019.xlsx")
 ```
@@ -154,6 +155,10 @@ shootings <- read_sas("data/fatal-police-shootings-data.sas")
 ```r
 shootings <- read_sav("data/fatal-police-shootings-data.sav")
 ```
+
+### Fixed-width ASCII
+
+
 
 ## Writing Data 
 
