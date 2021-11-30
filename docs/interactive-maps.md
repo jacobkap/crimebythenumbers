@@ -14,9 +14,9 @@ geocode them. Geocoding is the process of taking an address and getting the long
 library(readr)
 marijuana <- read_csv("data/san_francisco_marijuana_geocoded.csv")
 #> Rows: 33 Columns: 13
-#> -- Column specification --------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr (11): License_Number, License_Type, Business_Own...
+#> chr (11): License_Number, License_Type, Business_Owner, Business_Contact_Inf...
 #> dbl  (2): lat, long
 #> 
 #> i Use `spec()` to retrieve the full column specification for this data.
@@ -44,20 +44,13 @@ As usual, let's take a look at the top 6 rows of the data.
 
 ```r
 head(marijuana)
-#>    License_Number                License_Type
-#> 1 C10-0000614-LIC Cannabis - Retailer License
-#> 2 C10-0000586-LIC Cannabis - Retailer License
-#> 3 C10-0000587-LIC Cannabis - Retailer License
-#> 4 C10-0000539-LIC Cannabis - Retailer License
-#> 5 C10-0000522-LIC Cannabis - Retailer License
-#> 6 C10-0000523-LIC Cannabis - Retailer License
-#>     Business_Owner
-#> 1     Terry Muller
-#> 2    Jeremy Goodin
-#> 3     Justin Jarin
-#> 4 Ondyn Herschelle
-#> 5      Ryan Hudson
-#> 6      Ryan Hudson
+#>    License_Number                License_Type   Business_Owner
+#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
 #>                                                                                                           Business_Contact_Information
 #> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
 #> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
@@ -65,34 +58,27 @@ head(marijuana)
 #> 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com
 #> 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com
 #> 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com
-#>          Business_Structure
-#> 1 Limited Liability Company
-#> 2               Corporation
-#> 3               Corporation
-#> 4               Corporation
-#> 5 Limited Liability Company
-#> 6 Limited Liability Company
-#>                           Premise_Address Status
-#> 1  2165 IRVING ST san francisco, CA 94122 Active
-#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 Active
-#> 3   843 Howard ST SAN FRANCISCO, CA 94103 Active
-#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 Active
-#> 5   527 Howard ST San Francisco, CA 94105 Active
-#> 6 2414 Lombard ST San Francisco, CA 94123 Active
-#>   Issue_Date Expiration_Date                Activities
-#> 1  9/13/2019       9/12/2020 N/A for this license type
-#> 2  8/26/2019       8/25/2020 N/A for this license type
-#> 3  8/26/2019       8/25/2020 N/A for this license type
-#> 4   8/5/2019        8/4/2020 N/A for this license type
-#> 5  7/29/2019       7/28/2020 N/A for this license type
-#> 6  7/29/2019       7/28/2020 N/A for this license type
-#>   Adult-Use/Medicinal      lat      long
-#> 1                BOTH 37.76318 -122.4811
-#> 2                BOTH 37.77480 -122.4157
-#> 3                BOTH 37.78228 -122.4035
-#> 4                BOTH 37.78823 -122.4004
-#> 5                BOTH 37.78783 -122.3965
-#> 6                BOTH 37.79945 -122.4414
+#>          Business_Structure                         Premise_Address Status
+#> 1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active
+#> 2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active
+#> 3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active
+#> 4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active
+#> 5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active
+#> 6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active
+#>   Issue_Date Expiration_Date                Activities Adult-Use/Medicinal
+#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#>        lat      long
+#> 1 37.76318 -122.4811
+#> 2 37.77480 -122.4157
+#> 3 37.78228 -122.4035
+#> 4 37.78823 -122.4004
+#> 5 37.78783 -122.3965
+#> 6 37.79945 -122.4414
 ```
 
 This data has information about the type of license, who the owner is, where the dispensary is (as an address and as coordinates), and contact information. We'll be making a map showing every dispensary in the city and make it so when you click a dot it'll make a popup showing information about that dispensary. 

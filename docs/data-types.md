@@ -59,8 +59,8 @@ Checking what 2 is tells us that it is both a "numeric" type and a "vector" type
 
 ```r
 is("2")
-#> [1] "character"           "vector"             
-#> [3] "data.frameRowLabels" "SuperClassMethod"
+#> [1] "character"           "vector"              "data.frameRowLabels"
+#> [4] "SuperClassMethod"
 ```
 
 Checking "2" (in quotes), gives us four different types of data for this value: "character", "vector", "data.frameRowLabels", and "SuperClassMethod". You can ignore the last two types, we just are interested in that it is a "character" type and, like the type of 2, is a "vector".
@@ -76,8 +76,8 @@ Finally, checking what TRUE is returns both "logical" and "vector". We expected 
 
 ```r
 is("TRUE")
-#> [1] "character"           "vector"             
-#> [3] "data.frameRowLabels" "SuperClassMethod"
+#> [1] "character"           "vector"              "data.frameRowLabels"
+#> [4] "SuperClassMethod"
 ```
 
 
@@ -140,14 +140,10 @@ We need to know the column names before using them, so we can use the `names()` 
 
 ```r
 names(ucr2017)
-#> [1] "ori"                      
-#> [2] "year"                     
-#> [3] "agency_name"              
-#> [4] "state"                    
-#> [5] "population"               
-#> [6] "actual_murder"            
-#> [7] "actual_rape_total"        
-#> [8] "actual_robbery_total"     
+#> [1] "ori"                       "year"                     
+#> [3] "agency_name"               "state"                    
+#> [5] "population"                "actual_murder"            
+#> [7] "actual_rape_total"         "actual_robbery_total"     
 #> [9] "actual_assault_aggravated"
 ```
 
@@ -247,18 +243,12 @@ If we forget to name the columns, and our vectors aren't already created with th
 example <- data.frame(c(1, 3, 5, 7, 9),
                       c("hello", "darkness", "my", "old", "friend"))
 example
-#>   c.1..3..5..7..9.
-#> 1                1
-#> 2                3
-#> 3                5
-#> 4                7
-#> 5                9
-#>   c..hello....darkness....my....old....friend..
-#> 1                                         hello
-#> 2                                      darkness
-#> 3                                            my
-#> 4                                           old
-#> 5                                        friend
+#>   c.1..3..5..7..9. c..hello....darkness....my....old....friend..
+#> 1                1                                         hello
+#> 2                3                                      darkness
+#> 3                5                                            my
+#> 4                7                                           old
+#> 5                9                                        friend
 ```
 
 If the vectors are already made then we won't have an issue. R will default to the vector name but we can override that if we want.
@@ -329,20 +319,13 @@ head(list_example)
 #> 
 #> 
 #> [[5]]
-#>                    mpg cyl disp  hp drat    wt  qsec vs
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1
-#>                   am gear carb
-#> Mazda RX4          1    4    4
-#> Mazda RX4 Wag      1    4    4
-#> Datsun 710         1    4    1
-#> Hornet 4 Drive     0    3    1
-#> Hornet Sportabout  0    3    2
-#> Valiant            0    3    1
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 The list that I called list_example contains six different elements in it: a character, two numeric vectors, a list of a numeric vector, and the first six rows of the mtcars data.frame. Lists can be useful when storing many different objects at once, but as they are not used too often for research-related programming I'll say no more of them. 
 

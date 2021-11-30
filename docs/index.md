@@ -12,6 +12,10 @@ github-repo: "jacobkap/crimebythenumbers"
 site: bookdown::bookdown_site
 documentclass: krantz
 graphics: yes
+fontsize: 11pt
+mainfont: Palatino
+monofont: "Source Code Pro"
+monofontoptions: "Scale=0.8"
 ---
 \mainmatter
 

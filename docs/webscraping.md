@@ -38,8 +38,8 @@ The first step to scraping a page is to read in that page's information to R usi
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 #> {html_document}
 #> <html lang="en">
-#> [1] <head>\n<meta http-equiv="Content-Type" content=" ...
-#> [2] <body class="template-recipe node- mdex-test karm ...
+#> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+#> [2] <body class="template-recipe node- mdex-test karma-site-container alrcom  ...
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *brownies* since that is the recipe we are currently scraping. 
@@ -80,14 +80,10 @@ Now let's check what we got.
 
 ```r
 ingredients
-#> [1] "½ cup white sugar "                 
-#> [2] "2 tablespoons butter "              
-#> [3] "2 tablespoons water "               
-#> [4] "1 ½ cups semisweet chocolate chips "
-#> [5] "2 eggs "                            
-#> [6] "½ teaspoon vanilla extract "        
-#> [7] "<U+2154> cup all-purpose flour "    
-#> [8] "¼ teaspoon baking soda "            
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2 eggs "                             "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
 #> [9] "½ teaspoon salt "
 ```
 
@@ -137,14 +133,10 @@ And let's print out both objects to make sure it worked.
 
 ```r
 ingredients
-#> [1] "½ cup white sugar "                 
-#> [2] "2 tablespoons butter "              
-#> [3] "2 tablespoons water "               
-#> [4] "1 ½ cups semisweet chocolate chips "
-#> [5] "2 eggs "                            
-#> [6] "½ teaspoon vanilla extract "        
-#> [7] "<U+2154> cup all-purpose flour "    
-#> [8] "¼ teaspoon baking soda "            
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2 eggs "                             "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
 #> [9] "½ teaspoon salt "
 directions
 #> [1] "   Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement "                                                                                                                                                                                                                 
@@ -165,14 +157,10 @@ And let's check again.
 
 ```r
 ingredients
-#> [1] "½ cup white sugar"                 
-#> [2] "2 tablespoons butter"              
-#> [3] "2 tablespoons water"               
-#> [4] "1 ½ cups semisweet chocolate chips"
-#> [5] "2 eggs"                            
-#> [6] "½ teaspoon vanilla extract"        
-#> [7] "<U+2154> cup all-purpose flour"    
-#> [8] "¼ teaspoon baking soda"            
+#> [1] "½ cup white sugar"                  "2 tablespoons butter"              
+#> [3] "2 tablespoons water"                "1 ½ cups semisweet chocolate chips"
+#> [5] "2 eggs"                             "½ teaspoon vanilla extract"        
+#> [7] "<U+2154> cup all-purpose flour"     "¼ teaspoon baking soda"            
 #> [9] "½ teaspoon salt"
 directions
 #> [1] "Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement"                                                                                                                                                                                                               

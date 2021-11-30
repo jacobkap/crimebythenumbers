@@ -166,20 +166,13 @@ We'll use the `head()` function to print out just the first 6 rows of the `mtcar
 
 ```r
 head(mtcars)
-#>                    mpg cyl disp  hp drat    wt  qsec vs
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1
-#>                   am gear carb
-#> Mazda RX4          1    4    4
-#> Mazda RX4 Wag      1    4    4
-#> Datsun 710         1    4    1
-#> Hornet 4 Drive     0    3    1
-#> Hornet Sportabout  0    3    2
-#> Valiant            0    3    1
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
 Now we have the first 6 rows of every column from the `mtcars` data. This is a fairly simple function and is useful for quickly looking at our data. Many functions are more complicated that `head()` and involve multiple inputs rather than just the single input we had here. Some functions, for example, let you choose how you want the function to operate, as it can do so in multiple ways. Even in `head()` there's an optional input to choose how many rows you want it to return, with the default being 6. Since we didn't choose anything, the function stuck to the default and returned only 6 rows. 
@@ -191,8 +184,7 @@ Downloading a package through R code uses - like pretty much everything else in 
 
 ```r
 install.packages("meditations")
-#> Warning: package 'meditations' is in use and will not be
-#> installed
+#> Warning: package 'meditations' is in use and will not be installed
 ```
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
@@ -211,7 +203,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "If any man is able to convince me and show me that I do not think or act right, I will gladly change; for I seek the truth by which no man was ever injured. But he is injured who abides in his error and ignorance."
+#> [1] "Enough of this wretched life and murmuring and apish tricks. Why art thou disturbed? What is there new in this? What unsettles thee? Is it the form of the thing? Look at it. Or is it the matter? Look at it. But besides these there is nothing. Towards the gods, then, now become at last more simple and better. It is the same whether we examine these things for a hundred years or three."
 ```
 
 ## Reading data into R
@@ -245,27 +237,20 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population
-#> 1 AK00101 2017   anchorage alaska     296188
-#> 2 AK00102 2017   fairbanks alaska      32937
-#> 3 AK00103 2017      juneau alaska      32344
-#> 4 AK00104 2017   ketchikan alaska       8230
-#> 5 AK00105 2017      kodiak alaska       6198
-#> 6 AK00106 2017        nome alaska       3829
-#>   actual_murder actual_rape_total actual_robbery_total
-#> 1            27               391                  778
-#> 2            10                24                   40
-#> 3             1                50                   46
-#> 4             1                19                    0
-#> 5             0                15                    4
-#> 6             0                 7                    0
-#>   actual_assault_aggravated
-#> 1                      2368
-#> 2                       131
-#> 3                       206
-#> 4                        14
-#> 5                        41
-#> 6                        52
+#>       ori year agency_name  state population actual_murder actual_rape_total
+#> 1 AK00101 2017   anchorage alaska     296188            27               391
+#> 2 AK00102 2017   fairbanks alaska      32937            10                24
+#> 3 AK00103 2017      juneau alaska      32344             1                50
+#> 4 AK00104 2017   ketchikan alaska       8230             1                19
+#> 5 AK00105 2017      kodiak alaska       6198             0                15
+#> 6 AK00106 2017        nome alaska       3829             0                 7
+#>   actual_robbery_total actual_assault_aggravated
+#> 1                  778                      2368
+#> 2                   40                       131
+#> 3                   46                       206
+#> 4                    0                        14
+#> 5                    4                        41
+#> 6                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
@@ -283,27 +268,20 @@ The six values it returns for numeric and Date columns are
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name       
-#>  Length:15764       Min.   :2017   Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character  
-#>                     Mean   :2017                     
-#>                     3rd Qu.:2017                     
-#>                     Max.   :2017                     
-#>     state             population      actual_murder    
-#>  Length:15764       Min.   :      0   Min.   :  0.000  
-#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
-#>  Mode  :character   Median :   4460   Median :  0.000  
-#>                     Mean   :  19872   Mean   :  1.069  
-#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
-#>                     Max.   :8616333   Max.   :653.000  
-#>  actual_rape_total  actual_robbery_total
-#>  Min.   :  -2.000   Min.   :   -1.00    
-#>  1st Qu.:   0.000   1st Qu.:    0.00    
-#>  Median :   1.000   Median :    0.00    
-#>  Mean   :   8.262   Mean   :   19.85    
-#>  3rd Qu.:   5.000   3rd Qu.:    4.00    
-#>  Max.   :2455.000   Max.   :13995.00    
+#>      ori                 year      agency_name           state          
+#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
+#>                     Mean   :2017                                        
+#>                     3rd Qu.:2017                                        
+#>                     Max.   :2017                                        
+#>    population      actual_murder     actual_rape_total  actual_robbery_total
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
 #>  actual_assault_aggravated
 #>  Min.   :   -1.00         
 #>  1st Qu.:    1.00         

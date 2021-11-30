@@ -13,9 +13,9 @@ Here, we will make hotspot maps using data on suicides in San Francisco between 
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 #> Rows: 1292 Columns: 14
-#> -- Column specification --------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr  (8): Category, Descript, DayOfWeek, Date, PdDis...
+#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...
 #> dbl  (5): IncidntNum, X, Y, PdId, year
 #> time (1): Time
 #> 
@@ -29,48 +29,27 @@ This data contains information on each crime reported in San Francisco including
 
 ```r
 head(suicide)
-#>   IncidntNum Category
-#> 1  180318931  SUICIDE
-#> 2  180315501  SUICIDE
-#> 3  180295674  SUICIDE
-#> 4  180263659  SUICIDE
-#> 5  180235523  SUICIDE
-#> 6  180236515  SUICIDE
-#>                             Descript DayOfWeek
-#> 1 ATTEMPTED SUICIDE BY STRANGULATION    Monday
-#> 2       ATTEMPTED SUICIDE BY JUMPING  Saturday
-#> 3              SUICIDE BY LACERATION  Saturday
-#> 4                            SUICIDE   Tuesday
-#> 5     ATTEMPTED SUICIDE BY INGESTION    Friday
-#> 6            SUICIDE BY ASPHYXIATION  Thursday
-#>         Date     Time PdDistrict Resolution
-#> 1 04/30/2018 06:30:00    TARAVAL       NONE
-#> 2 04/28/2018 17:54:00   NORTHERN       NONE
-#> 3 04/21/2018 12:20:00   RICHMOND       NONE
-#> 4 04/10/2018 05:13:00    CENTRAL       NONE
-#> 5 03/30/2018 09:15:00    TARAVAL       NONE
-#> 6 03/29/2018 17:30:00   RICHMOND       NONE
-#>                   Address         X        Y
-#> 1     0 Block of BRUCE AV -122.4517 37.72218
-#> 2   700 Block of HAYES ST -122.4288 37.77620
-#> 3   3700 Block of CLAY ST -122.4546 37.78818
-#> 4     0 Block of DRUMM ST -122.3964 37.79414
-#> 5 0 Block of FAIRFIELD WY -122.4632 37.72679
-#> 6    300 Block of 29TH AV -122.4893 37.78274
-#>                                         Location
-#> 1  POINT (-122.45168059935614 37.72218061554315)
-#> 2  POINT (-122.42876060987851 37.77620120112792)
-#> 3   POINT (-122.45462091999406 37.7881754224736)
-#> 4  POINT (-122.39642194376758 37.79414474237039)
-#> 5  POINT (-122.46324153155875 37.72679184368551)
-#> 6 POINT (-122.48929119750689 37.782735835121265)
-#>           PdId year
-#> 1 1.803189e+13 2018
-#> 2 1.803155e+13 2018
-#> 3 1.802957e+13 2018
-#> 4 1.802637e+13 2018
-#> 5 1.802355e+13 2018
-#> 6 1.802365e+13 2018
+#>   IncidntNum Category                           Descript DayOfWeek       Date
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+#>       Time PdDistrict Resolution                 Address         X        Y
+#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV -122.4517 37.72218
+#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST -122.4288 37.77620
+#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST -122.4546 37.78818
+#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST -122.3964 37.79414
+#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679
+#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV -122.4893 37.78274
+#>                                         Location         PdId year
+#> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+#> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+#> 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+#> 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+#> 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+#> 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
 ```
 
 ## A simple map
@@ -123,8 +102,7 @@ Since we saved the map output into *sf_map* we can reuse this map background for
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide)
-#> Warning: Removed 1 rows containing missing values
-#> (geom_point).
+#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 
@@ -139,8 +117,7 @@ sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
              color = "forestgreen")
-#> Warning: Removed 1 rows containing missing values
-#> (geom_point).
+#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 
@@ -156,8 +133,7 @@ sf_map +
              data  = suicide,
              color = "forestgreen",
              size  = 0.5)
-#> Warning: Removed 1 rows containing missing values
-#> (geom_point).
+#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 
@@ -171,8 +147,7 @@ sf_map +
              data  = suicide,
              color = "forestgreen",
              size  = 2)
-#> Warning: Removed 1 rows containing missing values
-#> (geom_point).
+#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 
@@ -189,8 +164,7 @@ sf_map +
              color = "forestgreen",
              size  = 2,
              alpha = 0.5)
-#> Warning: Removed 1 rows containing missing values
-#> (geom_point).
+#> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
 
@@ -230,8 +204,7 @@ sf_map +
               data = suicide) +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values
-#> (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
 #> The `hexbin` package is required for `stat_binhex()`
 ```
@@ -252,8 +225,7 @@ sf_map +
               data = suicide) +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values
-#> (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
 #> The `hexbin` package is required for `stat_binhex()`
 ```
@@ -274,8 +246,7 @@ sf_map +
               data = suicide) +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values
-#> (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
 #> The `hexbin` package is required for `stat_binhex()`
 ```
@@ -300,8 +271,7 @@ sf_map +
   scale_fill_gradient(low = "#ffeda0",
                       high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values
-#> (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
 #> The `hexbin` package is required for `stat_binhex()`
 ```
@@ -323,8 +293,7 @@ sf_map +
                       low = "#ffeda0",
                       high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
-#> Warning: Removed 1 rows containing non-finite values
-#> (stat_binhex).
+#> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 #> Warning: Computation failed in `stat_binhex()`:
 #> The `hexbin` package is required for `stat_binhex()`
 ```

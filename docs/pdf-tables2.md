@@ -34,63 +34,49 @@ is(data)
 length(data)
 #> [1] 18
 data[[1]]
-#>      [,1]     [,2]       [,3]     [,4]          
-#> [1,] ""       ""         ""       "Conv. Felons"
-#> [2,] ""       ""         ""       "Sentenced to"
-#> [3,] ""       ""         ""       "County Jail" 
-#> [4,] ""       "Pretrial" "Conv."  ""            
-#> [5,] ""       ""         ""       "time"        
-#> [6,] "County" "Felons"   "Felons" ""            
-#>      [,5]        [,6]         [,7]       [,8]   
-#> [1,] ""          "Parole"     ""         ""     
-#> [2,] ""          "Violators"  ""         ""     
-#> [3,] ""          "with a New" ""         ""     
-#> [4,] "Parole"    ""           "Pretrial" "Conv."
-#> [5,] ""          "Charge"     ""         ""     
-#> [6,] "Violators" ""           "Misd."    "Misd."
-#>      [,9]       [,10]     [,11]      [,12]        
-#> [1,] ""         ""        ""         "Conv. SJF"  
-#> [2,] ""         ""        ""         "Sentenced"  
-#> [3,] ""         ""        ""         "to Co. Jail"
-#> [4,] "Bench"    ""        "Pretrial" ""           
-#> [5,] ""         ""        ""         "Time"       
-#> [6,] "Warrants" "Federal" "SJF"      ""           
-#>      [,13]           [,14]    [,15]   [,16]     
-#> [1,] "Conv."         ""       ""      ""        
-#> [2,] "SJF"           ""       ""      ""        
-#> [3,] "Sentenced"     ""       ""      ""        
-#> [4,] ""              "Total"  "Total" "Total"   
-#> [5,] "to State Jail" ""       ""      ""        
-#> [6,] ""              "Others" "Local" "Contract"
-#>      [,17]        [,18]      [,19]      [,20]      
-#> [1,] ""           ""         ""         ""         
-#> [2,] ""           ""         ""         ""         
-#> [3,] ""           ""         ""         ""         
-#> [4,] "Total"      "Total"    "% of"     "Available"
-#> [5,] ""           ""         ""         ""         
-#> [6,] "Population" "Capacity" "Capacity" "Beds"
+#>      [,1]     [,2]       [,3]     [,4]           [,5]        [,6]        
+#> [1,] ""       ""         ""       "Conv. Felons" ""          "Parole"    
+#> [2,] ""       ""         ""       "Sentenced to" ""          "Violators" 
+#> [3,] ""       ""         ""       "County Jail"  ""          "with a New"
+#> [4,] ""       "Pretrial" "Conv."  ""             "Parole"    ""          
+#> [5,] ""       ""         ""       "time"         ""          "Charge"    
+#> [6,] "County" "Felons"   "Felons" ""             "Violators" ""          
+#>      [,7]       [,8]    [,9]       [,10]     [,11]      [,12]        
+#> [1,] ""         ""      ""         ""        ""         "Conv. SJF"  
+#> [2,] ""         ""      ""         ""        ""         "Sentenced"  
+#> [3,] ""         ""      ""         ""        ""         "to Co. Jail"
+#> [4,] "Pretrial" "Conv." "Bench"    ""        "Pretrial" ""           
+#> [5,] ""         ""      ""         ""        ""         "Time"       
+#> [6,] "Misd."    "Misd." "Warrants" "Federal" "SJF"      ""           
+#>      [,13]           [,14]    [,15]   [,16]      [,17]        [,18]     
+#> [1,] "Conv."         ""       ""      ""         ""           ""        
+#> [2,] "SJF"           ""       ""      ""         ""           ""        
+#> [3,] "Sentenced"     ""       ""      ""         ""           ""        
+#> [4,] ""              "Total"  "Total" "Total"    "Total"      "Total"   
+#> [5,] "to State Jail" ""       ""      ""         ""           ""        
+#> [6,] ""              "Others" "Local" "Contract" "Population" "Capacity"
+#>      [,19]      [,20]      
+#> [1,] ""         ""         
+#> [2,] ""         ""         
+#> [3,] ""         ""         
+#> [4,] "% of"     "Available"
+#> [5,] ""         ""         
+#> [6,] "Capacity" "Beds"
 head(data[[2]])
-#>      [,1]        [,2] [,3] [,4] [,5] [,6] [,7] [,8]
-#> [1,] "Anderson"  "81" "13" "3"  "1"  "5"  "12" "1" 
-#> [2,] "Andrews"   "23" "11" "0"  "2"  "4"  "11" "0" 
-#> [3,] "Angelina"  "79" "35" "4"  "6"  "0"  "14" "0" 
-#> [4,] "Aransas"   "23" "10" "0"  "2"  "6"  "7"  "0" 
-#> [5,] "Archer"    "12" "3"  "0"  "0"  "1"  "3"  "1" 
-#> [6,] "Armstrong" "1"  "1"  "0"  "0"  "0"  "0"  "0" 
-#>      [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16]
-#> [1,] "0"  "0"   "21"  "0"   "1"   "0"   "138" "0"  
-#> [2,] "0"  "0"   "5"   "0"   "6"   "0"   "35"  "0"  
-#> [3,] "3"  "0"   "23"  "0"   "3"   "1"   "168" "0"  
-#> [4,] "6"  "73"  "2"   "0"   "0"   "0"   "56"  "73" 
-#> [5,] "1"  "2"   "5"   "0"   "0"   "1"   "26"  "9"  
-#> [6,] "0"  "0"   "0"   "0"   "0"   "0"   "2"   "0"  
-#>      [,17] [,18] [,19]   [,20]
-#> [1,] "138" "300" "46.00" "132"
-#> [2,] "35"  "50"  "70.00" "10" 
-#> [3,] "168" "279" "60.22" "83" 
-#> [4,] "129" "212" "60.85" "62" 
-#> [5,] "35"  "48"  "72.92" "0"  
-#> [6,] "2"   "8"   "25.00" "0"
+#>      [,1]        [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#> [1,] "Anderson"  "81" "13" "3"  "1"  "5"  "12" "1"  "0"  "0"   "21"  "0"  
+#> [2,] "Andrews"   "23" "11" "0"  "2"  "4"  "11" "0"  "0"  "0"   "5"   "0"  
+#> [3,] "Angelina"  "79" "35" "4"  "6"  "0"  "14" "0"  "3"  "0"   "23"  "0"  
+#> [4,] "Aransas"   "23" "10" "0"  "2"  "6"  "7"  "0"  "6"  "73"  "2"   "0"  
+#> [5,] "Archer"    "12" "3"  "0"  "0"  "1"  "3"  "1"  "1"  "2"   "5"   "0"  
+#> [6,] "Armstrong" "1"  "1"  "0"  "0"  "0"  "0"  "0"  "0"  "0"   "0"   "0"  
+#>      [,13] [,14] [,15] [,16] [,17] [,18] [,19]   [,20]
+#> [1,] "1"   "0"   "138" "0"   "138" "300" "46.00" "132"
+#> [2,] "6"   "0"   "35"  "0"   "35"  "50"  "70.00" "10" 
+#> [3,] "3"   "1"   "168" "0"   "168" "279" "60.22" "83" 
+#> [4,] "0"   "0"   "56"  "73"  "129" "212" "60.85" "62" 
+#> [5,] "0"   "1"   "26"  "9"   "35"  "48"  "72.92" "0"  
+#> [6,] "0"   "0"   "2"   "0"   "2"   "8"   "25.00" "0"
 ```
 
 Above is scraping code and some output when running `extract_tables()` on our PDF using all of the default options in that function. The only parameter we put in the function is `file = "data/Abbreviated Pop Rpt Dec 2017.pdf"`. This is just telling the function where to look for the PDF. I have the PDF in the data folder of my project; you'll need to change this to have `extract_tables()` look in the right place for the PDF on your computer. 
@@ -100,41 +86,34 @@ You can see from the output that the scrape was successful - but our work isn't 
 
 ```r
 data[[1]]
-#>      [,1]     [,2]       [,3]     [,4]          
-#> [1,] ""       ""         ""       "Conv. Felons"
-#> [2,] ""       ""         ""       "Sentenced to"
-#> [3,] ""       ""         ""       "County Jail" 
-#> [4,] ""       "Pretrial" "Conv."  ""            
-#> [5,] ""       ""         ""       "time"        
-#> [6,] "County" "Felons"   "Felons" ""            
-#>      [,5]        [,6]         [,7]       [,8]   
-#> [1,] ""          "Parole"     ""         ""     
-#> [2,] ""          "Violators"  ""         ""     
-#> [3,] ""          "with a New" ""         ""     
-#> [4,] "Parole"    ""           "Pretrial" "Conv."
-#> [5,] ""          "Charge"     ""         ""     
-#> [6,] "Violators" ""           "Misd."    "Misd."
-#>      [,9]       [,10]     [,11]      [,12]        
-#> [1,] ""         ""        ""         "Conv. SJF"  
-#> [2,] ""         ""        ""         "Sentenced"  
-#> [3,] ""         ""        ""         "to Co. Jail"
-#> [4,] "Bench"    ""        "Pretrial" ""           
-#> [5,] ""         ""        ""         "Time"       
-#> [6,] "Warrants" "Federal" "SJF"      ""           
-#>      [,13]           [,14]    [,15]   [,16]     
-#> [1,] "Conv."         ""       ""      ""        
-#> [2,] "SJF"           ""       ""      ""        
-#> [3,] "Sentenced"     ""       ""      ""        
-#> [4,] ""              "Total"  "Total" "Total"   
-#> [5,] "to State Jail" ""       ""      ""        
-#> [6,] ""              "Others" "Local" "Contract"
-#>      [,17]        [,18]      [,19]      [,20]      
-#> [1,] ""           ""         ""         ""         
-#> [2,] ""           ""         ""         ""         
-#> [3,] ""           ""         ""         ""         
-#> [4,] "Total"      "Total"    "% of"     "Available"
-#> [5,] ""           ""         ""         ""         
-#> [6,] "Population" "Capacity" "Capacity" "Beds"
+#>      [,1]     [,2]       [,3]     [,4]           [,5]        [,6]        
+#> [1,] ""       ""         ""       "Conv. Felons" ""          "Parole"    
+#> [2,] ""       ""         ""       "Sentenced to" ""          "Violators" 
+#> [3,] ""       ""         ""       "County Jail"  ""          "with a New"
+#> [4,] ""       "Pretrial" "Conv."  ""             "Parole"    ""          
+#> [5,] ""       ""         ""       "time"         ""          "Charge"    
+#> [6,] "County" "Felons"   "Felons" ""             "Violators" ""          
+#>      [,7]       [,8]    [,9]       [,10]     [,11]      [,12]        
+#> [1,] ""         ""      ""         ""        ""         "Conv. SJF"  
+#> [2,] ""         ""      ""         ""        ""         "Sentenced"  
+#> [3,] ""         ""      ""         ""        ""         "to Co. Jail"
+#> [4,] "Pretrial" "Conv." "Bench"    ""        "Pretrial" ""           
+#> [5,] ""         ""      ""         ""        ""         "Time"       
+#> [6,] "Misd."    "Misd." "Warrants" "Federal" "SJF"      ""           
+#>      [,13]           [,14]    [,15]   [,16]      [,17]        [,18]     
+#> [1,] "Conv."         ""       ""      ""         ""           ""        
+#> [2,] "SJF"           ""       ""      ""         ""           ""        
+#> [3,] "Sentenced"     ""       ""      ""         ""           ""        
+#> [4,] ""              "Total"  "Total" "Total"    "Total"      "Total"   
+#> [5,] "to State Jail" ""       ""      ""         ""           ""        
+#> [6,] ""              "Others" "Local" "Contract" "Population" "Capacity"
+#>      [,19]      [,20]      
+#> [1,] ""         ""         
+#> [2,] ""         ""         
+#> [3,] ""         ""         
+#> [4,] "% of"     "Available"
+#> [5,] ""         ""         
+#> [6,] "Capacity" "Beds"
 ```
 
 The results from `data[[1]]` provide some answers. It has the right number of columns but only 6 rows! This is our first table so should be the entire table we can see on page 1. Instead, it appears to be just the column names, with 6 rows because some column names are on multiple rows. Here's the issue, we can read the table and easily see that the column names may be on multiple rows but belong together, and that they are part of the table. `tabulizer` can't see this obvious fact as we can, it must rely on a series of rules to indicate what is part of a table and what isn't. For example, having white space between columns and thin black lines around rows tells it where each row and column is. Our issue is that the column names appear to just be text until there is a thick black line and (in `tabulizer's` mind) the table begins, so it keeps the column name part separate from the rest of the table. Now let's look closer at table 2 and see if it is correct for the table on page 1 of our PDF. 
@@ -142,49 +121,35 @@ The results from `data[[1]]` provide some answers. It has the right number of co
 
 ```r
 head(data[[2]])
-#>      [,1]        [,2] [,3] [,4] [,5] [,6] [,7] [,8]
-#> [1,] "Anderson"  "81" "13" "3"  "1"  "5"  "12" "1" 
-#> [2,] "Andrews"   "23" "11" "0"  "2"  "4"  "11" "0" 
-#> [3,] "Angelina"  "79" "35" "4"  "6"  "0"  "14" "0" 
-#> [4,] "Aransas"   "23" "10" "0"  "2"  "6"  "7"  "0" 
-#> [5,] "Archer"    "12" "3"  "0"  "0"  "1"  "3"  "1" 
-#> [6,] "Armstrong" "1"  "1"  "0"  "0"  "0"  "0"  "0" 
-#>      [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16]
-#> [1,] "0"  "0"   "21"  "0"   "1"   "0"   "138" "0"  
-#> [2,] "0"  "0"   "5"   "0"   "6"   "0"   "35"  "0"  
-#> [3,] "3"  "0"   "23"  "0"   "3"   "1"   "168" "0"  
-#> [4,] "6"  "73"  "2"   "0"   "0"   "0"   "56"  "73" 
-#> [5,] "1"  "2"   "5"   "0"   "0"   "1"   "26"  "9"  
-#> [6,] "0"  "0"   "0"   "0"   "0"   "0"   "2"   "0"  
-#>      [,17] [,18] [,19]   [,20]
-#> [1,] "138" "300" "46.00" "132"
-#> [2,] "35"  "50"  "70.00" "10" 
-#> [3,] "168" "279" "60.22" "83" 
-#> [4,] "129" "212" "60.85" "62" 
-#> [5,] "35"  "48"  "72.92" "0"  
-#> [6,] "2"   "8"   "25.00" "0"
+#>      [,1]        [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#> [1,] "Anderson"  "81" "13" "3"  "1"  "5"  "12" "1"  "0"  "0"   "21"  "0"  
+#> [2,] "Andrews"   "23" "11" "0"  "2"  "4"  "11" "0"  "0"  "0"   "5"   "0"  
+#> [3,] "Angelina"  "79" "35" "4"  "6"  "0"  "14" "0"  "3"  "0"   "23"  "0"  
+#> [4,] "Aransas"   "23" "10" "0"  "2"  "6"  "7"  "0"  "6"  "73"  "2"   "0"  
+#> [5,] "Archer"    "12" "3"  "0"  "0"  "1"  "3"  "1"  "1"  "2"   "5"   "0"  
+#> [6,] "Armstrong" "1"  "1"  "0"  "0"  "0"  "0"  "0"  "0"  "0"   "0"   "0"  
+#>      [,13] [,14] [,15] [,16] [,17] [,18] [,19]   [,20]
+#> [1,] "1"   "0"   "138" "0"   "138" "300" "46.00" "132"
+#> [2,] "6"   "0"   "35"  "0"   "35"  "50"  "70.00" "10" 
+#> [3,] "3"   "1"   "168" "0"   "168" "279" "60.22" "83" 
+#> [4,] "0"   "0"   "56"  "73"  "129" "212" "60.85" "62" 
+#> [5,] "0"   "1"   "26"  "9"   "35"  "48"  "72.92" "0"  
+#> [6,] "0"   "0"   "2"   "0"   "2"   "8"   "25.00" "0"
 tail(data[[2]])
-#>       [,1]         [,2] [,3] [,4] [,5] [,6] [,7] [,8]
-#> [24,] "Brooks"     "15" "1"  "1"  "1"  "0"  "0"  "0" 
-#> [25,] "Brooks (P)" "0"  "0"  "0"  "0"  "0"  "0"  "0" 
-#> [26,] "Brown"      "70" "20" "0"  "7"  "20" "9"  "0" 
-#> [27,] "Burleson"   "19" "2"  "0"  "2"  "0"  "3"  "0" 
-#> [28,] "Burnet"     "57" "23" "1"  "5"  "9"  "3"  "0" 
-#> [29,] "Caldwell"   "89" "4"  "0"  "3"  "2"  "26" "1" 
-#>       [,9] [,10] [,11] [,12] [,13] [,14] [,15] [,16]
-#> [24,] "0"  "0"   "0"   "0"   "0"   "0"   "18"  "0"  
-#> [25,] "0"  "164" "0"   "0"   "0"   "0"   "0"   "408"
-#> [26,] "2"  "0"   "0"   "3"   "0"   "2"   "133" "7"  
-#> [27,] "0"  "0"   "0"   "0"   "0"   "1"   "27"  "0"  
-#> [28,] "1"  "0"   "10"  "1"   "0"   "0"   "110" "158"
-#> [29,] "2"  "19"  "13"  "0"   "3"   "0"   "143" "21" 
-#>       [,17] [,18] [,19]   [,20]
-#> [24,] "18"  "36"  "50.00" "14" 
-#> [25,] "408" "652" "62.58" "179"
-#> [26,] "140" "196" "71.43" "36" 
-#> [27,] "27"  "96"  "28.13" "59" 
-#> [28,] "268" "595" "45.04" "268"
-#> [29,] "164" "301" "54.49" "107"
+#>       [,1]         [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+#> [24,] "Brooks"     "15" "1"  "1"  "1"  "0"  "0"  "0"  "0"  "0"   "0"   "0"  
+#> [25,] "Brooks (P)" "0"  "0"  "0"  "0"  "0"  "0"  "0"  "0"  "164" "0"   "0"  
+#> [26,] "Brown"      "70" "20" "0"  "7"  "20" "9"  "0"  "2"  "0"   "0"   "3"  
+#> [27,] "Burleson"   "19" "2"  "0"  "2"  "0"  "3"  "0"  "0"  "0"   "0"   "0"  
+#> [28,] "Burnet"     "57" "23" "1"  "5"  "9"  "3"  "0"  "1"  "0"   "10"  "1"  
+#> [29,] "Caldwell"   "89" "4"  "0"  "3"  "2"  "26" "1"  "2"  "19"  "13"  "0"  
+#>       [,13] [,14] [,15] [,16] [,17] [,18] [,19]   [,20]
+#> [24,] "0"   "0"   "18"  "0"   "18"  "36"  "50.00" "14" 
+#> [25,] "0"   "0"   "0"   "408" "408" "652" "62.58" "179"
+#> [26,] "0"   "2"   "133" "7"   "140" "196" "71.43" "36" 
+#> [27,] "0"   "1"   "27"  "0"   "27"  "96"  "28.13" "59" 
+#> [28,] "0"   "0"   "110" "158" "268" "595" "45.04" "268"
+#> [29,] "3"   "0"   "143" "21"  "164" "301" "54.49" "107"
 ```
 
 We're looking just at the `head()` and `tail()` to get the first and 6 six rows as otherwise we'd print out all 29 rows in that table. When you are exploring you own data, you'll probably want to be more thorough and ensure that rows around the middle are also correct - but this is a good first pass. If you look at the output the table and compare it to the PDF, you'll see that the scrape was successful. Every row is where it should be and the columns are correct - unlike using `pdftools()` we have the results already in proper columns. One thing to note is that this data isn't in a data.frame format, it's in a matrix. Matrices are the default output of `extract_tables()` though you can set it to output a data.frame by setting the parameter `output = "data.frame"`. In our case we actually wouldn't want that due to the issue of the column names. 
@@ -193,20 +158,20 @@ We're looking just at the `head()` and `tail()` to get the first and 6 six rows 
 ```r
 data <- extract_tables(file = "data/AbbreRptCurrent.pdf", output = "data.frame")
 head(data[[2]])
-#>    Anderson X81 X13 X3 X1 X5 X12 X1.1 X0 X0.1 X21 X0.2
-#> 1   Andrews  23  11  0  2  4  11    0  0    0   5    0
-#> 2  Angelina  79  35  4  6  0  14    0  3    0  23    0
-#> 3   Aransas  23  10  0  2  6   7    0  6   73   2    0
-#> 4    Archer  12   3  0  0  1   3    1  1    2   5    0
-#> 5 Armstrong   1   1  0  0  0   0    0  0    0   0    0
-#> 6  Atascosa  54   2  0  8  4  21    0  5    0  29    0
-#>   X1.2 X0.3 X138 X0.4 X138.1 X300 X46.00 X132
-#> 1    6    0   35    0     35   50  70.00   10
-#> 2    3    1  168    0    168  279  60.22   83
-#> 3    0    0   56   73    129  212  60.85   62
-#> 4    0    1   26    9     35   48  72.92    0
-#> 5    0    0    2    0      2    8  25.00    0
-#> 6    4    0  127   29    156  250  62.40   69
+#>    Anderson X81 X13 X3 X1 X5 X12 X1.1 X0 X0.1 X21 X0.2 X1.2 X0.3 X138 X0.4
+#> 1   Andrews  23  11  0  2  4  11    0  0    0   5    0    6    0   35    0
+#> 2  Angelina  79  35  4  6  0  14    0  3    0  23    0    3    1  168    0
+#> 3   Aransas  23  10  0  2  6   7    0  6   73   2    0    0    0   56   73
+#> 4    Archer  12   3  0  0  1   3    1  1    2   5    0    0    1   26    9
+#> 5 Armstrong   1   1  0  0  0   0    0  0    0   0    0    0    0    2    0
+#> 6  Atascosa  54   2  0  8  4  21    0  5    0  29    0    4    0  127   29
+#>   X138.1 X300 X46.00 X132
+#> 1     35   50  70.00   10
+#> 2    168  279  60.22   83
+#> 3    129  212  60.85   62
+#> 4     35   48  72.92    0
+#> 5      2    8  25.00    0
+#> 6    156  250  62.40   69
 ```
 Above we reran the `extract_tables()` code and just added a parameter to make the output a data.frame instead of a matrix. Now it sets the first row - which should be the columns - as the column name, which is not correct. We'll have to fix the column names first before we can convert the result from a matrix to a data.frame.
 
@@ -215,46 +180,26 @@ We'll use the `apply()` function on our data to create column names from it. The
 
 ```r
 apply(data[[1]], 2, paste, collapse = "")
-#>                             X 
-#>                      "County" 
-#>                           X.1 
-#>              "PretrialFelons" 
-#>                           X.2 
-#>                 "Conv.Felons" 
-#>                  Conv..Felons 
-#> "Sentenced toCounty Jailtime" 
-#>                           X.3 
-#>             "ParoleViolators" 
-#>                        Parole 
-#>   "Violatorswith a NewCharge" 
-#>                           X.4 
-#>               "PretrialMisd." 
-#>                           X.5 
-#>                  "Conv.Misd." 
-#>                           X.6 
-#>               "BenchWarrants" 
-#>                           X.7 
-#>                     "Federal" 
-#>                           X.8 
-#>                 "PretrialSJF" 
-#>                     Conv..SJF 
-#>    "Sentencedto Co. JailTime" 
-#>                         Conv. 
-#>   "SJFSentencedto State Jail" 
-#>                           X.9 
-#>                 "TotalOthers" 
-#>                          X.10 
-#>                  "TotalLocal" 
-#>                          X.11 
-#>               "TotalContract" 
-#>                          X.12 
-#>             "TotalPopulation" 
-#>                          X.13 
-#>               "TotalCapacity" 
-#>                          X.14 
-#>                "% ofCapacity" 
-#>                          X.15 
-#>               "AvailableBeds"
+#>                             X                           X.1 
+#>                      "County"              "PretrialFelons" 
+#>                           X.2                  Conv..Felons 
+#>                 "Conv.Felons" "Sentenced toCounty Jailtime" 
+#>                           X.3                        Parole 
+#>             "ParoleViolators"   "Violatorswith a NewCharge" 
+#>                           X.4                           X.5 
+#>               "PretrialMisd."                  "Conv.Misd." 
+#>                           X.6                           X.7 
+#>               "BenchWarrants"                     "Federal" 
+#>                           X.8                     Conv..SJF 
+#>                 "PretrialSJF"    "Sentencedto Co. JailTime" 
+#>                         Conv.                           X.9 
+#>   "SJFSentencedto State Jail"                 "TotalOthers" 
+#>                          X.10                          X.11 
+#>                  "TotalLocal"               "TotalContract" 
+#>                          X.12                          X.13 
+#>             "TotalPopulation"               "TotalCapacity" 
+#>                          X.14                          X.15 
+#>                "% ofCapacity"               "AvailableBeds"
 ```
 
 Now we have a vector of 20 strings, one per column in our data. We will use this to name the columns in our data set with the actual info from the scraped table. One helper function first. The column names don't follow conventional R style for column names - it has spaces, uppercase letters, punctuation other than the underscore. To easily fix this we can use the `make_clean_names()` function from the `janitor` package. If you don't have this package installed, install it using `install.packages("janitor")`. We'll first save the results of the above `apply()` function as a vector we can call `column_names` and then run the `make_clean_names()` function on it. The input to `make_clean_names()` is the vector of strings (our column names) and it'll return that vector but now with names in R's common style.
@@ -270,26 +215,16 @@ library(janitor)
 column_names <- apply(data[[1]], 2, paste, collapse = "")
 column_names <- make_clean_names(column_names)
 column_names
-#>  [1] "county"                      
-#>  [2] "pretrial_felons"             
-#>  [3] "conv_felons"                 
-#>  [4] "sentenced_to_county_jailtime"
-#>  [5] "parole_violators"            
-#>  [6] "violatorswith_a_new_charge"  
-#>  [7] "pretrial_misd"               
-#>  [8] "conv_misd"                   
-#>  [9] "bench_warrants"              
-#> [10] "federal"                     
-#> [11] "pretrial_sjf"                
-#> [12] "sentencedto_co_jail_time"    
-#> [13] "sjf_sentencedto_state_jail"  
-#> [14] "total_others"                
-#> [15] "total_local"                 
-#> [16] "total_contract"              
-#> [17] "total_population"            
-#> [18] "total_capacity"              
-#> [19] "percent_of_capacity"         
-#> [20] "available_beds"
+#>  [1] "county"                       "pretrial_felons"             
+#>  [3] "conv_felons"                  "sentenced_to_county_jailtime"
+#>  [5] "parole_violators"             "violatorswith_a_new_charge"  
+#>  [7] "pretrial_misd"                "conv_misd"                   
+#>  [9] "bench_warrants"               "federal"                     
+#> [11] "pretrial_sjf"                 "sentencedto_co_jail_time"    
+#> [13] "sjf_sentencedto_state_jail"   "total_others"                
+#> [15] "total_local"                  "total_contract"              
+#> [17] "total_population"             "total_capacity"              
+#> [19] "percent_of_capacity"          "available_beds"
 ```
 
 Now the column names are in the proper style. And notice the 19th value, it changed from the percent sign to the word "percent".
@@ -302,119 +237,77 @@ page1_table <- data[[2]]
 page1_table <- data.frame(page1_table)
 names(page1_table) <- column_names
 head(page1_table)
-#>      county pretrial_felons conv_felons
-#> 1   Andrews              23          11
-#> 2  Angelina              79          35
-#> 3   Aransas              23          10
-#> 4    Archer              12           3
-#> 5 Armstrong               1           1
-#> 6  Atascosa              54           2
-#>   sentenced_to_county_jailtime parole_violators
-#> 1                            0                2
-#> 2                            4                6
-#> 3                            0                2
-#> 4                            0                0
-#> 5                            0                0
-#> 6                            0                8
-#>   violatorswith_a_new_charge pretrial_misd conv_misd
-#> 1                          4            11         0
-#> 2                          0            14         0
-#> 3                          6             7         0
-#> 4                          1             3         1
-#> 5                          0             0         0
-#> 6                          4            21         0
-#>   bench_warrants federal pretrial_sjf
-#> 1              0       0            5
-#> 2              3       0           23
-#> 3              6      73            2
-#> 4              1       2            5
-#> 5              0       0            0
-#> 6              5       0           29
-#>   sentencedto_co_jail_time sjf_sentencedto_state_jail
-#> 1                        0                          6
-#> 2                        0                          3
-#> 3                        0                          0
-#> 4                        0                          0
-#> 5                        0                          0
-#> 6                        0                          4
-#>   total_others total_local total_contract
-#> 1            0          35              0
-#> 2            1         168              0
-#> 3            0          56             73
-#> 4            1          26              9
-#> 5            0           2              0
-#> 6            0         127             29
-#>   total_population total_capacity percent_of_capacity
-#> 1               35             50               70.00
-#> 2              168            279               60.22
-#> 3              129            212               60.85
-#> 4               35             48               72.92
-#> 5                2              8               25.00
-#> 6              156            250               62.40
-#>   available_beds
-#> 1             10
-#> 2             83
-#> 3             62
-#> 4              0
-#> 5              0
-#> 6             69
+#>      county pretrial_felons conv_felons sentenced_to_county_jailtime
+#> 1   Andrews              23          11                            0
+#> 2  Angelina              79          35                            4
+#> 3   Aransas              23          10                            0
+#> 4    Archer              12           3                            0
+#> 5 Armstrong               1           1                            0
+#> 6  Atascosa              54           2                            0
+#>   parole_violators violatorswith_a_new_charge pretrial_misd conv_misd
+#> 1                2                          4            11         0
+#> 2                6                          0            14         0
+#> 3                2                          6             7         0
+#> 4                0                          1             3         1
+#> 5                0                          0             0         0
+#> 6                8                          4            21         0
+#>   bench_warrants federal pretrial_sjf sentencedto_co_jail_time
+#> 1              0       0            5                        0
+#> 2              3       0           23                        0
+#> 3              6      73            2                        0
+#> 4              1       2            5                        0
+#> 5              0       0            0                        0
+#> 6              5       0           29                        0
+#>   sjf_sentencedto_state_jail total_others total_local total_contract
+#> 1                          6            0          35              0
+#> 2                          3            1         168              0
+#> 3                          0            0          56             73
+#> 4                          0            1          26              9
+#> 5                          0            0           2              0
+#> 6                          4            0         127             29
+#>   total_population total_capacity percent_of_capacity available_beds
+#> 1               35             50               70.00             10
+#> 2              168            279               60.22             83
+#> 3              129            212               60.85             62
+#> 4               35             48               72.92              0
+#> 5                2              8               25.00              0
+#> 6              156            250               62.40             69
 tail(page1_table)
-#>        county pretrial_felons conv_felons
-#> 23     Brooks              15           1
-#> 24 Brooks (P)               0           0
-#> 25      Brown              70          20
-#> 26   Burleson              19           2
-#> 27     Burnet              57          23
-#> 28   Caldwell              89           4
-#>    sentenced_to_county_jailtime parole_violators
-#> 23                            1                1
-#> 24                            0                0
-#> 25                            0                7
-#> 26                            0                2
-#> 27                            1                5
-#> 28                            0                3
-#>    violatorswith_a_new_charge pretrial_misd conv_misd
-#> 23                          0             0         0
-#> 24                          0             0         0
-#> 25                         20             9         0
-#> 26                          0             3         0
-#> 27                          9             3         0
-#> 28                          2            26         1
-#>    bench_warrants federal pretrial_sjf
-#> 23              0       0            0
-#> 24              0     164            0
-#> 25              2       0            0
-#> 26              0       0            0
-#> 27              1       0           10
-#> 28              2      19           13
-#>    sentencedto_co_jail_time sjf_sentencedto_state_jail
-#> 23                        0                          0
-#> 24                        0                          0
-#> 25                        3                          0
-#> 26                        0                          0
-#> 27                        1                          0
-#> 28                        0                          3
-#>    total_others total_local total_contract
-#> 23            0          18              0
-#> 24            0           0            408
-#> 25            2         133              7
-#> 26            1          27              0
-#> 27            0         110            158
-#> 28            0         143             21
-#>    total_population total_capacity percent_of_capacity
-#> 23               18             36               50.00
-#> 24              408            652               62.58
-#> 25              140            196               71.43
-#> 26               27             96               28.13
-#> 27              268            595               45.04
-#> 28              164            301               54.49
-#>    available_beds
-#> 23             14
-#> 24            179
-#> 25             36
-#> 26             59
-#> 27            268
-#> 28            107
+#>        county pretrial_felons conv_felons sentenced_to_county_jailtime
+#> 23     Brooks              15           1                            1
+#> 24 Brooks (P)               0           0                            0
+#> 25      Brown              70          20                            0
+#> 26   Burleson              19           2                            0
+#> 27     Burnet              57          23                            1
+#> 28   Caldwell              89           4                            0
+#>    parole_violators violatorswith_a_new_charge pretrial_misd conv_misd
+#> 23                1                          0             0         0
+#> 24                0                          0             0         0
+#> 25                7                         20             9         0
+#> 26                2                          0             3         0
+#> 27                5                          9             3         0
+#> 28                3                          2            26         1
+#>    bench_warrants federal pretrial_sjf sentencedto_co_jail_time
+#> 23              0       0            0                        0
+#> 24              0     164            0                        0
+#> 25              2       0            0                        3
+#> 26              0       0            0                        0
+#> 27              1       0           10                        1
+#> 28              2      19           13                        0
+#>    sjf_sentencedto_state_jail total_others total_local total_contract
+#> 23                          0            0          18              0
+#> 24                          0            0           0            408
+#> 25                          0            2         133              7
+#> 26                          0            1          27              0
+#> 27                          0            0         110            158
+#> 28                          3            0         143             21
+#>    total_population total_capacity percent_of_capacity available_beds
+#> 23               18             36               50.00             14
+#> 24              408            652               62.58            179
+#> 25              140            196               71.43             36
+#> 26               27             96               28.13             59
+#> 27              268            595               45.04            268
+#> 28              164            301               54.49            107
 ```
 Looking at the results of `head()` and `tail()` (if this was data that you were using in your project you'd want to look closer than just these checks) shows that we've done this correctly. The values are right and the column names are correct. Complete the rest of the PDF on your own. You can follow the same steps as above but now that we've made the `column_names` object you can reuse that for the other tables. This is only true because each page has the same column names. Otherwise you'd have to fix the column names for each page of the PDF.
 
@@ -435,189 +328,128 @@ We'll start scraping this PDF using the standard `extract_tables()` function wit
 data <- extract_tables(file = "data/PregnantFemaleReportingCurrent.pdf")
 data <- data[[1]]
 data
-#>       [,1]            [,2] [,3]          [,4]
-#>  [1,] "Anderson"      "0"  "Delta"       "0" 
-#>  [2,] "Andrews"       "1"  "Denton"      "3" 
-#>  [3,] "Angelina"      "0"  "DeWitt"      "0" 
-#>  [4,] "Aransas"       "0"  "Dickens"     "0" 
-#>  [5,] "Archer"        "1"  "Dickens (P)" "0" 
-#>  [6,] "Armstrong"     "0"  "Dimmit"      "0" 
-#>  [7,] "Atascosa"      "0"  "Donley"      "0" 
-#>  [8,] "Austin"        "0"  "Duval"       "0" 
-#>  [9,] "Bailey"        "0"  "Eastland"    "0" 
-#> [10,] "Bandera"       "0"  "Ector"       "3" 
-#> [11,] "Bastrop"       "0"  "Edwards"     "0" 
-#> [12,] "Baylor"        "0"  "El Paso"     "8" 
-#> [13,] "Bee"           "0"  "Ellis"       "0" 
-#> [14,] "Bell"          "9"  "Erath"       "0" 
-#> [15,] "Bexar"         "27" "Falls"       "0" 
-#> [16,] "Blanco"        "0"  "Fannin 1(P)" "0" 
-#> [17,] "Borden"        "0"  "Fannin 2(P)" "2" 
-#> [18,] "Bosque"        "0"  "Fayette"     "0" 
-#> [19,] "Bowie (P)"     "0"  "Fisher"      "0" 
-#> [20,] "Brazoria"      "2"  "Floyd"       "0" 
-#> [21,] "Brazos"        "5"  "Foard"       "0" 
-#> [22,] "Brewster"      "0"  "Fort Bend"   "4" 
-#> [23,] "Briscoe"       "0"  "Franklin"    "0" 
-#> [24,] "Brooks"        "0"  "Freestone"   "1" 
-#> [25,] "Brooks (P)"    "1"  "Frio (P)"    "0" 
-#> [26,] "Brown"         "1"  "Gaines"      "0" 
-#> [27,] "Burleson"      "1"  "Galveston"   "5" 
-#> [28,] "Burnet 1(P)"   "5"  "Garza"       "0" 
-#> [29,] "Caldwell"      "0"  "Gillespie"   "0" 
-#> [30,] "Calhoun"       "1"  "Glasscock"   "0" 
-#> [31,] "Callahan"      "0"  "Goliad"      "0" 
-#> [32,] "Cameron"       "6"  "Gonzales"    "1" 
-#> [33,] "Camp"          "0"  "Gray"        "1" 
-#> [34,] "Carson"        "0"  "Grayson"     "4" 
-#> [35,] "Cass"          "0"  "Gregg"       "1" 
-#> [36,] "Castro"        "0"  "Grimes"      "0" 
-#> [37,] "Chambers"      "0"  "Guadalupe"   "6" 
-#> [38,] "Cherokee"      "0"  "Hale"        "1" 
-#> [39,] "Childress"     "0"  "Hall"        "0" 
-#> [40,] "Clay"          "0"  "Hamilton"    "0" 
-#> [41,] "Cochran"       "0"  "Hansford"    "0" 
-#> [42,] "Coke"          "0"  "Hardeman"    "0" 
-#> [43,] "Coleman"       "0"  "Hardin"      "0" 
-#> [44,] "Collin"        "9"  "Harris"      "19"
-#> [45,] "Collingsworth" "0"  "Harrison"    "0" 
-#> [46,] "Colorado"      "0"  "Haskell (P)" "2" 
-#> [47,] "Comal"         "0"  "Hays"        "0" 
-#> [48,] "Comanche"      "0"  "Hemphill"    "0" 
-#> [49,] "Concho"        "0"  "Henderson"   "2" 
-#> [50,] "Cooke"         "2"  "Hidalgo"     "6" 
-#> [51,] "Coryell"       "1"  "Hidalgo (P)" "0" 
-#> [52,] "Cottle"        "0"  "Hill"        "0" 
-#> [53,] "Crane"         "0"  "Hockley"     "1" 
-#> [54,] "Crockett"      "0"  "Hood"        "3" 
-#> [55,] "Crosby"        "0"  "Hopkins"     "1" 
-#> [56,] "Culberson"     "0"  "Houston"     "0" 
-#> [57,] "Dallam"        "0"  "Howard"      "2" 
-#> [58,] "Dallas"        "22" "Hudspeth"    "0" 
-#> [59,] "Dawson"        "0"  "Hunt"        "2" 
-#> [60,] "Deaf Smith"    "0"  "Hutchinson"  "0" 
-#>       [,5]            [,6] [,7]            [,8]
-#>  [1,] "Irion"         "0"  "Motley"        "0" 
-#>  [2,] "Jack"          "0"  "Nacogdoches"   "2" 
-#>  [3,] "Jackson"       "1"  "Navarro"       "2" 
-#>  [4,] "Jasper"        "0"  "Newton"        "0" 
-#>  [5,] "Jeff Davis"    "0"  "Newton (P)"    "0" 
-#>  [6,] "Jefferson"     "0"  "Nolan"         "2" 
-#>  [7,] "Jefferson (P)" "0"  "Nueces"        "4" 
-#>  [8,] "Jim Hogg"      "0"  "Ochiltree"     "0" 
-#>  [9,] "Jim Wells"     "0"  "Oldham"        "0" 
-#> [10,] "Johnson"       "2"  "Orange"        "0" 
-#> [11,] "Jones"         "0"  "Palo Pinto"    "1" 
-#> [12,] "Karnes"        "0"  "Panola"        "0" 
-#> [13,] "Karnes (P)"    "0"  "Parker"        "1" 
-#> [14,] "Kaufman"       "3"  "Parmer"        "0" 
-#> [15,] "Kendall"       "1"  "Pecos"         "0" 
-#> [16,] "Kenedy"        "0"  "Polk"          "0" 
-#> [17,] "Kent"          "0"  "Polk (P)"      "0" 
-#> [18,] "Kerr"          "1"  "Potter"        "4" 
-#> [19,] "Kimble"        "0"  "Presidio"      "0" 
-#> [20,] "King"          "0"  "Rains"         "0" 
-#> [21,] "Kinney"        "0"  "Randall"       "0" 
-#> [22,] "Kleberg"       "1"  "Reagan"        "0" 
-#> [23,] "Knox"          "0"  "Real"          "0" 
-#> [24,] "La Salle"      "0"  "Red River"     "0" 
-#> [25,] "Lamar"         "0"  "Reeves"        "0" 
-#> [26,] "Lamb"          "0"  "Refugio"       "1" 
-#> [27,] "Lampasas"      "0"  "Roberts"       "0" 
-#> [28,] "Lavaca"        "0"  "Robertson"     "0" 
-#> [29,] "Lee"           "0"  "Rockwall"      "0" 
-#> [30,] "Leon"          "0"  "Runnels"       "0" 
-#> [31,] "Liberty (P)"   "3"  "Rusk"          "0" 
-#> [32,] "Limestone"     "0"  "Sabine"        "0" 
-#> [33,] "Lipscomb"      "0"  "San Augustine" "0" 
-#> [34,] "Live Oak"      "0"  "San Jacinto"   "0" 
-#> [35,] "Llano"         "1"  "San Patricio"  "0" 
-#> [36,] "Loving"        "0"  "San Saba"      "0" 
-#> [37,] "Lubbock"       "9"  "Schleicher"    "0" 
-#> [38,] "Lynn"          "0"  "Scurry"        "0" 
-#> [39,] "Madison"       "0"  "Shackelford"   "0" 
-#> [40,] "Marion"        "0"  "Shelby"        "0" 
-#> [41,] "Martin"        "0"  "Sherman"       "0" 
-#> [42,] "Mason"         "0"  "Smith"         "9" 
-#> [43,] "Matagorda"     "0"  "Somervell"     "0" 
-#> [44,] "Maverick"      "1"  "Starr"         "0" 
-#> [45,] "Maverick (P)"  "0"  "Stephens"      "1" 
-#> [46,] "McCulloch"     "0"  "Sterling"      "0" 
-#> [47,] "McLennan"      "6"  "Stonewall"     "0" 
-#> [48,] "McLennan 1(P)" "0"  "Sutton"        "0" 
-#> [49,] "McLennan 2(P)" "0"  "Swisher"       "0" 
-#> [50,] "McMullen"      "0"  "Tarrant"       "34"
-#> [51,] "Medina"        "0"  "Taylor"        "6" 
-#> [52,] "Menard"        "0"  "Terrell"       "0" 
-#> [53,] "Midland"       "2"  "Terry"         "1" 
-#> [54,] "Milam"         "0"  "Throckmorton"  "0" 
-#> [55,] "Mills"         "0"  "Titus"         "0" 
-#> [56,] "Mitchell"      "0"  "Tom Green"     "2" 
-#> [57,] "Montague"      "0"  "Travis"        "10"
-#> [58,] "Montgomery"    "9"  "Trinity"       "0" 
-#> [59,] "Moore"         "0"  "Tyler"         "0" 
-#> [60,] "Morris"        "0"  "Upshur"        "0" 
-#>       [,9]            [,10]
-#>  [1,] "Upton"         "0"  
-#>  [2,] "Uvalde"        "0"  
-#>  [3,] "Val Verde (P)" "1"  
-#>  [4,] "Van Zandt"     "0"  
-#>  [5,] "Victoria"      "1"  
-#>  [6,] "Walker"        "1"  
-#>  [7,] "Waller"        "0"  
-#>  [8,] "Ward"          "0"  
-#>  [9,] "Washington"    "0"  
-#> [10,] "Webb"          "3"  
-#> [11,] "Wharton"       "1"  
-#> [12,] "Wheeler"       "0"  
-#> [13,] "Wichita"       "3"  
-#> [14,] "Wilbarger"     "0"  
-#> [15,] "Willacy"       "0"  
-#> [16,] "Williamson"    "2"  
-#> [17,] "Wilson"        "0"  
-#> [18,] "Winkler"       "0"  
-#> [19,] "Wise"          "1"  
-#> [20,] "Wood"          "0"  
-#> [21,] "Yoakum"        "0"  
-#> [22,] "Young"         "0"  
-#> [23,] "Zapata"        "0"  
-#> [24,] "Zavala"        "0"  
-#> [25,] "Zavala (P)"    "0"  
-#> [26,] ""              ""   
-#> [27,] ""              ""   
-#> [28,] ""              ""   
-#> [29,] ""              ""   
-#> [30,] ""              ""   
-#> [31,] ""              ""   
-#> [32,] ""              ""   
-#> [33,] ""              ""   
-#> [34,] ""              ""   
-#> [35,] ""              ""   
-#> [36,] ""              ""   
-#> [37,] ""              ""   
-#> [38,] ""              ""   
-#> [39,] ""              ""   
-#> [40,] ""              ""   
-#> [41,] ""              ""   
-#> [42,] ""              ""   
-#> [43,] ""              ""   
-#> [44,] ""              ""   
-#> [45,] ""              ""   
-#> [46,] ""              ""   
-#> [47,] ""              ""   
-#> [48,] ""              ""   
-#> [49,] ""              ""   
-#> [50,] ""              ""   
-#> [51,] ""              ""   
-#> [52,] ""              ""   
-#> [53,] ""              ""   
-#> [54,] ""              ""   
-#> [55,] ""              ""   
-#> [56,] ""              ""   
-#> [57,] ""              ""   
-#> [58,] ""              ""   
-#> [59,] ""              ""   
-#> [60,] ""              ""
+#>       [,1]            [,2] [,3]          [,4] [,5]            [,6]
+#>  [1,] "Anderson"      "0"  "Delta"       "0"  "Irion"         "0" 
+#>  [2,] "Andrews"       "1"  "Denton"      "3"  "Jack"          "0" 
+#>  [3,] "Angelina"      "0"  "DeWitt"      "0"  "Jackson"       "1" 
+#>  [4,] "Aransas"       "0"  "Dickens"     "0"  "Jasper"        "0" 
+#>  [5,] "Archer"        "1"  "Dickens (P)" "0"  "Jeff Davis"    "0" 
+#>  [6,] "Armstrong"     "0"  "Dimmit"      "0"  "Jefferson"     "0" 
+#>  [7,] "Atascosa"      "0"  "Donley"      "0"  "Jefferson (P)" "0" 
+#>  [8,] "Austin"        "0"  "Duval"       "0"  "Jim Hogg"      "0" 
+#>  [9,] "Bailey"        "0"  "Eastland"    "0"  "Jim Wells"     "0" 
+#> [10,] "Bandera"       "0"  "Ector"       "3"  "Johnson"       "2" 
+#> [11,] "Bastrop"       "0"  "Edwards"     "0"  "Jones"         "0" 
+#> [12,] "Baylor"        "0"  "El Paso"     "8"  "Karnes"        "0" 
+#> [13,] "Bee"           "0"  "Ellis"       "0"  "Karnes (P)"    "0" 
+#> [14,] "Bell"          "9"  "Erath"       "0"  "Kaufman"       "3" 
+#> [15,] "Bexar"         "27" "Falls"       "0"  "Kendall"       "1" 
+#> [16,] "Blanco"        "0"  "Fannin 1(P)" "0"  "Kenedy"        "0" 
+#> [17,] "Borden"        "0"  "Fannin 2(P)" "2"  "Kent"          "0" 
+#> [18,] "Bosque"        "0"  "Fayette"     "0"  "Kerr"          "1" 
+#> [19,] "Bowie (P)"     "0"  "Fisher"      "0"  "Kimble"        "0" 
+#> [20,] "Brazoria"      "2"  "Floyd"       "0"  "King"          "0" 
+#> [21,] "Brazos"        "5"  "Foard"       "0"  "Kinney"        "0" 
+#> [22,] "Brewster"      "0"  "Fort Bend"   "4"  "Kleberg"       "1" 
+#> [23,] "Briscoe"       "0"  "Franklin"    "0"  "Knox"          "0" 
+#> [24,] "Brooks"        "0"  "Freestone"   "1"  "La Salle"      "0" 
+#> [25,] "Brooks (P)"    "1"  "Frio (P)"    "0"  "Lamar"         "0" 
+#> [26,] "Brown"         "1"  "Gaines"      "0"  "Lamb"          "0" 
+#> [27,] "Burleson"      "1"  "Galveston"   "5"  "Lampasas"      "0" 
+#> [28,] "Burnet 1(P)"   "5"  "Garza"       "0"  "Lavaca"        "0" 
+#> [29,] "Caldwell"      "0"  "Gillespie"   "0"  "Lee"           "0" 
+#> [30,] "Calhoun"       "1"  "Glasscock"   "0"  "Leon"          "0" 
+#> [31,] "Callahan"      "0"  "Goliad"      "0"  "Liberty (P)"   "3" 
+#> [32,] "Cameron"       "6"  "Gonzales"    "1"  "Limestone"     "0" 
+#> [33,] "Camp"          "0"  "Gray"        "1"  "Lipscomb"      "0" 
+#> [34,] "Carson"        "0"  "Grayson"     "4"  "Live Oak"      "0" 
+#> [35,] "Cass"          "0"  "Gregg"       "1"  "Llano"         "1" 
+#> [36,] "Castro"        "0"  "Grimes"      "0"  "Loving"        "0" 
+#> [37,] "Chambers"      "0"  "Guadalupe"   "6"  "Lubbock"       "9" 
+#> [38,] "Cherokee"      "0"  "Hale"        "1"  "Lynn"          "0" 
+#> [39,] "Childress"     "0"  "Hall"        "0"  "Madison"       "0" 
+#> [40,] "Clay"          "0"  "Hamilton"    "0"  "Marion"        "0" 
+#> [41,] "Cochran"       "0"  "Hansford"    "0"  "Martin"        "0" 
+#> [42,] "Coke"          "0"  "Hardeman"    "0"  "Mason"         "0" 
+#> [43,] "Coleman"       "0"  "Hardin"      "0"  "Matagorda"     "0" 
+#> [44,] "Collin"        "9"  "Harris"      "19" "Maverick"      "1" 
+#> [45,] "Collingsworth" "0"  "Harrison"    "0"  "Maverick (P)"  "0" 
+#> [46,] "Colorado"      "0"  "Haskell (P)" "2"  "McCulloch"     "0" 
+#> [47,] "Comal"         "0"  "Hays"        "0"  "McLennan"      "6" 
+#> [48,] "Comanche"      "0"  "Hemphill"    "0"  "McLennan 1(P)" "0" 
+#> [49,] "Concho"        "0"  "Henderson"   "2"  "McLennan 2(P)" "0" 
+#> [50,] "Cooke"         "2"  "Hidalgo"     "6"  "McMullen"      "0" 
+#> [51,] "Coryell"       "1"  "Hidalgo (P)" "0"  "Medina"        "0" 
+#> [52,] "Cottle"        "0"  "Hill"        "0"  "Menard"        "0" 
+#> [53,] "Crane"         "0"  "Hockley"     "1"  "Midland"       "2" 
+#> [54,] "Crockett"      "0"  "Hood"        "3"  "Milam"         "0" 
+#> [55,] "Crosby"        "0"  "Hopkins"     "1"  "Mills"         "0" 
+#> [56,] "Culberson"     "0"  "Houston"     "0"  "Mitchell"      "0" 
+#> [57,] "Dallam"        "0"  "Howard"      "2"  "Montague"      "0" 
+#> [58,] "Dallas"        "22" "Hudspeth"    "0"  "Montgomery"    "9" 
+#> [59,] "Dawson"        "0"  "Hunt"        "2"  "Moore"         "0" 
+#> [60,] "Deaf Smith"    "0"  "Hutchinson"  "0"  "Morris"        "0" 
+#>       [,7]            [,8] [,9]            [,10]
+#>  [1,] "Motley"        "0"  "Upton"         "0"  
+#>  [2,] "Nacogdoches"   "2"  "Uvalde"        "0"  
+#>  [3,] "Navarro"       "2"  "Val Verde (P)" "1"  
+#>  [4,] "Newton"        "0"  "Van Zandt"     "0"  
+#>  [5,] "Newton (P)"    "0"  "Victoria"      "1"  
+#>  [6,] "Nolan"         "2"  "Walker"        "1"  
+#>  [7,] "Nueces"        "4"  "Waller"        "0"  
+#>  [8,] "Ochiltree"     "0"  "Ward"          "0"  
+#>  [9,] "Oldham"        "0"  "Washington"    "0"  
+#> [10,] "Orange"        "0"  "Webb"          "3"  
+#> [11,] "Palo Pinto"    "1"  "Wharton"       "1"  
+#> [12,] "Panola"        "0"  "Wheeler"       "0"  
+#> [13,] "Parker"        "1"  "Wichita"       "3"  
+#> [14,] "Parmer"        "0"  "Wilbarger"     "0"  
+#> [15,] "Pecos"         "0"  "Willacy"       "0"  
+#> [16,] "Polk"          "0"  "Williamson"    "2"  
+#> [17,] "Polk (P)"      "0"  "Wilson"        "0"  
+#> [18,] "Potter"        "4"  "Winkler"       "0"  
+#> [19,] "Presidio"      "0"  "Wise"          "1"  
+#> [20,] "Rains"         "0"  "Wood"          "0"  
+#> [21,] "Randall"       "0"  "Yoakum"        "0"  
+#> [22,] "Reagan"        "0"  "Young"         "0"  
+#> [23,] "Real"          "0"  "Zapata"        "0"  
+#> [24,] "Red River"     "0"  "Zavala"        "0"  
+#> [25,] "Reeves"        "0"  "Zavala (P)"    "0"  
+#> [26,] "Refugio"       "1"  ""              ""   
+#> [27,] "Roberts"       "0"  ""              ""   
+#> [28,] "Robertson"     "0"  ""              ""   
+#> [29,] "Rockwall"      "0"  ""              ""   
+#> [30,] "Runnels"       "0"  ""              ""   
+#> [31,] "Rusk"          "0"  ""              ""   
+#> [32,] "Sabine"        "0"  ""              ""   
+#> [33,] "San Augustine" "0"  ""              ""   
+#> [34,] "San Jacinto"   "0"  ""              ""   
+#> [35,] "San Patricio"  "0"  ""              ""   
+#> [36,] "San Saba"      "0"  ""              ""   
+#> [37,] "Schleicher"    "0"  ""              ""   
+#> [38,] "Scurry"        "0"  ""              ""   
+#> [39,] "Shackelford"   "0"  ""              ""   
+#> [40,] "Shelby"        "0"  ""              ""   
+#> [41,] "Sherman"       "0"  ""              ""   
+#> [42,] "Smith"         "9"  ""              ""   
+#> [43,] "Somervell"     "0"  ""              ""   
+#> [44,] "Starr"         "0"  ""              ""   
+#> [45,] "Stephens"      "1"  ""              ""   
+#> [46,] "Sterling"      "0"  ""              ""   
+#> [47,] "Stonewall"     "0"  ""              ""   
+#> [48,] "Sutton"        "0"  ""              ""   
+#> [49,] "Swisher"       "0"  ""              ""   
+#> [50,] "Tarrant"       "34" ""              ""   
+#> [51,] "Taylor"        "6"  ""              ""   
+#> [52,] "Terrell"       "0"  ""              ""   
+#> [53,] "Terry"         "1"  ""              ""   
+#> [54,] "Throckmorton"  "0"  ""              ""   
+#> [55,] "Titus"         "0"  ""              ""   
+#> [56,] "Tom Green"     "2"  ""              ""   
+#> [57,] "Travis"        "10" ""              ""   
+#> [58,] "Trinity"       "0"  ""              ""   
+#> [59,] "Tyler"         "0"  ""              ""   
+#> [60,] "Upshur"        "0"  ""              ""
 ```
 
 If we check the output from the above code to the PDF, we can see that it worked. Every column in the PDF is in our output and the values were scraped correctly. This is great! Now we want to make two columns - "county" and "pregnant_females_booked" (or whatever you'd like to call it) - from these 10. As usual with R, there are a few ways we can do this. We'll just do two ways. First, since there are only 10 columns, we can just do it manually. We can use square bracket [] notation to grab specific columns using the column number (since the data is a matrix and not a data.frame we can't use dollar sign notation even if we wanted to). Let's print out the head of all the county columns. We can see from the PDF that these are columns 1, 3, 5, 7, and 9. So can use a vector of numbers to get that `c(1, 3, 5, 7, 9)`.
@@ -625,20 +457,13 @@ If we check the output from the above code to the PDF, we can see that it worked
 
 ```r
 head(data[, c(1, 3, 5, 7, 9)])
-#>      [,1]        [,2]          [,3]        
-#> [1,] "Anderson"  "Delta"       "Irion"     
-#> [2,] "Andrews"   "Denton"      "Jack"      
-#> [3,] "Angelina"  "DeWitt"      "Jackson"   
-#> [4,] "Aransas"   "Dickens"     "Jasper"    
-#> [5,] "Archer"    "Dickens (P)" "Jeff Davis"
-#> [6,] "Armstrong" "Dimmit"      "Jefferson" 
-#>      [,4]          [,5]           
-#> [1,] "Motley"      "Upton"        
-#> [2,] "Nacogdoches" "Uvalde"       
-#> [3,] "Navarro"     "Val Verde (P)"
-#> [4,] "Newton"      "Van Zandt"    
-#> [5,] "Newton (P)"  "Victoria"     
-#> [6,] "Nolan"       "Walker"
+#>      [,1]        [,2]          [,3]         [,4]          [,5]           
+#> [1,] "Anderson"  "Delta"       "Irion"      "Motley"      "Upton"        
+#> [2,] "Andrews"   "Denton"      "Jack"       "Nacogdoches" "Uvalde"       
+#> [3,] "Angelina"  "DeWitt"      "Jackson"    "Navarro"     "Val Verde (P)"
+#> [4,] "Aransas"   "Dickens"     "Jasper"     "Newton"      "Van Zandt"    
+#> [5,] "Archer"    "Dickens (P)" "Jeff Davis" "Newton (P)"  "Victoria"     
+#> [6,] "Armstrong" "Dimmit"      "Jefferson"  "Nolan"       "Walker"
 ```
 
 Now again for the "pregnant_females_booked" column.
