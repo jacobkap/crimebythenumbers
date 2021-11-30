@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 suicide <- as.data.frame(suicide)
@@ -42,7 +37,8 @@ head(suicide_agg)
 
 suicide_agg$number_suicides <- 1
 
-suicide_agg <- aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)
+library(dplyr)
+suicide_agg <- suicide_agg %>% group_by(nhood) %>% summarize(number_suicides = sum(number_suicides))
 
 summary(suicide_agg$number_suicides)
 
@@ -50,9 +46,7 @@ nrow(suicide_agg)
 
 nrow(sf_neighborhoods)
 
-## install.packages("dplyr")
-
-library(dplyr)
+suicide_agg$geometry <- NULL
 
 sf_neighborhoods_suicide <- left_join(sf_neighborhoods, suicide_agg)
 

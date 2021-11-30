@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 library(pdftools)
 
 border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")

@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-28" />
+<meta name="date" content="2021-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -566,6 +566,13 @@ div.csl-indent {
 </div>
 <div id="fixed-width-ascii" class="section level3" number="10.1.6">
 <h3><span class="header-section-number">10.1.6</span> Fixed-width ASCII</h3>
+<p>The final type of data we’ll talk about is a fixed-width ASCII. An ASCII file is just a text file and the fixed-width part means that each row has the exact same number of characters. This is a very old file format system that hopefully you’ll never encounter but is one that some government agencies - including the FBI for their annual data releases (though some individuals and organizations re-release the same in better formats like R and Stata files) - still use, so is good to know to how handle. A fixed-width ASCII file is essentially an Excel file but with all of the columns smushed together. It also tries to reduce its file size by replacing long strings of text with short ones. For example, instead of including a state name it’ll usually have a number - as a number has fewer characters than an entire name, the file is therefore smaller.</p>
+<p>Each fixed-width ASCII file also comes with what is called a “setup” file which is some code that tells the program you’re reading the data into how to separate columns and when to replace the (in our example) numbers that indicate the state with the actual state name. In nearly all cases where you have a fixed-width ASCII you’ll also be able to download the setup file from the same source, so I won’t cover how to make a setup file yourself.</p>
+<p>To read fixed-width ASCII files into R we’ll use the <code>asciiSetupReader</code> package which I created myself for this very purpose. For more information on this package including details on all of the different options in the function, please see the package’s site <a href="https://jacobkap.github.io/asciiSetupReader/">here</a>.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="reading-and-writing-data.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;asciiSetupReader&quot;</span>)</span></code></pre></div>
+<p>We’ll use the <code>read_ascii_setup()</code> function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder dataset) which is called “2020_SHR_NATIONAL_MASTER_FILE.txt” and the setup file is one that I wrote myself and is called “ucr_shr.sps.” We can name the object we read “shr.”</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="reading-and-writing-data.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(asciiSetupReader)</span>
+<span id="cb79-2"><a href="reading-and-writing-data.html#cb79-2" aria-hidden="true" tabindex="-1"></a>shr <span class="ot">&lt;-</span> <span class="fu">read_ascii_setup</span>(<span class="st">&quot;data/2020_SHR_NATIONAL_MASTER_FILE.txt&quot;</span>, <span class="st">&quot;data/ucr_shr.sps&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="writing-data" class="section level2" number="10.2">
@@ -585,25 +592,25 @@ div.csl-indent {
 <div id="r-1" class="section level3" number="10.2.1">
 <h3><span class="header-section-number">10.2.1</span> R</h3>
 <p>For saving an .rda file we must set the parameter <code>file</code> to be the name we’re saving. For the other types of data they use the parameter <code>path</code> rather than <code>file</code> but it is not necessary to call them explicitly.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="reading-and-writing-data.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(shootings, <span class="at">file =</span>  <span class="st">&quot;data/shootings.rda&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="reading-and-writing-data.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(shootings, <span class="at">file =</span>  <span class="st">&quot;data/shootings.rda&quot;</span>)</span></code></pre></div>
 <p>To save a .rds R file we use the <code>saveRDS()</code> which follows the exact save format as <code>save()</code>.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="reading-and-writing-data.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(shootings, <span class="at">file =</span>  <span class="st">&quot;data/shootings.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="reading-and-writing-data.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(shootings, <span class="at">file =</span>  <span class="st">&quot;data/shootings.rds&quot;</span>)</span></code></pre></div>
 </div>
 <div id="excel-1" class="section level3" number="10.2.2">
 <h3><span class="header-section-number">10.2.2</span> Excel</h3>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="reading-and-writing-data.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(shootings, <span class="st">&quot;data/shootings.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="reading-and-writing-data.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(shootings, <span class="st">&quot;data/shootings.csv&quot;</span>)</span></code></pre></div>
 </div>
 <div id="stata-1" class="section level3" number="10.2.3">
 <h3><span class="header-section-number">10.2.3</span> Stata</h3>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="reading-and-writing-data.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_dta</span>(shootings, <span class="st">&quot;data/shootings.dta&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="reading-and-writing-data.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_dta</span>(shootings, <span class="st">&quot;data/shootings.dta&quot;</span>)</span></code></pre></div>
 </div>
 <div id="sas-1" class="section level3" number="10.2.4">
 <h3><span class="header-section-number">10.2.4</span> SAS</h3>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="reading-and-writing-data.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_sas</span>(shootings, <span class="st">&quot;data/shootings.sas&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="reading-and-writing-data.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_sas</span>(shootings, <span class="st">&quot;data/shootings.sas&quot;</span>)</span></code></pre></div>
 </div>
 <div id="spss-1" class="section level3" number="10.2.5">
 <h3><span class="header-section-number">10.2.5</span> SPSS</h3>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="reading-and-writing-data.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_sav</span>(shootings, <span class="st">&quot;data/shootings.sav&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="reading-and-writing-data.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_sav</span>(shootings, <span class="st">&quot;data/shootings.sav&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

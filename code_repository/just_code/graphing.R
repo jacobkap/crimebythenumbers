@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 ## install.packages("ggplot2")
 
 library(ggplot2)

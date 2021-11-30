@@ -3,13 +3,6 @@
 #' In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda" which you'll need to download from the data repository available [here](https://github.com/jacobkap/r4crimz/tree/master/data).
 #' 
 #' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
-#' 
 #' ## Using RStudio
 #' 
 #' In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress.
@@ -88,7 +81,7 @@ if (!knitr:::is_html_output()) {
 #' 
 #' ![](images/rstudio_4.PNG)
 #' 
-#' ## Assigning variables
+#' ## Assigning variables {#assignment}
 #' 
 #' When we're using R for research the general process is to load data, change it somehow (such as deleting rows we don't want, aggregating from some small unit such as monthly crime to a higher unit such as yearly crime), and then analyze it. To do all this we need to be able to make sure each step we do actually changes the data. This seems simple but is actually a very common issue I've noticed when working with new R programmers - they run code on the data (e.g. deleting certain rows) but forget to save the change on that data. 
 #' 
@@ -193,7 +186,7 @@ meditations()
 #' 
 #' For many research projects you'll have data produced by some outside group (e.g. FBI, local police agencies) and you want to take that data and put it inside R to work on it. We call that reading data into R. R is capable of reading a number of different formats of data which we will discuss in more detail in Chapter \@ref(reading-and-writing-data). Here, we will talk about the standard R data file only. 
 #' 
-#' ### Loading data {#loading-data}
+#' ### Loading data {#loading-data-intro}
 #' 
 #' As we learned above in Section \@ref(setting-the-working-directory), we need to set our working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.
 #' 

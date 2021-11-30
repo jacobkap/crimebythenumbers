@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 library(readr)
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
 
@@ -118,13 +113,14 @@ shootings$year <- year(shootings$date)
 head(shootings$month_year)
 head(shootings$year)
 
-monthly_shootings <- aggregate(dummy ~ month_year, data = shootings, FUN = sum)
+library(dplyr)
+monthly_shootings <- shootings %>% group_by(month_year) %>% summarize(dummy = sum(dummy))
 head(monthly_shootings)
 
 ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 
-yearly_shootings <- aggregate(dummy ~ year, data = shootings, FUN = sum)
+yearly_shootings <- shootings %>% group_by(year) %>% summarize(dummy = sum(dummy))
 ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 

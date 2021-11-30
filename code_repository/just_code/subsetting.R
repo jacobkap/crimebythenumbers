@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 
 animals
@@ -22,10 +17,6 @@ animals[c(3, 4, 1)]
 animals[-1]
 
 animals[-c(1, 2, 3)]
-
-x = 2
-
-x
 
 animals[-1]
 
@@ -102,6 +93,25 @@ colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$stat
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+
+unique(colorado$state)
+
+unique(colorado$year)
+
+colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- colorado[colorado$year %in% 2011:2017, ]
+colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+
+## install.packages("dplyr")
+
+library(dplyr)
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado")
+
+colorado <- filter(offenses_known_yearly_1960_2020, year %in% 2011:2017)
+
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+
+colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
 
 unique(colorado$state)
 

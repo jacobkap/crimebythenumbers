@@ -1,14 +1,6 @@
 #' # Scraping tables from PDFs {#scrape-table}
 #' 
-#' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
-#' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 #' 
 #' In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
 #' 

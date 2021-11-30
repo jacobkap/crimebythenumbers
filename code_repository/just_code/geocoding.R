@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 ## install.packages("tidygeocoder")
 
 library(tidygeocoder)
@@ -59,5 +54,3 @@ summary(marijuana$long)
 summary(marijuana$lat)
 
 plot(marijuana$long, marijuana$lat)
-
-write_csv(marijuana, file = "data/san_francisco_marijuana_geocoded.csv")

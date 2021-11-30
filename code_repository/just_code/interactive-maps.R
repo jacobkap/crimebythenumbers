@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-}
-
 library(readr)
 marijuana <- read_csv("data/san_francisco_marijuana_geocoded.csv")
 marijuana <- as.data.frame(marijuana)

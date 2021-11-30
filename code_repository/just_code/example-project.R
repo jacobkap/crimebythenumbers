@@ -12,15 +12,13 @@ agencies_2019 <- shr$ori[shr$year == 2019]
 agencies_2020 <- shr$ori[shr$year == 2020]
 # Get which agencies reported in both years so we have an apples-to-apples comparison
 agencies_in_both <- agencies_2019[agencies_2019 %in% agencies_2020]
-# Just unique agencies
-agencies_in_both <- unique(agencies_in_both)
 
 # Keep just data from 2019 and 2020 and where the agencies is one of the
 # agencies chosen above. Also keep only murder and nonnegligent manslaughter (so excluding 
 # negligent manslaughter). 
 shr_2019_and_2020 <- shr[shr$year %in% 2019:2020,]
-shr_2019_and_2020 <- shr[shr$ori  %in% agencies_in_both,]
-shr_2019_and_2020 <- shr[shr$homicide_type %in% "murder and nonnegligent manslaughter",]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$ori  %in% agencies_in_both,]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% "murder and nonnegligent manslaughter",]
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
@@ -48,6 +46,46 @@ shr_difference$victim_1_relation_to_offender_1 <-
 # so that relationship labels are on the y-axis for easy reading. And finally
 # uses the "crim" theme that changes the colors in the graph to make it a little
 # easier to see.
+ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1, 
+                                        y = percent_change)) +
+  geom_bar(stat = "identity") +
+  ylab("Percent Change, 2020 Vs. 2019") +
+  xlab("Who Victim Is Relative to Murderer") + 
+  coord_flip() +
+  theme_crim() 
+
+library(dplyr)    
+library(ggplot2)    
+library(crimeutils) 
+library(tidyr)      
+
+shr <- readRDS("data/shr_1976_2020.rds") 
+
+agencies_2019 <- shr$ori[shr$year == 2019]
+agencies_2020 <- shr$ori[shr$year == 2020]
+agencies_in_both <- agencies_2019[agencies_2019 %in% agencies_2020]
+
+
+shr_2019_and_2020 <- shr[shr$year %in% 2019:2020,]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$ori  %in% agencies_in_both,]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% "murder and nonnegligent manslaughter",]
+
+shr_difference <- 
+  shr_2019_and_2020 %>%
+  group_by(year) %>%
+  count(victim_1_relation_to_offender_1) %>%
+  spread(year, n) %>%
+  mutate(difference = `2020` - `2019`,
+         percent_change = difference / `2019` * 100,
+         victim_1_relation_to_offender_1 = capitalize_words(victim_1_relation_to_offender_1)) %>%
+  filter(`2019` >= 50) %>%
+  arrange(percent_change)
+shr_difference
+
+shr_difference$victim_1_relation_to_offender_1 <- 
+  factor(shr_difference$victim_1_relation_to_offender_1,
+         levels = shr_difference$victim_1_relation_to_offender_1)
+
 ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1, 
                                         y = percent_change)) +
   geom_bar(stat = "identity") +

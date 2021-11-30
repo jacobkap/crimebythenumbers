@@ -1,12 +1,5 @@
 #' # Geocoding 
 #' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
-#' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_active_marijuana_retailers.csv.
 #' 
 #' Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
@@ -179,9 +172,3 @@ plot(marijuana$long, marijuana$lat)
 
 #' 
 #' Most points are within a very narrow range so it appears that our geocoding worked properly. 
-#' 
-#' To finish this lesson we want to save the *marijuana* data.frame. We'll use the `write_csv()` function from the `readr` package to save it as a .csv file. Since this data is now geocoded and it is specifically for San Francisco, we'll save it as "san_francisco_marijuana_geocoded.csv".
-#' 
-## ---------------------------------------------------------------------------------------------------
-write_csv(marijuana, file = "data/san_francisco_marijuana_geocoded.csv")
-

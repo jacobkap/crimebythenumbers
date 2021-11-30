@@ -415,4 +415,66 @@ The only state is Colorado and the only years are 2011-2017 so our subset worked
 
 #### Subsetting using `dplyr`
 
-Above we did subsetting through what's called the "base R" method. "Base R" just means that we use functions that are built into R and don't use any packages. 
+Above we did subsetting through what's called the "base R" method. "Base R" just means that we use functions that are built into R and don't use any packages. A very popular alternative way to do most of the work done in this chapter is to use the `dplyr` package. `dplyr` is a very useful package to handle data and includes functions that let us subset data, select on certain columns, and aggregate the data. For the package's website, which covers all of the features in this package, please see [here](https://dplyr.tidyverse.org/). 
+
+`dplyr` is part of what is called the "tidyverse" which is a collection of R packages written by mostly the same people that include lots of functions that are useful for working with the kind of data we use in this book. We'll cover many of the tidyverse packages in this book. There's nothing special about a package being a "tidyverse" package; they operate exactly the same as other packages. I just mention it because it is a very popular set of packages and people will often talk about "tidyverse" approaches to R meaning using these packages. So it's good to know the terminology. To look at the full list of tidyverse packages, their website [here](https://dplyr.tidyverse.org/) is an excellent overview of them. 
+
+In a lot of ways the functions we'll use from `dplyr` are simpler and easier to use than what we write earlier in this chapter. In fact, a lot of people learn only `dplyr` functions and do not learn (or at least do not spend much time on) base R. For the rest of this book we'll use base R and tidyverse functions alongside each other. I do this for two reasons. First, it's important to understand how R works and using base R is the best way to learn. This is a programming-for-a-purpose book, not a pure programming book, so the focus isn't on knowing all the ins and outs of R. However, I think it is still important to have some understanding of how R works and tidyverse functions tend to obfuscate that. 
+
+In most cases this obfuscation is a good thing as it lets you focus on working with the data instead of thinking about how R works (and this is one of the tidyverse authors' motivations behind their work). In some cases, however, you'll encounter issues with either the code or your data where its important to understand how R works. In these (luckily relatively) rare cases, the problem is one where using base R is much easier than using tidyverse packages.
+
+The second reason is that base R functions are incredibly stable. Must haven't changed since R was first created in the early 1990s. The benefit is that code you write using base R functions work will for a very long time. Using packages outside of base R (all packages, not just tidyverse packages) always carries the risk that a new version of the package will change the behavior of a function, or remove that function entirely. Thankfully this is quite rare as package developers often take care to ensure that old features remain available even as they update their package. But it is always a risk, and for programming for research we want to try to make our code as reproducible as possible, which means trying to ensure that functions we use will keep working in the future. That said, please don't avoid packages too much out of fear of this issue. Packages in R are enormously useful and we'll use many of this throughout this book. 
+
+We'll cover two functions from `dplyr` here, and we'll also cover a couple more in the next chapter. For now, we'll look only at `filter()` and `select()`. The `filter()` function is how `dplyr` does subsetting. It takes a conditional statement and "filters" the data to only return rows where that conditional statement is true. You can include multiple conditional statements in the parentheses of `filter()` and it'll return only rows where all of the statements are true. The `select()` function does roughly that with columns where we can input a conditional statement about the name of the column (e.g. columns ending in "rate") and it'll return only those columns. `select()` also lets you choose columns just by putting the name of the column(s) in the parentheses and that's all we'll be using it for here.
+ 
+Let's first copy back some of the code we used earlier when we used base R to subset Colorado data from the UCR dataset. 
+
+```{r}
+colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- colorado[colorado$year %in% 2011:2017, ]
+colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+```
+
+We have two conditional statements - keep only rows where state is Colorado and where years are between 2011 and 2017 (including 2017) - and then we kept only a small number of columns.
+
+We'll do this one step at a time using the `dplyr` functions. For `filter()` we first include the name of our data.frame, which in this case starts as "offenses_known_yearly_1960_2020" and then becomes "colorado" as we make a new object during the first line of code, and then we include our conditional statement. Using base R, we have to say which data.frame we used every time we included a column. Using `filter()` we don't need to do this. `filter()` is smart enough to select the column from the data.frame we input.
+
+For our first filter we can write `filter(offenses_known_yearly_1960_2020, state == "colorado")` and we will save the resulting object into a data.frame called "colorado" like we did above. To use any `dplyr` functions we first need to install that package and then tell R we want to use it through the `library()` function.
+
+```{r, eval = FALSE}
+install.packages("dplyr")
+```
+
+
+```{r}
+library(dplyr)
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado")
+```
+
+Now we can do our second conditional statement where we keep only years 2011 through 2017.
+
+```{r}
+colorado <- filter(offenses_known_yearly_1960_2020, year %in% 2011:2017)
+```
+
+If we wanted to we could combine these lines of code into a single line by including both conditional statements into a single `filter()` function by just including a comma after the first statement.
+
+```{r}
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+```
+
+We follow similar syntax for `select()` by starting the name of the data.frame and then the name of every column you want to keep. Unlike in base R we don't need to put the columns in a vector or to put the names in quotes (though you can put the names in quotes if you'd like). The order you put the column names in is also the order it will arrange them, so this function can be used to reorder your columns. 
+
+```{r}
+colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
+```
+
+If we run the same checks on unique states and years as we did after out base R code, we'll get the same results. This shows that our `dplyr` code did the same thing as our base R code.
+
+```{r}
+unique(colorado$state)
+```
+
+```{r}
+unique(colorado$year)
+```

@@ -1,13 +1,5 @@
 #' # Choropleth maps
 #' 
-#' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
-#' 
 #' For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
 #' 
 #' In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in northeast San Francisco. In this lesson we will make choropleth maps, which are shaded maps where each "unit" is some known area such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this lesson we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the lesson) in the city. 
@@ -130,10 +122,7 @@ suicide_agg <- st_join(suicide, sf_neighborhoods)
 head(suicide_agg)
 
 #' 
-#' There is now the *nhood* column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level. 
-#' For now we will use the code to aggregate the number of suicides per neighborhood. Remember, the `aggregate()` command aggregates a numeric value by some categorical value. Here we aggregate the number of suicides per neighborhood. So our code will be
-#' 
-#' `aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)`
+#' There is now the *nhood* column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level using `group_by()` and `summarize()` functions from the `dplyr` package. 
 #' 
 #' We actually don't have a variable with the number of suicides so we need to make that. We can simply call it *number_suicides* and give it that value of 1 since each row is only one suicide.
 #' 
@@ -141,10 +130,11 @@ head(suicide_agg)
 suicide_agg$number_suicides <- 1
 
 #' 
-#' Now we can write the `aggregate()` code and save the results back into *suicide_agg*. 
+#' Now we can aggregate the data and save the results back into *suicide_agg*. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-suicide_agg <- aggregate(number_suicides ~ nhood, data = suicide_agg, FUN = sum)
+library(dplyr)
+suicide_agg <- suicide_agg %>% group_by(nhood) %>% summarize(number_suicides = sum(number_suicides))
 
 #' 
 #' Let's check a summary of the *number_suicides* variable we made.
@@ -165,17 +155,9 @@ nrow(suicide_agg)
 nrow(sf_neighborhoods)
 
 #' 
-#' The suicides data is missing 2 neighborhoods. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
+#' The suicides data is missing 1 neighborhood. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
 #' 
-#' The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package so we need to install and tell R we want to use it using `library()`.
-#' 
-## ----eval = FALSE-----------------------------------------------------------------------------------
-## install.packages("dplyr")
-
-#' 
-## ---------------------------------------------------------------------------------------------------
-library(dplyr)
-
+#' The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package.
 #' 
 #' The function we will use is `left_join()` which takes two parameters, the two data sets to join together. 
 #' 
@@ -192,6 +174,14 @@ library(dplyr)
 #' We could alternatively use the `merge()` function which is built into R but that function is slower than the `dplyr` functions and requires us to manually set the matching columns. 
 #' 
 #' We want to keep all rows in *sf_neighborhoods* (keep all neighborhoods) so we can use `left_join(sf_neighborhoods, suicide_agg)`. Let's save the results into a new data.frame called *sf_neighborhoods_suicide*. 
+#' 
+#' We don't need the spatial data for "suicide_agg" anymore and it will cause problems with our join if we keep it, so let's delete the "geometry" column from that data. We can do this by assigning the column the value of NULL.
+#' 
+## ---------------------------------------------------------------------------------------------------
+suicide_agg$geometry <- NULL
+
+#' 
+#' Now we can do our join. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 sf_neighborhoods_suicide <- left_join(sf_neighborhoods, suicide_agg)

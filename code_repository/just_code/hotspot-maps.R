@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 suicide <- as.data.frame(suicide)

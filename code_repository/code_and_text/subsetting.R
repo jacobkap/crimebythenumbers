@@ -1,13 +1,3 @@
-#' # (PART) Clean {-}
-#' 
-#' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
-#' 
 #' # Subsetting: Making big things small {#subsetting-intro}
 #' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
@@ -24,13 +14,13 @@ animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 animals
 
 #' 
-#' Here we have made an object called *animals* with a number of different animals in it (we'll explain what it really means to "make an object" soon). In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+#' Here we have made an object called *animals* with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
 #' 
 #' The syntax (how the code is written) goes
 #' 
 #' `object[index]`
 #' 
-#' First, we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our *animals* object. In normal language we say "I want the 6th value from *animals*. We say where we're looking and which value we want. 
+#' First, we have the object and then we put the square bracket `[]`. We need both the object and the `[]` for subsetting to work. Let's say we wanted to choose just the "snake" from our *animals* object. In normal language we say "I want the 6th value from *animals*". We say where we're looking and which value we want. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 animals[6]
@@ -77,28 +67,6 @@ animals[-1]
 ## ---------------------------------------------------------------------------------------------------
 animals[-c(1, 2, 3)]
 
-#' 
-#' ## Assigning values to objects (Making "things") {#assignment}
-#' 
-#' Earlier we wrote `animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")` to make the object *animals* with the value of each of the different animals we wrote. 
-#' 
-#' We say`<-` as "gets". So above "animals gets the values cat, dog, etc.". This is read from left to right as thing on left (the name of the object) "gets" the value of the thing on the right of the `<-`. The proper terminology is that the "thing" on the left is an "object". So if we had `x <- 5` the object *x* gets the value 5. We could also say "five was assigned to x". 
-#' 
-#' The terminology is "object gets value" or "value assigned to object", both work. 
-#' 
-#' You can use the `=` instead of `<-`. Again, the thing on the left gets the value of the thing on the right even when using `=`.
-#' 
-## ---------------------------------------------------------------------------------------------------
-x = 2
-
-#' 
-#' *x* now has the value of the number 2.
-#' 
-## ---------------------------------------------------------------------------------------------------
-x
-
-#' 
-#' It is the convention in R to use `<-` instead of `=` and in some cases the `=` will not work properly. For those reasons we will use `<-` for this class. 
 #' 
 #' Earlier I said we can remove values with using a negative number and that index will be removed from the object. For example, `animals[-1]` prints every value in *animals* except for the first value.
 #' 
@@ -300,7 +268,7 @@ nrow(offenses_known_yearly_1960_2020)
 ncol(offenses_known_yearly_1960_2020)
 
 #' 
-#' This is a large file with 159 columns and nearly a million rows. Normally we wouldn't want to print out the names of all 159 columns but let's do this here as we want to know the variables available to subset.
+#' This is a large file with 223 columns and over a million rows. Normally we wouldn't want to print out the names of all 223 columns but let's do this here as we want to know the variables available to subset.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 names(offenses_known_yearly_1960_2020)
@@ -352,7 +320,6 @@ head(offenses_known_yearly_1960_2020$actual_murder)
 #' 
 #' The exception to this is when we use the dollar sign notation to select a single column. In that case we don't need a comma (and indeed it will give us an error!). Let's see a few examples and then explain why this works the way it does. 
 #' 
-#' 
 ## ---------------------------------------------------------------------------------------------------
 offenses_known_yearly_1960_2020[1, 1]
 
@@ -372,13 +339,13 @@ offenses_known_yearly_1960_2020[1:6, c("ori", "year")]
 #' 
 #' In cases where we want every row or every column, we just don't put a number. By default, R will return every row/column if you don't specify which ones you want. However, you will still need to include the comma.
 #' 
-#' Here is every column in the first row.
+#' Here is every column in the first row. Again, for real work we'd likely not due this as it will print out hundreds of rows to the console.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 offenses_known_yearly_1960_2020[1, ]
 
 #' 
-#' Since there are 159 columns in our data, normally we'd want to avoid printing out all of them. And in most cases, we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
+#' Since there are 223 columns in our data, normally we'd want to avoid printing out all of them. And in most cases, we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
 #' 
 #' What happens if we forget the comma? If we put in numbers for both rows and columns but don't include a comma between them it will have an error.
 #' 
@@ -445,3 +412,69 @@ unique(colorado$year)
 
 #' 
 #' The only state is Colorado and the only years are 2011-2017 so our subset worked! This data shows the number of murders in each agency. We want to look at state trends so in Section \@ref(aggregate) we will sum up all the murders per year and see if marijuana legalization affected it. 
+#' 
+#' #### Subsetting using `dplyr`
+#' 
+#' Above we did subsetting through what's called the "base R" method. "Base R" just means that we use functions that are built into R and don't use any packages. A very popular alternative way to do most of the work done in this chapter is to use the `dplyr` package. `dplyr` is a very useful package to handle data and includes functions that let us subset data, select on certain columns, and aggregate the data. For the package's website, which covers all of the features in this package, please see [here](https://dplyr.tidyverse.org/). 
+#' 
+#' `dplyr` is part of what is called the "tidyverse" which is a collection of R packages written by mostly the same people that include lots of functions that are useful for working with the kind of data we use in this book. We'll cover many of the tidyverse packages in this book. There's nothing special about a package being a "tidyverse" package; they operate exactly the same as other packages. I just mention it because it is a very popular set of packages and people will often talk about "tidyverse" approaches to R meaning using these packages. So it's good to know the terminology. To look at the full list of tidyverse packages, their website [here](https://dplyr.tidyverse.org/) is an excellent overview of them. 
+#' 
+#' In a lot of ways the functions we'll use from `dplyr` are simpler and easier to use than what we write earlier in this chapter. In fact, a lot of people learn only `dplyr` functions and do not learn (or at least do not spend much time on) base R. For the rest of this book we'll use base R and tidyverse functions alongside each other. I do this for two reasons. First, it's important to understand how R works and using base R is the best way to learn. This is a programming-for-a-purpose book, not a pure programming book, so the focus isn't on knowing all the ins and outs of R. However, I think it is still important to have some understanding of how R works and tidyverse functions tend to obfuscate that. 
+#' 
+#' In most cases this obfuscation is a good thing as it lets you focus on working with the data instead of thinking about how R works (and this is one of the tidyverse authors' motivations behind their work). In some cases, however, you'll encounter issues with either the code or your data where its important to understand how R works. In these (luckily relatively) rare cases, the problem is one where using base R is much easier than using tidyverse packages.
+#' 
+#' The second reason is that base R functions are incredibly stable. Must haven't changed since R was first created in the early 1990s. The benefit is that code you write using base R functions work will for a very long time. Using packages outside of base R (all packages, not just tidyverse packages) always carries the risk that a new version of the package will change the behavior of a function, or remove that function entirely. Thankfully this is quite rare as package developers often take care to ensure that old features remain available even as they update their package. But it is always a risk, and for programming for research we want to try to make our code as reproducible as possible, which means trying to ensure that functions we use will keep working in the future. That said, please don't avoid packages too much out of fear of this issue. Packages in R are enormously useful and we'll use many of this throughout this book. 
+#' 
+#' We'll cover two functions from `dplyr` here, and we'll also cover a couple more in the next chapter. For now, we'll look only at `filter()` and `select()`. The `filter()` function is how `dplyr` does subsetting. It takes a conditional statement and "filters" the data to only return rows where that conditional statement is true. You can include multiple conditional statements in the parentheses of `filter()` and it'll return only rows where all of the statements are true. The `select()` function does roughly that with columns where we can input a conditional statement about the name of the column (e.g. columns ending in "rate") and it'll return only those columns. `select()` also lets you choose columns just by putting the name of the column(s) in the parentheses and that's all we'll be using it for here.
+#'  
+#' Let's first copy back some of the code we used earlier when we used base R to subset Colorado data from the UCR dataset. 
+#' 
+## ---------------------------------------------------------------------------------------------------
+colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- colorado[colorado$year %in% 2011:2017, ]
+colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+
+#' 
+#' We have two conditional statements - keep only rows where state is Colorado and where years are between 2011 and 2017 (including 2017) - and then we kept only a small number of columns.
+#' 
+#' We'll do this one step at a time using the `dplyr` functions. For `filter()` we first include the name of our data.frame, which in this case starts as "offenses_known_yearly_1960_2020" and then becomes "colorado" as we make a new object during the first line of code, and then we include our conditional statement. Using base R, we have to say which data.frame we used every time we included a column. Using `filter()` we don't need to do this. `filter()` is smart enough to select the column from the data.frame we input.
+#' 
+#' For our first filter we can write `filter(offenses_known_yearly_1960_2020, state == "colorado")` and we will save the resulting object into a data.frame called "colorado" like we did above. To use any `dplyr` functions we first need to install that package and then tell R we want to use it through the `library()` function.
+#' 
+## ---- eval = FALSE----------------------------------------------------------------------------------
+## install.packages("dplyr")
+
+#' 
+#' 
+## ---------------------------------------------------------------------------------------------------
+library(dplyr)
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado")
+
+#' 
+#' Now we can do our second conditional statement where we keep only years 2011 through 2017.
+#' 
+## ---------------------------------------------------------------------------------------------------
+colorado <- filter(offenses_known_yearly_1960_2020, year %in% 2011:2017)
+
+#' 
+#' If we wanted to we could combine these lines of code into a single line by including both conditional statements into a single `filter()` function by just including a comma after the first statement.
+#' 
+## ---------------------------------------------------------------------------------------------------
+colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+
+#' 
+#' We follow similar syntax for `select()` by starting the name of the data.frame and then the name of every column you want to keep. Unlike in base R we don't need to put the columns in a vector or to put the names in quotes (though you can put the names in quotes if you'd like). The order you put the column names in is also the order it will arrange them, so this function can be used to reorder your columns. 
+#' 
+## ---------------------------------------------------------------------------------------------------
+colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
+
+#' 
+#' If we run the same checks on unique states and years as we did after out base R code, we'll get the same results. This shows that our `dplyr` code did the same thing as our base R code.
+#' 
+## ---------------------------------------------------------------------------------------------------
+unique(colorado$state)
+
+#' 
+## ---------------------------------------------------------------------------------------------------
+unique(colorado$year)
+

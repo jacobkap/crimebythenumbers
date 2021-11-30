@@ -1,13 +1,5 @@
 #' # (PART) Visualize {-}
 #' 
-#' 
-## ----include = FALSE--------------------------------------------------------------------------------
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
-#' 
 #' # Graphing with `ggplot2` {#graphing-intro}
 #' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): apparent_per_capita_alcohol_consumption.rda.

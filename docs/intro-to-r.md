@@ -211,7 +211,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "If any man has done wrong, the harm is his own. But perhaps he has not done wrong."
+#> [1] "If any man is able to convince me and show me that I do not think or act right, I will gladly change; for I seek the truth by which no man was ever injured. But he is injured who abides in his error and ignorance."
 ```
 
 ## Reading data into R
@@ -322,7 +322,9 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 

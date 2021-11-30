@@ -1,8 +1,3 @@
-if (!knitr:::is_html_output()) {
-  options("width" = 56)
-  knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 56, indent = 2), tidy = TRUE)
-  }
-
 example_data <- data.frame(year = c(2000, 2000, 2001, 2001),
                            crime_type = c("murder", "theft", "murder", "theft"),
                            crime_count = c(100, 100, 200, 50))

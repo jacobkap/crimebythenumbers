@@ -314,7 +314,9 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -345,7 +347,9 @@ Now we can do the same graph as above but using this new data set.
 plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
@@ -365,7 +369,9 @@ plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
      main = "Relationship between murder and robbery")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -510,7 +516,9 @@ Mpw let's make a plot of this data showing the murder rate over time. With time-
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -519,7 +527,9 @@ By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" i
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -531,22 +541,20 @@ plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l",
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 ## Pipes in `dplyr` {#dplyr-pipes}
 
 To end this chapter we'll talk about something called a pipe that is a very useful and powerful part of `dplyr`. 
 
+Think about the math equation 1 + 2 + 3 + 4. Here we know that we add 1 and 2 together, and then add the result to 3 and then add the result of that to 4. This is much simpler to write than splitting everything up and summing each value together in a different line. In terms of R, we have so far been doing things as if we could only add two numbers together and then need a separate line to add the third (and another line to add the fourth) number. For example, below are the two lines of code we used to subset the data to just the right state and years we wanted, and the columns we wanted. We did this in two separate lines. In our math example, we did 1 + 2. And then found the answer, and separately did 3 + 3. And then again found the answer and did 6 + 4.
 
 
 ```r
 colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
 colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
-```
-
-
-```r
-colorado <- offenses_known_yearly_1960_2020 %>%  filter(state == "colorado", year %in% 2011:2017) %>%   select(actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
 head(colorado)
 #>   actual_murder actual_robbery_total    state year
 #> 1             7                   80 colorado 2017
@@ -563,6 +571,39 @@ head(colorado)
 #> 5      97146 CO00100       adams
 #> 6      93542 CO00100       adams
 ```
+
+In R we actually do have a way to chain together functions; to do the programming equivalent of 1 + 2 + 3 + 4 all at once. We do this through what is called a pipe, which allows us to take the result of one function and immediately put it into another function without having to save the initial result or start a new line of code. To use a pipe we put the following code after the end of a function: `%>%`. These three characters, `%>%` are the pipe and they must be written exactly like this. The pipe is itself actually a function, but is a special type of function we won't go into detail about. Personally I don't think this really looks like a pipe at all but it is called a pipe so that's the terminology I'll be using. How a pipe technically works is that it takes the output of the initial function (which is usually a data.frame) and puts it automatically is the first input in the next function. This won't work for all functions but nearly all functions from the tidyverse collection of packages have a dataset as the first input so it will work here. The benefit is that we don't need to keep saving out output from functions or specify which dataset to include in each function.
+
+As an example, we'll rewrite the above code using a pipe. We start with our data.frame which is normally the first input the the function, and then immediately have a pipe `%>%` into a `dplyr` function, which here is `filter()`. Now we don't need to say what the dataset is because we it takes the last thing that was piped into the function, which in our case is the entire data.frame offenses_known_yearly_1960_2020. After our `filter()` is done we have another pipe and go into `select()`. Now `select()` will use as its first input (which is the data it is working with) as whatever is outputting from the `filter()`. So the input to `select()` will be the subsetted data output from `filter()`. We can have as many pipes as we wish, and chain many different `dplyr` functions together, but we just use two functions here so we'll end after our `select()` function. 
+
+
+```r
+colorado <- offenses_known_yearly_1960_2020 %>%  filter(state == "colorado", year %in% 2011:2017) %>%   select(actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+```
+
+If we check results using `head()`, we can see that this code is exactly the same as not using pipes.
+
+
+```r
+head(colorado)
+#>   actual_murder actual_robbery_total    state year
+#> 1             7                   80 colorado 2017
+#> 2            11                   93 colorado 2016
+#> 3             6                   68 colorado 2015
+#> 4             6                   58 colorado 2014
+#> 5             7                   44 colorado 2013
+#> 6             7                   55 colorado 2012
+#>   population     ori agency_name
+#> 1      99940 CO00100       adams
+#> 2     100526 CO00100       adams
+#> 3     100266 CO00100       adams
+#> 4      98569 CO00100       adams
+#> 5      97146 CO00100       adams
+#> 6      93542 CO00100       adams
+```
+
+
+The normal way to write code using pipes is to have a new line after the pipe and after each comma in `filter()` and `select()`. This doesn't change how the code works at all, but is easier to read now because it has less code bunched together in a single line.
 
 
 ```r
@@ -576,21 +617,6 @@ colorado <- offenses_known_yearly_1960_2020 %>%
          population,
          ori, 
          agency_name)
-head(colorado)
-#>   actual_murder actual_robbery_total    state year
-#> 1             7                   80 colorado 2017
-#> 2            11                   93 colorado 2016
-#> 3             6                   68 colorado 2015
-#> 4             6                   58 colorado 2014
-#> 5             7                   44 colorado 2013
-#> 6             7                   55 colorado 2012
-#>   population     ori agency_name
-#> 1      99940 CO00100       adams
-#> 2     100526 CO00100       adams
-#> 3     100266 CO00100       adams
-#> 4      98569 CO00100       adams
-#> 5      97146 CO00100       adams
-#> 6      93542 CO00100       adams
 ```
 
 
