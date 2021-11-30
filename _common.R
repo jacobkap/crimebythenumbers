@@ -8,3 +8,5 @@ knitr::opts_chunk$set(
   fig.show = "hold",
   error = TRUE
   )
+
+options(width = 60)

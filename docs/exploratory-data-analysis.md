@@ -26,20 +26,27 @@ The function `head()` will print out the first 6 rows of every column in the dat
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population actual_murder actual_rape_total
-#> 1 AK00101 2017   anchorage alaska     296188            27               391
-#> 2 AK00102 2017   fairbanks alaska      32937            10                24
-#> 3 AK00103 2017      juneau alaska      32344             1                50
-#> 4 AK00104 2017   ketchikan alaska       8230             1                19
-#> 5 AK00105 2017      kodiak alaska       6198             0                15
-#> 6 AK00106 2017        nome alaska       3829             0                 7
-#>   actual_robbery_total actual_assault_aggravated
-#> 1                  778                      2368
-#> 2                   40                       131
-#> 3                   46                       206
-#> 4                    0                        14
-#> 5                    4                        41
-#> 6                    0                        52
+#>       ori year agency_name  state population actual_murder
+#> 1 AK00101 2017   anchorage alaska     296188            27
+#> 2 AK00102 2017   fairbanks alaska      32937            10
+#> 3 AK00103 2017      juneau alaska      32344             1
+#> 4 AK00104 2017   ketchikan alaska       8230             1
+#> 5 AK00105 2017      kodiak alaska       6198             0
+#> 6 AK00106 2017        nome alaska       3829             0
+#>   actual_rape_total actual_robbery_total
+#> 1               391                  778
+#> 2                24                   40
+#> 3                50                   46
+#> 4                19                    0
+#> 5                15                    4
+#> 6                 7                    0
+#>   actual_assault_aggravated
+#> 1                      2368
+#> 2                       131
+#> 3                       206
+#> 4                        14
+#> 5                        41
+#> 6                        52
 ```
 
 From these results it appears that each row is a single agency's annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we'll see in a later lesson). 
@@ -63,20 +70,27 @@ An important function in understanding the data you have is `summary()` which, a
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name           state          
-#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
-#>                     Mean   :2017                                        
-#>                     3rd Qu.:2017                                        
-#>                     Max.   :2017                                        
-#>    population      actual_murder     actual_rape_total  actual_robbery_total
-#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
-#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
-#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
-#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
-#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
-#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
+#>      ori                 year      agency_name       
+#>  Length:15764       Min.   :2017   Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character  
+#>                     Mean   :2017                     
+#>                     3rd Qu.:2017                     
+#>                     Max.   :2017                     
+#>     state             population      actual_murder    
+#>  Length:15764       Min.   :      0   Min.   :  0.000  
+#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
+#>  Mode  :character   Median :   4460   Median :  0.000  
+#>                     Mean   :  19872   Mean   :  1.069  
+#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
+#>                     Max.   :8616333   Max.   :653.000  
+#>  actual_rape_total  actual_robbery_total
+#>  Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   1.000   Median :    0.00    
+#>  Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :2455.000   Max.   :13995.00    
 #>  actual_assault_aggravated
 #>  Min.   :   -1.00         
 #>  1st Qu.:    1.00         
@@ -91,7 +105,8 @@ The `table()` function returns every unique value in a category **and** how ofte
 
 ```r
 head(ucr2017$agency_name)
-#> [1] "anchorage" "fairbanks" "juneau"    "ketchikan" "kodiak"    "nome"
+#> [1] "anchorage" "fairbanks" "juneau"    "ketchikan"
+#> [5] "kodiak"    "nome"
 ```
 
 There are only two columns in our data with categorical values that we can use - *year* and *state* so let's use `table()` on both of them. The columns *ori* and *agency_name* are also categorical but as each row of data has a unique ORI and name, running `table()` on those columns would not be helpful.
@@ -110,42 +125,58 @@ We can see that every year in our data is 2017, as expected based on the data na
 ```r
 table(ucr2017$state)
 #> 
-#>              alabama               alaska              arizona 
-#>                  305                   32                  107 
-#>             arkansas           california             colorado 
-#>                  273                  732                  213 
-#>          connecticut             delaware district of columbia 
-#>                  107                   63                    3 
-#>              florida              georgia                 guam 
-#>                  603                  522                    1 
-#>               hawaii                idaho             illinois 
-#>                    4                   95                  696 
-#>              indiana                 iowa               kansas 
-#>                  247                  216                  309 
-#>             kentucky            louisiana                maine 
-#>                  352                  192                  135 
-#>             maryland        massachusetts             michigan 
-#>                  152                  346                  625 
-#>            minnesota          mississippi             missouri 
-#>                  397                   71                  580 
-#>              montana             nebraska               nevada 
-#>                  108                  225                   59 
-#>        new hampshire           new jersey           new mexico 
-#>                  176                  576                  116 
-#>             new york       north carolina         north dakota 
-#>                  532                  310                  108 
-#>                 ohio             oklahoma               oregon 
-#>                  532                  409                  172 
-#>         pennsylvania         rhode island       south carolina 
-#>                 1473                   49                  427 
-#>         south dakota            tennessee                texas 
-#>                   92                  466                  999 
-#>                 utah              vermont             virginia 
-#>                  125                   85                  407 
-#>           washington        west virginia            wisconsin 
-#>                  250                  200                  433 
-#>              wyoming 
-#>                   57
+#>              alabama               alaska 
+#>                  305                   32 
+#>              arizona             arkansas 
+#>                  107                  273 
+#>           california             colorado 
+#>                  732                  213 
+#>          connecticut             delaware 
+#>                  107                   63 
+#> district of columbia              florida 
+#>                    3                  603 
+#>              georgia                 guam 
+#>                  522                    1 
+#>               hawaii                idaho 
+#>                    4                   95 
+#>             illinois              indiana 
+#>                  696                  247 
+#>                 iowa               kansas 
+#>                  216                  309 
+#>             kentucky            louisiana 
+#>                  352                  192 
+#>                maine             maryland 
+#>                  135                  152 
+#>        massachusetts             michigan 
+#>                  346                  625 
+#>            minnesota          mississippi 
+#>                  397                   71 
+#>             missouri              montana 
+#>                  580                  108 
+#>             nebraska               nevada 
+#>                  225                   59 
+#>        new hampshire           new jersey 
+#>                  176                  576 
+#>           new mexico             new york 
+#>                  116                  532 
+#>       north carolina         north dakota 
+#>                  310                  108 
+#>                 ohio             oklahoma 
+#>                  532                  409 
+#>               oregon         pennsylvania 
+#>                  172                 1473 
+#>         rhode island       south carolina 
+#>                   49                  427 
+#>         south dakota            tennessee 
+#>                   92                  466 
+#>                texas                 utah 
+#>                  999                  125 
+#>              vermont             virginia 
+#>                   85                  407 
+#>           washington        west virginia 
+#>                  250                  200 
+#>            wisconsin              wyoming 
+#>                  433                   57
 ```
 
 This shows us how many times each state is present in the data. States with a larger population tend to appear more often, this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears, we usually want it ordered by frequency. We can use the `sort()` function to order the results from `table()`. Just put the entire `table()` function inside of the () in `sort()`.
@@ -154,42 +185,58 @@ This shows us how many times each state is present in the data. States with a la
 ```r
 sort(table(ucr2017$state))
 #> 
-#>                 guam district of columbia               hawaii 
-#>                    1                    3                    4 
-#>               alaska         rhode island              wyoming 
-#>                   32                   49                   57 
-#>               nevada             delaware          mississippi 
-#>                   59                   63                   71 
-#>              vermont         south dakota                idaho 
-#>                   85                   92                   95 
-#>              arizona          connecticut              montana 
-#>                  107                  107                  108 
-#>         north dakota           new mexico                 utah 
-#>                  108                  116                  125 
-#>                maine             maryland               oregon 
-#>                  135                  152                  172 
-#>        new hampshire            louisiana        west virginia 
-#>                  176                  192                  200 
-#>             colorado                 iowa             nebraska 
-#>                  213                  216                  225 
-#>              indiana           washington             arkansas 
-#>                  247                  250                  273 
-#>              alabama               kansas       north carolina 
-#>                  305                  309                  310 
-#>        massachusetts             kentucky            minnesota 
-#>                  346                  352                  397 
-#>             virginia             oklahoma       south carolina 
-#>                  407                  409                  427 
-#>            wisconsin            tennessee              georgia 
-#>                  433                  466                  522 
-#>             new york                 ohio           new jersey 
-#>                  532                  532                  576 
-#>             missouri              florida             michigan 
-#>                  580                  603                  625 
-#>             illinois           california                texas 
-#>                  696                  732                  999 
-#>         pennsylvania 
-#>                 1473
+#>                 guam district of columbia 
+#>                    1                    3 
+#>               hawaii               alaska 
+#>                    4                   32 
+#>         rhode island              wyoming 
+#>                   49                   57 
+#>               nevada             delaware 
+#>                   59                   63 
+#>          mississippi              vermont 
+#>                   71                   85 
+#>         south dakota                idaho 
+#>                   92                   95 
+#>              arizona          connecticut 
+#>                  107                  107 
+#>              montana         north dakota 
+#>                  108                  108 
+#>           new mexico                 utah 
+#>                  116                  125 
+#>                maine             maryland 
+#>                  135                  152 
+#>               oregon        new hampshire 
+#>                  172                  176 
+#>            louisiana        west virginia 
+#>                  192                  200 
+#>             colorado                 iowa 
+#>                  213                  216 
+#>             nebraska              indiana 
+#>                  225                  247 
+#>           washington             arkansas 
+#>                  250                  273 
+#>              alabama               kansas 
+#>                  305                  309 
+#>       north carolina        massachusetts 
+#>                  310                  346 
+#>             kentucky            minnesota 
+#>                  352                  397 
+#>             virginia             oklahoma 
+#>                  407                  409 
+#>       south carolina            wisconsin 
+#>                  427                  433 
+#>            tennessee              georgia 
+#>                  466                  522 
+#>             new york                 ohio 
+#>                  532                  532 
+#>           new jersey             missouri 
+#>                  576                  580 
+#>              florida             michigan 
+#>                  603                  625 
+#>             illinois           california 
+#>                  696                  732 
+#>                texas         pennsylvania 
+#>                  999                 1473
 ```
 
 And if we want to sort it in decreasing order of frequency, we can use the parameter `decreasing` in `sort()` and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters and they are useful if you don't want to use the default setting in the function. This parameter, `decreasing` changes the `sort()` output to print from largest to smallest. By default this parameter is set to FALSE and here we say it is equal to TRUE.
@@ -198,42 +245,58 @@ And if we want to sort it in decreasing order of frequency, we can use the param
 ```r
 sort(table(ucr2017$state), decreasing = TRUE)
 #> 
-#>         pennsylvania                texas           california 
-#>                 1473                  999                  732 
-#>             illinois             michigan              florida 
-#>                  696                  625                  603 
-#>             missouri           new jersey             new york 
-#>                  580                  576                  532 
-#>                 ohio              georgia            tennessee 
-#>                  532                  522                  466 
-#>            wisconsin       south carolina             oklahoma 
-#>                  433                  427                  409 
-#>             virginia            minnesota             kentucky 
-#>                  407                  397                  352 
-#>        massachusetts       north carolina               kansas 
-#>                  346                  310                  309 
-#>              alabama             arkansas           washington 
-#>                  305                  273                  250 
-#>              indiana             nebraska                 iowa 
-#>                  247                  225                  216 
-#>             colorado        west virginia            louisiana 
-#>                  213                  200                  192 
-#>        new hampshire               oregon             maryland 
-#>                  176                  172                  152 
-#>                maine                 utah           new mexico 
-#>                  135                  125                  116 
-#>              montana         north dakota              arizona 
-#>                  108                  108                  107 
-#>          connecticut                idaho         south dakota 
-#>                  107                   95                   92 
-#>              vermont          mississippi             delaware 
-#>                   85                   71                   63 
-#>               nevada              wyoming         rhode island 
-#>                   59                   57                   49 
-#>               alaska               hawaii district of columbia 
-#>                   32                    4                    3 
-#>                 guam 
-#>                    1
+#>         pennsylvania                texas 
+#>                 1473                  999 
+#>           california             illinois 
+#>                  732                  696 
+#>             michigan              florida 
+#>                  625                  603 
+#>             missouri           new jersey 
+#>                  580                  576 
+#>             new york                 ohio 
+#>                  532                  532 
+#>              georgia            tennessee 
+#>                  522                  466 
+#>            wisconsin       south carolina 
+#>                  433                  427 
+#>             oklahoma             virginia 
+#>                  409                  407 
+#>            minnesota             kentucky 
+#>                  397                  352 
+#>        massachusetts       north carolina 
+#>                  346                  310 
+#>               kansas              alabama 
+#>                  309                  305 
+#>             arkansas           washington 
+#>                  273                  250 
+#>              indiana             nebraska 
+#>                  247                  225 
+#>                 iowa             colorado 
+#>                  216                  213 
+#>        west virginia            louisiana 
+#>                  200                  192 
+#>        new hampshire               oregon 
+#>                  176                  172 
+#>             maryland                maine 
+#>                  152                  135 
+#>                 utah           new mexico 
+#>                  125                  116 
+#>              montana         north dakota 
+#>                  108                  108 
+#>              arizona          connecticut 
+#>                  107                  107 
+#>                idaho         south dakota 
+#>                   95                   92 
+#>              vermont          mississippi 
+#>                   85                   71 
+#>             delaware               nevada 
+#>                   63                   59 
+#>              wyoming         rhode island 
+#>                   57                   49 
+#>               alaska               hawaii 
+#>                   32                    4 
+#> district of columbia                 guam 
+#>                    3                    1
 ```
 
 ## Graphing
@@ -247,9 +310,7 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -280,9 +341,7 @@ Now we can do the same graph as above but using this new data set.
 plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
@@ -302,9 +361,7 @@ plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
      main = "Relationship between murder and robbery")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -376,15 +433,15 @@ We could even do different math operations on the same column and we'd get multi
 ```r
 summarize(colorado, sum(actual_murder), sum(actual_robbery_total), mean(actual_robbery_total))
 #> # A tibble: 7 x 4
-#>    year `sum(actual_murder)` `sum(actual_robbery_total)` `mean(actual_robbery_t~
-#>   <dbl>                <dbl>                       <dbl>                   <dbl>
-#> 1  2011                  154                        3287                   11.2 
-#> 2  2012                  163                        3369                   11.2 
-#> 3  2013                  172                        3122                   10.3 
-#> 4  2014                  148                        3021                    9.94
-#> 5  2015                  173                        3305                   10.9 
-#> 6  2016                  203                        3513                   11.6 
-#> 7  2017                  218                        3811                   12.5
+#>    year `sum(actual_murd~ `sum(actual_robb~ `mean(actual_ro~
+#>   <dbl>             <dbl>             <dbl>            <dbl>
+#> 1  2011               154              3287            11.2 
+#> 2  2012               163              3369            11.2 
+#> 3  2013               172              3122            10.3 
+#> 4  2014               148              3021             9.94
+#> 5  2015               173              3305            10.9 
+#> 6  2016               203              3513            11.6 
+#> 7  2017               218              3811            12.5
 ```
 
 By default `summarize()` calls the columns it makes using what we include in the parentheses. Since we said "sum(actual_murder)" to get the sum of the murder column, it names that new column "sum(actual_murder)". Usually we'll want to name the columns ourselves. We can do this by assigning the summarized column to a name using "name = " before it. For example, we could write "murders = sum(actual_murder)" and it will name that column "murders" instead of "sum(actual_murder)". Like other things in `dplyr` functions, we don't need to put quotes around our new column name. We'll save this final summarized data into an object called "colorado_agg" so we can use it to make graphs. And to be able to create crime rates per population, we'll also find the sum of the population for each year.
@@ -427,15 +484,16 @@ The `dplyr` package has a helpful function that can do this too, and allows us t
 ```r
 mutate(colorado_agg, murder_rate = murders / population * 100000, robbery_rate = robberies / population * 100000)
 #> # A tibble: 7 x 6
-#>    year murders robberies population murder_rate robbery_rate
-#>   <dbl>   <dbl>     <dbl>      <dbl>       <dbl>        <dbl>
-#> 1  2011     154      3287    5155993        2.99         63.8
-#> 2  2012     163      3369    5227884        3.12         64.4
-#> 3  2013     172      3122    5308236        3.24         58.8
-#> 4  2014     148      3021    5402555        2.74         55.9
-#> 5  2015     173      3305    5505856        3.14         60.0
-#> 6  2016     203      3513    5590124        3.63         62.8
-#> 7  2017     218      3811    5661529        3.85         67.3
+#>    year murders robberies population murder_rate
+#>   <dbl>   <dbl>     <dbl>      <dbl>       <dbl>
+#> 1  2011     154      3287    5155993        2.99
+#> 2  2012     163      3369    5227884        3.12
+#> 3  2013     172      3122    5308236        3.24
+#> 4  2014     148      3021    5402555        2.74
+#> 5  2015     173      3305    5505856        3.14
+#> 6  2016     203      3513    5590124        3.63
+#> 7  2017     218      3811    5661529        3.85
+#> # ... with 1 more variable: robbery_rate <dbl>
 ```
 
 
@@ -446,9 +504,7 @@ Mpw let's make a plot of this data showing the murder rate over time. With time-
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -457,9 +513,7 @@ By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" i
 plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -471,9 +525,7 @@ plot(x = colorado_agg$year, y = colorado_agg$murder_rate, type = "l",
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Pipes in `dplyr` {#dplyr-pipes}
 
@@ -486,20 +538,20 @@ Think about the math equation 1 + 2 + 3 + 4. Here we know that we add 1 and 2 to
 colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
 colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
 head(colorado)
-#>   actual_murder actual_robbery_total    state year population     ori
-#> 1             7                   80 colorado 2017      99940 CO00100
-#> 2            11                   93 colorado 2016     100526 CO00100
-#> 3             6                   68 colorado 2015     100266 CO00100
-#> 4             6                   58 colorado 2014      98569 CO00100
-#> 5             7                   44 colorado 2013      97146 CO00100
-#> 6             7                   55 colorado 2012      93542 CO00100
-#>   agency_name
-#> 1       adams
-#> 2       adams
-#> 3       adams
-#> 4       adams
-#> 5       adams
-#> 6       adams
+#>   actual_murder actual_robbery_total    state year
+#> 1             7                   80 colorado 2017
+#> 2            11                   93 colorado 2016
+#> 3             6                   68 colorado 2015
+#> 4             6                   58 colorado 2014
+#> 5             7                   44 colorado 2013
+#> 6             7                   55 colorado 2012
+#>   population     ori agency_name
+#> 1      99940 CO00100       adams
+#> 2     100526 CO00100       adams
+#> 3     100266 CO00100       adams
+#> 4      98569 CO00100       adams
+#> 5      97146 CO00100       adams
+#> 6      93542 CO00100       adams
 ```
 
 In R we actually do have a way to chain together functions; to do the programming equivalent of 1 + 2 + 3 + 4 all at once. We do this through what is called a pipe, which allows us to take the result of one function and immediately put it into another function without having to save the initial result or start a new line of code. To use a pipe we put the following code after the end of a function: `%>%`. These three characters, `%>%` are the pipe and they must be written exactly like this. The pipe is itself actually a function, but is a special type of function we won't go into detail about. Personally I don't think this really looks like a pipe at all but it is called a pipe so that's the terminology I'll be using. How a pipe technically works is that it takes the output of the initial function (which is usually a data.frame) and puts it automatically is the first input in the next function. This won't work for all functions but nearly all functions from the tidyverse collection of packages have a dataset as the first input so it will work here. The benefit is that we don't need to keep saving out output from functions or specify which dataset to include in each function.
@@ -516,20 +568,20 @@ If we check results using `head()`, we can see that this code is exactly the sam
 
 ```r
 head(colorado)
-#>   actual_murder actual_robbery_total    state year population     ori
-#> 1             7                   80 colorado 2017      99940 CO00100
-#> 2            11                   93 colorado 2016     100526 CO00100
-#> 3             6                   68 colorado 2015     100266 CO00100
-#> 4             6                   58 colorado 2014      98569 CO00100
-#> 5             7                   44 colorado 2013      97146 CO00100
-#> 6             7                   55 colorado 2012      93542 CO00100
-#>   agency_name
-#> 1       adams
-#> 2       adams
-#> 3       adams
-#> 4       adams
-#> 5       adams
-#> 6       adams
+#>   actual_murder actual_robbery_total    state year
+#> 1             7                   80 colorado 2017
+#> 2            11                   93 colorado 2016
+#> 3             6                   68 colorado 2015
+#> 4             6                   58 colorado 2014
+#> 5             7                   44 colorado 2013
+#> 6             7                   55 colorado 2012
+#>   population     ori agency_name
+#> 1      99940 CO00100       adams
+#> 2     100526 CO00100       adams
+#> 3     100266 CO00100       adams
+#> 4      98569 CO00100       adams
+#> 5      97146 CO00100       adams
+#> 6      93542 CO00100       adams
 ```
 
 

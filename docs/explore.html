@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -376,7 +376,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>13.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>14</b> Reshaping data</a></li>
+<li class="chapter" data-level="14" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>14</b> Reshaping data</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-single-column"><i class="fa fa-check"></i><b>14.1</b> Reshaping a single column</a></li>
+<li class="chapter" data-level="14.2" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-multiple-columns"><i class="fa fa-check"></i><b>14.2</b> Reshaping a multiple columns</a></li>
+</ul></li>
 <li class="part"><span><b>IV Visualize</b></span></li>
 <li class="chapter" data-level="15" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>15</b> Graphing with <code>ggplot2</code></a>
 <ul>
@@ -495,20 +499,20 @@ div.csl-indent {
 <div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="explore.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
 <p>The function <code>head()</code> will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it read to read.</p>
 <div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="explore.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017)</span>
-<span id="cb145-2"><a href="explore.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ori year agency_name  state population</span></span>
-<span id="cb145-3"><a href="explore.html#cb145-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188</span></span>
-<span id="cb145-4"><a href="explore.html#cb145-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937</span></span>
-<span id="cb145-5"><a href="explore.html#cb145-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344</span></span>
-<span id="cb145-6"><a href="explore.html#cb145-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230</span></span>
-<span id="cb145-7"><a href="explore.html#cb145-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198</span></span>
-<span id="cb145-8"><a href="explore.html#cb145-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 AK00106 2017        nome alaska       3829</span></span>
-<span id="cb145-9"><a href="explore.html#cb145-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   actual_murder actual_rape_total actual_robbery_total</span></span>
-<span id="cb145-10"><a href="explore.html#cb145-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1            27               391                  778</span></span>
-<span id="cb145-11"><a href="explore.html#cb145-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2            10                24                   40</span></span>
-<span id="cb145-12"><a href="explore.html#cb145-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3             1                50                   46</span></span>
-<span id="cb145-13"><a href="explore.html#cb145-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4             1                19                    0</span></span>
-<span id="cb145-14"><a href="explore.html#cb145-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5             0                15                    4</span></span>
-<span id="cb145-15"><a href="explore.html#cb145-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6             0                 7                    0</span></span>
+<span id="cb145-2"><a href="explore.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       ori year agency_name  state population actual_murder</span></span>
+<span id="cb145-3"><a href="explore.html#cb145-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 AK00101 2017   anchorage alaska     296188            27</span></span>
+<span id="cb145-4"><a href="explore.html#cb145-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 AK00102 2017   fairbanks alaska      32937            10</span></span>
+<span id="cb145-5"><a href="explore.html#cb145-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 AK00103 2017      juneau alaska      32344             1</span></span>
+<span id="cb145-6"><a href="explore.html#cb145-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 AK00104 2017   ketchikan alaska       8230             1</span></span>
+<span id="cb145-7"><a href="explore.html#cb145-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 AK00105 2017      kodiak alaska       6198             0</span></span>
+<span id="cb145-8"><a href="explore.html#cb145-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 AK00106 2017        nome alaska       3829             0</span></span>
+<span id="cb145-9"><a href="explore.html#cb145-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   actual_rape_total actual_robbery_total</span></span>
+<span id="cb145-10"><a href="explore.html#cb145-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1               391                  778</span></span>
+<span id="cb145-11"><a href="explore.html#cb145-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                24                   40</span></span>
+<span id="cb145-12"><a href="explore.html#cb145-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                50                   46</span></span>
+<span id="cb145-13"><a href="explore.html#cb145-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                19                    0</span></span>
+<span id="cb145-14"><a href="explore.html#cb145-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                15                    4</span></span>
+<span id="cb145-15"><a href="explore.html#cb145-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                 7                    0</span></span>
 <span id="cb145-16"><a href="explore.html#cb145-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   actual_assault_aggravated</span></span>
 <span id="cb145-17"><a href="explore.html#cb145-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                      2368</span></span>
 <span id="cb145-18"><a href="explore.html#cb145-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                       131</span></span>
@@ -519,15 +523,11 @@ div.csl-indent {
 <p>From these results it appears that each row is a single agency’s annual data for 2017 and the columns show the number of crimes for four crime categories included (the full UCR data contains many more crimes which we’ll see in a later lesson).</p>
 <p>Finally, we can run <code>names()</code> to print out every column name. We can already see every name from <code>head()</code> but this is useful when we have many columns and don’t want to use <code>head()</code>.</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="explore.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
-<span id="cb146-2"><a href="explore.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ori&quot;                      </span></span>
-<span id="cb146-3"><a href="explore.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;year&quot;                     </span></span>
-<span id="cb146-4"><a href="explore.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;agency_name&quot;              </span></span>
-<span id="cb146-5"><a href="explore.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;state&quot;                    </span></span>
-<span id="cb146-6"><a href="explore.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;population&quot;               </span></span>
-<span id="cb146-7"><a href="explore.html#cb146-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;actual_murder&quot;            </span></span>
-<span id="cb146-8"><a href="explore.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;actual_rape_total&quot;        </span></span>
-<span id="cb146-9"><a href="explore.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] &quot;actual_robbery_total&quot;     </span></span>
-<span id="cb146-10"><a href="explore.html#cb146-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
+<span id="cb146-2"><a href="explore.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ori&quot;                       &quot;year&quot;                     </span></span>
+<span id="cb146-3"><a href="explore.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;agency_name&quot;               &quot;state&quot;                    </span></span>
+<span id="cb146-4"><a href="explore.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;population&quot;                &quot;actual_murder&quot;            </span></span>
+<span id="cb146-5"><a href="explore.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></span>
+<span id="cb146-6"><a href="explore.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
 <div id="summary-and-table" class="section level2" number="12.1">
 <h2><span class="header-section-number">12.1</span> Summary and Table</h2>
 <p>An important function in understanding the data you have is <code>summary()</code> which, as discussed in Section <a href="intro-to-r.html#first-steps-to-exploring-data">3.5</a>, provides summary statistics on the numeric columns you have. Let’s take a look at the results before seeing how to do something similar for categorical columns.</p>
@@ -813,17 +813,15 @@ div.csl-indent {
 <p>We could even do different math operations on the same column and we’d get multiple columns from it. Let’s add another column showing the average number of robberies as an example.</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="explore.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(colorado, <span class="fu">sum</span>(actual_murder), <span class="fu">sum</span>(actual_robbery_total), <span class="fu">mean</span>(actual_robbery_total))</span>
 <span id="cb161-2"><a href="explore.html#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 x 4</span></span>
-<span id="cb161-3"><a href="explore.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year `sum(actual_murder)` `sum(actual_robbery_total)`</span></span>
-<span id="cb161-4"><a href="explore.html#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt;                &lt;dbl&gt;                       &lt;dbl&gt;</span></span>
-<span id="cb161-5"><a href="explore.html#cb161-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2011                  154                        3287</span></span>
-<span id="cb161-6"><a href="explore.html#cb161-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2012                  163                        3369</span></span>
-<span id="cb161-7"><a href="explore.html#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2013                  172                        3122</span></span>
-<span id="cb161-8"><a href="explore.html#cb161-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2014                  148                        3021</span></span>
-<span id="cb161-9"><a href="explore.html#cb161-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2015                  173                        3305</span></span>
-<span id="cb161-10"><a href="explore.html#cb161-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2016                  203                        3513</span></span>
-<span id="cb161-11"><a href="explore.html#cb161-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  2017                  218                        3811</span></span>
-<span id="cb161-12"><a href="explore.html#cb161-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 1 more variable:</span></span>
-<span id="cb161-13"><a href="explore.html#cb161-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   mean(actual_robbery_total) &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb161-3"><a href="explore.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    year `sum(actual_murd~ `sum(actual_robb~ `mean(actual_ro~</span></span>
+<span id="cb161-4"><a href="explore.html#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;</span></span>
+<span id="cb161-5"><a href="explore.html#cb161-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2011               154              3287            11.2 </span></span>
+<span id="cb161-6"><a href="explore.html#cb161-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  2012               163              3369            11.2 </span></span>
+<span id="cb161-7"><a href="explore.html#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  2013               172              3122            10.3 </span></span>
+<span id="cb161-8"><a href="explore.html#cb161-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  2014               148              3021             9.94</span></span>
+<span id="cb161-9"><a href="explore.html#cb161-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  2015               173              3305            10.9 </span></span>
+<span id="cb161-10"><a href="explore.html#cb161-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  2016               203              3513            11.6 </span></span>
+<span id="cb161-11"><a href="explore.html#cb161-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  2017               218              3811            12.5</span></span></code></pre></div>
 <p>By default <code>summarize()</code> calls the columns it makes using what we include in the parentheses. Since we said “sum(actual_murder)” to get the sum of the murder column, it names that new column “sum(actual_murder).” Usually we’ll want to name the columns ourselves. We can do this by assigning the summarized column to a name using “name =” before it. For example, we could write “murders = sum(actual_murder)” and it will name that column “murders” instead of “sum(actual_murder).” Like other things in <code>dplyr</code> functions, we don’t need to put quotes around our new column name. We’ll save this final summarized data into an object called “colorado_agg” so we can use it to make graphs. And to be able to create crime rates per population, we’ll also find the sum of the population for each year.</p>
 <div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="explore.html#cb162-1" aria-hidden="true" tabindex="-1"></a>colorado_agg <span class="ot">&lt;-</span> <span class="fu">summarize</span>(colorado, <span class="at">murders =</span> <span class="fu">sum</span>(actual_murder), <span class="at">robberies =</span> <span class="fu">sum</span>(actual_robbery_total), <span class="at">population =</span> <span class="fu">sum</span>(population))</span>
 <span id="cb162-2"><a href="explore.html#cb162-2" aria-hidden="true" tabindex="-1"></a>colorado_agg</span>

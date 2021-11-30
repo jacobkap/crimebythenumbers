@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-29" />
+<meta name="date" content="2021-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -376,7 +376,11 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="13.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>13.4</b> Changing capitalization</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>14</b> Reshaping data</a></li>
+<li class="chapter" data-level="14" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>14</b> Reshaping data</a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-single-column"><i class="fa fa-check"></i><b>14.1</b> Reshaping a single column</a></li>
+<li class="chapter" data-level="14.2" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-multiple-columns"><i class="fa fa-check"></i><b>14.2</b> Reshaping a multiple columns</a></li>
+</ul></li>
 <li class="part"><span><b>IV Visualize</b></span></li>
 <li class="chapter" data-level="15" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>15</b> Graphing with <code>ggplot2</code></a>
 <ul>
@@ -551,8 +555,8 @@ div.csl-indent {
 <p>So since our data is <em>crimes</em> our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
 <p>Let’s start with the letter “a.”</p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="regular-expressions.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)</span>
-<span id="cb174-2"><a href="regular-expressions.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31</span></span>
-<span id="cb174-3"><a href="regular-expressions.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [18] 34 42 43 44 46 47 48 49 50</span></span></code></pre></div>
+<span id="cb174-2"><a href="regular-expressions.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34</span></span>
+<span id="cb174-3"><a href="regular-expressions.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 42 43 44 46 47 48 49 50</span></span></code></pre></div>
 <p>It gives us a bunch of numbers where the letter “a” is present in that element of <em>crimes</em>. What this is useful for is subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values.</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="regular-expressions.html#cb175-1" aria-hidden="true" tabindex="-1"></a>crimes[<span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)]</span>
 <span id="cb175-2"><a href="regular-expressions.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span></span>
@@ -1084,8 +1088,7 @@ div.csl-indent {
 <span id="cb205-9"><a href="regular-expressions.html#cb205-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] &quot;Weapons Offense&quot;</span></span></code></pre></div>
 <p>We can further combine it with <code>()</code> and <code>|</code> to get both spellings of Weapon Offense.</p>
 <div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="regular-expressions.html#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;(Drug|Weapons) Offens?&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb206-2"><a href="regular-expressions.html#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;    &quot;Weapons Offence&quot;</span></span>
-<span id="cb206-3"><a href="regular-expressions.html#cb206-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Weapons Offense&quot;</span></span></code></pre></div>
+<span id="cb206-2"><a href="regular-expressions.html#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;    &quot;Weapons Offence&quot; &quot;Weapons Offense&quot;</span></span></code></pre></div>
 </div>
 </div>
 <div id="changing-capitalization" class="section level2" number="13.4">
