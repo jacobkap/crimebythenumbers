@@ -922,6 +922,7 @@ div.csl-indent {
 <span id="cb217-11"><a href="reshaping.html#cb217-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;black_hispanic&quot;            &quot;white&quot;                    </span></span>
 <span id="cb217-12"><a href="reshaping.html#cb217-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;white_hispanic&quot;            &quot;american_indian_alaskan_n&quot;</span></span></code></pre></div>
 <p>Now each column name is lower cases and has only underscores instead of spaces and slashes.</p>
+<p>To reshape this wide data to long format, we’ll use the <code>tidyr</code> function <code>pivot_longer()</code>. There are three inputs here: “cols” which takes a vector of column names which have our value variables, and “names_to” which is what it’ll call the newly created categorical variable, and “values_to” which is what it’ll call the newly created values column. For “cols” we want to include each of our race columns and these column names must be in quotes. For “names_to” we can call it whatever we want but here we’ll call it “race” as the variable is about the race of the person who was stopped. And for “values_to” we’ll call it “number_of_people_stopped” though we can call it whatever we like.</p>
 <div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="reshaping.html#cb218-1" aria-hidden="true" tabindex="-1"></a>sqf_agg_long <span class="ot">&lt;-</span> sqf_agg_wide <span class="sc">%&gt;%</span></span>
 <span id="cb218-2"><a href="reshaping.html#cb218-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;asian_pacific_islander&quot;</span>, </span>
 <span id="cb218-3"><a href="reshaping.html#cb218-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;black&quot;</span>,</span>
@@ -961,58 +962,61 @@ div.csl-indent {
 </div>
 <div id="reshaping-a-multiple-columns" class="section level2" number="14.2">
 <h2><span class="header-section-number">14.2</span> Reshaping a multiple columns</h2>
-<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="reshaping.html#cb220-1" aria-hidden="true" tabindex="-1"></a>sqf_agg<span class="sc">$</span>n2 <span class="ot">&lt;-</span> sqf_agg<span class="sc">$</span>n <span class="sc">+</span> <span class="dv">10</span></span>
-<span id="cb220-2"><a href="reshaping.html#cb220-2" aria-hidden="true" tabindex="-1"></a>sqf_agg_wide <span class="ot">&lt;-</span> sqf_agg <span class="sc">%&gt;%</span></span>
-<span id="cb220-3"><a href="reshaping.html#cb220-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SUSPECT_RACE_DESCRIPTION <span class="sc">!=</span> <span class="st">&quot;(null)&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb220-4"><a href="reshaping.html#cb220-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> SUSPECT_RACE_DESCRIPTION, <span class="at">values_from =</span> <span class="fu">c</span>(n, n2)) </span>
-<span id="cb220-5"><a href="reshaping.html#cb220-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sqf_agg_wide) <span class="ot">&lt;-</span> <span class="fu">make_clean_names</span>(<span class="fu">names</span>(sqf_agg_wide))</span>
-<span id="cb220-6"><a href="reshaping.html#cb220-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sqf_agg_wide)</span>
-<span id="cb220-7"><a href="reshaping.html#cb220-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 x 14</span></span>
-<span id="cb220-8"><a href="reshaping.html#cb220-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Groups:   month2, day2 [6]</span></span>
-<span id="cb220-9"><a href="reshaping.html#cb220-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   month2 day2     n_asian_pacific_islander n_black n_black_hispanic</span></span>
-<span id="cb220-10"><a href="reshaping.html#cb220-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                       &lt;int&gt;   &lt;int&gt;            &lt;int&gt;</span></span>
-<span id="cb220-11"><a href="reshaping.html#cb220-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 April  Friday                          1     104               17</span></span>
-<span id="cb220-12"><a href="reshaping.html#cb220-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 April  Monday                          1      92               10</span></span>
-<span id="cb220-13"><a href="reshaping.html#cb220-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 April  Saturday                        3     115               24</span></span>
-<span id="cb220-14"><a href="reshaping.html#cb220-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 April  Sunday                          2      96               12</span></span>
-<span id="cb220-15"><a href="reshaping.html#cb220-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 April  Thursday                        2     122               10</span></span>
-<span id="cb220-16"><a href="reshaping.html#cb220-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 April  Tuesday                         7     137               14</span></span>
-<span id="cb220-17"><a href="reshaping.html#cb220-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 9 more variables: n_white &lt;int&gt;,</span></span>
-<span id="cb220-18"><a href="reshaping.html#cb220-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n_white_hispanic &lt;int&gt;,</span></span>
-<span id="cb220-19"><a href="reshaping.html#cb220-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n_american_indian_alaskan_n &lt;int&gt;,</span></span>
-<span id="cb220-20"><a href="reshaping.html#cb220-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_asian_pacific_islander &lt;dbl&gt;, n2_black &lt;dbl&gt;,</span></span>
-<span id="cb220-21"><a href="reshaping.html#cb220-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_black_hispanic &lt;dbl&gt;, n2_white &lt;dbl&gt;,</span></span>
-<span id="cb220-22"><a href="reshaping.html#cb220-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_white_hispanic &lt;dbl&gt;,</span></span>
-<span id="cb220-23"><a href="reshaping.html#cb220-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_american_indian_alaskan_n &lt;dbl&gt;</span></span></code></pre></div>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="reshaping.html#cb221-1" aria-hidden="true" tabindex="-1"></a>sqf_agg_long <span class="ot">&lt;-</span> sqf_agg_wide <span class="sc">%&gt;%</span></span>
-<span id="cb221-2"><a href="reshaping.html#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;n_asian_pacific_islander&quot;</span>, </span>
-<span id="cb221-3"><a href="reshaping.html#cb221-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_black&quot;</span>,</span>
-<span id="cb221-4"><a href="reshaping.html#cb221-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_black_hispanic&quot;</span>,</span>
-<span id="cb221-5"><a href="reshaping.html#cb221-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_white&quot;</span>,</span>
-<span id="cb221-6"><a href="reshaping.html#cb221-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_white_hispanic&quot;</span>,</span>
-<span id="cb221-7"><a href="reshaping.html#cb221-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_american_indian_alaskan_n&quot;</span>),</span>
-<span id="cb221-8"><a href="reshaping.html#cb221-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;race&quot;</span>,</span>
-<span id="cb221-9"><a href="reshaping.html#cb221-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;number_of_people_stopped&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb221-10"><a href="reshaping.html#cb221-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;n2_asian_pacific_islander&quot;</span>, </span>
-<span id="cb221-11"><a href="reshaping.html#cb221-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_black&quot;</span>,</span>
-<span id="cb221-12"><a href="reshaping.html#cb221-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_black_hispanic&quot;</span>,</span>
-<span id="cb221-13"><a href="reshaping.html#cb221-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_white&quot;</span>,</span>
-<span id="cb221-14"><a href="reshaping.html#cb221-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_white_hispanic&quot;</span>,</span>
-<span id="cb221-15"><a href="reshaping.html#cb221-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_american_indian_alaskan_n&quot;</span>),</span>
-<span id="cb221-16"><a href="reshaping.html#cb221-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;race2&quot;</span>,</span>
-<span id="cb221-17"><a href="reshaping.html#cb221-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;number_of_people_stopped2&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb221-18"><a href="reshaping.html#cb221-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>race2)</span>
-<span id="cb221-19"><a href="reshaping.html#cb221-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sqf_agg_long)</span>
-<span id="cb221-20"><a href="reshaping.html#cb221-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 x 5</span></span>
-<span id="cb221-21"><a href="reshaping.html#cb221-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Groups:   month2, day2 [1]</span></span>
-<span id="cb221-22"><a href="reshaping.html#cb221-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   month2 day2   race     number_of_people~ number_of_people~</span></span>
-<span id="cb221-23"><a href="reshaping.html#cb221-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;                &lt;int&gt;             &lt;dbl&gt;</span></span>
-<span id="cb221-24"><a href="reshaping.html#cb221-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 April  Friday n_asian~                 1                11</span></span>
-<span id="cb221-25"><a href="reshaping.html#cb221-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 April  Friday n_asian~                 1               114</span></span>
-<span id="cb221-26"><a href="reshaping.html#cb221-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 April  Friday n_asian~                 1                27</span></span>
-<span id="cb221-27"><a href="reshaping.html#cb221-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 April  Friday n_asian~                 1                26</span></span>
-<span id="cb221-28"><a href="reshaping.html#cb221-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 April  Friday n_asian~                 1                41</span></span>
-<span id="cb221-29"><a href="reshaping.html#cb221-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 April  Friday n_asian~                 1                NA</span></span></code></pre></div>
+<p>So far we’ve just been reshaping using a single column. This is the simplest method, but in some cases we’ll need to reshape using multiple columns. As an example, let’s make a new column in our “sqf_agg” dataset which just adds 10 to the value in our “n” column.</p>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="reshaping.html#cb220-1" aria-hidden="true" tabindex="-1"></a>sqf_agg<span class="sc">$</span>n2 <span class="ot">&lt;-</span> sqf_agg<span class="sc">$</span>n <span class="sc">+</span> <span class="dv">10</span></span></code></pre></div>
+<p>Since these columns both relate to the race column (called “SUSPECT_RACE_DESCRIPTION”) we can reuse the <code>pivot_wider()</code> code from before but now the <code>values_from</code> parameter takes a vector of column names instead of a single column name. Here we want to include both the “n” and the “n2” column. Since it’s a <code>dplyr</code> function it’s not necessary to put the column names in quotes. We also want to keep our <code>filter()</code> function from before which removes “(null)” races and then add a <code>head()</code> function at the end so it prints out the first six columns of our resulting dataset.</p>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="reshaping.html#cb221-1" aria-hidden="true" tabindex="-1"></a>sqf_agg_wide <span class="ot">&lt;-</span> sqf_agg <span class="sc">%&gt;%</span></span>
+<span id="cb221-2"><a href="reshaping.html#cb221-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SUSPECT_RACE_DESCRIPTION <span class="sc">!=</span> <span class="st">&quot;(null)&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb221-3"><a href="reshaping.html#cb221-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> SUSPECT_RACE_DESCRIPTION, <span class="at">values_from =</span> <span class="fu">c</span>(n, n2)) </span>
+<span id="cb221-4"><a href="reshaping.html#cb221-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sqf_agg_wide) <span class="ot">&lt;-</span> <span class="fu">make_clean_names</span>(<span class="fu">names</span>(sqf_agg_wide))</span>
+<span id="cb221-5"><a href="reshaping.html#cb221-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sqf_agg_wide)</span>
+<span id="cb221-6"><a href="reshaping.html#cb221-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 x 14</span></span>
+<span id="cb221-7"><a href="reshaping.html#cb221-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Groups:   month2, day2 [6]</span></span>
+<span id="cb221-8"><a href="reshaping.html#cb221-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   month2 day2     n_asian_pacific_islander n_black n_black_hispanic</span></span>
+<span id="cb221-9"><a href="reshaping.html#cb221-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                       &lt;int&gt;   &lt;int&gt;            &lt;int&gt;</span></span>
+<span id="cb221-10"><a href="reshaping.html#cb221-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 April  Friday                          1     104               17</span></span>
+<span id="cb221-11"><a href="reshaping.html#cb221-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 April  Monday                          1      92               10</span></span>
+<span id="cb221-12"><a href="reshaping.html#cb221-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 April  Saturday                        3     115               24</span></span>
+<span id="cb221-13"><a href="reshaping.html#cb221-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 April  Sunday                          2      96               12</span></span>
+<span id="cb221-14"><a href="reshaping.html#cb221-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 April  Thursday                        2     122               10</span></span>
+<span id="cb221-15"><a href="reshaping.html#cb221-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 April  Tuesday                         7     137               14</span></span>
+<span id="cb221-16"><a href="reshaping.html#cb221-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 9 more variables: n_white &lt;int&gt;,</span></span>
+<span id="cb221-17"><a href="reshaping.html#cb221-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n_white_hispanic &lt;int&gt;,</span></span>
+<span id="cb221-18"><a href="reshaping.html#cb221-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n_american_indian_alaskan_n &lt;int&gt;,</span></span>
+<span id="cb221-19"><a href="reshaping.html#cb221-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_asian_pacific_islander &lt;dbl&gt;, n2_black &lt;dbl&gt;,</span></span>
+<span id="cb221-20"><a href="reshaping.html#cb221-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_black_hispanic &lt;dbl&gt;, n2_white &lt;dbl&gt;,</span></span>
+<span id="cb221-21"><a href="reshaping.html#cb221-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_white_hispanic &lt;dbl&gt;,</span></span>
+<span id="cb221-22"><a href="reshaping.html#cb221-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   n2_american_indian_alaskan_n &lt;dbl&gt;</span></span></code></pre></div>
+<p>We now have the same wide dataset as before but now there are twice as many race columns. And the <code>pivot_wider()</code> function renamed the columns so we can tell the “n” columns from the “n2” columns. The easiest way to reshape this data from wide to long is to again use the <code>pivot_longer()</code> function but now use it twice: first to reshape the “n” columns and then to reshape the “n2” columns. We’ll use the exact same code as before, but change the column names to suit their new names.</p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="reshaping.html#cb222-1" aria-hidden="true" tabindex="-1"></a>sqf_agg_long <span class="ot">&lt;-</span> sqf_agg_wide <span class="sc">%&gt;%</span></span>
+<span id="cb222-2"><a href="reshaping.html#cb222-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;n_asian_pacific_islander&quot;</span>, </span>
+<span id="cb222-3"><a href="reshaping.html#cb222-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_black&quot;</span>,</span>
+<span id="cb222-4"><a href="reshaping.html#cb222-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_black_hispanic&quot;</span>,</span>
+<span id="cb222-5"><a href="reshaping.html#cb222-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_white&quot;</span>,</span>
+<span id="cb222-6"><a href="reshaping.html#cb222-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_white_hispanic&quot;</span>,</span>
+<span id="cb222-7"><a href="reshaping.html#cb222-7" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n_american_indian_alaskan_n&quot;</span>),</span>
+<span id="cb222-8"><a href="reshaping.html#cb222-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;race&quot;</span>,</span>
+<span id="cb222-9"><a href="reshaping.html#cb222-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;number_of_people_stopped&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb222-10"><a href="reshaping.html#cb222-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">&quot;n2_asian_pacific_islander&quot;</span>, </span>
+<span id="cb222-11"><a href="reshaping.html#cb222-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_black&quot;</span>,</span>
+<span id="cb222-12"><a href="reshaping.html#cb222-12" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_black_hispanic&quot;</span>,</span>
+<span id="cb222-13"><a href="reshaping.html#cb222-13" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_white&quot;</span>,</span>
+<span id="cb222-14"><a href="reshaping.html#cb222-14" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_white_hispanic&quot;</span>,</span>
+<span id="cb222-15"><a href="reshaping.html#cb222-15" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;n2_american_indian_alaskan_n&quot;</span>),</span>
+<span id="cb222-16"><a href="reshaping.html#cb222-16" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;race2&quot;</span>,</span>
+<span id="cb222-17"><a href="reshaping.html#cb222-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;number_of_people_stopped2&quot;</span>) </span>
+<span id="cb222-18"><a href="reshaping.html#cb222-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sqf_agg_long)</span>
+<span id="cb222-19"><a href="reshaping.html#cb222-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 x 6</span></span>
+<span id="cb222-20"><a href="reshaping.html#cb222-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # Groups:   month2, day2 [1]</span></span>
+<span id="cb222-21"><a href="reshaping.html#cb222-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   month2 day2   race  number_of_peopl~ race2 number_of_peopl~</span></span>
+<span id="cb222-22"><a href="reshaping.html#cb222-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;            &lt;dbl&gt;</span></span>
+<span id="cb222-23"><a href="reshaping.html#cb222-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 April  Friday n_as~                1 n2_a~               11</span></span>
+<span id="cb222-24"><a href="reshaping.html#cb222-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 April  Friday n_as~                1 n2_b~              114</span></span>
+<span id="cb222-25"><a href="reshaping.html#cb222-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 April  Friday n_as~                1 n2_b~               27</span></span>
+<span id="cb222-26"><a href="reshaping.html#cb222-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 April  Friday n_as~                1 n2_w~               26</span></span>
+<span id="cb222-27"><a href="reshaping.html#cb222-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 April  Friday n_as~                1 n2_w~               41</span></span>
+<span id="cb222-28"><a href="reshaping.html#cb222-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 April  Friday n_as~                1 n2_a~               NA</span></span></code></pre></div>
+<p>This now gives us two race columns - “race” and “race2” - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the “number_of_people_stopped” and “number_of_people_stopped2” columns are they frequently refer to different races.</p>
 
 </div>
 </div>

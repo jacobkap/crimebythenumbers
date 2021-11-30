@@ -494,6 +494,7 @@ names(sqf_agg_wide)
 
 Now each column name is lower cases and has only underscores instead of spaces and slashes.
 
+To reshape this wide data to long format, we'll use the `tidyr` function `pivot_longer()`. There are three inputs here: "cols" which takes a vector of column names which have our value variables, and "names_to" which is what it'll call the newly created categorical variable, and "values_to" which is what it'll call the newly created values column. For "cols" we want to include each of our race columns and these column names must be in quotes. For "names_to" we can call it whatever we want but here we'll call it "race" as the variable is about the race of the person who was stopped. And for "values_to" we'll call it "number_of_people_stopped" though we can call it whatever we like.
 
 
 ```r
@@ -542,9 +543,17 @@ head(sqf_agg_long)
 
 ## Reshaping a multiple columns
 
+So far we've just been reshaping using a single column. This is the simplest method, but in some cases we'll need to reshape using multiple columns. As an example, let's make a new column in our "sqf_agg" dataset which just adds 10 to the value in our "n" column. 
+
 
 ```r
 sqf_agg$n2 <- sqf_agg$n + 10
+```
+
+Since these columns both relate to the race column (called "SUSPECT_RACE_DESCRIPTION") we can reuse the `pivot_wider()` code from before but now the `values_from` parameter takes a vector of column names instead of a single column name. Here we want to include both the "n" and the "n2" column. Since it's a `dplyr` function it's not necessary to put the column names in quotes. We also want to keep our `filter()` function from before which removes "(null)" races and then add a `head()` function at the end so it prints out the first six columns of our resulting dataset. 
+
+
+```r
 sqf_agg_wide <- sqf_agg %>%
   filter(SUSPECT_RACE_DESCRIPTION != "(null)") %>%
   pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION, values_from = c(n, n2)) 
@@ -569,6 +578,8 @@ head(sqf_agg_wide)
 #> #   n2_american_indian_alaskan_n <dbl>
 ```
 
+We now have the same wide dataset as before but now there are twice as many race columns. And the `pivot_wider()` function renamed the columns so we can tell the "n" columns from the "n2" columns. The easiest way to reshape this data from wide to long is to again use the `pivot_longer()` function but now use it twice: first to reshape the "n" columns and then to reshape the "n2" columns. We'll use the exact same code as before, but change the column names to suit their new names. 
+
 
 ```r
 sqf_agg_long <- sqf_agg_wide %>%
@@ -587,20 +598,20 @@ sqf_agg_long <- sqf_agg_wide %>%
                         "n2_white_hispanic",
                         "n2_american_indian_alaskan_n"),
                names_to = "race2",
-               values_to = "number_of_people_stopped2") %>%
-  select(-race2)
+               values_to = "number_of_people_stopped2") 
 head(sqf_agg_long)
-#> # A tibble: 6 x 5
+#> # A tibble: 6 x 6
 #> # Groups:   month2, day2 [1]
-#>   month2 day2   race     number_of_people~ number_of_people~
-#>   <chr>  <chr>  <chr>                <int>             <dbl>
-#> 1 April  Friday n_asian~                 1                11
-#> 2 April  Friday n_asian~                 1               114
-#> 3 April  Friday n_asian~                 1                27
-#> 4 April  Friday n_asian~                 1                26
-#> 5 April  Friday n_asian~                 1                41
-#> 6 April  Friday n_asian~                 1                NA
+#>   month2 day2   race  number_of_peopl~ race2 number_of_peopl~
+#>   <chr>  <chr>  <chr>            <int> <chr>            <dbl>
+#> 1 April  Friday n_as~                1 n2_a~               11
+#> 2 April  Friday n_as~                1 n2_b~              114
+#> 3 April  Friday n_as~                1 n2_b~               27
+#> 4 April  Friday n_as~                1 n2_w~               26
+#> 5 April  Friday n_as~                1 n2_w~               41
+#> 6 April  Friday n_as~                1 n2_a~               NA
 ```
 
 
 
+This now gives us two race columns - "race" and "race2" - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the "number_of_people_stopped" and "number_of_people_stopped2" columns are they frequently refer to different races.
