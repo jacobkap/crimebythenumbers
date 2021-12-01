@@ -314,3 +314,8 @@ plot(marijuana$long, marijuana$lat)
 <img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
+
+
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-25). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

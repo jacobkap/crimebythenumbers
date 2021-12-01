@@ -203,7 +203,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "When thou wishest to delight thyself, think of the virtues of those who live with thee; for instance, the activity of one, and the modesty of another, and the liberality of a third, and some other good quality of a fourth. For nothing delights so much as the examples of the virtues, when they are exhibited in the morals of those who live with us and present themselves in abundance, as far as is possible. Wherefore we must keep them before us."
+#> [1] "When a man kisses his child, said Epictetus, he should whisper to himself, \"To-morrow perchance thou wilt die.\"- But those are words of bad omen.- \"No word is a word of bad omen,\" said Epictetus, \"which expresses any work of nature; or if it is so, it is also a word of bad omen to speak of the ears of corn being reaped.\""
 ```
 
 ## Reading data into R
@@ -308,3 +308,8 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 ```r
 View(ucr2017)
 ```
+
+
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-3). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

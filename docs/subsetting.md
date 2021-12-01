@@ -1,3 +1,5 @@
+# (PART) Clean {-}
+
 # Subsetting: Making big things small {#subsetting-intro}
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
@@ -1032,3 +1034,7 @@ unique(colorado$state)
 unique(colorado$year)
 #> [1] 2017 2016 2015 2014 2013 2012 2011
 ```
+
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-11). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

@@ -540,3 +540,6 @@ colorado <- offenses_known_yearly_1960_2020 %>%
 
 
 
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-12). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

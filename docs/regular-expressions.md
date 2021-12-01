@@ -877,3 +877,8 @@ tolower(crimes)
 #> [49] "weapons offence"                           
 #> [50] "weapons offense"
 ```
+
+
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-13). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

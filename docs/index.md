@@ -88,6 +88,12 @@ While this distinction may seem minor, I think it is important for newer program
 
 This book is written so a person who has no programming experience can start with this chapter and by the end of the book be able to do a data project from start to finish. Each chapter introduces a new skill and builds on the skills introduced in previous chapters. So if you skip ahead you may miss important skills taught in the chapters you didn't read. For someone who has no - or minimal - programming experience, I recommend reading each chapter in order. If you have more programming experience and just want to learn how to do a specific thing, feel free to skip directly to that chapter. 
 
+## Practice problems
+
+At the end of most chapters there will be a series of practice problems for you to do. Not all chapters in this book have R code as some are rather theoretical, such as covering ways to collaborate or approach projects, so only the chapters with R code will have practice problems. I **highly** recommend that you do all of the practice problems as practicing is the best way to learn how to program. 
+
+You can check your answers in Chapter \@ref(problem-answers) which will have the answer to each question and the code that I used. There are generally multiple ways to approach a particular problem in R - though in this book I'll cover the approach I think is best - so your code may look different than the one I have in the Chapter \@ref(problem-answers). That is totally fine, the important thing is that the answer is right. 
+
 ## Citing this book
 
 If this book was useful in your research, please cite it. To cite this book, please use the below citation: 

@@ -1,5 +1,3 @@
-# (PART) Clean {-}
-
 # Reading and writing Data
 
 For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and "shr_1976_2020.rds.
@@ -238,3 +236,8 @@ write_sas(shootings, "data/shootings.sas")
 ```r
 write_sav(shootings, "data/shootings.sav")
 ```
+
+
+## Practice problems
+
+For answers, please see Section \@ref(problem-answers-chapter-5). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.
