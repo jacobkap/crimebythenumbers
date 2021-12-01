@@ -4,8 +4,6 @@ For this chapter you'll need the following files, which are available for downlo
 
 So far in these lessons we've used data from a number of sources but which all came as .rda or .rds files which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
-Fixed-width ASCII files are not very common and require a bit more effort than the other formats so we'll leave those until later to discuss.
-
 In this lesson we'll load and save multiple files into R as examples of how R can handle data that is used in many different softwares. 
 
 ## Reading Data into R

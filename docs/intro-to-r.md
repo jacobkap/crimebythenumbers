@@ -203,7 +203,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "When a man kisses his child, said Epictetus, he should whisper to himself, \"To-morrow perchance thou wilt die.\"- But those are words of bad omen.- \"No word is a word of bad omen,\" said Epictetus, \"which expresses any work of nature; or if it is so, it is also a word of bad omen to speak of the ears of corn being reaped.\""
+#> [1] "When thou risest from sleep with reluctance, remember that it is according to thy constitution and according to human nature to perform social acts, but sleeping is common also to irrational animals. But that which is according to each individual's nature is also more peculiarly its own, and more suitable to its nature, and indeed also more agreeable."
 ```
 
 ## Reading data into R
