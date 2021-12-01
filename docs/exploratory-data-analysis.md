@@ -236,7 +236,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 #>                 guam 
 #>                    1
 ```
-
+ 
 ## Graphing
 
 We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters \@ref(graphing-intro) but for now let's use the function `plot()`. The `plot()` function is built into R so we don't need to use any packages for it.

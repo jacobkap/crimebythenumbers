@@ -42,7 +42,7 @@ Finally, a logical data type is just a true or false value, though in R it must 
 2 == 3
 #> [1] FALSE
 ```
-It's not, so R returned FALSE (the == just compares the thing on the left to the thing on the right). This is very useful when we want to keep only certain rows in our data. For example, if we had data on multiple years of crime and we only wanted to keep a single year, we could tell R to keep only rows where the year equals that year - where it is TRUE that that row's year column is equal to what year we want. We'll cover this is great detail in Chapter \@ref(#subsetting-intro).
+It's not, so R returned FALSE (the == just compares the thing on the left to the thing on the right). This is very useful when we want to keep only certain rows in our data. For example, if we had data on multiple years of crime and we only wanted to keep a single year, we could tell R to keep only rows where the year equals that year - where it is TRUE that that row's year column is equal to what year we want. We'll cover this is great detail in Chapter \@ref(subsetting-intro).
 
 While you could try to figure out what type of data something is just by looking at it, R has a number of functions to check for you. We'll look at a few general functions that tell you the type of data something is, and then ones that check if the data is a specific type. 
 
@@ -126,9 +126,9 @@ is.logical(TRUE)
 #> [1] TRUE
 ```
 
-So far we've just been checking the value of a single thing: a single number, a single character/string, or a single Boolean value. In practice almost everything we do will be on a column of a data set. These functions still work in the exact same way. We input the column (using the data$column syntax discussed in Chapter \@ref(#intro-to-r) to specify which data set we want and which column in that data set) and the function will behave just like it did above. That's because each column can only be a single type of data; if the column is numeric, all values will be numeric; if the column is character, all values in that column are character; if the column is logical, every value in that column is also logical. There's no confusion on columns have some values be, for example, numeric and others be character or logical.
+So far we've just been checking the value of a single thing: a single number, a single character/string, or a single Boolean value. In practice almost everything we do will be on a column of a data set. These functions still work in the exact same way. We input the column (using the data$column syntax discussed in Chapter \@ref(intro-to-r) to specify which data set we want and which column in that data set) and the function will behave just like it did above. That's because each column can only be a single type of data; if the column is numeric, all values will be numeric; if the column is character, all values in that column are character; if the column is logical, every value in that column is also logical. There's no confusion on columns have some values be, for example, numeric and others be character or logical.
 
-Let's use the UCR data from 2017 that was introduced in Chapter \@ref(#intro-to-r). Remember that the data must be in your working directory to load it. And here I have "data/" before the data name because the data is in a folder called "data" in my working directory. For more on working directories, please see Section \@ref(setting-the-working-directory).
+Let's use the UCR data from 2017 that was introduced in Chapter \@ref(intro-to-r). Remember that the data must be in your working directory to load it. And here I have "data/" before the data name because the data is in a folder called "data" in my working directory. For more on working directories, please see Section \@ref(setting-the-working-directory).
 
 
 ```r
@@ -164,11 +164,11 @@ is.numeric(ucr2017$year)
 
 ## Data structures
 
-We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(#subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
+We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
 
 ### Vectors (collections of "things") {#vectors}
 
-The first data structure we'll discuss is a vector. A vector is a collection of same type (numeric, character, logical) values in a single object. When we made *a* in Chapter \@ref(#intro-to-r), we assigned it only a single value, such as `a <- 1`. Usually we'll want to have a group of values - such as a set of years or a group of crime types - rather than just a single value. We can do this by using the same assignment method as `a <- 1` but put all of the values we want to assign to a into the function `c()` and separate each value by a comma. The `c()` function **c**ombines each value together into a single vector.
+The first data structure we'll discuss is a vector. A vector is a collection of same type (numeric, character, logical) values in a single object. When we made *a* in Chapter \@ref(intro-to-r), we assigned it only a single value, such as `a <- 1`. Usually we'll want to have a group of values - such as a set of years or a group of crime types - rather than just a single value. We can do this by using the same assignment method as `a <- 1` but put all of the values we want to assign to a into the function `c()` and separate each value by a comma. The `c()` function **c**ombines each value together into a single vector.
 
 Now, technically a single value, such as a which now equals 1, is still a vector. In this case it'd be a vector of length 1, since there is only one value in it. But when we generally talk about vectors there are multiple elements in it. 
 

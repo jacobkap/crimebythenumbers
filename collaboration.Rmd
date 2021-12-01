@@ -1,6 +1,5 @@
 # Collaboration
 
-
 ## Code review
 
 When you collaborate with other people, you will probably each be working on a separate (though related) part of the project and then combine each parts when you are done. Combining your code could be through emailing each other R Scripts - and having one person combine everything - or something more formalized such as using Git, which we discuss in Chapter \@ref(git). However you decide to do this, it is important to use a process to review collaborator's code to check for mistakes. This is a similar process to having a colleague read a paper draft before submitting it. 
