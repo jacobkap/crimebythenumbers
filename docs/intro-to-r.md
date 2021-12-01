@@ -203,7 +203,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Perceive at last that thou hast in thee something better and more divine than the things which cause the various affects, and as it were pull thee by the strings. What is there now in my mind? Is it fear, or suspicion, or desire, or anything of the kind?"
+#> [1] "Near is thy forgetfulness of all things; and near the forgetfulness of thee by all."
 ```
 
 ## Reading data into R
