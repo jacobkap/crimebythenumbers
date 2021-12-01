@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -490,9 +490,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="choropleth-maps.html#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb306-2"><a href="choropleth-maps.html#cb306-2" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</span>
 <span id="cb306-3"><a href="choropleth-maps.html#cb306-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 1292 Columns: 14</span></span>
-<span id="cb306-4"><a href="choropleth-maps.html#cb306-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ------------------------------------</span></span>
+<span id="cb306-4"><a href="choropleth-maps.html#cb306-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ----------------------------------------------</span></span>
 <span id="cb306-5"><a href="choropleth-maps.html#cb306-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb306-6"><a href="choropleth-maps.html#cb306-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr  (8): Category, Descript, DayOfWeek, Date, PdDistric...</span></span>
+<span id="cb306-6"><a href="choropleth-maps.html#cb306-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolut...</span></span>
 <span id="cb306-7"><a href="choropleth-maps.html#cb306-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dbl  (5): IncidntNum, X, Y, PdId, year</span></span>
 <span id="cb306-8"><a href="choropleth-maps.html#cb306-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time (1): Time</span></span>
 <span id="cb306-9"><a href="choropleth-maps.html#cb306-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -506,13 +506,14 @@ div.csl-indent {
 <p>For this lesson we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco. A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we’ll call the object <em>sf_neighborhoods</em>.</p>
 <p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to understand file names so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="choropleth-maps.html#cb309-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/san_francisco_neighborhoods.shp&quot;</span>)</span>
-<span id="cb309-2"><a href="choropleth-maps.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading layer `san_francisco_neighborhoods&#39; from data source `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp&#39; </span></span>
-<span id="cb309-3"><a href="choropleth-maps.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   using driver `ESRI Shapefile&#39;</span></span>
-<span id="cb309-4"><a href="choropleth-maps.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 41 features and 1 field</span></span>
-<span id="cb309-5"><a href="choropleth-maps.html#cb309-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
-<span id="cb309-6"><a href="choropleth-maps.html#cb309-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
-<span id="cb309-7"><a href="choropleth-maps.html#cb309-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -122.5149 ymin: 37.70813 xmax: -122.357 ymax: 37.8333</span></span>
-<span id="cb309-8"><a href="choropleth-maps.html#cb309-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  WGS84(DD)</span></span></code></pre></div>
+<span id="cb309-2"><a href="choropleth-maps.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading layer `san_francisco_neighborhoods&#39; from data source </span></span>
+<span id="cb309-3"><a href="choropleth-maps.html#cb309-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp&#39; </span></span>
+<span id="cb309-4"><a href="choropleth-maps.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   using driver `ESRI Shapefile&#39;</span></span>
+<span id="cb309-5"><a href="choropleth-maps.html#cb309-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 41 features and 1 field</span></span>
+<span id="cb309-6"><a href="choropleth-maps.html#cb309-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span id="cb309-7"><a href="choropleth-maps.html#cb309-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
+<span id="cb309-8"><a href="choropleth-maps.html#cb309-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -122.5149 ymin: 37.70813 xmax: -122.357 ymax: 37.8333</span></span>
+<span id="cb309-9"><a href="choropleth-maps.html#cb309-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  WGS84(DD)</span></span></code></pre></div>
 <p>As usual when dealing with a new data set, let’s look at the first 6 rows.</p>
 <div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="choropleth-maps.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sf_neighborhoods)</span>
 <span id="cb310-2"><a href="choropleth-maps.html#cb310-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Simple feature collection with 6 features and 1 field</span></span>
@@ -520,20 +521,13 @@ div.csl-indent {
 <span id="cb310-4"><a href="choropleth-maps.html#cb310-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
 <span id="cb310-5"><a href="choropleth-maps.html#cb310-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: -122.4543 ymin: 37.70822 xmax: -122.357 ymax: 37.80602</span></span>
 <span id="cb310-6"><a href="choropleth-maps.html#cb310-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Geodetic CRS:  WGS84(DD)</span></span>
-<span id="cb310-7"><a href="choropleth-maps.html#cb310-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            nhood</span></span>
-<span id="cb310-8"><a href="choropleth-maps.html#cb310-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1          Bayview Hunters Point</span></span>
-<span id="cb310-9"><a href="choropleth-maps.html#cb310-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                 Bernal Heights</span></span>
-<span id="cb310-10"><a href="choropleth-maps.html#cb310-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3            Castro/Upper Market</span></span>
-<span id="cb310-11"><a href="choropleth-maps.html#cb310-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                      Chinatown</span></span>
-<span id="cb310-12"><a href="choropleth-maps.html#cb310-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                      Excelsior</span></span>
-<span id="cb310-13"><a href="choropleth-maps.html#cb310-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Financial District/South Beach</span></span>
-<span id="cb310-14"><a href="choropleth-maps.html#cb310-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         geometry</span></span>
-<span id="cb310-15"><a href="choropleth-maps.html#cb310-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 MULTIPOLYGON (((-122.3816 3...</span></span>
-<span id="cb310-16"><a href="choropleth-maps.html#cb310-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 MULTIPOLYGON (((-122.4036 3...</span></span>
-<span id="cb310-17"><a href="choropleth-maps.html#cb310-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 MULTIPOLYGON (((-122.4266 3...</span></span>
-<span id="cb310-18"><a href="choropleth-maps.html#cb310-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 MULTIPOLYGON (((-122.4062 3...</span></span>
-<span id="cb310-19"><a href="choropleth-maps.html#cb310-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 MULTIPOLYGON (((-122.424 37...</span></span>
-<span id="cb310-20"><a href="choropleth-maps.html#cb310-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 MULTIPOLYGON (((-122.3875 3...</span></span></code></pre></div>
+<span id="cb310-7"><a href="choropleth-maps.html#cb310-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            nhood                       geometry</span></span>
+<span id="cb310-8"><a href="choropleth-maps.html#cb310-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1          Bayview Hunters Point MULTIPOLYGON (((-122.3816 3...</span></span>
+<span id="cb310-9"><a href="choropleth-maps.html#cb310-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                 Bernal Heights MULTIPOLYGON (((-122.4036 3...</span></span>
+<span id="cb310-10"><a href="choropleth-maps.html#cb310-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3            Castro/Upper Market MULTIPOLYGON (((-122.4266 3...</span></span>
+<span id="cb310-11"><a href="choropleth-maps.html#cb310-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                      Chinatown MULTIPOLYGON (((-122.4062 3...</span></span>
+<span id="cb310-12"><a href="choropleth-maps.html#cb310-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                      Excelsior MULTIPOLYGON (((-122.424 37...</span></span>
+<span id="cb310-13"><a href="choropleth-maps.html#cb310-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...</span></span></code></pre></div>
 <p>The last column is important. In shapefiles, the “geometry” column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the “geometry” column in each row has a list of coordinates which, if connected in order, make up that neighborhood. Since the “geometry” column contains the instructions to map, we can <code>plot()</code> it to show a map of the data.</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="choropleth-maps.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span></code></pre></div>
 <p><img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
@@ -670,41 +664,34 @@ div.csl-indent {
 <span id="cb317-4"><a href="choropleth-maps.html#cb317-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
 <span id="cb317-5"><a href="choropleth-maps.html#cb317-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
 <span id="cb317-6"><a href="choropleth-maps.html#cb317-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
-<span id="cb317-7"><a href="choropleth-maps.html#cb317-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript</span></span>
-<span id="cb317-8"><a href="choropleth-maps.html#cb317-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION</span></span>
-<span id="cb317-9"><a href="choropleth-maps.html#cb317-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING</span></span>
-<span id="cb317-10"><a href="choropleth-maps.html#cb317-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION</span></span>
-<span id="cb317-11"><a href="choropleth-maps.html#cb317-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE</span></span>
-<span id="cb317-12"><a href="choropleth-maps.html#cb317-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION</span></span>
-<span id="cb317-13"><a href="choropleth-maps.html#cb317-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION</span></span>
-<span id="cb317-14"><a href="choropleth-maps.html#cb317-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   DayOfWeek       Date     Time PdDistrict Resolution</span></span>
-<span id="cb317-15"><a href="choropleth-maps.html#cb317-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    Monday 04/30/2018 06:30:00    TARAVAL       NONE</span></span>
-<span id="cb317-16"><a href="choropleth-maps.html#cb317-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  Saturday 04/28/2018 17:54:00   NORTHERN       NONE</span></span>
-<span id="cb317-17"><a href="choropleth-maps.html#cb317-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  Saturday 04/21/2018 12:20:00   RICHMOND       NONE</span></span>
-<span id="cb317-18"><a href="choropleth-maps.html#cb317-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE</span></span>
-<span id="cb317-19"><a href="choropleth-maps.html#cb317-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    Friday 03/30/2018 09:15:00    TARAVAL       NONE</span></span>
-<span id="cb317-20"><a href="choropleth-maps.html#cb317-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  Thursday 03/29/2018 17:30:00   RICHMOND       NONE</span></span>
-<span id="cb317-21"><a href="choropleth-maps.html#cb317-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   Address</span></span>
-<span id="cb317-22"><a href="choropleth-maps.html#cb317-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     0 Block of BRUCE AV</span></span>
-<span id="cb317-23"><a href="choropleth-maps.html#cb317-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   700 Block of HAYES ST</span></span>
-<span id="cb317-24"><a href="choropleth-maps.html#cb317-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3700 Block of CLAY ST</span></span>
-<span id="cb317-25"><a href="choropleth-maps.html#cb317-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     0 Block of DRUMM ST</span></span>
-<span id="cb317-26"><a href="choropleth-maps.html#cb317-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 0 Block of FAIRFIELD WY</span></span>
-<span id="cb317-27"><a href="choropleth-maps.html#cb317-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    300 Block of 29TH AV</span></span>
-<span id="cb317-28"><a href="choropleth-maps.html#cb317-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location</span></span>
-<span id="cb317-29"><a href="choropleth-maps.html#cb317-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315)</span></span>
-<span id="cb317-30"><a href="choropleth-maps.html#cb317-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792)</span></span>
-<span id="cb317-31"><a href="choropleth-maps.html#cb317-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736)</span></span>
-<span id="cb317-32"><a href="choropleth-maps.html#cb317-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039)</span></span>
-<span id="cb317-33"><a href="choropleth-maps.html#cb317-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551)</span></span>
-<span id="cb317-34"><a href="choropleth-maps.html#cb317-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265)</span></span>
-<span id="cb317-35"><a href="choropleth-maps.html#cb317-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           PdId year                geometry</span></span>
-<span id="cb317-36"><a href="choropleth-maps.html#cb317-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 1.803189e+13 2018 POINT (5997229 2091310)</span></span>
-<span id="cb317-37"><a href="choropleth-maps.html#cb317-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 1.803155e+13 2018 POINT (6004262 2110838)</span></span>
-<span id="cb317-38"><a href="choropleth-maps.html#cb317-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 1.802957e+13 2018 POINT (5996881 2115353)</span></span>
-<span id="cb317-39"><a href="choropleth-maps.html#cb317-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 1.802637e+13 2018 POINT (6013739 2117180)</span></span>
-<span id="cb317-40"><a href="choropleth-maps.html#cb317-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 1.802355e+13 2018 POINT (5993921 2093059)</span></span>
-<span id="cb317-41"><a href="choropleth-maps.html#cb317-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 1.802365e+13 2018 POINT (5986822 2113584)</span></span></code></pre></div>
+<span id="cb317-7"><a href="choropleth-maps.html#cb317-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></span>
+<span id="cb317-8"><a href="choropleth-maps.html#cb317-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></span>
+<span id="cb317-9"><a href="choropleth-maps.html#cb317-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></span>
+<span id="cb317-10"><a href="choropleth-maps.html#cb317-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></span>
+<span id="cb317-11"><a href="choropleth-maps.html#cb317-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></span>
+<span id="cb317-12"><a href="choropleth-maps.html#cb317-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></span>
+<span id="cb317-13"><a href="choropleth-maps.html#cb317-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></span>
+<span id="cb317-14"><a href="choropleth-maps.html#cb317-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></span>
+<span id="cb317-15"><a href="choropleth-maps.html#cb317-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb317-16"><a href="choropleth-maps.html#cb317-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb317-17"><a href="choropleth-maps.html#cb317-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb317-18"><a href="choropleth-maps.html#cb317-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb317-19"><a href="choropleth-maps.html#cb317-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb317-20"><a href="choropleth-maps.html#cb317-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb317-21"><a href="choropleth-maps.html#cb317-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
+<span id="cb317-22"><a href="choropleth-maps.html#cb317-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb317-23"><a href="choropleth-maps.html#cb317-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb317-24"><a href="choropleth-maps.html#cb317-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb317-25"><a href="choropleth-maps.html#cb317-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb317-26"><a href="choropleth-maps.html#cb317-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb317-27"><a href="choropleth-maps.html#cb317-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span>
+<span id="cb317-28"><a href="choropleth-maps.html#cb317-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  geometry</span></span>
+<span id="cb317-29"><a href="choropleth-maps.html#cb317-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 POINT (5997229 2091310)</span></span>
+<span id="cb317-30"><a href="choropleth-maps.html#cb317-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 POINT (6004262 2110838)</span></span>
+<span id="cb317-31"><a href="choropleth-maps.html#cb317-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 POINT (5996881 2115353)</span></span>
+<span id="cb317-32"><a href="choropleth-maps.html#cb317-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 POINT (6013739 2117180)</span></span>
+<span id="cb317-33"><a href="choropleth-maps.html#cb317-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 POINT (5993921 2093059)</span></span>
+<span id="cb317-34"><a href="choropleth-maps.html#cb317-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (5986822 2113584)</span></span></code></pre></div>
 <p>We can see it is now a “simple feature collection” with the correct projection. And we can see there is a new column called “geometry” just like in <em>sf_neighborhoods</em>. The type of data in “geometry” is POINT since our data is just a single location instead of a polygon like in the neighborhoods data.</p>
 <p>Since we have both the neighborhoods and the suicides data let’s make a quick map to see the data.</p>
 <div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="choropleth-maps.html#cb318-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span>
@@ -726,48 +713,34 @@ div.csl-indent {
 <span id="cb320-4"><a href="choropleth-maps.html#cb320-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
 <span id="cb320-5"><a href="choropleth-maps.html#cb320-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
 <span id="cb320-6"><a href="choropleth-maps.html#cb320-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
-<span id="cb320-7"><a href="choropleth-maps.html#cb320-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript</span></span>
-<span id="cb320-8"><a href="choropleth-maps.html#cb320-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION</span></span>
-<span id="cb320-9"><a href="choropleth-maps.html#cb320-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING</span></span>
-<span id="cb320-10"><a href="choropleth-maps.html#cb320-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION</span></span>
-<span id="cb320-11"><a href="choropleth-maps.html#cb320-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE</span></span>
-<span id="cb320-12"><a href="choropleth-maps.html#cb320-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION</span></span>
-<span id="cb320-13"><a href="choropleth-maps.html#cb320-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION</span></span>
-<span id="cb320-14"><a href="choropleth-maps.html#cb320-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   DayOfWeek       Date     Time PdDistrict Resolution</span></span>
-<span id="cb320-15"><a href="choropleth-maps.html#cb320-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    Monday 04/30/2018 06:30:00    TARAVAL       NONE</span></span>
-<span id="cb320-16"><a href="choropleth-maps.html#cb320-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  Saturday 04/28/2018 17:54:00   NORTHERN       NONE</span></span>
-<span id="cb320-17"><a href="choropleth-maps.html#cb320-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  Saturday 04/21/2018 12:20:00   RICHMOND       NONE</span></span>
-<span id="cb320-18"><a href="choropleth-maps.html#cb320-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE</span></span>
-<span id="cb320-19"><a href="choropleth-maps.html#cb320-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    Friday 03/30/2018 09:15:00    TARAVAL       NONE</span></span>
-<span id="cb320-20"><a href="choropleth-maps.html#cb320-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  Thursday 03/29/2018 17:30:00   RICHMOND       NONE</span></span>
-<span id="cb320-21"><a href="choropleth-maps.html#cb320-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   Address</span></span>
-<span id="cb320-22"><a href="choropleth-maps.html#cb320-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     0 Block of BRUCE AV</span></span>
-<span id="cb320-23"><a href="choropleth-maps.html#cb320-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   700 Block of HAYES ST</span></span>
-<span id="cb320-24"><a href="choropleth-maps.html#cb320-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   3700 Block of CLAY ST</span></span>
-<span id="cb320-25"><a href="choropleth-maps.html#cb320-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     0 Block of DRUMM ST</span></span>
-<span id="cb320-26"><a href="choropleth-maps.html#cb320-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 0 Block of FAIRFIELD WY</span></span>
-<span id="cb320-27"><a href="choropleth-maps.html#cb320-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    300 Block of 29TH AV</span></span>
-<span id="cb320-28"><a href="choropleth-maps.html#cb320-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location</span></span>
-<span id="cb320-29"><a href="choropleth-maps.html#cb320-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315)</span></span>
-<span id="cb320-30"><a href="choropleth-maps.html#cb320-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792)</span></span>
-<span id="cb320-31"><a href="choropleth-maps.html#cb320-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736)</span></span>
-<span id="cb320-32"><a href="choropleth-maps.html#cb320-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039)</span></span>
-<span id="cb320-33"><a href="choropleth-maps.html#cb320-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551)</span></span>
-<span id="cb320-34"><a href="choropleth-maps.html#cb320-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265)</span></span>
-<span id="cb320-35"><a href="choropleth-maps.html#cb320-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           PdId year                          nhood</span></span>
-<span id="cb320-36"><a href="choropleth-maps.html#cb320-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 1.803189e+13 2018     Oceanview/Merced/Ingleside</span></span>
-<span id="cb320-37"><a href="choropleth-maps.html#cb320-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 1.803155e+13 2018                   Hayes Valley</span></span>
-<span id="cb320-38"><a href="choropleth-maps.html#cb320-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 1.802957e+13 2018               Presidio Heights</span></span>
-<span id="cb320-39"><a href="choropleth-maps.html#cb320-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 1.802637e+13 2018 Financial District/South Beach</span></span>
-<span id="cb320-40"><a href="choropleth-maps.html#cb320-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 1.802355e+13 2018             West of Twin Peaks</span></span>
-<span id="cb320-41"><a href="choropleth-maps.html#cb320-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 1.802365e+13 2018                 Outer Richmond</span></span>
-<span id="cb320-42"><a href="choropleth-maps.html#cb320-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  geometry</span></span>
-<span id="cb320-43"><a href="choropleth-maps.html#cb320-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 POINT (5997229 2091310)</span></span>
-<span id="cb320-44"><a href="choropleth-maps.html#cb320-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 POINT (6004262 2110838)</span></span>
-<span id="cb320-45"><a href="choropleth-maps.html#cb320-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 POINT (5996881 2115353)</span></span>
-<span id="cb320-46"><a href="choropleth-maps.html#cb320-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 POINT (6013739 2117180)</span></span>
-<span id="cb320-47"><a href="choropleth-maps.html#cb320-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 POINT (5993921 2093059)</span></span>
-<span id="cb320-48"><a href="choropleth-maps.html#cb320-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (5986822 2113584)</span></span></code></pre></div>
+<span id="cb320-7"><a href="choropleth-maps.html#cb320-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></span>
+<span id="cb320-8"><a href="choropleth-maps.html#cb320-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></span>
+<span id="cb320-9"><a href="choropleth-maps.html#cb320-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></span>
+<span id="cb320-10"><a href="choropleth-maps.html#cb320-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></span>
+<span id="cb320-11"><a href="choropleth-maps.html#cb320-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></span>
+<span id="cb320-12"><a href="choropleth-maps.html#cb320-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></span>
+<span id="cb320-13"><a href="choropleth-maps.html#cb320-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></span>
+<span id="cb320-14"><a href="choropleth-maps.html#cb320-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></span>
+<span id="cb320-15"><a href="choropleth-maps.html#cb320-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb320-16"><a href="choropleth-maps.html#cb320-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb320-17"><a href="choropleth-maps.html#cb320-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb320-18"><a href="choropleth-maps.html#cb320-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb320-19"><a href="choropleth-maps.html#cb320-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb320-20"><a href="choropleth-maps.html#cb320-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb320-21"><a href="choropleth-maps.html#cb320-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
+<span id="cb320-22"><a href="choropleth-maps.html#cb320-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb320-23"><a href="choropleth-maps.html#cb320-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb320-24"><a href="choropleth-maps.html#cb320-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb320-25"><a href="choropleth-maps.html#cb320-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb320-26"><a href="choropleth-maps.html#cb320-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb320-27"><a href="choropleth-maps.html#cb320-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span>
+<span id="cb320-28"><a href="choropleth-maps.html#cb320-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                            nhood                geometry</span></span>
+<span id="cb320-29"><a href="choropleth-maps.html#cb320-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     Oceanview/Merced/Ingleside POINT (5997229 2091310)</span></span>
+<span id="cb320-30"><a href="choropleth-maps.html#cb320-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                   Hayes Valley POINT (6004262 2110838)</span></span>
+<span id="cb320-31"><a href="choropleth-maps.html#cb320-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Presidio Heights POINT (5996881 2115353)</span></span>
+<span id="cb320-32"><a href="choropleth-maps.html#cb320-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Financial District/South Beach POINT (6013739 2117180)</span></span>
+<span id="cb320-33"><a href="choropleth-maps.html#cb320-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5             West of Twin Peaks POINT (5993921 2093059)</span></span>
+<span id="cb320-34"><a href="choropleth-maps.html#cb320-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                 Outer Richmond POINT (5986822 2113584)</span></span></code></pre></div>
 <p>There is now the <em>nhood</em> column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level using <code>group_by()</code> and <code>summarize()</code> functions from the <code>dplyr</code> package.</p>
 <p>We actually don’t have a variable with the number of suicides so we need to make that. We can simply call it <em>number_suicides</em> and give it that value of 1 since each row is only one suicide.</p>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="choropleth-maps.html#cb321-1" aria-hidden="true" tabindex="-1"></a>suicide_agg<span class="sc">$</span>number_suicides <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>

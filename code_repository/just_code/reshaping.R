@@ -1,9 +1,11 @@
+## install.packages("tidyr")
+
 library(readxl)
 sqf <- read_excel("data/sqf-2019.xlsx")
 
+sqf <- data.frame(sqf)
 head(sqf)
-
-## install.packages("tidyr")
+nrow(sqf)
 
 library(tidyr)
 library(dplyr)
@@ -13,6 +15,7 @@ sqf_agg <- sqf %>%
   count(SUSPECT_RACE_DESCRIPTION)
 
 head(sqf_agg)
+
 unique(sqf_agg$MONTH2)
 unique(sqf_agg$DAY2)
 unique(sqf_agg$SUSPECT_RACE_DESCRIPTION)
@@ -46,6 +49,7 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 
 sqf_agg$n2 <- sqf_agg$n + 10
+
 sqf_agg_wide <- sqf_agg %>%
   filter(SUSPECT_RACE_DESCRIPTION != "(null)") %>%
   pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION, values_from = c(n, n2)) 
@@ -68,7 +72,5 @@ sqf_agg_long <- sqf_agg_wide %>%
                         "n2_white_hispanic",
                         "n2_american_indian_alaskan_n"),
                names_to = "race2",
-               values_to = "number_of_people_stopped2") %>%
-  select(-race2)
+               values_to = "number_of_people_stopped2") 
 head(sqf_agg_long)
-

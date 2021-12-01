@@ -166,20 +166,13 @@ We'll use the `head()` function to print out just the first 6 rows of the `mtcar
 
 ```r
 head(mtcars)
-#>                    mpg cyl disp  hp drat    wt  qsec vs am
-#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1
-#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1
-#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1
-#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0
-#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0
-#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0
-#>                   gear carb
-#> Mazda RX4            4    4
-#> Mazda RX4 Wag        4    4
-#> Datsun 710           4    1
-#> Hornet 4 Drive       3    1
-#> Hornet Sportabout    3    2
-#> Valiant              3    1
+#>                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#> Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+#> Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+#> Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+#> Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+#> Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+#> Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
 
 Now we have the first 6 rows of every column from the `mtcars` data. This is a fairly simple function and is useful for quickly looking at our data. Many functions are more complicated that `head()` and involve multiple inputs rather than just the single input we had here. Some functions, for example, let you choose how you want the function to operate, as it can do so in multiple ways. Even in `head()` there's an optional input to choose how many rows you want it to return, with the default being 6. Since we didn't choose anything, the function stuck to the default and returned only 6 rows. 
@@ -191,8 +184,7 @@ Downloading a package through R code uses - like pretty much everything else in 
 
 ```r
 install.packages("meditations")
-#> Warning: package 'meditations' is in use and will not be
-#> installed
+#> Warning: package 'meditations' is in use and will not be installed
 ```
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
@@ -211,7 +203,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "No man is tired of receiving what is useful. But it is useful to act according to nature. Do not then be tired of receiving what is useful by doing it to others."
+#> [1] "Perceive at last that thou hast in thee something better and more divine than the things which cause the various affects, and as it were pull thee by the strings. What is there now in my mind? Is it fear, or suspicion, or desire, or anything of the kind?"
 ```
 
 ## Reading data into R
@@ -252,20 +244,13 @@ head(ucr2017)
 #> 4 AK00104 2017   ketchikan alaska       8230             1
 #> 5 AK00105 2017      kodiak alaska       6198             0
 #> 6 AK00106 2017        nome alaska       3829             0
-#>   actual_rape_total actual_robbery_total
-#> 1               391                  778
-#> 2                24                   40
-#> 3                50                   46
-#> 4                19                    0
-#> 5                15                    4
-#> 6                 7                    0
-#>   actual_assault_aggravated
-#> 1                      2368
-#> 2                       131
-#> 3                       206
-#> 4                        14
-#> 5                        41
-#> 6                        52
+#>   actual_rape_total actual_robbery_total actual_assault_aggravated
+#> 1               391                  778                      2368
+#> 2                24                   40                       131
+#> 3                50                   46                       206
+#> 4                19                    0                        14
+#> 5                15                    4                        41
+#> 6                 7                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
@@ -297,20 +282,13 @@ summary(ucr2017)
 #>                     Mean   :  19872   Mean   :  1.069  
 #>                     3rd Qu.:  15390   3rd Qu.:  0.000  
 #>                     Max.   :8616333   Max.   :653.000  
-#>  actual_rape_total  actual_robbery_total
-#>  Min.   :  -2.000   Min.   :   -1.00    
-#>  1st Qu.:   0.000   1st Qu.:    0.00    
-#>  Median :   1.000   Median :    0.00    
-#>  Mean   :   8.262   Mean   :   19.85    
-#>  3rd Qu.:   5.000   3rd Qu.:    4.00    
-#>  Max.   :2455.000   Max.   :13995.00    
-#>  actual_assault_aggravated
-#>  Min.   :   -1.00         
-#>  1st Qu.:    1.00         
-#>  Median :    5.00         
-#>  Mean   :   49.98         
-#>  3rd Qu.:   21.00         
-#>  Max.   :29771.00
+#>  actual_rape_total  actual_robbery_total actual_assault_aggravated
+#>  Min.   :  -2.000   Min.   :   -1.00     Min.   :   -1.00         
+#>  1st Qu.:   0.000   1st Qu.:    0.00     1st Qu.:    1.00         
+#>  Median :   1.000   Median :    0.00     Median :    5.00         
+#>  Mean   :   8.262   Mean   :   19.85     Mean   :   49.98         
+#>  3rd Qu.:   5.000   3rd Qu.:    4.00     3rd Qu.:   21.00         
+#>  Max.   :2455.000   Max.   :13995.00     Max.   :29771.00
 ```
 
 The `plot()` function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we'll make a scatterplot seeing the relationship between a city's number of murders and their number of aggravated assaults (assault with a weapon or that causes serious bodily injury).

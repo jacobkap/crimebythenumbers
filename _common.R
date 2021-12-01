@@ -9,4 +9,4 @@ knitr::opts_chunk$set(
   error = TRUE
   )
 
-options(width = 60)
+options(width = 70)

@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -555,8 +555,8 @@ div.csl-indent {
 <p>So since our data is <em>crimes</em> our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
 <p>Let’s start with the letter “a.”</p>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="regular-expressions.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)</span>
-<span id="cb174-2"><a href="regular-expressions.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34</span></span>
-<span id="cb174-3"><a href="regular-expressions.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] 42 43 44 46 47 48 49 50</span></span></code></pre></div>
+<span id="cb174-2"><a href="regular-expressions.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46</span></span>
+<span id="cb174-3"><a href="regular-expressions.html#cb174-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [23] 47 48 49 50</span></span></code></pre></div>
 <p>It gives us a bunch of numbers where the letter “a” is present in that element of <em>crimes</em>. What this is useful for is subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values.</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="regular-expressions.html#cb175-1" aria-hidden="true" tabindex="-1"></a>crimes[<span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)]</span>
 <span id="cb175-2"><a href="regular-expressions.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span></span>
@@ -817,11 +817,9 @@ div.csl-indent {
 <span id="cb189-2"><a href="regular-expressions.html#cb189-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>If we wanted to search for a pattern, such as vowels, that is repeated we could put multiple <code>[]</code> patterns together. We will see another way to search for a repeated pattern soon.</p>
 <div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="regular-expressions.html#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[aeiou][aeiou][aeiou]&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb190-2"><a href="regular-expressions.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;         </span></span>
-<span id="cb190-3"><a href="regular-expressions.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Miscellaneous Investigation&quot;</span></span>
-<span id="cb190-4"><a href="regular-expressions.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;        </span></span>
-<span id="cb190-5"><a href="regular-expressions.html#cb190-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Suspicious&quot;                 </span></span>
-<span id="cb190-6"><a href="regular-expressions.html#cb190-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
+<span id="cb190-2"><a href="regular-expressions.html#cb190-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span></span>
+<span id="cb190-3"><a href="regular-expressions.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span></span>
+<span id="cb190-4"><a href="regular-expressions.html#cb190-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
 <p>Inside the <code>[]</code> we can also use the - to make intervals between certain values. For numbers, n-m means any number between n and m (inclusive). For letters, a-z means all lowercase letters and A-Z means all uppercase letters in that range (inclusive).</p>
 <div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="regular-expressions.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[x-z]&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb191-2"><a href="regular-expressions.html#cb191-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Burglary&quot;                                  </span></span>
@@ -845,11 +843,9 @@ div.csl-indent {
 <p><code>{n}</code> means the preceding item will be matched exactly n times.</p>
 <p>We can use it to rewrite the above <code>grep()</code> to saw the values in the <code>[]</code> should be repeated three times.</p>
 <div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="regular-expressions.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[aeiou]{3}&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb192-2"><a href="regular-expressions.html#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;         </span></span>
-<span id="cb192-3"><a href="regular-expressions.html#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Miscellaneous Investigation&quot;</span></span>
-<span id="cb192-4"><a href="regular-expressions.html#cb192-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;        </span></span>
-<span id="cb192-5"><a href="regular-expressions.html#cb192-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Suspicious&quot;                 </span></span>
-<span id="cb192-6"><a href="regular-expressions.html#cb192-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
+<span id="cb192-2"><a href="regular-expressions.html#cb192-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span></span>
+<span id="cb192-3"><a href="regular-expressions.html#cb192-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span></span>
+<span id="cb192-4"><a href="regular-expressions.html#cb192-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
 </div>
 <div id="n-many-to-m-many-of-previous-character-nm" class="section level3" number="13.3.3">
 <h3><span class="header-section-number">13.3.3</span> n-many to m-many of previous character <code>{n,m}</code></h3>
@@ -880,11 +876,9 @@ div.csl-indent {
 <span id="cb193-23"><a href="regular-expressions.html#cb193-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] &quot;Weapons Offense&quot;</span></span></code></pre></div>
 <p>If we wanted only crimes with exactly three vowels in a row we’d use <code>{3,3}</code>.</p>
 <div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="regular-expressions.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[aeiou]{3,3}&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb194-2"><a href="regular-expressions.html#cb194-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;         </span></span>
-<span id="cb194-3"><a href="regular-expressions.html#cb194-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Miscellaneous Investigation&quot;</span></span>
-<span id="cb194-4"><a href="regular-expressions.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;        </span></span>
-<span id="cb194-5"><a href="regular-expressions.html#cb194-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Suspicious&quot;                 </span></span>
-<span id="cb194-6"><a href="regular-expressions.html#cb194-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
+<span id="cb194-2"><a href="regular-expressions.html#cb194-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span></span>
+<span id="cb194-3"><a href="regular-expressions.html#cb194-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span></span>
+<span id="cb194-4"><a href="regular-expressions.html#cb194-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
 <p>If we leave n blank, such as <code>{,m}</code> it says, “previous character must be present up to m times.”</p>
 <div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="regular-expressions.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[aeiou]{,3}&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb195-2"><a href="regular-expressions.html#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span></span>
@@ -940,11 +934,9 @@ div.csl-indent {
 <p>This returns every crime as “up to m times” includes zero times.</p>
 <p>And the same works for leaving m blank but it will be “present at least n times.”</p>
 <div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="regular-expressions.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;[aeiou]{3,}&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb196-2"><a href="regular-expressions.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;         </span></span>
-<span id="cb196-3"><a href="regular-expressions.html#cb196-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Miscellaneous Investigation&quot;</span></span>
-<span id="cb196-4"><a href="regular-expressions.html#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;        </span></span>
-<span id="cb196-5"><a href="regular-expressions.html#cb196-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Suspicious&quot;                 </span></span>
-<span id="cb196-6"><a href="regular-expressions.html#cb196-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
+<span id="cb196-2"><a href="regular-expressions.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span></span>
+<span id="cb196-3"><a href="regular-expressions.html#cb196-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Other Miscellaneous&quot;         &quot;Suspicious&quot;                 </span></span>
+<span id="cb196-4"><a href="regular-expressions.html#cb196-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Suspicious Occ&quot;</span></span></code></pre></div>
 </div>
 <div id="start-of-string" class="section level3" number="13.3.4">
 <h3><span class="header-section-number">13.3.4</span> Start of string</h3>
@@ -969,32 +961,19 @@ div.csl-indent {
 <h3><span class="header-section-number">13.3.7</span> One or more of previous <code>+</code></h3>
 <p>The <code>+</code> means that the character immediately before it is present at least one time. This is the same as writing <code>{1,}</code>. If we wanted to find all values with only two words, we would start with some number of letters followed by a space followed by some more letters and the string would end.</p>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="regular-expressions.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;^[A-Za-z]+ [A-Za-z]+$&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb200-2"><a href="regular-expressions.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Case Closure&quot;               </span></span>
-<span id="cb200-3"><a href="regular-expressions.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2] &quot;Civil Sidewalks&quot;            </span></span>
-<span id="cb200-4"><a href="regular-expressions.html#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Courtesy Report&quot;            </span></span>
-<span id="cb200-5"><a href="regular-expressions.html#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] &quot;Disorderly Conduct&quot;         </span></span>
-<span id="cb200-6"><a href="regular-expressions.html#cb200-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Drug Offense&quot;               </span></span>
-<span id="cb200-7"><a href="regular-expressions.html#cb200-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;Drug Violation&quot;             </span></span>
-<span id="cb200-8"><a href="regular-expressions.html#cb200-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Family Offense&quot;             </span></span>
-<span id="cb200-9"><a href="regular-expressions.html#cb200-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] &quot;Fire Report&quot;                </span></span>
-<span id="cb200-10"><a href="regular-expressions.html#cb200-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Juvenile Offenses&quot;          </span></span>
-<span id="cb200-11"><a href="regular-expressions.html#cb200-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] &quot;Larceny Theft&quot;              </span></span>
-<span id="cb200-12"><a href="regular-expressions.html#cb200-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Liquor Laws&quot;                </span></span>
-<span id="cb200-13"><a href="regular-expressions.html#cb200-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [12] &quot;Lost Property&quot;              </span></span>
-<span id="cb200-14"><a href="regular-expressions.html#cb200-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;Malicious Mischief&quot;         </span></span>
-<span id="cb200-15"><a href="regular-expressions.html#cb200-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [14] &quot;Miscellaneous Investigation&quot;</span></span>
-<span id="cb200-16"><a href="regular-expressions.html#cb200-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;Missing Person&quot;             </span></span>
-<span id="cb200-17"><a href="regular-expressions.html#cb200-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] &quot;Other Miscellaneous&quot;        </span></span>
-<span id="cb200-18"><a href="regular-expressions.html#cb200-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;Other Offenses&quot;             </span></span>
-<span id="cb200-19"><a href="regular-expressions.html#cb200-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [18] &quot;Recovered Vehicle&quot;          </span></span>
-<span id="cb200-20"><a href="regular-expressions.html#cb200-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;Sex Offense&quot;                </span></span>
-<span id="cb200-21"><a href="regular-expressions.html#cb200-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [20] &quot;Stolen Property&quot;            </span></span>
-<span id="cb200-22"><a href="regular-expressions.html#cb200-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] &quot;Suspicious Occ&quot;             </span></span>
-<span id="cb200-23"><a href="regular-expressions.html#cb200-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] &quot;Traffic Collision&quot;          </span></span>
-<span id="cb200-24"><a href="regular-expressions.html#cb200-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [23] &quot;Vehicle Impounded&quot;          </span></span>
-<span id="cb200-25"><a href="regular-expressions.html#cb200-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [24] &quot;Vehicle Misplaced&quot;          </span></span>
-<span id="cb200-26"><a href="regular-expressions.html#cb200-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;Weapons Offence&quot;            </span></span>
-<span id="cb200-27"><a href="regular-expressions.html#cb200-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [26] &quot;Weapons Offense&quot;</span></span></code></pre></div>
+<span id="cb200-2"><a href="regular-expressions.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Case Closure&quot;                &quot;Civil Sidewalks&quot;            </span></span>
+<span id="cb200-3"><a href="regular-expressions.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Courtesy Report&quot;             &quot;Disorderly Conduct&quot;         </span></span>
+<span id="cb200-4"><a href="regular-expressions.html#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Drug Offense&quot;                &quot;Drug Violation&quot;             </span></span>
+<span id="cb200-5"><a href="regular-expressions.html#cb200-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Family Offense&quot;              &quot;Fire Report&quot;                </span></span>
+<span id="cb200-6"><a href="regular-expressions.html#cb200-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Juvenile Offenses&quot;           &quot;Larceny Theft&quot;              </span></span>
+<span id="cb200-7"><a href="regular-expressions.html#cb200-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Liquor Laws&quot;                 &quot;Lost Property&quot;              </span></span>
+<span id="cb200-8"><a href="regular-expressions.html#cb200-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;Malicious Mischief&quot;          &quot;Miscellaneous Investigation&quot;</span></span>
+<span id="cb200-9"><a href="regular-expressions.html#cb200-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [15] &quot;Missing Person&quot;              &quot;Other Miscellaneous&quot;        </span></span>
+<span id="cb200-10"><a href="regular-expressions.html#cb200-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] &quot;Other Offenses&quot;              &quot;Recovered Vehicle&quot;          </span></span>
+<span id="cb200-11"><a href="regular-expressions.html#cb200-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] &quot;Sex Offense&quot;                 &quot;Stolen Property&quot;            </span></span>
+<span id="cb200-12"><a href="regular-expressions.html#cb200-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] &quot;Suspicious Occ&quot;              &quot;Traffic Collision&quot;          </span></span>
+<span id="cb200-13"><a href="regular-expressions.html#cb200-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [23] &quot;Vehicle Impounded&quot;           &quot;Vehicle Misplaced&quot;          </span></span>
+<span id="cb200-14"><a href="regular-expressions.html#cb200-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] &quot;Weapons Offence&quot;             &quot;Weapons Offense&quot;</span></span></code></pre></div>
 </div>
 <div id="zero-or-more-of-previous" class="section level3" number="13.3.8">
 <h3><span class="header-section-number">13.3.8</span> Zero or more of previous <code>*</code></h3>
@@ -1065,9 +1044,8 @@ div.csl-indent {
 <h3><span class="header-section-number">13.3.10</span> Parentheses <code>()</code></h3>
 <p>Parentheses act similar to the square brackets <code>[]</code> where we want everything inside but with parentheses the values must be in the proper order.</p>
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="regular-expressions.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;(Offense)&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb203-2"><a href="regular-expressions.html#cb203-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;      &quot;Family Offense&quot;   </span></span>
-<span id="cb203-3"><a href="regular-expressions.html#cb203-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Juvenile Offenses&quot; &quot;Other Offenses&quot;   </span></span>
-<span id="cb203-4"><a href="regular-expressions.html#cb203-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Sex Offense&quot;       &quot;Weapons Offense&quot;</span></span></code></pre></div>
+<span id="cb203-2"><a href="regular-expressions.html#cb203-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;      &quot;Family Offense&quot;    &quot;Juvenile Offenses&quot;</span></span>
+<span id="cb203-3"><a href="regular-expressions.html#cb203-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Other Offenses&quot;    &quot;Sex Offense&quot;       &quot;Weapons Offense&quot;</span></span></code></pre></div>
 <p>Running the above code returns the same results as if we didn’t include the parentheses. The usefulness of parentheses comes when combining it with the <code>|</code> symbol to be able to check “(X|Y) Z”), which says, “look for either X or Y which must be followed by Z.”</p>
 <p>Running just “(Offense)” returns values for multiple types of offenses. Let’s say we just care about Drug and Weapon Offenses. We can search for “Offense” normally and combine <code>()</code> and <code>|</code> to say, “search for either the word”Drug" or the word “Family” and they should be followed by the word “Offense.”</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="regular-expressions.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;(Drug|Weapons) Offense&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>

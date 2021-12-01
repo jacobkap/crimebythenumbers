@@ -1,6 +1,6 @@
 --- 
 title: "Crime by the Numbers: A Criminologist's Guide to R"
-date: "2021-11-30"
+date: "2021-12-01"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike

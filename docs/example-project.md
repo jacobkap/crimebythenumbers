@@ -154,24 +154,24 @@ shr_difference <-
   arrange(percent_change)
 shr_difference
 #> # A tibble: 16 x 5
-#>    victim_1_relatio~ `2019` `2020` difference percent_change
-#>    <chr>              <int>  <int>      <int>          <dbl>
-#>  1 Wife                 330    294        -36         -10.9 
-#>  2 Brother               93     86         -7          -7.53
-#>  3 Daughter              89     86         -3          -3.37
-#>  4 Son                  157    160          3           1.91
-#>  5 Father                95    101          6           6.32
-#>  6 Boyfriend            164    180         16           9.76
-#>  7 Girlfriend           390    431         41          10.5 
-#>  8 Mother               118    134         16          13.6 
-#>  9 Acquaintance        1494   1729        235          15.7 
-#> 10 Stranger            1549   1886        337          21.8 
-#> 11 Neighbor              85    105         20          23.5 
-#> 12 Other Family         209    260         51          24.4 
-#> 13 Other - Known To~    757    955        198          26.2 
-#> 14 Friend               272    358         86          31.6 
-#> 15 Husband               58     79         21          36.2 
-#> 16 Unknown             6216   8504       2288          36.8
+#>    victim_1_relation_to_offender_1 `2019` `2020` difference percent_change
+#>    <chr>                            <int>  <int>      <int>          <dbl>
+#>  1 Wife                               330    294        -36         -10.9 
+#>  2 Brother                             93     86         -7          -7.53
+#>  3 Daughter                            89     86         -3          -3.37
+#>  4 Son                                157    160          3           1.91
+#>  5 Father                              95    101          6           6.32
+#>  6 Boyfriend                          164    180         16           9.76
+#>  7 Girlfriend                         390    431         41          10.5 
+#>  8 Mother                             118    134         16          13.6 
+#>  9 Acquaintance                      1494   1729        235          15.7 
+#> 10 Stranger                          1549   1886        337          21.8 
+#> 11 Neighbor                            85    105         20          23.5 
+#> 12 Other Family                       209    260         51          24.4 
+#> 13 Other - Known To Victim            757    955        198          26.2 
+#> 14 Friend                             272    358         86          31.6 
+#> 15 Husband                             58     79         21          36.2 
+#> 16 Unknown                           6216   8504       2288          36.8
 ```
 
 ### Graphing

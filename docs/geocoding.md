@@ -113,12 +113,11 @@ The second important parameter is `full_results` which is by default set to FALS
 ```r
 geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
 #> # A tibble: 1 x 12
-#>   address      lat  long place_id licence    osm_type osm_id
-#>   <chr>      <dbl> <dbl>    <int> <chr>      <chr>     <int>
-#> 1 750 Race ~  40.0 -75.2   2.88e8 Data © Op~ way      6.22e7
-#> # ... with 5 more variables: boundingbox <list>,
-#> #   display_name <chr>, class <chr>, type <chr>,
-#> #   importance <dbl>
+#>   address     lat  long place_id licence   osm_type osm_id boundingbox
+#>   <chr>     <dbl> <dbl>    <int> <chr>     <chr>     <int> <list>     
+#> 1 750 Race~  40.0 -75.2   2.88e8 Data © O~ way      6.22e7 <chr [4]>  
+#> # ... with 4 more variables: display_name <chr>, class <chr>,
+#> #   type <chr>, importance <dbl>
 ```
 
 For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don't seem very useful for our purposes such as the "importance" of the address. It's interesting that OSM classifies this address as a "house" as the police headquarters for a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the "display_name". 
@@ -129,16 +128,16 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 ```r
 geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
 #> # A tibble: 1 x 18
-#>   address       lat  long matchedAddress    tigerLine.tiger~
-#>   <chr>       <dbl> <dbl> <chr>             <chr>           
-#> 1 750 Race S~  40.0 -75.2 750 RACE ST, PHI~ 131423677       
-#> # ... with 13 more variables: tigerLine.side <chr>,
-#> #   addressComponents.fromAddress <chr>,
+#>   address     lat  long matchedAddress tigerLine.tiger~ tigerLine.side
+#>   <chr>     <dbl> <dbl> <chr>          <chr>            <chr>         
+#> 1 750 Race~  40.0 -75.2 750 RACE ST, ~ 131423677        L             
+#> # ... with 12 more variables: addressComponents.fromAddress <chr>,
 #> #   addressComponents.toAddress <chr>,
 #> #   addressComponents.preQualifier <chr>,
 #> #   addressComponents.preDirection <chr>,
 #> #   addressComponents.preType <chr>,
-#> #   addressComponents.streetName <chr>, ...
+#> #   addressComponents.streetName <chr>,
+#> #   addressComponents.suffixType <chr>, ...
 ```
 
 These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
@@ -147,11 +146,10 @@ These results are similar to the OSM results and also have the matched address t
 ```r
 geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
 #> # A tibble: 1 x 11
-#>   address       lat  long arcgis_address    score location.x
-#>   <chr>       <dbl> <dbl> <chr>             <int>      <dbl>
-#> 1 750 Race S~  40.0 -75.2 750 Race St, Phi~   100      -75.2
-#> # ... with 5 more variables: location.y <dbl>,
-#> #   extent.xmin <dbl>, extent.ymin <dbl>,
+#>   address      lat  long arcgis_address    score location.x location.y
+#>   <chr>      <dbl> <dbl> <chr>             <int>      <dbl>      <dbl>
+#> 1 750 Race ~  40.0 -75.2 750 Race St, Phi~   100      -75.2       40.0
+#> # ... with 4 more variables: extent.xmin <dbl>, extent.ymin <dbl>,
 #> #   extent.xmax <dbl>, extent.ymax <dbl>
 ```
 
@@ -168,9 +166,9 @@ Let's read in the marijuana dispensary data which is called "san_francisco_activ
 library(readr)
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
 #> Rows: 33 Columns: 11
-#> -- Column specification ------------------------------------
+#> -- Column specification ----------------------------------------------
 #> Delimiter: ","
-#> chr (11): License Number, License Type, Business Owner, ...
+#> chr (11): License Number, License Type, Business Owner, Business C...
 #> 
 #> i Use `spec()` to retrieve the full column specification for this data.
 #> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -182,20 +180,13 @@ Let's look at the top 6 rows.
 
 ```r
 head(marijuana)
-#>    License Number                License Type
-#> 1 C10-0000614-LIC Cannabis - Retailer License
-#> 2 C10-0000586-LIC Cannabis - Retailer License
-#> 3 C10-0000587-LIC Cannabis - Retailer License
-#> 4 C10-0000539-LIC Cannabis - Retailer License
-#> 5 C10-0000522-LIC Cannabis - Retailer License
-#> 6 C10-0000523-LIC Cannabis - Retailer License
-#>     Business Owner
-#> 1     Terry Muller
-#> 2    Jeremy Goodin
-#> 3     Justin Jarin
-#> 4 Ondyn Herschelle
-#> 5      Ryan Hudson
-#> 6      Ryan Hudson
+#>    License Number                License Type   Business Owner
+#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
 #>                                                                                                           Business Contact Information
 #> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
 #> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
@@ -217,20 +208,20 @@ head(marijuana)
 #> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO
 #> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO
 #> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO
-#>   Status Issue Date Expiration Date
-#> 1 Active  9/13/2019       9/12/2020
-#> 2 Active  8/26/2019       8/25/2020
-#> 3 Active  8/26/2019       8/25/2020
-#> 4 Active   8/5/2019        8/4/2020
-#> 5 Active  7/29/2019       7/28/2020
-#> 6 Active  7/29/2019       7/28/2020
-#>                  Activities Adult-Use/Medicinal
-#> 1 N/A for this license type                BOTH
-#> 2 N/A for this license type                BOTH
-#> 3 N/A for this license type                BOTH
-#> 4 N/A for this license type                BOTH
-#> 5 N/A for this license type                BOTH
-#> 6 N/A for this license type                BOTH
+#>   Status Issue Date Expiration Date                Activities
+#> 1 Active  9/13/2019       9/12/2020 N/A for this license type
+#> 2 Active  8/26/2019       8/25/2020 N/A for this license type
+#> 3 Active  8/26/2019       8/25/2020 N/A for this license type
+#> 4 Active   8/5/2019        8/4/2020 N/A for this license type
+#> 5 Active  7/29/2019       7/28/2020 N/A for this license type
+#> 6 Active  7/29/2019       7/28/2020 N/A for this license type
+#>   Adult-Use/Medicinal
+#> 1                BOTH
+#> 2                BOTH
+#> 3                BOTH
+#> 4                BOTH
+#> 5                BOTH
+#> 6                BOTH
 ```
 
 So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will be using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
@@ -252,16 +243,11 @@ Now let's make sure we did it right.
 
 ```r
 names(marijuana)
-#>  [1] "License_Number"              
-#>  [2] "License_Type"                
-#>  [3] "Business_Owner"              
-#>  [4] "Business_Contact_Information"
-#>  [5] "Business_Structure"          
-#>  [6] "Premise_Address"             
-#>  [7] "Status"                      
-#>  [8] "Issue_Date"                  
-#>  [9] "Expiration_Date"             
-#> [10] "Activities"                  
+#>  [1] "License_Number"               "License_Type"                
+#>  [3] "Business_Owner"               "Business_Contact_Information"
+#>  [5] "Business_Structure"           "Premise_Address"             
+#>  [7] "Status"                       "Issue_Date"                  
+#>  [9] "Expiration_Date"              "Activities"                  
 #> [11] "Adult-Use/Medicinal"
 head(marijuana$Premise_Address)
 #> [1] "2165 IRVING ST san francisco, CA 94122" 

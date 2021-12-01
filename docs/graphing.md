@@ -72,20 +72,13 @@ summary(penn_alcohol)
 #>                                       
 #>                                       
 #>                                       
-#>  ethanol_beer_gallons_per_capita
-#>  Min.   :1.210                  
-#>  1st Qu.:1.310                  
-#>  Median :1.350                  
-#>  Mean   :1.344                  
-#>  3rd Qu.:1.380                  
-#>  Max.   :1.450                  
-#>  ethanol_wine_gallons_per_capita
-#>  Min.   :0.1700                 
-#>  1st Qu.:0.1900                 
-#>  Median :0.2100                 
-#>  Mean   :0.2276                 
-#>  3rd Qu.:0.2500                 
-#>  Max.   :0.3300                 
+#>  ethanol_beer_gallons_per_capita ethanol_wine_gallons_per_capita
+#>  Min.   :1.210                   Min.   :0.1700                 
+#>  1st Qu.:1.310                   1st Qu.:0.1900                 
+#>  Median :1.350                   Median :0.2100                 
+#>  Mean   :1.344                   Mean   :0.2276                 
+#>  3rd Qu.:1.380                   3rd Qu.:0.2500                 
+#>  Max.   :1.450                   Max.   :0.3300                 
 #>  ethanol_spirit_gallons_per_capita
 #>  Min.   :0.4500                   
 #>  1st Qu.:0.5100                   
@@ -100,20 +93,13 @@ summary(penn_alcohol)
 #>  Mean   :2.167                         Mean   :318.7  
 #>  3rd Qu.:2.330                         3rd Qu.:327.1  
 #>  Max.   :2.390                         Max.   :343.7  
-#>  number_of_glasses_wine number_of_shots_liquor
-#>  Min.   :33.74          Min.   : 93.43        
-#>  1st Qu.:37.71          1st Qu.:105.89        
-#>  Median :41.67          Median :126.65        
-#>  Mean   :45.16          Mean   :123.31        
-#>  3rd Qu.:49.61          3rd Qu.:141.18        
-#>  Max.   :65.49          Max.   :153.64        
-#>  number_of_drinks_total
-#>  Min.   :394.7         
-#>  1st Qu.:435.2         
-#>  Median :473.6         
-#>  Mean   :462.3         
-#>  3rd Qu.:497.1         
-#>  Max.   :509.9
+#>  number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
+#>  Min.   :33.74          Min.   : 93.43         Min.   :394.7         
+#>  1st Qu.:37.71          1st Qu.:105.89         1st Qu.:435.2         
+#>  Median :41.67          Median :126.65         Median :473.6         
+#>  Mean   :45.16          Mean   :123.31         Mean   :462.3         
+#>  3rd Qu.:49.61          3rd Qu.:141.18         3rd Qu.:497.1         
+#>  Max.   :65.49          Max.   :153.64         Max.   :509.9
 ```
 
 

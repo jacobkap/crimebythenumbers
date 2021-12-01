@@ -29,48 +29,41 @@ The `readxl` package converts the data into a "tibble" which is essentially a mo
 ```r
 sqf <- data.frame(sqf)
 head(sqf)
-#>   STOP_ID_ANONY STOP_FRISK_DATE     STOP_FRISK_TIME YEAR2
-#> 1             1      2019-01-02 1899-12-31 14:30:00  2019
-#> 2             2      2019-01-08 1899-12-31 02:30:00  2019
-#> 3             3      2019-01-12 1899-12-31 16:54:00  2019
-#> 4             4      2019-01-14 1899-12-31 21:21:00  2019
-#> 5             5      2019-01-15 1899-12-31 18:50:00  2019
-#> 6             6      2019-01-23 1899-12-31 06:16:00  2019
-#>    MONTH2      DAY2      STOP_WAS_INITIATED
-#> 1 January Wednesday   Based on C/W on Scene
-#> 2 January   Tuesday Based on Self Initiated
-#> 3 January  Saturday      Based on Radio Run
-#> 4 January    Monday      Based on Radio Run
-#> 5 January   Tuesday      Based on Radio Run
-#> 6 January Wednesday      Based on Radio Run
-#>   RECORD_STATUS_CODE ISSUING_OFFICER_RANK
-#> 1                APP                  POM
-#> 2                APP                  POM
-#> 3                APP                  POM
-#> 4                APP                  POM
-#> 5                APP                  POM
-#> 6                APP                  POM
-#>   ISSUING_OFFICER_COMMAND_CODE SUPERVISING_OFFICER_RANK
-#> 1                            1                      SGT
-#> 2                            1                      SGT
-#> 3                            1                      SGT
-#> 4                            1                      SGT
-#> 5                            1                      SGT
-#> 6                            1                      SGT
-#>   SUPERVISING_OFFICER_COMMAND_CODE LOCATION_IN_OUT_CODE
-#> 1                                1                    I
-#> 2                                1                    O
-#> 3                                1                    I
-#> 4                                1                    O
-#> 5                                1                    O
-#> 6                                1               (null)
-#>   JURISDICTION_CODE JURISDICTION_DESCRIPTION
-#> 1                 P                      PSB
-#> 2                 P                      PSB
-#> 3                 P                      PSB
-#> 4                 P                      PSB
-#> 5                 P                      PSB
-#> 6                 P                      PSB
+#>   STOP_ID_ANONY STOP_FRISK_DATE     STOP_FRISK_TIME YEAR2  MONTH2
+#> 1             1      2019-01-02 1899-12-31 14:30:00  2019 January
+#> 2             2      2019-01-08 1899-12-31 02:30:00  2019 January
+#> 3             3      2019-01-12 1899-12-31 16:54:00  2019 January
+#> 4             4      2019-01-14 1899-12-31 21:21:00  2019 January
+#> 5             5      2019-01-15 1899-12-31 18:50:00  2019 January
+#> 6             6      2019-01-23 1899-12-31 06:16:00  2019 January
+#>        DAY2      STOP_WAS_INITIATED RECORD_STATUS_CODE
+#> 1 Wednesday   Based on C/W on Scene                APP
+#> 2   Tuesday Based on Self Initiated                APP
+#> 3  Saturday      Based on Radio Run                APP
+#> 4    Monday      Based on Radio Run                APP
+#> 5   Tuesday      Based on Radio Run                APP
+#> 6 Wednesday      Based on Radio Run                APP
+#>   ISSUING_OFFICER_RANK ISSUING_OFFICER_COMMAND_CODE
+#> 1                  POM                            1
+#> 2                  POM                            1
+#> 3                  POM                            1
+#> 4                  POM                            1
+#> 5                  POM                            1
+#> 6                  POM                            1
+#>   SUPERVISING_OFFICER_RANK SUPERVISING_OFFICER_COMMAND_CODE
+#> 1                      SGT                                1
+#> 2                      SGT                                1
+#> 3                      SGT                                1
+#> 4                      SGT                                1
+#> 5                      SGT                                1
+#> 6                      SGT                                1
+#>   LOCATION_IN_OUT_CODE JURISDICTION_CODE JURISDICTION_DESCRIPTION
+#> 1                    I                 P                      PSB
+#> 2                    O                 P                      PSB
+#> 3                    I                 P                      PSB
+#> 4                    O                 P                      PSB
+#> 5                    O                 P                      PSB
+#> 6               (null)                 P                      PSB
 #>   OBSERVED_DURATION_MINUTES SUSPECTED_CRIME_DESCRIPTION
 #> 1                         1               PETIT LARCENY
 #> 2                         1               GRAND LARCENY
@@ -85,27 +78,20 @@ head(sqf)
 #> 4                     5                           Y
 #> 5                     5                           Y
 #> 6                     5                           Y
-#>   OFFICER_NOT_EXPLAINED_STOP_DESCRIPTION
-#> 1                                 (null)
-#> 2                                 (null)
-#> 3                                 (null)
-#> 4                                 (null)
-#> 5                                 (null)
-#> 6                                 (null)
-#>   OTHER_PERSON_STOPPED_FLAG SUSPECT_ARRESTED_FLAG
-#> 1                         N                     N
-#> 2                         N                     Y
-#> 3                         N                     Y
-#> 4                         N                     N
-#> 5                         N                     Y
-#> 6                         Y                     N
-#>   SUSPECT_ARREST_OFFENSE SUMMONS_ISSUED_FLAG
-#> 1                 (null)                   N
-#> 2          GRAND LARCENY                   N
-#> 3          PETIT LARCENY                   N
-#> 4                 (null)                   N
-#> 5                ASSAULT                   N
-#> 6                 (null)                   N
+#>   OFFICER_NOT_EXPLAINED_STOP_DESCRIPTION OTHER_PERSON_STOPPED_FLAG
+#> 1                                 (null)                         N
+#> 2                                 (null)                         N
+#> 3                                 (null)                         N
+#> 4                                 (null)                         N
+#> 5                                 (null)                         N
+#> 6                                 (null)                         Y
+#>   SUSPECT_ARRESTED_FLAG SUSPECT_ARREST_OFFENSE SUMMONS_ISSUED_FLAG
+#> 1                     N                 (null)                   N
+#> 2                     Y          GRAND LARCENY                   N
+#> 3                     Y          PETIT LARCENY                   N
+#> 4                     N                 (null)                   N
+#> 5                     Y                ASSAULT                   N
+#> 6                     N                 (null)                   N
 #>   SUMMONS_OFFENSE_DESCRIPTION OFFICER_IN_UNIFORM_FLAG
 #> 1                      (null)                       Y
 #> 2                      (null)                       N
@@ -113,20 +99,13 @@ head(sqf)
 #> 4                      (null)                       Y
 #> 5                      (null)                       N
 #> 6                      (null)                       Y
-#>   ID_CARD_IDENTIFIES_OFFICER_FLAG
-#> 1                          (null)
-#> 2                          (null)
-#> 3                          (null)
-#> 4                          (null)
-#> 5                          (null)
-#> 6                          (null)
-#>   SHIELD_IDENTIFIES_OFFICER_FLAG
-#> 1                         (null)
-#> 2                              S
-#> 3                         (null)
-#> 4                         (null)
-#> 5                              S
-#> 6                         (null)
+#>   ID_CARD_IDENTIFIES_OFFICER_FLAG SHIELD_IDENTIFIES_OFFICER_FLAG
+#> 1                          (null)                         (null)
+#> 2                          (null)                              S
+#> 3                          (null)                         (null)
+#> 4                          (null)                         (null)
+#> 5                          (null)                              S
+#> 6                          (null)                         (null)
 #>   VERBAL_IDENTIFIES_OFFICER_FLAG FRISKED_FLAG SEARCHED_FLAG
 #> 1                         (null)            Y             N
 #> 2                              V            N             Y
@@ -134,41 +113,27 @@ head(sqf)
 #> 4                         (null)            N             N
 #> 5                              V            Y             N
 #> 6                         (null)            Y             N
-#>   ASK_FOR_CONSENT_FLG CONSENT_GIVEN_FLG
-#> 1                   Y                 Y
-#> 2                   N                 N
-#> 3                   N                 (
-#> 4                   N                 N
-#> 5                   N                 N
-#> 6                   N                 N
-#>   OTHER_CONTRABAND_FLAG FIREARM_FLAG KNIFE_CUTTER_FLAG
-#> 1                     N       (null)            (null)
-#> 2                     N       (null)            (null)
-#> 3                     N       (null)            (null)
-#> 4                     N       (null)            (null)
-#> 5                     N       (null)            (null)
-#> 6                     N       (null)            (null)
-#>   OTHER_WEAPON_FLAG WEAPON_FOUND_FLAG
-#> 1            (null)                 N
-#> 2            (null)                 N
-#> 3            (null)                 N
-#> 4            (null)                 N
-#> 5            (null)                 N
-#> 6            (null)                 N
-#>   PHYSICAL_FORCE_CEW_FLAG
-#> 1                  (null)
-#> 2                  (null)
-#> 3                  (null)
-#> 4                  (null)
-#> 5                  (null)
-#> 6                  (null)
-#>   PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG
-#> 1                                 (null)
-#> 2                                 (null)
-#> 3                                 (null)
-#> 4                                 (null)
-#> 5                                 (null)
-#> 6                                 (null)
+#>   ASK_FOR_CONSENT_FLG CONSENT_GIVEN_FLG OTHER_CONTRABAND_FLAG
+#> 1                   Y                 Y                     N
+#> 2                   N                 N                     N
+#> 3                   N                 (                     N
+#> 4                   N                 N                     N
+#> 5                   N                 N                     N
+#> 6                   N                 N                     N
+#>   FIREARM_FLAG KNIFE_CUTTER_FLAG OTHER_WEAPON_FLAG WEAPON_FOUND_FLAG
+#> 1       (null)            (null)            (null)                 N
+#> 2       (null)            (null)            (null)                 N
+#> 3       (null)            (null)            (null)                 N
+#> 4       (null)            (null)            (null)                 N
+#> 5       (null)            (null)            (null)                 N
+#> 6       (null)            (null)            (null)                 N
+#>   PHYSICAL_FORCE_CEW_FLAG PHYSICAL_FORCE_DRAW_POINT_FIREARM_FLAG
+#> 1                  (null)                                 (null)
+#> 2                  (null)                                 (null)
+#> 3                  (null)                                 (null)
+#> 4                  (null)                                 (null)
+#> 5                  (null)                                 (null)
+#> 6                  (null)                                 (null)
 #>   PHYSICAL_FORCE_HANDCUFF_SUSPECT_FLAG
 #> 1                                    Y
 #> 2                               (null)
@@ -176,20 +141,13 @@ head(sqf)
 #> 4                               (null)
 #> 5                                    Y
 #> 6                               (null)
-#>   PHYSICAL_FORCE_OC_SPRAY_USED_FLAG
-#> 1                            (null)
-#> 2                            (null)
-#> 3                            (null)
-#> 4                            (null)
-#> 5                            (null)
-#> 6                            (null)
-#>   PHYSICAL_FORCE_OTHER_FLAG
-#> 1                    (null)
-#> 2                    (null)
-#> 3                    (null)
-#> 4                    (null)
-#> 5                    (null)
-#> 6                    (null)
+#>   PHYSICAL_FORCE_OC_SPRAY_USED_FLAG PHYSICAL_FORCE_OTHER_FLAG
+#> 1                            (null)                    (null)
+#> 2                            (null)                    (null)
+#> 3                            (null)                    (null)
+#> 4                            (null)                    (null)
+#> 5                            (null)                    (null)
+#> 6                            (null)                    (null)
 #>   PHYSICAL_FORCE_RESTRAINT_USED_FLAG
 #> 1                             (null)
 #> 2                             (null)
@@ -288,27 +246,20 @@ head(sqf)
 #> 4                        (null)
 #> 5                        (null)
 #> 6                        (null)
-#>   SEARCH_BASIS_INCIDENTAL_TO_ARREST_FLAG
-#> 1                                 (null)
-#> 2                                      Y
-#> 3                                 (null)
-#> 4                                 (null)
-#> 5                                 (null)
-#> 6                                 (null)
-#>   SEARCH_BASIS_OTHER_FLAG SEARCH_BASIS_OUTLINE_FLAG
-#> 1                  (null)                    (null)
-#> 2                  (null)                    (null)
-#> 3                  (null)                    (null)
-#> 4                  (null)                    (null)
-#> 5                  (null)                    (null)
-#> 6                  (null)                    (null)
-#>   DEMEANOR_CODE DEMEANOR_OF_PERSON_STOPPED
-#> 1            DE              UNDERSTANDING
-#> 2            DE                     NORMAL
-#> 3            DE                       CALM
-#> 4            DE                   CONFUSED
-#> 5          <NA>                       <NA>
-#> 6            DE               COORPERATIVE
+#>   SEARCH_BASIS_INCIDENTAL_TO_ARREST_FLAG SEARCH_BASIS_OTHER_FLAG
+#> 1                                 (null)                  (null)
+#> 2                                      Y                  (null)
+#> 3                                 (null)                  (null)
+#> 4                                 (null)                  (null)
+#> 5                                 (null)                  (null)
+#> 6                                 (null)                  (null)
+#>   SEARCH_BASIS_OUTLINE_FLAG DEMEANOR_CODE DEMEANOR_OF_PERSON_STOPPED
+#> 1                    (null)            DE              UNDERSTANDING
+#> 2                    (null)            DE                     NORMAL
+#> 3                    (null)            DE                       CALM
+#> 4                    (null)            DE                   CONFUSED
+#> 5                    (null)          <NA>                       <NA>
+#> 6                    (null)            DE               COORPERATIVE
 #>   SUSPECT_REPORTED_AGE SUSPECT_SEX SUSPECT_RACE_DESCRIPTION
 #> 1                   30        MALE                    BLACK
 #> 2                   22        MALE                    BLACK
@@ -429,12 +380,12 @@ To make sure we only have values we expect, we can use the `unique()` function t
 
 ```r
 unique(sqf_agg$MONTH2)
-#>  [1] "April"     "August"    "December"  "February" 
-#>  [5] "January"   "July"      "June"      "March"    
-#>  [9] "May"       "November"  "October"   "September"
+#>  [1] "April"     "August"    "December"  "February"  "January"  
+#>  [6] "July"      "June"      "March"     "May"       "November" 
+#> [11] "October"   "September"
 unique(sqf_agg$DAY2)
-#> [1] "Friday"    "Monday"    "Saturday"  "Sunday"   
-#> [5] "Thursday"  "Tuesday"   "Wednesday"
+#> [1] "Friday"    "Monday"    "Saturday"  "Sunday"    "Thursday" 
+#> [6] "Tuesday"   "Wednesday"
 unique(sqf_agg$SUSPECT_RACE_DESCRIPTION)
 #> [1] "(null)"                    "ASIAN / PACIFIC ISLANDER" 
 #> [3] "BLACK"                     "BLACK HISPANIC"           
@@ -453,14 +404,14 @@ sqf_agg_wide <- sqf_agg %>%
 head(sqf_agg_wide)
 #> # A tibble: 6 x 8
 #> # Groups:   MONTH2, DAY2 [6]
-#>   MONTH2 DAY2  `ASIAN / PACIFI~ BLACK `BLACK HISPANIC` WHITE
-#>   <chr>  <chr>            <int> <int>            <int> <int>
-#> 1 April  Frid~                1   104               17    16
-#> 2 April  Mond~                1    92               10    32
-#> 3 April  Satu~                3   115               24    24
-#> 4 April  Sund~                2    96               12    15
-#> 5 April  Thur~                2   122               10    18
-#> 6 April  Tues~                7   137               14    20
+#>   MONTH2 DAY2     `ASIAN / PACIFIC ISLAN~ BLACK `BLACK HISPANIC` WHITE
+#>   <chr>  <chr>                      <int> <int>            <int> <int>
+#> 1 April  Friday                         1   104               17    16
+#> 2 April  Monday                         1    92               10    32
+#> 3 April  Saturday                       3   115               24    24
+#> 4 April  Sunday                         2    96               12    15
+#> 5 April  Thursday                       2   122               10    18
+#> 6 April  Tuesday                        7   137               14    20
 #> # ... with 2 more variables: WHITE HISPANIC <int>,
 #> #   AMERICAN INDIAN/ALASKAN N <int>
 ```
@@ -510,14 +461,14 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 #> # A tibble: 6 x 4
 #> # Groups:   month2, day2 [1]
-#>   month2 day2   race                      number_of_people_~
-#>   <chr>  <chr>  <chr>                                  <int>
-#> 1 April  Friday asian_pacific_islander                     1
-#> 2 April  Friday black                                    104
-#> 3 April  Friday black_hispanic                            17
-#> 4 April  Friday white                                     16
-#> 5 April  Friday white_hispanic                            31
-#> 6 April  Friday american_indian_alaskan_n                 NA
+#>   month2 day2   race                      number_of_people_stopped
+#>   <chr>  <chr>  <chr>                                        <int>
+#> 1 April  Friday asian_pacific_islander                           1
+#> 2 April  Friday black                                          104
+#> 3 April  Friday black_hispanic                                  17
+#> 4 April  Friday white                                           16
+#> 5 April  Friday white_hispanic                                  31
+#> 6 April  Friday american_indian_alaskan_n                       NA
 ```
 
 In some cases you'll have many columns that you want to include while reshaping which makes writing them all out by handle time consuming. If all of the columns are sequential you can use a trick in this function to writing `first_column:last_column` where the : will make it include each column (in order) from the first one you input to the last one. This is doing the same thing as `1:3` which returns 1, 2, and 3, but for columns instead of numbers. This doesn't work in most cases but does work for many tidyverse packages. There are also a large number of functions from the `dplyr` package that are for selecting columns, and are very helpful for doing things like this. The functions are numerous are have changed relatively frequently in the past so I won't cover them in this book, but if you're interested you can look at them on [this page](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) of `dplyr`'s website.
@@ -531,14 +482,14 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 #> # A tibble: 6 x 4
 #> # Groups:   month2, day2 [1]
-#>   month2 day2   race                      number_of_people_~
-#>   <chr>  <chr>  <chr>                                  <int>
-#> 1 April  Friday asian_pacific_islander                     1
-#> 2 April  Friday black                                    104
-#> 3 April  Friday black_hispanic                            17
-#> 4 April  Friday white                                     16
-#> 5 April  Friday white_hispanic                            31
-#> 6 April  Friday american_indian_alaskan_n                 NA
+#>   month2 day2   race                      number_of_people_stopped
+#>   <chr>  <chr>  <chr>                                        <int>
+#> 1 April  Friday asian_pacific_islander                           1
+#> 2 April  Friday black                                          104
+#> 3 April  Friday black_hispanic                                  17
+#> 4 April  Friday white                                           16
+#> 5 April  Friday white_hispanic                                  31
+#> 6 April  Friday american_indian_alaskan_n                       NA
 ```
 
 ## Reshaping a multiple columns
@@ -561,20 +512,18 @@ names(sqf_agg_wide) <- make_clean_names(names(sqf_agg_wide))
 head(sqf_agg_wide)
 #> # A tibble: 6 x 14
 #> # Groups:   month2, day2 [6]
-#>   month2 day2     n_asian_pacific_islander n_black n_black_hispanic
-#>   <chr>  <chr>                       <int>   <int>            <int>
-#> 1 April  Friday                          1     104               17
-#> 2 April  Monday                          1      92               10
-#> 3 April  Saturday                        3     115               24
-#> 4 April  Sunday                          2      96               12
-#> 5 April  Thursday                        2     122               10
-#> 6 April  Tuesday                         7     137               14
-#> # ... with 9 more variables: n_white <int>,
-#> #   n_white_hispanic <int>,
+#>   month2 day2     n_asian_pacific_is~ n_black n_black_hispanic n_white
+#>   <chr>  <chr>                  <int>   <int>            <int>   <int>
+#> 1 April  Friday                     1     104               17      16
+#> 2 April  Monday                     1      92               10      32
+#> 3 April  Saturday                   3     115               24      24
+#> 4 April  Sunday                     2      96               12      15
+#> 5 April  Thursday                   2     122               10      18
+#> 6 April  Tuesday                    7     137               14      20
+#> # ... with 8 more variables: n_white_hispanic <int>,
 #> #   n_american_indian_alaskan_n <int>,
 #> #   n2_asian_pacific_islander <dbl>, n2_black <dbl>,
-#> #   n2_black_hispanic <dbl>, n2_white <dbl>,
-#> #   n2_white_hispanic <dbl>,
+#> #   n2_black_hispanic <dbl>, n2_white <dbl>, n2_white_hispanic <dbl>,
 #> #   n2_american_indian_alaskan_n <dbl>
 ```
 
@@ -602,14 +551,14 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 #> # A tibble: 6 x 6
 #> # Groups:   month2, day2 [1]
-#>   month2 day2   race  number_of_peopl~ race2 number_of_peopl~
-#>   <chr>  <chr>  <chr>            <int> <chr>            <dbl>
-#> 1 April  Friday n_as~                1 n2_a~               11
-#> 2 April  Friday n_as~                1 n2_b~              114
-#> 3 April  Friday n_as~                1 n2_b~               27
-#> 4 April  Friday n_as~                1 n2_w~               26
-#> 5 April  Friday n_as~                1 n2_w~               41
-#> 6 April  Friday n_as~                1 n2_a~               NA
+#>   month2 day2   race                     number_of_peopl~ race2 number_of_peopl~
+#>   <chr>  <chr>  <chr>                               <int> <chr>            <dbl>
+#> 1 April  Friday n_asian_pacific_islander                1 n2_a~               11
+#> 2 April  Friday n_asian_pacific_islander                1 n2_b~              114
+#> 3 April  Friday n_asian_pacific_islander                1 n2_b~               27
+#> 4 April  Friday n_asian_pacific_islander                1 n2_w~               26
+#> 5 April  Friday n_asian_pacific_islander                1 n2_w~               41
+#> 6 April  Friday n_asian_pacific_islander                1 n2_a~               NA
 ```
 
 

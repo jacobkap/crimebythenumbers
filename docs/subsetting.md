@@ -14,8 +14,7 @@ animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 
 ```r
 animals
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"   
-#> [6] "snake"
+#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"
 ```
 
 Here we have made an object called *animals* with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
@@ -101,8 +100,7 @@ However, it doesn't actually remove anything from *animals*. Let's print *animal
 
 ```r
 animals
-#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"   
-#> [6] "snake"
+#> [1] "cat"     "dog"     "gorilla" "buffalo" "lion"    "snake"
 ```
 
 Now the first value, "cats", is back. Why? To make changes in R you need to tell R very explicitly that you are making the change. If you don't save the result of your code (by assigning an object to it), R will run that code and simply print the results in the console panel without making any changes. 
@@ -167,8 +165,7 @@ And it works when we have multiple numbers on the left side, such as our object 
 
 ```r
 numbers == 2
-#>  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
-#> [10] FALSE
+#>  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ```
 
 This also works with characters such as the animals in the object we made earlier. "gorilla" is the third animal in our object, so if we check animals == "gorilla" we expect the third value to be `TRUE` and all others to be `FALSE`. Make sure that the match is spelled correctly (including capitalization) and is in quotes. 
@@ -259,8 +256,7 @@ When used on our object *numbers* it will return 10 values (since *numbers* is 1
 
 ```r
 numbers > 3
-#>  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-#> [10]  TRUE
+#>  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 ```
 
 ### Combining conditional statements - or, and
@@ -598,8 +594,8 @@ We can do this for the column *agency_name* in our UCR data. If we wrote this in
 
 ```r
 head(offenses_known_yearly_1960_2020$agency_name)
-#> [1] "anchorage" "anchorage" "anchorage" "anchorage"
-#> [5] "anchorage" "anchorage"
+#> [1] "anchorage" "anchorage" "anchorage" "anchorage" "anchorage"
+#> [6] "anchorage"
 ```
 
 They're all the same name because Anchorage Police reported many times and are in the data set multiple times. Let's look at the column *actual_murder* which shows the annual number of murders in that agency. 
@@ -674,90 +670,76 @@ offenses_known_yearly_1960_2020[1, ]
 #> 1                              0                  december
 #>   fips_state_code fips_county_code fips_state_county_code
 #> 1              02              020                  02020
-#>   fips_place_code             agency_type
-#> 1           03000 local police department
-#>         crosswalk_agency_name            census_name
-#> 1 anchorage police department anchorage municipality
-#>     longitude latitude                address_name
-#> 1 -149.284329 61.17425 anchorage police department
-#>   address_street_line_1 address_street_line_2 address_city
-#> 1        4501 elmore rd                  <NA>    anchorage
-#>   address_state address_zip_code          population_group
-#> 1            ak            99507 city 250,000 thru 499,999
-#>   population_1 population_1_county population_2
-#> 1       286388                   0            0
-#>   population_2_county population_3 population_3_county
-#> 1                  NA            0                  NA
-#>   population country_division juvenile_age
-#> 1     286388          pacific           NA
-#>   core_city_indication fbi_field_office
-#> 1     core city of msa             3030
-#>       followup_indication zip_code month_included_in
-#> 1 do not send a follow-up    99507                 0
+#>   fips_place_code             agency_type       crosswalk_agency_name
+#> 1           03000 local police department anchorage police department
+#>              census_name   longitude latitude
+#> 1 anchorage municipality -149.284329 61.17425
+#>                  address_name address_street_line_1
+#> 1 anchorage police department        4501 elmore rd
+#>   address_street_line_2 address_city address_state address_zip_code
+#> 1                  <NA>    anchorage            ak            99507
+#>            population_group population_1 population_1_county
+#> 1 city 250,000 thru 499,999       286388                   0
+#>   population_2 population_2_county population_3 population_3_county
+#> 1            0                  NA            0                  NA
+#>   population country_division juvenile_age core_city_indication
+#> 1     286388          pacific           NA     core city of msa
+#>   fbi_field_office     followup_indication zip_code month_included_in
+#> 1             3030 do not send a follow-up    99507                 0
 #>   covered_by_ori agency_count
 #> 1           <NA>            1
 #>                                                              special_mailing_group
 #> 1 the agency is a contributor but not on the mailing list,they are not sent forms.
-#>         special_mailing_address
-#> 1 not a special mailing address
-#>   first_line_of_mailing_address
-#> 1                4501 elmore rd
-#>   second_line_of_mailing_address
-#> 1                           <NA>
-#>   third_line_of_mailing_address
-#> 1                          <NA>
+#>         special_mailing_address first_line_of_mailing_address
+#> 1 not a special mailing address                4501 elmore rd
+#>   second_line_of_mailing_address third_line_of_mailing_address
+#> 1                           <NA>                          <NA>
 #>   fourth_line_of_mailing_address officers_killed_by_felony
 #> 1                           <NA>                         0
-#>   officers_killed_by_accident officers_assaulted
-#> 1                           0                464
-#>   actual_murder actual_manslaughter actual_rape_total
-#> 1            18                   0               558
-#>   actual_rape_by_force actual_rape_attempted
-#> 1                  534                    24
-#>   actual_robbery_total actual_robbery_with_a_gun
-#> 1                  558                       124
-#>   actual_robbery_with_a_knife actual_robbery_other_weapon
-#> 1                          65                          82
-#>   actual_robbery_unarmed actual_assault_total
-#> 1                    287                 5777
-#>   actual_assault_with_a_gun actual_assault_with_a_knife
-#> 1                       512                         377
-#>   actual_assault_other_weapon actual_assault_unarmed
-#> 1                         840                    609
-#>   actual_assault_simple actual_burg_total
-#> 1                  3439              1444
+#>   officers_killed_by_accident officers_assaulted actual_murder
+#> 1                           0                464            18
+#>   actual_manslaughter actual_rape_total actual_rape_by_force
+#> 1                   0               558                  534
+#>   actual_rape_attempted actual_robbery_total
+#> 1                    24                  558
+#>   actual_robbery_with_a_gun actual_robbery_with_a_knife
+#> 1                       124                          65
+#>   actual_robbery_other_weapon actual_robbery_unarmed
+#> 1                          82                    287
+#>   actual_assault_total actual_assault_with_a_gun
+#> 1                 5777                       512
+#>   actual_assault_with_a_knife actual_assault_other_weapon
+#> 1                         377                         840
+#>   actual_assault_unarmed actual_assault_simple actual_burg_total
+#> 1                    609                  3439              1444
 #>   actual_burg_force_entry actual_burg_nonforce_entry
 #> 1                     900                        453
-#>   actual_burg_attempted actual_theft_total
-#> 1                    91               7279
-#>   actual_mtr_veh_theft_total actual_mtr_veh_theft_car
-#> 1                       1149                      807
-#>   actual_mtr_veh_theft_truck actual_mtr_veh_theft_other
-#> 1                        278                         64
-#>   actual_all_crimes actual_assault_aggravated
-#> 1             16856                      2338
-#>   actual_index_violent actual_index_property
-#> 1                 3472                  9945
-#>   actual_index_total actual_arson_single_occupancy
-#> 1              13417                             6
-#>   actual_arson_other_residential actual_arson_storage
-#> 1                             16                    1
-#>   actual_arson_industrial actual_arson_other_commercial
-#> 1                       0                            10
-#>   actual_arson_community_public
-#> 1                             7
-#>   actual_arson_all_oth_structures
-#> 1                               0
-#>   actual_arson_total_structures actual_arson_motor_vehicles
-#> 1                            30                          17
-#>   actual_arson_other_mobile actual_arson_total_mobile
-#> 1                         0                        17
-#>   actual_arson_all_other actual_arson_grand_total
-#> 1                      0                       73
-#>   tot_clr_murder tot_clr_manslaughter tot_clr_rape_total
-#> 1             15                    0                 46
-#>   tot_clr_rape_by_force tot_clr_rape_attempted
-#> 1                    41                      5
+#>   actual_burg_attempted actual_theft_total actual_mtr_veh_theft_total
+#> 1                    91               7279                       1149
+#>   actual_mtr_veh_theft_car actual_mtr_veh_theft_truck
+#> 1                      807                        278
+#>   actual_mtr_veh_theft_other actual_all_crimes
+#> 1                         64             16856
+#>   actual_assault_aggravated actual_index_violent
+#> 1                      2338                 3472
+#>   actual_index_property actual_index_total
+#> 1                  9945              13417
+#>   actual_arson_single_occupancy actual_arson_other_residential
+#> 1                             6                             16
+#>   actual_arson_storage actual_arson_industrial
+#> 1                    1                       0
+#>   actual_arson_other_commercial actual_arson_community_public
+#> 1                            10                             7
+#>   actual_arson_all_oth_structures actual_arson_total_structures
+#> 1                               0                            30
+#>   actual_arson_motor_vehicles actual_arson_other_mobile
+#> 1                          17                         0
+#>   actual_arson_total_mobile actual_arson_all_other
+#> 1                        17                      0
+#>   actual_arson_grand_total tot_clr_murder tot_clr_manslaughter
+#> 1                       73             15                    0
+#>   tot_clr_rape_total tot_clr_rape_by_force tot_clr_rape_attempted
+#> 1                 46                    41                      5
 #>   tot_clr_robbery_total tot_clr_robbery_with_a_gun
 #> 1                   207                         30
 #>   tot_clr_robbery_with_a_knife tot_clr_robbery_other_weapon
@@ -768,42 +750,36 @@ offenses_known_yearly_1960_2020[1, ]
 #> 1                        223                          281
 #>   tot_clr_assault_other_weapon tot_clr_assault_unarmed
 #> 1                          511                     428
-#>   tot_clr_assault_simple tot_clr_burg_total
-#> 1                   1964                237
-#>   tot_clr_burg_force_entry tot_clr_burg_nonforce_entry
-#> 1                      115                         118
-#>   tot_clr_burg_attempted tot_clr_theft_total
-#> 1                      4                 865
-#>   tot_clr_mtr_veh_theft_total tot_clr_mtr_veh_theft_car
-#> 1                         197                       153
-#>   tot_clr_mtr_veh_theft_truck tot_clr_mtr_veh_theft_other
-#> 1                          39                           5
-#>   tot_clr_all_crimes tot_clr_assault_aggravated
-#> 1               5001                       1443
-#>   tot_clr_index_violent tot_clr_index_property
-#> 1                  1711                   1326
-#>   tot_clr_index_total tot_clr_arson_single_occupancy
-#> 1                3037                              2
-#>   tot_clr_arson_other_residential tot_clr_arson_storage
-#> 1                               8                     0
-#>   tot_clr_arson_industrial tot_clr_arson_other_commercial
-#> 1                        0                              5
-#>   tot_clr_arson_community_public
-#> 1                              3
-#>   tot_clr_arson_all_oth_structures
-#> 1                                0
-#>   tot_clr_arson_total_structures
-#> 1                             13
+#>   tot_clr_assault_simple tot_clr_burg_total tot_clr_burg_force_entry
+#> 1                   1964                237                      115
+#>   tot_clr_burg_nonforce_entry tot_clr_burg_attempted
+#> 1                         118                      4
+#>   tot_clr_theft_total tot_clr_mtr_veh_theft_total
+#> 1                 865                         197
+#>   tot_clr_mtr_veh_theft_car tot_clr_mtr_veh_theft_truck
+#> 1                       153                          39
+#>   tot_clr_mtr_veh_theft_other tot_clr_all_crimes
+#> 1                           5               5001
+#>   tot_clr_assault_aggravated tot_clr_index_violent
+#> 1                       1443                  1711
+#>   tot_clr_index_property tot_clr_index_total
+#> 1                   1326                3037
+#>   tot_clr_arson_single_occupancy tot_clr_arson_other_residential
+#> 1                              2                               8
+#>   tot_clr_arson_storage tot_clr_arson_industrial
+#> 1                     0                        0
+#>   tot_clr_arson_other_commercial tot_clr_arson_community_public
+#> 1                              5                              3
+#>   tot_clr_arson_all_oth_structures tot_clr_arson_total_structures
+#> 1                                0                             13
 #>   tot_clr_arson_motor_vehicles tot_clr_arson_other_mobile
 #> 1                            5                          0
 #>   tot_clr_arson_total_mobile tot_clr_arson_all_other
 #> 1                          5                       0
-#>   tot_clr_arson_grand_total clr_18_murder
-#> 1                        27             0
-#>   clr_18_manslaughter clr_18_rape_total
-#> 1                   0                11
-#>   clr_18_rape_by_force clr_18_rape_attempted
-#> 1                   11                     0
+#>   tot_clr_arson_grand_total clr_18_murder clr_18_manslaughter
+#> 1                        27             0                   0
+#>   clr_18_rape_total clr_18_rape_by_force clr_18_rape_attempted
+#> 1                11                   11                     0
 #>   clr_18_robbery_total clr_18_robbery_with_a_gun
 #> 1                    5                         2
 #>   clr_18_robbery_with_a_knife clr_18_robbery_other_weapon
@@ -814,40 +790,34 @@ offenses_known_yearly_1960_2020[1, ]
 #> 1                        18                          13
 #>   clr_18_assault_other_weapon clr_18_assault_unarmed
 #> 1                          25                     12
-#>   clr_18_assault_simple clr_18_burg_total
-#> 1                   160                 4
-#>   clr_18_burg_force_entry clr_18_burg_nonforce_entry
-#> 1                       4                          0
-#>   clr_18_burg_attempted clr_18_theft_total
-#> 1                     0                 36
+#>   clr_18_assault_simple clr_18_burg_total clr_18_burg_force_entry
+#> 1                   160                 4                       4
+#>   clr_18_burg_nonforce_entry clr_18_burg_attempted clr_18_theft_total
+#> 1                          0                     0                 36
 #>   clr_18_mtr_veh_theft_total clr_18_mtr_veh_theft_car
 #> 1                          9                        8
 #>   clr_18_mtr_veh_theft_truck clr_18_mtr_veh_theft_other
 #> 1                          1                          0
-#>   clr_18_all_crimes clr_18_assault_aggravated
-#> 1               295                        68
-#>   clr_18_index_violent clr_18_index_property
-#> 1                   84                    51
-#>   clr_18_index_total clr_18_arson_single_occupancy
-#> 1                135                             0
-#>   clr_18_arson_other_residential clr_18_arson_storage
-#> 1                              0                    0
-#>   clr_18_arson_industrial clr_18_arson_other_commercial
-#> 1                       0                             0
-#>   clr_18_arson_community_public
-#> 1                             0
-#>   clr_18_arson_all_oth_structures
-#> 1                               0
-#>   clr_18_arson_total_structures clr_18_arson_motor_vehicles
-#> 1                             0                           0
-#>   clr_18_arson_other_mobile clr_18_arson_total_mobile
-#> 1                         0                         0
-#>   clr_18_arson_all_other clr_18_arson_grand_total
-#> 1                      0                        2
-#>   unfound_murder unfound_manslaughter unfound_rape_total
-#> 1              4                    0                  1
-#>   unfound_rape_by_force unfound_rape_attempted
-#> 1                     1                      0
+#>   clr_18_all_crimes clr_18_assault_aggravated clr_18_index_violent
+#> 1               295                        68                   84
+#>   clr_18_index_property clr_18_index_total
+#> 1                    51                135
+#>   clr_18_arson_single_occupancy clr_18_arson_other_residential
+#> 1                             0                              0
+#>   clr_18_arson_storage clr_18_arson_industrial
+#> 1                    0                       0
+#>   clr_18_arson_other_commercial clr_18_arson_community_public
+#> 1                             0                             0
+#>   clr_18_arson_all_oth_structures clr_18_arson_total_structures
+#> 1                               0                             0
+#>   clr_18_arson_motor_vehicles clr_18_arson_other_mobile
+#> 1                           0                         0
+#>   clr_18_arson_total_mobile clr_18_arson_all_other
+#> 1                         0                      0
+#>   clr_18_arson_grand_total unfound_murder unfound_manslaughter
+#> 1                        2              4                    0
+#>   unfound_rape_total unfound_rape_by_force unfound_rape_attempted
+#> 1                  1                     1                      0
 #>   unfound_robbery_total unfound_robbery_with_a_gun
 #> 1                     0                          0
 #>   unfound_robbery_with_a_knife unfound_robbery_other_weapon
@@ -858,32 +828,28 @@ offenses_known_yearly_1960_2020[1, ]
 #> 1                          0                            0
 #>   unfound_assault_other_weapon unfound_assault_unarmed
 #> 1                            0                       0
-#>   unfound_assault_simple unfound_burg_total
-#> 1                      0                  4
-#>   unfound_burg_force_entry unfound_burg_nonforce_entry
-#> 1                        2                           1
-#>   unfound_burg_attempted unfound_theft_total
-#> 1                      1                  43
-#>   unfound_mtr_veh_theft_total unfound_mtr_veh_theft_car
-#> 1                          37                        22
-#>   unfound_mtr_veh_theft_truck unfound_mtr_veh_theft_other
-#> 1                          15                           0
-#>   unfound_all_crimes unfound_assault_aggravated
-#> 1                 89                          0
-#>   unfound_index_violent unfound_index_property
-#> 1                     5                     84
-#>   unfound_index_total unfound_arson_single_occupancy
-#> 1                  89                              0
-#>   unfound_arson_other_residential unfound_arson_storage
-#> 1                               0                     0
-#>   unfound_arson_industrial unfound_arson_other_commercial
-#> 1                        0                              0
-#>   unfound_arson_community_public
-#> 1                              0
-#>   unfound_arson_all_oth_structures
-#> 1                                0
-#>   unfound_arson_total_structures
-#> 1                              0
+#>   unfound_assault_simple unfound_burg_total unfound_burg_force_entry
+#> 1                      0                  4                        2
+#>   unfound_burg_nonforce_entry unfound_burg_attempted
+#> 1                           1                      1
+#>   unfound_theft_total unfound_mtr_veh_theft_total
+#> 1                  43                          37
+#>   unfound_mtr_veh_theft_car unfound_mtr_veh_theft_truck
+#> 1                        22                          15
+#>   unfound_mtr_veh_theft_other unfound_all_crimes
+#> 1                           0                 89
+#>   unfound_assault_aggravated unfound_index_violent
+#> 1                          0                     5
+#>   unfound_index_property unfound_index_total
+#> 1                     84                  89
+#>   unfound_arson_single_occupancy unfound_arson_other_residential
+#> 1                              0                               0
+#>   unfound_arson_storage unfound_arson_industrial
+#> 1                     0                        0
+#>   unfound_arson_other_commercial unfound_arson_community_public
+#> 1                              0                              0
+#>   unfound_arson_all_oth_structures unfound_arson_total_structures
+#> 1                                0                              0
 #>   unfound_arson_motor_vehicles unfound_arson_other_mobile
 #> 1                            0                          0
 #>   unfound_arson_total_mobile unfound_arson_all_other

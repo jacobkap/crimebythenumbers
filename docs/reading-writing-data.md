@@ -56,9 +56,9 @@ The input in the () is the file name ending in ".csv". As it is telling R to rea
 ```r
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
 #> Rows: 4371 Columns: 14
-#> -- Column specification ------------------------------------
+#> -- Column specification ----------------------------------------------
 #> Delimiter: ","
-#> chr  (9): name, manner_of_death, armed, gender, race, ci...
+#> chr  (9): name, manner_of_death, armed, gender, race, city, state,...
 #> dbl  (2): id, age
 #> lgl  (2): signs_of_mental_illness, body_camera
 #> date (1): date
@@ -73,17 +73,17 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 ```r
 head(shootings)
 #> # A tibble: 6 x 14
-#>      id name   date       manner_of_death armed   age gender
-#>   <dbl> <chr>  <date>     <chr>           <chr> <dbl> <chr> 
-#> 1     3 Tim E~ 2015-01-02 shot            gun      53 M     
-#> 2     4 Lewis~ 2015-01-02 shot            gun      47 M     
-#> 3     5 John ~ 2015-01-03 shot and Taser~ unar~    23 M     
-#> 4     8 Matth~ 2015-01-04 shot            toy ~    32 M     
-#> 5     9 Micha~ 2015-01-04 shot            nail~    39 M     
-#> 6    11 Kenne~ 2015-01-04 shot            gun      18 M     
-#> # ... with 7 more variables: race <chr>, city <chr>,
-#> #   state <chr>, signs_of_mental_illness <lgl>,
-#> #   threat_level <chr>, flee <chr>, body_camera <lgl>
+#>      id name      date       manner_of_death armed    age gender race 
+#>   <dbl> <chr>     <date>     <chr>           <chr>  <dbl> <chr>  <chr>
+#> 1     3 Tim Elli~ 2015-01-02 shot            gun       53 M      A    
+#> 2     4 Lewis Le~ 2015-01-02 shot            gun       47 M      W    
+#> 3     5 John Pau~ 2015-01-03 shot and Taser~ unarm~    23 M      H    
+#> 4     8 Matthew ~ 2015-01-04 shot            toy w~    32 M      W    
+#> 5     9 Michael ~ 2015-01-04 shot            nail ~    39 M      H    
+#> 6    11 Kenneth ~ 2015-01-04 shot            gun       18 M      W    
+#> # ... with 6 more variables: city <chr>, state <chr>,
+#> #   signs_of_mental_illness <lgl>, threat_level <chr>, flee <chr>,
+#> #   body_camera <lgl>
 ```
 
 We can convert it to a data.frame using the function `as.data.frame()` though that isn't strictly necessary since tibbles and data.frames operate so similarly.

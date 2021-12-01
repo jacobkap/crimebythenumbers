@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -539,35 +539,33 @@ div.csl-indent {
 <p>The second important parameter is <code>full_results</code> which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we’ll look at all three.</p>
 <div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="geocoding.html#cb455-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;osm&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb455-2"><a href="geocoding.html#cb455-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 12</span></span>
-<span id="cb455-3"><a href="geocoding.html#cb455-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address      lat  long place_id licence    osm_type osm_id</span></span>
-<span id="cb455-4"><a href="geocoding.html#cb455-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;</span></span>
-<span id="cb455-5"><a href="geocoding.html#cb455-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race ~  40.0 -75.2   2.88e8 Data © Op~ way      6.22e7</span></span>
-<span id="cb455-6"><a href="geocoding.html#cb455-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 5 more variables: boundingbox &lt;list&gt;,</span></span>
-<span id="cb455-7"><a href="geocoding.html#cb455-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   display_name &lt;chr&gt;, class &lt;chr&gt;, type &lt;chr&gt;,</span></span>
-<span id="cb455-8"><a href="geocoding.html#cb455-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   importance &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb455-3"><a href="geocoding.html#cb455-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address     lat  long place_id licence   osm_type osm_id boundingbox</span></span>
+<span id="cb455-4"><a href="geocoding.html#cb455-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;int&gt; &lt;list&gt;     </span></span>
+<span id="cb455-5"><a href="geocoding.html#cb455-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race~  40.0 -75.2   2.88e8 Data © O~ way      6.22e7 &lt;chr [4]&gt;  </span></span>
+<span id="cb455-6"><a href="geocoding.html#cb455-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 4 more variables: display_name &lt;chr&gt;, class &lt;chr&gt;,</span></span>
+<span id="cb455-7"><a href="geocoding.html#cb455-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   type &lt;chr&gt;, importance &lt;dbl&gt;</span></span></code></pre></div>
 <p>For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don’t seem very useful for our purposes such as the “importance” of the address. It’s interesting that OSM classifies this address as a “house” as the police headquarters for a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the “display_name.”</p>
 <p>Sometimes geocoders will be quite a bit off in their geocoding because they match the address you inputted incorrectly to one in their database. For example, if you input “123 Main Street” and the geocoder thinks you mean “123 Maine Street” you may be quite a bit off in the resulting coordinates. When you only get coordinates returns you won’t know that the coordinates are wrong. Even if you know where an address is supposed to be it’s hard to catch errors like this. If you’re geocoding addresses in a single city and one point is in a different city (or completely different part of the world), then it’s pretty clear that there’s an error. But if the coordinates are simply in a wrong part of the city, but near other coordinates, then it’s very hard to notice a problem. So having an address to check against the one you inputted is a very useful way of validate the geocoding.</p>
 <div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="geocoding.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;census&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb456-2"><a href="geocoding.html#cb456-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 18</span></span>
-<span id="cb456-3"><a href="geocoding.html#cb456-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address       lat  long matchedAddress    tigerLine.tiger~</span></span>
-<span id="cb456-4"><a href="geocoding.html#cb456-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;           </span></span>
-<span id="cb456-5"><a href="geocoding.html#cb456-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race S~  40.0 -75.2 750 RACE ST, PHI~ 131423677       </span></span>
-<span id="cb456-6"><a href="geocoding.html#cb456-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 13 more variables: tigerLine.side &lt;chr&gt;,</span></span>
-<span id="cb456-7"><a href="geocoding.html#cb456-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.fromAddress &lt;chr&gt;,</span></span>
-<span id="cb456-8"><a href="geocoding.html#cb456-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.toAddress &lt;chr&gt;,</span></span>
-<span id="cb456-9"><a href="geocoding.html#cb456-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preQualifier &lt;chr&gt;,</span></span>
-<span id="cb456-10"><a href="geocoding.html#cb456-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preDirection &lt;chr&gt;,</span></span>
-<span id="cb456-11"><a href="geocoding.html#cb456-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preType &lt;chr&gt;,</span></span>
-<span id="cb456-12"><a href="geocoding.html#cb456-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.streetName &lt;chr&gt;, ...</span></span></code></pre></div>
+<span id="cb456-3"><a href="geocoding.html#cb456-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address     lat  long matchedAddress tigerLine.tiger~ tigerLine.side</span></span>
+<span id="cb456-4"><a href="geocoding.html#cb456-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;chr&gt;            &lt;chr&gt;         </span></span>
+<span id="cb456-5"><a href="geocoding.html#cb456-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race~  40.0 -75.2 750 RACE ST, ~ 131423677        L             </span></span>
+<span id="cb456-6"><a href="geocoding.html#cb456-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 12 more variables: addressComponents.fromAddress &lt;chr&gt;,</span></span>
+<span id="cb456-7"><a href="geocoding.html#cb456-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.toAddress &lt;chr&gt;,</span></span>
+<span id="cb456-8"><a href="geocoding.html#cb456-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preQualifier &lt;chr&gt;,</span></span>
+<span id="cb456-9"><a href="geocoding.html#cb456-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preDirection &lt;chr&gt;,</span></span>
+<span id="cb456-10"><a href="geocoding.html#cb456-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.preType &lt;chr&gt;,</span></span>
+<span id="cb456-11"><a href="geocoding.html#cb456-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.streetName &lt;chr&gt;,</span></span>
+<span id="cb456-12"><a href="geocoding.html#cb456-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   addressComponents.suffixType &lt;chr&gt;, ...</span></span></code></pre></div>
 <p>These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns.</p>
 <div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="geocoding.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;arcgis&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb457-2"><a href="geocoding.html#cb457-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 11</span></span>
-<span id="cb457-3"><a href="geocoding.html#cb457-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address       lat  long arcgis_address    score location.x</span></span>
-<span id="cb457-4"><a href="geocoding.html#cb457-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;int&gt;      &lt;dbl&gt;</span></span>
-<span id="cb457-5"><a href="geocoding.html#cb457-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race S~  40.0 -75.2 750 Race St, Phi~   100      -75.2</span></span>
-<span id="cb457-6"><a href="geocoding.html#cb457-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 5 more variables: location.y &lt;dbl&gt;,</span></span>
-<span id="cb457-7"><a href="geocoding.html#cb457-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   extent.xmin &lt;dbl&gt;, extent.ymin &lt;dbl&gt;,</span></span>
-<span id="cb457-8"><a href="geocoding.html#cb457-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   extent.xmax &lt;dbl&gt;, extent.ymax &lt;dbl&gt;</span></span></code></pre></div>
+<span id="cb457-3"><a href="geocoding.html#cb457-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   address      lat  long arcgis_address    score location.x location.y</span></span>
+<span id="cb457-4"><a href="geocoding.html#cb457-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;             &lt;int&gt;      &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb457-5"><a href="geocoding.html#cb457-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race ~  40.0 -75.2 750 Race St, Phi~   100      -75.2       40.0</span></span>
+<span id="cb457-6"><a href="geocoding.html#cb457-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # ... with 4 more variables: extent.xmin &lt;dbl&gt;, extent.ymin &lt;dbl&gt;,</span></span>
+<span id="cb457-7"><a href="geocoding.html#cb457-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; #   extent.xmax &lt;dbl&gt;, extent.ymax &lt;dbl&gt;</span></span></code></pre></div>
 <p>For the ArcGIS results we have the matched address again, and then an important variable called “score” which is basically a measure of how confidence ArcGIS is that it matched the right address. Higher values are more confidence, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as “location.x” and “location.y” columns, and I’m not sure why they do so.</p>
 </div>
 <div id="geocoding-san-francisco-marijuana-dispensary-locations" class="section level2" number="25.2">
@@ -577,88 +575,76 @@ div.csl-indent {
 <div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="geocoding.html#cb458-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb458-2"><a href="geocoding.html#cb458-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_active_marijuana_retailers.csv&quot;</span>)</span>
 <span id="cb458-3"><a href="geocoding.html#cb458-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 33 Columns: 11</span></span>
-<span id="cb458-4"><a href="geocoding.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ------------------------------------</span></span>
+<span id="cb458-4"><a href="geocoding.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ----------------------------------------------</span></span>
 <span id="cb458-5"><a href="geocoding.html#cb458-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb458-6"><a href="geocoding.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr (11): License Number, License Type, Business Owner, ...</span></span>
+<span id="cb458-6"><a href="geocoding.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr (11): License Number, License Type, Business Owner, Business C...</span></span>
 <span id="cb458-7"><a href="geocoding.html#cb458-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb458-8"><a href="geocoding.html#cb458-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span id="cb458-9"><a href="geocoding.html#cb458-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
 <span id="cb458-10"><a href="geocoding.html#cb458-10" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(marijuana)</span></code></pre></div>
 <p>Let’s look at the top 6 rows.</p>
 <div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="geocoding.html#cb459-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
-<span id="cb459-2"><a href="geocoding.html#cb459-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    License Number                License Type</span></span>
-<span id="cb459-3"><a href="geocoding.html#cb459-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 C10-0000614-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-4"><a href="geocoding.html#cb459-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 C10-0000586-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-5"><a href="geocoding.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 C10-0000587-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-6"><a href="geocoding.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 C10-0000539-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-7"><a href="geocoding.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 C10-0000522-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-8"><a href="geocoding.html#cb459-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 C10-0000523-LIC Cannabis - Retailer License</span></span>
-<span id="cb459-9"><a href="geocoding.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Business Owner</span></span>
-<span id="cb459-10"><a href="geocoding.html#cb459-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     Terry Muller</span></span>
-<span id="cb459-11"><a href="geocoding.html#cb459-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    Jeremy Goodin</span></span>
-<span id="cb459-12"><a href="geocoding.html#cb459-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     Justin Jarin</span></span>
-<span id="cb459-13"><a href="geocoding.html#cb459-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Ondyn Herschelle</span></span>
-<span id="cb459-14"><a href="geocoding.html#cb459-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5      Ryan Hudson</span></span>
-<span id="cb459-15"><a href="geocoding.html#cb459-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6      Ryan Hudson</span></span>
-<span id="cb459-16"><a href="geocoding.html#cb459-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                           Business Contact Information</span></span>
-<span id="cb459-17"><a href="geocoding.html#cb459-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246</span></span>
-<span id="cb459-18"><a href="geocoding.html#cb459-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com</span></span>
-<span id="cb459-19"><a href="geocoding.html#cb459-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com</span></span>
-<span id="cb459-20"><a href="geocoding.html#cb459-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com</span></span>
-<span id="cb459-21"><a href="geocoding.html#cb459-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com</span></span>
-<span id="cb459-22"><a href="geocoding.html#cb459-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com</span></span>
-<span id="cb459-23"><a href="geocoding.html#cb459-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Business Structure</span></span>
-<span id="cb459-24"><a href="geocoding.html#cb459-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Limited Liability Company</span></span>
-<span id="cb459-25"><a href="geocoding.html#cb459-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2               Corporation</span></span>
-<span id="cb459-26"><a href="geocoding.html#cb459-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Corporation</span></span>
-<span id="cb459-27"><a href="geocoding.html#cb459-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4               Corporation</span></span>
-<span id="cb459-28"><a href="geocoding.html#cb459-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Limited Liability Company</span></span>
-<span id="cb459-29"><a href="geocoding.html#cb459-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Limited Liability Company</span></span>
-<span id="cb459-30"><a href="geocoding.html#cb459-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 Premise Address</span></span>
-<span id="cb459-31"><a href="geocoding.html#cb459-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO</span></span>
-<span id="cb459-32"><a href="geocoding.html#cb459-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO</span></span>
-<span id="cb459-33"><a href="geocoding.html#cb459-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO</span></span>
-<span id="cb459-34"><a href="geocoding.html#cb459-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO</span></span>
-<span id="cb459-35"><a href="geocoding.html#cb459-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO</span></span>
-<span id="cb459-36"><a href="geocoding.html#cb459-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO</span></span>
-<span id="cb459-37"><a href="geocoding.html#cb459-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Status Issue Date Expiration Date</span></span>
-<span id="cb459-38"><a href="geocoding.html#cb459-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Active  9/13/2019       9/12/2020</span></span>
-<span id="cb459-39"><a href="geocoding.html#cb459-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Active  8/26/2019       8/25/2020</span></span>
-<span id="cb459-40"><a href="geocoding.html#cb459-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Active  8/26/2019       8/25/2020</span></span>
-<span id="cb459-41"><a href="geocoding.html#cb459-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Active   8/5/2019        8/4/2020</span></span>
-<span id="cb459-42"><a href="geocoding.html#cb459-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Active  7/29/2019       7/28/2020</span></span>
-<span id="cb459-43"><a href="geocoding.html#cb459-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Active  7/29/2019       7/28/2020</span></span>
-<span id="cb459-44"><a href="geocoding.html#cb459-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  Activities Adult-Use/Medicinal</span></span>
-<span id="cb459-45"><a href="geocoding.html#cb459-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 N/A for this license type                BOTH</span></span>
-<span id="cb459-46"><a href="geocoding.html#cb459-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 N/A for this license type                BOTH</span></span>
-<span id="cb459-47"><a href="geocoding.html#cb459-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 N/A for this license type                BOTH</span></span>
-<span id="cb459-48"><a href="geocoding.html#cb459-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 N/A for this license type                BOTH</span></span>
-<span id="cb459-49"><a href="geocoding.html#cb459-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 N/A for this license type                BOTH</span></span>
-<span id="cb459-50"><a href="geocoding.html#cb459-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 N/A for this license type                BOTH</span></span></code></pre></div>
+<span id="cb459-2"><a href="geocoding.html#cb459-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    License Number                License Type   Business Owner</span></span>
+<span id="cb459-3"><a href="geocoding.html#cb459-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller</span></span>
+<span id="cb459-4"><a href="geocoding.html#cb459-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin</span></span>
+<span id="cb459-5"><a href="geocoding.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin</span></span>
+<span id="cb459-6"><a href="geocoding.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle</span></span>
+<span id="cb459-7"><a href="geocoding.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb459-8"><a href="geocoding.html#cb459-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb459-9"><a href="geocoding.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                                           Business Contact Information</span></span>
+<span id="cb459-10"><a href="geocoding.html#cb459-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246</span></span>
+<span id="cb459-11"><a href="geocoding.html#cb459-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com</span></span>
+<span id="cb459-12"><a href="geocoding.html#cb459-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com</span></span>
+<span id="cb459-13"><a href="geocoding.html#cb459-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com</span></span>
+<span id="cb459-14"><a href="geocoding.html#cb459-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com</span></span>
+<span id="cb459-15"><a href="geocoding.html#cb459-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com</span></span>
+<span id="cb459-16"><a href="geocoding.html#cb459-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          Business Structure</span></span>
+<span id="cb459-17"><a href="geocoding.html#cb459-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Limited Liability Company</span></span>
+<span id="cb459-18"><a href="geocoding.html#cb459-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2               Corporation</span></span>
+<span id="cb459-19"><a href="geocoding.html#cb459-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3               Corporation</span></span>
+<span id="cb459-20"><a href="geocoding.html#cb459-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4               Corporation</span></span>
+<span id="cb459-21"><a href="geocoding.html#cb459-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Limited Liability Company</span></span>
+<span id="cb459-22"><a href="geocoding.html#cb459-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Limited Liability Company</span></span>
+<span id="cb459-23"><a href="geocoding.html#cb459-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 Premise Address</span></span>
+<span id="cb459-24"><a href="geocoding.html#cb459-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO</span></span>
+<span id="cb459-25"><a href="geocoding.html#cb459-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO</span></span>
+<span id="cb459-26"><a href="geocoding.html#cb459-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO</span></span>
+<span id="cb459-27"><a href="geocoding.html#cb459-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO</span></span>
+<span id="cb459-28"><a href="geocoding.html#cb459-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO</span></span>
+<span id="cb459-29"><a href="geocoding.html#cb459-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO</span></span>
+<span id="cb459-30"><a href="geocoding.html#cb459-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Status Issue Date Expiration Date                Activities</span></span>
+<span id="cb459-31"><a href="geocoding.html#cb459-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Active  9/13/2019       9/12/2020 N/A for this license type</span></span>
+<span id="cb459-32"><a href="geocoding.html#cb459-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
+<span id="cb459-33"><a href="geocoding.html#cb459-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
+<span id="cb459-34"><a href="geocoding.html#cb459-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Active   8/5/2019        8/4/2020 N/A for this license type</span></span>
+<span id="cb459-35"><a href="geocoding.html#cb459-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
+<span id="cb459-36"><a href="geocoding.html#cb459-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
+<span id="cb459-37"><a href="geocoding.html#cb459-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Adult-Use/Medicinal</span></span>
+<span id="cb459-38"><a href="geocoding.html#cb459-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                BOTH</span></span>
+<span id="cb459-39"><a href="geocoding.html#cb459-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                BOTH</span></span>
+<span id="cb459-40"><a href="geocoding.html#cb459-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                BOTH</span></span>
+<span id="cb459-41"><a href="geocoding.html#cb459-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                BOTH</span></span>
+<span id="cb459-42"><a href="geocoding.html#cb459-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                BOTH</span></span>
+<span id="cb459-43"><a href="geocoding.html#cb459-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                BOTH</span></span></code></pre></div>
 <p>So the column with the address is called <em>Premise Address</em>. Since it’s easier to deal with columns that don’t have spacing in the name, we will be using <code>gsub()</code> to remove spacing from the column names. Each address also ends with “County:” followed by that address’s county, which in this case is always San Francisco. That isn’t normal in an address so it may affect our geocode. We need to <code>gsub()</code> that column to remove that part of the address.</p>
 <div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="geocoding.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(marijuana) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, <span class="fu">names</span>(marijuana))</span></code></pre></div>
 <p>Since the address issue is always " County: SAN FRANCISCO" we can just <code>gsub()</code> out that entire string.</p>
 <div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="geocoding.html#cb461-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>Premise_Address <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; County: SAN FRANCISCO&quot;</span>, <span class="st">&quot;&quot;</span>, marijuana<span class="sc">$</span>Premise_Address)</span></code></pre></div>
 <p>Now let’s make sure we did it right.</p>
 <div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="geocoding.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(marijuana)</span>
-<span id="cb462-2"><a href="geocoding.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;License_Number&quot;              </span></span>
-<span id="cb462-3"><a href="geocoding.html#cb462-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [2] &quot;License_Type&quot;                </span></span>
-<span id="cb462-4"><a href="geocoding.html#cb462-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Business_Owner&quot;              </span></span>
-<span id="cb462-5"><a href="geocoding.html#cb462-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] &quot;Business_Contact_Information&quot;</span></span>
-<span id="cb462-6"><a href="geocoding.html#cb462-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Business_Structure&quot;          </span></span>
-<span id="cb462-7"><a href="geocoding.html#cb462-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;Premise_Address&quot;             </span></span>
-<span id="cb462-8"><a href="geocoding.html#cb462-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Status&quot;                      </span></span>
-<span id="cb462-9"><a href="geocoding.html#cb462-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [8] &quot;Issue_Date&quot;                  </span></span>
-<span id="cb462-10"><a href="geocoding.html#cb462-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Expiration_Date&quot;             </span></span>
-<span id="cb462-11"><a href="geocoding.html#cb462-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] &quot;Activities&quot;                  </span></span>
-<span id="cb462-12"><a href="geocoding.html#cb462-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Adult-Use/Medicinal&quot;</span></span>
-<span id="cb462-13"><a href="geocoding.html#cb462-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana<span class="sc">$</span>Premise_Address)</span>
-<span id="cb462-14"><a href="geocoding.html#cb462-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2165 IRVING ST san francisco, CA 94122&quot; </span></span>
-<span id="cb462-15"><a href="geocoding.html#cb462-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;122 10TH ST SAN FRANCISCO, CA 941032605&quot;</span></span>
-<span id="cb462-16"><a href="geocoding.html#cb462-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;843 Howard ST SAN FRANCISCO, CA 94103&quot;  </span></span>
-<span id="cb462-17"><a href="geocoding.html#cb462-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;70 SECOND ST SAN FRANCISCO, CA 94105&quot;   </span></span>
-<span id="cb462-18"><a href="geocoding.html#cb462-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;527 Howard ST San Francisco, CA 94105&quot;  </span></span>
-<span id="cb462-19"><a href="geocoding.html#cb462-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;2414 Lombard ST San Francisco, CA 94123&quot;</span></span></code></pre></div>
+<span id="cb462-2"><a href="geocoding.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;License_Number&quot;               &quot;License_Type&quot;                </span></span>
+<span id="cb462-3"><a href="geocoding.html#cb462-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;Business_Owner&quot;               &quot;Business_Contact_Information&quot;</span></span>
+<span id="cb462-4"><a href="geocoding.html#cb462-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;Business_Structure&quot;           &quot;Premise_Address&quot;             </span></span>
+<span id="cb462-5"><a href="geocoding.html#cb462-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;Status&quot;                       &quot;Issue_Date&quot;                  </span></span>
+<span id="cb462-6"><a href="geocoding.html#cb462-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;Expiration_Date&quot;              &quot;Activities&quot;                  </span></span>
+<span id="cb462-7"><a href="geocoding.html#cb462-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [11] &quot;Adult-Use/Medicinal&quot;</span></span>
+<span id="cb462-8"><a href="geocoding.html#cb462-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana<span class="sc">$</span>Premise_Address)</span>
+<span id="cb462-9"><a href="geocoding.html#cb462-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2165 IRVING ST san francisco, CA 94122&quot; </span></span>
+<span id="cb462-10"><a href="geocoding.html#cb462-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;122 10TH ST SAN FRANCISCO, CA 941032605&quot;</span></span>
+<span id="cb462-11"><a href="geocoding.html#cb462-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;843 Howard ST SAN FRANCISCO, CA 94103&quot;  </span></span>
+<span id="cb462-12"><a href="geocoding.html#cb462-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;70 SECOND ST SAN FRANCISCO, CA 94105&quot;   </span></span>
+<span id="cb462-13"><a href="geocoding.html#cb462-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;527 Howard ST San Francisco, CA 94105&quot;  </span></span>
+<span id="cb462-14"><a href="geocoding.html#cb462-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;2414 Lombard ST San Francisco, CA 94123&quot;</span></span></code></pre></div>
 <p>To do the geocoding we’ll just tell <code>geocode</code> our data.frame name and the name of the column with the addresses. We’ll save the results back into the <code>marijuana</code> object. As noted earlier, we don’t need to put the name of our column in quotes, but I like to do so because it is consistent with some other functions that require it. Running this code may take up to a minute because it’s geocoding 33 different addresses.</p>
 <div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="geocoding.html#cb463-1" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">geocode</span>(marijuana, <span class="st">&quot;Premise_Address&quot;</span>)</span></code></pre></div>
 <p>Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.</p>

@@ -11,9 +11,9 @@ Since we will be working more on the suicide data from San Francisco, let's read
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 #> Rows: 1292 Columns: 14
-#> -- Column specification ------------------------------------
+#> -- Column specification ----------------------------------------------
 #> Delimiter: ","
-#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistric...
+#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolut...
 #> dbl  (5): IncidntNum, X, Y, PdId, year
 #> time (1): Time
 #> 
@@ -42,7 +42,8 @@ I downloaded this data from San Francisco's Open Data site [here](https://data.s
 
 ```r
 sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp")
-#> Reading layer `san_francisco_neighborhoods' from data source `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp' 
+#> Reading layer `san_francisco_neighborhoods' from data source 
+#>   `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp' 
 #>   using driver `ESRI Shapefile'
 #> Simple feature collection with 41 features and 1 field
 #> Geometry type: MULTIPOLYGON
@@ -61,20 +62,13 @@ head(sf_neighborhoods)
 #> Dimension:     XY
 #> Bounding box:  xmin: -122.4543 ymin: 37.70822 xmax: -122.357 ymax: 37.80602
 #> Geodetic CRS:  WGS84(DD)
-#>                            nhood
-#> 1          Bayview Hunters Point
-#> 2                 Bernal Heights
-#> 3            Castro/Upper Market
-#> 4                      Chinatown
-#> 5                      Excelsior
-#> 6 Financial District/South Beach
-#>                         geometry
-#> 1 MULTIPOLYGON (((-122.3816 3...
-#> 2 MULTIPOLYGON (((-122.4036 3...
-#> 3 MULTIPOLYGON (((-122.4266 3...
-#> 4 MULTIPOLYGON (((-122.4062 3...
-#> 5 MULTIPOLYGON (((-122.424 37...
-#> 6 MULTIPOLYGON (((-122.3875 3...
+#>                            nhood                       geometry
+#> 1          Bayview Hunters Point MULTIPOLYGON (((-122.3816 3...
+#> 2                 Bernal Heights MULTIPOLYGON (((-122.4036 3...
+#> 3            Castro/Upper Market MULTIPOLYGON (((-122.4266 3...
+#> 4                      Chinatown MULTIPOLYGON (((-122.4062 3...
+#> 5                      Excelsior MULTIPOLYGON (((-122.424 37...
+#> 6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...
 ```
 
 The last column is important. In shapefiles, the "geometry" column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the "geometry" column in each row has a list of coordinates which, if connected in order, make up that neighborhood. Since the "geometry" column contains the instructions to map, we can `plot()` it to show a map of the data. 
@@ -252,41 +246,34 @@ head(suicide)
 #> Dimension:     XY
 #> Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> Projected CRS: NAD83 / California zone 3 (ftUS)
-#>   IncidntNum Category                           Descript
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION
-#> 4  180263659  SUICIDE                            SUICIDE
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION
-#>   DayOfWeek       Date     Time PdDistrict Resolution
-#> 1    Monday 04/30/2018 06:30:00    TARAVAL       NONE
-#> 2  Saturday 04/28/2018 17:54:00   NORTHERN       NONE
-#> 3  Saturday 04/21/2018 12:20:00   RICHMOND       NONE
-#> 4   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE
-#> 5    Friday 03/30/2018 09:15:00    TARAVAL       NONE
-#> 6  Thursday 03/29/2018 17:30:00   RICHMOND       NONE
-#>                   Address
-#> 1     0 Block of BRUCE AV
-#> 2   700 Block of HAYES ST
-#> 3   3700 Block of CLAY ST
-#> 4     0 Block of DRUMM ST
-#> 5 0 Block of FAIRFIELD WY
-#> 6    300 Block of 29TH AV
-#>                                         Location
-#> 1  POINT (-122.45168059935614 37.72218061554315)
-#> 2  POINT (-122.42876060987851 37.77620120112792)
-#> 3   POINT (-122.45462091999406 37.7881754224736)
-#> 4  POINT (-122.39642194376758 37.79414474237039)
-#> 5  POINT (-122.46324153155875 37.72679184368551)
-#> 6 POINT (-122.48929119750689 37.782735835121265)
-#>           PdId year                geometry
-#> 1 1.803189e+13 2018 POINT (5997229 2091310)
-#> 2 1.803155e+13 2018 POINT (6004262 2110838)
-#> 3 1.802957e+13 2018 POINT (5996881 2115353)
-#> 4 1.802637e+13 2018 POINT (6013739 2117180)
-#> 5 1.802355e+13 2018 POINT (5993921 2093059)
-#> 6 1.802365e+13 2018 POINT (5986822 2113584)
+#>   IncidntNum Category                           Descript DayOfWeek
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
+#>         Date     Time PdDistrict Resolution                 Address
+#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>                                         Location         PdId year
+#> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+#> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+#> 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+#> 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+#> 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+#> 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
+#>                  geometry
+#> 1 POINT (5997229 2091310)
+#> 2 POINT (6004262 2110838)
+#> 3 POINT (5996881 2115353)
+#> 4 POINT (6013739 2117180)
+#> 5 POINT (5993921 2093059)
+#> 6 POINT (5986822 2113584)
 ```
 
 We can see it is now a "simple feature collection" with the correct projection. And we can see there is a new column called "geometry" just like in *sf_neighborhoods*. The type of data in "geometry" is POINT since our data is just a single location instead of a polygon like in the neighborhoods data. 
@@ -325,48 +312,34 @@ head(suicide_agg)
 #> Dimension:     XY
 #> Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> Projected CRS: NAD83 / California zone 3 (ftUS)
-#>   IncidntNum Category                           Descript
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION
-#> 4  180263659  SUICIDE                            SUICIDE
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION
-#>   DayOfWeek       Date     Time PdDistrict Resolution
-#> 1    Monday 04/30/2018 06:30:00    TARAVAL       NONE
-#> 2  Saturday 04/28/2018 17:54:00   NORTHERN       NONE
-#> 3  Saturday 04/21/2018 12:20:00   RICHMOND       NONE
-#> 4   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE
-#> 5    Friday 03/30/2018 09:15:00    TARAVAL       NONE
-#> 6  Thursday 03/29/2018 17:30:00   RICHMOND       NONE
-#>                   Address
-#> 1     0 Block of BRUCE AV
-#> 2   700 Block of HAYES ST
-#> 3   3700 Block of CLAY ST
-#> 4     0 Block of DRUMM ST
-#> 5 0 Block of FAIRFIELD WY
-#> 6    300 Block of 29TH AV
-#>                                         Location
-#> 1  POINT (-122.45168059935614 37.72218061554315)
-#> 2  POINT (-122.42876060987851 37.77620120112792)
-#> 3   POINT (-122.45462091999406 37.7881754224736)
-#> 4  POINT (-122.39642194376758 37.79414474237039)
-#> 5  POINT (-122.46324153155875 37.72679184368551)
-#> 6 POINT (-122.48929119750689 37.782735835121265)
-#>           PdId year                          nhood
-#> 1 1.803189e+13 2018     Oceanview/Merced/Ingleside
-#> 2 1.803155e+13 2018                   Hayes Valley
-#> 3 1.802957e+13 2018               Presidio Heights
-#> 4 1.802637e+13 2018 Financial District/South Beach
-#> 5 1.802355e+13 2018             West of Twin Peaks
-#> 6 1.802365e+13 2018                 Outer Richmond
-#>                  geometry
-#> 1 POINT (5997229 2091310)
-#> 2 POINT (6004262 2110838)
-#> 3 POINT (5996881 2115353)
-#> 4 POINT (6013739 2117180)
-#> 5 POINT (5993921 2093059)
-#> 6 POINT (5986822 2113584)
+#>   IncidntNum Category                           Descript DayOfWeek
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
+#>         Date     Time PdDistrict Resolution                 Address
+#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>                                         Location         PdId year
+#> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
+#> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
+#> 3   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018
+#> 4  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018
+#> 5  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018
+#> 6 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018
+#>                            nhood                geometry
+#> 1     Oceanview/Merced/Ingleside POINT (5997229 2091310)
+#> 2                   Hayes Valley POINT (6004262 2110838)
+#> 3               Presidio Heights POINT (5996881 2115353)
+#> 4 Financial District/South Beach POINT (6013739 2117180)
+#> 5             West of Twin Peaks POINT (5993921 2093059)
+#> 6                 Outer Richmond POINT (5986822 2113584)
 ```
 
 There is now the *nhood* column from the neighborhoods data which says which neighborhood the suicide happened in. Now we can aggregate up to the neighborhood-level using `group_by()` and `summarize()` functions from the `dplyr` package. 
