@@ -145,10 +145,10 @@ If we check the `head()` we can see that we have the proper columns now but this
 head(sector_profile)
 ```
 
-We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
+We can make it a data.frame just by putting it in `data.frame()`. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
 
 ```{r}
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "apprehensions",
@@ -180,7 +180,7 @@ sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
 sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "total_apprehensions",
@@ -203,7 +203,7 @@ scrape_pdf <- function(list_of_tables, table_number, number_columns, column_name
   data <- data[[1]]
   data <- data[grep("Miami", data):grep("Nationwide Total", data)]
   data <- str_split_fixed(data, " {2,}", number_columns)
-  data <- data.frame(data, stringsAsFactors = FALSE)
+  data <- data.frame(data)
   names(data) <- column_names
   
   return(data)

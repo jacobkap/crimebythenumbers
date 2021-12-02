@@ -83,9 +83,7 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-1-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Little picture data example
 
@@ -195,9 +193,7 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Reusing and modifying code
 
@@ -230,8 +226,6 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph. 

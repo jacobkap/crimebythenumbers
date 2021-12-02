@@ -157,7 +157,7 @@ For the ArcGIS results we have the matched address again, and then an important 
 
 ## Geocoding San Francisco marijuana dispensary locations
 
-So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispersary data.
+So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispensary data.
 
 Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly.
 
@@ -311,9 +311,7 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

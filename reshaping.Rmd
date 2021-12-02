@@ -21,7 +21,7 @@ sqf <- read_excel("data/sqf-2019.xlsx")
 
 The first thing we want to do when loading in a new dataset to R is to look at it. We can do this a few different ways, including using `View()` which opens up an Excel-like tab where we can scroll through the data, and through `head()`. We'll use `head()` here.
 
-The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use `head()` to view the first 6 rows of each columns. That's because tibble's don't want to print large amounts of text to the console. In our case, however, we do want to see each column so we'll first convert sqf to a data.frame using the `data.frame()` function and then look at `head()`. Let's also use `nrow()` to see how many rows of data we have.
+The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use `head()` to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console. In our case, however, we do want to see each column, so we'll first convert sqf to a data.frame using the `data.frame()` function and then look at `head()`. Let's also use `nrow()` to see how many rows of data we have.
 
 ```{r}
 sqf <- data.frame(sqf)
@@ -37,7 +37,7 @@ Looking at the results of `head()`, we can see that this is a rich dataset with 
 
 Relative to most datasets in criminology, this is an enormous amount of information. So I encourage you to explore this data and practice your R skills. As this chapter focuses on reshaping, we won't do much exploring of the data. This data is in long format as each row is a different stop and the columns are information about that specific stop. We can't convert this to wide format as there are no repeated entries in the data; each row is of a unique person stopped (at least as far as we can tell. In reality there are likely to be many people stopped multiple times in the data). We could use another variable such as stopped persons' race or gender and reshape it using that, but that'll lead to many thousands of columns so is not a great idea. 
 
-Instead, we'll first aggregate the data and then reshape that aggregated data. We'll aggregate the data by month and by day of week, and see how many people of each race were stopped at each month-day-of-week. In addition to `tidyr`, we'll use functions from `dplyr` to aggregate our data. Since we've already installed that package we just need to use `library()` and don't need to use `install.packages()` again. We've already used the `group_by()` function in aggregating, and now we'll introduce a new function: `count()`. In our earlier aggregation code, we used the function `summarize()` and summed up columns which had a numeric variable (e.g. the number of murders). `count()` works similarly by sums up categorical variables, which in our case is the race of people stopped. Using `count()` we enter in the categorical column in the parentheses and it'll make a new column called "n" which is the sum of each category. Since we're aggregating the data let's save the result of our aggregating to a new object called "sqf_agg".
+Instead, we'll first aggregate the data and then reshape that aggregated data. We'll aggregate the data by month and by day of week and see how many people of each race were stopped at each month-day-of-week. In addition to `tidyr`, we'll use functions from `dplyr` to aggregate our data. Since we've already installed that package we just need to use `library()` and don't need to use `install.packages()` again. We've already used the `group_by()` function in aggregating, and now we'll introduce a new function: `count()`. In our earlier aggregation code, we used the function `summarize()` and summed up columns which had a numeric variable (e.g. the number of murders). `count()` works similarly by sums up categorical variables, which in our case is the race of people stopped. Using `count()` we enter in the categorical column in the parentheses, and it'll make a new column called "n" which is the sum of each category. Since we're aggregating the data let's save the result of our aggregating to a new object called "sqf_agg".
 
 ```{r}
 library(tidyr)
@@ -118,7 +118,7 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 ```
 
-## Reshaping a multiple columns
+## Reshaping multiple columns
 
 So far we've just been reshaping using a single column. This is the simplest method, but in some cases we'll need to reshape using multiple columns. As an example, let's make a new column in our "sqf_agg" dataset which just adds 10 to the value in our "n" column. 
 
