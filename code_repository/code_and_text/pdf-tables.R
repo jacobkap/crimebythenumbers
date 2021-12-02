@@ -266,3 +266,7 @@ head(final_data)
 
 #' 
 #' In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove commas then using `as.numeric()`  (or the `parse_numeric()` function from `readr`) on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  
+#' 
+#' ## Practice problems
+#' 
+#' For answers, please see Section \@ref(problem-answers-chapter-23). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

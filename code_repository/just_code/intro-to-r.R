@@ -16,7 +16,7 @@ example_123_value.demonstration
 
 head(mtcars)
 
-install.packages("meditations")
+## install.packages("meditations")
 
 library(meditations)
 

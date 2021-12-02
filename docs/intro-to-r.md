@@ -184,7 +184,6 @@ Downloading a package through R code uses - like pretty much everything else in 
 
 ```r
 install.packages("meditations")
-#> Warning: package 'meditations' is in use and will not be installed
 ```
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
@@ -198,12 +197,12 @@ Once we have downloaded the package we need to tell R that we want to use that p
 library(meditations)
 ```
 
-Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincident that the function name is the same as the package name). 
+Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincidence that the function name is the same as the package name). 
 
 
 ```r
 meditations()
-#> [1] "When thou risest from sleep with reluctance, remember that it is according to thy constitution and according to human nature to perform social acts, but sleeping is common also to irrational animals. But that which is according to each individual's nature is also more peculiarly its own, and more suitable to its nature, and indeed also more agreeable."
+#> [1] "These three principles thou must have in readiness. In the things which thou doest do nothing either inconsiderately or otherwise than as justice herself would act; but with respect to what may happen to thee from without, consider that it happens either by chance or according to Providence, and thou must neither blame chance nor accuse Providence. Second, consider what every being is from the seed to the time of its receiving a soul, and from the reception of a soul to the giving back of the same, and of what things every being is compounded and into what things it is resolved. Third, if thou shouldst suddenly be raised up above the earth, and shouldst look down on human things, and observe the variety of them how great it is, and at the same time also shouldst see at a glance how great is the number of beings who dwell around in the air and the aether, consider that as often as thou shouldst be raised up, thou wouldst see the same things, sameness of form and shortness of duration. Are these things to be proud of?"
 ```
 
 ## Reading data into R
@@ -300,7 +299,9 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
 
@@ -308,7 +309,6 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 ```r
 View(ucr2017)
 ```
-
 
 ## Practice problems
 

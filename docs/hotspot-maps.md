@@ -98,7 +98,9 @@ sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996),
 sf_map
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-5-1} \end{center}
 
 Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
 
@@ -110,7 +112,9 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 If we wanted to color the dots, we can use `color = ` and then select a color. Let's try it with "forestgreen".
 
@@ -123,7 +127,9 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 As with other graphs we can change the size of the dot using `size = `.
 
@@ -137,7 +143,9 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 
 ```r
@@ -149,7 +157,9 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
@@ -164,7 +174,9 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost. 
 
@@ -177,7 +189,9 @@ Let's pause for a moment to think about what a map really is. Below, I made a si
 plot(suicide$X, suicide$Y, col = "forestgreen")
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 ## Making a hotspot map
 
@@ -202,7 +216,9 @@ sf_map +
 #> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
 
@@ -221,7 +237,9 @@ sf_map +
 #> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
@@ -240,7 +258,9 @@ sf_map +
 #> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself. 
 
@@ -263,7 +283,9 @@ sf_map +
 #> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 By default it labels the legend as "count". Since we know these are counts of suicides let's relabel that as such.
 
@@ -283,7 +305,9 @@ sf_map +
 #> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 
 ## Practice problems

@@ -288,33 +288,21 @@ We could also just geocode the 10 addresses that failed on the first run, but gi
 marijuana$long <- NULL
 marijuana$lat  <- NULL
 marijuana      <- geocode(marijuana, "Premise_Address", method = "arcgis")
-#> Warning in query_api(api_url, api_query_parameters, method = method):
-#> Gateway Timeout (HTTP 504).
-#> Error: <html>
-#> <head><title>504 Gateway Time-out</title></head>
-#> <body>
-#> <center><h1>504 Gateway Time-out</h1></c
-#> Warning in query_api(api_url, api_query_parameters, method = method):
-#> Gateway Timeout (HTTP 504).
-#> Error: <html>
-#> <head><title>504 Gateway Time-out</title></head>
-#> <body>
-#> <center><h1>504 Gateway Time-out</h1></c
 ```
 And let's do the `summary()` check again. 
 
 
 ```r
 summary(marijuana$long)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4       2
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4
 ```
 
 
 ```r
 summary(marijuana$lat)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>   37.71   37.76   37.78   37.77   37.78   37.80       2
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#>   37.71   37.76   37.77   37.77   37.78   37.80
 ```
 No more NAs which means that we successfully geocoded our addresses. Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
 
@@ -323,7 +311,9 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

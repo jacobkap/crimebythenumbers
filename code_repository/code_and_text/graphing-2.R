@@ -1,6 +1,5 @@
 #' # More graphing with `ggplot2` {#ois_graphs}
 #' 
-#' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv.
 #' 
 #' In this lesson we will continue to explore graphing using `ggplot()`. The data we will use is microdata on officer-involved shootings that result in a death in the United States since January 1st, 2015. This data has been compiled and released by the Washington Post so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. Each row of data is a different person who was shot and killed by the police, and each column gives us information about the individual or the shooting, such as their age, their location, and whether they carried any weapon. 
@@ -292,7 +291,7 @@ head(shootings$year)
 #' 
 #' Since the data is already sorted by date, all the values printed from `head()` are the same. But you can look at the data using `View()` to confirm that the code worked properly. 
 #' 
-#' We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. We'll use the `group_by()` and `summarize()` functions from `dplyr` that were introduced in Chapter \@ref(#explore) to do this. And we'll use the pipe method of writing `dplyr` code that was discussed in Section \@ref(#dplyr-pipes)
+#' We can now aggregate the data by the "month_year" variable and save the result into a new dataset we'll call *monthly_shootings*. We'll use the `group_by()` and `summarize()` functions from `dplyr` that were introduced in Chapter \@ref(explore) to do this. And we'll use the pipe method of writing `dplyr` code that was discussed in Section \@ref(dplyr-pipes)
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(dplyr)
@@ -353,3 +352,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line() +
   theme_excel()
 
+#' 
+#' ## Practice problems
+#' 
+#' For answers, please see Section \@ref(problem-answers-chapter-16). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

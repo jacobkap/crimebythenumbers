@@ -71,7 +71,7 @@
 #' 
 #' The final tab we'll look at is Pane Layout. This lets you move around the Source, Console, and the other two panels. There are a number of different tabs to select for the panels (unchecking one just moves it to the other panel, it doesn't remove it from RStudio) and we'll talk about three of them. The Environment tab shows every object you load into R or make in R. So if you load a file called "data" you can check the Environment tab. If it is there, you have loaded the file correctly. 
 #' 
-#' As we'll discuss more in Section \@ref(#functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
+#' As we'll discuss more in Section \@ref(functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
 #' 
 #' ![](images/rstudio_9.PNG)
 #' 
@@ -140,7 +140,7 @@ example_123_value.demonstration
 #' 
 #' Let's look at the function `head()` as an example. This is a function that is already built into R which means we don't need to do anything to use it. For functions that are written by other R programmers we'll need to download those functions and tell R we want to use it - and we'll show how in a bit. The way to identify a function is through the parentheses after the function name (the naming convention is the same as for objects as discussed in the previous section. We want a short, descriptive name that explains what the function does.). If we see a word followed by parentheses, we can be confident that we're looking at a function.
 #' 
-#' The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(#data_types)). `head()` is an extremely useful and common function in R, but just the name alone doesn't make it clear what it does or that we need to put a data object inside the parentheses. 
+#' The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(data_types)). `head()` is an extremely useful and common function in R, but just the name alone doesn't make it clear what it does or that we need to put a data object inside the parentheses. 
 #' 
 #' If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
 #' 
@@ -162,8 +162,8 @@ head(mtcars)
 #' 
 #' Downloading a package through R code uses - like pretty much everything else in R - a function. This function is `install.packages()` where we put the name of the package we want in the (). This name also has to be in quotes since it is an object that is not currently in R. Let's install the package "meditations" which is a simple package I made that gives a random quote from the book Meditations by Marcus Aurelius. We need to run the code `install.packages("meditations")` and be sure to spell "meditations" right and put it in quotes.
 #' 
-## ---------------------------------------------------------------------------------------------------
-install.packages("meditations")
+## ---- eval = FALSE----------------------------------------------------------------------------------
+## install.packages("meditations")
 
 #' 
 #' The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
@@ -176,7 +176,7 @@ install.packages("meditations")
 library(meditations)
 
 #' 
-#' Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincident that the function name is the same as the package name). 
+#' Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincidence that the function name is the same as the package name). 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 meditations()
@@ -242,3 +242,7 @@ plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ## ----eval = FALSE-----------------------------------------------------------------------------------
 ## View(ucr2017)
 
+#' 
+#' ## Practice problems
+#' 
+#' For answers, please see Section \@ref(problem-answers-chapter-3). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.
