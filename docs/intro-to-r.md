@@ -202,7 +202,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "The Pythagoreans bid us in the morning look to the heavens that we may be reminded of those bodies which continually do the same things and in the same manner perform their work, and also be reminded of their purity and nudity. For there is no veil over a star."
+#> [1] "Another may be more expert in casting his opponent; but he is not more social, nor more modest, nor better disciplined to meet all that happens, nor more considerate with respect to the faults of his neighbours."
 ```
 
 ## Reading data into R
