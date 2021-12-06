@@ -25,9 +25,7 @@ class(TRUE)
 
 is.numeric(2)
 is.character("2")
-
 is.character(2)
-
 is.logical(TRUE)
 
 load("data/ucr2017.rda")

@@ -16,7 +16,7 @@ animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
 animals
 
 #' 
-#' Here we have made an object called *animals* with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6 (some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.).
+#' Here we have made an object called *animals* with a number of different animals in it. In R, we will use square brackets `[]` to select specific values in that object, something called "indexing". Put a number (or numbers) in the square bracket and it will return the value at that "index". The index is just the place number where each value is. "cat" is the first value in *animals* so it is at the first index, "dog" is the second value so it is the second index or index 2. "snake" is our last value and is the 6th value in *animals* so it is index 6.^[some languages use "zero indexing" which means the first index is index 0, the second is index 1. So in our example "cat" would be index 0. R does not do that and the first value is index 1, the second is index 2 and so on.]
 #' 
 #' The syntax (how the code is written) goes
 #' 
@@ -90,17 +90,17 @@ animals
 #' 
 #' ## Logical values and operations
 #' 
-#' We also frequently want to conditionally select certain values. Earlier we selected values indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. When we talk about logical values, we mean TRUE and FALSE - in R you must spell it in all capital letters.
+#' We also frequently want to conditionally select certain values. Earlier we selected values by indexing specific numbers, but that requires us to know exactly which values we want. We can conditionally select values by having some conditional statement (e.g. "this value is lower than the number 100") and keeping only values where that condition is true. 
 #' 
 #' First, we will discuss conditionals abstractly and then we will use a real example using data from the FBI to make a data set tailored to answer a specific question.
 #' 
-#' We can use these TRUE and FALSE values to index and it will return every element which we say is TRUE. 
+#' We can use these TRUE and FALSE (in R true and false must be spelled all in capital letters and without quotes. For the book section on logical values, please see Section \@ref(section-data-types).) values to index and it will return every element which we say is TRUE. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 animals[c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE)]
 
 #' 
-#' This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (data in a single state (or multiple states), at a certain time, at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn't. There are a number of different ways to make conditional statements. First let's go through some special characters involved and then show examples of each one.
+#' This is the basis of conditional subsetting. If we have a large data set and only want a small chunk based on some condition (e.g. data for certain states, data for a certain time period, data with at least a certain population) we need to make a conditional statement that returns TRUE if it matches what we want and FALSE if it doesn't. There are a number of different ways to make conditional statements. First let's go through some special characters involved and then show examples of each one.
 #' 
 #' For each case you are asking: does the thing on the left of the conditional statement return TRUE or FALSE compared to the thing on the right. 
 #' 
@@ -132,7 +132,7 @@ numbers <- 1:10
 2 == 3
 
 #' 
-#' And it works when we have multiple numbers on the left side, such as our object called *numbers*.
+#' And it works when we have multiple numbers on the left side, such as our object called *numbers*. This returns TRUE only for the value in *numbers* that is 2. For all other values it returns FALSE.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 numbers == 2
@@ -220,11 +220,11 @@ numbers > 3
 #' 
 #' This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the right side to figure out how much to feed your dog.^[If you encounter some conditional statements that confuse you - which will be more common and you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.] 
 #' 
-#' So if we wanted to figure out how much to feed a dog that is three months old and will be 4.4 pounds, we'd use the first row on the left (which says 4.4 pounds/2.2 kilograms) and the second columns (which says three months old). When the dog gets to be four months old we'd keep the same row but now move one column to the right. In normal English you'd say that the dog is four months old and their expected size is 4.4 pounds (2 kg). The language when talking about (and writing code for) a conditional statement in programming is a bit more formal where every condition is spoken as a yes or no question. Here we ask is the dog four months old? **and** is the expected weight 4.4 pounds. If both are true, then we give the dog the amount of food shown for those conditions. If only one is true, then the whole thing is wrong - we wouldn't want to underfeed or overfeed our dog. In this example, a two four old dog can eat between 5/8th of a cup of food and two cups depending on their expected size. So having only one  condition be true isn't enough. 
+#' So if we wanted to figure out how much to feed a dog that is three months old and will be 4.4 pounds, we'd use the first row on the left (which says 4.4 pounds/2.2 kilograms) and the second columns (which says three months old). When the dog gets to be four months old we'd keep the same row but now move one column to the right. In normal English you'd say that the dog is four months old and their expected size is 4.4 pounds (2 kg). The language when talking about (and writing code for) a conditional statement in programming is a bit more formal where every condition is spoken as a yes or no question. Here we ask is the dog four months old **and** is the expected weight 4.4 pounds? If both are true, then we give the dog the amount of food shown for those conditions. If only one is true, then the whole thing is wrong - we wouldn't want to underfeed or overfeed our dog. In this example, a four month old dog can eat between 5/8th of a cup of food and two cups depending on their expected size. So having only one  condition be true isn't enough. 
 #' 
-#' Can you see any issue with this conditional statement matrix? It doesn't cover the all possible choices for age and weight combinations. In fact, it is really quite narrow in what it does cover. For example, it covers two and three months, but not any age in between. We can assume that a dog that is 2.5 months old would eat the average of two and three month meal amounts, but wouldn't know for sure. When making your own statements please consider what conditions I am checking for - and, importantly, what I'm leaving out.
+#' Can you see any issue with this conditional statement matrix? It doesn't cover the all possible choices for age and weight combinations. In fact, it is really quite narrow in what it does cover. For example, it covers two and three months, but not any age in between. We can assume that a dog that is 2.5 months old would eat the average of two and three month meal amounts, but wouldn't know for sure. When making your own statements please consider what conditions you are checking for - and, importantly, what you're leaving out.
 #' 
-#' For a real data example, let's say you have crime data from every state between 1960 and 2017. Your research question is "did Colorado's marijuana legalization affect crime in the state?" In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year. 
+#' For a real data example, let's say you have crime data from every state between 1960 and 2020 Your research question is "did Colorado's marijuana legalization affect crime in the state?" In that case you want only data from Colorado. Since legalization began in January 2014, you wouldn't need every year, only years some period of time before and after legalization to be able to measure its effect. So you would need to subset based on the state and the year. 
 #' 
 #' To make conditional statements with multiple conditions we use `|` for "or" and `&` for "and". 
 #' 
@@ -246,39 +246,39 @@ numbers > 3
 #' 
 #' ## Subsetting a data.frame 
 #' 
-#' Earlier we were using a simple vector (collection of values). In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which you can imagine as being like an Excel file with multiple rows and columns. 
+#' Earlier we were using a simple vector. In this class - and in your own work - you will usually work on an entire data set. These generally come in the form called a "data.frame" which you can imagine as being like an Excel file with multiple rows and columns. 
 #' 
 #' Let's load in data from the Uniform Crime Report (UCR), an FBI data set that we'll work on in a later lesson. This data has crime data every year from 1960-2020 and for nearly every agency in the country.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020 <- readRDS("data/offenses_known_yearly_1960_2020.rds")
+ucr <- readRDS("data/offenses_known_yearly_1960_2020.rds")
 
 #' 
 #' Let's peak at the first 6 rows and 6 columns using the square bracket notation `[]` for data.frames which we'll explain more below.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1:6, 1:6]
+ucr[1:6, 1:6]
 
 #' 
-#' The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2017-2012. For good measure let's check how many rows and columns are in this data. This will give us some guidance on subsetting which we'll see below. `nrow()` gives us the number of rows and `ncol()` gives us the number of columns.
+#' The first 6 rows appear to be agency identification info for Anchorage, Alaska from 2015-2020 For good measure let's check how many rows and columns are in this data. This will give us some guidance on subsetting which we'll see below. `nrow()` gives us the number of rows and `ncol()` gives us the number of columns.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-nrow(offenses_known_yearly_1960_2020)
+nrow(ucr)
 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-ncol(offenses_known_yearly_1960_2020)
+ncol(ucr)
 
 #' 
-#' This is a large file with 223 columns and over a million rows. Normally we wouldn't want to print out the names of all 223 columns but let's do this here as we want to know the variables available to subset.
+#' This is a large file with 223 columns and over a million rows. Normally we wouldn't want to print out the names of all 223 columns but let's do so here as we want to know the variables available to subset. We can use `names()` to see the name of every column in a data.frame. Inside the parentheses we put the data.frame name (without quotes).
 #' 
 ## ---------------------------------------------------------------------------------------------------
-names(offenses_known_yearly_1960_2020)
+names(ucr)
 
 #' 
 #' Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?" Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
 #' 
-#' We also don't need all 159 columns in the current data. Let's say we're only interested in if murder changes. We'd need the column called *actual_murder*, the *state* column (as a check to make sure we subset only Colorado), the *year* column, the *population* column, the *ori* column, and the *agency_name* column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we're just using it as an example). The last two columns - *ori* and *agency_name* - aren't strictly necessary but would be useful if checking if an agency's values are reasonable when checking for outliers, a step we won't do here. 
+#' We also don't need all 223 columns in the current data. Let's say we're only interested in if murder changes. We'd need the column called *actual_murder*, the *state* column (as a check to make sure we subset only Colorado), the *year* column, the *population* column, the *ori* column, and the *agency_name* column (a real analysis would likely grab geographic variables too to see if changes depended on location but here we're just using it as an example). The last two columns - *ori* and *agency_name* - aren't strictly necessary but would be useful if checking if an agency's values are reasonable (e.g. see if that agency had a suddent huge spike or decline in reported crimes) when checking for outliers, a step we won't do here. 
 #' 
 #' Before explaining how to subset from a data.frame, let's write pseudocode (essentially a description of what we are going to do that is readable to people but isn't real code) for our subset.
 #' 
@@ -294,18 +294,18 @@ names(offenses_known_yearly_1960_2020)
 #' 
 #' `data$column`
 #' 
-#' We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotes, or misspellings (or capitalization issues). Just the `data$column` exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
+#' We write the data name followed by a `$` and then the column name. Make sure there are no spaces, quotation marks, or misspellings (or capitalization issues). Just the `data$column` exactly as it is spelled. Since we are referring to data already read into R, there should not be any quotes for either the data or the column name. 
 #' 
-#' We can do this for the column *agency_name* in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (nearly a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
+#' We can do this for the column *agency_name* in our UCR data. If we wrote this in the console it would print out every single row in the column. Because this data is large (over a million rows), I am going to wrap this in `head()` so it only displays the first 6 rows of the column rather than printing the entire column.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-head(offenses_known_yearly_1960_2020$agency_name)
+head(ucr$agency_name)
 
 #' 
 #' They're all the same name because Anchorage Police reported many times and are in the data set multiple times. Let's look at the column *actual_murder* which shows the annual number of murders in that agency. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-head(offenses_known_yearly_1960_2020$actual_murder)
+head(ucr$actual_murder)
 
 #' 
 #' One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
@@ -318,33 +318,33 @@ head(offenses_known_yearly_1960_2020$actual_murder)
 #' 
 #' `[row, column]`
 #' 
-#' As we did earlier, we start in the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name and putting column names in quotes) of the column or columns we want. 
+#' We start the square bracket by saying which row we want. Now, since we also have to consider the columns, we need to tell it the number or name (in a vector using `c()` if more than one name and putting column names in quotes) of the column or columns we want. 
 #' 
 #' The exception to this is when we use the dollar sign notation to select a single column. In that case we don't need a comma (and indeed it will give us an error!). Let's see a few examples and then explain why this works the way it does. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1, 1]
+ucr[1, 1]
 
 #' 
 #' If we input multiple numbers, we can get multiple rows and columns.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1:6, 1:6]
+ucr[1:6, 1:6]
 
 #' 
 #' The column section also accepts a vector of the names of the columns. These names must be spelled correctly and in quotes.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1:6, c("ori", "year")]
+ucr[1:6, c("ori", "year")]
 
 #' 
 #' 
 #' In cases where we want every row or every column, we just don't put a number. By default, R will return every row/column if you don't specify which ones you want. However, you will still need to include the comma.
 #' 
-#' Here is every column in the first row. Again, for real work we'd likely not due this as it will print out hundreds of rows to the console.
+#' Here is every column in the first row. Again, for real work we'd likely not do this as it will print out hundreds of rows to the console.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1, ]
+ucr[1, ]
 
 #' 
 #' Since there are 223 columns in our data, normally we'd want to avoid printing out all of them. And in most cases, we would save the output of subsets to a new object to be used later rather than just printing the output in the console. 
@@ -352,32 +352,30 @@ offenses_known_yearly_1960_2020[1, ]
 #' What happens if we forget the comma? If we put in numbers for both rows and columns but don't include a comma between them it will have an error.
 #' 
 ## ----error = TRUE-----------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020[1 1]
+ucr[1 1]
 
 #' 
 #' If we only put in a single number and no comma, it will return the column that matches that number. Here we have number 1 and it will return the first column. We'll wrap it in `head()` so it doesn't print out a million rows.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-head(offenses_known_yearly_1960_2020[1])
+head(ucr[1])
 
 #' 
-#' Since R thinks you are requesting a column, and we only have 159 columns in the data, asking for any number above 159 will return an error.
+#' Since R thinks you are requesting a column, and we only have 223 columns in the data, asking for any number above 223 will return an error.
 #' 
 ## ----error = TRUE-----------------------------------------------------------------------------------
-head(offenses_known_yearly_1960_2020[1000])
+head(ucr[1000])
 
 #' 
 #' If you already specify a column using dollar sign notation `$`, you do not need to indicate any column in the square brackets`[]`. All you need to do is say which row or rows you want. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-offenses_known_yearly_1960_2020$agency_name[15]
+ucr$agency_name[15]
 
-#' 
-#' So make sure when you want a row from a data.frame you always include the comma!
 #' 
 #' ### Subset Colorado data
 #' 
-#' Finally we have the tools to subset our UCR data to just be Colorado from 2011-2017. There are three conditional statements we need to make, two for rows and one for columns.
+#' Now we have the tools to subset our UCR data to just be Colorado from 2011-2017. There are three conditional statements we need to make, two for rows and one for columns.
 #' 
 #'   * Only rows where the state equals Colorado
 #'   * Only rows where the year is 2011-2017
@@ -388,10 +386,10 @@ offenses_known_yearly_1960_2020$agency_name[15]
 #' Remember that we want to put the object to the left of the `[]` (and touching the `[]`) to make sure it returns the data. Just having the conditional statement will only return TRUE or FALSE values. Since we want all columns, we don't need to put anything after the comma (but we must include the comma!).
 #' 
 ## ---------------------------------------------------------------------------------------------------
-colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- ucr[ucr$state == "colorado", ]
 
 #' 
-#' Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector `2011:2017`. This time our primary data set is *colorado*, not *offenses_known_yearly_1960_2020* since *colorado* has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
+#' Now we want to get all the rows where the year is 2011-2017. Since we want to check if the year is one of the years 2011-2017, we will use `%in%` and put the years in a vector `2011:2017`. This time our primary data set is *colorado*, not *ucr* since *colorado* has already subsetted to just the state we want. This is how subsetting generally works. You take a large data set, subset it to a smaller one and continue to subset the smaller one to only the data you want. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 colorado <- colorado[colorado$year %in% 2011:2017, ]
@@ -421,27 +419,27 @@ unique(colorado$year)
 #' 
 #' `dplyr` is part of what is called the "tidyverse" which is a collection of R packages written by mostly the same people that include lots of functions that are useful for working with the kind of data we use in this book. We'll cover many of the tidyverse packages in this book. There's nothing special about a package being a "tidyverse" package; they operate exactly the same as other packages. I just mention it because it is a very popular set of packages and people will often talk about "tidyverse" approaches to R meaning using these packages. So it's good to know the terminology. To look at the full list of tidyverse packages, their website [here](https://dplyr.tidyverse.org/) is an excellent overview of them. 
 #' 
-#' In a lot of ways the functions we'll use from `dplyr` are simpler and easier to use than what we write earlier in this chapter. In fact, a lot of people learn only `dplyr` functions and do not learn (or at least do not spend much time on) base R. For the rest of this book we'll use base R and tidyverse functions alongside each other. I do this for two reasons. First, it's important to understand how R works and using base R is the best way to learn. This is a programming-for-a-purpose book, not a pure programming book, so the focus isn't on knowing all the ins and outs of R. However, I think it is still important to have some understanding of how R works and tidyverse functions tend to obfuscate that. 
+#' In a lot of ways the functions we'll use from `dplyr` are simpler and easier to use than what we wrote earlier in this chapter. In fact, a lot of people learn only `dplyr` functions and do not learn (or at least do not spend much time on) base R. For the rest of this book we'll use base R and tidyverse functions alongside each other. I do this for two reasons. First, it's important to understand how R works and using base R is the best way to learn. This is a programming-for-a-purpose book, not a pure programming book, so the focus isn't on knowing all the ins and outs of R. However, I think it is still important to have some understanding of how R works and tidyverse functions tend to obfuscate that. 
 #' 
-#' In most cases this obfuscation is a good thing as it lets you focus on working with the data instead of thinking about how R works (and this is one of the tidyverse authors' motivations behind their work). In some cases, however, you'll encounter issues with either the code or your data where its important to understand how R works. In these (luckily relatively) rare cases, the problem is one where using base R is much easier than using tidyverse packages.
+#' In most cases this obfuscation is a good thing as it lets you focus on working with the data instead of thinking about how R works (and this is one of the tidyverse authors' motivations behind their work). In some cases, however, you'll encounter issues with either the code or your data where its important to understand how R works. In these (luckily relatively) rare cases, base R tends to be more useful in solving these problems than the tidyverse.
 #' 
 #' The second reason is that base R functions are incredibly stable. Must haven't changed since R was first created in the early 1990s. The benefit is that code you write using base R functions work will for a very long time. Using packages outside of base R (all packages, not just tidyverse packages) always carries the risk that a new version of the package will change the behavior of a function, or remove that function entirely. Thankfully this is quite rare as package developers often take care to ensure that old features remain available even as they update their package. But it is always a risk, and for programming for research we want to try to make our code as reproducible as possible, which means trying to ensure that functions we use will keep working in the future. That said, please don't avoid packages too much out of fear of this issue. Packages in R are enormously useful and we'll use many of this throughout this book. 
 #' 
 #' We'll cover two functions from `dplyr` here, and we'll also cover a couple more in the next chapter. For now, we'll look only at `filter()` and `select()`. The `filter()` function is how `dplyr` does subsetting. It takes a conditional statement and "filters" the data to only return rows where that conditional statement is true. You can include multiple conditional statements in the parentheses of `filter()` and it'll return only rows where all of the statements are true. The `select()` function does roughly that with columns where we can input a conditional statement about the name of the column (e.g. columns ending in "rate") and it'll return only those columns. `select()` also lets you choose columns just by putting the name of the column(s) in the parentheses and that's all we'll be using it for here.
 #'  
-#' Let's first copy back some of the code we used earlier when we used base R to subset Colorado data from the UCR dataset. 
+#' Let's first copy back some of the code we used earlier when we used base R to subset Colorado data from the UCR data set. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
-colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- ucr[ucr$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
 
 #' 
 #' We have two conditional statements - keep only rows where state is Colorado and where years are between 2011 and 2017 (including 2017) - and then we kept only a small number of columns.
 #' 
-#' We'll do this one step at a time using the `dplyr` functions. For `filter()` we first include the name of our data.frame, which in this case starts as "offenses_known_yearly_1960_2020" and then becomes "colorado" as we make a new object during the first line of code, and then we include our conditional statement. Using base R, we have to say which data.frame we used every time we included a column. Using `filter()` we don't need to do this. `filter()` is smart enough to select the column from the data.frame we input.
+#' We'll do this one step at a time using the `dplyr` functions. For `filter()` we first include the name of our data.frame, which in this case starts as "ucr" and then becomes "colorado" as we make a new object during the first line of code, and then we include our conditional statement. Using base R, we have to say which data.frame we used every time we included a column. Using `filter()` we don't need to do this. `filter()` is smart enough to select the column from the data.frame we input.
 #' 
-#' For our first filter we can write `filter(offenses_known_yearly_1960_2020, state == "colorado")` and we will save the resulting object into a data.frame called "colorado" like we did above. To use any `dplyr` functions we first need to install that package and then tell R we want to use it through the `library()` function.
+#' For our first filter we can write `filter(ucr, state == "colorado")` and we will save the resulting object into a data set called "colorado" like we did above. To use any `dplyr` functions we first need to install that package and then tell R we want to use it through the `library()` function.
 #' 
 ## ---- eval = FALSE----------------------------------------------------------------------------------
 ## install.packages("dplyr")
@@ -450,22 +448,22 @@ colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori",
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(dplyr)
-colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado")
+colorado <- filter(ucr, state == "colorado")
 
 #' 
 #' Now we can do our second conditional statement where we keep only years 2011 through 2017.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-colorado <- filter(offenses_known_yearly_1960_2020, year %in% 2011:2017)
+colorado <- filter(ucr, year %in% 2011:2017)
 
 #' 
 #' If we wanted to we could combine these lines of code into a single line by including both conditional statements into a single `filter()` function by just including a comma after the first statement.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+colorado <- filter(ucr, state == "colorado", year %in% 2011:2017)
 
 #' 
-#' We follow similar syntax for `select()` by starting the name of the data.frame and then the name of every column you want to keep. Unlike in base R we don't need to put the columns in a vector or to put the names in quotes (though you can put the names in quotes if you'd like). The order you put the column names in is also the order it will arrange them, so this function can be used to reorder your columns. 
+#' We follow similar syntax for `select()` by starting the name of the data set and then the name of every column you want to keep. Unlike in base R we don't need to put the columns in a vector or to put the names in quotes (though you can put the names in quotes if you'd like). The order you put the column names in is also the order it will arrange them, so this function can be used to reorder your columns. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)

@@ -38,7 +38,9 @@ head(suicide_agg)
 suicide_agg$number_suicides <- 1
 
 library(dplyr)
-suicide_agg <- suicide_agg %>% group_by(nhood) %>% summarize(number_suicides = sum(number_suicides))
+suicide_agg <- suicide_agg %>% 
+  group_by(nhood) %>% 
+  summarize(number_suicides = sum(number_suicides))
 
 summary(suicide_agg$number_suicides)
 

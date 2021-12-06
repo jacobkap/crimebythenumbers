@@ -76,17 +76,26 @@ mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```
 
+\begin{table}
 
-
-Table: (\#tab:unnamed-chunk-1)This is an example table caption
-
-|                  |  mpg| cyl| disp|  hp| drat|
-|:-----------------|----:|---:|----:|---:|----:|
-|Mazda RX4         | 21.0|   6|  160| 110| 3.90|
-|Mazda RX4 Wag     | 21.0|   6|  160| 110| 3.90|
-|Datsun 710        | 22.8|   4|  108|  93| 3.85|
-|Hornet 4 Drive    | 21.4|   6|  258| 110| 3.08|
-|Hornet Sportabout | 18.7|   8|  360| 175| 3.15|
+\caption{(\#tab:unnamed-chunk-1)This is an example table caption}
+\centering
+\begin{tabular}[t]{l|r|r|r|r|r}
+\hline
+  & mpg & cyl & disp & hp & drat\\
+\hline
+Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90\\
+\hline
+Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90\\
+\hline
+Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85\\
+\hline
+Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08\\
+\hline
+Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15\\
+\hline
+\end{tabular}
+\end{table}
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
 
@@ -124,7 +133,7 @@ Note that I have the word NIBRS surrounded by squiggly brackets {}. That is beca
   
 To use citations from your .bib file, add `bibliography: references_file_name.bib` to the head of your R Markdown file. If your .bib file isn't in the R Markdown file's working directory, as my example below is not, you'll need to include the path in the file name.
 
-![](images/R Markdown_bib.PNG)
+![](images/rmarkdown_bib.PNG)
 
 Now that we have the citation in BibTeX format, put it in our .bib file, and told R Markdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case "reaves1993using") so we would write `@reaves1993using`. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author's name. You'll usually want to use this if you're already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this `[@reaves1993using]`. If we're citing multiple articles, we separate each citation using a semicolon `[@reaves1993using; @jain2000recruitment]`.
 

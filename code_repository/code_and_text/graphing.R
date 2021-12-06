@@ -6,7 +6,7 @@
 #' 
 #' We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
 #' 
-#' The 'gg' part of `ggplot2` stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces.' We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+#' The "gg" part of `ggplot2` stands for "grammar of graphics" which is the idea that most graphs can be made using the same few "pieces." We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 #' 
 ## ----eval = FALSE-----------------------------------------------------------------------------------
 ## install.packages("ggplot2")
@@ -43,14 +43,6 @@ penn_alcohol <- alcohol[alcohol$state == "pennsylvania", ]
 #' Before graphing, it's helpful to see what the data includes. An important thing to check is what variables are available and the units of these variables.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-names(penn_alcohol)
-
-#' 
-## ---------------------------------------------------------------------------------------------------
-summary(penn_alcohol)
-
-#' 
-## ---------------------------------------------------------------------------------------------------
 head(penn_alcohol)
 
 #' 
@@ -58,7 +50,7 @@ head(penn_alcohol)
 #' 
 #' ## Graphing data 
 #' 
-#' To make a plot using `ggplot()`, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.
+#' To make a plot using `ggplot()` (please note that the function does not have a 2 at the end of it, only the package name does), all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol (which operates like a `dplyr` pipe) and then specify what you want added.
 #' 
 #' For `ggplot()` we need to specify 4 things
 #' 
@@ -71,15 +63,15 @@ head(penn_alcohol)
 #' 
 #'   + `geom_point()` - A point graph, can be used for scatter plots
 #'   + `geom_line()` - A line graph
-#'   + `geom_smooth()` - Adds a regression line to the graph
 #'   + `geom_bar()` - A barplot
+#'   + `geom_smooth()` - Adds a regression line to the graph
 #' 
 #'  
 #' ## Time-Series Plots 
 #' 
-#' Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing crime rates over time, this is the type of graph you're looking at.
+#' Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing, for example, crime rates over time, this is the type of graph you're looking at.
 #' 
-#' The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to include it.
+#' The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to include it. Like in `dplyr` functions, you do not need to put the column names in quotes or repeat which data set you are using.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 ggplot(penn_alcohol, aes(x = year,
@@ -137,7 +129,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 
 #' 
-#' Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not need to include it in the () of `ggplot()` but use their own functions to add them to the graph.
+#' Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not include it in the () of `ggplot()` but use their own functions to add them to the graph.
 #' 
 #'   + `xlab()` - x-axis label
 #'   + `ylab()` - y-axis label
@@ -161,7 +153,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 
 #' 
-#' Then include a second geom_line() with its own aes() for the second variable.
+#' Then include a second geom_line() with its own aes() for the second variable. Since we are using the "penn_alcohol" data set for both lines we do not need to include it in the second `geom_line()` as it assumes that the data is the same if we don't specify otherwise. If we used a different data set for the second line, we would need to specify which data inside of `geom_line()` and before `aes()`.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
@@ -204,7 +196,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
 #' 
 #' ## Scatter Plots
 #' 
-#' Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
+#' Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using `geom_point()`. Since our data has one row for every year for Pennsylvania, we can make a scatterplot comparing different drinks in each year. For this example, we'll compare liquor to beer sales.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
@@ -218,7 +210,7 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
 #' 
 #' ## Color blindness
 #' 
-#' Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose the incorrect colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
+#' Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose bad colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
 #' 
 #' ![](images/colorbrewer.PNG)
 #' 

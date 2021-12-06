@@ -202,7 +202,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Another may be more expert in casting his opponent; but he is not more social, nor more modest, nor better disciplined to meet all that happens, nor more considerate with respect to the faults of his neighbours."
+#> [1] "The idle business of show, plays on the stage, flocks of sheep, herds, exercises with spears, a bone cast to little dogs, a bit of bread into fish-ponds, labourings of ants and burden-carrying, runnings about of frightened little mice, puppets pulled by strings- all alike. It is thy duty then in the midst of such things to show good humour and not a proud air; to understand however that every man is worth just so much as the things are worth about which he busies himself."
 ```
 
 ## Reading data into R
@@ -301,7 +301,9 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data. 
 

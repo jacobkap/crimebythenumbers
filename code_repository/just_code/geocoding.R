@@ -20,26 +20,30 @@ example <- geocode(address_to_geocode, "address", method = "arcgis")
 example <- data.frame(example)
 example
 
-geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
+example <- data.frame(example)
+example
 
-geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
+example <- data.frame(example)
+example
 
-geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+example <- data.frame(example)
+example
 
 library(readr)
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
-marijuana <- as.data.frame(marijuana)
+marijuana <- data.frame(marijuana)
 
 head(marijuana)
 
-names(marijuana) <- gsub(" ", "_", names(marijuana))
-
-marijuana$Premise_Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise_Address)
+marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise.Address)
 
 names(marijuana)
-head(marijuana$Premise_Address)
+head(marijuana$Premise.Address)
 
-marijuana <- geocode(marijuana, "Premise_Address")
+marijuana <- geocode(marijuana, "Premise.Address")
 
 summary(marijuana$long)
 
@@ -47,7 +51,7 @@ summary(marijuana$lat)
 
 marijuana$long <- NULL
 marijuana$lat  <- NULL
-marijuana      <- geocode(marijuana, "Premise_Address", method = "arcgis")
+marijuana      <- geocode(marijuana, "Premise.Address", method = "arcgis")
 
 summary(marijuana$long)
 

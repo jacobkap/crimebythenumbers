@@ -39,41 +39,33 @@ scrape_recipes <- function(URL) {
   ingredients <- html_nodes(brownies, ".ingredients-item-name")
   ingredients <- html_text(ingredients)
   
-  directions <- html_nodes(brownies, ".instructions-section")
+  directions <- html_nodes(brownies, ".instructions-section-item")
   directions <- html_text(directions)
-  
-  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions <- directions[directions != ""]
+  directions <- trimws(directions)
 }
 
 scrape_recipes <- function(URL) {
   
   brownies <- read_html(URL)
   
-  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_nodes(brownies, ".ingredients-item-name")
   ingredients <- html_text(ingredients)
   
-  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_nodes(brownies, ".instructions-section-item")
   directions <- html_text(directions)
-  
-  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions <- directions[directions != ""]
+  directions <- trimws(directions)
 }
 
 scrape_recipes <- function(URL) {
   
   brownies <- read_html(URL)
   
-  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_nodes(brownies, ".ingredients-item-name")
   ingredients <- html_text(ingredients)
   
-  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_nodes(brownies, ".instructions-section-item")
   directions <- html_text(directions)
-  
-  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions  <- directions[directions != ""]
-  directions  <- gsub("\n", "", directions)
-  directions  <- gsub(" {2,}", "", directions)
+  directions <- trimws(directions)
   
   print(ingredients)
   print(directions)

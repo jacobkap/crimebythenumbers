@@ -17,13 +17,7 @@ directions <- html_text(directions)
 
 directions
 
-directions <- gsub("\n", "", directions)
-ingredients <- gsub("\n", "", ingredients)
-
-ingredients
-directions
-
-directions <- trimws(directions)
+directions  <- trimws(directions)
 ingredients <- trimws(ingredients)
 
 ingredients

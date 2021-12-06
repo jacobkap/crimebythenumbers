@@ -50,7 +50,7 @@ plot(sf_neighborhoods$geometry)
 st_crs(sf_neighborhoods)
 
 #' 
-#' An issue with working with geographic data is that [the Earth is not flat](https://en.wikipedia.org/wiki/Spherical_Earth). Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we generally have to work properly on a map. We do so by "projecting" our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it. 
+#' An issue with working with geographic data is that [the Earth is not flat](https://en.wikipedia.org/wiki/Spherical_Earth). Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this we need to transform the longitude and latitude values we have to work properly on a map. We do so by "projecting" our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this lesson will be an extremely brief overview of the topic and oversimplify some aspects of it. 
 #' 
 #' If we look at the output of `st_crs(sf_neighborhoods)` we can see that the EPSG is set to 4326 and the proj4string (which tells us the current map projection) is "+proj=longlat +datum=WGS84 +no_defs". This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see [here](https://spatialreference.org/). If you search that site for "California" you'll see that California is broken into 6 zones. The site isn't that helpful on which zones are which but some Googling can often find state or region maps with the zones depicted there. We want California zone 3 which has the EPSG code 2227. We'll use this code to project this data properly. 
 #' 
@@ -62,7 +62,7 @@ st_crs(2227)
 #' 
 #' Note the text in "prj4string" that says "+units=us-ft". This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area. 
 #' 
-#' Let's convert our sf_neighborhoods data to coordinate reference system 2227. 
+#' Let's convert our sf_neighborhoods data to coordinate reference system 2227 using `st_transform()`. 
 #' 
 ## ----comment="", results='hold', message=FALSE------------------------------------------------------
 sf_neighborhoods <- st_transform(sf_neighborhoods, crs = 2227)
@@ -71,7 +71,7 @@ st_crs(sf_neighborhoods)
 #' 
 #' ## Spatial joins
 #' 
-#' What we want to do with these neighborhoods is to find out which neighborhood each suicide occurred in and sum up the number of suicides per neighborhood. Once we do that, we can make a map at the neighborhood level and be able to measure suicides-per-neighborhood. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
+#' What we want to do with these neighborhoods is to find out which neighborhood each suicide occurred in and sum up the number of suicides per neighborhood. Once we do that, we can make a map at the neighborhood level and be able to measure suicides per neighborhood. A spatial join is very similar to regular joins where we merge two data sets based on common variables (such as state name or unique ID code of a person). In this case it merges based on some shared geographic feature such as if two lines intersect or (as we will do so here) if a point is within some geographic area. 
 #' 
 #' Right now our *suicide* data is in a data.frame with some info on each suicide and the longitude and latitude of the suicide in separate columns. We want to turn this data.frame into a spatial object to allow us to find which neighborhood each suicide happened in. We can convert it into a spatial object using the `st_as_sf()` function from `sf`. Our input is first our data, *suicide.* Then in the `coords` parameter we put a vector of the column names so the function knows which columns the longitude and latitude columns are so it can convert those columns to a "geometry" column like we saw in *sf_neighborhoods* earlier. We'll set the CRS to be the WGS84 standard we saw earlier but we will change it to match the CRS that the neighborhood data has.
 #' 
@@ -134,7 +134,9 @@ suicide_agg$number_suicides <- 1
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(dplyr)
-suicide_agg <- suicide_agg %>% group_by(nhood) %>% summarize(number_suicides = sum(number_suicides))
+suicide_agg <- suicide_agg %>% 
+  group_by(nhood) %>% 
+  summarize(number_suicides = sum(number_suicides))
 
 #' 
 #' Let's check a summary of the *number_suicides* variable we made.
@@ -155,9 +157,9 @@ nrow(suicide_agg)
 nrow(sf_neighborhoods)
 
 #' 
-#' The suicides data is missing 1 neighborhood. That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
+#' The suicides data is missing 2 neighborhoods (one of the 40 values is missing and is NA, not a real neighborhood). That is because if no suicides occurred there, there would never be a matching row in the data so that neighborhood wouldn't appear in the suicide data. That's not going to be a major issue here but is something to keep in mind in future research. 
 #' 
-#' The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function comes from the `dplyr` package.
+#' The data is ready to merge with the *sf_neighborhoods* data. We'll introduce a new function that makes merging data simple. This function also comes from the `dplyr` package.
 #' 
 #' The function we will use is `left_join()` which takes two parameters, the two data sets to join together. 
 #' 
@@ -173,7 +175,7 @@ nrow(sf_neighborhoods)
 #' 
 #' We could alternatively use the `merge()` function which is built into R but that function is slower than the `dplyr` functions and requires us to manually set the matching columns. 
 #' 
-#' We want to keep all rows in *sf_neighborhoods* (keep all neighborhoods) so we can use `left_join(sf_neighborhoods, suicide_agg)`. Let's save the results into a new data.frame called *sf_neighborhoods_suicide*. 
+#' We want to keep all rows in *sf_neighborhoods* (keep all neighborhoods) so we can use `left_join(sf_neighborhoods, suicide_agg)`. Let's save the results into a new data set called *sf_neighborhoods_suicide*. 
 #' 
 #' We don't need the spatial data for "suicide_agg" anymore and it will cause problems with our join if we keep it, so let's delete the "geometry" column from that data. We can do this by assigning the column the value of NULL.
 #' 

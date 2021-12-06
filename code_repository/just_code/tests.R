@@ -7,6 +7,8 @@ example_data[example_data$crime_type = "murder", c("year", "crime_count")]
 
 example_data[example_data$crime_type != "murder", c("year", "crime_count")]
 
+## install.packages("testthat")
+
 library(testthat)
 
 add_2 <- function(number) { return(number + 2) }

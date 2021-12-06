@@ -1,10 +1,11 @@
+## install.packages("tabulizer")
+
 library(tabulizer)
 
 data <- extract_tables(file = "data/AbbreRptCurrent.pdf")
-is(data)
+
 length(data)
-data[[1]]
-head(data[[2]])
+is(data)
 
 data[[1]]
 
@@ -14,18 +15,54 @@ tail(data[[2]])
 data <- extract_tables(file = "data/AbbreRptCurrent.pdf", output = "data.frame")
 head(data[[2]])
 
-apply(data[[1]], 2, paste, collapse = "")
+data <- extract_tables(file = "data/AbbreRptCurrent.pdf")
 
-library(janitor)
-column_names <- apply(data[[1]], 2, paste, collapse = "")
-column_names <- make_clean_names(column_names)
-column_names
+column_names <- c("county",
+                  "pretrial_felons",
+                  "conv_felons",
+                  "conv_felons_sentence_to_county_jail_time",
+                  "parole_violators",
+                  "parole_violators_with_a_new_charge",
+                  "pretrial_misd",
+                  "conv_misd",
+                  "bench_warrants",
+                  "federal",
+                  "pretrial_sjf",
+                  "conv_sjf_sentenced_to_co_jail_time",
+                  "conv_sjf_sentence_to_state_jail",
+                  "total_others",
+                  "total_local",
+                  "total_contract",
+                  "total_population",
+                  "total_capacity",
+                  "percent_of_capacity",
+                  "available_beds")
 
 page1_table <- data[[2]]
 page1_table <- data.frame(page1_table)
 names(page1_table) <- column_names
-head(page1_table)
-tail(page1_table)
+page1_table
+
+for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
+  temp        <- data[[i]]
+  temp        <- data.frame(temp)
+  names(temp) <- column_names
+}
+
+library(dplyr)
+example1 <- head(mtcars)
+example2 <- head(mtcars)
+bind_rows(example1, example2)
+
+final <- data.frame()
+for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
+  temp        <- data[[i]]
+  temp        <- data.frame(temp)
+  names(temp) <- column_names
+  final       <- bind_rows(final, temp)
+}
+head(final)
+tail(final)
 
 data <- extract_tables(file = "data/PregnantFemaleReportingCurrent.pdf")
 data <- data[[1]]

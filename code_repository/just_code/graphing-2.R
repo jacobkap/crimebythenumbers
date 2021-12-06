@@ -105,6 +105,8 @@ shootings$dummy <- 1
 ggplot(shootings, aes(x = date, y = dummy)) +
   geom_line()
 
+## install.packages("lubridate")
+
 library(lubridate)
 
 shootings$month_year <- floor_date(shootings$date, unit = "month")
@@ -114,15 +116,21 @@ head(shootings$month_year)
 head(shootings$year)
 
 library(dplyr)
-monthly_shootings <- shootings %>% group_by(month_year) %>% summarize(dummy = sum(dummy))
+monthly_shootings <- shootings %>%
+  group_by(month_year) %>% 
+  summarize(dummy = sum(dummy))
 head(monthly_shootings)
 
 ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 
-yearly_shootings <- shootings %>% group_by(year) %>% summarize(dummy = sum(dummy))
+yearly_shootings <- shootings %>%
+  group_by(year) %>% 
+  summarize(dummy = sum(dummy))
 ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
+
+## install.packages("ggthemes")
 
 library(ggthemes)
 ggplot(yearly_shootings, aes(x = year, y = dummy)) +

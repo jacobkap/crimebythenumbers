@@ -42,6 +42,8 @@ sf_map +
 
 plot(suicide$X, suicide$Y, col = "forestgreen")
 
+## install.packages("hexbin")
+
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins = 60,

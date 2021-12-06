@@ -1,10 +1,10 @@
 #' # For loops
 #' 
-#' We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through "for loops". Earlier in this course we learned how to scrape the recipe website [All Recipes](https://www.allrecipes.com/). We did so for a single recipe, if we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section \@ref(recipes-function). In this lesson we will use a for loop to scrape multiple recipes very quickly. 
+#' We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through "for loops". Earlier in this course we learned how to scrape the recipe website [All Recipes](https://www.allrecipes.com/). We did so for a single recipe. If we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section \@ref(recipes-function). In this lesson we will use a for loop to scrape multiple recipes very quickly. 
 #' 
 #' ## Basic for loops
 #' 
-#' We'll start with a simple example, making R print the numbers 1-10. 
+#' We'll start with a simple example of a for loop, making R print the numbers 1-10. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 for (i in 1:10) {
@@ -12,9 +12,11 @@ for (i in 1:10) {
 }
 
 #' 
-#' The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the `{` and `}` squiggly brackets. And you loop through all the values you specify - meaning the code runs once for each of those values.  
+#' The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the `{` and `}` squiggly brackets. And you loop through all the values you specify - meaning that the code runs once for each of those values.  
 #' 
-#' Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1:10 each iteration of the loop. It's not necessary to call it `i` but that is convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings to numbers to lists of data.frames. Especially when you're an early learner of R it could help to call the `i` something informative to you about what value it has. 
+#' Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1:10 each iteration of the loop. An iteration is the formal term for each time the loop runs. In our loop it will run 10 times as we have 10 numbers (1-10). The first time it runs the i gets the value of 1, the second time it runs i gets the value of 2, and so on. 
+#' 
+#' It's not necessary to call it `i` but that is convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings or numbers to lists of data.frames (though we won't do anything that complicated in this chapter). Especially when you're an early learner of R it could help to call the `i` something informative to you about what value it has. 
 #' 
 #' Let's go through a few examples with different names for `i` and different values it is looping through. 
 #' 
@@ -78,7 +80,7 @@ numbers
 #' 
 #' ## Scraping multiple recipes
 #' 
-#' Below is the function copied from Section \@ref(recipes-function) which takes a single URL and scraped the site [All Recipes](https://www.allrecipes.com/) for that recipe. It printed the ingredients and directions to cook that recipe to the console. If we wanted to get data for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we're using the `read_html()` function from `rvest`, we need to tell R we want to use that package.
+#' Below is the function copied from Section \@ref(recipes-function) which takes a single URL and scraped the site [All Recipes](https://www.allrecipes.com/) for that recipe. It printed the ingredients and directions to cook that recipe to the console. If we wanted to get that info for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we're using the `read_html()` function from `rvest`, we need to tell R we want to use that package.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(rvest)
@@ -86,23 +88,19 @@ scrape_recipes <- function(URL) {
   
   brownies <- read_html(URL)
   
-  ingredients <- html_nodes(brownies, ".added")
+  ingredients <- html_nodes(brownies, ".ingredients-item-name")
   ingredients <- html_text(ingredients)
   
-  directions <- html_nodes(brownies, ".recipe-directions__list--item")
+  directions <- html_nodes(brownies, ".instructions-section-item")
   directions <- html_text(directions)
-  
-  ingredients <- ingredients[ingredients != "Add all ingredients to list"]
-  directions  <- directions[directions != ""]
-  directions  <- gsub("\n", "", directions)
-  directions  <- gsub(" {2,}", "", directions)
+  directions <- trimws(directions)
   
   print(ingredients)
   print(directions)
 }
 
 #' 
-#' With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple, we need to make an object with the URLs of all the recipes we want.
+#' With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple recipes, we will make a vector with the URLs of all the recipes we want.
 #' 
 #' Here I am making a vector called *recipe_urls* with the URLs of several recipes that I like on the site. The way I got the URLs was to go to each recipe's page and copy and paste the URL. Is this the right approach? Shouldn't we do everything in R? Not always. In situations like this where we know that there are a small number of links we want - and there is no easy way to get them through R - it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project. 
 #' 

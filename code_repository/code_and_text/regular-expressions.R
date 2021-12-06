@@ -78,7 +78,7 @@ crimes <- c(
 #' 
 #' Where pattern is the pattern you are searching for, such as "a" if you want to find all values with the letter a. The pattern must always be in quotes. data is a vector of strings (such as *crimes* we made above or a column in a data.frame) that you are searching in to find the pattern. 
 #' 
-#' The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and no other elements do. It is essentially returning the index where the conditional statement "is this pattern present" is true.
+#' The output of this function is a number which says which element(s) in the vector the pattern was found in. If it returns, for example, the numbers 1 and 3 you know that the first and third element in your vector has the pattern - and that no other elements do. It is essentially returning the index where the conditional statement "is this pattern present" is true.
 #' 
 #' So since our data is *crimes* our `grep()` function will be `grep("", crimes)`. What we put in the "" is the pattern we want to search for.
 #' 
@@ -88,7 +88,7 @@ crimes <- c(
 grep("a", crimes)
 
 #' 
-#' It gives us a bunch of numbers where the letter "a" is present in that element of *crimes*. What this is useful for is subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 
+#' It gives us a bunch of numbers where the letter "a" is present in that element of *crimes*. This is useful for subsetting. We can use `grep()` to find all values that match a pattern we want and subset to keep just those values. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 crimes[grep("a", crimes)]
@@ -200,7 +200,7 @@ grep("[01234567890]", crimes, value = TRUE)
 grep("[aeiou][aeiou][aeiou]", crimes, value = TRUE)
 
 #' 
-#' Inside the `[]` we can also use the - to make intervals between certain values. For numbers, n-m means any number between n and m (inclusive). For letters, a-z means all lowercase letters and A-Z means all uppercase letters in that range (inclusive). 
+#' Inside the `[]` we can also use the dash sign `-` to make intervals between certain values. For numbers, n-m means any number between n and m (inclusive). For letters, a-z means all lowercase letters and A-Z means all uppercase letters in that range (inclusive). 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 grep("[x-z]", crimes, value = TRUE)
@@ -210,7 +210,7 @@ grep("[x-z]", crimes, value = TRUE)
 #' 
 #' `{n}` means the preceding item will be matched exactly n times.
 #' 
-#' We can use it to rewrite the above `grep()` to saw the values in the `[]` should be repeated three times. 
+#' We can use it to rewrite the above `grep()` to say the values in the `[]` should be repeated three times. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 grep("[aeiou]{3}", crimes, value = TRUE)
@@ -291,7 +291,7 @@ grep("^[A-Za-z]+ [A-Za-z]+$", crimes, value = TRUE)
 gsub("Weapons.*", "Weapons", crimes)
 
 #' 
-#' And now our last three crimes are all identical. 
+#' And now our last three crimes are all the same. 
 #' 
 #' ### Multiple patterns `|`
 #' 
@@ -311,7 +311,7 @@ grep("(Offense)", crimes, value = TRUE)
 #' 
 #' Running the above code returns the same results as if we didn't include the parentheses. The usefulness of parentheses comes when combining it with the `|` symbol to be able to check "(X|Y) Z"), which says, "look for either X or Y which must be followed by Z". 
 #' 
-#' Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say, "search for either the word "Drug" or the word "Family" and they should be followed by the word "Offense".
+#' Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say, "search for either the word 'Drug'"' or the word 'Family' and they should be followed by the word 'Offense'."
 #' 
 ## ---------------------------------------------------------------------------------------------------
 grep("(Drug|Weapons) Offense", crimes, value = TRUE)

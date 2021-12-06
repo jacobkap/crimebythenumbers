@@ -8,10 +8,6 @@ alcohol <- apparent_per_capita_alcohol_consumption
 
 penn_alcohol <- alcohol[alcohol$state == "pennsylvania", ]
 
-names(penn_alcohol)
-
-summary(penn_alcohol)
-
 head(penn_alcohol)
 
 ggplot(penn_alcohol, aes(x = year,

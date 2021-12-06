@@ -18,7 +18,8 @@ agencies_in_both <- agencies_2019[agencies_2019 %in% agencies_2020]
 # negligent manslaughter). 
 shr_2019_and_2020 <- shr[shr$year %in% 2019:2020,]
 shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$ori  %in% agencies_in_both,]
-shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% "murder and nonnegligent manslaughter",]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% 
+                                         "murder and nonnegligent manslaughter",]
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
@@ -68,7 +69,8 @@ agencies_in_both <- agencies_2019[agencies_2019 %in% agencies_2020]
 
 shr_2019_and_2020 <- shr[shr$year %in% 2019:2020,]
 shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$ori  %in% agencies_in_both,]
-shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% "murder and nonnegligent manslaughter",]
+shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in% 
+                                         "murder and nonnegligent manslaughter",]
 
 shr_difference <- 
   shr_2019_and_2020 %>%

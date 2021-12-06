@@ -1,3 +1,5 @@
+## install.packages("pdftools")
+
 library(pdftools)
 
 border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")
@@ -11,7 +13,7 @@ border_patrol[1]
 strsplit("criminology", split = "n")
 
 sector_profile <- border_patrol[1]
-sector_profile <- strsplit(sector_profile, "\r\n")
+sector_profile <- strsplit(sector_profile, "\n")
 sector_profile <- sector_profile[[1]]
 
 head(sector_profile)
@@ -36,7 +38,7 @@ sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 
 head(sector_profile)
 
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "apprehensions",
@@ -56,7 +58,7 @@ sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
 sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "total_apprehensions",
@@ -71,11 +73,11 @@ names(sector_profile) <- c("sector",
 scrape_pdf <- function(list_of_tables, table_number, number_columns, column_names) {
   data <- list_of_tables[table_number]
   data <- trimws(data)
-  data <- strsplit(data, "\r\n")
+  data <- strsplit(data, "\n")
   data <- data[[1]]
   data <- data[grep("Miami", data):grep("Nationwide Total", data)]
   data <- str_split_fixed(data, " {2,}", number_columns)
-  data <- data.frame(data, stringsAsFactors = FALSE)
+  data <- data.frame(data)
   names(data) <- column_names
   
   return(data)
@@ -112,7 +114,6 @@ table_3 <- scrape_pdf(list_of_tables = border_patrol,
                                        "total_apprehensions"))
 
 table_1$sector <- gsub("\\*", "", table_1$sector)
-table_1$sector <- trimws(table_1$sector)
 
 library(dplyr)
 final_data <- left_join(table_1, table_2)

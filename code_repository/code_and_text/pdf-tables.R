@@ -2,9 +2,9 @@
 #' 
 #' For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 #' 
-#' In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. We will be using regular expressions and the function `strsplit()` to get this data into a usable format.
+#' In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. 
 #' 
-#' Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem - while all PDF scraping follows a general format you cannot necessarily copy and paste your code, each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
+#' Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem. While all PDF scraping follows a general format, you cannot necessarily reuse your old code as each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 #' 
 #' We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
 #' 
@@ -16,7 +16,7 @@
 #' 
 #' Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 #' 
-#' There are 9 columns in the data other than the border section identifier. It looks like we have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
+#' There are 9 columns in the data other than the border section identifier. We have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
 #' 
 #' Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 #' 
@@ -26,19 +26,26 @@
 #' 
 #' ![](images/pdf_table_3.PNG)
 #' 
-#' Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
+#' Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 #' 
 #' ![](images/pdf_table_4.PNG)
 #' 
 #' ## Scraping the first table
 #' 
-#' We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning we can reuse some code to scrape as well as clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. We will use the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
+#' We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. 
+#' 
+#' We will start by using the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
+#' 
+## ---- eval = FALSE----------------------------------------------------------------------------------
+## install.packages("pdftools")
+
+#' 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(pdftools)
 
 #' 
-#' We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table.
+#' We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table. The input to `pdf_text()` is the name of the PDF we want to scrape.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")
@@ -50,7 +57,7 @@ border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")
 head(border_patrol)
 
 #' 
-#' If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol" and just looking at the first element.
+#' If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol" which tells us how many elements are in a vector.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 length(border_patrol)
@@ -62,7 +69,7 @@ length(border_patrol)
 border_patrol[1]
 
 #' 
-#' And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\r\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\r\n`. 
+#' And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\n`. 
 #' 
 #' The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
 #' 
@@ -71,11 +78,11 @@ strsplit("criminology", split = "n")
 
 #' Note that it deletes whatever value is used to break up the string. 
 #' 
-#' Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
+#' Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it to split it every `\n`. In effect this makes each line of the table an element in a vector that we'll create rather than having the entire table be a single long string as it is now. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 sector_profile <- border_patrol[1]
-sector_profile <- strsplit(sector_profile, "\r\n")
+sector_profile <- strsplit(sector_profile, "\n")
 sector_profile <- sector_profile[[1]]
 
 #' 
@@ -85,7 +92,7 @@ sector_profile <- sector_profile[[1]]
 head(sector_profile)
 
 #' 
-#' Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire "sector_profile" data in the () and it'll remove the white space at the ends of each line for us.
+#' Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire "sector_profile" data in the () and it'll remove any white space that is at the beginning or end of the string.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 sector_profile <- trimws(sector_profile)
@@ -115,13 +122,13 @@ grep("Nationwide Total", sector_profile)
 sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
 
 #' 
-#' Note that we're getting rid of the rows which had the column names. It's easier to make the names ourselves than to deal with that mess. 
+#' Note that we're getting rid of the rows which had the column names. It's easier to make the names ourselves than to deal with that mess. The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 head(sector_profile)
 
 #' 
-#' The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do. When looking at this data it is clear that where the division between columns is a bunch of white space. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
+#' When looking at this data it is clear that where the division between columns is supposed to be is a bunch of white space in each string. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 #' 
 #' We will use the function `str_split_fixed()` from the `stringr` package. This function is very similar to `strsplit()` except you can tell it how many columns to expect. 
 #' 
@@ -133,22 +140,22 @@ head(sector_profile)
 library(stringr)
 
 #' 
-#' The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coast Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of * they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
+#' The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coast Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of * they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 
 #' 
-#' If we check the `head()` we can see that we have the proper columns now but this still isn't a data.frame and has no column names. 
+#' If we check the `head()` we can see that we have the proper columns now, but this still isn't a data.frame and has no column names. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 head(sector_profile)
 
 #' 
-#' We can make it a data.frame just by putting it in `data.frame()`. To avoid making the columns into factors, we'll set the parameter `stringsAsFactors` to FALSE. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
+#' We can make it a data.frame just by putting it in `data.frame()`. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
 #' 
 ## ---------------------------------------------------------------------------------------------------
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "apprehensions",
@@ -171,7 +178,7 @@ head(sector_profile)
 #' 
 #' ## Making a function
 #' 
-#' As we've done before, we want to take the code we wrote for the specific case of the first table in this PDF and turn it into a function for the general case of other tables in the PDF. Let's copy the code we used above then convert it to a function.
+#' As we've done before, we want to take the code we wrote for the specific case of the first table in this PDF and turn it into a function for the general case of other tables in the PDF. Let's copy the code we used above before we convert it to a function.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 sector_profile <- border_patrol[1]
@@ -180,7 +187,7 @@ sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
 sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
-sector_profile <- data.frame(sector_profile, stringsAsFactors = FALSE)
+sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
                            "agent_staffing",
                            "total_apprehensions",
@@ -193,17 +200,19 @@ names(sector_profile) <- c("sector",
                            "deaths")
 
 #' 
-#' Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. We do this as it is bad form to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
+#' Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. 
+#' 
+#' We do this as it is bad form (and potentially dangerous) to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object (such as by scraping a different file but calling that object *border_patrol*) and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
 #' 
 ## ---------------------------------------------------------------------------------------------------
 scrape_pdf <- function(list_of_tables, table_number, number_columns, column_names) {
   data <- list_of_tables[table_number]
   data <- trimws(data)
-  data <- strsplit(data, "\r\n")
+  data <- strsplit(data, "\n")
   data <- data[[1]]
   data <- data[grep("Miami", data):grep("Nationwide Total", data)]
   data <- str_split_fixed(data, " {2,}", number_columns)
-  data <- data.frame(data, stringsAsFactors = FALSE)
+  data <- data.frame(data)
   names(data) <- column_names
   
   return(data)
@@ -244,14 +253,13 @@ table_3 <- scrape_pdf(list_of_tables = border_patrol,
                                        "total_apprehensions"))
 
 #' 
-#' We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterix after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. If you look carefully at the Sector column in *table_1* you'll see that each value starts with a space (this is something that is hard to see just looking at the data and is found primarily when encountering an error that forces you to search as I did here). Since the other tables do not have their values start with a space, it won't match properly in `left_join()`. We'll fix this by running `trimws()` on the column from *table_1*.
+#' We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterisk after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. 
 #' 
 ## ---------------------------------------------------------------------------------------------------
 table_1$sector <- gsub("\\*", "", table_1$sector)
-table_1$sector <- trimws(table_1$sector)
 
 #' 
-#' Now we can run `left_join()`.
+#' Now we can run `left_join()`. `left_join()` will automatically join based on shared column names in the two data sets we are joining. In our case this is "sector" and "total_apprehensions." All we need to input into `left_join()` is the name of the data sets we want to join together. `left_join()` can only combine two data sets at a time so we'll first join table_1 and table_2 and then join table_3 with the result of the first join, which we'll call "final_data."
 #' 
 ## ---------------------------------------------------------------------------------------------------
 library(dplyr)
@@ -265,7 +273,7 @@ final_data <- left_join(final_data, table_3)
 head(final_data)
 
 #' 
-#' In one data set we now have information from three separate tables in a PDF. There's still some work to do - primarily convert the numeric columns to be actually numeric using `gsub()` to remove commas then using `as.numeric()`  (or the `parse_numeric()` function from `readr`) on each column (probably through a for loop). but we have still made important progress getting useful data from a PDF table.  
+#' In one data set we now have information from three separate tables in a PDF. We have now scraped three different tables from a PDF and turned them into a single data set, turning the PDF into actually usable (and useful) data!
 #' 
 #' ## Practice problems
 #' 

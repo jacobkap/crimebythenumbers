@@ -58,37 +58,37 @@ numbers > 3
 
 2 == 3 & 2 > 1
 
-offenses_known_yearly_1960_2020 <- readRDS("data/offenses_known_yearly_1960_2020.rds")
+ucr <- readRDS("data/offenses_known_yearly_1960_2020.rds")
 
-offenses_known_yearly_1960_2020[1:6, 1:6]
+ucr[1:6, 1:6]
 
-nrow(offenses_known_yearly_1960_2020)
+nrow(ucr)
 
-ncol(offenses_known_yearly_1960_2020)
+ncol(ucr)
 
-names(offenses_known_yearly_1960_2020)
+names(ucr)
 
-head(offenses_known_yearly_1960_2020$agency_name)
+head(ucr$agency_name)
 
-head(offenses_known_yearly_1960_2020$actual_murder)
+head(ucr$actual_murder)
 
-offenses_known_yearly_1960_2020[1, 1]
+ucr[1, 1]
 
-offenses_known_yearly_1960_2020[1:6, 1:6]
+ucr[1:6, 1:6]
 
-offenses_known_yearly_1960_2020[1:6, c("ori", "year")]
+ucr[1:6, c("ori", "year")]
 
-offenses_known_yearly_1960_2020[1, ]
+ucr[1, ]
 
-offenses_known_yearly_1960_2020[1 1]
+ucr[1 1]
 
-head(offenses_known_yearly_1960_2020[1])
+head(ucr[1])
 
-head(offenses_known_yearly_1960_2020[1000])
+head(ucr[1000])
 
-offenses_known_yearly_1960_2020$agency_name[15]
+ucr$agency_name[15]
 
-colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- ucr[ucr$state == "colorado", ]
 
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 
@@ -98,18 +98,18 @@ unique(colorado$state)
 
 unique(colorado$year)
 
-colorado <- offenses_known_yearly_1960_2020[offenses_known_yearly_1960_2020$state == "colorado", ]
+colorado <- ucr[ucr$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
 
 ## install.packages("dplyr")
 
 library(dplyr)
-colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado")
+colorado <- filter(ucr, state == "colorado")
 
-colorado <- filter(offenses_known_yearly_1960_2020, year %in% 2011:2017)
+colorado <- filter(ucr, year %in% 2011:2017)
 
-colorado <- filter(offenses_known_yearly_1960_2020, state == "colorado", year %in% 2011:2017)
+colorado <- filter(ucr, state == "colorado", year %in% 2011:2017)
 
 colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
 

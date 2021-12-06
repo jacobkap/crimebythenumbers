@@ -35,7 +35,7 @@ shr <- read_ascii_setup("data/2020_SHR_NATIONAL_MASTER_FILE.txt", "data/ucr_shr.
 
 ## save(shootings, file =  "data/shootings.rda")
 
-## saveRDS(shootings, file =  "data/shootings.rds")
+## saveRDS(shootings, "data/shootings.rds")
 
 ## write_csv(shootings, "data/shootings.csv")
 
