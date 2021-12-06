@@ -6,7 +6,7 @@ So far in these lessons we've used data from a number of sources but which all c
 
 In this lesson we'll load and save multiple files into R as examples of how R can handle data that is used in many different software programs. 
 
-When loading data into R remember that your data must be in your current working directory or R won't be able to read it. For a refresher on working directories please see Section \@ref(working-directory). In these examples I have my data in a folder called "data" that is in my working directory, which is why I use "data/" when naming the file. You do not need to include "data/" when loading in data on your computer. 
+When loading data into R remember that your data must be in your current working directory or R won't be able to read it. For a refresher on working directories please see Section \@ref(setting-the-working-directory). In these examples I have my data in a folder called "data" that is in my working directory, which is why I use "data/" when naming the file. You do not need to include "data/" when loading in data on your computer. 
 
 ## Reading Data into R
 
