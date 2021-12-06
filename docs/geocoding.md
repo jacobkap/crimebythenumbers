@@ -61,7 +61,7 @@ geocode(address_to_geocode, "address")
 #> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
-There are two additional parameters which are important to talk about for this function, especially when you encounter an address not geocoding. 
+There are two additional parameters which are important to talk about for this function, especially when you encounter an address that doesn't geocode properly. 
 
 First, there are actually multiple sources where you can enter an address and get the coordinates for that address. Just think about the big mapping apps or sites, such as Google Maps and Apple Maps. For these sources you can enter in the same address and you'll get different results. In most cases you'll get extremely similar coordinates, usually off only after a few decimals points, so they are functionally identical. But occasionally you'll have some addresses that can be geocoded through some sources but not others. This is because some sources have a more comprehensive list of addresses than others. 
 
@@ -107,17 +107,25 @@ example
 
 Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address. 
 
-The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three.
+The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function.
 
 
 ```r
-geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
-#> # A tibble: 1 x 12
-#>   address     lat  long place_id licence   osm_type osm_id boundingbox
-#>   <chr>     <dbl> <dbl>    <int> <chr>     <chr>     <int> <list>     
-#> 1 750 Race~  40.0 -75.2   2.88e8 Data © O~ way      6.22e7 <chr [4]>  
-#> # ... with 4 more variables: display_name <chr>, class <chr>,
-#> #   type <chr>, importance <dbl>
+example <- geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
+example <- data.frame(example)
+example
+#>                               address     lat      long  place_id
+#> 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524
+#>                                                                  licence
+#> 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#>   osm_type   osm_id
+#> 1      way 62202366
+#>                                                          boundingbox
+#> 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327
+#>                                                                                         display_name
+#> 1 750, Race Street, Chinatown, Philadelphia, Philadelphia County, Pennsylvania, 19106, United States
+#>   class  type importance
+#> 1 place house      0.531
 ```
 
 For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don't seem very useful for our purposes such as the "importance" of the address. It's interesting that OSM classifies this address as a "house" as the police headquarters for a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the "display_name". 
@@ -126,40 +134,51 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 
 
 ```r
-geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
-#> # A tibble: 1 x 18
-#>   address     lat  long matchedAddress tigerLine.tiger~ tigerLine.side
-#>   <chr>     <dbl> <dbl> <chr>          <chr>            <chr>         
-#> 1 750 Race~  40.0 -75.2 750 RACE ST, ~ 131423677        L             
-#> # ... with 12 more variables: addressComponents.fromAddress <chr>,
-#> #   addressComponents.toAddress <chr>,
-#> #   addressComponents.preQualifier <chr>,
-#> #   addressComponents.preDirection <chr>,
-#> #   addressComponents.preType <chr>,
-#> #   addressComponents.streetName <chr>,
-#> #   addressComponents.suffixType <chr>, ...
+example <- geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
+example <- data.frame(example)
+example
+#>                               address      lat     long
+#> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514
+#>                         matchedAddress tigerLine.tigerLineId
+#> 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677
+#>   tigerLine.side addressComponents.fromAddress
+#> 1              L                           700
+#>   addressComponents.toAddress addressComponents.preQualifier
+#> 1                         798                               
+#>   addressComponents.preDirection addressComponents.preType
+#> 1                                                         
+#>   addressComponents.streetName addressComponents.suffixType
+#> 1                         RACE                           ST
+#>   addressComponents.suffixDirection addressComponents.suffixQualifier
+#> 1                                                                    
+#>   addressComponents.city addressComponents.state
+#> 1           PHILADELPHIA                      PA
+#>   addressComponents.zip
+#> 1                 19106
 ```
 
 These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
 
 
 ```r
-geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
-#> # A tibble: 1 x 11
-#>   address      lat  long arcgis_address    score location.x location.y
-#>   <chr>      <dbl> <dbl> <chr>             <int>      <dbl>      <dbl>
-#> 1 750 Race ~  40.0 -75.2 750 Race St, Phi~   100      -75.2       40.0
-#> # ... with 4 more variables: extent.xmin <dbl>, extent.ymin <dbl>,
-#> #   extent.xmax <dbl>, extent.ymax <dbl>
+example <- geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+example <- data.frame(example)
+example
+#>                               address      lat      long
+#> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
+#>                                   arcgis_address score location.x
+#> 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205
+#>   location.y extent.xmin extent.ymin extent.xmax extent.ymax
+#> 1   39.95488   -75.15305    39.95388   -75.15105    39.95588
 ```
 
-For the ArcGIS results we have the matched address again, and then an important variable called "score" which is basically a measure of how confidence ArcGIS is that it matched the right address. Higher values are more confidence, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as "location.x" and "location.y" columns, and I'm not sure why they do so. 
+For the ArcGIS results we have the matched address again, and then an important variable called "score" which is basically a measure of how confident ArcGIS is that it matched the right address. Higher values are more confident, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as "location.x" and "location.y" columns, and I'm not sure why they do so. 
 
 ## Geocoding San Francisco marijuana dispensary locations
 
 So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispensary data.
 
-Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly.
+Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly. For this book I keep all of the data files in a folder called "data" in my working directory. Unless you also have a folder called "data" in your working directory which as this file, please dleete "data/" from the following code.
 
 
 ```r
@@ -172,7 +191,7 @@ marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
 #> 
 #> i Use `spec()` to retrieve the full column specification for this data.
 #> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-marijuana <- as.data.frame(marijuana)
+marijuana <- data.frame(marijuana)
 ```
 
 Let's look at the top 6 rows. 
@@ -180,42 +199,42 @@ Let's look at the top 6 rows.
 
 ```r
 head(marijuana)
-#>    License Number                License Type   Business Owner
+#>    License.Number                License.Type   Business.Owner
 #> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
 #> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
 #> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
 #> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
 #> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
 #> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
-#>                                                                                                           Business Contact Information
+#>                                                                                                           Business.Contact.Information
 #> 1                             OUTER SUNSET HOLDINGS, LLC  : Barbary Coast Sunset : Email- terry@barbarycoastsf.com : Phone- 5107173246
 #> 2                           URBAN FLOWERS  : Urban Pharm : Email- hilary@urbanpharmsf.com : Phone- 9168335343 : Website- www.up415.com
 #> 3                      CCPC, INC.  : The Green Door : Email- alicia@greendoorsf.com : Phone- 4155419590 : Website- www.greendoorsf.com
 #> 4 SEVENTY SECOND STREET  : Flower Power SF : Email- flowerpowersf@hotmail.com : Phone- 5103681262 : Website- flowerpowerdispensary.com
 #> 5   HOWARD STREET PARTNERS, LLC  : The Apothecarium : Email- Ryan@apothecarium.com : Phone- 4157469001 : Website- www.apothecarium.com
 #> 6              DEEP THOUGHT, LLC  : The Apothecarium : Email- ryan@pothecarium.com : Phone- 4157469001 : Website- www.Apothecarium.com
-#>          Business Structure
+#>          Business.Structure
 #> 1 Limited Liability Company
 #> 2               Corporation
 #> 3               Corporation
 #> 4               Corporation
 #> 5 Limited Liability Company
 #> 6 Limited Liability Company
-#>                                                 Premise Address
+#>                                                 Premise.Address
 #> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO
 #> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO
 #> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO
 #> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO
 #> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO
 #> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO
-#>   Status Issue Date Expiration Date                Activities
+#>   Status Issue.Date Expiration.Date                Activities
 #> 1 Active  9/13/2019       9/12/2020 N/A for this license type
 #> 2 Active  8/26/2019       8/25/2020 N/A for this license type
 #> 3 Active  8/26/2019       8/25/2020 N/A for this license type
 #> 4 Active   8/5/2019        8/4/2020 N/A for this license type
 #> 5 Active  7/29/2019       7/28/2020 N/A for this license type
 #> 6 Active  7/29/2019       7/28/2020 N/A for this license type
-#>   Adult-Use/Medicinal
+#>   Adult.Use.Medicinal
 #> 1                BOTH
 #> 2                BOTH
 #> 3                BOTH
@@ -224,18 +243,11 @@ head(marijuana)
 #> 6                BOTH
 ```
 
-So the column with the address is called *Premise Address*. Since it's easier to deal with columns that don't have spacing in the name, we will be using `gsub()` to remove spacing from the column names. Each address also ends with "County:" followed by that address's county, which in this case is always San Francisco. That isn't normal in an address so it may affect our geocode. We need to `gsub()` that column to remove that part of the address.
-
-
-```r
-names(marijuana) <- gsub(" ", "_", names(marijuana))
-```
-
-Since the address issue is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
+The column with the address is called *Premise Address*. Since the address issue is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
  
 
 ```r
-marijuana$Premise_Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise_Address)
+marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise.Address)
 ```
 
 Now let's make sure we did it right.
@@ -243,13 +255,13 @@ Now let's make sure we did it right.
 
 ```r
 names(marijuana)
-#>  [1] "License_Number"               "License_Type"                
-#>  [3] "Business_Owner"               "Business_Contact_Information"
-#>  [5] "Business_Structure"           "Premise_Address"             
-#>  [7] "Status"                       "Issue_Date"                  
-#>  [9] "Expiration_Date"              "Activities"                  
-#> [11] "Adult-Use/Medicinal"
-head(marijuana$Premise_Address)
+#>  [1] "License.Number"               "License.Type"                
+#>  [3] "Business.Owner"               "Business.Contact.Information"
+#>  [5] "Business.Structure"           "Premise.Address"             
+#>  [7] "Status"                       "Issue.Date"                  
+#>  [9] "Expiration.Date"              "Activities"                  
+#> [11] "Adult.Use.Medicinal"
+head(marijuana$Premise.Address)
 #> [1] "2165 IRVING ST san francisco, CA 94122" 
 #> [2] "122 10TH ST SAN FRANCISCO, CA 941032605"
 #> [3] "843 Howard ST SAN FRANCISCO, CA 94103"  
@@ -261,7 +273,7 @@ To do the geocoding we'll just tell `geocode` our data.frame name and the name o
 
 
 ```r
-marijuana <- geocode(marijuana, "Premise_Address")
+marijuana <- geocode(marijuana, "Premise.Address")
 ```
 
 Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.
@@ -287,7 +299,7 @@ We could also just geocode the 10 addresses that failed on the first run, but gi
 ```r
 marijuana$long <- NULL
 marijuana$lat  <- NULL
-marijuana      <- geocode(marijuana, "Premise_Address", method = "arcgis")
+marijuana      <- geocode(marijuana, "Premise.Address", method = "arcgis")
 ```
 And let's do the `summary()` check again. 
 
@@ -311,7 +323,7 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

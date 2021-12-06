@@ -202,7 +202,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Acquire the contemplative way of seeing how all things change into one another, and constantly attend to it, and exercise thyself about this part of philosophy. For nothing is so much adapted to produce magnanimity. Such a man has put off the body, and as he sees that he must, no one knows how soon, go away from among men and leave everything here, he gives himself up entirely to just doing in all his actions, and in everything else that happens he resigns himself to the universal nature. But as to what any man shall say or think about him or do against him, he never even thinks of it, being himself contented with these two things, with acting justly in what he now does, and being satisfied with what is now assigned to him; and he lays aside all distracting and busy pursuits, and desires nothing else than to accomplish the straight course through the law, and by accomplishing the straight course to follow God."
+#> [1] "The Pythagoreans bid us in the morning look to the heavens that we may be reminded of those bodies which continually do the same things and in the same manner perform their work, and also be reminded of their purity and nudity. For there is no veil over a star."
 ```
 
 ## Reading data into R
