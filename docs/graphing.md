@@ -6,7 +6,7 @@ For this chapter you'll need the following file, which is available for download
 
 We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant looking graphs. 
 
-The 'gg' part of `ggplot2` stands for 'grammar of graphics' which is the idea that most graphs can be made using the same few 'pieces.' We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+The "gg" part of `ggplot2` stands for "grammar of graphics" which is the idea that most graphs can be made using the same few "pieces." We'll get into those pieces during this lesson. For a useful cheat sheet for this package see [here](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 
 
 ```r
@@ -46,61 +46,6 @@ penn_alcohol <- alcohol[alcohol$state == "pennsylvania", ]
 ## What does the data look like? 
 
 Before graphing, it's helpful to see what the data includes. An important thing to check is what variables are available and the units of these variables.
-
-
-```r
-names(penn_alcohol)
-#>  [1] "state"                                
-#>  [2] "year"                                 
-#>  [3] "ethanol_beer_gallons_per_capita"      
-#>  [4] "ethanol_wine_gallons_per_capita"      
-#>  [5] "ethanol_spirit_gallons_per_capita"    
-#>  [6] "ethanol_all_drinks_gallons_per_capita"
-#>  [7] "number_of_beers"                      
-#>  [8] "number_of_glasses_wine"               
-#>  [9] "number_of_shots_liquor"               
-#> [10] "number_of_drinks_total"
-```
-
-
-```r
-summary(penn_alcohol)
-#>     state               year          
-#>  Length:41          Length:41         
-#>  Class :character   Class :character  
-#>  Mode  :character   Mode  :character  
-#>                                       
-#>                                       
-#>                                       
-#>  ethanol_beer_gallons_per_capita ethanol_wine_gallons_per_capita
-#>  Min.   :1.210                   Min.   :0.1700                 
-#>  1st Qu.:1.310                   1st Qu.:0.1900                 
-#>  Median :1.350                   Median :0.2100                 
-#>  Mean   :1.344                   Mean   :0.2276                 
-#>  3rd Qu.:1.380                   3rd Qu.:0.2500                 
-#>  Max.   :1.450                   Max.   :0.3300                 
-#>  ethanol_spirit_gallons_per_capita
-#>  Min.   :0.4500                   
-#>  1st Qu.:0.5100                   
-#>  Median :0.6100                   
-#>  Mean   :0.5939                   
-#>  3rd Qu.:0.6800                   
-#>  Max.   :0.7400                   
-#>  ethanol_all_drinks_gallons_per_capita number_of_beers
-#>  Min.   :1.850                         Min.   :286.8  
-#>  1st Qu.:2.040                         1st Qu.:310.5  
-#>  Median :2.220                         Median :320.0  
-#>  Mean   :2.167                         Mean   :318.7  
-#>  3rd Qu.:2.330                         3rd Qu.:327.1  
-#>  Max.   :2.390                         Max.   :343.7  
-#>  number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
-#>  Min.   :33.74          Min.   : 93.43         Min.   :394.7         
-#>  1st Qu.:37.71          1st Qu.:105.89         1st Qu.:435.2         
-#>  Median :41.67          Median :126.65         Median :473.6         
-#>  Mean   :45.16          Mean   :123.31         Mean   :462.3         
-#>  3rd Qu.:49.61          3rd Qu.:141.18         3rd Qu.:497.1         
-#>  Max.   :65.49          Max.   :153.64         Max.   :509.9
-```
 
 
 ```r
@@ -153,7 +98,7 @@ So each row of the data is a single year of data for Pennsylvania. It includes a
 
 ## Graphing data 
 
-To make a plot using `ggplot()`, all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol and then specify what you want added.
+To make a plot using `ggplot()` (please note that the function does not have a 2 at the end of it, only the package name does), all you need to do is specify the data set and the variables you want to plot. From there you add on pieces of the graph using the + symbol (which operates like a `dplyr` pipe) and then specify what you want added.
 
 For `ggplot()` we need to specify 4 things
 
@@ -166,15 +111,15 @@ Some useful types of graphs are
 
   + `geom_point()` - A point graph, can be used for scatter plots
   + `geom_line()` - A line graph
-  + `geom_smooth()` - Adds a regression line to the graph
   + `geom_bar()` - A barplot
+  + `geom_smooth()` - Adds a regression line to the graph
 
  
 ## Time-Series Plots 
 
-Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing crime rates over time, this is the type of graph you're looking at.
+Let's start with a time-series of beer consumption in Pennsylvania. In time-series plots the x-axis is always the time variable while the y-axis is the variable whose trend over time is what we're interested in. When you see a graph showing, for example, crime rates over time, this is the type of graph you're looking at.
 
-The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to include it.
+The code below starts by writing our data set name. Then says what our x- and y-axis variables are called. The x- and y-axis variables are within parentheses of the function called `aes()`. `aes()` stands for aesthetic and what's included inside here describes how the graph will look. It's not intuitive to remember, but you need to include it. Like in `dplyr` functions, you do not need to put the column names in quotes or repeat which data set you are using.
 
 
 ```r
@@ -182,7 +127,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the "year" column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and `ggplot()` will be smarter about printing fewer years.
 
@@ -197,7 +142,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
 When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.
 
@@ -209,7 +154,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ```r
@@ -217,7 +162,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can also combine different types of graphs.
 
@@ -228,7 +173,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
@@ -240,7 +185,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   expand_limits(y = 0)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -252,9 +197,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
-Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not need to include it in the () of `ggplot()` but use their own functions to add them to the graph.
+Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not include it in the () of `ggplot()` but use their own functions to add them to the graph.
 
   + `xlab()` - x-axis label
   + `ylab()` - y-axis label
@@ -270,7 +215,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let's stick with the data we currently have and just change `ggplot()`.
 
@@ -282,9 +227,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
-Then include a second geom_line() with its own aes() for the second variable.
+Then include a second geom_line() with its own aes() for the second variable. Since we are using the "penn_alcohol" data set for both lines we do not need to include it in the second `geom_line()` as it assumes that the data is the same if we don't specify otherwise. If we used a different data set for the second line, we would need to specify which data inside of `geom_line()` and before `aes()`.
 
 
 ```r
@@ -293,7 +238,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line(aes(x = year, y = number_of_shots_liquor))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
@@ -306,7 +251,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                 color = "Shots of Liquor"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
 
 We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
@@ -320,7 +265,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   labs(color = "Alcohol Type")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
@@ -335,11 +280,11 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   theme(legend.position = "bottom")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Scatter Plots
 
-Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using geom_point().
+Making a scatter plot simply requires changing the x-axis from year to another numerical variable and using `geom_point()`. Since our data has one row for every year for Pennsylvania, we can make a scatterplot comparing different drinks in each year. For this example, we'll compare liquor to beer sales.
 
 
 ```r
@@ -348,7 +293,7 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 This graph shows us that when liquor consumption increases, beer consumption also tends to increase.
 
@@ -356,7 +301,7 @@ While scatterplots can help show the relationship between variables, we lose the
 
 ## Color blindness
 
-Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose the incorrect colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
+Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose bad colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
 
 ![](images/colorbrewer.PNG)
 
@@ -376,7 +321,7 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   scale_color_manual(values = c("#7570b3", "#d95f02"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Practice problems
 

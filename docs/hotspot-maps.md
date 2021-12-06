@@ -2,9 +2,11 @@
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv.
 
-Hotspot maps are used to find where events (marijuana dispensaries, crimes, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).
+Hotspot maps are used to find where events or places (e.g. crimes, marijuana dispensaries, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which is focusing patrols on high-crime areas).
 
-However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (In Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
+However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. 
+
+These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (in Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
 
 Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First, we need to read the data, which is called "san_francisco_suicide_2003_2017.csv". We can name the object we make *suicide*.
 
@@ -24,7 +26,7 @@ suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 suicide <- as.data.frame(suicide)
 ```
 
-This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. The columns X and Y are our longitude and latitude columns which we will use to graph the data.
+This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. The columns X and Y are our longitude and latitude columns which we will use to map the data.
 
 
 ```r
@@ -100,7 +102,7 @@ sf_map
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
-Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively.
+Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load ``ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
 
 
 ```r
@@ -187,6 +189,14 @@ There are two new things we need to make the hotspot map. First, we add the para
 
 The second thing is to add the function `coord_cartesian()` which just tells `ggplot()` we are going to do some spatial analysis in the making of the bins. We don't need to add any parameters in this.
 
+To use `stat_binhex()` we'll also need to make sure that the package `hexbin` is installed. `stat_binhex()` will call the necessary function from `hexbin` internally so we don't need to run `library(hexbin)`.
+
+
+```r
+install.packages("hexbin")
+```
+
+
 Let's start with 60 bins and then try some other number of bins to see how it changes the map. 
 
 
@@ -198,11 +208,9 @@ sf_map +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
-#> Warning: Computation failed in `stat_binhex()`:
-#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
 
@@ -217,11 +225,9 @@ sf_map +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
-#> Warning: Computation failed in `stat_binhex()`:
-#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
@@ -236,11 +242,9 @@ sf_map +
   coord_cartesian() 
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
-#> Warning: Computation failed in `stat_binhex()`:
-#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself. 
 
@@ -259,11 +263,9 @@ sf_map +
                       high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
-#> Warning: Computation failed in `stat_binhex()`:
-#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 By default it labels the legend as "count". Since we know these are counts of suicides let's relabel that as such.
 
@@ -279,11 +281,9 @@ sf_map +
                       high = "#f03b20")
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
-#> Warning: Computation failed in `stat_binhex()`:
-#> The `hexbin` package is required for `stat_binhex()`
 ```
 
-<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 ## Practice problems

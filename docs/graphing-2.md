@@ -1,4 +1,4 @@
-# More graphing with `ggplot2` {#ois_graphs}
+# More graphing with `ggplot2` {#ois-graphs}
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv.
 
@@ -44,7 +44,7 @@ ncol(shootings)
 #> [1] 14
 ```
 
-The data has 14 variables and covers 4371 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
+The data has 14 variables and covers 4,371 shootings. Let's check out some of the variables, first using `head()` then using `summary()` and `table()`.
 
 
 ```r
@@ -87,7 +87,7 @@ summary(shootings$age)
 ```
 
 
-From this we can see that the data is from early January through about a week ago. From the age column we can see that the average age is about 37 with most people around that range. Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with the "manner_of_death" column.
+From this we can see that the data is from early January through mid-2019. From the age column we can see that the average age is about 37 with most people around that range. Now we can use `table()` to see how often each value appears in each variable. We don't want to do this for city or name as there would be too many values, but it will work for the other columns. Let's start with the "manner_of_death" column.
 
 
 ```r
@@ -199,7 +199,7 @@ table(shootings$armed) / nrow(shootings) * 100
 #>                       0.02287806                       0.02287806
 ```
 
-This is fairly hard to interpret as it is sorted alphabetically when we'd prefer it to be sorted by most common weapon. It also doesn't round the numbers so there are many numbers past the decimal point shown. Let's solve these two issues using `sort()` and `round()`. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a temp object and incrementally use `sort()` and `round()` on that. We'll set the parameter `decreasing` to TRUE in the `sort()` function so that it is in descending order of how common each value is. And we'll round to two decimal places by setting the parameter `digits` to 2.
+This is fairly hard to interpret as it is sorted alphabetically when we'd prefer it to be sorted by most common weapon. It also doesn't round the numbers so there are many numbers past the decimal point shown. Let's solve these two issues using `sort()` and `round()`. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a vector called "temp" and incrementally use `sort()` and `round()` on that. We'll set the parameter `decreasing` to TRUE in the `sort()` function so that it is in descending order of how common each value is. And we'll round to two decimal places by setting the parameter `digits` to 2.
 
 
 ```r
@@ -346,7 +346,7 @@ Running the above code returns a blank graph since we haven't told `ggplot()` wh
 
 ### Histogram
 
-The histogram is a very common type of graph for a single numeric variable. Histograms group a numeric variable into categories and then plot then, with the heights of each bar indicating how common the group is. We can make a histogram by adding `geom_histogram()` to the `ggplot()`.
+The histogram is a very common type of graph for a single numeric variable. Histograms group a numeric variable into categories and then plot them, with the heights of each bar indicating how common the group is. We can make a histogram by adding `geom_histogram()` to the `ggplot()`.
 
 
 ```r
@@ -380,7 +380,7 @@ ggplot(shootings, aes(x = age)) +
 
 Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
 
-These graphs show the y-axis as the number of people in each bar. If we want to show percent instead, we can add in a parameter for `y` in the `aes()` of the `geom_histogram()`. We add in `y = (..count..)/sum(..count..))` which automatically converts the counts to percentages. The "(..count..)/sum(..count..))" stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it's an easy helper. If you do this, make sure to relabel the y-axis so you don't accidentally call the percent a count!
+These graphs show the y-axis as the number of people in each bar. If we want to show proportions instead, we can add in a parameter for `y` in the `aes()` of the `geom_histogram()`. We add in `y = (..count..)/sum(..count..))` which automatically converts the counts to proportions. The "(..count..)/sum(..count..))" stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it's an easy helper. If you do this, make sure to relabel the y-axis so you don't accidentally call the proportions a count.
 
 
 ```r
@@ -417,7 +417,7 @@ ggplot(shootings, aes(x = age)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
-Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to percent of people using the exact same code.
+Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to proportion of people using the exact same code.
 
 
 ```r
@@ -428,9 +428,9 @@ ggplot(shootings, aes(x = age)) +
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
-### Graphing a Categorical Variable 
+## Graphing a Categorical Variable 
 
-## Bar graph
+### Bar graph
 
 To make this barplot we'll set the x-axis variable to our "race" column and add `geom_bar()` to the end. 
 
@@ -552,7 +552,7 @@ ggplot(shootings, aes(x = race)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
-As earlier, we can show percentage instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
+As earlier, we can show proportion instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
 
 
 ```r
@@ -577,7 +577,13 @@ ggplot(shootings, aes(x = date, y = dummy)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
-This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, lets load the `lubridate()` package that is well-suited for this task. 
+This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, let's use the `lubridate()` package that is well-suited for this task. 
+
+
+```r
+install.packages("lubridate")
+```
+
 
 
 ```r
@@ -618,7 +624,9 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-monthly_shootings <- shootings %>% group_by(month_year) %>% summarize(dummy = sum(dummy))
+monthly_shootings <- shootings %>%
+  group_by(month_year) %>% 
+  summarize(dummy = sum(dummy))
 head(monthly_shootings)
 #> # A tibble: 6 x 2
 #>   month_year dummy
@@ -631,7 +639,7 @@ head(monthly_shootings)
 #> 6 2015-06-01    65
 ```
 
-Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We'll use the same process as earlier but our dataset is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
+Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We'll use the same process as earlier but our data set is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
 
 
 ```r
@@ -639,17 +647,19 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-38-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />
 The process is the same for yearly data.
 
 
 ```r
-yearly_shootings <- shootings %>% group_by(year) %>% summarize(dummy = sum(dummy))
+yearly_shootings <- shootings %>%
+  group_by(year) %>% 
+  summarize(dummy = sum(dummy))
 ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
 
 Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it's simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven't finished this month (year) yet (and the data has a small lag in reporting). 
 
@@ -659,7 +669,13 @@ What's next for these graphs? You'll likely want to add labels for the axes and 
 
 ### Themes
 
-In addition to making changes to the graph's appearance yourself, you can use a theme that someone else made. A theme is just a collection of changes to the graph's appearance that someone put in a function for others to use. Each theme is different and is fairly opinionated, so you should only use one that you think looks best for your graph. To use a theme, simply add the theme (exactly as spelled on the site) to your ggplot using the + as normal (and make sure to include the () since each theme is actually a function. `ggplot2` comes with a series of themes that you can look at [here](https://ggplot2.tidyverse.org/reference/ggtheme.html). Here, we'll be looking at themes from the `ggthemes` package which is a great source of different themes to modify the appearance of your graph. Check out this [website](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) to see a depiction of all of the possible themes. If you don't have the `ggthemes` package installed, do so using `install.packages("ggthemes"). 
+In addition to making changes to the graph's appearance yourself, you can use a theme that someone else made. A theme is just a collection of changes to the graph's appearance that someone put in a function for others to use. Each theme is different and is fairly opinionated, so you should only use one that you think looks best for your graph. To use a theme, simply add the theme (exactly as spelled on the site) to your ggplot using the + as normal (and make sure to include the () since each theme is actually a function. `ggplot2` comes with a series of themes that you can look at [here](https://ggplot2.tidyverse.org/reference/ggtheme.html). Here, we'll be looking at themes from the `ggthemes` package which is a great source of different themes to modify the appearance of your graph. Check out this [website](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) to see a depiction of all of the possible themes. If you don't have the `ggthemes` package installed, do so using `install.packages("ggthemes")`. 
+
+
+```r
+install.packages("ggthemes")
+```
+
 
 Let's do a few examples using the graph made above. First, we'll need to load the `ggthemes` library.
 
@@ -671,7 +687,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_fivethirtyeight()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-42-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -681,7 +697,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_tufte()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-41-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-43-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -691,7 +707,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_few()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-42-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-44-1.png" width="90%" style="display: block; margin: auto;" />
 
 
 
@@ -701,7 +717,7 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_excel()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-43-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="graphing-2_files/figure-html/unnamed-chunk-45-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Practice problems
 

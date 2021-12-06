@@ -7,19 +7,19 @@ In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda
 
 In this lesson we'll start by looking at RStudio then write some brief code to load in some crime data and start exploring it. This lesson will cover code that you won't understand completely yet. That is fine, we'll cover everything in more detail as the lessons progress.
 
-RStudio is the interface we use to work with R. It has a number of features to make it easier for us to work with R - while not strictly necessary to use, most people who use R do so through RStudio. We'll spend some time right now looking at RStudio and the options you can change to make it easier to use (and to suit your personal preferences with appearance) as this will make all of the work that we do in this book easier. 
+RStudio is the interface we use to work with R. It has a number of features to make it easier for us to work with R. While not strictly necessary to use, most people who use R do so through RStudio. When using R you don't need to open up both R and RStudio on your computer. Just open RStudio and it'll internally use R. We'll spend some time right now looking at RStudio and the options you can change to make it easier to use (and to suit your personal preferences with appearance) as this will make all of the work that we do in this book easier. 
 
 When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
 ![](images/rstudio_1.PNG)
 
-At the top right is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
+At the top right of the image (and this may be in a different location on your RStudio) is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
 The way to keep the code you've written in a file that you can open later or share with someone else is by writing code in an R Script (if you're familiar with Stata, an R Script is just like a .do file). An R Script is essentially a text file (similar to a Word document) where you write code. To run code in an R Script just click on a line of code or highlight several lines and hit enter/return or click the "Run" button on the top right of the Source panel. You'll see the lines of code run in the Console and any output (if your code has an output) will be shown there too (making a plot will be shown in a different panel as we'll see soon). 
 
-For code that you don't want to run, called comments, start the line with a pound sign # and that line will not be run (it will still print in the console if you run it but it won't do anything). These comments should explain the code you wrote (if not otherwise obvious).
+For code that you don't want to run, called comments, start the line with a pound sign `#` and that line will not be run (it will still print in the console if you run it but it won't do anything). These comments should explain the code you wrote (if it's not otherwise obvious what the code does).
 
-The Source panel is where the R Scripts will be and is located at the top left on the image below. It is good practice to do all of your code writing in an R Script - even if you delete some lines of code later - as it eliminates the possibility of losing code or forgetting what you wrote. Having all the code in front of you in a text file also makes it easier to understand the flow of code from start to finish to a task - an issue we'll discuss more in later lessons. 
+The Source panel is where the R Scripts will be and is located at the top left on the image above. It is good practice to do all of your code writing in an R Script - even if you delete some lines of code later - as it eliminates the possibility of losing code or forgetting what you wrote. Having all the code in front of you in a text file also makes it easier to understand the flow of code from start to finish to a task - an issue we'll discuss more in later lessons. 
 
 While the Source and Console panels are the ones that are of most use, there are two other panels worth discussing. As these two panels let you interchange which tabs are available in them, we'll return to them shortly in the discussion of the options RStudio has to customize it. 
 
@@ -49,9 +49,9 @@ This opens up a window with a number of different tabs to change how R behaves a
 
 #### General
 
-Under Workspace  in the General tab make sure to **uncheck** the "Restore .RData into workspace at startup" and to set "Save workspace to .RData on exit:" to Never. What this does is make sure that every time you open R it starts fresh with no objects (essentially data loaded into R or made in R) from previous sessions. This may be annoying at times, especially when it comes to loading large files, but the benefits far outweigh the costs. 
+Under Workspace  in the General tab make sure to **uncheck** the "Restore .RData into workspace at startup" and to set "Save workspace to .RData on exit:" to **Never**. What this does is make sure that every time you open R it starts fresh with no objects (essentially data loaded into R or made in R) from previous sessions. This may be annoying at times, especially when it comes to loading large files, but the benefits far outweigh the costs. 
 
-You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
+You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be, but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
 
 ![](images/rstudio_6.PNG)
 
@@ -112,7 +112,7 @@ The `<-` is what does the assignment, or what makes the thing on the left equal 
 a = 13
 a
 ```
-We can use `=` instead of `<-` and get the same results (with very few exceptions and none that are relevant in this book). The reason that people use `<-` instead of `=` is largely a matter of convention. It's just the thing that R programmers do so new programmers adopt that. If it's easier for you to use `=` instead of `<-`, feel free to do that. In this book I'll use `<-` and talking about "assigning" values because that is the convention in R. And while that's not really a good reason to do anything, I think that it's important that new R programmers at least know what the proper conventions are and be able to speak the language (so to speak) of R programmers. 
+We can use `=` instead of `<-` and get the same results (with very few exceptions and none that are relevant in this book). The reason that people use `<-` instead of `=` is largely a matter of convention. It's just the thing that R programmers do so new programmers tend to adopt it. If it's easier for you to use `=` instead of `<-`, feel free to do that. In this book I'll use `<-` and talk about "assigning" values because that is the convention in R. And while that's not really a good reason to do anything, I think that it's important that new R programmers at least know what the proper conventions are and be able to speak the language (so to speak) of R programmers. This is also important when searching for more help on a topic as you need to know the right term to be able to ask for help (from other R programmers and from Google) easily.
 
 So far we've just been assigning "a" a value, or overwriting that value with a new value. We can also assign something new to have the same value as a. Let's make the object "example_123_value.demonstration" get the value that a has - or in other words make "example_123_value.demonstration" be equal to a.
 
@@ -120,7 +120,7 @@ So far we've just been assigning "a" a value, or overwriting that value with a n
 example_123_value.demonstration <- a
 example_123_value.demonstration
 ```
-I use name "example_123_value.demonstration" just an example of what you can include in an object name - any character (lower or uppercase), any number (just can't start with a number) and some punctuation (e.g. underscores and periods). Spaces are not allowed. In practice you'll want to call each object something specific so you know what it is, and ideally as short as possible. For example, if you are using crime data from Houston you'll want to call it something like "houston_crime". The R convention is to only use lowercase characters and include only underscores as the punctuation, but you can name it whatever is most useful to you. 
+I use name "example_123_value.demonstration" just an example of what you can include in an object name - any character (lower or uppercase), any number (just can't start with a number) and some punctuation (e.g. underscores and periods). Spaces are not allowed. In practice you'll want to call each object something specific so you know what it is, and ideally make the name as short as possible. For example, if you are using crime data from Houston you'll want to call it something like "houston_crime". The R convention is to only use lowercase characters and include only underscores as the punctuation, but you can name it whatever is most useful to you. 
 
 As noted at the start of the section, a lot of new programmers will make a change to an object but forget to assign the result back into the object (or into a new object). This means that that object won't actually change. For example, let's say we want to multiply example_123_value.demonstration by 10.
 
@@ -140,15 +140,15 @@ As noted in the previous section, a function is a bunch of code (it could range 
 
 Let's look at the function `head()` as an example. This is a function that is already built into R which means we don't need to do anything to use it. For functions that are written by other R programmers we'll need to download those functions and tell R we want to use it - and we'll show how in a bit. The way to identify a function is through the parentheses after the function name (the naming convention is the same as for objects as discussed in the previous section. We want a short, descriptive name that explains what the function does.). If we see a word followed by parentheses, we can be confident that we're looking at a function.
 
-The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail on the chapter on different R objects in Chapter \@ref(data_types)). `head()` is an extremely useful and common function in R, but just the name alone doesn't make it clear what it does or that we need to put a data object inside the parentheses. 
+The `head()` function prints out the first 6 rows of every column of a data.frame (which is essentially an Excel sheet, and something we'll cover in more detail in Chapter \@ref(data-types)). `head()` is an extremely useful and common function in R, but just the name alone doesn't make it clear what it does or that we need to put a data object inside the parentheses. 
 
-If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. 
+If you are having trouble understanding what a function does or how to use it, you can ask R for help and it will open up a page explaining what the function does, what options it has, and examples of how to use it. To do so we write `help(function)` or `?function` in the console and it will open up that function's help page. For finding the help page of a function we do not include the parenthese part of the function: `help(help)` works while `help(head())` does not.
 
-If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page. For finding the help page of a function the parentheses (e.g. `head()`) are optional. Unfortunately, many help pages are not that useful. The image below shows the help page for `head()` and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow](https://stackoverflow.com/) where people can ask questions about programming. 
+If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page.  Unfortunately, many help pages are not that useful. The image below shows the help page for `head()` and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow](https://stackoverflow.com/) where people can ask questions about programming. 
 
 ![](images/help_page.PNG)
 
-For `head()` all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one in a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out the file info; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
+For `head()` all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one of a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out data to the console; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
 
 We'll use the `head()` function to print out just the first 6 rows of the `mtcars` data. 
 
@@ -158,7 +158,7 @@ head(mtcars)
 
 Now we have the first 6 rows of every column from the `mtcars` data. This is a fairly simple function and is useful for quickly looking at our data. Many functions are more complicated that `head()` and involve multiple inputs rather than just the single input we had here. Some functions, for example, let you choose how you want the function to operate, as it can do so in multiple ways. Even in `head()` there's an optional input to choose how many rows you want it to return, with the default being 6. Since we didn't choose anything, the function stuck to the default and returned only 6 rows. 
 
-Throughout this book we'll spend a lot of time introducing functions that other people have made and learning how to combine the functions together to be able to get our raw data (e.g. a CSV file downloaded from a police site) into a usable format for research (e.g. cleaned to include only the rows and columns we need to analyze). For functions that other people wrote (i.e. functions built into R) we need to tell R that we want to use these functions. We do so by having R download that person's package. A package is just the name for a collection of functions in an easily downloadable format. We can do all of the downloading through R, so we don't have to go searching for them. There are two ways to download a package in R: through writing R code or through a shortcut in RStudio.
+Throughout this book we'll spend a lot of time introducing functions that other people have made and learning how to combine the functions together to be able to get our raw data (e.g. a CSV file downloaded from a police site) into a usable format for research (e.g. cleaned to include only the rows and columns we need to analyze and in the units we want). For functions that other people wrote (i.e. functions built into R) we need to tell R that we want to use these functions. We do so by having R download that person's package. A package is just the name for a collection of functions in an easily downloadable format. We can do all of the downloading through R, so we don't have to go searching for them. There are two ways to download a package in R: through writing R code or through a shortcut in RStudio.
 
 Downloading a package through R code uses - like pretty much everything else in R - a function. This function is `install.packages()` where we put the name of the package we want in the (). This name also has to be in quotes since it is an object that is not currently in R. Let's install the package "meditations" which is a simple package I made that gives a random quote from the book Meditations by Marcus Aurelius. We need to run the code `install.packages("meditations")` and be sure to spell "meditations" right and put it in quotes.
 
@@ -190,7 +190,9 @@ For many research projects you'll have data produced by some outside group (e.g.
 
 As we learned above in Section \@ref(setting-the-working-directory), we need to set our working directory to the folder where the data is. For my own setup, R is already defaulted to the folder with this data so I do not need to set a working directory. For those following along on your own computer, make sure to set your working directory now.
 
-The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file, we need to have that file name in quotes and include the file extension ".rda". With R data, the object inside the data already has a name so we don't need to assign (something we will discuss in detail in Section \@ref(assignment)) a name to the data. With other forms of data such as .csv files we will need to do that as we'll see in Chapter \@ref(reading-and-writing-data). 
+The `load()` function lets us load data already in the R format. These files will end in the extension ".rda" or sometimes ".Rda" or ".RData". Since we are telling R to load a specific file, we need to have that file name in quotes and include the file extension ".rda". With .rda data, the object inside the .rda file already has a name so we don't need to assign a name to the data. With other forms of data such as .csv files, we will need to do that as we'll see in Chapter \@ref(reading-and-writing-data). 
+
+In this example (and elsewhere in this book when I load in data) I have all of the data in a folder called "data" in my working directory which is why I have "data/" before the data name. You do not need this as you should have all of your data directly in your working directory. 
 
 ```{r}
 load("data/ucr2017.rda")
@@ -213,7 +215,7 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 head(ucr2017)
 ```
 
-The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is.
+The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is. We'll cover different types of data in Chapter \@ref(data-types).
 
 The six values it returns for numeric and Date columns are
 
@@ -223,7 +225,7 @@ The six values it returns for numeric and Date columns are
   + The mean value
   + The value at the 3rd quartile
   + The max value
-  + In cases where there are NAs, it will say how many NAs there are. An NA value is a missing value. Think of it like an empty cell in an Excel file. NA values will cause issues when doing math such as finding the mean of a column as R doesn't know how to handle a NA value in these situations. We'll learn how to deal with this later.
+  + In cases where there are NAs, it will say how many NAs there are. An NA value is a missing value. Think of it like an empty cell in an Excel file. NA values will cause issues when doing math such as finding the mean of a column as R doesn't know how to handle a NA value in these situations. 
 
 ```{r}
 summary(ucr2017)
@@ -237,7 +239,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel and is a good way to start to understand the data. 
+Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data. 
 
 ```{r eval = FALSE}
 View(ucr2017)
