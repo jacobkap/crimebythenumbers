@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 A soup to nuts project example | Crime by the Numbers: A Criminologist’s Guide to R</title>
-  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 A soup to nuts project example | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   
-  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="2 A soup to nuts project example | Crime by the Numbers: A Criminologist’s Guide to R" />
   
-  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   
 
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -532,10 +532,10 @@ div.csl-indent {
 <p>Before we get into exactly to how use R, we’ll go over a brief example of a kind of data project that you’d do in the real world. For this chapter we’ll look at FBI homicide data that you can download <a href="https://github.com/jacobkap/r4crimz/tree/master/data">here</a>. The file is called “shr_1976_2020.rds.”</p>
 <div id="big-picture-data-example" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Big picture data example</h2>
-<p>Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a dataset to making a graph that answers your research question. I don’t expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers seeing a bunch of code that you don’t understand is scary and overwhelming - feel free to ignore the code itself. We’ll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly what R can do (and this is only a tiny example of R’s flexibility) and think about the process to get there (which we’ll talk about below).</p>
+<p>Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a data set to making a graph that answers your research question. I don’t expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers seeing a bunch of code that you don’t understand is scary and overwhelming - feel free to ignore the code itself. We’ll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly what R can do (and this is only a tiny example of R’s flexibility) and think about the process to get there (which we’ll talk about below).</p>
 <p>At the time of this writing, the FBI had just released 2020 crime data which showed about a 30% increase in murders relative to 2019. This had led to an explosion of (in my opinion highly premature) explanations of why exactly murder went up so much in 2020. A common explanation is that it is largely driven by gun violence among gang members who are killing each other in a cyclical pattern of murders followed by retaliatory murders. For our coding example, we’ll examine that claim by seeing if gang violence did indeed increase, and whether they increased more than other types of murders.</p>
 <p>The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data which technically does have a variable that says if the murder is gang related, but it’s a very flawed variable (i.e. vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and was not driven merely by an increase in one or a few groups.</p>
-<p><img src="images/shr_motivation_example.png" /></p>
+<p><img src="images/shr_motivation_example.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site <a href="https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/">FiveThirtyEight</a> in discussing the murder increase in 2020. So this is an actual work product that is used in major media publications - and is something that you’ll be able to do by the end of this book. For nearly all research you do you’ll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.</p>
 <p>Please look below at the large chunk of code. We’ll next go through each of the different pieces of this code to start understanding how they work. Throughout the course of this book we’ll cover these steps in more detail - as most research programming work follows the same process - so here we’ll talk more abstractly about what each does. The goal is for you to understand the basic steps necessary for using R to do research, and understand how R can do it - but not having to understand what each line of code does just yet.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="a-soup-to-nuts-project-example.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Used to aggregate data</span></span>
@@ -602,7 +602,7 @@ div.csl-indent {
 <span id="cb2-62"><a href="a-soup-to-nuts-project-example.html#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Who Victim Is Relative to Murderer&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb2-63"><a href="a-soup-to-nuts-project-example.html#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb2-64"><a href="a-soup-to-nuts-project-example.html#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_crim</span>() </span></code></pre></div>
-<p><img src="example-project_files/figure-html/unnamed-chunk-1-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="little-picture-data-example" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Little picture data example</h2>
@@ -624,7 +624,7 @@ div.csl-indent {
 </div>
 <div id="loading-data" class="section level3" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Loading data</h3>
-<p>Next we need to load in our data. The data we’re using is a type of R data file called an .Rds file so we load it using the function <code>readRDS()</code> which is one of the functions built-into R so we don’t actually need to use any package for it. For this example we’re using data from the FBI’s Supplementary Homicide Reports which are an annual dataset that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we’ll look at. When we read in the data to R we need to give it a name so R knows what it is called. We’ll call this data “shr” since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we’re calling it “shr” rather than “SHR.”</p>
+<p>Next we need to load in our data. The data we’re using is a type of R data file called an .Rds file so we load it using the function <code>readRDS()</code> which is one of the functions built-into R so we don’t actually need to use any package for it. For this example we’re using data from the FBI’s Supplementary Homicide Reports which are an annual data set that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we’ll look at. When we read in the data to R we need to give it a name so R knows what it is called. We’ll call this data “shr” since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we’re calling it “shr” rather than “SHR.”</p>
 <p>Each row of data is actually a murder incident, and there can be up to 11 victims per murder incident. So we’ll be undercounting murders as in this example we’re only looking at the first victim in an incident. But, as its an example this is fine as I don’t want it to be too complicated and including more than just the first victim would greatly complicate our code.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="a-soup-to-nuts-project-example.html#cb4-1" aria-hidden="true" tabindex="-1"></a>shr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/shr_1976_2020.rds&quot;</span>) </span></code></pre></div>
 </div>
@@ -690,7 +690,7 @@ div.csl-indent {
 <span id="cb7-9"><a href="a-soup-to-nuts-project-example.html#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Who Victim Is Relative to Murderer&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb7-10"><a href="a-soup-to-nuts-project-example.html#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb7-11"><a href="a-soup-to-nuts-project-example.html#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_crim</span>() </span></code></pre></div>
-<p><img src="example-project_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="reusing-and-modifying-code" class="section level2" number="2.3">
@@ -718,7 +718,7 @@ div.csl-indent {
 <span id="cb8-19"><a href="a-soup-to-nuts-project-example.html#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Offender Weapon&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb8-20"><a href="a-soup-to-nuts-project-example.html#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb8-21"><a href="a-soup-to-nuts-project-example.html#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_crim</span>() </span></code></pre></div>
-<p><img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="example-project_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>While all this code may seem overwhelming, by the end of this book you’ll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph.</p>
 
 </div>

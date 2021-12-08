@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>16 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R</title>
-  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="16 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   
-  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="16 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R" />
   
-  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   
 
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -796,7 +796,7 @@ To examine their methodology, see <a href="https://www.washingtonpost.com/nation
 <h2><span class="header-section-number">16.2</span> Graphing a Single Numeric Variable</h2>
 <p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package if we haven’t done so already this session (i.e. since you last closed RStudio).</p>
 <div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ois-graphs.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
-<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build our way up to more complicated graphs. We’ll start here by building some graphs to depict a numeric variable - in this case the “age” column. We start every <code>ggplot()</code> the same, by inserting the dataset first and then put our x and y variables inside of the <code>aes()</code> parameter. In this case we’re only going to be plotting an x variable so we don’t need to write anything for y.</p>
+<p>As a reminder, the benefit of using <code>ggplot()</code> is we can start with a simple plot and build our way up to more complicated graphs. We’ll start here by building some graphs to depict a numeric variable - in this case the “age” column. We start every <code>ggplot()</code> the same, by inserting the data set first and then put our x and y variables inside of the <code>aes()</code> parameter. In this case we’re only going to be plotting an x variable so we don’t need to write anything for y.</p>
 <div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="ois-graphs.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age))</span></code></pre></div>
 <p><img src="graphing-2_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 Running the above code returns a blank graph since we haven’t told <code>ggplot()</code> what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They’re essentially all variations of each other and show the data at different levels of precision. It’s hard to say which is best - you’ll need to use your best judgment and consider your audience.</p>
@@ -943,7 +943,7 @@ This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there
 <span id="cb279-7"><a href="ois-graphs.html#cb279-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shootings<span class="sc">$</span>year)</span>
 <span id="cb279-8"><a href="ois-graphs.html#cb279-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2015 2015 2015 2015 2015 2015</span></span></code></pre></div>
 <p>Since the data is already sorted by date, all the values printed from <code>head()</code> are the same. But you can look at the data using <code>View()</code> to confirm that the code worked properly.</p>
-<p>We can now aggregate the data by the “month_year” variable and save the result into a new dataset we’ll call <em>monthly_shootings</em>. We’ll use the <code>group_by()</code> and <code>summarize()</code> functions from <code>dplyr</code> that were introduced in Chapter <a href="explore.html#explore">12</a> to do this. And we’ll use the pipe method of writing <code>dplyr</code> code that was discussed in Section <a href="explore.html#dplyr-pipes">12.4</a></p>
+<p>We can now aggregate the data by the “month_year” variable and save the result into a new data set we’ll call <em>monthly_shootings</em>. We’ll use the <code>group_by()</code> and <code>summarize()</code> functions from <code>dplyr</code> that were introduced in Chapter <a href="explore.html#explore">12</a> to do this. And we’ll use the pipe method of writing <code>dplyr</code> code that was discussed in Section <a href="explore.html#dplyr-pipes">12.4</a></p>
 <div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="ois-graphs.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb280-2"><a href="ois-graphs.html#cb280-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb280-3"><a href="ois-graphs.html#cb280-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
@@ -966,7 +966,7 @@ This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there
 <span id="cb280-20"><a href="ois-graphs.html#cb280-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 2015-04-01    84</span></span>
 <span id="cb280-21"><a href="ois-graphs.html#cb280-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 2015-05-01    71</span></span>
 <span id="cb280-22"><a href="ois-graphs.html#cb280-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2015-06-01    65</span></span></code></pre></div>
-<p>Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We’ll use the same process as earlier but our data set is now <code>monthly_shootings</code> instead of <code>shootings</code> and the x-axis variable is “month_year” instead of “date.”</p>
+<p>Since we now have a variable that shows for each month the number of people killed, we can graph this new data set. We’ll use the same process as earlier but our data set is now <code>monthly_shootings</code> instead of <code>shootings</code> and the x-axis variable is “month_year” instead of “date.”</p>
 <div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="ois-graphs.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(monthly_shootings, <span class="fu">aes</span>(<span class="at">x =</span> month_year, <span class="at">y =</span> dummy)) <span class="sc">+</span></span>
 <span id="cb281-2"><a href="ois-graphs.html#cb281-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
 <p><img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />

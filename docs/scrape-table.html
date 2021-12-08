@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>23 Scraping tables from PDFs | Crime by the Numbers: A Criminologist’s Guide to R</title>
-  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="23 Scraping tables from PDFs | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   
-  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="23 Scraping tables from PDFs | Crime by the Numbers: A Criminologist’s Guide to R" />
   
-  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   
 
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -535,15 +535,15 @@ div.csl-indent {
 <p>We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we’ll scrape and then combine together. The data was downloaded from the U.S. Customs and Border Protection “Stats and Summaries” page <a href="https://www.cbp.gov/newsroom/media-resources/stats">here</a>. If you’re interested in using more of their data, some of it has been cleaned and made available <a href="https://www.openicpsr.org/openicpsr/project/109522/version/V2/view">here</a>.</p>
 <p>The file we want to use is called “usbp_stats_fy2017_sector_profile.pdf” and has four tables in the PDF. Let’s take a look at them one at a time, understanding what variables are available, and what units each row is in. Then we’ll start scraping the tables.</p>
 <p>The first table is “Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th).” Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.</p>
-<p><img src="images/pdf_table_1.PNG" /></p>
+<p><img src="images/pdf_table_1.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data.</p>
 <p>There are 9 columns in the data other than the border section identifier. We have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border.</p>
 <p>Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.</p>
-<p><img src="images/pdf_table_2.PNG" /></p>
+<p><img src="images/pdf_table_2.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>Table 3 follows the same format and the new columns are number of apprehensions by gender.</p>
-<p><img src="images/pdf_table_3.PNG" /></p>
+<p><img src="images/pdf_table_3.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn’t include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won’t scrape it in this lesson - but you can use the skills you’ll learn to do so yourself.</p>
-<p><img src="images/pdf_table_4.PNG" /></p>
+<p><img src="images/pdf_table_4.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <div id="scraping-the-first-table" class="section level2" number="23.1">
 <h2><span class="header-section-number">23.1</span> Scraping the first table</h2>
 <p>We’ve now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times.</p>

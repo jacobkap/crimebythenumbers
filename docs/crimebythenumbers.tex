@@ -196,7 +196,7 @@
 
 \title{Crime by the Numbers: A Criminologist's Guide to R}
 \author{Jacob Kaplan}
-\date{2021-12-06}
+\date{2021-12-07}
 
 \begin{document}
 \maketitle
@@ -337,14 +337,7 @@ If you have any questions, suggestions (such as a topic to cover), or find any i
 
 For more minor issues like typos or grammar mistakes, you can edit the book directly through its GitHub page. That'll make an update for me to accept, which will change the book to include your edit. To do that, click the edit button at the top of the site - the button is highlighted in the below figure. You will need to make a GitHub account to make edits. When you click on that button you'll be taken to a page that looks like a Word Doc where you can make edits. Make any edits you want and then scroll to the bottom of the page. There you can write a short (please, no more than a sentence or two) description of what you've done and then submit the changes for me to review.
 
-\begin{figure}
-
-{\centering \includegraphics[width=0.9\linewidth]{images/edit_button} 
-
-}
-
-\caption{The edit button for how to make edits of this book.}\label{fig:unnamed-chunk-1}
-\end{figure}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/edit_button} \end{center}
 
 Please only use the above two methods to contribute or make suggestions about the book. Don't email me. While it's a bit more work for you to do it this way, since you'll need to make a GitHub account if you don't already have one, it helps me. I wrote this book, in part, to help my career so having evidence that people read it and are contributing to it is important to me. It's a way to publicly measure the book's impact.
 
@@ -366,7 +359,9 @@ I've also made each chapter available to download as an R file that has every li
 \chapter*{About the author}\label{about-the-author}}
 
 
-\textbf{Jacob Kaplan} is the Chief Data Scientist of the Research on Policing Reform and Accountability (RoPRA), a multi-disciplinary, multi-institutional team of social scientists studying the feasibility and efficacy of policing reform, with a focus on statistically rigorous research and practical applications. His current appointment is at the Princeton School of Public and International Affairs. He holds a PhD and a master's degree in criminology from the University of Pennsylvania and a bachelor's degree in criminal justice from California State University, Sacramento. His research focuses on Crime Prevention Through Environmental Design (CPTED), specifically on the effect of outdoor lighting on crime. He is the author of several R packages that make it easier to work with data, including \href{https://jacobkap.github.io/fastDummies/}{fastDummies} and \href{https://jacobkap.github.io/asciiSetupReader/}{asciiSetupReader}. His \href{http://jacobdkaplan.com/}{website} allows easy analysis of crime-related data and he has released over a \href{http://jacobdkaplan.com/data.html}{dozen crime data sets} (primarily FBI UCR data) on openICPSR that he has compiled, cleaned, and made available to the public. He is also the author of books on the two primary criminal justice datasets: the FBI's \href{https://ucrbook.com/}{Uniform Crime Reporting (UCR) Program Data}, and the FBI's \href{https://nibrsbook.com/}{National Incident Based Reporting System (NIBRS)} data.
+\textbf{Jacob Kaplan} is the Chief Data Scientist of the Research on Policing Reform and Accountability (RoPRA), a multi-disciplinary, multi-institutional team of social scientists studying the feasibility and efficacy of policing reform, with a focus on statistically rigorous research and practical applications. His current appointment is at the Princeton School of Public and International Affairs. He holds a PhD and a master's degree in criminology from the University of Pennsylvania and a bachelor's degree in criminal justice from California State University, Sacramento.
+
+He is the author of several R packages that make it easier to work with data, including \href{https://jacobkap.github.io/fastDummies/}{fastDummies} and \href{https://jacobkap.github.io/asciiSetupReader/}{asciiSetupReader}. His \href{http://jacobdkaplan.com/}{website} allows easy analysis of crime-related data and he has released over a \href{http://jacobdkaplan.com/data.html}{dozen crime data sets} (primarily FBI UCR data) on openICPSR that he has compiled, cleaned, and made available to the public. He is also the author of books on the two primary criminal justice data sets: the FBI's \href{https://ucrbook.com/}{Uniform Crime Reporting (UCR) Program Data}, and the FBI's \href{https://nibrsbook.com/}{National Incident Based Reporting System (NIBRS)} data.
 
 \hypertarget{a-soup-to-nuts-project-example}{%
 \chapter{A soup to nuts project example}\label{a-soup-to-nuts-project-example}}
@@ -376,13 +371,13 @@ Before we get into exactly to how use R, we'll go over a brief example of a kind
 \hypertarget{big-picture-data-example}{%
 \section{Big picture data example}\label{big-picture-data-example}}
 
-Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a dataset to making a graph that answers your research question. I don't expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers seeing a bunch of code that you don't understand is scary and overwhelming - feel free to ignore the code itself. We'll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly what R can do (and this is only a tiny example of R's flexibility) and think about the process to get there (which we'll talk about below).
+Below is a large chunk of R code along with some comments about what the code does. The purpose of this example is to show that with relative little code (excluding blank lines and comments, there are only 35 lines of R code here) you can go from opening a data set to making a graph that answers your research question. I don't expect you to understand any of this code as it is fairly complex and involves many different concepts in programming. So if the code is scary - and for many early programmers seeing a bunch of code that you don't understand is scary and overwhelming - feel free to ignore the code itself. We'll cover each of these skills in turn throughout the book so by the end of the book you should be able to come back and understand the code (and modify it to meet your own needs). The important thing is that you can see exactly what R can do (and this is only a tiny example of R's flexibility) and think about the process to get there (which we'll talk about below).
 
 At the time of this writing, the FBI had just released 2020 crime data which showed about a 30\% increase in murders relative to 2019. This had led to an explosion of (in my opinion highly premature) explanations of why exactly murder went up so much in 2020. A common explanation is that it is largely driven by gun violence among gang members who are killing each other in a cyclical pattern of murders followed by retaliatory murders. For our coding example, we'll examine that claim by seeing if gang violence did indeed increase, and whether they increased more than other types of murders.
 
 The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data which technically does have a variable that says if the murder is gang related, but it's a very flawed variable (i.e.~vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and was not driven merely by an increase in one or a few groups.
 
-\includegraphics{images/shr_motivation_example.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/shr_motivation_example} \end{center}
 
 These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site \href{https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/}{FiveThirtyEight} in discussing the murder increase in 2020. So this is an actual work product that is used in major media publications - and is something that you'll be able to do by the end of this book. For nearly all research you do you'll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.
 
@@ -457,7 +452,7 @@ Please look below at the large chunk of code. We'll next go through each of the 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-1-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-2-1} \end{center}
 
 \hypertarget{little-picture-data-example}{%
 \section{Little picture data example}\label{little-picture-data-example}}
@@ -496,7 +491,7 @@ In R we'll often use code written by other people that have tools that we want t
 \hypertarget{loading-data}{%
 \subsection{Loading data}\label{loading-data}}
 
-Next we need to load in our data. The data we're using is a type of R data file called an .Rds file so we load it using the function \texttt{readRDS()} which is one of the functions built-into R so we don't actually need to use any package for it. For this example we're using data from the FBI's Supplementary Homicide Reports which are an annual dataset that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we'll look at. When we read in the data to R we need to give it a name so R knows what it is called. We'll call this data ``shr'' since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we're calling it ``shr'' rather than ``SHR''.
+Next we need to load in our data. The data we're using is a type of R data file called an .Rds file so we load it using the function \texttt{readRDS()} which is one of the functions built-into R so we don't actually need to use any package for it. For this example we're using data from the FBI's Supplementary Homicide Reports which are an annual data set that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we'll look at. When we read in the data to R we need to give it a name so R knows what it is called. We'll call this data ``shr'' since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we're calling it ``shr'' rather than ``SHR''.
 
 Each row of data is actually a murder incident, and there can be up to 11 victims per murder incident. So we'll be undercounting murders as in this example we're only looking at the first victim in an incident. But, as its an example this is fine as I don't want it to be too complicated and including more than just the first victim would greatly complicate our code.
 
@@ -588,7 +583,7 @@ Once we have our data cleaned and organized in the way we want, we are ready to 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 \hypertarget{reusing-and-modifying-code}{%
 \section{Reusing and modifying code}\label{reusing-and-modifying-code}}
@@ -623,7 +618,7 @@ This is one of the key benefits of programming over something more click intensi
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph.
 
@@ -641,7 +636,7 @@ RStudio is the interface we use to work with R. It has a number of features to m
 
 When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon.
 
-\includegraphics{images/rstudio_1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_1} \end{center}
 
 At the top right of the image (and this may be in a different location on your RStudio) is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write \texttt{2+2} it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written.
 
@@ -658,7 +653,7 @@ While the Source and Console panels are the ones that are of most use, there are
 
 When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available: R Presentation which can make PowerPoints, R Markdown which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \ref{r-markdown}), and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this but keep in mind the wide capabilities of R if you have another task to do.
 
-\includegraphics{images/rstudio_2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_2} \end{center}
 
 \hypertarget{setting-the-working-directory}{%
 \subsection{Setting the working directory}\label{setting-the-working-directory}}
@@ -667,7 +662,7 @@ Many research projects incorporate data that someone else (such as the FBI or a 
 
 We need to tell R explicitly which folder has the data to load. We do this by setting the ``Working Directory'' (or the ``Folders where I want you, R, to look for my data'' in more simple terms). To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want.
 
-\includegraphics{images/rstudio_3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_3} \end{center}
 
 After clicking Open in that window you'll see a new line of code in the Console starting with \texttt{setwd()} and inside of the parentheses is the route your computer takes to get to the folder you selected. And now R knows which folder to look in for the data you want. It is good form to start your R Script with \texttt{setwd()} to make sure you can load the data. Copy the line of code that says \texttt{setwd()} (which stands for ``set working directory''), including everything in the parentheses, to your R Script when you start working.
 
@@ -676,7 +671,7 @@ After clicking Open in that window you'll see a new line of code in the Console 
 
 Your RStudio looks different than my RStudio because I changed a number of settings to suit my preferences. To do so yourself click the Tools tab on the top menu and then click Global Options.
 
-\includegraphics{images/rstudio_5.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_5} \end{center}
 
 This opens up a window with a number of different tabs to change how R behaves and how it looks.
 
@@ -687,21 +682,30 @@ Under Workspace in the General tab make sure to \textbf{uncheck} the ``Restore .
 
 You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be, but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously.
 
-\includegraphics{images/rstudio_6.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_6} \end{center}
 
 \hypertarget{code}{%
 \subsubsection{Code}\label{code}}
 
 The Code tab lets you specify how you want the code to be displayed. The important section for us is to make sure to check the ``Soft-wrap R source files'' check-box. If you write a very long line of code it gets too big to view all at once and you must scroll to the right to read it all. That can be annoying as you won't be able to see all the code at once. Setting ``Soft-wrap'' makes it so if a line is too long it will just be shown on multiple lines which solves that issue. In practice it is best to avoid long lines of codes as it makes it hard to read but that isn't always possible.
 
-\includegraphics{images/rstudio_7.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_7} \end{center}
+
+\hypertarget{saving}{%
+\paragraph{Saving}\label{saving}}
+
+Inside of the Code tab we also want to turn on an option to have RStudio automatically save the R script when we aren't using it. This is like how Google Docs automatically saves your document every second or so. While we should be saving our file often (using the little floppy disk icon near the top of RStudio), having RStudio automatically save adds a level of security as it prevents losing a lot of progress if we forget to save and RStudio crashes or we close it.
+
+To set it to auto save, move to the Saving tab, and check the ``Automatically save when editor loses focus'' box. So if you click out of the RStudio or stop typing, it will automatically save. You can also say how long to wait before saving with options ranging from 500 milliseconds to 10,000 milliseconds which is the same as 0.5 seconds to 10 seconds.
+
+\begin{center}\includegraphics[width=0.9\linewidth]{images/auto_save} \end{center}
 
 \hypertarget{appearance}{%
 \subsubsection{Appearance}\label{appearance}}
 
 The Appearance tab lets you change the background, color, and size of text. Change it to your preferences.
 
-\includegraphics{images/rstudio_8.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_8} \end{center}
 
 \hypertarget{pane-layout}{%
 \subsubsection{Pane Layout}\label{pane-layout}}
@@ -710,14 +714,14 @@ The final tab we'll look at is Pane Layout. This lets you move around the Source
 
 As we'll discuss more in Section \ref{functions-intro}, the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots.
 
-\includegraphics{images/rstudio_9.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_9} \end{center}
 
 \hypertarget{helpful-cheat-sheets}{%
 \subsection{Helpful Cheat Sheets}\label{helpful-cheat-sheets}}
 
 RStudio also includes a number of links to helpful cheat sheets for a few important topics. To get to it click Help, then Cheatsheets and click on whichever one you need.
 
-\includegraphics{images/rstudio_4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rstudio_4} \end{center}
 
 \hypertarget{assignment}{%
 \section{Assigning variables}\label{assignment}}
@@ -791,12 +795,12 @@ If we do \texttt{example\_123\_value.demonstration\ *\ 10} then it'll print out 
 \end{Highlighting}
 \end{Shaded}
 
-I've been saying ``object'' a lot, without defining it. An object is a bit tricky to define, especially at this stage in the book. Throughout this book I'll be using object to describe something that has been assigned value, such as ``a'' and ``example\_123\_value.demonstration''. This also includes outside datasets read into R, such as loading an Excel file into R and even a set of R code that has been assigned to an object (which is called a function). Each object that you have created yourself can be found in the Environment tab.
+I've been saying ``object'' a lot, without defining it. An object is a bit tricky to define, especially at this stage in the book. Throughout this book I'll be using object to describe something that has been assigned value, such as ``a'' and ``example\_123\_value.demonstration''. This also includes outside data sets read into R, such as loading an Excel file into R and even a set of R code that has been assigned to an object (which is called a function). Each object that you have created yourself can be found in the Environment tab.
 
 \hypertarget{functions-intro}{%
 \section{What are functions (and packages)?}\label{functions-intro}}
 
-When programming to do research you'll often have to do the same thing multiple times. For example, many crime datasets are available as one file for each year of data. So if you are analyzing multiple years of data you'll need to clean each file separately - and in most cases that involves using the exact same code for every file. This also includes doing things that other people have done. For example, most research leads to at least one graph made. Since making graphs is so common, many people have spent a long time writing code to make it easy to make publication-ready graphs. Instead of doing all that work ourselves we can just use code that other people have written and made available to us. While we could do this by copying code, the easiest way to reuse code it to use functions.
+When programming to do research you'll often have to do the same thing multiple times. For example, many crime data sets are available as one file for each year of data. So if you are analyzing multiple years of data you'll need to clean each file separately - and in most cases that involves using the exact same code for every file. This also includes doing things that other people have done. For example, most research leads to at least one graph made. Since making graphs is so common, many people have spent a long time writing code to make it easy to make publication-ready graphs. Instead of doing all that work ourselves we can just use code that other people have written and made available to us. While we could do this by copying code, the easiest way to reuse code it to use functions.
 
 As noted in the previous section, a function is a bunch of code (it could range from a single line of code to hundreds of lines) that has been assigned to an object. We'll dive into this topic in detail in Chapter \ref{functions} - including how to make your own functions - but using functions is such an important concept that we'll briefly introduce them here. Almost everything that you will do in R is through functions. For the most part that'll be using functions that other people have written that are available to use - and this includes functions that are built into R already and ones we have to download from other R programmers.
 
@@ -808,7 +812,7 @@ If you are having trouble understanding what a function does or how to use it, y
 
 If we wrote \texttt{help(head)} to figure out what the \texttt{head()} function does, it will open up this page. Unfortunately, many help pages are not that useful. The image below shows the help page for \texttt{head()} and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as \href{https://stackoverflow.com/}{Stack Overflow} where people can ask questions about programming.
 
-\includegraphics{images/help_page.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/help_page} \end{center}
 
 For \texttt{head()} all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called \texttt{mtcars}. \texttt{mtcars} is one of a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type \texttt{mtcars} into the console and it will print out data to the console; there's nothing you need to do to load the data into R. \texttt{mtcars} has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
 
@@ -841,7 +845,7 @@ Downloading a package through R code uses - like pretty much everything else in 
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
 
-\includegraphics{images/install_packages.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/install_packages} \end{center}
 
 Once we have downloaded the package we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. So we need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting R. The way to do this in R is to use the function \texttt{library()} where we put the package name in the parentheses. Since the package is something that has been install to R, we don't need to quotes around the name.
 
@@ -856,7 +860,7 @@ Now we can run the \texttt{meditations()} function and get a random Marcus Aurel
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{meditations}\NormalTok{()}
-\CommentTok{\#\textgreater{} [1] "The idle business of show, plays on the stage, flocks of sheep, herds, exercises with spears, a bone cast to little dogs, a bit of bread into fish{-}ponds, labourings of ants and burden{-}carrying, runnings about of frightened little mice, puppets pulled by strings{-} all alike. It is thy duty then in the midst of such things to show good humour and not a proud air; to understand however that every man is worth just so much as the things are worth about which he busies himself."}
+\CommentTok{\#\textgreater{} [1] "The perfection of moral character consists in this, in passing every day as the last, and in being neither violently excited nor torpid nor playing the hypocrite."}
 \end{Highlighting}
 \end{Shaded}
 
@@ -980,7 +984,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
 
 Finally, \texttt{View()} opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data.
 
@@ -1109,7 +1113,7 @@ All three of the values we checked say that they are a ``vector'' type. We'll co
 \end{Highlighting}
 \end{Shaded}
 
-In a lot of cases we'll want to check if some data is a specific type. For example, we might want to check that the year column of a dataset is numeric, rather than say character. We do this with three functions, each of which checks that the data input (the data put in the parentheses of the function) is that type of data or not. These functions are: \texttt{is.numeric()}, \texttt{is.character()}, and \texttt{is.logical()}.
+In a lot of cases we'll want to check if some data is a specific type. For example, we might want to check that the year column of a data set is numeric, rather than say character. We do this with three functions, each of which checks that the data input (the data put in the parentheses of the function) is that type of data or not. These functions are: \texttt{is.numeric()}, \texttt{is.character()}, and \texttt{is.logical()}.
 
 Running any of these functions will actually return a logical value, either TRUE or FALSE telling us if the value inputted is that type.
 
@@ -1583,7 +1587,7 @@ To read fixed-width ASCII files into R we'll use the \texttt{asciiSetupReader} p
 \end{Highlighting}
 \end{Shaded}
 
-We'll use the \texttt{read\_ascii\_setup()} function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder dataset) which is called ``2020\_SHR\_NATIONAL\_MASTER\_FILE.txt'' and the setup file is one that I wrote myself and is called ``ucr\_shr.sps''. We can name the object we read ``shr''.
+We'll use the \texttt{read\_ascii\_setup()} function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder data set) which is called ``2020\_SHR\_NATIONAL\_MASTER\_FILE.txt'' and the setup file is one that I wrote myself and is called ``ucr\_shr.sps''. We can name the object we read ``shr''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1686,8 +1690,6 @@ For answers, please see Section \ref{problem-answers-chapter-5}. Please keep in 
 \hypertarget{part-project-management}{%
 \part{Project Management}\label{part-project-management}}
 
-In the next few chapters we'll cover proper project management including collaborating with other people (including yourself in the future who, in all likelihood, will forget a lot of the code you wrote), testing your code, and using the version control software Git.
-
 \hypertarget{mise-en-place}{%
 \chapter{\texorpdfstring{\emph{Mise en place}}{Mise en place}}\label{mise-en-place}}
 
@@ -1709,55 +1711,55 @@ And second, from my experience helping people at Penn with R, people - especiall
 
 One of the biggest challenges I had early in my PhD was figuring out what data was supposed to look like. I mean that literally. My first research project was analyzing if monthly crime in school buildings changed after a new policy was instituted that increased building security. The data I had available was incident-level so one row for every crime at the school, and I needed to convert it to the building-month level. For some reason I just couldn't think of the proper way for my data to appear in the final data set which prevented me from figuring out what I needed to do. One solution to this - and useful even if you don't have this problem - is to draw out the graphs and tables you want before starting the code. Like writing out the steps for the code, drawing the graph will help you understand exactly how your data needs to look - and thus what code you need to write - for these graphs.
 
-Below are two images from a recent project of mine with the tables and graphs that I wanted sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren't chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out helps you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, for the US Census). If we continue our example of using the US Border Patrol data, this means that you'll also need to grab, clean, and merge Census data to your other datasets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you'll need to do for the project but may have not thought of.
+Below are two images from a recent project of mine with the tables and graphs that I wanted sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren't chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out helps you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, for the US Census). If we continue our example of using the US Border Patrol data, this means that you'll also need to grab, clean, and merge Census data to your other data sets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you'll need to do for the project but may have not thought of.
 
-\includegraphics{images/paper_table.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/paper_table} \end{center}
 
-\includegraphics{images/paper_figure.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/paper_figure} \end{center}
 
 \hypertarget{r-projects}{%
 \section{R Projects}\label{r-projects}}
 
 We've talked about projects in an abstract sense - that they are research papers or specific data exploration jobs. RStudio provides, a bit confusingly, something called an R Project which is merely a helpful way to organize folders for a specific project (paper, data exploration, etc.) that you do. When you do a project, I recommend keeping \emph{everything} for that project in a single folder on your computer. Below is an image showing all of the folders I use for my various R work. As you can see from the file names, each folder is for a separate project, and there is not overlap between them - each project is independent.
 
-\includegraphics{images/projects.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/projects} \end{center}
 
 First, I'll explain how to set up an R Project through R Studio, and why you would want to do it. There are two main reasons to want to use an R Project. First, throughout this book I had you set your working directory so that R knew where to look for a particular file. In R Projects, by default the working directory is in that project's folder. So if you had a file \texttt{example.csv} in your project folder, you wouldn't need to set a working directory since R would already be looking that. This may be a minor time-saving method if you're working alone since you'd only need to set the working directory once when not using an R Project. But consider if you're collaborating with three people and you've shared your code. When using an R Project, it just runs. There is no figuring out what the issue is - and determining what the issue is will take them longer than setting the working directory itself. Second, it provides easy access to using the version control software Git, which we'll talk about in detail in Chapter \ref{git}.
 
 To make an R Project, start by clicking the \emph{File} button on the top left corner of RStudio and then click \emph{New Project}. This will open up a window that has three options: New Directory, Existing Directory, and Version Control. New Directory says that the project we are making is going to be in a brand new folder that we're (R will do this automatically) going to create. This is the one you'll click on in the majority of cases. Existing Directory is for making a folder in an existing folder, which doesn't have too many useful cases. The Version Control is taking a project that someone else has created and downloading it to your computer. We'll cover this more in Chapter \ref{git}.
 
-\includegraphics{images/new_project_1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_1} \end{center}
 
 Once you've clicked New Directory, it'll change the window to ask you what type of project you want. The below two figures show all the different types of projects R can make (installing some R packages such as \texttt{bookdown} can add more types of projects to this list). R is very versatile and has project types ranging from the standard R Project to books and websites. We just want a standard project so click the New Project button at the top.
 
-\includegraphics{images/new_project_2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_2} \end{center}
 
-\includegraphics{images/new_project_3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_3} \end{center}
 
 Now it'll have a window that says Create New Project up top. In the Directory name: section you write the name of your R Project. This will be the name of your folder so you want it descriptive enough to understand (and for collaborators to understand) what it is for, without being overly long. Once you have a name you can click the Browse\ldots{} button on the right and go to the folder on your computer where you want to put this folder (ideally, you'll put it in a folder which is backed up by something like DropBox). Make sure the \emph{Create a git repository} checkbox is selected, and we'll explain why in Chapter \ref{git}. Click Create Project and R will make the project folder on your computer and open that project in RStudio.
 
-\includegraphics{images/new_project_4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_4} \end{center}
 
 Below are images of a brand new R Project that I made called \emph{example} that I put in my Desktop folder. The folder is now empty except for two files - .gitignore (which we won't talk about here) and \emph{example} which is type ``R Project'' (and the full name would be \emph{example.Rproj}). This is a \textbf{very} important file. Note that its name is the same as the R Project name that I made, and the same as the folder name on my computer. This file is essentially a shortcut that you click to open that R Project. It doesn't do anything more than open the R Project but this is the way you'll access the project every time you want to use it. Double-click this and the Project will open.
 
-\includegraphics{images/new_project_6.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_6} \end{center}
 
 This RStudio session looks nearly identical to other sessions that we've used - and it nearly is identical. A few key differences can be found in the top left corner where it says ``example - RStudio'', indicating that we're in the \emph{example} R Project. And then directly below the ``Console'' tab it says ``C:/Users/user/Desktop/example/''. This is the working directory of this project. I didn't set it, R just knew where it was. If you move this folder to a new folder (say, the Downloads folder) or if someone else downloads it to their computer, R will automatically change the working directory to the right one. You no longer have to worry about it.
 
-\includegraphics{images/new_project_5.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_5} \end{center}
 
 \hypertarget{folders}{%
 \subsection{Folders}\label{folders}}
 
 Now that we have the R Project made, we need to start adding some R code and data files to the project so we can get started working. But first, let's talk about proper ways to organize the folder. I've added a few new folders to the new \emph{example} R Project as the basic layout of my work process. This is for a research-oriented project so may not apply in your particular case. Organizing your folders (and as we'll see below, your code) is important so please play around with different ways to organize and find a way that works well for you.
 
-\includegraphics{images/new_project_7.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_7} \end{center}
 
 I've added five folders to the R Project folder: analysis, articles, data, drafts, and R (note that I moved it to the Downloads folder, and if I opened the project RStudio would know where the new working directory was). I tend to do my analysis using Stata (primarily because most of my co-authors use Stata instead of R so this is a way we can both work on the analysis) so in this folder I'd keep all of the .do (Stata) files to run the regressions. In articles, I put PDFs of every article I read that I use (or planned to use while reading it) for the paper I'm working on in this project. It's good to keep this organized to share with co-authors or just for easy reference after you've read it. It certainly takes time to find good sources for a lot of research, so you don't want to have to search again because you've forgotten which article you had a particular reference from or that was important to your study. While I recommend writing your papers in R Markdown (see Chapter \ref{r-markdown}), you will need to create drafts of the paper to send to others (e.g.~your collaborators or journals). The ``drafts'' folder is a good place to keep these versions - some journals require that you submit a Word Document with track-changes for a revise and resubmit so you will need to leave R Markdown occasionally to comply with these rules.
 
-The final two important folders are ``R'' and ``data''. In the R folder - as you may have guessed - belong the various R scripts that you write during the project. In Section \ref{modular-r-scripts}, we'll talk in detail as to how to organize these scripts. Inside the ``data'' folder I made two subfolders: ``raw'' and ``clean''. The raw folder is where you'll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn't necessary). This folder will have, for example, the PDFs that you intend to scrape, or .csv files with crime data in them. It is important to keep this data always unchanged (change only in your R code and save the output to a new file) so you can replicate your results from the original data. In the clean folder is that final data output from your work to clean and manipulate (e.g.~subset, aggregate) the data. It isn't strictly necessary to even output a final dataset - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but it is important both for safekeeping and to be able to share with others. If you collaborate with people, you'll want to be able to send them the data so they can examine it without having to run all of your code themselves.
+The final two important folders are ``R'' and ``data''. In the R folder - as you may have guessed - belong the various R scripts that you write during the project. In Section \ref{modular-r-scripts}, we'll talk in detail as to how to organize these scripts. Inside the ``data'' folder I made two subfolders: ``raw'' and ``clean''. The raw folder is where you'll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn't necessary). This folder will have, for example, the PDFs that you intend to scrape, or .csv files with crime data in them. It is important to keep this data always unchanged (change only in your R code and save the output to a new file) so you can replicate your results from the original data. In the clean folder is that final data output from your work to clean and manipulate (e.g.~subset, aggregate) the data. It isn't strictly necessary to even output a final data set - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but it is important both for safekeeping and to be able to share with others. If you collaborate with people, you'll want to be able to send them the data so they can examine it without having to run all of your code themselves.
 
-\includegraphics{images/new_project_8.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/new_project_8} \end{center}
 
 \hypertarget{modular-r-scripts}{%
 \section{Modular R scripts}\label{modular-r-scripts}}
@@ -1766,9 +1768,9 @@ If you are like many people who start programming, all of your code will be in a
 
 When you're writing a paper you don't just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize your thoughts and to make it readable for others. It's also useful when working since you know, for example, ``Section 1 is done but I still need to finish Section 2 and the last part of Section 3.'' This way you don't confront working on the entire paper at once. You'll want to follow these lessons in the code you write, with each ``section'' of code being its own R script and within a script split up code into particular ``paragraphs''. The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let's use a real example from one of my recent projects.
 
-\includegraphics{images/modular_scripts.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/modular_scripts} \end{center}
 
-Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.\footnote{The analysis was done in Stata so there are separate files for that} Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate dataset than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper.
+Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.\footnote{The analysis was done in Stata so there are separate files for that} Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate data set than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper.
 
 This is an example of how I approach making R scripts, not necessarily the best way to do so. Even here, other decisions could be made. For example, I could have put the code from census.R into clean.R since they're both about cleaning data. While you should try to make separate R scripts for broadly different tasks (regardless of how much code that task requires), you should experiment with how you prefer to separate these scripts, and balance between having one (or a few) super scripts that comprise everything with having too many scripts that do too little - this balance requires experience and experimentation so keep at it!
 
@@ -1784,18 +1786,18 @@ The goal of making modular code is to avoid having a large amount of code withou
 
 When you have major parts of a script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label. Write the name of the section you want and click OK and it'll add that to where your cursor was in the R Script. You can also do this by simply adding four dashes on the end of a comment
 
-\includegraphics{images/section_label1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/section_label1} \end{center}
 
 Sections are more than just commented parts of a Script. Note that in the photo below, there is both the Section label in the R Script and that same label in a new section of the Source tab on the right. You can get to this section by clicking on the button on the very top right, the one that looks like a bunch of misaligned lines. In here, it shows all the Sections that exist and clicking the Section name will move to the start of that Section in your R Script. If you have a long script (which is generally unadvised but sometimes can't be helped), this is an easy way to find a particular part of your code.
 
-\includegraphics{images/section_label2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/section_label2} \end{center}
 
 \hypertarget{helper-r-scripts}{%
 \subsection{Helper R Scripts}\label{helper-r-scripts}}
 
 As part of making code organized, I find it helpful to make two R scripts in each (or most) of my projects to hold helper functions or objects - and I call these utils.R and utils\_objects.R (utils stands for utility as these are helpful pieces of code for the project). These files should be for code that will be used in multiple R Scripts, so you want them in a single place rather than copying them over in each script where you need them.
 
-In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don't want them in the main file. In utils\_objects, I put useful objects such as a vector (\texttt{c()}) of values that I will use to subset. For example, if I wanted to subset all violent crimes from a dataset, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. In utils\_objects.R I could make an object with this vector, such as \texttt{violent\_crimes\ \textless{}-\ c("murder",\ "rape",\ "robbery",\ "assault")}.
+In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don't want them in the main file. In utils\_objects, I put useful objects such as a vector (\texttt{c()}) of values that I will use to subset. For example, if I wanted to subset all violent crimes from a data set, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. In utils\_objects.R I could make an object with this vector, such as \texttt{violent\_crimes\ \textless{}-\ c("murder",\ "rape",\ "robbery",\ "assault")}.
 
 If you want to run utils.R or utils\_objects.R (or any .R file) in a different R script, you can use the \texttt{source()} function which makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we'd write \texttt{source("utils.R")}. If that file was in the ``data'' folder of our R Project, we'd write \texttt{source("data/utils.R")} so R knew to look in the ``data'' folder for the file.
 
@@ -1862,19 +1864,19 @@ I include this chapter early in the book - and likely before you are really comf
 
 To open up a R Markdown file click File from the top menu, then New File, and then R Markdown\ldots{}
 
-\includegraphics{images/markdown1.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown1} \end{center}
 
 From here it'll open up a window where you select the title, author, and type of output. You can always change all three of these selections right in the R Markdown file after making your selection here. Selecting PDF may require you to download additional software to get it to output - some operating systems may already have the software installed. For a nice guide to making PDFs with R Markdown, see \href{https://medium.com/@sorenlind/create-pdf-.reports-using-r-r-markdown-latex-and-knitr-on-windows-10-952b0c48bfa9}{here}.
 
-\includegraphics{images/markdown2.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown2} \end{center}
 
 When you click OK, it will open a new R Markdown file that is already populated with example text and code. You can delete this entirely or modify it as needed.
 
-\includegraphics{images/markdown6.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown6} \end{center}
 
 When you output that file as a PDF it will look like the image below.
 
-\includegraphics{images/markdown_output_example.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown_output_example} \end{center}
 
 R converted the file into a PDF, executing the code and using the formatting specified. In an R Script a \texttt{\#} means that the line is a comment. In an R Markdown file, the \texttt{\#} signifies that the line is a section header. There are 6 possible headers, made by combining the \texttt{\#} together - a \texttt{\#} is the largest header while \texttt{\#\#\#\#\#\#} is the smallest header. As with comments, they must be at the beginning of a line.
 
@@ -1889,11 +1891,11 @@ The reason R Markdown is so useful is because you can include code output in the
 
 To make a chunk click Insert near the top right, then R.
 
-\includegraphics{images/markdown3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown3} \end{center}
 
 It will then make an empty code chunk where your cursor is.
 
-\includegraphics{images/chunk_example.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/chunk_example} \end{center}
 
 Notice the three ` at the top and bottom of the chunk. Don't touch these! They tell R that anything in it is a code chunk (i.e.~that R should run the code). Inside the squiggly brackets \texttt{\{\}} are instructions about how the code is outputted. Here you can specify, among other things if the code will be outputted or just the output itself, captions for tables or graphs, and formatting for the output. Include all of these options after the \texttt{r} in the squiggly brackets. Multiple options must be separated by a comma (just like options in normal R functions).
 
@@ -1913,9 +1915,9 @@ In the third code chunk (lines 26-28), that parameter is set to false as it is \
 
 You can also include R code directly in the text of your document and it will return the output of that code. To use it, you simple need to setup an inline code chunk using the tick mark followed by the lowercase letter R, the code you want to use, and then end it using another tick mark. This is called using inline code. When you have a table or visualization to output, this isn't the proper method, it is best for small pieces of text to add to your document. This is most useful for when you want to include some descriptive info, such as the number of respondents to a survey or the mean of some variable, in the text of your document. Inline code will only present the output of the code and doesn't show the code itself. Below is an example of inline code - see the image below that for what it looks like with the code.
 
-The dataset mtcars has 32 rows and 11 columns. The mean of the mpg column is 20.090625.
+The data set mtcars has 32 rows and 11 columns. The mean of the mpg column is 20.090625.
 
-\includegraphics{images/inline_code.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/inline_code} \end{center}
 
 \hypertarget{tables}{%
 \section{Tables}\label{tables}}
@@ -1934,7 +1936,7 @@ The easiest way to make a table in Markdown is to make a data.frame with all the
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-1}This is an example table caption}
+\caption{\label{tab:unnamed-chunk-8}This is an example table caption}
 \centering
 \begin{tabular}[t]{l|r|r|r|r|r}
 \hline
@@ -1969,17 +1971,17 @@ In academic research you will need to cite the papers that you are referencing. 
 
 Note, there may be other ways to get the citations in the right format; I'm just showing you one way to do so. For this example, we'll use the article ``Using NIBRS data to analyze violent crime'' by Brian Reaves that was published in 1993. We'll walk through the process from finding the article on Google Scholar to citing it in your paper. First, from Google Scholar we'll search for the article title.
 
-\includegraphics{images/citation_google_scholar.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/citation_google_scholar} \end{center}
 
 This returns all articles that meet your search criteria. Since we're searching for a specific article title, we only get one result. The result shows some basic info about the article - title, date, name, abstract. Below the abstract are some important things. First, and circled in blue in the above photo, is a link that looks like quotation marks. This is what we'll click on to get to the BibTeX citation. While not necessary for citation, the next two links may come in handy during your research. `Cited by 31' means that 31 published (in some format that Google can locate, not necessarily peer-reviewed articles) articles have cited this article. If you click the link it'll open up a Google Scholar page with all of these articles. This is a good way to find relevant literature. Clicking `Related articles' does the same thing but with articles that Google Scholar deems similar, not necessarily articles linking to the one you're looking up.
 
 But back to the quotes link circled in blue. Click this and it'll make a popup, shown below, of ways to cite this article is various formats. We'll have R Markdown automatically generate the citation in the format we want so we don't need to worry about this. Instead, click the BibTeX link at the bottom left.
 
-\includegraphics{images/google_scholar_cite.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/google_scholar_cite} \end{center}
 
 When you click it, it'll open up a new page with that article's citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is its own piece. Take a close look at the section immediately after the first squiggly bracket, ``reaves1993using''. This is how you'll identify the article in R Markdown so R knows which article to cite. It's essentially the citation's name. It's created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called.
 
-\includegraphics{images/google_scholar_bibtex.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/google_scholar_bibtex} \end{center}
 
 Note at the end of the publisher section are the characters ``\textasciitilde\ldots{}''. This looks like a mistake made by Google Scholar so we'll need to delete that so it isn't included in a paper we use this citation in. When using Google Scholar, you'll occasionally find issues like this which you'll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over from Google Scholar weird (meaning that it copies as a character that your computer, and thus R Markdown, doesn't understand) and needs to be rewritten so R Markdown will run. You can rewrite it by just deleting the punctuation and typing it using your keyboard. This isn't always an issue so don't worry about it unless you get an error with the citations when outputting your document.
 
@@ -1987,11 +1989,11 @@ Below is the citation included in my .bib file, and the start of another citatio
 
 Note that I have the word NIBRS surrounded by squiggly brackets \{\}. That is because by default R Markdown (and other citation generators such as Overleaf) will only capitalize the first letter of the title or the first letter following a colon. Since NIBRS is an abbreviation and should be capitalized, I put it in the \{\} to force it to remain capitalized. This is often a problem with abbreviations or country names (such as United States) in the paper title. Since all citations you use for a project should be in a single .bib file, you can see the start of another article cited below the Reaves citation.
 
-\includegraphics{images/bibtex_example.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/bibtex_example} \end{center}
 
 To use citations from your .bib file, add \texttt{bibliography:\ references\_file\_name.bib} to the head of your R Markdown file. If your .bib file isn't in the R Markdown file's working directory, as my example below is not, you'll need to include the path in the file name.
 
-\includegraphics{images/rmarkdown_bib.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/rmarkdown_bib} \end{center}
 
 Now that we have the citation in BibTeX format, put it in our .bib file, and told R Markdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case ``reaves1993using'') so we would write \texttt{@reaves1993using}. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author's name. You'll usually want to use this if you're already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this \texttt{{[}@reaves1993using{]}}. If we're citing multiple articles, we separate each citation using a semicolon \texttt{{[}@reaves1993using;\ @jain2000recruitment{]}}.
 
@@ -2011,7 +2013,7 @@ If you use a citation that isn't in your .bib file, R Markdown will show the inc
 
 \citep{wrongCitation}
 
-\includegraphics{images/citation_raw.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/citation_raw} \end{center}
 
 When you use citations, R will automatically put the reference at the very end of the document. Two LaTeX commands may be useful here. \texttt{\textbackslash{}clearpage} makes a new page so your reference section isn't on the same page as the conclusion. \texttt{\textbackslash{}singlespace} makes the reference section single spaced if you document is set to be double spaced. Put these commands at the very end of your document so they only apply to the reference page. You don't need to do anything other than write them (for easier reading, make them on separate lines) at the end of the R Markdown file. If you want to make the references go in another part of the paper (e.g.~after tables and figures), just put this code at the place in the paper where you want to reference section to go: \texttt{\textless{}div\ id="refs"\textgreater{}\textless{}/div\textgreater{}}.
 
@@ -2025,7 +2027,7 @@ R Markdown does have a built-in spell checker (the ABC above a check mark symbol
 
 To create the Word or PDF output click \texttt{Knit} and it will create the output in the format set in the very top. To change this format click the white down-arrow directly to the right of \texttt{Knit} and it will drop-down a menu with output options. Click the option you want and it will output it in that format and change that to the new default. Sometimes it takes a while for it to output, so be patient.
 
-\includegraphics{images/markdown4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/markdown4} \end{center}
 
 \hypertarget{tests}{%
 \chapter{Testing your code}\label{tests}}
@@ -2139,43 +2141,43 @@ You will also need to run all the functions or load all of the data that the tes
 
 The final way is to use the keyboard shortcut Control+Shift+T (Command+Shift+T on a Mac, the T stands for ``Test'') which will load all of the files and then run all of the tests. It's a quicker way of doing the above method. However, this shortcut only works when using an R Package, not a normal R Project.
 
-\includegraphics{images/test_summary.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/test_summary} \end{center}
 
 \hypertarget{modular-test-scripts}{%
 \subsection{Modular test scripts}\label{modular-test-scripts}}
 
 Before getting into exactly how to write a unit test correctly, we'll talk about organizing each testing file. As with your normal R script, you can have separate testing scripts (a testing script is a normal R script which people use specifically for testing code but doesn't actually function any different) for each major part of the code that you're testing.\footnote{For more info on having separate R scripts for each major section of your code, please refer to Section \ref{modular-r-scripts}} As with the R scripts for your code, this is simply a way to organize your work, and doesn't affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.
 
-\includegraphics{images/test_file_setup.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/test_file_setup} \end{center}
 
 Note where the folder depicted above is located. It's in a folder called ``testthat'' in the ``tests'' folder in the main project folder that I called ``borderpatrol''. We'll use a helpful function from the \texttt{usethis} package to organize our test files and generate them automatically. If you haven't installed this package already, do so using \texttt{install.packages("usethis")} and then load it with \texttt{library(usethis)}. \footnote{The \texttt{usethis} package is an extremely helpful package that automates a lot of work the you would do primarily for R package development so if you go down that route I recommend exploring the package more through its \href{https://usethis.r-lib.org/index.html}{website}.}
 
 You can use the function \texttt{use\_test()} from the \texttt{usethis} package to create a test file inside your R Project. This will automatically create the necessary file and folders (if not created already) so you don't have to do any more work. Run this function by putting the name of the test file you want to create (in quotes) in the parentheses. It will open the test file in the Source panel (shown in the top left). In the example shown below, I wrote \texttt{use\_test("test")} to make a new file called ``test''. In the Source panel, the file is called ``test-test.R'' which is just because \texttt{usethis} will automatically add ``test-'' to the name of any test file name you make. \texttt{use\_test()} will also generate an example of a test, which you can modify (or delete entirely) to suit your own needs.
 
-\includegraphics{images/usethis_test.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/usethis_test} \end{center}
 
 The first file in the testthat folder is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio's keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won't always need to have a setup.R file, but it's useful when you want to run the same code beforehand for multiple different test scripts.
 
-\includegraphics{images/test_setup.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/test_setup} \end{center}
 
 \hypertarget{how-to-write-unit-tests}{%
 \subsection{How to write unit tests}\label{how-to-write-unit-tests}}
 
 We'll start by looking at the default test example made when using \texttt{use\_test()} to understand the organization of a test file before getting into an example of actual tests. In the image below, there are really two pieces. First, we have the actual test on line 2 - \texttt{expect\_equal(2\ *\ 2,\ 4)}. This is saying, I expect 2 * 2 to equal 4, and R will check if that is true. All of your tests will be in this format, just for a specific result from a specific input. Now let's look at the code surrounding that line - \texttt{test\_that("multiplication\ works",\ \{\})} where the \texttt{expect\_equal()} line goes inside the \{\}.
 
-\includegraphics{images/usethis_test_default_example.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/usethis_test_default_example} \end{center}
 
 The \texttt{test\_that} code is basically a form of organization within a test file to group similar tests together. In this case it is grouping all of the tests that check if ``multiplication works'', though we only have one test written. Below I've added three new tests to this ``multiplication works'' testing group. To run this code, I can either run each \texttt{expect\_equal()} individually (remember to run \texttt{library(testthat)} beforehand or it won't run) or run the entire \texttt{test\_that()} group at once. You can do this by either highlighting it all and running or selecting either the top or bottom line (which has the squiggly brackets) and running that line - the entire thing will run.
 
 The benefit of this is that when you run all the tests you write (and you'll often have many test groups and more individual tests than shown here), if a test in a group fails, it will tell you exactly which group failed (based on the name of the group which you specify - here, ``multiplication works''). Note that the final test in this example is incorrect, and in the Console panel on the right it says that "Test failed: `multiplication works' to tell you where the test failed. The test groups aren't necessary but they make it easier to organize your tests.
 
-\includegraphics{images/usethis_test_default_example2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/usethis_test_default_example2} \end{center}
 
 As an example of actual tests, we'll go over the tests that I wrote when I first scraped the US Border Patrol data that we will scrape in Chapter \ref{scrape-table}. This test file is organized almost identically to the example one shown above. At the start I have some code that loads the data that I will test - this isn't in the setup file since the code is for this specific test script (though it could be in the setup.R file and the results would be the same). While most tests check the result of functions, here I am checking the data that is outputted by the function, and not rerunning the function for each test. I do this because the function is relatively slow to run and I have many tests, but putting the function that gets the data in the test directly will give the exact same results. Then there are several \texttt{test\_that()} groups with some \texttt{expect\_equal()} tests inside each.
 
 Since these tests are checking if the code is scraping the PDFs correctly, I determine the expected result by looking at the PDFs and writing down what the values should be (be careful, this must be done by hand but that can mean you mistype - so double-check your work!). We'll use the test on lines 21-22 as an example. Here I am asking if the values in the ``cocaine\_pounds'' column, for rows where the sector is ``coastal border'' are equal to the values \texttt{c(6843,\ 1701,\ 3169,\ 1288,\ 6884,\ 20,\ 709,\ 5962,\ 989)}. If they are, then the scraping was correct (at least for this part of the PDF) and the code worked. In this case I checked every value that meets the two conditions, but that's just because there were relatively few values. If I had many values that meet those conditions (i.e.~many rows of data in that column), I would just check a small number of them.
 
-\includegraphics{images/test_example.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/test_example} \end{center}
 
 \hypertarget{what-to-test}{%
 \subsection{What to test}\label{what-to-test}}
@@ -2221,11 +2223,11 @@ Before getting into exactly how to use Git, we'll talk first about what it is an
 
 With backup software such as Dropbox, it'll save your work very frequently - so frequently in fact that I turn off Dropbox when I write R since it keeps interrupting me by saving at the moment I'm typing, which stops the typing. Below is the Dropbox page for some R code that I've been working on to scrape Covid data. Notice the timestamps - 4/5 of them are within one minute, showing how often Dropbox is saving changes. This is useful if I need the most recent update - or to share the most recent version with a collaborator. Here's the big issue - and the one that Git solves - I have four versions within a minute of each other, what's the difference between them? Dropbox is saving automatically and doesn't indicate how they're different (clicking on the file shows the complete file, not differences relative to some previous version) which means if I mess up some code a while ago, I can't easily see which version is the one that works. With Git you can wait until you've made enough changes to decide that these changes merit a new ``version'' of your work.
 
-\includegraphics{images/Dropbox.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/dropbox} \end{center}
 
 If you've ever used the track changes feature on a Word Document, the concept is similar. When you have this setting in a Word Document every time you (or anyone else) makes changes in that document, those changes, who made them, and when they occurred, is tracked. This makes it easy to see exactly what part of the file was changed and to undo that change if necessary. Below is an example of this feature on one of my drafts on Overleaf (basically a way to collaborate using LaTeX which is similar to RMarkdown). You can see each change that my co-author made in the draft in the purple changes the main part of the photo. The parts that were rewritten or added are highlighted in purple while the parts that were deleted are crossed out. What is shown in purple isn't all of the history of changes for this paper. If you look at the part on the right, highlighted in green, it shows what files were edited, by whom, and at what time. If you don't like a change - or in R's case more commonly, broke some code by accident - you can go back in the history of changes and return to an older version.
 
-\includegraphics{images/overleaf.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/overleaf} \end{center}
 
 The way that R - and many other programming languages (and technically you can use this for any file or folder) does this ``version control'' is through Git.
 
@@ -2308,7 +2310,7 @@ You'll now need to tell Git some identifying information about yourself so that 
 
 Once you have Git installed, you'll need to enable it through RStudio. To do this, go to Tools and click Global Options. Then go to the Git/SVN tab and check the ``Enable version control interface for RStudio projects'' checkbox. The final step here is to click the first Browse button and navigate to where you installed Git on your computer. Select the Git file (on a windows computer this will be within the larger Git folder) and then hit Ok to close the popup.
 
-\includegraphics{images/Git_tools.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_tools} \end{center}
 
 \hypertarget{setting-up-github}{%
 \subsection{Setting up GitHub}\label{setting-up-github}}
@@ -2319,23 +2321,23 @@ A public repository is one that anyone can look at on GitHub, download the code/
 
 Once you've made an account on GitHub, you'll need to create a repository there to connect to your R Project. You can do this through the GitHub home page as shown below. This page is my own homepage and shows several on my current repositories on the left (note the ones with a golden lock to the left, these are the private repositories which are only accessible to people I permit), a list of updates on other people's repositories that I chose to get updates from, and some suggested repositories that GitHub thinks I'd be interested in on the right. To create a new repository, click the green New button on the left side above the list of current repositories.
 
-\includegraphics{images/GitHub_new_repo.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/github_new_repo} \end{center}
 
 After you click the green New button, you'll go to a page when you set a name for your repository (this can be different than the name of your R Project though I prefer to use the same name so I know exactly what project the repository is for), provide a short description, and choose if the repository should be public or private. You can also optionally add a README file which is a longer form of description for what the code is and its purpose (basically a short manual for the project - often explaining how, not why, it works), and add a .gitignore file or set a license (which tells people who look at the project what they're allowed to do with it. For more on code licenses please see this excellent \href{https://choosealicense.com/}{site}.) The .gitignore file is essentially a list of files or folders than you do \textbf{not} want to upload to GitHub. These last three choices are all optional and if you don't do it now, you can do it anytime through R. Once you've made your choices, click the green Create Repository button
 
-\includegraphics{images/GitHub_new_repo2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/github_new_repo2} \end{center}
 
 This will open up a new page with a bunch of code that you'll enter in R that connects your R Project Git commits to this repository on GitHub. We'll get to this in a bit - for now, let's focus on those three buttons in the top right. These are for accessing or following other people's public repositories (you can technically click on them in your own repository but there isn't much benefit to that apart from the first button).
 
-\includegraphics{images/GitHub_new_repo3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/github_new_repo3} \end{center}
 
 The first button sets your notification settings for the repository. To change the notification setting, click ``Unwatch'' and then select how much you want to be notified for. By default it is set to notify you of all conversations that occur. The main conversation will be when someone posts a message in the Issues tab where they tell you about an issue (or sometimes make a request for a new feature or just ask a question) about the code in this repo. With your own repositories, you'll want to be notified of all conversations so you don't miss anything. You can use this option on other people's repositories and it will alert you of changes or conversations in that repo. This is useful when you want to know about updates (i.e.~new features) on repositories that you're interested in (for example, I follow the \href{https://gitHub.com/r-lib/testthat}{testthat repo} so I know of any new versions of that package that may have useful features).
 
-\includegraphics{images/github_new_repo4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/github_new_repo4} \end{center}
 
 Stars are simply a way to favorite a repository and you can see a list of all repositories that you have starred by clicking the profile button on the top right and going to ``Your stars''.
 
-\includegraphics{images/stars.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/stars} \end{center}
 
 The final option is ``Fork'' which creates a new repository on your account that is a copy of the repository that you forked. You will occasionally want to fork other people's repositories - there isn't much benefit of forking your own as that's essentially just making a duplicate of your own work - and modify them to suit your needs. This is useful for two reasons. First, if you want collaborate with someone - even if just to submit a fix to a bug you found (or a typo in this book!) - you can fork their repository, make the changes on your own R Project, commit the changes, and request that the original account accept your changes into the repository that you forked (called a ``pull request'').
 
@@ -2352,48 +2354,48 @@ If you didn't tell RStudio to setup Git in your R Project, it's quite simple to 
 
 First, go to Tool -\textgreater{} Project Options. Then click the Git/SVN button that is second to the bottom to open up the Git options. This will open up a page that says ``Version control system'' which will be set to ``(None)''. Click this and set it to ``Git''.
 
-\includegraphics{images/git_existing_project.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_existing_project} \end{center}
 
 It will then ask if you want to set up Git for the current R Project. Say Yes.
 
-\includegraphics{images/git_existing_project2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_existing_project2} \end{center}
 
 You need to restart RStudio for Git to work now, so click Yes.
 
-\includegraphics{images/git_existing_project3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_existing_project3} \end{center}
 
 Now if you look at the Environment panel you can see a new tab called ``Git''. We'll do all of the Git work in RStudio through this tab. You are now ready to use Git for this project.
 
-\includegraphics{images/git_existing_project4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_existing_project4} \end{center}
 
 \hypertarget{using-git-through-rstudio}{%
 \section{Using Git through RStudio}\label{using-git-through-rstudio}}
 
 Now we have an R Project with Git ready, and a repo on GitHub to store the project files. We need a way to connect the R Project to the specific GitHub repo - for this, we'll return to that screen on GitHub with all of the weird code that starts with the word ``git''. We need to enter that code into R to connect the two. To do this, we need to use the Git Shell, which is basically like the Console panel but for Git. You can get to this by going to the Git tab, click on the More button, then click ``Shell\ldots{}''.
 
-\includegraphics{images/github_new_repo3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/github_new_repo3} \end{center}
 
-\includegraphics{images/git_shell.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_shell} \end{center}
 
 This opens up a popup almost identical to the Console panel. Here we can write the code (or copy it from GitHub) and hit enter/return to run the line. This is the only time we will be using actual Git code in this chapter (there is some benefit to learning the Git code rather than relying on the buttons in RStudio as it is much faster when dealing with large files or simply a large number of files to use the code rather than through RStudio - though I'm not sure why this is).
 
-\includegraphics{images/git_shell3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_shell3} \end{center}
 
 We will use the first chunk of code that's shown on GitHub - the one that starts with the bold text \textbf{``\ldots or create a new repository on the command line''}. You can copy and paste all of the code (starting with the ``echo'' line and ending with the ``Git push -u origin master'' line) to the shell and hit enter or you can do it one line at a time.
 
-\includegraphics{images/git_shell2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_shell2} \end{center}
 
 Refresh your GitHub page and you'll see that instead of code on the screen, it shows the files that you uploaded. In this case, I didn't make any files so it is largely blank, just a relatively empty README file. If this was a real project, you'd see all of the same files (except those you chose not to commit) as in your R Project folder. Your R Project is now connected to the GitHub repo so you can do the rest of the Git work on this project entirely through RStudio and will not need to touch the Git Shell again.
 
-\includegraphics{images/git_shell_4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_shell_4} \end{center}
 
 The below photo shows my Git tab while working on this chapter and from an update to the Subsetting chapter. It has a list of all of the files that I changed since my last commit (if you haven't committed at all yet, this is just all of the files in your project folder) and is color coded based on what I did to them. The blue M means that I have modified an already existing (i.e.~one that has already been committed through Git) file, and the yellow ? means that these are new files. If there was a red D next to any of the files, that would mean that I deleted a file that had previously been committed. There are a lot of buttons here (Diff, Commit, Pull, etc.) but you can ignore them and just click the Commit button when ready to make a commit. Doing so will open up a new window that has all the functionality of these various buttons in an easier (in my opinion) format.
 
-\includegraphics{images/git_commit1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_commit1} \end{center}
 
 This window (shown below) is where you can review the changes and write up a brief note about what you did. The window is a bit overwhelming so we'll take it in pieces. First let's start by examining how the list of files in the top left is related to the big box on the bottom with text highlighted in red and green. The list of files is identical to that in the Git tab - it's just a list of files that have changed (including new files and deleted files) since the last commit. When you click one, it'll show you the changes made to this file relative to the most recent version on Git (note that while this will show changes on R files and some other types of files, not all are available to be viewed - though that won't affect Git working at all - so it may just show a blank part of the window instead). The section that was removed is highlighted in red and the replacement is highlighted in green. Unfortunately, it shows changes on entire lines so if you only change a small part of a line, you will have to read closely to see the difference. You can look through this to figure out exactly what you changed - both which files were changed and what was changed in each file.
 
-\includegraphics{images/git_commit2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_commit2} \end{center}
 
 Now let's walk through the process of actually committing and pushing your changes to GitHub. In real terms, this is basically uploading a new version of the files to GitHub, with brief documentation of what changed. At this point all we need to do is tell RStudio which files we want to commit, write a brief message explaining the changes, and submit it.
 
@@ -2403,11 +2405,11 @@ Now you're ready to document the \textbf{overall} changes that you're committing
 
 It will make a popup window showing all the changes that it made. The ``create mode \ldots{}'' stuff is saying that these files are new files that Git hasn't seen before. You can close this popup.
 
-\includegraphics{images/git_commit3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_commit3} \end{center}
 
 You have now completed your first commit using Git through RStudio. The files aren't on GitHub just yet though. Now right above the list of files is text that says ``Your branch is ahead of `origin/master' by 1 commit.'' This means that your version of the project is ahead of (since you made changes to the project that you just committed) the version on GitHub. To send it to GitHub you just need to push the Push button on the top right. In our email example, this is like clicking send after writing your draft and saving (committing) it. When you click Push it'll open up a popup which you can close once it's done.
 
-\includegraphics{images/git_commit4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/git_commit4} \end{center}
 
 \hypertarget{when-to-commit}{%
 \section{When to commit}\label{when-to-commit}}
@@ -2732,11 +2734,11 @@ When used on our object \emph{numbers} it will return 10 values (since \emph{num
 
 In many cases when you are subsetting you will want to subset based on more than one condition. These ``conditional statements'' can be tricky for new R users since you need to remember both what conditions you need \emph{and} the R code to write it. For a simple introduction to combining conditional statements, we'll first start with the dog food instructions for my new puppy Peanut.
 
-\includegraphics{images/peanut.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/peanut} \end{center}
 
 Here, the instructions indicate how much food to feed your dog each day. Then instructions are broken down into dog age \textbf{and} expected size (in pounds/kilograms) and the intersection of these tells you how much food to feed your dog. Even once you figure out how much to feed the dog, there's another conditional statement to figure out whether you feed them twice a day or three times a day.
 
-\includegraphics{images/dog_food.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/dog_food} \end{center}
 
 This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the right side to figure out how much to feed your dog.\footnote{If you encounter some conditional statements that confuse you - which will be more common and you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.}
 
@@ -3093,7 +3095,7 @@ They're all the same name because Anchorage Police reported many times and are i
 
 One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
 
-\includegraphics{images/tab_example.png}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/tab_example} \end{center}
 
 \hypertarget{select-specific-rows}{%
 \subsection{Select specific rows}\label{select-specific-rows}}
@@ -3824,7 +3826,7 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the \texttt{summary()} above - most agencies are small, with the median population under 5,000 people.
 
-To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the \texttt{filter()} function from the \texttt{dplyr} package that was introduced in Chapter \ref{subsetting-intro}. For \texttt{filter()}, we need to first include our dataset name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the ``population'' column have a value of over 1 million. For the \texttt{dplyr} functions we don't put our column name in quotes.
+To try to avoid that clump of small agencies at the bottom, let's make a new data set of only agencies with a population over 1 million. We will use the \texttt{filter()} function from the \texttt{dplyr} package that was introduced in Chapter \ref{subsetting-intro}. For \texttt{filter()}, we need to first include our data set name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the ``population'' column have a value of over 1 million. For the \texttt{dplyr} functions we don't put our column name in quotes.
 
 And we'll save our results into a new object called ucr2017\_big\_cities Since we're using the \texttt{dplyr} package we need to tell R that we want to use it by using \texttt{library(dplyr)}.
 
@@ -3916,7 +3918,7 @@ First we must group the data by using the \texttt{group()} by function. Here we'
 \end{Highlighting}
 \end{Shaded}
 
-Now we can summarize the data using the \texttt{summarize()} function. As with other \texttt{dplyr} functions the first input is the dataset name. Then we choose our math function (sum, mean, median, etc.) and just apply that function on the column we want. So in our case we want the sum of murders so we use \texttt{sum()} and include the column we want to aggregate inside of \texttt{sum()}'s parentheses.
+Now we can summarize the data using the \texttt{summarize()} function. As with other \texttt{dplyr} functions the first input is the data set name. Then we choose our math function (sum, mean, median, etc.) and just apply that function on the column we want. So in our case we want the sum of murders so we use \texttt{sum()} and include the column we want to aggregate inside of \texttt{sum()}'s parentheses.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4013,7 +4015,7 @@ If we also wanted a robbery rate we'd do the same with the robberies column.
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{dplyr} package has a helpful function that can do this too, and allows us to do it while writing less code. The \texttt{mutate()} function lets us create or alter columns in our data. Like other \texttt{dplyr} functions we start by including our dataset in the parentheses, and then we can follow standard assignment (covered in Section \ref{assignment}) though we must use \texttt{=} here and not \texttt{\textless{}-}. A benefit of using \texttt{mutate()} is that we don't have to write out our dataset name each time. So we'd write \texttt{murder\_rate\ =\ murders\ /\ population\ *\ 100000}. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment.
+The \texttt{dplyr} package has a helpful function that can do this too, and allows us to do it while writing less code. The \texttt{mutate()} function lets us create or alter columns in our data. Like other \texttt{dplyr} functions we start by including our data set in the parentheses, and then we can follow standard assignment (covered in Section \ref{assignment}) though we must use \texttt{=} here and not \texttt{\textless{}-}. A benefit of using \texttt{mutate()} is that we don't have to write out our data set name each time. So we'd write \texttt{murder\_rate\ =\ murders\ /\ population\ *\ 100000}. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4110,9 +4112,9 @@ Think about the math equation 1 + 2 + 3 + 4. Here we know that we add 1 and 2 to
 
 With \texttt{dplyr} we actually do have a way to chain together functions; to do the programming equivalent of 1 + 2 + 3 + 4 all at once.\footnote{Pipes are technically from the \texttt{magrittr} package but we'll just be using pipes in the context of using functions from \texttt{dplyr} or other tidyverse packages.} We do this through what is called a pipe, which allows us to take the result of one function and immediately put it into another function without having to save the initial result or start a new line of code. To use a pipe we put the following code after the end of a function: \texttt{\%\textgreater{}\%}.
 
-These three characters, \texttt{\%\textgreater{}\%}, are the pipe and they must be written exactly like this. The pipe is itself actually a function, but is a special type of function we won't go into detail about. Personally I don't think this really looks like a pipe at all but it is called a pipe so that's the terminology I'll be using. How a pipe technically works is that it takes the output of the initial function (which is usually a tibble, which is the tidyverse's modified version of a data.frame) and puts it automatically is the first input in the next function. This won't work for all functions but nearly all functions from the tidyverse collection of packages have a data set as the first input so it will work here. The benefit is that we don't need to keep saving the output from functions or specifying which dataset to include in each function.
+These three characters, \texttt{\%\textgreater{}\%}, are the pipe and they must be written exactly like this. The pipe is itself actually a function, but is a special type of function we won't go into detail about. Personally I don't think this really looks like a pipe at all but it is called a pipe so that's the terminology I'll be using. How a pipe technically works is that it takes the output of the initial function (which is usually a tibble, which is the tidyverse's modified version of a data.frame) and puts it automatically is the first input in the next function. This won't work for all functions but nearly all functions from the tidyverse collection of packages have a data set as the first input so it will work here. The benefit is that we don't need to keep saving the output from functions or specifying which data set to include in each function.
 
-As an example, we'll rewrite the above code using a pipe. We start with our data.frame which is normally the first input the function, and then immediately have a pipe \texttt{\%\textgreater{}\%} into a \texttt{dplyr} function, which here is \texttt{filter()}. Now we don't need to say what the dataset is because we it takes the last thing that was piped into the function, which in our case is the entire data.frame ucr. After our \texttt{filter()} is done we have another pipe and go into \texttt{select()}. Now \texttt{select()} will use as its first input as whatever is outputted from the \texttt{filter()}. So the input to \texttt{select()} will be the subsetted data output from \texttt{filter()}. We can have as many pipes as we wish, and chain many different \texttt{dplyr} functions together, but we just use two functions here so we'll end after our \texttt{select()} function.
+As an example, we'll rewrite the above code using a pipe. We start with our data.frame which is normally the first input the function, and then immediately have a pipe \texttt{\%\textgreater{}\%} into a \texttt{dplyr} function, which here is \texttt{filter()}. Now we don't need to say what the data set is because we it takes the last thing that was piped into the function, which in our case is the entire data.frame ucr. After our \texttt{filter()} is done we have another pipe and go into \texttt{select()}. Now \texttt{select()} will use as its first input as whatever is outputted from the \texttt{filter()}. So the input to \texttt{select()} will be the subsetted data output from \texttt{filter()}. We can have as many pipes as we wish, and chain many different \texttt{dplyr} functions together, but we just use two functions here so we'll end after our \texttt{select()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5122,7 +5124,7 @@ Ideally, our data comes in the exact format we need. In cases where it doesn't, 
 \end{Highlighting}
 \end{Shaded}
 
-For this chapter we'll use microdata from the New York City Police Department for every stop and frisk they conducted in 2019. The data is in an .xlsx format so we can use the \texttt{readxl} package to read it into R. Let's call the data ``sqf'' as it is the abbreviation for ``stop, question, and frisk'' which is the full name of the dataset. Following traditional R naming conventions, we'll keep the object name lowercased.
+For this chapter we'll use microdata from the New York City Police Department for every stop and frisk they conducted in 2019. The data is in an .xlsx format so we can use the \texttt{readxl} package to read it into R. Let's call the data ``sqf'' as it is the abbreviation for ``stop, question, and frisk'' which is the full name of the data set. Following traditional R naming conventions, we'll keep the object name lowercased.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5131,7 +5133,7 @@ For this chapter we'll use microdata from the New York City Police Department fo
 \end{Highlighting}
 \end{Shaded}
 
-The first thing we want to do when loading in a new dataset to R is to look at it. We can do this a few different ways, including using \texttt{View()} which opens up an Excel-like tab where we can scroll through the data, and through \texttt{head()} which prints the first 6 rows of every column to the console. We'll use \texttt{head()} here.
+The first thing we want to do when loading in a new data set to R is to look at it. We can do this a few different ways, including using \texttt{View()} which opens up an Excel-like tab where we can scroll through the data, and through \texttt{head()} which prints the first 6 rows of every column to the console. We'll use \texttt{head()} here.
 
 The \texttt{readxl} package converts the data into a ``tibble'' which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use \texttt{head()} to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console. In our case, however, we do want to see each column, so we'll first convert sqf to a data.frame using the \texttt{data.frame()} function and then look at \texttt{head()}. Let's also use \texttt{nrow()} to see how many rows of data we have.
 
@@ -5440,12 +5442,12 @@ The \texttt{readxl} package converts the data into a ``tibble'' which is essenti
 
 Each row of data is a stop and frisk, and there were 13,459 in 2019. That number may seem low to you, especially if you've read articles about how frequent stop and frisks happens in New York City. It is correct - at least correct in terms of reported stops. Stop and frisks in New York City peaked in 2011 with nearly 700,000 conducted, and then fell sharply after that to fewer than 23,000 from 2015 through 2019 (the last year available at the time of this writing).
 
-Looking at the results of \texttt{head()}, we can see that this is a rich dataset with lots of information about each stop (though many columns also have missing data, so not as rich as it initially appears). Each stop has, for example, the date and time of the stop, whether an arrest was made and for what, physical characteristics (race, sex, age, height, weight, clothing) of the person stopped, and the location of the stop. One important variable that's missing is a unique identifier for either the officer or the person stopped so we can see how often they are in the data. The ``ISSUING\_OFFICER\_COMMAND\_CODE'' variable may be a unique ID for the officer but it's not clear that it is - there are different officer ranks for the same command code so this appears to me to be different officers.
+Looking at the results of \texttt{head()}, we can see that this is a rich data set with lots of information about each stop (though many columns also have missing data, so not as rich as it initially appears). Each stop has, for example, the date and time of the stop, whether an arrest was made and for what, physical characteristics (race, sex, age, height, weight, clothing) of the person stopped, and the location of the stop. One important variable that's missing is a unique identifier for either the officer or the person stopped so we can see how often they are in the data. The ``ISSUING\_OFFICER\_COMMAND\_CODE'' variable may be a unique ID for the officer but it's not clear that it is - there are different officer ranks for the same command code so this appears to me to be different officers.
 
 \hypertarget{reshaping-a-single-column}{%
 \section{Reshaping a single column}\label{reshaping-a-single-column}}
 
-Relative to most datasets in criminology, this is an enormous amount of information. So I encourage you to explore this data and practice your R skills. As this chapter focuses on reshaping, we won't do much exploring of the data. This data is in long format as each row is a different stop and the columns are information about that specific stop. We can't convert this to wide format as there are no repeated entries in the data; each row is of a unique person stopped (at least as far as we can tell. In reality there are likely to be many people stopped multiple times in the data). We could use another variable such as stopped persons' race or gender and reshape it using that, but that'll lead to many thousands of columns so is not a great idea.
+Relative to most data sets in criminology, this is an enormous amount of information. So I encourage you to explore this data and practice your R skills. As this chapter focuses on reshaping, we won't do much exploring of the data. This data is in long format as each row is a different stop and the columns are information about that specific stop. We can't convert this to wide format as there are no repeated entries in the data; each row is of a unique person stopped (at least as far as we can tell. In reality there are likely to be many people stopped multiple times in the data). We could use another variable such as stopped persons' race or gender and reshape it using that, but that'll lead to many thousands of columns so is not a great idea.
 
 Instead, we'll first aggregate the data and then reshape that aggregated data. We'll aggregate the data by month and by day of week and see how many people of each race were stopped at each month-day-of-week. In addition to \texttt{tidyr}, we'll use functions from \texttt{dplyr} to aggregate our data. Since we've already installed that package we just need to use \texttt{library()} and don't need to use \texttt{install.packages()} again. We've already used the \texttt{group\_by()} function in aggregating, and now we'll introduce a new function: \texttt{count()}. In our earlier aggregation code (introduced in Section \ref{aggregate}), we used the function \texttt{summarize()} and summed up columns which had a numeric variable (e.g.~the number of murders). \texttt{count()} works similarly by sums up categorical variables, which in our case is the race of people stopped. Using \texttt{count()} we enter in the categorical column in the parentheses, and it'll make a new column called ``n'' which is the sum of each category. Since we're aggregating the data let's save the result of our aggregating to a new object called ``sqf\_agg''.
 
@@ -5615,7 +5617,7 @@ In some cases you'll have many columns that you want to include while reshaping 
 \hypertarget{reshaping-multiple-columns}{%
 \section{Reshaping multiple columns}\label{reshaping-multiple-columns}}
 
-So far we've just been reshaping using a single column. This is the simplest method, but in some cases we'll need to reshape using multiple columns. As an example, let's make a new column called ``n2'' in our ``sqf\_agg'' dataset which just adds 10 to the value in our ``n'' column.
+So far we've just been reshaping using a single column. This is the simplest method, but in some cases we'll need to reshape using multiple columns. As an example, let's make a new column called ``n2'' in our ``sqf\_agg'' data set which just adds 10 to the value in our ``n'' column.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5623,7 +5625,7 @@ So far we've just been reshaping using a single column. This is the simplest met
 \end{Highlighting}
 \end{Shaded}
 
-Since these columns both relate to the race column (called ``SUSPECT\_RACE\_DESCRIPTION'') we can reuse the \texttt{pivot\_wider()} code from before but now the \texttt{values\_from} parameter takes a vector of column names instead of a single column name. Here we want to include both the ``n'' and the ``n2'' column. Since it's a \texttt{dplyr} function it's not necessary to put the column names in quotes. We also want to keep our \texttt{filter()} function from before which removes ``(null)'' races and then add a \texttt{head()} function at the end so it prints out the first six columns of our resulting dataset.
+Since these columns both relate to the race column (called ``SUSPECT\_RACE\_DESCRIPTION'') we can reuse the \texttt{pivot\_wider()} code from before but now the \texttt{values\_from} parameter takes a vector of column names instead of a single column name. Here we want to include both the ``n'' and the ``n2'' column. Since it's a \texttt{dplyr} function it's not necessary to put the column names in quotes. We also want to keep our \texttt{filter()} function from before which removes ``(null)'' races and then add a \texttt{head()} function at the end so it prints out the first six columns of our resulting data set.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5650,7 +5652,7 @@ Since these columns both relate to the race column (called ``SUSPECT\_RACE\_DESC
 \end{Highlighting}
 \end{Shaded}
 
-We now have the same wide dataset as before but now there are twice as many race columns. And the \texttt{pivot\_wider()} function renamed the columns so we can tell the ``n'' columns from the ``n2'' columns. The easiest way to reshape this data from wide to long is to again use the \texttt{pivot\_longer()} function but now use it twice: first to reshape the ``n'' columns and then to reshape the ``n2'' columns. We'll use the exact same code as before, but change the column names to suit their new names.
+We now have the same wide data set as before but now there are twice as many race columns. And the \texttt{pivot\_wider()} function renamed the columns so we can tell the ``n'' columns from the ``n2'' columns. The easiest way to reshape this data from wide to long is to again use the \texttt{pivot\_longer()} function but now use it twice: first to reshape the ``n'' columns and then to reshape the ``n2'' columns. We'll use the exact same code as before, but change the column names to suit their new names.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6044,7 +6046,7 @@ While scatterplots can help show the relationship between variables, we lose the
 
 Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose bad colors. A helpful site for choosing colors for graphs is \href{http://colorbrewer2.org}{colorbrewer2.org}
 
-\includegraphics{images/colorbrewer.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/colorbrewer} \end{center}
 
 This site lets you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the ``Only show:'' section you can set it to ``colorblind safe'' to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is).
 
@@ -6063,7 +6065,7 @@ Let's use an example of a color blind friendly color from the ``qualitative'' se
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-22-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 \hypertarget{practice-problems-8}{%
 \section{Practice problems}\label{practice-problems-8}}
@@ -6420,7 +6422,7 @@ We've spent some time looking at the data so now we're ready to make the graphs.
 \end{Highlighting}
 \end{Shaded}
 
-As a reminder, the benefit of using \texttt{ggplot()} is we can start with a simple plot and build our way up to more complicated graphs. We'll start here by building some graphs to depict a numeric variable - in this case the ``age'' column. We start every \texttt{ggplot()} the same, by inserting the dataset first and then put our x and y variables inside of the \texttt{aes()} parameter. In this case we're only going to be plotting an x variable so we don't need to write anything for y.
+As a reminder, the benefit of using \texttt{ggplot()} is we can start with a simple plot and build our way up to more complicated graphs. We'll start here by building some graphs to depict a numeric variable - in this case the ``age'' column. We start every \texttt{ggplot()} the same, by inserting the data set first and then put our x and y variables inside of the \texttt{aes()} parameter. In this case we're only going to be plotting an x variable so we don't need to write anything for y.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6735,7 +6737,7 @@ We'll use two functions to create variables that tell us the month and the year 
 
 Since the data is already sorted by date, all the values printed from \texttt{head()} are the same. But you can look at the data using \texttt{View()} to confirm that the code worked properly.
 
-We can now aggregate the data by the ``month\_year'' variable and save the result into a new dataset we'll call \emph{monthly\_shootings}. We'll use the \texttt{group\_by()} and \texttt{summarize()} functions from \texttt{dplyr} that were introduced in Chapter \ref{explore} to do this. And we'll use the pipe method of writing \texttt{dplyr} code that was discussed in Section \ref{dplyr-pipes}
+We can now aggregate the data by the ``month\_year'' variable and save the result into a new data set we'll call \emph{monthly\_shootings}. We'll use the \texttt{group\_by()} and \texttt{summarize()} functions from \texttt{dplyr} that were introduced in Chapter \ref{explore} to do this. And we'll use the pipe method of writing \texttt{dplyr} code that was discussed in Section \ref{dplyr-pipes}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6764,7 +6766,7 @@ We can now aggregate the data by the ``month\_year'' variable and save the resul
 \end{Highlighting}
 \end{Shaded}
 
-Since we now have a variable that shows for each month the number of people killed, we can graph this new dataset. We'll use the same process as earlier but our data set is now \texttt{monthly\_shootings} instead of \texttt{shootings} and the x-axis variable is ``month\_year'' instead of ``date''.
+Since we now have a variable that shows for each month the number of people killed, we can graph this new data set. We'll use the same process as earlier but our data set is now \texttt{monthly\_shootings} instead of \texttt{shootings} and the x-axis variable is ``month\_year'' instead of ``date''.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6945,7 +6947,7 @@ We'll start by making the background to our map, showing San Francisco. We do so
 
 An easy way to find the four coordinates for a bounding box is to go to the site \href{https://boundingbox.klokantech.com/}{Bounding Box}. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says ``Copy \& Paste'', change the dropdown box to ``CSV''. In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into \texttt{get\_map()}
 
-\includegraphics{images/bounding_box.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/bounding_box} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -6964,7 +6966,7 @@ An easy way to find the four coordinates for a bounding box is to go to the site
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-5-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Since we saved the map output into \emph{sf\_map} we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the \texttt{geom\_point()} function from the \texttt{ggplot2} package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load `\texttt{ggmap} it also automatically loads \texttt{ggplot2} as that package is necessary for \texttt{ggmap} to work, so we don't need to do \texttt{library(ggplot2)} ourselves.
 
@@ -6977,7 +6979,7 @@ Since we saved the map output into \emph{sf\_map} we can reuse this map backgrou
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 If we wanted to color the dots, we can use \texttt{color\ =} and then select a color. Let's try it with ``forestgreen''.
 
@@ -6991,7 +6993,7 @@ If we wanted to color the dots, we can use \texttt{color\ =} and then select a c
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 As with other graphs we can change the size of the dot using \texttt{size\ =}.
 
@@ -7006,7 +7008,7 @@ As with other graphs we can change the size of the dot using \texttt{size\ =}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7019,7 +7021,7 @@ As with other graphs we can change the size of the dot using \texttt{size\ =}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter \texttt{alpha\ =} which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.
 
@@ -7035,7 +7037,7 @@ For maps like this - with one point per event - it is hard to tell if any events
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost.
 
@@ -7050,7 +7052,7 @@ Let's pause for a moment to think about what a map really is. Below, I made a si
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 \hypertarget{making-a-hotspot-map}{%
 \section{Making a hotspot map}\label{making-a-hotspot-map}}
@@ -7083,7 +7085,7 @@ Let's start with 60 bins and then try some other number of bins to see how it ch
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
 
@@ -7101,7 +7103,7 @@ What happens when we drop the number of bins to 30?
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are \textless1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
@@ -7119,7 +7121,7 @@ What about looking at 100 bins?
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself.
 
@@ -7142,7 +7144,7 @@ To change the bin colors we can use the parameter \texttt{scale\_fill\_gradient(
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 By default it labels the legend as ``count''. Since we know these are counts of suicides let's relabel that as such.
 
@@ -7161,7 +7163,7 @@ By default it labels the legend as ``count''. Since we know these are counts of 
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
+\begin{center}\includegraphics[width=0.9\linewidth]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 \hypertarget{practice-problems-10}{%
 \section{Practice problems}\label{practice-problems-10}}
@@ -8256,9 +8258,9 @@ And every time you start R, if you want to use \texttt{rvest} you must tell R so
 
 Here is a screenshot of the recipe for the ``MMMMM\ldots{} Brownies'' (an excellent brownies recipe) \href{https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub\%20recipe\&referringContentType=Search}{page}.
 
-\includegraphics{images/brownies_1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/brownies_1} \end{center}
 
-\includegraphics{images/brownies_2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/brownies_2} \end{center}
 
 \hypertarget{scraping-one-page}{%
 \section{Scraping one page}\label{scraping-one-page}}
@@ -8291,11 +8293,11 @@ We need to find just which parts of the page to scrape. To do so we'll use the h
 
 When you open SelectorGadget it allows you to click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - ``1/2 cup white sugar''. Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same ``type'' in the page.
 
-\includegraphics{images/brownies_3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/brownies_3} \end{center}
 
 Note that in the bottom right of the screen, the SelectorGadget bar now has the text ``.ingredients-item-name''. This is the CSS selector code we can use to get all of the ingredients.
 
-\includegraphics{images/brownies_4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/brownies_4} \end{center}
 
 We will use the function \texttt{html\_nodes()} to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from \texttt{read\_html()} (which we called \emph{brownies}) and then we can paste the CSS selector text - in this case, ``.ingredients-item-name''. We'll save the resulting object as \emph{ingredients} since we want to use \emph{brownies} to also get the directions.
 
@@ -8336,7 +8338,7 @@ Now let's do the same process to get the directions for baking.
 
 In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions that starts with the word ``Step''. It'll highlight all three directions as they're all of the same ``type''.\footnote{To be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a ``text'' type in the section on directions and SelectorGadget then selected all ``text'' types inside of that section.} Note that if you click on the instructions without starting on one of the ``Step'' lines, such as clicking on the actual instructions (e.g.~``Preheat the oven\ldots{}'') lines itself, SelectorGadget will have the node ``p'' and say it has found 25 `things' on that page that match. To fix this you just scroll up to see where the text ``Best brownies I've ever had!'' is also highlighted in yellow and click that to unselect it. Using SelectorGadget is often steps like this where you use trial and error to only select the parts of the page that you want.
 
-\includegraphics{images/brownies_5.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/brownies_5} \end{center}
 
 The CSS selector code this time is ``.instructions-section-item'' so we can put that inside of \texttt{html\_nodes()}. Let's save the output as \emph{directions}.
 
@@ -8902,7 +8904,7 @@ The file we want to use is called ``usbp\_stats\_fy2017\_sector\_profile.pdf'' a
 
 The first table is ``Sector Profile - Fiscal Year 2017 (Oct.~1st through Sept.~30th)''. Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-\includegraphics{images/pdf_table_1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/pdf_table_1} \end{center}
 
 Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data.
 
@@ -8910,15 +8912,15 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 
-\includegraphics{images/pdf_table_2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/pdf_table_2} \end{center}
 
 Table 3 follows the same format and the new columns are number of apprehensions by gender.
 
-\includegraphics{images/pdf_table_3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/pdf_table_3} \end{center}
 
 Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-\includegraphics{images/pdf_table_4.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/pdf_table_4} \end{center}
 
 \hypertarget{scraping-the-first-table}{%
 \section{Scraping the first table}\label{scraping-the-first-table}}
@@ -9387,7 +9389,7 @@ Just to understand what units our data is in we had to look at both the PDF itse
 
 Now let's look at what columns are available. It looks like each column is the number of people incarcerated in the jail, broken down into categories of people. For example, the first two columns after County are ``Pretrial Felons'' and ``Conv. Felons'' so those are probably how many people are incarcerated who are awaiting trial for a felony and those already convicted of a felony. The other columns seem to follow this same format until the last few ones which describe the jails capacity (i.e.~how many people they can hold), what percent of capacity they are at, and specifically how many open beds they have.
 
-\includegraphics{images/tabulizer1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/tabulizer1} \end{center}
 
 Now that we've familiarized ourselves with the data, let's begin scraping this data using \texttt{tabulizer}. If you don't have this package installed, you'll need to install it using \texttt{install.packages("tabulizer")}. Then we'll need to run \texttt{library(tabulizer)}.
 
@@ -9973,7 +9975,7 @@ Now we can run our for loop and create a single data set with every row from our
 
 We'll finish this lesson with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge, it has 10 columns but we want to make it have only 2. In the data (shown below), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using \texttt{tabulizer()} and then work to fix this multiple-column issue.
 
-\includegraphics{images/pregnant.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/pregnant} \end{center}
 
 Notice that this data doesn't even have column names so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape something that recurring - that is, that you'll scrape a future version of - be careful about situations like this.
 
@@ -10284,11 +10286,11 @@ Given the effort you'll spend in scraping a PDF - and the relative rarity of thi
 
 If you decide to update the data, it'll keep a link to your older submission so you essentially have versions of the data. When you update the data, I recommend having a section on the submission description describing the changes in each version. As an example of what it looks like when submitting data to openICPSR, below are a few images showing the submission page for one of my submissions that has many versions (and corresponding version notes).
 
-\includegraphics{images/openICPSR1.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/openICPSR1} \end{center}
 
-\includegraphics{images/openICPSR2.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/openICPSR2} \end{center}
 
-\includegraphics{images/openICPSR3.PNG}
+\begin{center}\includegraphics[width=0.9\linewidth]{images/openICPSR3} \end{center}
 
 \hypertarget{practice-problems-17}{%
 \section{Practice problems}\label{practice-problems-17}}

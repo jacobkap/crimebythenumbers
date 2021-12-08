@@ -166,7 +166,7 @@ To read fixed-width ASCII files into R we'll use the `asciiSetupReader` package 
 install.packages("asciiSetupReader")
 ```
 
-We'll use the `read_ascii_setup()` function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder dataset) which is called "2020_SHR_NATIONAL_MASTER_FILE.txt" and the setup file is one that I wrote myself and is called "ucr_shr.sps". We can name the object we read "shr".
+We'll use the `read_ascii_setup()` function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder data set) which is called "2020_SHR_NATIONAL_MASTER_FILE.txt" and the setup file is one that I wrote myself and is called "ucr_shr.sps". We can name the object we read "shr".
 
 
 ```r

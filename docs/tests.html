@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>9 Testing your code | Crime by the Numbers: A Criminologist’s Guide to R</title>
-  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9 Testing your code | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   
-  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="9 Testing your code | Crime by the Numbers: A Criminologist’s Guide to R" />
   
-  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   
 
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -583,27 +583,27 @@ div.csl-indent {
 <p>The next way is to use the <code>test_dir()</code> function from the <code>testthat</code> package where you enter the folder directory in the parentheses and it runs every test file in that folder. It’s easier to simply use the <code>test_path()</code> function which inserts the correct folder, assuming that you didn’t move folders around after <code>use_test()</code> (which we’ll discuss below) created them. So you’d write <code>test_dir(test_path())</code> and it would run all of your tests. This also prints out a nice summary of the results for all of your tests combined, showing the number of tests that passed, that failed (i.e. didn’t pass), that returned warnings, and that were skipped (you can force R to skip some tests which is useful when you change one part of the code and know those tests will fail but still want to test other parts).</p>
 <p>You will also need to run all the functions or load all of the data that the tests check, otherwise you’ll get an error since R doesn’t implicitly know that the functions/data exist. You can run this the normal way by highlighting and running the function (or the code to load data) in your R Project or use the shortcut Control+Shift+L (Command+Shift+L on a Mac, the L stands for “Load”) which will run every R file in your project (and every line of each file).</p>
 <p>The final way is to use the keyboard shortcut Control+Shift+T (Command+Shift+T on a Mac, the T stands for “Test”) which will load all of the files and then run all of the tests. It’s a quicker way of doing the above method. However, this shortcut only works when using an R Package, not a normal R Project.</p>
-<p><img src="images/test_summary.PNG" /></p>
+<p><img src="images/test_summary.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <div id="modular-test-scripts" class="section level3" number="9.2.1">
 <h3><span class="header-section-number">9.2.1</span> Modular test scripts</h3>
 <p>Before getting into exactly how to write a unit test correctly, we’ll talk about organizing each testing file. As with your normal R script, you can have separate testing scripts (a testing script is a normal R script which people use specifically for testing code but doesn’t actually function any different) for each major part of the code that you’re testing.<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> As with the R scripts for your code, this is simply a way to organize your work, and doesn’t affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped.</p>
-<p><img src="images/test_file_setup.PNG" /></p>
+<p><img src="images/test_file_setup.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>Note where the folder depicted above is located. It’s in a folder called “testthat” in the “tests” folder in the main project folder that I called “borderpatrol.” We’ll use a helpful function from the <code>usethis</code> package to organize our test files and generate them automatically. If you haven’t installed this package already, do so using <code>install.packages("usethis")</code> and then load it with <code>library(usethis)</code>.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a></p>
 <p>You can use the function <code>use_test()</code> from the <code>usethis</code> package to create a test file inside your R Project. This will automatically create the necessary file and folders (if not created already) so you don’t have to do any more work. Run this function by putting the name of the test file you want to create (in quotes) in the parentheses. It will open the test file in the Source panel (shown in the top left). In the example shown below, I wrote <code>use_test("test")</code> to make a new file called “test.” In the Source panel, the file is called “test-test.R” which is just because <code>usethis</code> will automatically add “test-” to the name of any test file name you make. <code>use_test()</code> will also generate an example of a test, which you can modify (or delete entirely) to suit your own needs.</p>
-<p><img src="images/usethis_test.PNG" /></p>
+<p><img src="images/usethis_test.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>The first file in the testthat folder is called setup.R which is a file that will automatically run first when you run a test script through R or using RStudio’s keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors which I use during the tests to subset the data. You won’t always need to have a setup.R file, but it’s useful when you want to run the same code beforehand for multiple different test scripts.</p>
-<p><img src="images/test_setup.PNG" /></p>
+<p><img src="images/test_setup.PNG" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="how-to-write-unit-tests" class="section level3" number="9.2.2">
 <h3><span class="header-section-number">9.2.2</span> How to write unit tests</h3>
 <p>We’ll start by looking at the default test example made when using <code>use_test()</code> to understand the organization of a test file before getting into an example of actual tests. In the image below, there are really two pieces. First, we have the actual test on line 2 - <code>expect_equal(2 * 2, 4)</code>. This is saying, I expect 2 * 2 to equal 4, and R will check if that is true. All of your tests will be in this format, just for a specific result from a specific input. Now let’s look at the code surrounding that line - <code>test_that("multiplication works", {})</code> where the <code>expect_equal()</code> line goes inside the {}.</p>
-<p><img src="images/usethis_test_default_example.PNG" /></p>
+<p><img src="images/usethis_test_default_example.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>The <code>test_that</code> code is basically a form of organization within a test file to group similar tests together. In this case it is grouping all of the tests that check if “multiplication works,” though we only have one test written. Below I’ve added three new tests to this “multiplication works” testing group. To run this code, I can either run each <code>expect_equal()</code> individually (remember to run <code>library(testthat)</code> beforehand or it won’t run) or run the entire <code>test_that()</code> group at once. You can do this by either highlighting it all and running or selecting either the top or bottom line (which has the squiggly brackets) and running that line - the entire thing will run.</p>
 <p>The benefit of this is that when you run all the tests you write (and you’ll often have many test groups and more individual tests than shown here), if a test in a group fails, it will tell you exactly which group failed (based on the name of the group which you specify - here, “multiplication works”). Note that the final test in this example is incorrect, and in the Console panel on the right it says that "Test failed: ‘multiplication works’ to tell you where the test failed. The test groups aren’t necessary but they make it easier to organize your tests.</p>
-<p><img src="images/usethis_test_default_example2.PNG" /></p>
+<p><img src="images/usethis_test_default_example2.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <p>As an example of actual tests, we’ll go over the tests that I wrote when I first scraped the US Border Patrol data that we will scrape in Chapter <a href="scrape-table.html#scrape-table">23</a>. This test file is organized almost identically to the example one shown above. At the start I have some code that loads the data that I will test - this isn’t in the setup file since the code is for this specific test script (though it could be in the setup.R file and the results would be the same). While most tests check the result of functions, here I am checking the data that is outputted by the function, and not rerunning the function for each test. I do this because the function is relatively slow to run and I have many tests, but putting the function that gets the data in the test directly will give the exact same results. Then there are several <code>test_that()</code> groups with some <code>expect_equal()</code> tests inside each.</p>
 <p>Since these tests are checking if the code is scraping the PDFs correctly, I determine the expected result by looking at the PDFs and writing down what the values should be (be careful, this must be done by hand but that can mean you mistype - so double-check your work!). We’ll use the test on lines 21-22 as an example. Here I am asking if the values in the “cocaine_pounds” column, for rows where the sector is “coastal border” are equal to the values <code>c(6843, 1701, 3169, 1288, 6884, 20, 709, 5962, 989)</code>. If they are, then the scraping was correct (at least for this part of the PDF) and the code worked. In this case I checked every value that meets the two conditions, but that’s just because there were relatively few values. If I had many values that meet those conditions (i.e. many rows of data in that column), I would just check a small number of them.</p>
-<p><img src="images/test_example.PNG" /></p>
+<p><img src="images/test_example.PNG" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="what-to-test" class="section level3" number="9.2.3">
 <h3><span class="header-section-number">9.2.3</span> What to test</h3>

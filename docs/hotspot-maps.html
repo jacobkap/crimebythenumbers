@@ -5,26 +5,26 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>17 Hotspot maps | Crime by the Numbers: A Criminologist’s Guide to R</title>
-  <meta name="description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="17 Hotspot maps | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://crimebythenumbers.com" />
   
-  <meta property="og:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   <meta name="github-repo" content="jacobkap/crimebythenumbers" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="17 Hotspot maps | Crime by the Numbers: A Criminologist’s Guide to R" />
   
-  <meta name="twitter:description" content="This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets." />
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
   
 
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-06" />
+<meta name="date" content="2021-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -586,7 +586,7 @@ div.csl-indent {
 <span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</span></span></code></pre></div>
 <p>We’ll start by making the background to our map, showing San Francisco. We do so by using the <code>get_map()</code> function from <code>ggmap</code> which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show.</p>
 <p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box</a>. This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste,” change the dropdown box to “CSV.” In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
-<p><img src="images/bounding_box.PNG" /></p>
+<p><img src="images/bounding_box.PNG" width="90%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="hotspot-maps.html#cb292-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_map</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">122.530392</span>,<span class="fl">37.698887</span>,<span class="sc">-</span><span class="fl">122.351177</span>,<span class="fl">37.812996</span>), </span>
 <span id="cb292-2"><a href="hotspot-maps.html#cb292-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">source =</span> <span class="st">&quot;stamen&quot;</span>))</span>
 <span id="cb292-3"><a href="hotspot-maps.html#cb292-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/653/1582.png</span></span>
@@ -599,20 +599,20 @@ div.csl-indent {
 <span id="cb292-10"><a href="hotspot-maps.html#cb292-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/654/1584.png</span></span>
 <span id="cb292-11"><a href="hotspot-maps.html#cb292-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Source : http://tile.stamen.com/terrain/12/655/1584.png</span></span>
 <span id="cb292-12"><a href="hotspot-maps.html#cb292-12" aria-hidden="true" tabindex="-1"></a>sf_map</span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the shootings from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load `<code>ggmap</code> it also automatically loads <code>ggplot2</code> as that package is necessary for <code>ggmap</code> to work, so we don’t need to do <code>library(ggplot2)</code> ourselves.</p>
 <div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="hotspot-maps.html#cb293-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb293-2"><a href="hotspot-maps.html#cb293-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
 <span id="cb293-3"><a href="hotspot-maps.html#cb293-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide)</span>
 <span id="cb293-4"><a href="hotspot-maps.html#cb293-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>If we wanted to color the dots, we can use <code>color =</code> and then select a color. Let’s try it with “forestgreen.”</p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="hotspot-maps.html#cb294-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb294-2"><a href="hotspot-maps.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
 <span id="cb294-3"><a href="hotspot-maps.html#cb294-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
 <span id="cb294-4"><a href="hotspot-maps.html#cb294-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>)</span>
 <span id="cb294-5"><a href="hotspot-maps.html#cb294-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>As with other graphs we can change the size of the dot using <code>size =</code>.</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="hotspot-maps.html#cb295-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb295-2"><a href="hotspot-maps.html#cb295-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
@@ -620,14 +620,14 @@ div.csl-indent {
 <span id="cb295-4"><a href="hotspot-maps.html#cb295-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
 <span id="cb295-5"><a href="hotspot-maps.html#cb295-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="fl">0.5</span>)</span>
 <span id="cb295-6"><a href="hotspot-maps.html#cb295-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="hotspot-maps.html#cb296-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb296-2"><a href="hotspot-maps.html#cb296-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
 <span id="cb296-3"><a href="hotspot-maps.html#cb296-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data  =</span> suicide,</span>
 <span id="cb296-4"><a href="hotspot-maps.html#cb296-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
 <span id="cb296-5"><a href="hotspot-maps.html#cb296-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">2</span>)</span>
 <span id="cb296-6"><a href="hotspot-maps.html#cb296-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="hotspot-maps.html#cb297-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb297-2"><a href="hotspot-maps.html#cb297-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
@@ -636,14 +636,14 @@ div.csl-indent {
 <span id="cb297-5"><a href="hotspot-maps.html#cb297-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">2</span>,</span>
 <span id="cb297-6"><a href="hotspot-maps.html#cb297-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>)</span>
 <span id="cb297-7"><a href="hotspot-maps.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost.</p>
 </div>
 <div id="what-really-are-maps" class="section level2" number="17.2">
 <h2><span class="header-section-number">17.2</span> What really are maps?</h2>
 <p>Let’s pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you’ll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter <a href="interactive-maps.html#interactive-maps">19</a> we’ll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell “where” a dot is.</p>
 <div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="hotspot-maps.html#cb298-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>X, suicide<span class="sc">$</span>Y, <span class="at">col =</span> <span class="st">&quot;forestgreen&quot;</span>)</span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="making-a-hotspot-map" class="section level2" number="17.3">
 <h2><span class="header-section-number">17.3</span> Making a hotspot map</h2>
@@ -660,7 +660,7 @@ div.csl-indent {
 <span id="cb300-5"><a href="hotspot-maps.html#cb300-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>() </span>
 <span id="cb300-6"><a href="hotspot-maps.html#cb300-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
 <span id="cb300-7"><a href="hotspot-maps.html#cb300-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.</p>
 <p>What happens when we drop the number of bins to 30?</p>
 <div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="hotspot-maps.html#cb301-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -670,7 +670,7 @@ div.csl-indent {
 <span id="cb301-5"><a href="hotspot-maps.html#cb301-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>() </span>
 <span id="cb301-6"><a href="hotspot-maps.html#cb301-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
 <span id="cb301-7"><a href="hotspot-maps.html#cb301-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are &lt;1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!</p>
 <p>What about looking at 100 bins?</p>
 <div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="hotspot-maps.html#cb302-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -680,7 +680,7 @@ div.csl-indent {
 <span id="cb302-5"><a href="hotspot-maps.html#cb302-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>() </span>
 <span id="cb302-6"><a href="hotspot-maps.html#cb302-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
 <span id="cb302-7"><a href="hotspot-maps.html#cb302-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself.</p>
 <div id="colors" class="section level3" number="17.3.1">
 <h3><span class="header-section-number">17.3.1</span> Colors</h3>
@@ -694,7 +694,7 @@ div.csl-indent {
 <span id="cb303-7"><a href="hotspot-maps.html#cb303-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</span>
 <span id="cb303-8"><a href="hotspot-maps.html#cb303-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
 <span id="cb303-9"><a href="hotspot-maps.html#cb303-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
 <p>By default it labels the legend as “count.” Since we know these are counts of suicides let’s relabel that as such.</p>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="hotspot-maps.html#cb304-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb304-2"><a href="hotspot-maps.html#cb304-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_binhex</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
@@ -706,7 +706,7 @@ div.csl-indent {
 <span id="cb304-8"><a href="hotspot-maps.html#cb304-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high =</span> <span class="st">&quot;#f03b20&quot;</span>)</span>
 <span id="cb304-9"><a href="hotspot-maps.html#cb304-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</span></span>
 <span id="cb304-10"><a href="hotspot-maps.html#cb304-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 1 rows containing non-finite values (stat_binhex).</span></span></code></pre></div>
-<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="hotspot-maps_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="practice-problems-10" class="section level2" number="17.4">

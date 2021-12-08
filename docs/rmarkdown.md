@@ -10,19 +10,19 @@ I include this chapter early in the book - and likely before you are really comf
 
 To open up a R Markdown file click File from the top menu, then New File, and then R Markdown...
 
-![](images/markdown1.png)
+<img src="images/markdown1.png" width="90%" style="display: block; margin: auto;" />
 
 From here it'll open up a window where you select the title, author, and type of output. You can always change all three of these selections right in the R Markdown file after making your selection here. Selecting PDF may require you to download additional software to get it to output - some operating systems may already have the software installed. For a nice guide to making PDFs with R Markdown, see  [here](https://medium.com/@sorenlind/create-pdf-.reports-using-r-r-markdown-latex-and-knitr-on-windows-10-952b0c48bfa9). 
 
-![](images/markdown2.png)
+<img src="images/markdown2.png" width="90%" style="display: block; margin: auto;" />
 
 When you click OK, it will open a new R Markdown file that is already populated with example text and code. You can delete this entirely or modify it as needed.
 
-![](images/markdown6.png)
+<img src="images/markdown6.PNG" width="90%" style="display: block; margin: auto;" />
 
 When you output that file as a PDF it will look like the image below.
 
-![](images/markdown_output_example.PNG)
+<img src="images/markdown_output_example.PNG" width="90%" style="display: block; margin: auto;" />
 
 R converted the file into a PDF, executing the code and using the formatting specified. In an R Script a `#` means that the line is a comment. In an R Markdown file, the `#` signifies that the line is a section header. There are 6 possible headers, made by combining the `#` together - a `#` is the largest header while `######` is the smallest header. As with comments, they must be at the beginning of a line. 
 
@@ -36,11 +36,11 @@ The reason R Markdown is so useful is because you can include code output in the
 
 To make a chunk click Insert near the top right, then R.
 
-![](images/markdown3.PNG)
+<img src="images/markdown3.PNG" width="90%" style="display: block; margin: auto;" />
 
 It will then make an empty code chunk where your cursor is. 
 
-![](images/chunk_example.PNG)
+<img src="images/chunk_example.PNG" width="90%" style="display: block; margin: auto;" />
 
 Notice the three \` at the top and bottom of the chunk. Don't touch these! They tell R that anything in it is a code chunk (i.e. that R should run the code). Inside the squiggly brackets `{}` are instructions about how the code is outputted. Here you can specify, among other things if the code will be outputted or just the output itself, captions for tables or graphs, and formatting for the output. Include all of these options after the `r` in the squiggly brackets. Multiple options must be separated by a comma (just like options in normal R functions).  
 
@@ -59,9 +59,9 @@ In the third code chunk (lines 26-28), that parameter is set to false as it is `
 You can also include R code directly in the text of your document and it will return the output of that code. To use it, you simple need to setup an inline code chunk using the tick mark followed by the lowercase letter R, the code you want to use, and then end it using another tick mark. This is called using inline code. When you have a table or visualization to output, this isn't the proper method, it is best for small pieces of text to add to your document. This is most useful for when you want to include some descriptive info, such as the number of respondents to a survey or the mean of some variable, in the text of your document. Inline code will only present the output of the code and doesn't show the code itself. Below is an example of inline code - see the image below that for what it looks like with the code. 
 
 
-The dataset mtcars has 32 rows and 11 columns. The mean of the mpg column is 20.090625. 
+The data set mtcars has 32 rows and 11 columns. The mean of the mpg column is 20.090625. 
 
-![](images/inline_code.PNG)
+<img src="images/inline_code.PNG" width="90%" style="display: block; margin: auto;" />
 
 ## Tables
 
@@ -76,26 +76,17 @@ mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```
 
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-1)This is an example table caption}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r}
-\hline
-  & mpg & cyl & disp & hp & drat\\
-\hline
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85\\
-\hline
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08\\
-\hline
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15\\
-\hline
-\end{tabular}
-\end{table}
+
+Table: (\#tab:unnamed-chunk-8)This is an example table caption
+
+|                  |  mpg| cyl| disp|  hp| drat|
+|:-----------------|----:|---:|----:|---:|----:|
+|Mazda RX4         | 21.0|   6|  160| 110| 3.90|
+|Mazda RX4 Wag     | 21.0|   6|  160| 110| 3.90|
+|Datsun 710        | 22.8|   4|  108|  93| 3.85|
+|Hornet 4 Drive    | 21.4|   6|  258| 110| 3.08|
+|Hornet Sportabout | 18.7|   8|  360| 175| 3.15|
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
 
@@ -111,17 +102,17 @@ In academic research you will need to cite the papers that you are referencing. 
 
 Note, there may be other ways to get the citations in the right format; I'm just showing you one way to do so. For this example, we'll use the article "Using NIBRS data to analyze violent crime" by Brian Reaves that was published in 1993. We'll walk through the process from finding the article on Google Scholar to citing it in your paper. First, from Google Scholar we'll search for the article title. 
 
-![](images/citation_google_scholar.PNG)
+<img src="images/citation_google_scholar.PNG" width="90%" style="display: block; margin: auto;" />
 
 This returns all articles that meet your search criteria. Since we're searching for a specific article title, we only get one result. The result shows some basic info about the article - title, date, name, abstract. Below the abstract are some important things. First, and circled in blue in the above photo, is a link that looks like quotation marks. This is what we'll click on to get to the BibTeX citation. While not necessary for citation, the next two links may come in handy during your research. 'Cited by 31' means that 31 published (in some format that Google can locate, not necessarily peer-reviewed articles) articles have cited this article. If you click the link it'll open up a Google Scholar page with all of these articles. This is a good way to find relevant literature. Clicking 'Related articles' does the same thing but with articles that Google Scholar deems similar, not necessarily articles linking to the one you're looking up.
 
 But back to the quotes link circled in blue. Click this and it'll make a popup, shown below, of ways to cite this article is various formats. We'll have R Markdown automatically generate the citation in the format we want so we don't need to worry about this. Instead, click the BibTeX link at the bottom left.   
 
-![](images/google_scholar_cite.PNG)
+<img src="images/google_scholar_cite.PNG" width="90%" style="display: block; margin: auto;" />
 
 When you click it, it'll open up a new page with that article's citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is its own piece. Take a close look at the section immediately after the first squiggly bracket, "reaves1993using". This is how you'll identify the article in R Markdown so R knows which article to cite. It's essentially the citation's name. It's created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called. 
 
-![](images/google_scholar_bibtex.PNG)
+<img src="images/google_scholar_bibtex.PNG" width="90%" style="display: block; margin: auto;" />
 
 Note at the end of the publisher section are the characters "~...". This looks like a mistake made by Google Scholar so we'll need to delete that so it isn't included in a paper we use this citation in. When using Google Scholar, you'll occasionally find issues like this which you'll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over from Google Scholar weird (meaning that it copies as a character that your computer, and thus R Markdown, doesn't understand) and needs to be rewritten so R Markdown will run. You can rewrite it by just deleting the punctuation and typing it using your keyboard. This isn't always an issue so don't worry about it unless you get an error with the citations when outputting your document.
 
@@ -129,11 +120,11 @@ Below is the citation included in my .bib file, and the start of another citatio
 
 Note that I have the word NIBRS surrounded by squiggly brackets {}. That is because by default R Markdown (and other citation generators such as Overleaf) will only capitalize the first letter of the title or the first letter following a colon. Since NIBRS is an abbreviation and should be capitalized, I put it in the {} to force it to remain capitalized. This is often a problem with abbreviations or country names (such as United States) in the paper title. Since all citations you use for a project should be in a single .bib file, you can see the start of another article cited below the Reaves citation. 
 
-![](images/bibtex_example.PNG)
-  
+<img src="images/bibtex_example.PNG" width="90%" style="display: block; margin: auto;" />
+
 To use citations from your .bib file, add `bibliography: references_file_name.bib` to the head of your R Markdown file. If your .bib file isn't in the R Markdown file's working directory, as my example below is not, you'll need to include the path in the file name.
 
-![](images/rmarkdown_bib.PNG)
+<img src="images/rmarkdown_bib.PNG" width="90%" style="display: block; margin: auto;" />
 
 Now that we have the citation in BibTeX format, put it in our .bib file, and told R Markdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case "reaves1993using") so we would write `@reaves1993using`. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author's name. You'll usually want to use this if you're already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this `[@reaves1993using]`. If we're citing multiple articles, we separate each citation using a semicolon `[@reaves1993using; @jain2000recruitment]`.
 
@@ -153,7 +144,7 @@ If you use a citation that isn't in your .bib file, R Markdown will show the inc
 
 [@wrongCitation]
 
-![](images/citation_raw.PNG)
+<img src="images/citation_raw.PNG" width="90%" style="display: block; margin: auto;" />
 
 When you use citations, R will automatically put the reference at the very end of the document. Two LaTeX commands may be useful here. `\clearpage` makes a new page so your reference section isn't on the same page as the conclusion. `\singlespace` makes the reference section single spaced if you document is set to be double spaced. Put these commands at the very end of your document so they only apply to the reference page. You don't need to do anything other than write them (for easier reading, make them on separate lines) at the end of the R Markdown file. If you want to make the references go in another part of the paper (e.g. after tables and figures), just put this code at the place in the paper where you want to reference section to go: `<div id="refs"></div>`.
  
@@ -165,4 +156,4 @@ R Markdown does have a built-in spell checker (the ABC above a check mark symbol
 
 To create the Word or PDF output click `Knit` and it will create the output in the format set in the very top. To change this format click the white down-arrow directly to the right of `Knit` and it will drop-down a menu with output options. Click the option you want and it will output it in that format and change that to the new default. Sometimes it takes a while for it to output, so be patient.
 
-![](images/markdown4.PNG)
+<img src="images/markdown4.PNG" width="90%" style="display: block; margin: auto;" />
