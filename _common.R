@@ -3,10 +3,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   out.width = "90%",
   fig.align = 'center',
-  fig.width = 9,
-  fig.asp =  0.618,  # 0.618 == 1 / phi
+  fig.width = 10,
+  fig.asp =  0.7,  # 0.618 == 1 / phi
   fig.show = "hold",
-  error = TRUE
+  error = TRUE,
+  fig.pos = "!H", out.extra = ""
   )
 
-options(width = 70)
+options(width = 80)

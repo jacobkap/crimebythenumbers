@@ -34,7 +34,8 @@ As shown above, running `geocode("750 Race St. Philadelphia, PA 19106")` gives u
 
 
 ```r
-address_to_geocode <- data.frame(address = "750 Race St. Philadelphia, PA 19106")
+address_to_geocode <- data.frame(address = 
+                      "750 Race St. Philadelphia, PA 19106")
 ```
 
 Now let's try again. We'll enter our data.frame `address_to_geocode` first and then the name of our column which is "address".
@@ -111,7 +112,8 @@ The second important parameter is `full_results` which is by default set to FALS
 
 
 ```r
-example <- geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
+example <- geocode(address_to_geocode, "address",
+                   method = "osm", full_results = TRUE)
 example <- data.frame(example)
 example
 #>                               address     lat      long  place_id
@@ -134,42 +136,42 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 
 
 ```r
-example <- geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", 
+                   method = "census", full_results = TRUE)
 example <- data.frame(example)
 example
 #>                               address      lat     long
 #> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514
-#>                         matchedAddress tigerLine.tigerLineId
-#> 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677
-#>   tigerLine.side addressComponents.fromAddress
-#> 1              L                           700
-#>   addressComponents.toAddress addressComponents.preQualifier
-#> 1                         798                               
-#>   addressComponents.preDirection addressComponents.preType
-#> 1                                                         
-#>   addressComponents.streetName addressComponents.suffixType
-#> 1                         RACE                           ST
-#>   addressComponents.suffixDirection addressComponents.suffixQualifier
-#> 1                                                                    
-#>   addressComponents.city addressComponents.state
-#> 1           PHILADELPHIA                      PA
-#>   addressComponents.zip
-#> 1                 19106
+#>                         matchedAddress tigerLine.tigerLineId tigerLine.side
+#> 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677              L
+#>   addressComponents.fromAddress addressComponents.toAddress
+#> 1                           700                         798
+#>   addressComponents.preQualifier addressComponents.preDirection
+#> 1                                                              
+#>   addressComponents.preType addressComponents.streetName
+#> 1                                                   RACE
+#>   addressComponents.suffixType addressComponents.suffixDirection
+#> 1                           ST                                  
+#>   addressComponents.suffixQualifier addressComponents.city
+#> 1                                             PHILADELPHIA
+#>   addressComponents.state addressComponents.zip
+#> 1                      PA                 19106
 ```
 
 These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
 
 
 ```r
-example <- geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", 
+                   method = "arcgis", full_results = TRUE)
 example <- data.frame(example)
 example
 #>                               address      lat      long
 #> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
-#>                                   arcgis_address score location.x
-#> 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205
-#>   location.y extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1   39.95488   -75.15305    39.95388   -75.15105    39.95588
+#>                                   arcgis_address score location.x location.y
+#> 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205   39.95488
+#>   extent.xmin extent.ymin extent.xmax extent.ymax
+#> 1   -75.15305    39.95388   -75.15105    39.95588
 ```
 
 For the ArcGIS results we have the matched address again, and then an important variable called "score" which is basically a measure of how confident ArcGIS is that it matched the right address. Higher values are more confident, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as "location.x" and "location.y" columns, and I'm not sure why they do so. 
@@ -185,9 +187,9 @@ Let's read in the marijuana dispensary data which is called "san_francisco_activ
 library(readr)
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
 #> Rows: 33 Columns: 11
-#> -- Column specification ----------------------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr (11): License Number, License Type, Business Owner, Business C...
+#> chr (11): License Number, License Type, Business Owner, Business Contact Inf...
 #> 
 #> i Use `spec()` to retrieve the full column specification for this data.
 #> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -220,34 +222,28 @@ head(marijuana)
 #> 4               Corporation
 #> 5 Limited Liability Company
 #> 6 Limited Liability Company
-#>                                                 Premise.Address
-#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO
-#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO
-#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO
-#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO
-#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO
-#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO
-#>   Status Issue.Date Expiration.Date                Activities
-#> 1 Active  9/13/2019       9/12/2020 N/A for this license type
-#> 2 Active  8/26/2019       8/25/2020 N/A for this license type
-#> 3 Active  8/26/2019       8/25/2020 N/A for this license type
-#> 4 Active   8/5/2019        8/4/2020 N/A for this license type
-#> 5 Active  7/29/2019       7/28/2020 N/A for this license type
-#> 6 Active  7/29/2019       7/28/2020 N/A for this license type
-#>   Adult.Use.Medicinal
-#> 1                BOTH
-#> 2                BOTH
-#> 3                BOTH
-#> 4                BOTH
-#> 5                BOTH
-#> 6                BOTH
+#>                                                 Premise.Address Status
+#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active
+#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active
+#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active
+#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active
+#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active
+#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active
+#>   Issue.Date Expiration.Date                Activities Adult.Use.Medicinal
+#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 ```
 
 The column with the address is called *Premise Address*. Since the address issue is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
  
 
 ```r
-marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise.Address)
+marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO",
+                                  "", marijuana$Premise.Address)
 ```
 
 Now let's make sure we did it right.
@@ -299,7 +295,8 @@ We could also just geocode the 10 addresses that failed on the first run, but gi
 ```r
 marijuana$long <- NULL
 marijuana$lat  <- NULL
-marijuana      <- geocode(marijuana, "Premise.Address", method = "arcgis")
+marijuana      <- geocode(marijuana, "Premise.Address",
+                          method = "arcgis")
 ```
 And let's do the `summary()` check again. 
 
@@ -323,7 +320,9 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

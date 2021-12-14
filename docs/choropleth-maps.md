@@ -11,9 +11,9 @@ Since we will be working more on the suicide data from San Francisco, let's read
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 #> Rows: 1292 Columns: 14
-#> -- Column specification ----------------------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolut...
+#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...
 #> dbl  (5): IncidntNum, X, Y, PdId, year
 #> time (1): Time
 #> 
@@ -78,7 +78,9 @@ The last column is important. In shapefiles, the "geometry" column is the one wi
 plot(sf_neighborhoods$geometry)
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city's attempt to create definitions of neighborhoods. Indeed, you're likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries [here](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind. 
 
@@ -246,20 +248,20 @@ head(suicide)
 #> Dimension:     XY
 #> Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> Projected CRS: NAD83 / California zone 3 (ftUS)
-#>   IncidntNum Category                           Descript DayOfWeek
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
-#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
-#>         Date     Time PdDistrict Resolution                 Address
-#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
-#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
-#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
-#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
-#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
-#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>   IncidntNum Category                           Descript DayOfWeek       Date
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+#>       Time PdDistrict Resolution                 Address
+#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
 #>                                         Location         PdId year
 #> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
 #> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
@@ -286,7 +288,9 @@ plot(sf_neighborhoods$geometry)
 plot(suicide$geometry, add = TRUE, col = "red")
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let's plan it out before beginning. Our suicide data is one row for each suicide, our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with that the original neighborhood data (since we need the "geometry" column) and we can then map it.
 
@@ -312,20 +316,20 @@ head(suicide_agg)
 #> Dimension:     XY
 #> Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180
 #> Projected CRS: NAD83 / California zone 3 (ftUS)
-#>   IncidntNum Category                           Descript DayOfWeek
-#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday
-#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday
-#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday
-#> 4  180263659  SUICIDE                            SUICIDE   Tuesday
-#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday
-#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday
-#>         Date     Time PdDistrict Resolution                 Address
-#> 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
-#> 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
-#> 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
-#> 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
-#> 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
-#> 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
+#>   IncidntNum Category                           Descript DayOfWeek       Date
+#> 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018
+#> 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018
+#> 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018
+#> 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018
+#> 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018
+#> 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018
+#>       Time PdDistrict Resolution                 Address
+#> 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV
+#> 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST
+#> 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST
+#> 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST
+#> 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY
+#> 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV
 #>                                         Location         PdId year
 #> 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018
 #> 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018
@@ -475,7 +479,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -488,7 +494,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   scale_fill_gradient(low = "white", high = "red") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -504,7 +512,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
        subtitle = "2003 - 2017") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
@@ -521,7 +531,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
         axis.ticks = element_blank())
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-30-1} \end{center}
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 

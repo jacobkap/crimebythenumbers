@@ -14,9 +14,9 @@ The data initially comes as a .csv file so we'll use the `read_csv()` function f
 library(readr)
 shootings <- read_csv("data/fatal-police-shootings-data.csv")
 #> Rows: 4371 Columns: 14
-#> -- Column specification ----------------------------------------------
+#> -- Column specification --------------------------------------------------------
 #> Delimiter: ","
-#> chr  (9): name, manner_of_death, armed, gender, race, city, state,...
+#> chr  (9): name, manner_of_death, armed, gender, race, city, state, threat_le...
 #> dbl  (2): id, age
 #> lgl  (2): signs_of_mental_illness, body_camera
 #> date (1): date
@@ -49,27 +49,27 @@ The data has 14 variables and covers 4,371 shootings. Let's check out some of th
 
 ```r
 head(shootings)
-#>   id               name       date  manner_of_death      armed age
-#> 1  3         Tim Elliot 2015-01-02             shot        gun  53
-#> 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47
-#> 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23
-#> 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32
-#> 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39
-#> 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18
-#>   gender race          city state signs_of_mental_illness
-#> 1      M    A       Shelton    WA                    TRUE
-#> 2      M    W         Aloha    OR                   FALSE
-#> 3      M    H       Wichita    KS                   FALSE
-#> 4      M    W San Francisco    CA                    TRUE
-#> 5      M    H         Evans    CO                   FALSE
-#> 6      M    W       Guthrie    OK                   FALSE
-#>   threat_level        flee body_camera
-#> 1       attack Not fleeing       FALSE
-#> 2       attack Not fleeing       FALSE
-#> 3        other Not fleeing       FALSE
-#> 4       attack Not fleeing       FALSE
-#> 5       attack Not fleeing       FALSE
-#> 6       attack Not fleeing       FALSE
+#>   id               name       date  manner_of_death      armed age gender race
+#> 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A
+#> 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W
+#> 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H
+#> 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W
+#> 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H
+#> 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W
+#>            city state signs_of_mental_illness threat_level        flee
+#> 1       Shelton    WA                    TRUE       attack Not fleeing
+#> 2         Aloha    OR                   FALSE       attack Not fleeing
+#> 3       Wichita    KS                   FALSE        other Not fleeing
+#> 4 San Francisco    CA                    TRUE       attack Not fleeing
+#> 5         Evans    CO                   FALSE       attack Not fleeing
+#> 6       Guthrie    OK                   FALSE       attack Not fleeing
+#>   body_camera
+#> 1       FALSE
+#> 2       FALSE
+#> 3       FALSE
+#> 4       FALSE
+#> 5       FALSE
+#> 6       FALSE
 ```
 
 Each row is a single shooting and it includes variables such as the victim's name, the date of the shooting, demographic information about that person, the city and state where the shooting occurred, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can't use `summary()` on them. Let's use `summary()` on the date and age columns and then use `table()` for the rest. 
@@ -77,10 +77,8 @@ Each row is a single shooting and it includes variables such as the victim's nam
 
 ```r
 summary(shootings$date)
-#>         Min.      1st Qu.       Median         Mean      3rd Qu. 
-#> "2015-01-02" "2016-02-07" "2017-03-16" "2017-03-18" "2018-04-11" 
-#>         Max. 
-#> "2019-06-25"
+#>         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+#> "2015-01-02" "2016-02-07" "2017-03-16" "2017-03-18" "2018-04-11" "2019-06-25"
 summary(shootings$age)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
 #>    6.00   27.00   35.00   36.84   45.00   91.00     182
@@ -341,7 +339,9 @@ As a reminder, the benefit of using `ggplot()` is we can start with a simple plo
 ggplot(shootings, aes(x = age))
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 Running the above code returns a blank graph since we haven't told `ggplot()` what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They're essentially all variations of each other and show the data at different levels of precision. It's hard to say which is best - you'll need to use your best judgment and consider your audience. 
 
 ### Histogram
@@ -356,7 +356,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 The x-axis is ages with each bar being a group of certain ages, and the y-axis is how many people are in each group. The grouping is done automatically and we can alter it by changing the `bin` parameter in `geom_histogram()`. By default this parameter is set to 30 but we can make each group smaller (have fewer ages per group) by **increasing** it from 30 or make each group larger by **decreasing** it.
 
@@ -367,7 +369,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 
 ```r
@@ -376,7 +380,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
 
@@ -390,7 +396,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_bin).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 ### Density plot
 
@@ -403,7 +411,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_density).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 ### Count Graph
 
@@ -416,7 +426,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
 Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to proportion of people using the exact same code.
 
 
@@ -426,7 +438,9 @@ ggplot(shootings, aes(x = age)) +
 #> Warning: Removed 182 rows containing non-finite values (stat_count).
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
 
 ## Graphing a Categorical Variable 
 
@@ -440,7 +454,9 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
 This gives us a barplot in alphabetical order. In most cases we want the data sorted by frequency, so we can easily see what value is the most common, second most common, etc. There are a few ways to do this but we'll do this by turning the "race" variable into a factor and ordering it by frequency. We can do that using the `factor()` function. The first input will be the "race" variable and then we will need to set the `levels` parameter to a vector of values sorted by frequency. An easy way to know how often values are in a column is to use the `table()` function on that column, such as below.
 
 
@@ -495,7 +511,9 @@ ggplot(shootings, aes(x = race)) +
   geom_bar() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
 It works! Note that all the values that are missing in our data are still reported in the barplot under a column called "NA". This is not sorted properly since there are more NA values than three of the other values but is still at the far right of the graph. We can change this if we want to make all the NA values an actual character type and call it something like "Unknown". But this way it does draw attention to how many values are missing from this column. Like most things in graphing, this is a personal choice as to what to do.
 
 For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it'll shrink the graph to accommodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph. 
@@ -507,7 +525,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
 Since it's flipped, now it's sorted from smallest to largest. So we'll need to change the `factor()` code to fix that.
 
 
@@ -519,7 +539,9 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
 The NA value is now at the top, which looks fairly bad. Let's change all NA values to the string "Unknown". And while we're at it, let's change all the abbreviated race values to actual names. We can get all the NA values by using `is.na(shootings$race)` and using a conditional statement to get all rows that meet that condition, then assign them the value "Unknown". Instead of trying to subset a factor variable to change the values, we should convert it back to a character type first using `as.character()`, and then convert it to a factor again once we're done. 
 
 
@@ -551,7 +573,10 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-32-1} \end{center}
+
 As earlier, we can show proportion instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
 
 
@@ -561,9 +586,11 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
 
-## Graphing Data Over Time
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-33-1} \end{center}
+
+## Graphing data Over Time
 
 We went over time-series graphs in Chapter \@ref(graphing-intro) but it's such an important topic we'll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome, in this case numbers of killings, over time. In our case we aren't evaluating any policy, just seeing if the number of police killings change over time. 
 
@@ -576,7 +603,9 @@ ggplot(shootings, aes(x = date, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-34-1} \end{center}
 This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, let's use the `lubridate()` package that is well-suited for this task. 
 
 
@@ -647,7 +676,9 @@ ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-39-1} \end{center}
 The process is the same for yearly data.
 
 
@@ -659,7 +690,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   geom_line()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-40-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-40-1} \end{center}
 
 Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it's simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven't finished this month (year) yet (and the data has a small lag in reporting). 
 
@@ -687,7 +720,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_fivethirtyeight()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-42-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-42-1} \end{center}
 
 
 
@@ -697,7 +732,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_tufte()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-43-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-43-1} \end{center}
 
 
 
@@ -707,7 +744,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_few()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-44-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-44-1} \end{center}
 
 
 
@@ -717,7 +756,9 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
   theme_excel()
 ```
 
-<img src="graphing-2_files/figure-html/unnamed-chunk-45-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-45-1} \end{center}
 
 ## Practice problems
 

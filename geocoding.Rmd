@@ -29,7 +29,8 @@ geocode("750 Race St. Philadelphia, PA 19106")
 As shown above, running `geocode("750 Race St. Philadelphia, PA 19106")` gives us an error that tells us that ".tbl is not a dataframe." The issue is that `geocode()` expects a data.frame (and .tbl is an abbreviation for tibble which is a kind of data.frame), but we entered only the string with our one address, not a data.frame. For this function to work we need to enter two parameters into `geocode()`: a data.frame (or something similar such as a tibble) and the name of the column which has the addresses.^[We can look at all of the parameters for this function by running the code `help(geocode)` or `?geocode()` to look at the functions Help page.] Since we need a data.frame, we'll make one below. I'm calling it `address_to_geocode` and calling the column with the address "address", but you can call both the data.frame and the column whatever name you want. 
 
 ```{r}
-address_to_geocode <- data.frame(address = "750 Race St. Philadelphia, PA 19106")
+address_to_geocode <- data.frame(address = 
+                      "750 Race St. Philadelphia, PA 19106")
 ```
 
 Now let's try again. We'll enter our data.frame `address_to_geocode` first and then the name of our column which is "address".
@@ -77,7 +78,8 @@ Given how similar the coordinates are, you really only need to set the source of
 The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function.
 
 ```{r}
-example <- geocode(address_to_geocode, "address", method = "osm", full_results = TRUE)
+example <- geocode(address_to_geocode, "address",
+                   method = "osm", full_results = TRUE)
 example <- data.frame(example)
 example
 ```
@@ -87,7 +89,8 @@ For OSM as a source we also get information about the address such as what type 
 Sometimes geocoders will be quite a bit off in their geocoding because they match the address you inputted incorrectly to one in their database. For example, if you input "123 Main Street" and the geocoder thinks you mean "123 Maine Street" you may be quite a bit off in the resulting coordinates. When you only get coordinates returns you won't know that the coordinates are wrong. Even if you know where an address is supposed to be it's hard to catch errors like this. If you're geocoding addresses in a single city and one point is in a different city (or completely different part of the world), then it's pretty clear that there's an error. But if the coordinates are simply in a wrong part of the city, but near other coordinates, then it's very hard to notice a problem. So having an address to check against the one you inputted is a very useful way of validate the geocoding. 
 
 ```{r}
-example <- geocode(address_to_geocode, "address", method = "census", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", 
+                   method = "census", full_results = TRUE)
 example <- data.frame(example)
 example
 ```
@@ -95,7 +98,8 @@ example
 These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
 
 ```{r}
-example <- geocode(address_to_geocode, "address", method = "arcgis", full_results = TRUE)
+example <- geocode(address_to_geocode, "address", 
+                   method = "arcgis", full_results = TRUE)
 example <- data.frame(example)
 example
 ```
@@ -123,7 +127,8 @@ head(marijuana)
 The column with the address is called *Premise Address*. Since the address issue is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
  
 ```{r}
-marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO", "", marijuana$Premise.Address)
+marijuana$Premise.Address <- gsub(" County: SAN FRANCISCO",
+                                  "", marijuana$Premise.Address)
 ```
 
 Now let's make sure we did it right.
@@ -154,7 +159,8 @@ We could also just geocode the 10 addresses that failed on the first run, but gi
 ```{r}
 marijuana$long <- NULL
 marijuana$lat  <- NULL
-marijuana      <- geocode(marijuana, "Premise.Address", method = "arcgis")
+marijuana      <- geocode(marijuana, "Premise.Address",
+                          method = "arcgis")
 ```
 And let's do the `summary()` check again. 
 

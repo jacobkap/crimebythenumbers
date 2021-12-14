@@ -57,20 +57,13 @@ head(penn_alcohol)
 #> 1562 pennsylvania 2014                            1.32
 #> 1563 pennsylvania 2013                            1.34
 #> 1564 pennsylvania 2012                            1.36
-#>      ethanol_wine_gallons_per_capita
-#> 1559                            0.33
-#> 1560                            0.33
-#> 1561                            0.32
-#> 1562                            0.32
-#> 1563                            0.31
-#> 1564                            0.31
-#>      ethanol_spirit_gallons_per_capita
-#> 1559                              0.71
-#> 1560                              0.72
-#> 1561                              0.70
-#> 1562                              0.70
-#> 1563                              0.68
-#> 1564                              0.67
+#>      ethanol_wine_gallons_per_capita ethanol_spirit_gallons_per_capita
+#> 1559                            0.33                              0.71
+#> 1560                            0.33                              0.72
+#> 1561                            0.32                              0.70
+#> 1562                            0.32                              0.70
+#> 1563                            0.31                              0.68
+#> 1564                            0.31                              0.67
 #>      ethanol_all_drinks_gallons_per_capita number_of_beers
 #> 1559                                  2.34        305.7778
 #> 1560                                  2.36        310.5185
@@ -78,20 +71,13 @@ head(penn_alcohol)
 #> 1562                                  2.34        312.8889
 #> 1563                                  2.33        317.6296
 #> 1564                                  2.34        322.3704
-#>      number_of_glasses_wine number_of_shots_liquor
-#> 1559               65.48837               147.4128
-#> 1560               65.48837               149.4891
-#> 1561               63.50388               145.3366
-#> 1562               63.50388               145.3366
-#> 1563               61.51938               141.1841
-#> 1564               61.51938               139.1079
-#>      number_of_drinks_total
-#> 1559               499.2000
-#> 1560               503.4667
-#> 1561               497.0667
-#> 1562               499.2000
-#> 1563               497.0667
-#> 1564               499.2000
+#>      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total
+#> 1559               65.48837               147.4128               499.2000
+#> 1560               65.48837               149.4891               503.4667
+#> 1561               63.50388               145.3366               497.0667
+#> 1562               63.50388               145.3366               499.2000
+#> 1563               61.51938               141.1841               497.0667
+#> 1564               61.51938               139.1079               499.2000
 ```
 
 So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results!
@@ -127,7 +113,9 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the "year" column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this we can make the column numeric and `ggplot()` will be smarter about printing fewer years.
 
@@ -142,7 +130,9 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
 When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the + followed by the type of graph we want. Make sure that the + is at the end of a line, not the start of one. Starting a line with the + will not work.
 
@@ -154,7 +144,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 
 ```r
@@ -162,7 +154,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 We can also combine different types of graphs.
 
@@ -173,7 +167,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
@@ -185,7 +181,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   expand_limits(y = 0)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -197,7 +195,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
 
 Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not include it in the () of `ggplot()` but use their own functions to add them to the graph.
 
@@ -215,7 +215,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
 
 Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let's stick with the data we currently have and just change `ggplot()`.
 
@@ -227,7 +229,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
 
 Then include a second geom_line() with its own aes() for the second variable. Since we are using the "penn_alcohol" data set for both lines we do not need to include it in the second `geom_line()` as it assumes that the data is the same if we don't specify otherwise. If we used a different data set for the second line, we would need to specify which data inside of `geom_line()` and before `aes()`.
 
@@ -238,7 +242,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
   geom_line(aes(x = year, y = number_of_shots_liquor))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
 
 A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
@@ -251,7 +257,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
                 color = "Shots of Liquor"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
 
 We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
@@ -265,7 +273,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   labs(color = "Alcohol Type")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
 
 Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
@@ -280,7 +290,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   theme(legend.position = "bottom")
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
 
 ## Scatter Plots
 
@@ -293,7 +305,9 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
   geom_point()
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
 
 This graph shows us that when liquor consumption increases, beer consumption also tends to increase.
 
@@ -304,7 +318,8 @@ While scatterplots can help show the relationship between variables, we lose the
 Please keep in mind that some people are color blind so graphs (or maps which we will learn about soon) will be hard to read for these people if we choose bad colors. A helpful site for choosing colors for graphs is [colorbrewer2.org](http://colorbrewer2.org)
 
 
-<img src="images/colorbrewer.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/colorbrewer} \end{center}
 
 This site lets you select which type of colors you want (sequential and diverging such as shades in a hotspot map, and qualitative such as for data like what we used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color (a HEX code is just a code that a computer can read and know exactly which color it is). 
 
@@ -322,7 +337,9 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
   scale_color_manual(values = c("#7570b3", "#d95f02"))
 ```
 
-<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 ## Practice problems
 

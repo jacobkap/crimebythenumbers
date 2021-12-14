@@ -171,14 +171,10 @@ Now we can write the for loop to go through every single URL in *recipe_urls* an
 for (recipe_url in recipe_urls) {
   scrape_recipes(recipe_url)
 }
-#> [1] "½ cup white sugar "                 
-#> [2] "2 tablespoons butter "              
-#> [3] "2 tablespoons water "               
-#> [4] "1 ½ cups semisweet chocolate chips "
-#> [5] "2 eggs "                            
-#> [6] "½ teaspoon vanilla extract "        
-#> [7] "<U+2154> cup all-purpose flour "    
-#> [8] "¼ teaspoon baking soda "            
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2 eggs "                             "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
 #> [9] "½ teaspoon salt "                   
 #> [1] "Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement"                                                                                                                                                                                                               
 #> [2] "Step 2   In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan."

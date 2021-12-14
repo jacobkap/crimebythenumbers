@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-07" />
+<meta name="date" content="2021-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -413,7 +413,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="16.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>16.3.1</b> Bar graph</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing data Over Time</a></li>
 <li class="chapter" data-level="16.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>16.5</b> Pretty Graphs</a>
 <ul>
 <li class="chapter" data-level="16.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>16.5.1</b> Themes</a></li>
@@ -600,8 +600,8 @@ div.csl-indent {
 <p>So since our data is <em>crimes</em> our <code>grep()</code> function will be <code>grep("", crimes)</code>. What we put in the "" is the pattern we want to search for.</p>
 <p>Let’s start with the letter “a.”</p>
 <div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="regular-expressions.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)</span>
-<span id="cb172-2"><a href="regular-expressions.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46</span></span>
-<span id="cb172-3"><a href="regular-expressions.html#cb172-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [23] 47 48 49 50</span></span></code></pre></div>
+<span id="cb172-2"><a href="regular-expressions.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  2  3  4  5  9 11 14 15 17 18 20 21 23 24 28 29 31 34 42 43 44 46 47 48 49</span></span>
+<span id="cb172-3"><a href="regular-expressions.html#cb172-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [26] 50</span></span></code></pre></div>
 <p>It gives us a bunch of numbers where the letter “a” is present in that element of <em>crimes</em>. This is useful for subsetting. We can use <code>grep()</code> to find all values that match a pattern we want and subset to keep just those values.</p>
 <div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="regular-expressions.html#cb173-1" aria-hidden="true" tabindex="-1"></a>crimes[<span class="fu">grep</span>(<span class="st">&quot;a&quot;</span>, crimes)]</span>
 <span id="cb173-2"><a href="regular-expressions.html#cb173-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Assault&quot;                                   </span></span>
@@ -634,19 +634,16 @@ div.csl-indent {
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="regular-expressions.html#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Theft&quot;</span>, crimes)</span>
 <span id="cb174-2"><a href="regular-expressions.html#cb174-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20 26 27</span></span></code></pre></div>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="regular-expressions.html#cb175-1" aria-hidden="true" tabindex="-1"></a>crimes[<span class="fu">grep</span>(<span class="st">&quot;Theft&quot;</span>, crimes)]</span>
-<span id="cb175-2"><a href="regular-expressions.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot; </span></span>
-<span id="cb175-3"><a href="regular-expressions.html#cb175-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
+<span id="cb175-2"><a href="regular-expressions.html#cb175-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot;  &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
 <p>A very useful parameter is <code>value</code>. When we set <code>value</code> to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset (since R no longer knows which rows are a match), it is an excellent tool to check if the <code>grep()</code> was successful as we can visually confirm it returns what we want. When we start to learn about special characters which make the patterns more complicated, this will be important.</p>
 <div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="regular-expressions.html#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Theft&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb176-2"><a href="regular-expressions.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot; </span></span>
-<span id="cb176-3"><a href="regular-expressions.html#cb176-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
+<span id="cb176-2"><a href="regular-expressions.html#cb176-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot;  &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
 <p>Note that <code>grep()</code> (and <code>gsub()</code>) is case sensitive so you must capitalize properly.</p>
 <div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="regular-expressions.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;theft&quot;</span>, <span class="at">value =</span> <span class="cn">TRUE</span>, crimes)</span>
 <span id="cb177-2"><a href="regular-expressions.html#cb177-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; character(0)</span></span></code></pre></div>
 <p>Setting the parameter <code>ignore.case</code> to be TRUE makes <code>grep()</code> ignore capitalization.</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="regular-expressions.html#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;theft&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb178-2"><a href="regular-expressions.html#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot; </span></span>
-<span id="cb178-3"><a href="regular-expressions.html#cb178-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
+<span id="cb178-2"><a href="regular-expressions.html#cb178-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Larceny Theft&quot;        &quot;Motor Vehicle Theft&quot;  &quot;Motor Vehicle Theft?&quot;</span></span></code></pre></div>
 <p>If we want to find values which do <em>not</em> match with “theft,” we can set the parameter <code>invert</code> to TRUE.</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="regular-expressions.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;theft&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>, <span class="at">invert =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb179-2"><a href="regular-expressions.html#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;Arson&quot;                                     </span></span>
@@ -1081,9 +1078,8 @@ div.csl-indent {
 <h3><span class="header-section-number">13.3.9</span> Multiple patterns <code>|</code></h3>
 <p>The vertical bar <code>|</code> special character allows us to check for multiple patterns. It essentially functions as “pattern A or Pattern B” with the <code>|</code> symbol replacing the word “or” (and making sure to not have any space between patterns.). To check our crimes for the word “Drug” or the word “Weapons” we could write “Drug|Weapon” which searches for “Drug” or “Weapons” in the text.</p>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="regular-expressions.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Drug|Weapons&quot;</span>, crimes, <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb200-2"><a href="regular-expressions.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;         &quot;Drug Violation&quot;      </span></span>
-<span id="cb200-3"><a href="regular-expressions.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Weapons Carrying Etc&quot; &quot;Weapons Offence&quot;     </span></span>
-<span id="cb200-4"><a href="regular-expressions.html#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;Weapons Offense&quot;</span></span></code></pre></div>
+<span id="cb200-2"><a href="regular-expressions.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Drug Offense&quot;         &quot;Drug Violation&quot;       &quot;Weapons Carrying Etc&quot;</span></span>
+<span id="cb200-3"><a href="regular-expressions.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Weapons Offence&quot;      &quot;Weapons Offense&quot;</span></span></code></pre></div>
 </div>
 <div id="parentheses" class="section level3" number="13.3.10">
 <h3><span class="header-section-number">13.3.10</span> Parentheses <code>()</code></h3>

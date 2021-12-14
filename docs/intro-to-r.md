@@ -11,7 +11,8 @@ RStudio is the interface we use to work with R. It has a number of features to m
 
 When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the image below - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
-<img src="images/rstudio_1.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_1} \end{center}
 
 At the top right of the image (and this may be in a different location on your RStudio) is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
@@ -27,7 +28,8 @@ While the Source and Console panels are the ones that are of most use, there are
 
 When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available: R Presentation which can make PowerPoints, R Markdown which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \@ref(r-markdown)), and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this but keep in mind the wide capabilities of R if you have another task to do. 
 
-<img src="images/rstudio_2.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_2} \end{center}
 
 ### Setting the working directory
 
@@ -35,7 +37,8 @@ Many research projects incorporate data that someone else (such as the FBI or a 
 
 We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" (or the "Folders where I want you, R, to look for my data" in more simple terms). To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. 
 
-<img src="images/rstudio_3.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_3} \end{center}
 
 After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. Copy the line of code that says `setwd()` (which stands for "set working directory"), including everything in the parentheses, to your R Script when you start working. 
 
@@ -43,7 +46,8 @@ After clicking Open in that window you'll see a new line of code in the Console 
 
 Your RStudio looks different than my RStudio because I changed a number of settings to suit my preferences. To do so yourself click the Tools tab on the top menu and then click Global Options.
 
-<img src="images/rstudio_5.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_5} \end{center}
 
 This opens up a window with a number of different tabs to change how R behaves and how it looks. 
 
@@ -53,13 +57,15 @@ Under Workspace  in the General tab make sure to **uncheck** the "Restore .RData
 
 You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be, but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
 
-<img src="images/rstudio_6.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_6} \end{center}
 
 #### Code
 
 The Code tab lets you specify how you want the code to be displayed. The important section for us is to make sure to check the "Soft-wrap R source files" check-box. If you write a very long line of code it gets too big to view all at once and you must scroll to the right to read it all. That can be annoying as you won't be able to see all the code at once. Setting "Soft-wrap" makes it so if a line is too long it will just be shown on multiple lines which solves that issue. In practice it is best to avoid long lines of codes as it makes it hard to read but that isn't always possible. 
 
-<img src="images/rstudio_7.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_7} \end{center}
 
 ##### Saving
 
@@ -67,13 +73,15 @@ Inside of the Code tab we also want to turn on an option to have RStudio automat
 
 To set it to auto save, move to the Saving tab, and check the "Automatically save when editor loses focus" box. So if you click out of the RStudio or stop typing, it will automatically save. You can also say how long to wait before saving with options ranging from 500 milliseconds to 10,000 milliseconds which is the same as 0.5 seconds to 10 seconds.  
 
-<img src="images/auto_save.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/auto_save} \end{center}
 
 #### Appearance
 
 The Appearance tab lets you change the background, color, and size of text. Change it to your preferences. 
 
-<img src="images/rstudio_8.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_8} \end{center}
 
 #### Pane Layout
 
@@ -81,13 +89,15 @@ The final tab we'll look at is Pane Layout. This lets you move around the Source
 
 As we'll discuss more in Section \@ref(functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting R) so you can scroll through the plots. 
 
-<img src="images/rstudio_9.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_9} \end{center}
 
 ### Helpful Cheat Sheets
 
 RStudio also includes a number of links to helpful cheat sheets for a few important topics. To get to it click Help, then Cheatsheets and click on whichever one you need. 
 
-<img src="images/rstudio_4.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/rstudio_4} \end{center}
 
 ## Assigning variables {#assignment}
 
@@ -165,7 +175,8 @@ If you are having trouble understanding what a function does or how to use it, y
 
 If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page.  Unfortunately, many help pages are not that useful. The image below shows the help page for `head()` and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow](https://stackoverflow.com/) where people can ask questions about programming. 
 
-<img src="images/help_page.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/help_page} \end{center}
 
 For `head()` all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one of a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out data to the console; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being data about the car such as the miles per gallon it gets and how many gears it has.
 
@@ -196,7 +207,8 @@ install.packages("meditations")
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
 
-<img src="images/install_packages.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/install_packages} \end{center}
 
 Once we have downloaded the package we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. So we need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting R. The way to do this in R is to use the function `library()` where we put the package name in the parentheses. Since the package is something that has been install to R, we don't need to quotes around the name.
 
@@ -210,7 +222,7 @@ Now we can run the `meditations()` function and get a random Marcus Aurelius quo
 
 ```r
 meditations()
-#> [1] "Thy aerial part and all the fiery parts which are mingled in thee, though by nature they have an upward tendency, still in obedience to the disposition of the universe they are overpowered here in the compound mass (the body). And also the whole of the earthy part in thee and the watery, though their tendency is downward, still are raised up and occupy a position which is not their natural one. In this manner then the elemental parts obey the universal, for when they have been fixed in any place perforce they remain there until again the universal shall sound the signal for dissolution. Is it not then strange that thy intelligent part only should be disobedient and discontented with its own place? And yet no force is imposed on it, but only those things which are conformable to its nature: still it does not submit, but is carried in the opposite direction. For the movement towards injustice and intemperance and to anger and grief and fear is nothing else than the act of one who deviates from nature. And also when the ruling faculty is discontented with anything that happens, then too it deserts its post: for it is constituted for piety and reverence towards the gods no less than for justice. For these qualities also are comprehended under the generic term of contentment with the constitution of things, and indeed they are prior to acts of justice."
+#> [1] "The art of life is more like the wrestler's art than the dancer's, in respect of this, that it should stand ready and firm to meet onsets which are sudden and unexpected."
 ```
 
 ## Reading data into R
@@ -246,20 +258,20 @@ The `head()` function prints the first 6 rows of each column of the data to the 
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population actual_murder
-#> 1 AK00101 2017   anchorage alaska     296188            27
-#> 2 AK00102 2017   fairbanks alaska      32937            10
-#> 3 AK00103 2017      juneau alaska      32344             1
-#> 4 AK00104 2017   ketchikan alaska       8230             1
-#> 5 AK00105 2017      kodiak alaska       6198             0
-#> 6 AK00106 2017        nome alaska       3829             0
-#>   actual_rape_total actual_robbery_total actual_assault_aggravated
-#> 1               391                  778                      2368
-#> 2                24                   40                       131
-#> 3                50                   46                       206
-#> 4                19                    0                        14
-#> 5                15                    4                        41
-#> 6                 7                    0                        52
+#>       ori year agency_name  state population actual_murder actual_rape_total
+#> 1 AK00101 2017   anchorage alaska     296188            27               391
+#> 2 AK00102 2017   fairbanks alaska      32937            10                24
+#> 3 AK00103 2017      juneau alaska      32344             1                50
+#> 4 AK00104 2017   ketchikan alaska       8230             1                19
+#> 5 AK00105 2017      kodiak alaska       6198             0                15
+#> 6 AK00106 2017        nome alaska       3829             0                 7
+#>   actual_robbery_total actual_assault_aggravated
+#> 1                  778                      2368
+#> 2                   40                       131
+#> 3                   46                       206
+#> 4                    0                        14
+#> 5                    4                        41
+#> 6                    0                        52
 ```
 
 The `summary()` function gives a six number summary of each numeric or Date column in the data. For other types of data, such as "character" types (which are just columns with words rather than numbers or dates), it'll say what type of data it is. We'll cover different types of data in Chapter \@ref(data-types).
@@ -277,27 +289,27 @@ The six values it returns for numeric and Date columns are
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name       
-#>  Length:15764       Min.   :2017   Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character  
-#>                     Mean   :2017                     
-#>                     3rd Qu.:2017                     
-#>                     Max.   :2017                     
-#>     state             population      actual_murder    
-#>  Length:15764       Min.   :      0   Min.   :  0.000  
-#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
-#>  Mode  :character   Median :   4460   Median :  0.000  
-#>                     Mean   :  19872   Mean   :  1.069  
-#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
-#>                     Max.   :8616333   Max.   :653.000  
-#>  actual_rape_total  actual_robbery_total actual_assault_aggravated
-#>  Min.   :  -2.000   Min.   :   -1.00     Min.   :   -1.00         
-#>  1st Qu.:   0.000   1st Qu.:    0.00     1st Qu.:    1.00         
-#>  Median :   1.000   Median :    0.00     Median :    5.00         
-#>  Mean   :   8.262   Mean   :   19.85     Mean   :   49.98         
-#>  3rd Qu.:   5.000   3rd Qu.:    4.00     3rd Qu.:   21.00         
-#>  Max.   :2455.000   Max.   :13995.00     Max.   :29771.00
+#>      ori                 year      agency_name           state          
+#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
+#>                     Mean   :2017                                        
+#>                     3rd Qu.:2017                                        
+#>                     Max.   :2017                                        
+#>    population      actual_murder     actual_rape_total  actual_robbery_total
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
+#>  actual_assault_aggravated
+#>  Min.   :   -1.00         
+#>  1st Qu.:    1.00         
+#>  Median :    5.00         
+#>  Mean   :   49.98         
+#>  3rd Qu.:   21.00         
+#>  Max.   :29771.00
 ```
 
 The `plot()` function allows us to graph our data. For criminology research we generally want to make scatterplots to show the relationship between two numeric variables, time-series graphs to see how a variable (or variables) change over time, or barplots comparing categorical variables. Here we'll make a scatterplot seeing the relationship between a city's number of murders and their number of aggravated assaults (assault with a weapon or that causes serious bodily injury).
@@ -309,7 +321,9 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-<img src="intro-to-r_files/figure-html/unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data. 
 

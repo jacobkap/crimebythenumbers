@@ -10,7 +10,8 @@ At the time of this writing, the FBI had just released 2020 crime data which sho
 
 The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data which technically does have a variable that says if the murder is gang related, but it's a very flawed variable (i.e. vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and was not driven merely by an increase in one or a few groups. 
 
-<img src="images/shr_motivation_example.png" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/shr_motivation_example} \end{center}
 
 These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site [FiveThirtyEight](https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/) in discussing the murder increase in 2020. So this is an actual work product that is used in major media publications - and is something that you'll be able to do by the end of this book. For nearly all research you do you'll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.
 
@@ -84,7 +85,9 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
   theme_crim() 
 ```
 
-<img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-2-1} \end{center}
 
 ## Little picture data example
 
@@ -195,7 +198,9 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
   theme_crim() 
 ```
 
-<img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
 
 ## Reusing and modifying code
 
@@ -228,6 +233,8 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   theme_crim() 
 ```
 
-<img src="example-project_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
 
 While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph. 

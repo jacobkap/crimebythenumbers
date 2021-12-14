@@ -12,7 +12,8 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-<img src="images/pdf_table_1.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_1} \end{center}
 
 Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -20,15 +21,18 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 
-<img src="images/pdf_table_2.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_2} \end{center}
 
 Table 3 follows the same format and the new columns are number of apprehensions by gender.
 
-<img src="images/pdf_table_3.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_3} \end{center}
 
 Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-<img src="images/pdf_table_4.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_4} \end{center}
 
 ## Scraping the first table
 
@@ -230,20 +234,20 @@ If we check the `head()` we can see that we have the proper columns now, but thi
 
 ```r
 head(sector_profile)
-#>      [,1]                           [,2]  [,3]    [,4]    [,5]   
-#> [1,] "Miami"                        "111" "2,280" "1,646" "2,253"
-#> [2,] "New Orleans"                  "63"  "920"   "528"   "21"   
-#> [3,] "Ramey"                        "38"  "388"   "387"   "3"    
-#> [4,] "Coastal Border Sectors Total" "212" "3,588" "2,561" "2,277"
-#> [5,] ""                             ""    ""      ""      ""     
-#> [6,] "Blaine"                       "296" "288"   "237"   "0"    
-#>      [,6]    [,7]  [,8] [,9]       [,10]     
-#> [1,] "231"   "292" "1"  "N/A"      "N/A"     
-#> [2,] "6"     "10"  "0"  "N/A"      "N/A"     
-#> [3,] "2,932" "89"  "0"  "N/A"      "N/A"     
-#> [4,] "3,169" "391" "1"  "N/A ****" "N/A ****"
-#> [5,] ""      ""    ""   ""         ""        
-#> [6,] "0"     "9"   "0"  "N/A"      "N/A"
+#>      [,1]                           [,2]  [,3]    [,4]    [,5]    [,6]    [,7] 
+#> [1,] "Miami"                        "111" "2,280" "1,646" "2,253" "231"   "292"
+#> [2,] "New Orleans"                  "63"  "920"   "528"   "21"    "6"     "10" 
+#> [3,] "Ramey"                        "38"  "388"   "387"   "3"     "2,932" "89" 
+#> [4,] "Coastal Border Sectors Total" "212" "3,588" "2,561" "2,277" "3,169" "391"
+#> [5,] ""                             ""    ""      ""      ""      ""      ""   
+#> [6,] "Blaine"                       "296" "288"   "237"   "0"     "0"     "9"  
+#>      [,8] [,9]       [,10]     
+#> [1,] "1"  "N/A"      "N/A"     
+#> [2,] "0"  "N/A"      "N/A"     
+#> [3,] "0"  "N/A"      "N/A"     
+#> [4,] "1"  "N/A ****" "N/A ****"
+#> [5,] ""   ""         ""        
+#> [6,] "0"  "N/A"      "N/A"
 ```
 
 We can make it a data.frame just by putting it in `data.frame()`. And we can assign the columns names using a vector of strings we can make. We'll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.
@@ -418,27 +422,20 @@ head(final_data)
 #> 4                            2,561            2,277          3,169
 #> 5                                                                 
 #> 6                              237                0              0
-#>   accepted_prosecutions assaults  rescues   deaths
-#> 1                   292        1      N/A      N/A
-#> 2                    10        0      N/A      N/A
-#> 3                    89        0      N/A      N/A
-#> 4                   391        1 N/A **** N/A ****
-#> 5                                                 
-#> 6                     9        0      N/A      N/A
-#>   accompanied_juveniles unaccompanied_juveniles total_juveniles
-#> 1                    19                      42              61
-#> 2                     1                      22              23
-#> 3                     7                       1               8
-#> 4                    27                      65              92
-#> 5                  <NA>                    <NA>            <NA>
-#> 6                    29                       7              36
-#>   total_adults female  male
-#> 1        2,219    219 2,061
-#> 2          897     92   828
-#> 3          380     65   323
-#> 4        3,496    376 3,212
-#> 5         <NA>   <NA>  <NA>
-#> 6          252     97   191
+#>   accepted_prosecutions assaults  rescues   deaths accompanied_juveniles
+#> 1                   292        1      N/A      N/A                    19
+#> 2                    10        0      N/A      N/A                     1
+#> 3                    89        0      N/A      N/A                     7
+#> 4                   391        1 N/A **** N/A ****                    27
+#> 5                                                                   <NA>
+#> 6                     9        0      N/A      N/A                    29
+#>   unaccompanied_juveniles total_juveniles total_adults female  male
+#> 1                      42              61        2,219    219 2,061
+#> 2                      22              23          897     92   828
+#> 3                       1               8          380     65   323
+#> 4                      65              92        3,496    376 3,212
+#> 5                    <NA>            <NA>         <NA>   <NA>  <NA>
+#> 6                       7              36          252     97   191
 ```
 
 In one data set we now have information from three separate tables in a PDF. We have now scraped three different tables from a PDF and turned them into a single data set, turning the PDF into actually usable (and useful) data!

@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-07" />
+<meta name="date" content="2021-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -413,7 +413,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="16.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>16.3.1</b> Bar graph</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing data Over Time</a></li>
 <li class="chapter" data-level="16.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>16.5</b> Pretty Graphs</a>
 <ul>
 <li class="chapter" data-level="16.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>16.5.1</b> Themes</a></li>
@@ -535,9 +535,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="choropleth-maps.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb305-2"><a href="choropleth-maps.html#cb305-2" aria-hidden="true" tabindex="-1"></a>suicide <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_suicide_2003_2017.csv&quot;</span>)</span>
 <span id="cb305-3"><a href="choropleth-maps.html#cb305-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 1292 Columns: 14</span></span>
-<span id="cb305-4"><a href="choropleth-maps.html#cb305-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ----------------------------------------------</span></span>
+<span id="cb305-4"><a href="choropleth-maps.html#cb305-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
 <span id="cb305-5"><a href="choropleth-maps.html#cb305-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb305-6"><a href="choropleth-maps.html#cb305-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolut...</span></span>
+<span id="cb305-6"><a href="choropleth-maps.html#cb305-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...</span></span>
 <span id="cb305-7"><a href="choropleth-maps.html#cb305-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dbl  (5): IncidntNum, X, Y, PdId, year</span></span>
 <span id="cb305-8"><a href="choropleth-maps.html#cb305-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time (1): Time</span></span>
 <span id="cb305-9"><a href="choropleth-maps.html#cb305-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -549,7 +549,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="choropleth-maps.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb307-2"><a href="choropleth-maps.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1</span></span></code></pre></div>
 <p>For this lesson we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco. A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way <code>sf</code> reads in the shapefiles is through the <code>st_read()</code> function. Our input inside the () is a string with the name of the “.shp” file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we’ll call the object <em>sf_neighborhoods</em>.</p>
-<p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to understand file names so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
+<p>I downloaded this data from San Francisco’s Open Data site <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a>, selecting the Shapefile format in the Export tab. If you do so yourself it’ll give you a zip file with multiple files in there. This is normal with shapefiles, you will have multiple files and only read in the file with the “.shp” extension to R. We still <strong>do</strong> need all of the files and <code>st_read()</code> is using them even if not explicitly called. So make sure every file downloaded is in the same working directory as the .shp file. The files from this site had hard to read file names, so I relabeled them all as “san_francisco_neighborhoods” though that doesn’t matter once it’s read into R.</p>
 <div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="choropleth-maps.html#cb308-1" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">&quot;data/san_francisco_neighborhoods.shp&quot;</span>)</span>
 <span id="cb308-2"><a href="choropleth-maps.html#cb308-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Reading layer `san_francisco_neighborhoods&#39; from data source </span></span>
 <span id="cb308-3"><a href="choropleth-maps.html#cb308-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp&#39; </span></span>
@@ -575,7 +575,7 @@ div.csl-indent {
 <span id="cb309-13"><a href="choropleth-maps.html#cb309-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Financial District/South Beach MULTIPOLYGON (((-122.3875 3...</span></span></code></pre></div>
 <p>The last column is important. In shapefiles, the “geometry” column is the one with the instructions to make the map. This data has a single row for each neighborhood in the city. So the “geometry” column in each row has a list of coordinates which, if connected in order, make up that neighborhood. Since the “geometry” column contains the instructions to map, we can <code>plot()</code> it to show a map of the data.</p>
 <div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="choropleth-maps.html#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-403-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city’s attempt to create definitions of neighborhoods. Indeed, you’re likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries <a href="https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h">here</a> but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind.</p>
 <p>In the <code>head()</code> results there was a section about something called “epsg” and “proj4string.” Let’s talk about that specifically since they are important for working with spatial data. A way to get just those two results in the <code>st_crs()</code> function which is part of <code>sf</code>. Let’s look at the “coordinate reference system” (CRS) for <code>sf_neighborhoods</code>.</p>
 <div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="choropleth-maps.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_crs</span>(sf_neighborhoods)</span>
@@ -709,20 +709,20 @@ div.csl-indent {
 <span id="cb316-4"><a href="choropleth-maps.html#cb316-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
 <span id="cb316-5"><a href="choropleth-maps.html#cb316-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
 <span id="cb316-6"><a href="choropleth-maps.html#cb316-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
-<span id="cb316-7"><a href="choropleth-maps.html#cb316-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></span>
-<span id="cb316-8"><a href="choropleth-maps.html#cb316-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></span>
-<span id="cb316-9"><a href="choropleth-maps.html#cb316-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></span>
-<span id="cb316-10"><a href="choropleth-maps.html#cb316-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></span>
-<span id="cb316-11"><a href="choropleth-maps.html#cb316-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></span>
-<span id="cb316-12"><a href="choropleth-maps.html#cb316-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></span>
-<span id="cb316-13"><a href="choropleth-maps.html#cb316-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></span>
-<span id="cb316-14"><a href="choropleth-maps.html#cb316-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></span>
-<span id="cb316-15"><a href="choropleth-maps.html#cb316-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
-<span id="cb316-16"><a href="choropleth-maps.html#cb316-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
-<span id="cb316-17"><a href="choropleth-maps.html#cb316-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
-<span id="cb316-18"><a href="choropleth-maps.html#cb316-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
-<span id="cb316-19"><a href="choropleth-maps.html#cb316-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
-<span id="cb316-20"><a href="choropleth-maps.html#cb316-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb316-7"><a href="choropleth-maps.html#cb316-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek       Date</span></span>
+<span id="cb316-8"><a href="choropleth-maps.html#cb316-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018</span></span>
+<span id="cb316-9"><a href="choropleth-maps.html#cb316-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018</span></span>
+<span id="cb316-10"><a href="choropleth-maps.html#cb316-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018</span></span>
+<span id="cb316-11"><a href="choropleth-maps.html#cb316-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018</span></span>
+<span id="cb316-12"><a href="choropleth-maps.html#cb316-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018</span></span>
+<span id="cb316-13"><a href="choropleth-maps.html#cb316-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018</span></span>
+<span id="cb316-14"><a href="choropleth-maps.html#cb316-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Time PdDistrict Resolution                 Address</span></span>
+<span id="cb316-15"><a href="choropleth-maps.html#cb316-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb316-16"><a href="choropleth-maps.html#cb316-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb316-17"><a href="choropleth-maps.html#cb316-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb316-18"><a href="choropleth-maps.html#cb316-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb316-19"><a href="choropleth-maps.html#cb316-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb316-20"><a href="choropleth-maps.html#cb316-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
 <span id="cb316-21"><a href="choropleth-maps.html#cb316-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
 <span id="cb316-22"><a href="choropleth-maps.html#cb316-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
 <span id="cb316-23"><a href="choropleth-maps.html#cb316-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
@@ -741,7 +741,7 @@ div.csl-indent {
 <p>Since we have both the neighborhoods and the suicides data let’s make a quick map to see the data.</p>
 <div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="choropleth-maps.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf_neighborhoods<span class="sc">$</span>geometry)</span>
 <span id="cb317-2"><a href="choropleth-maps.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(suicide<span class="sc">$</span>geometry, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-410-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let’s plan it out before beginning. Our suicide data is one row for each suicide, our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with that the original neighborhood data (since we need the “geometry” column) and we can then map it.</p>
 <ol style="list-style-type: decimal">
 <li>Find which neighborhood each suicide happened in</li>
@@ -758,20 +758,20 @@ div.csl-indent {
 <span id="cb319-4"><a href="choropleth-maps.html#cb319-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dimension:     XY</span></span>
 <span id="cb319-5"><a href="choropleth-maps.html#cb319-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Bounding box:  xmin: 5986822 ymin: 2091310 xmax: 6013739 ymax: 2117180</span></span>
 <span id="cb319-6"><a href="choropleth-maps.html#cb319-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Projected CRS: NAD83 / California zone 3 (ftUS)</span></span>
-<span id="cb319-7"><a href="choropleth-maps.html#cb319-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek</span></span>
-<span id="cb319-8"><a href="choropleth-maps.html#cb319-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday</span></span>
-<span id="cb319-9"><a href="choropleth-maps.html#cb319-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday</span></span>
-<span id="cb319-10"><a href="choropleth-maps.html#cb319-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday</span></span>
-<span id="cb319-11"><a href="choropleth-maps.html#cb319-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday</span></span>
-<span id="cb319-12"><a href="choropleth-maps.html#cb319-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday</span></span>
-<span id="cb319-13"><a href="choropleth-maps.html#cb319-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday</span></span>
-<span id="cb319-14"><a href="choropleth-maps.html#cb319-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Date     Time PdDistrict Resolution                 Address</span></span>
-<span id="cb319-15"><a href="choropleth-maps.html#cb319-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 04/30/2018 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
-<span id="cb319-16"><a href="choropleth-maps.html#cb319-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 04/28/2018 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
-<span id="cb319-17"><a href="choropleth-maps.html#cb319-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 04/21/2018 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
-<span id="cb319-18"><a href="choropleth-maps.html#cb319-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 04/10/2018 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
-<span id="cb319-19"><a href="choropleth-maps.html#cb319-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 03/30/2018 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
-<span id="cb319-20"><a href="choropleth-maps.html#cb319-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 03/29/2018 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
+<span id="cb319-7"><a href="choropleth-maps.html#cb319-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IncidntNum Category                           Descript DayOfWeek       Date</span></span>
+<span id="cb319-8"><a href="choropleth-maps.html#cb319-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018</span></span>
+<span id="cb319-9"><a href="choropleth-maps.html#cb319-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018</span></span>
+<span id="cb319-10"><a href="choropleth-maps.html#cb319-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018</span></span>
+<span id="cb319-11"><a href="choropleth-maps.html#cb319-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018</span></span>
+<span id="cb319-12"><a href="choropleth-maps.html#cb319-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018</span></span>
+<span id="cb319-13"><a href="choropleth-maps.html#cb319-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018</span></span>
+<span id="cb319-14"><a href="choropleth-maps.html#cb319-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Time PdDistrict Resolution                 Address</span></span>
+<span id="cb319-15"><a href="choropleth-maps.html#cb319-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 06:30:00    TARAVAL       NONE     0 Block of BRUCE AV</span></span>
+<span id="cb319-16"><a href="choropleth-maps.html#cb319-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 17:54:00   NORTHERN       NONE   700 Block of HAYES ST</span></span>
+<span id="cb319-17"><a href="choropleth-maps.html#cb319-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 12:20:00   RICHMOND       NONE   3700 Block of CLAY ST</span></span>
+<span id="cb319-18"><a href="choropleth-maps.html#cb319-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 05:13:00    CENTRAL       NONE     0 Block of DRUMM ST</span></span>
+<span id="cb319-19"><a href="choropleth-maps.html#cb319-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 09:15:00    TARAVAL       NONE 0 Block of FAIRFIELD WY</span></span>
+<span id="cb319-20"><a href="choropleth-maps.html#cb319-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 17:30:00   RICHMOND       NONE    300 Block of 29TH AV</span></span>
 <span id="cb319-21"><a href="choropleth-maps.html#cb319-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                         Location         PdId year</span></span>
 <span id="cb319-22"><a href="choropleth-maps.html#cb319-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
 <span id="cb319-23"><a href="choropleth-maps.html#cb319-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
@@ -791,17 +791,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="choropleth-maps.html#cb320-1" aria-hidden="true" tabindex="-1"></a>suicide_agg<span class="sc">$</span>number_suicides <span class="ot">&lt;-</span> <span class="dv">1</span></span></code></pre></div>
 <p>Now we can aggregate the data and save the results back into <em>suicide_agg</em>.</p>
 <div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="choropleth-maps.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb321-2"><a href="choropleth-maps.html#cb321-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb321-3"><a href="choropleth-maps.html#cb321-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb321-4"><a href="choropleth-maps.html#cb321-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb321-5"><a href="choropleth-maps.html#cb321-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb321-6"><a href="choropleth-maps.html#cb321-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb321-7"><a href="choropleth-maps.html#cb321-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb321-8"><a href="choropleth-maps.html#cb321-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb321-9"><a href="choropleth-maps.html#cb321-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb321-10"><a href="choropleth-maps.html#cb321-10" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> suicide_agg <span class="sc">%&gt;%</span> </span>
-<span id="cb321-11"><a href="choropleth-maps.html#cb321-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nhood) <span class="sc">%&gt;%</span> </span>
-<span id="cb321-12"><a href="choropleth-maps.html#cb321-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">number_suicides =</span> <span class="fu">sum</span>(number_suicides))</span></code></pre></div>
+<span id="cb321-2"><a href="choropleth-maps.html#cb321-2" aria-hidden="true" tabindex="-1"></a>suicide_agg <span class="ot">&lt;-</span> suicide_agg <span class="sc">%&gt;%</span> </span>
+<span id="cb321-3"><a href="choropleth-maps.html#cb321-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nhood) <span class="sc">%&gt;%</span> </span>
+<span id="cb321-4"><a href="choropleth-maps.html#cb321-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">number_suicides =</span> <span class="fu">sum</span>(number_suicides))</span></code></pre></div>
 <p>Let’s check a summary of the <em>number_suicides</em> variable we made.</p>
 <div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="choropleth-maps.html#cb322-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(suicide_agg<span class="sc">$</span>number_suicides)</span>
 <span id="cb322-2"><a href="choropleth-maps.html#cb322-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -850,13 +842,13 @@ div.csl-indent {
 <p>As usual we will start with <code>ggplot()</code>, inputting our data first. Then inside of <code>aes</code> (the aesthetics of the graph/map) we use a new parameter <code>fill</code>. In <code>fill</code> we will put in the <em>number_suicides</em> column and it will color the polygons (neighborhoods) based on values in that column. Then we can add the <code>geom_sf()</code>.</p>
 <div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="choropleth-maps.html#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
 <span id="cb331-2"><a href="choropleth-maps.html#cb331-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() </span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-424-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we’d want the opposite, with darker areas signifying a greater amount of whatever the map is showing.</p>
 <p>We can use <code>scale_fill_gradient()</code> to set the colors to what we want. We input a color for low value and a color for high value and it’ll make the map shade by those colors.</p>
 <div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="choropleth-maps.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
 <span id="cb332-2"><a href="choropleth-maps.html#cb332-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
 <span id="cb332-3"><a href="choropleth-maps.html#cb332-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;red&quot;</span>) </span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-425-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.</p>
 <p>To make this map easier to read and look better, let’s add a title to the map and to the legend.</p>
 <div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="choropleth-maps.html#cb333-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
@@ -865,7 +857,7 @@ div.csl-indent {
 <span id="cb333-4"><a href="choropleth-maps.html#cb333-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">&quot;# of suicides&quot;</span>,</span>
 <span id="cb333-5"><a href="choropleth-maps.html#cb333-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Suicides in San Francisco, by neighborhood&quot;</span>,</span>
 <span id="cb333-6"><a href="choropleth-maps.html#cb333-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;2003 - 2017&quot;</span>) </span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-426-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>Since the coordinates don’t add anything to the map, let’s get rid of them.</p>
 <div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="choropleth-maps.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sf_neighborhoods_suicide, <span class="fu">aes</span>(<span class="at">fill =</span> number_suicides)) <span class="sc">+</span></span>
 <span id="cb334-2"><a href="choropleth-maps.html#cb334-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>() <span class="sc">+</span></span>
@@ -876,7 +868,7 @@ div.csl-indent {
 <span id="cb334-7"><a href="choropleth-maps.html#cb334-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
 <span id="cb334-8"><a href="choropleth-maps.html#cb334-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
 <span id="cb334-9"><a href="choropleth-maps.html#cb334-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code></pre></div>
-<p><img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-427-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we’d really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn’t really correct) to control for population differences.</p>
 <p>We’ll use this data in Chapter <a href="interactive-maps.html#interactive-maps">19</a> to make interactive choropleth maps so let’s save it.</p>
 <div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="choropleth-maps.html#cb335-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(sf_neighborhoods_suicide, <span class="at">file =</span> <span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</span></code></pre></div>

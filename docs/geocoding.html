@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-07" />
+<meta name="date" content="2021-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -413,7 +413,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="16.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>16.3.1</b> Bar graph</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing Data Over Time</a></li>
+<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing data Over Time</a></li>
 <li class="chapter" data-level="16.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>16.5</b> Pretty Graphs</a>
 <ul>
 <li class="chapter" data-level="16.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>16.5.1</b> Themes</a></li>
@@ -537,12 +537,18 @@ div.csl-indent {
 <p>To do our geocoding, we’re going to use the package <code>tidygeocoder</code> which greatly simplifies the work of geocoding addresses in R. For more information about this package, please see the package’s site <a href="https://jessecambon.github.io/tidygeocoder/">here</a>. If you’ve never used this package before you’ll need to install it using <code>install.packages("tidygeocoder")</code></p>
 <div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="geocoding.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;tidygeocoder&quot;</span>)</span></code></pre></div>
 <p>Now we need to tell R that we want to use this package by running <code>library(tidygeocoder)</code>.</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="geocoding.html#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="geocoding.html#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygeocoder)</span>
+<span id="cb449-2"><a href="geocoding.html#cb449-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb449-3"><a href="geocoding.html#cb449-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;tidygeocoder&#39;</span></span>
+<span id="cb449-4"><a href="geocoding.html#cb449-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:ggmap&#39;:</span></span>
+<span id="cb449-5"><a href="geocoding.html#cb449-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb449-6"><a href="geocoding.html#cb449-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     geocode</span></span></code></pre></div>
 <p>To geocode our addresses we’ll use the helpfully named <code>geocode()</code> function inside of <code>tidygeocoder</code>. For <code>geocode()</code> we input an address and it returns the coordinates for that address. For our address we’ll use “750 Race St. Philadelphia, PA 19106” which is the address of the Philadelphia Police Department headquarters.</p>
 <div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="geocoding.html#cb450-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode</span>(<span class="st">&quot;750 Race St. Philadelphia, PA 19106&quot;</span>)</span>
 <span id="cb450-2"><a href="geocoding.html#cb450-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Error: .tbl is not a dataframe. See ?geocode</span></span></code></pre></div>
-<p>As shown above, running <code>geocode("750 Race St. Philadelphia, PA 19106")</code> gives us an error that tells us that “.tbl is not a dataframe.” The issue is that <code>geocode()</code> expects a data.frame (and .tbl is an abbreviation for tibble which is a kind of data.frame), but we entered only the string with our one address, not a data.frame. For this function to work we need to enter two parameters into <code>geocode()</code>: a data.frame (or something similar such as a tibble) and the name of the column which has the addresses.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a> Since we need a data.frame, we’ll make one below. I’m calling it <code>address_to_geocode</code> and calling the column with the address “address,” but you can call both the data.frame and the column whatever name you want.</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="geocoding.html#cb451-1" aria-hidden="true" tabindex="-1"></a>address_to_geocode <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">address =</span> <span class="st">&quot;750 Race St. Philadelphia, PA 19106&quot;</span>)</span></code></pre></div>
+<p>As shown above, running <code>geocode("750 Race St. Philadelphia, PA 19106")</code> gives us an error that tells us that “.tbl is not a dataframe.” The issue is that <code>geocode()</code> expects a data.frame (and .tbl is an abbreviation for tibble which is a kind of data.frame), but we entered only the string with our one address, not a data.frame. For this function to work we need to enter two parameters into <code>geocode()</code>: a data.frame (or something similar such as a tibble) and the name of the column which has the addresses.<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a> Since we need a data.frame, we’ll make one below. I’m calling it <code>address_to_geocode</code> and calling the column with the address “address,” but you can call both the data.frame and the column whatever name you want.</p>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="geocoding.html#cb451-1" aria-hidden="true" tabindex="-1"></a>address_to_geocode <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">address =</span> </span>
+<span id="cb451-2"><a href="geocoding.html#cb451-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;750 Race St. Philadelphia, PA 19106&quot;</span>)</span></code></pre></div>
 <p>Now let’s try again. We’ll enter our data.frame <code>address_to_geocode</code> first and then the name of our column which is “address.”</p>
 <div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="geocoding.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="fu">geocode</span>(address_to_geocode, address)</span>
 <span id="cb452-2"><a href="geocoding.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 1 x 3</span></span>
@@ -582,54 +588,55 @@ div.csl-indent {
 <span id="cb457-5"><a href="geocoding.html#cb457-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205</span></span></code></pre></div>
 <p>Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address.</p>
 <p>The second important parameter is <code>full_results</code> which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we’ll look at all three. I’ll convert all of these results to a data.frame so it prints out all of the columns, and doesn’t abbreviate results which is how tibbles function.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="geocoding.html#cb458-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;osm&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb458-2"><a href="geocoding.html#cb458-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
-<span id="cb458-3"><a href="geocoding.html#cb458-3" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb458-4"><a href="geocoding.html#cb458-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address     lat      long  place_id</span></span>
-<span id="cb458-5"><a href="geocoding.html#cb458-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524</span></span>
-<span id="cb458-6"><a href="geocoding.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                  licence</span></span>
-<span id="cb458-7"><a href="geocoding.html#cb458-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright</span></span>
-<span id="cb458-8"><a href="geocoding.html#cb458-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   osm_type   osm_id</span></span>
-<span id="cb458-9"><a href="geocoding.html#cb458-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      way 62202366</span></span>
-<span id="cb458-10"><a href="geocoding.html#cb458-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                          boundingbox</span></span>
-<span id="cb458-11"><a href="geocoding.html#cb458-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327</span></span>
-<span id="cb458-12"><a href="geocoding.html#cb458-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                         display_name</span></span>
-<span id="cb458-13"><a href="geocoding.html#cb458-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750, Race Street, Chinatown, Philadelphia, Philadelphia County, Pennsylvania, 19106, United States</span></span>
-<span id="cb458-14"><a href="geocoding.html#cb458-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   class  type importance</span></span>
-<span id="cb458-15"><a href="geocoding.html#cb458-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 place house      0.531</span></span></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="geocoding.html#cb458-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>,</span>
+<span id="cb458-2"><a href="geocoding.html#cb458-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">&quot;osm&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb458-3"><a href="geocoding.html#cb458-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
+<span id="cb458-4"><a href="geocoding.html#cb458-4" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb458-5"><a href="geocoding.html#cb458-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address     lat      long  place_id</span></span>
+<span id="cb458-6"><a href="geocoding.html#cb458-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524</span></span>
+<span id="cb458-7"><a href="geocoding.html#cb458-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                  licence</span></span>
+<span id="cb458-8"><a href="geocoding.html#cb458-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright</span></span>
+<span id="cb458-9"><a href="geocoding.html#cb458-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   osm_type   osm_id</span></span>
+<span id="cb458-10"><a href="geocoding.html#cb458-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      way 62202366</span></span>
+<span id="cb458-11"><a href="geocoding.html#cb458-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                          boundingbox</span></span>
+<span id="cb458-12"><a href="geocoding.html#cb458-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327</span></span>
+<span id="cb458-13"><a href="geocoding.html#cb458-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                                                         display_name</span></span>
+<span id="cb458-14"><a href="geocoding.html#cb458-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750, Race Street, Chinatown, Philadelphia, Philadelphia County, Pennsylvania, 19106, United States</span></span>
+<span id="cb458-15"><a href="geocoding.html#cb458-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   class  type importance</span></span>
+<span id="cb458-16"><a href="geocoding.html#cb458-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 place house      0.531</span></span></code></pre></div>
 <p>For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don’t seem very useful for our purposes such as the “importance” of the address. It’s interesting that OSM classifies this address as a “house” as the police headquarters for a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the “display_name.”</p>
 <p>Sometimes geocoders will be quite a bit off in their geocoding because they match the address you inputted incorrectly to one in their database. For example, if you input “123 Main Street” and the geocoder thinks you mean “123 Maine Street” you may be quite a bit off in the resulting coordinates. When you only get coordinates returns you won’t know that the coordinates are wrong. Even if you know where an address is supposed to be it’s hard to catch errors like this. If you’re geocoding addresses in a single city and one point is in a different city (or completely different part of the world), then it’s pretty clear that there’s an error. But if the coordinates are simply in a wrong part of the city, but near other coordinates, then it’s very hard to notice a problem. So having an address to check against the one you inputted is a very useful way of validate the geocoding.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="geocoding.html#cb459-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;census&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb459-2"><a href="geocoding.html#cb459-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
-<span id="cb459-3"><a href="geocoding.html#cb459-3" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb459-4"><a href="geocoding.html#cb459-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address      lat     long</span></span>
-<span id="cb459-5"><a href="geocoding.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514</span></span>
-<span id="cb459-6"><a href="geocoding.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         matchedAddress tigerLine.tigerLineId</span></span>
-<span id="cb459-7"><a href="geocoding.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677</span></span>
-<span id="cb459-8"><a href="geocoding.html#cb459-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   tigerLine.side addressComponents.fromAddress</span></span>
-<span id="cb459-9"><a href="geocoding.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1              L                           700</span></span>
-<span id="cb459-10"><a href="geocoding.html#cb459-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.toAddress addressComponents.preQualifier</span></span>
-<span id="cb459-11"><a href="geocoding.html#cb459-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                         798                               </span></span>
-<span id="cb459-12"><a href="geocoding.html#cb459-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.preDirection addressComponents.preType</span></span>
-<span id="cb459-13"><a href="geocoding.html#cb459-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                                                         </span></span>
-<span id="cb459-14"><a href="geocoding.html#cb459-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.streetName addressComponents.suffixType</span></span>
-<span id="cb459-15"><a href="geocoding.html#cb459-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                         RACE                           ST</span></span>
-<span id="cb459-16"><a href="geocoding.html#cb459-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.suffixDirection addressComponents.suffixQualifier</span></span>
-<span id="cb459-17"><a href="geocoding.html#cb459-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                                                                    </span></span>
-<span id="cb459-18"><a href="geocoding.html#cb459-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.city addressComponents.state</span></span>
-<span id="cb459-19"><a href="geocoding.html#cb459-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1           PHILADELPHIA                      PA</span></span>
-<span id="cb459-20"><a href="geocoding.html#cb459-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.zip</span></span>
-<span id="cb459-21"><a href="geocoding.html#cb459-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                 19106</span></span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="geocoding.html#cb459-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, </span>
+<span id="cb459-2"><a href="geocoding.html#cb459-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">&quot;census&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb459-3"><a href="geocoding.html#cb459-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
+<span id="cb459-4"><a href="geocoding.html#cb459-4" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb459-5"><a href="geocoding.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address      lat     long</span></span>
+<span id="cb459-6"><a href="geocoding.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514</span></span>
+<span id="cb459-7"><a href="geocoding.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                         matchedAddress tigerLine.tigerLineId tigerLine.side</span></span>
+<span id="cb459-8"><a href="geocoding.html#cb459-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677              L</span></span>
+<span id="cb459-9"><a href="geocoding.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.fromAddress addressComponents.toAddress</span></span>
+<span id="cb459-10"><a href="geocoding.html#cb459-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                           700                         798</span></span>
+<span id="cb459-11"><a href="geocoding.html#cb459-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.preQualifier addressComponents.preDirection</span></span>
+<span id="cb459-12"><a href="geocoding.html#cb459-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                                                              </span></span>
+<span id="cb459-13"><a href="geocoding.html#cb459-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.preType addressComponents.streetName</span></span>
+<span id="cb459-14"><a href="geocoding.html#cb459-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                                                   RACE</span></span>
+<span id="cb459-15"><a href="geocoding.html#cb459-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.suffixType addressComponents.suffixDirection</span></span>
+<span id="cb459-16"><a href="geocoding.html#cb459-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                           ST                                  </span></span>
+<span id="cb459-17"><a href="geocoding.html#cb459-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.suffixQualifier addressComponents.city</span></span>
+<span id="cb459-18"><a href="geocoding.html#cb459-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                                             PHILADELPHIA</span></span>
+<span id="cb459-19"><a href="geocoding.html#cb459-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   addressComponents.state addressComponents.zip</span></span>
+<span id="cb459-20"><a href="geocoding.html#cb459-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                      PA                 19106</span></span></code></pre></div>
 <p>These results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns.</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="geocoding.html#cb460-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;arcgis&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb460-2"><a href="geocoding.html#cb460-2" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
-<span id="cb460-3"><a href="geocoding.html#cb460-3" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb460-4"><a href="geocoding.html#cb460-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address      lat      long</span></span>
-<span id="cb460-5"><a href="geocoding.html#cb460-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205</span></span>
-<span id="cb460-6"><a href="geocoding.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   arcgis_address score location.x</span></span>
-<span id="cb460-7"><a href="geocoding.html#cb460-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205</span></span>
-<span id="cb460-8"><a href="geocoding.html#cb460-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   location.y extent.xmin extent.ymin extent.xmax extent.ymax</span></span>
-<span id="cb460-9"><a href="geocoding.html#cb460-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   39.95488   -75.15305    39.95388   -75.15105    39.95588</span></span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="geocoding.html#cb460-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">geocode</span>(address_to_geocode, <span class="st">&quot;address&quot;</span>, </span>
+<span id="cb460-2"><a href="geocoding.html#cb460-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">&quot;arcgis&quot;</span>, <span class="at">full_results =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb460-3"><a href="geocoding.html#cb460-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(example)</span>
+<span id="cb460-4"><a href="geocoding.html#cb460-4" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb460-5"><a href="geocoding.html#cb460-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                               address      lat      long</span></span>
+<span id="cb460-6"><a href="geocoding.html#cb460-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205</span></span>
+<span id="cb460-7"><a href="geocoding.html#cb460-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                   arcgis_address score location.x location.y</span></span>
+<span id="cb460-8"><a href="geocoding.html#cb460-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205   39.95488</span></span>
+<span id="cb460-9"><a href="geocoding.html#cb460-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   extent.xmin extent.ymin extent.xmax extent.ymax</span></span>
+<span id="cb460-10"><a href="geocoding.html#cb460-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   -75.15305    39.95388   -75.15105    39.95588</span></span></code></pre></div>
 <p>For the ArcGIS results we have the matched address again, and then an important variable called “score” which is basically a measure of how confident ArcGIS is that it matched the right address. Higher values are more confident, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as “location.x” and “location.y” columns, and I’m not sure why they do so.</p>
 </div>
 <div id="geocoding-san-francisco-marijuana-dispensary-locations" class="section level2" number="25.2">
@@ -639,9 +646,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="geocoding.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb461-2"><a href="geocoding.html#cb461-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_active_marijuana_retailers.csv&quot;</span>)</span>
 <span id="cb461-3"><a href="geocoding.html#cb461-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Rows: 33 Columns: 11</span></span>
-<span id="cb461-4"><a href="geocoding.html#cb461-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification ----------------------------------------------</span></span>
+<span id="cb461-4"><a href="geocoding.html#cb461-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; -- Column specification --------------------------------------------------------</span></span>
 <span id="cb461-5"><a href="geocoding.html#cb461-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Delimiter: &quot;,&quot;</span></span>
-<span id="cb461-6"><a href="geocoding.html#cb461-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr (11): License Number, License Type, Business Owner, Business C...</span></span>
+<span id="cb461-6"><a href="geocoding.html#cb461-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; chr (11): License Number, License Type, Business Owner, Business Contact Inf...</span></span>
 <span id="cb461-7"><a href="geocoding.html#cb461-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb461-8"><a href="geocoding.html#cb461-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span id="cb461-9"><a href="geocoding.html#cb461-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; i Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
@@ -669,29 +676,23 @@ div.csl-indent {
 <span id="cb462-20"><a href="geocoding.html#cb462-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4               Corporation</span></span>
 <span id="cb462-21"><a href="geocoding.html#cb462-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Limited Liability Company</span></span>
 <span id="cb462-22"><a href="geocoding.html#cb462-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Limited Liability Company</span></span>
-<span id="cb462-23"><a href="geocoding.html#cb462-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 Premise.Address</span></span>
-<span id="cb462-24"><a href="geocoding.html#cb462-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO</span></span>
-<span id="cb462-25"><a href="geocoding.html#cb462-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO</span></span>
-<span id="cb462-26"><a href="geocoding.html#cb462-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO</span></span>
-<span id="cb462-27"><a href="geocoding.html#cb462-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO</span></span>
-<span id="cb462-28"><a href="geocoding.html#cb462-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO</span></span>
-<span id="cb462-29"><a href="geocoding.html#cb462-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO</span></span>
-<span id="cb462-30"><a href="geocoding.html#cb462-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Status Issue.Date Expiration.Date                Activities</span></span>
-<span id="cb462-31"><a href="geocoding.html#cb462-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Active  9/13/2019       9/12/2020 N/A for this license type</span></span>
-<span id="cb462-32"><a href="geocoding.html#cb462-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb462-33"><a href="geocoding.html#cb462-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb462-34"><a href="geocoding.html#cb462-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 Active   8/5/2019        8/4/2020 N/A for this license type</span></span>
-<span id="cb462-35"><a href="geocoding.html#cb462-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb462-36"><a href="geocoding.html#cb462-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb462-37"><a href="geocoding.html#cb462-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Adult.Use.Medicinal</span></span>
-<span id="cb462-38"><a href="geocoding.html#cb462-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                BOTH</span></span>
-<span id="cb462-39"><a href="geocoding.html#cb462-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                BOTH</span></span>
-<span id="cb462-40"><a href="geocoding.html#cb462-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                BOTH</span></span>
-<span id="cb462-41"><a href="geocoding.html#cb462-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                BOTH</span></span>
-<span id="cb462-42"><a href="geocoding.html#cb462-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                BOTH</span></span>
-<span id="cb462-43"><a href="geocoding.html#cb462-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                BOTH</span></span></code></pre></div>
+<span id="cb462-23"><a href="geocoding.html#cb462-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                                 Premise.Address Status</span></span>
+<span id="cb462-24"><a href="geocoding.html#cb462-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-25"><a href="geocoding.html#cb462-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-26"><a href="geocoding.html#cb462-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-27"><a href="geocoding.html#cb462-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-28"><a href="geocoding.html#cb462-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-29"><a href="geocoding.html#cb462-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active</span></span>
+<span id="cb462-30"><a href="geocoding.html#cb462-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Issue.Date Expiration.Date                Activities Adult.Use.Medicinal</span></span>
+<span id="cb462-31"><a href="geocoding.html#cb462-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  9/13/2019       9/12/2020 N/A for this license type                BOTH</span></span>
+<span id="cb462-32"><a href="geocoding.html#cb462-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb462-33"><a href="geocoding.html#cb462-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb462-34"><a href="geocoding.html#cb462-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   8/5/2019        8/4/2020 N/A for this license type                BOTH</span></span>
+<span id="cb462-35"><a href="geocoding.html#cb462-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb462-36"><a href="geocoding.html#cb462-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span></code></pre></div>
 <p>The column with the address is called <em>Premise Address</em>. Since the address issue is always " County: SAN FRANCISCO" we can just <code>gsub()</code> out that entire string.</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="geocoding.html#cb463-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>Premise.Address <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; County: SAN FRANCISCO&quot;</span>, <span class="st">&quot;&quot;</span>, marijuana<span class="sc">$</span>Premise.Address)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="geocoding.html#cb463-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>Premise.Address <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; County: SAN FRANCISCO&quot;</span>,</span>
+<span id="cb463-2"><a href="geocoding.html#cb463-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">&quot;&quot;</span>, marijuana<span class="sc">$</span>Premise.Address)</span></code></pre></div>
 <p>Now let’s make sure we did it right.</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="geocoding.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(marijuana)</span>
 <span id="cb464-2"><a href="geocoding.html#cb464-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;License.Number&quot;               &quot;License.Type&quot;                </span></span>
@@ -720,7 +721,8 @@ div.csl-indent {
 <p>We could also just geocode the 10 addresses that failed on the first run, but given that we’ll only geocoding a small number of addresses it won’t take much extra time to have ArcGIS run it all. Running this function on just the NA rows requires a bit more work than just rerunning them all. In general, when the choice is between you spending time writing code and letting the computer do more work, let the computer do the work. And in general I’d recommend starting with ArcGIS as it is more reliable for geocoding. We’ll remove the current coordinate columns by setting them each to NULL.</p>
 <div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="geocoding.html#cb468-1" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>long <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb468-2"><a href="geocoding.html#cb468-2" aria-hidden="true" tabindex="-1"></a>marijuana<span class="sc">$</span>lat  <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
-<span id="cb468-3"><a href="geocoding.html#cb468-3" aria-hidden="true" tabindex="-1"></a>marijuana      <span class="ot">&lt;-</span> <span class="fu">geocode</span>(marijuana, <span class="st">&quot;Premise.Address&quot;</span>, <span class="at">method =</span> <span class="st">&quot;arcgis&quot;</span>)</span></code></pre></div>
+<span id="cb468-3"><a href="geocoding.html#cb468-3" aria-hidden="true" tabindex="-1"></a>marijuana      <span class="ot">&lt;-</span> <span class="fu">geocode</span>(marijuana, <span class="st">&quot;Premise.Address&quot;</span>,</span>
+<span id="cb468-4"><a href="geocoding.html#cb468-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">&quot;arcgis&quot;</span>)</span></code></pre></div>
 <p>And let’s do the <code>summary()</code> check again.</p>
 <div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="geocoding.html#cb469-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(marijuana<span class="sc">$</span>long)</span>
 <span id="cb469-2"><a href="geocoding.html#cb469-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
@@ -730,7 +732,7 @@ div.csl-indent {
 <span id="cb470-3"><a href="geocoding.html#cb470-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   37.71   37.76   37.77   37.77   37.78   37.80</span></span></code></pre></div>
 <p>No more NAs which means that we successfully geocoded our addresses. Another check is to make a simple scatterplot of the data. Since all the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.</p>
 <div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="geocoding.html#cb471-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marijuana<span class="sc">$</span>long, marijuana<span class="sc">$</span>lat)</span></code></pre></div>
-<p><img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-585-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>Most points are within a very narrow range so it appears that our geocoding worked properly.</p>
 </div>
 <div id="practice-problems-18" class="section level2" number="25.3">
@@ -744,8 +746,8 @@ div.csl-indent {
 
 <div class="footnotes">
 <hr />
-<ol start="19">
-<li id="fn19"><p>We can look at all of the parameters for this function by running the code <code>help(geocode)</code> or <code>?geocode()</code> to look at the functions Help page.<a href="geocoding.html#fnref19" class="footnote-back">↩︎</a></p></li>
+<ol start="20">
+<li id="fn20"><p>We can look at all of the parameters for this function by running the code <code>help(geocode)</code> or <code>?geocode()</code> to look at the functions Help page.<a href="geocoding.html#fnref20" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>

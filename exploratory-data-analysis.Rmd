@@ -6,11 +6,11 @@ When you first start working on new data it is important to spend some time gett
 
 While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.
 
-  + What are the units (what does each row represent?)?
-  + What variables are available?
-  + What time period does it cover?
-  + Are there outliers? How many?
-  + Are there missing values? How many?
++ What are the units (what does each row represent?)?
++ What variables are available?
++ What time period does it cover?
++ Are there outliers? How many?
++ Are there missing values? How many?
 
 For the first part of this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. In this part of the chapter we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. 
 
@@ -71,7 +71,7 @@ And if we want to sort it in decreasing order of frequency, we can use the param
 ```{r}
 sort(table(ucr2017$state), decreasing = TRUE)
 ```
- 
+
 ## Graphing
 
 We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters \@ref(graphing-intro) and \@ref(ois-graphs) but for now let's use the function `plot()`. The `plot()` function is built into R so we don't need to use any packages for it.
@@ -79,7 +79,8 @@ We often want to make quick plots of our data to get a visual understanding of t
 Let's make a few scatterplots showing the relationship between two variables. With `plot()` the syntax (how you write the code) is `plot(x_axis_variable, y_axis_variable)`. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).
 
 ```{r}
-plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
+plot(ucr2017$actual_murder,
+     ucr2017$actual_robbery_total)
 ```
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
@@ -98,21 +99,23 @@ Now we have 18 agencies with a population of over 1 million people.
 Now we can do the same graph as above but using this new data set.
 
 ```{r}
-plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
+plot(ucr2017_big_cities$actual_murder, 
+     ucr2017_big_cities$actual_robbery_total)
 ```
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
 To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).
 
-  + xlab - X-axis label
-  + ylab - Y-axis label
-  + main - Graph title
-  
++ xlab - X-axis label
++ ylab - Y-axis label
++ main - Graph title
+
 Like all parameters, we add them in the () of `plot()` and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.
 
 ```{r}
-plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
+plot(ucr2017_big_cities$actual_murder,
+     ucr2017_big_cities$actual_robbery_total,
      xlab = "Murders",
      ylab = "Robberies",
      main = "Relationship between murder and robbery")
@@ -138,7 +141,8 @@ First, let's load back in the data and then repeat the subsetting code we did in
 ucr <- readRDS("data/offenses_known_yearly_1960_2020.rds")
 colorado <- filter(ucr, state == "colorado", 
                    year %in% 2011:2017)
-colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+colorado <- select(colorado, actual_murder, actual_robbery_total, 
+                   state, year, population, ori, agency_name)
 ```
 
 First we must group the data by using the `group()` by function. Here we're just grouping the data by year, but we could group it by multiple columns if we want by adding a comma and then the next column we want. 
@@ -183,13 +187,15 @@ Now we can see that the total number of murders increased over time. So can we c
 To control for population, we'll standardize our murder data by creating a murder rate per 100,000 people. We can do this by dividing the murder column by the population column and then multiplying by 100,000. Let's do that and save the result into a new column called "murder_rate".
 
 ```{r}
-colorado_agg$murder_rate <- colorado_agg$murders / colorado_agg$population * 100000
+colorado_agg$murder_rate <- colorado_agg$murders / 
+  colorado_agg$population * 100000
 ```
 
 If we also wanted a robbery rate we'd do the same with the robberies column.
 
 ```{r}
-colorado_agg$robbery_rate <- colorado_agg$robberies / colorado_agg$population * 100000
+colorado_agg$robbery_rate <- colorado_agg$robberies / 
+  colorado_agg$population * 100000
 ```
 
 The `dplyr` package has a helpful function that can do this too, and allows us to do it while writing less code. The `mutate()` function lets us create or alter columns in our data. Like other `dplyr` functions we start by including our data set in the parentheses, and then we can follow standard assignment (covered in Section \@ref(assignment)) though we must use `=` here and not `<-`. A benefit of using `mutate()` is that we don't have to write out our data set name each time. So we'd write `murder_rate = murders / population * 100000`. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment. 
@@ -254,7 +260,11 @@ These three characters, `%>%`, are the pipe and they must be written exactly lik
 As an example, we'll rewrite the above code using a pipe. We start with our data.frame which is normally the first input the function, and then immediately have a pipe `%>%` into a `dplyr` function, which here is `filter()`. Now we don't need to say what the data set is because we it takes the last thing that was piped into the function, which in our case is the entire data.frame ucr. After our `filter()` is done we have another pipe and go into `select()`. Now `select()` will use as its first input as whatever is outputted from the `filter()`. So the input to `select()` will be the subsetted data output from `filter()`. We can have as many pipes as we wish, and chain many different `dplyr` functions together, but we just use two functions here so we'll end after our `select()` function. 
 
 ```{r}
-colorado <- ucr %>% filter(state == "colorado", year %in% 2011:2017) %>%   select(actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+colorado <- ucr %>% filter(state == "colorado",
+                           year %in% 2011:2017) %>% select(actual_murder,
+                                                           actual_robbery_total,
+                                                           state, year, population, 
+                                                           ori, agency_name)
 ```
 
 If we check results using `head()`, we can see that this code is exactly the same as not using pipes.

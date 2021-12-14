@@ -19,13 +19,13 @@ library(readxl)
 sqf <- read_excel("data/sqf-2019.xlsx")
 ```
 
-The first thing we want to do when loading in a new data set to R is to look at it. We can do this a few different ways, including using `View()` which opens up an Excel-like tab where we can scroll through the data, and through `head()` which prints the first 6 rows of every column to the console. We'll use `head()` here.
+The first thing we want to do when loading in a new data set to R is to look at it. We can do this a few different ways, including using `View()` which opens up an Excel-like tab where we can scroll through the data, and through `head()` which prints the first 6 rows of every column to the console. The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use `head()` to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console.
 
-The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use `head()` to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console. In our case, however, we do want to see each column, so we'll first convert sqf to a data.frame using the `data.frame()` function and then look at `head()`. Let's also use `nrow()` to see how many rows of data we have.
+Normally we'd use `head()` to look at the data, but as there are dozens of columns of this data, I don't want to print out the first six rows of every column to the console as it will take up a lot of space in the book. If this were real data you were working on, you would use `head()` or `View()` to look at the data. Instead, here we'll use `names()` to see what columns are in the data. Let's also use `nrow()` to see how many rows of data we have.
 
 ```{r}
 sqf <- data.frame(sqf)
-head(sqf)
+names(sqf)
 nrow(sqf)
 ```
 
@@ -159,10 +159,7 @@ sqf_agg_long <- sqf_agg_wide %>%
 head(sqf_agg_long)
 ```
 
-
-
 This now gives us two race columns - "race" and "race2" - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the "number_of_people_stopped" and "number_of_people_stopped2" columns as they frequently refer to different races.
-
 
 ## Practice problems
 

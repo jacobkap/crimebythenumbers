@@ -22,9 +22,11 @@ library(rvest)
 
 Here is a screenshot of the recipe for the "MMMMM... Brownies" (an excellent brownies recipe) [page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
-<img src="images/brownies_1.PNG" width="90%" style="display: block; margin: auto;" />
 
-<img src="images/brownies_2.PNG" width="90%" style="display: block; margin: auto;" />
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/brownies_1} \end{center}
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/brownies_2} \end{center}
 
 ## Scraping one page
 
@@ -37,8 +39,8 @@ The first step to scraping a page is to read in that page's information to R usi
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
 #> {html_document}
 #> <html lang="en">
-#> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; cha ...
-#> [2] <body class="template-recipe node- mdex-test karma-site-contain ...
+#> [1] <head>\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8 ...
+#> [2] <body class="template-recipe node- mdex-test karma-site-container alrcom  ...
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to save the output of `read_html()` into an object which we'll call *brownies* since that is the recipe we are currently scraping. 
@@ -54,11 +56,13 @@ We need to find just which parts of the page to scrape. To do so we'll use the h
 
 When you open SelectorGadget it allows you to click on parts of the page and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - "1/2 cup white sugar". Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same "type" in the page. 
 
-<img src="images/brownies_3.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/brownies_3} \end{center}
 
 Note that in the bottom right of the screen, the SelectorGadget bar now has the text ".ingredients-item-name". This is the CSS selector code we can use to get all of the ingredients. 
 
-<img src="images/brownies_4.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/brownies_4} \end{center}
 
 We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *brownies*) and then we can paste the CSS selector text - in this case, ".ingredients-item-name". We'll save the resulting object as *ingredients* since we want to use *brownies* to also get the directions. 
 
@@ -79,14 +83,10 @@ Now let's check what we got.
 
 ```r
 ingredients
-#> [1] "½ cup white sugar "                 
-#> [2] "2 tablespoons butter "              
-#> [3] "2 tablespoons water "               
-#> [4] "1 ½ cups semisweet chocolate chips "
-#> [5] "2 eggs "                            
-#> [6] "½ teaspoon vanilla extract "        
-#> [7] "<U+2154> cup all-purpose flour "    
-#> [8] "¼ teaspoon baking soda "            
+#> [1] "½ cup white sugar "                  "2 tablespoons butter "              
+#> [3] "2 tablespoons water "                "1 ½ cups semisweet chocolate chips "
+#> [5] "2 eggs "                             "½ teaspoon vanilla extract "        
+#> [7] "<U+2154> cup all-purpose flour "     "¼ teaspoon baking soda "            
 #> [9] "½ teaspoon salt "
 ```
 
@@ -96,7 +96,8 @@ Now let's do the same process to get the directions for baking.
 
 In SelectorGadget click clear to unselect the ingredients. Now click one of in lines of directions that starts with the word "Step". It'll highlight all three directions as they're all of the same "type".^[To be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a "text" type in the section on directions and SelectorGadget then selected all "text" types inside of that section.] Note that if you click on the instructions without starting on one of the "Step" lines, such as clicking on the actual instructions (e.g. "Preheat the oven...") lines itself, SelectorGadget will have the node "p" and say it has found 25 'things' on that page that match. To fix this you just scroll up to see where the text "Best brownies I've ever had!" is also highlighted in yellow and click that to unselect it. Using SelectorGadget is often steps like this where you use trial and error to only select the parts of the page that you want.  
 
-<img src="images/brownies_5.PNG" width="90%" style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{images/brownies_5} \end{center}
 
 The CSS selector code this time is ".instructions-section-item" so we can put that inside of `html_nodes()`. Let's save the output as *directions*.
 
@@ -133,14 +134,10 @@ And let's print out both objects to make sure it worked.
 
 ```r
 ingredients
-#> [1] "½ cup white sugar"                 
-#> [2] "2 tablespoons butter"              
-#> [3] "2 tablespoons water"               
-#> [4] "1 ½ cups semisweet chocolate chips"
-#> [5] "2 eggs"                            
-#> [6] "½ teaspoon vanilla extract"        
-#> [7] "<U+2154> cup all-purpose flour"    
-#> [8] "¼ teaspoon baking soda"            
+#> [1] "½ cup white sugar"                  "2 tablespoons butter"              
+#> [3] "2 tablespoons water"                "1 ½ cups semisweet chocolate chips"
+#> [5] "2 eggs"                             "½ teaspoon vanilla extract"        
+#> [7] "<U+2154> cup all-purpose flour"     "¼ teaspoon baking soda"            
 #> [9] "½ teaspoon salt"
 directions
 #> [1] "Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement"                                                                                                                                                                                                               

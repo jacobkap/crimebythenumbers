@@ -6,11 +6,11 @@ When you first start working on new data it is important to spend some time gett
 
 While not a comprehensive list, the following is a good start for exploratory data analysis of new data sets.
 
-  + What are the units (what does each row represent?)?
-  + What variables are available?
-  + What time period does it cover?
-  + Are there outliers? How many?
-  + Are there missing values? How many?
++ What are the units (what does each row represent?)?
++ What variables are available?
++ What time period does it cover?
++ Are there outliers? How many?
++ Are there missing values? How many?
 
 For the first part of this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. In this part of the chapter we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data. 
 
@@ -26,20 +26,20 @@ The function `head()` will print out the first 6 rows of every column in the dat
 
 ```r
 head(ucr2017)
-#>       ori year agency_name  state population actual_murder
-#> 1 AK00101 2017   anchorage alaska     296188            27
-#> 2 AK00102 2017   fairbanks alaska      32937            10
-#> 3 AK00103 2017      juneau alaska      32344             1
-#> 4 AK00104 2017   ketchikan alaska       8230             1
-#> 5 AK00105 2017      kodiak alaska       6198             0
-#> 6 AK00106 2017        nome alaska       3829             0
-#>   actual_rape_total actual_robbery_total actual_assault_aggravated
-#> 1               391                  778                      2368
-#> 2                24                   40                       131
-#> 3                50                   46                       206
-#> 4                19                    0                        14
-#> 5                15                    4                        41
-#> 6                 7                    0                        52
+#>       ori year agency_name  state population actual_murder actual_rape_total
+#> 1 AK00101 2017   anchorage alaska     296188            27               391
+#> 2 AK00102 2017   fairbanks alaska      32937            10                24
+#> 3 AK00103 2017      juneau alaska      32344             1                50
+#> 4 AK00104 2017   ketchikan alaska       8230             1                19
+#> 5 AK00105 2017      kodiak alaska       6198             0                15
+#> 6 AK00106 2017        nome alaska       3829             0                 7
+#>   actual_robbery_total actual_assault_aggravated
+#> 1                  778                      2368
+#> 2                   40                       131
+#> 3                   46                       206
+#> 4                    0                        14
+#> 5                    4                        41
+#> 6                    0                        52
 ```
 
 From these results it appears that each row is a single agency's annual data for 2017 and the columns show the number of crimes for four crime categories included. 
@@ -63,27 +63,27 @@ An important function in understanding the data you have is `summary()` which, a
 
 ```r
 summary(ucr2017)
-#>      ori                 year      agency_name       
-#>  Length:15764       Min.   :2017   Length:15764      
-#>  Class :character   1st Qu.:2017   Class :character  
-#>  Mode  :character   Median :2017   Mode  :character  
-#>                     Mean   :2017                     
-#>                     3rd Qu.:2017                     
-#>                     Max.   :2017                     
-#>     state             population      actual_murder    
-#>  Length:15764       Min.   :      0   Min.   :  0.000  
-#>  Class :character   1st Qu.:    914   1st Qu.:  0.000  
-#>  Mode  :character   Median :   4460   Median :  0.000  
-#>                     Mean   :  19872   Mean   :  1.069  
-#>                     3rd Qu.:  15390   3rd Qu.:  0.000  
-#>                     Max.   :8616333   Max.   :653.000  
-#>  actual_rape_total  actual_robbery_total actual_assault_aggravated
-#>  Min.   :  -2.000   Min.   :   -1.00     Min.   :   -1.00         
-#>  1st Qu.:   0.000   1st Qu.:    0.00     1st Qu.:    1.00         
-#>  Median :   1.000   Median :    0.00     Median :    5.00         
-#>  Mean   :   8.262   Mean   :   19.85     Mean   :   49.98         
-#>  3rd Qu.:   5.000   3rd Qu.:    4.00     3rd Qu.:   21.00         
-#>  Max.   :2455.000   Max.   :13995.00     Max.   :29771.00
+#>      ori                 year      agency_name           state          
+#>  Length:15764       Min.   :2017   Length:15764       Length:15764      
+#>  Class :character   1st Qu.:2017   Class :character   Class :character  
+#>  Mode  :character   Median :2017   Mode  :character   Mode  :character  
+#>                     Mean   :2017                                        
+#>                     3rd Qu.:2017                                        
+#>                     Max.   :2017                                        
+#>    population      actual_murder     actual_rape_total  actual_robbery_total
+#>  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    
+#>  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    
+#>  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    
+#>  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    
+#>  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    
+#>  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    
+#>  actual_assault_aggravated
+#>  Min.   :   -1.00         
+#>  1st Qu.:    1.00         
+#>  Median :    5.00         
+#>  Mean   :   49.98         
+#>  3rd Qu.:   21.00         
+#>  Max.   :29771.00
 ```
 
 The `table()` function returns every unique value in a category **and** how often that value appears. Unlike `summary()` we can't just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation which is `data$column`. For most functions we use to examine the data as a whole, such as `head()`, you can do the same for a specific column. 
@@ -91,8 +91,7 @@ The `table()` function returns every unique value in a category **and** how ofte
 
 ```r
 head(ucr2017$agency_name)
-#> [1] "anchorage" "fairbanks" "juneau"    "ketchikan" "kodiak"   
-#> [6] "nome"
+#> [1] "anchorage" "fairbanks" "juneau"    "ketchikan" "kodiak"    "nome"
 ```
 
 There are only two columns in our data with categorical values that we can use - *year* and *state* so let's use `table()` on both of them. The columns *ori* and *agency_name* are also categorical but as each row of data has a unique ORI and name, running `table()` on those columns would not be helpful.
@@ -236,7 +235,7 @@ sort(table(ucr2017$state), decreasing = TRUE)
 #>                 guam 
 #>                    1
 ```
- 
+
 ## Graphing
 
 We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters \@ref(graphing-intro) and \@ref(ois-graphs) but for now let's use the function `plot()`. The `plot()` function is built into R so we don't need to use any packages for it.
@@ -245,10 +244,13 @@ Let's make a few scatterplots showing the relationship between two variables. Wi
 
 
 ```r
-plot(ucr2017$actual_murder, ucr2017$actual_robbery_total)
+plot(ucr2017$actual_murder,
+     ucr2017$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -276,30 +278,36 @@ Now we can do the same graph as above but using this new data set.
 
 
 ```r
-plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total)
+plot(ucr2017_big_cities$actual_murder, 
+     ucr2017_big_cities$actual_robbery_total)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
 To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).
 
-  + xlab - X-axis label
-  + ylab - Y-axis label
-  + main - Graph title
-  
++ xlab - X-axis label
++ ylab - Y-axis label
++ main - Graph title
+
 Like all parameters, we add them in the () of `plot()` and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.
 
 
 ```r
-plot(ucr2017_big_cities$actual_murder, ucr2017_big_cities$actual_robbery_total,
+plot(ucr2017_big_cities$actual_murder,
+     ucr2017_big_cities$actual_robbery_total,
      xlab = "Murders",
      ylab = "Robberies",
      main = "Relationship between murder and robbery")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -322,7 +330,8 @@ First, let's load back in the data and then repeat the subsetting code we did in
 ucr <- readRDS("data/offenses_known_yearly_1960_2020.rds")
 colorado <- filter(ucr, state == "colorado", 
                    year %in% 2011:2017)
-colorado <- select(colorado, actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+colorado <- select(colorado, actual_murder, actual_robbery_total, 
+                   state, year, population, ori, agency_name)
 ```
 
 First we must group the data by using the `group()` by function. Here we're just grouping the data by year, but we could group it by multiple columns if we want by adding a comma and then the next column we want. 
@@ -375,15 +384,15 @@ summarize(colorado, sum(actual_murder),
           sum(actual_robbery_total),
           mean(actual_robbery_total))
 #> # A tibble: 7 x 4
-#>    year `sum(actual_murder)` `sum(actual_robbery~ `mean(actual_robber~
-#>   <dbl>                <dbl>                <dbl>                <dbl>
-#> 1  2011                  154                 3287                11.2 
-#> 2  2012                  163                 3369                11.2 
-#> 3  2013                  172                 3122                10.3 
-#> 4  2014                  148                 3021                 9.94
-#> 5  2015                  173                 3305                10.9 
-#> 6  2016                  203                 3513                11.6 
-#> 7  2017                  218                 3811                12.5
+#>    year `sum(actual_murder)` `sum(actual_robbery_total)` `mean(actual_robbery_t~
+#>   <dbl>                <dbl>                       <dbl>                   <dbl>
+#> 1  2011                  154                        3287                   11.2 
+#> 2  2012                  163                        3369                   11.2 
+#> 3  2013                  172                        3122                   10.3 
+#> 4  2014                  148                        3021                    9.94
+#> 5  2015                  173                        3305                   10.9 
+#> 6  2016                  203                        3513                   11.6 
+#> 7  2017                  218                        3811                   12.5
 ```
 
 By default `summarize()` calls the columns it makes using what we include in the parentheses. Since we said "sum(actual_murder)" to get the sum of the murder column, it names that new column "sum(actual_murder)". Usually we'll want to name the columns ourselves. We can do this by assigning the summarized column to a name using "name = " before it. For example, we could write "murders = sum(actual_murder)" and it will name that column "murders" instead of "sum(actual_murder)". Like other things in `dplyr` functions, we don't need to put quotes around our new column name. We'll save this final summarized data into an object called "colorado_agg" so we can use it to make graphs. And to be able to create crime rates per population, we'll also find the sum of the population for each year.
@@ -413,14 +422,16 @@ To control for population, we'll standardize our murder data by creating a murde
 
 
 ```r
-colorado_agg$murder_rate <- colorado_agg$murders / colorado_agg$population * 100000
+colorado_agg$murder_rate <- colorado_agg$murders / 
+  colorado_agg$population * 100000
 ```
 
 If we also wanted a robbery rate we'd do the same with the robberies column.
 
 
 ```r
-colorado_agg$robbery_rate <- colorado_agg$robberies / colorado_agg$population * 100000
+colorado_agg$robbery_rate <- colorado_agg$robberies / 
+  colorado_agg$population * 100000
 ```
 
 The `dplyr` package has a helpful function that can do this too, and allows us to do it while writing less code. The `mutate()` function lets us create or alter columns in our data. Like other `dplyr` functions we start by including our data set in the parentheses, and then we can follow standard assignment (covered in Section \@ref(assignment)) though we must use `=` here and not `<-`. A benefit of using `mutate()` is that we don't have to write out our data set name each time. So we'd write `murder_rate = murders / population * 100000`. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment. 
@@ -451,7 +462,9 @@ plot(x = colorado_agg$year,
      y = colorado_agg$murder_rate)
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -462,7 +475,9 @@ plot(x = colorado_agg$year,
      type = "l")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -476,7 +491,9 @@ plot(x = colorado_agg$year,
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 ## Pipes in `dplyr` {#dplyr-pipes}
 
@@ -521,7 +538,11 @@ As an example, we'll rewrite the above code using a pipe. We start with our data
 
 
 ```r
-colorado <- ucr %>% filter(state == "colorado", year %in% 2011:2017) %>%   select(actual_murder, actual_robbery_total, state, year, population, ori, agency_name)
+colorado <- ucr %>% filter(state == "colorado",
+                           year %in% 2011:2017) %>% select(actual_murder,
+                                                           actual_robbery_total,
+                                                           state, year, population, 
+                                                           ori, agency_name)
 ```
 
 If we check results using `head()`, we can see that this code is exactly the same as not using pipes.
