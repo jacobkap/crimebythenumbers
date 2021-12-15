@@ -634,10 +634,18 @@ div.csl-indent {
 <p>Instead, we’ll first aggregate the data and then reshape that aggregated data. We’ll aggregate the data by month and by day of week and see how many people of each race were stopped at each month-day-of-week. In addition to <code>tidyr</code>, we’ll use functions from <code>dplyr</code> to aggregate our data. Since we’ve already installed that package we just need to use <code>library()</code> and don’t need to use <code>install.packages()</code> again. We’ve already used the <code>group_by()</code> function in aggregating, and now we’ll introduce a new function: <code>count()</code>. In our earlier aggregation code (introduced in Section <a href="explore.html#aggregate">12.3</a>), we used the function <code>summarize()</code> and summed up columns which had a numeric variable (e.g. the number of murders). <code>count()</code> works similarly by sums up categorical variables, which in our case is the race of people stopped. Using <code>count()</code> we enter in the categorical column in the parentheses, and it’ll make a new column called “n” which is the sum of each category. Since we’re aggregating the data let’s save the result of our aggregating to a new object called “sqf_agg.”</p>
 <div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="reshaping.html#cb211-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb211-2"><a href="reshaping.html#cb211-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb211-3"><a href="reshaping.html#cb211-3" aria-hidden="true" tabindex="-1"></a>sqf_agg <span class="ot">&lt;-</span> sqf <span class="sc">%&gt;%</span> </span>
-<span id="cb211-4"><a href="reshaping.html#cb211-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(MONTH2,</span>
-<span id="cb211-5"><a href="reshaping.html#cb211-5" aria-hidden="true" tabindex="-1"></a>           DAY2) <span class="sc">%&gt;%</span></span>
-<span id="cb211-6"><a href="reshaping.html#cb211-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SUSPECT_RACE_DESCRIPTION)</span></code></pre></div>
+<span id="cb211-3"><a href="reshaping.html#cb211-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb211-4"><a href="reshaping.html#cb211-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb211-5"><a href="reshaping.html#cb211-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb211-6"><a href="reshaping.html#cb211-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb211-7"><a href="reshaping.html#cb211-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb211-8"><a href="reshaping.html#cb211-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb211-9"><a href="reshaping.html#cb211-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb211-10"><a href="reshaping.html#cb211-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb211-11"><a href="reshaping.html#cb211-11" aria-hidden="true" tabindex="-1"></a>sqf_agg <span class="ot">&lt;-</span> sqf <span class="sc">%&gt;%</span> </span>
+<span id="cb211-12"><a href="reshaping.html#cb211-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(MONTH2,</span>
+<span id="cb211-13"><a href="reshaping.html#cb211-13" aria-hidden="true" tabindex="-1"></a>           DAY2) <span class="sc">%&gt;%</span></span>
+<span id="cb211-14"><a href="reshaping.html#cb211-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(SUSPECT_RACE_DESCRIPTION)</span></code></pre></div>
 <p>Now let’s look at the <code>head()</code> of the result.</p>
 <div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="reshaping.html#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sqf_agg)</span>
 <span id="cb212-2"><a href="reshaping.html#cb212-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 x 4</span></span>

@@ -17,8 +17,7 @@ Just to understand what units our data is in we had to look at both the PDF itse
 
 Now let's look at what columns are available. It looks like each column is the number of people incarcerated in the jail, broken down into categories of people. For example, the first two columns after County are "Pretrial Felons" and "Conv. Felons" so those are probably how many people are incarcerated who are awaiting trial for a felony and those already convicted of a felony. The other columns seem to follow this same format until the last few ones which describe the jails capacity (i.e. how many people they can hold), what percent of capacity they are at, and specifically how many open beds they have. 
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/tabulizer1} \end{center}
+<img src="images/tabulizer1.PNG" width="90%"  style="display: block; margin: auto;" />
 
 Now that we've familiarized ourselves with the data, let's begin scraping this data using `tabulizer`. If you don't have this package installed, you'll need to install it using `install.packages("tabulizer")`. Then we'll need to run `library(tabulizer)`.
 
@@ -280,7 +279,7 @@ tail(page1_table)
 #> 29              164            301               54.49            107
 ```
 
-Looking at the results, we've done this correctly. The values are right and the column names are correct. We've done it for one page but now must add the remaining pages. We'll do this through a for loop. We want to take the code we used above and loop through each of the tables we have. Since have of our tables are just the column names and not actual data, we need to skip those elements in our for loop. Luckily, our data follows a pattern where the first element is the column names from page 1, the second is the data from page 1, the third is the column names from page 2, the fourth is the data from page 2, and so on. So we need only every other value from 1 to 18, or every even number. We can get every other value using logical values, as shown in the next section, but since we only have 18 elements we'll just create the simple vector ourselves: c(2, 4, 6, 8, 10, 12, 14, 16, 18). 
+Looking at the results, we've done this correctly. The values are right and the column names are correct. We've done it for one page but now must add the remaining pages. We'll do this through a for loop. We want to take the code we used above and loop through each of the tables we have. Since half of our tables are just the column names and not actual data, we need to skip those elements in our for loop. Luckily, our data follows a pattern where the first element is the column names from page 1, the second is the data from page 1, the third is the column names from page 2, the fourth is the data from page 2, and so on. So we need only every other value from 1 to 18, or every even number. We can get every other value using logical values, as shown in the next section, but since we only have 18 elements we'll just create the simple vector ourselves: c(2, 4, 6, 8, 10, 12, 14, 16, 18). 
 
 For our for loop we can copy the code above but let's change the object name from "page1_table" to "temp" as each iteration will be of a different page so "page1_table" doesn't make sense.
 
@@ -432,8 +431,7 @@ tail(final)
 
 We'll finish this lesson with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge, it has 10 columns but we want to make it have only 2. In the data (shown below), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using `tabulizer()` and then work to fix this multiple-column issue. 
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/pregnant} \end{center}
+<img src="images/pregnant.PNG" width="90%"  style="display: block; margin: auto;" />
 
 Notice that this data doesn't even have column names so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape something that recurring - that is, that you'll scrape a future version of - be careful about situations like this.
 
@@ -460,7 +458,7 @@ head(data)
 #> [6,] "Walker"        "1"
 ```
 
-If we check the output from the above code to the PDF, we can see that it worked. Every column in the PDF is in our output and the values were scraped correctly. This is great! Now we want to make two columns - "county" and "pregnant_females_booked" (or whatever you'd like to call it) - from these 10. As usual with R, there are a few ways we can do this. We'll just so two ways. 
+If we check the output from the above code to the PDF, we can see that it worked. Every column in the PDF is in our output and the values were scraped correctly. This is great! Now we want to make two columns - "county" and "pregnant_females_booked" (or whatever you'd like to call it) - from these 10. As usual with R, there are a few ways we can do this. We'll just do so two ways. 
 
 First, since there are only 10 columns, we can just do it manually. We can use square bracket `[]` notation to grab specific columns using the column number (since the data is a matrix and not a data.frame we can't use dollar sign notation even if we wanted to). Let's print out the head of all the county columns. We can see from the PDF that these are columns 1, 3, 5, 7, and 9. So can use a vector of numbers to get that `c(1, 3, 5, 7, 9)`.
 
@@ -617,14 +615,11 @@ Given the effort you'll spend in scraping a PDF - and the relative rarity of thi
 
 If you decide to update the data, it'll keep a link to your older submission so you essentially have versions of the data. When you update the data, I recommend having a section on the submission description describing the changes in each version. As an example of what it looks like when submitting data to openICPSR, below are a few images showing the submission page for one of my submissions that has many versions (and corresponding version notes). 
 
+<img src="images/openICPSR1.PNG" width="90%"  style="display: block; margin: auto;" />
 
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/openICPSR1} \end{center}
+<img src="images/openICPSR2.PNG" width="90%"  style="display: block; margin: auto;" />
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/openICPSR2} \end{center}
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/openICPSR3} \end{center}
+<img src="images/openICPSR3.PNG" width="90%"  style="display: block; margin: auto;" />
 
 ## Practice problems
 

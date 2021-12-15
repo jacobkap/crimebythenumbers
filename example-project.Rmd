@@ -91,7 +91,7 @@ We'll now look at each piece of the larger chunk of code above and I'll explain 
 
 ### Loading packages
 
-In R we'll often use code written by other people that have tools that we want to use in our code. To use this code we need to tell R that we want to use that particular package - and packages are just a collection of other people's code. A collection of code for a specific purpose (e.g. making a graph, doing a very particular cleaning task) is called a function. For this example we're using packages that help us clean and aggregate data or to graph it, so we load it here. The general convention is to start your R file with each of the packages you want to use at the top of the file. 
+In R we'll often use code written by other people that have tools that we want to use in our code. To use this code we need to tell R that we want to use that particular package - and packages are just a collection of other people's code. A collection of code for a specific purpose (e.g. making a graph, doing a very particular cleaning task) is called a function. Each package is a collection of functions. For this example we're using packages that help us clean and aggregate data or to graph it, so we load it here. The general convention is to start your R file with each of the packages you want to use at the top of the file. 
 
 ```{r}
 library(dplyr)    
@@ -102,7 +102,7 @@ library(tidyr)
 
 ### Loading data
 
-Next we need to load in our data. The data we're using is a type of R data file called an .Rds file so we load it using the function `readRDS()` which is one of the functions built-into R so we don't actually need to use any package for it. For this example we're using data from the FBI's Supplementary Homicide Reports which are an annual data set that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we'll look at. When we read in the data to R we need to give it a name so R knows what it is called. We'll call this data "shr" since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we're calling it "shr" rather than "SHR".
+Next we need to load in our data. The data we're using is a type of R data file called an .Rds file so we load it using the function `readRDS()` which is one of the functions built into R so we don't actually need to use any package for it. For this example we're using data from the FBI's Supplementary Homicide Report which are an annual data set that has relatively detailed information on most (but not all, as not all agencies report data) murders in the United States. This includes the relationship between the victim and the offender (technically the suspected offender) in the murder, which is what we'll look at. When we read in the data to R we need to give it a name so R knows what it is called. We'll call this data "shr" since that is the normal abbreviation for the Supplementary Homicide Report data. Normally in R we use lower cased letters when naming something which is why we're calling it "shr" rather than "SHR".
 
 Each row of data is actually a murder incident, and there can be up to 11 victims per murder incident. So we'll be undercounting murders as in this example we're only looking at the first victim in an incident. But, as its an example this is fine as I don't want it to be too complicated and including more than just the first victim would greatly complicate our code. 
 
@@ -114,7 +114,7 @@ shr <- readRDS("data/shr_1976_2020.rds")
 
 One of the annoying quirks of dealing with FBI data is that different agencies report each year. So comparing different years has an issue because you'll be doing an apples-to-oranges competition as an agency may report one year but not another. So for this data the first thing we need to do is to make sure we're only looking at agencies that reported data in both years. The first few lines check which agencies reported in 2019 and which agencies reported in 2020. We do this by looking at which ORIs (in the "ori" column) are present in each year (as agencies that did not report won't be in the data). An ORI is the an FBI term for a unique ID for that agency. Then we make a vector which has only the ORIs that are present in both years.
 
-We then subset the data to only data from 2019 and 2020 and where the agency reported in both years. Subsetting essentially means that we only keep the rows of data that meet those conditions. Another quirk of this data is that it includes homicides that are not murder - namely, negligent manslaughter. So the final subsetting condition we want it to only include murder and nonnegligent manslaughter.
+We then subset the data to only data from 2019 and 2020 and where the agency reported in both years. Subsetting essentially means that we only keep the rows of data that meet those conditions. Another quirk of this data is that it includes homicides that are not murder - namely, negligent manslaughter. So the final subsetting condition we use is that it only includes murder and nonnegligent manslaughter.
 
 ```{r}
 agencies_2019 <- shr$ori[shr$year == 2019]
@@ -193,5 +193,3 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   coord_flip() +
   theme_crim() 
 ```
-
-While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph. 

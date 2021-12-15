@@ -6,7 +6,7 @@ Hotspot maps are used to find where events or places (e.g. crimes, marijuana dis
 
 However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. 
 
-These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (in Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
+These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (in Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. Hotspot maps also often turn into population maps where the dots indicate where people live rather than where the risk of something. For example, a street with several apartment buildings will likely have more crimes (and thus have more dots on a hotspot map) than a street with only single family homes. Maybe this is because the apartment street really is more crime-ridden than the single family home street, but it could simply be that places with more people have more events (e.g. crimes, suicides, etc.) even if they actually have a lower rate of these events than less populated places. So not knowing the context of an area can make hotspot maps very misleading. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
 
 Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First, we need to read the data, which is called "san_francisco_suicide_2003_2017.csv". We can name the object we make *suicide*.
 
@@ -75,8 +75,7 @@ We'll start by making the background to our map, showing San Francisco. We do so
 
 An easy way to find the four coordinates for a bounding box is to go to the site [Bounding Box](https://boundingbox.klokantech.com/). This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says "Copy & Paste", change the dropdown box to "CSV". In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into `get_map()`
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/bounding_box} \end{center}
+<img src="images/bounding_box.PNG" width="90%"  style="display: block; margin: auto;" />
 
 
 ```r
@@ -94,11 +93,9 @@ sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996),
 sf_map
 ```
 
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%"  style="display: block; margin: auto;" />
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
-
-Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load ``ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
+Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the suicides from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load ``ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
 
 
 ```r
@@ -108,9 +105,7 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="90%"  style="display: block; margin: auto;" />
 
 If we wanted to color the dots, we can use `color = ` and then select a color. Let's try it with "forestgreen".
 
@@ -123,9 +118,7 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="90%"  style="display: block; margin: auto;" />
 
 As with other graphs we can change the size of the dot using `size = `.
 
@@ -139,9 +132,7 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="90%"  style="display: block; margin: auto;" />
 
 
 ```r
@@ -153,9 +144,7 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="90%"  style="display: block; margin: auto;" />
 
 For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
@@ -170,24 +159,20 @@ sf_map +
 #> Warning: Removed 1 rows containing missing values (geom_point).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%"  style="display: block; margin: auto;" />
 
 This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost. 
 
 ## What really are maps?
 
-Let's pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter \@ref(interactive-maps) we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
+Let's pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per suicide (minus the one without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter \@ref(interactive-maps) we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
 
 
 ```r
 plot(suicide$X, suicide$Y, col = "forestgreen")
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="90%"  style="display: block; margin: auto;" />
 
 ## Making a hotspot map
 
@@ -218,9 +203,7 @@ sf_map +
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-14-1.png" width="90%"  style="display: block; margin: auto;" />
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
 
@@ -237,9 +220,7 @@ sf_map +
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%"  style="display: block; margin: auto;" />
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
@@ -256,9 +237,7 @@ sf_map +
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="90%"  style="display: block; margin: auto;" />
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself. 
 
@@ -279,9 +258,7 @@ sf_map +
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-17-1.png" width="90%"  style="display: block; margin: auto;" />
 
 By default it labels the legend as "count". Since we know these are counts of suicides let's relabel that as such.
 
@@ -299,9 +276,7 @@ sf_map +
 #> Warning: Removed 1 rows containing non-finite values (stat_binhex).
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-18-1.png" width="90%"  style="display: block; margin: auto;" />
 
 
 ## Practice problems

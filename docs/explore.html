@@ -723,17 +723,25 @@ div.csl-indent {
 <p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
 <div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="explore.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017<span class="sc">$</span>actual_murder,</span>
 <span id="cb151-2"><a href="explore.html#cb151-2" aria-hidden="true" tabindex="-1"></a>     ucr2017<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-236-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner which have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
 <p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the <code>filter()</code> function from the <code>dplyr</code> package that was introduced in Chapter <a href="subsetting-intro.html#subsetting-intro">11</a>. For <code>filter()</code>, we need to first include our data set name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the “population” column have a value of over 1 million. For the <code>dplyr</code> functions we don’t put our column name in quotes.</p>
 <p>And we’ll save our results into a new object called ucr2017_big_cities Since we’re using the <code>dplyr</code> package we need to tell R that we want to use it by using <code>library(dplyr)</code>.</p>
 <div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="explore.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb152-2"><a href="explore.html#cb152-2" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr2017, population <span class="sc">&gt;</span> <span class="dv">1000000</span>) </span></code></pre></div>
+<span id="cb152-2"><a href="explore.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb152-3"><a href="explore.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb152-4"><a href="explore.html#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb152-5"><a href="explore.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb152-6"><a href="explore.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb152-7"><a href="explore.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb152-8"><a href="explore.html#cb152-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb152-9"><a href="explore.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb152-10"><a href="explore.html#cb152-10" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr2017, population <span class="sc">&gt;</span> <span class="dv">1000000</span>) </span></code></pre></div>
 <p>Now we have 18 agencies with a population of over 1 million people.</p>
 <p>Now we can do the same graph as above but using this new data set.</p>
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="explore.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder, </span>
 <span id="cb153-2"><a href="explore.html#cb153-2" aria-hidden="true" tabindex="-1"></a>     ucr2017_big_cities<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-238-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or aggravated assaults but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
 <p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appears of this graph, we will just use these three).</p>
 <ul>
@@ -747,7 +755,7 @@ div.csl-indent {
 <span id="cb154-3"><a href="explore.html#cb154-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Murders&quot;</span>,</span>
 <span id="cb154-4"><a href="explore.html#cb154-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</span>
 <span id="cb154-5"><a href="explore.html#cb154-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-239-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="aggregate" class="section level2" number="12.3">
 <h2><span class="header-section-number">12.3</span> Aggregating (summaries of groups)</h2>
@@ -844,12 +852,12 @@ div.csl-indent {
 <p>Now let’s make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable that we are measuring to be on the y-axis.</p>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="explore.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
 <span id="cb164-2"><a href="explore.html#cb164-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-249-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>By default <code>plot()</code> makes a scatterplot. If we set the parameter <code>type</code> to “l” it will be a <strong>l</strong>ine plot.</p>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="explore.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
 <span id="cb165-2"><a href="explore.html#cb165-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
 <span id="cb165-3"><a href="explore.html#cb165-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-250-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 <p>We can add some labels and a title to make this graph easier to read.</p>
 <div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="explore.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
 <span id="cb166-2"><a href="explore.html#cb166-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
@@ -857,7 +865,7 @@ div.csl-indent {
 <span id="cb166-4"><a href="explore.html#cb166-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
 <span id="cb166-5"><a href="explore.html#cb166-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</span>
 <span id="cb166-6"><a href="explore.html#cb166-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-251-1.png" width="90%"  style="display: block; margin: auto;" /></p>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="90%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="dplyr-pipes" class="section level2" number="12.4">
 <h2><span class="header-section-number">12.4</span> Pipes in <code>dplyr</code></h2>

@@ -12,8 +12,7 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_1} \end{center}
+<img src="images/pdf_table_1.PNG" width="90%"  style="display: block; margin: auto;" />
 
 Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -21,18 +20,15 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_2} \end{center}
+<img src="images/pdf_table_2.PNG" width="90%"  style="display: block; margin: auto;" />
 
 Table 3 follows the same format and the new columns are number of apprehensions by gender.
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_3} \end{center}
+<img src="images/pdf_table_3.PNG" width="90%"  style="display: block; margin: auto;" />
 
 Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{images/pdf_table_4} \end{center}
+<img src="images/pdf_table_4.PNG" width="90%"  style="display: block; margin: auto;" />
 
 ## Scraping the first table
 
@@ -322,7 +318,7 @@ names(sector_profile) <- c("sector",
                            "deaths")
 ```
 
-Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to their proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. 
+Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to its proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. 
 
 We do this as it is bad form (and potentially dangerous) to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object (such as by scraping a different file but calling that object *border_patrol*) and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
 

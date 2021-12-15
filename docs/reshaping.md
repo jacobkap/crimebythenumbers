@@ -347,10 +347,7 @@ head(sqf_agg_long)
 #> 6 April  Friday n_asian_pacific_islander                1 n2_a~               NA
 ```
 
-
-
 This now gives us two race columns - "race" and "race2" - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the "number_of_people_stopped" and "number_of_people_stopped2" columns as they frequently refer to different races.
-
 
 ## Practice problems
 

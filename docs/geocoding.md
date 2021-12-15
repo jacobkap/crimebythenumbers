@@ -70,7 +70,8 @@ At the time of this writing the `tidygeocoder` package can handle geocoding from
 
 
 ```r
-geocode(address_to_geocode, "address", method = "osm")
+example <- geocode(address_to_geocode, "address", method = "osm")
+example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
 #>   <chr>                               <dbl> <dbl>
@@ -79,7 +80,8 @@ geocode(address_to_geocode, "address", method = "osm")
 
 
 ```r
-geocode(address_to_geocode, "address", method = "census")
+example <- geocode(address_to_geocode, "address", method = "census")
+example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
 #>   <chr>                               <dbl> <dbl>
@@ -88,7 +90,8 @@ geocode(address_to_geocode, "address", method = "census")
 
 
 ```r
-geocode(address_to_geocode, "address", method = "arcgis")
+example <- geocode(address_to_geocode, "address", method = "arcgis")
+example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
 #>   <chr>                               <dbl> <dbl>
@@ -180,7 +183,7 @@ For the ArcGIS results we have the matched address again, and then an important 
 
 So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispensary data.
 
-Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly. For this book I keep all of the data files in a folder called "data" in my working directory. Unless you also have a folder called "data" in your working directory which as this file, please dleete "data/" from the following code.
+Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly. For this book I keep all of the data files in a folder called "data" in my working directory. Unless you also have a folder called "data" in your working directory which as this file, please delete "data/" from the following code.
 
 
 ```r
@@ -320,12 +323,9 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-
-
-\begin{center}\includegraphics[width=0.9\linewidth,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
+<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%"  style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
-
 
 ## Practice problems
 
