@@ -54,15 +54,18 @@ First, there are actually multiple sources where you can enter an address and ge
 At the time of this writing the `tidygeocoder` package can handle geocoding from 13 different sources. For 10 of these, however, you need to setup an API key and some also require paying money (usually after a set number of addresses that it'll geocode for free each day). So here I'll just cover the three sources of geocoding that don't require any setup: "osm" (Open Street Map or OSM is similar to Google Maps), "census" (the US Census Bureau's geocoder), and "arcgis" (ArcGIS is a clunky mapping software that nonetheless has an excellent geocoder that R can use). To select which of these to use ("osm" is the default), you add the parameter "method" and set that equal to which one you want to use. As "osm" is the default we actually don't need to set it explicitly, but we'll do so anyways here as an example of the three geocoding sources we want to use.
 
 ```{r}
-geocode(address_to_geocode, "address", method = "osm")
+example <- geocode(address_to_geocode, "address", method = "osm")
+example
 ```
 
 ```{r}
-geocode(address_to_geocode, "address", method = "census")
+example <- geocode(address_to_geocode, "address", method = "census")
+example
 ```
 
 ```{r}
-geocode(address_to_geocode, "address", method = "arcgis")
+example <- geocode(address_to_geocode, "address", method = "arcgis")
+example
 ```
 
 If you compare the longitude and latitudes from these three sources you'll notice that they're all different but only slightly so. By default this function returns a tibble instead of a normal data.frame so it only shows one decimal point by default - though it doesn't actually round the number, merely shorten what it shows us. We can change the output back into a data.frame by using the `data.frame()` function. 
@@ -110,7 +113,7 @@ For the ArcGIS results we have the matched address again, and then an important 
 
 So now that we can use the `geocoder()` function well, we can geocode every location in our marijuana dispensary data.
 
-Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly. For this book I keep all of the data files in a folder called "data" in my working directory. Unless you also have a folder called "data" in your working directory which as this file, please dleete "data/" from the following code.
+Let's read in the marijuana dispensary data which is called "san_francisco_active_marijuana_retailers.csv" and call the object *marijuana*. Note the "data/" part in front of the name of the .csv file. This is to tell R that the file we want is in the "data" folder of our working directory. Doing this is essentially a shortcut to changing the working directory directly. For this book I keep all of the data files in a folder called "data" in my working directory. Unless you also have a folder called "data" in your working directory which as this file, please delete "data/" from the following code.
 
 ```{r}
 library(readr)
@@ -178,7 +181,6 @@ plot(marijuana$long, marijuana$lat)
 ```
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
-
 
 ## Practice problems
 

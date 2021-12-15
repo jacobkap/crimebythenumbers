@@ -535,10 +535,10 @@ div.csl-indent {
 <div id="a-simple-function" class="section level2" number="21.1">
 <h2><span class="header-section-number">21.1</span> A simple function</h2>
 <p>We’ll start with a simple function that takes a number and returns that number plus the value 2.</p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="functions.html#cb372-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
-<span id="cb372-2"><a href="functions.html#cb372-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb372-3"><a href="functions.html#cb372-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
-<span id="cb372-4"><a href="functions.html#cb372-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="functions.html#cb373-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
+<span id="cb373-2"><a href="functions.html#cb373-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb373-3"><a href="functions.html#cb373-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb373-4"><a href="functions.html#cb373-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>The syntax (how we write it) of a function is</p>
 <p>function_name &lt;- function(parameters)
 {<br />
@@ -554,60 +554,48 @@ return(output)<br />
 <li>The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text <code>&lt;- function()</code> where the parameters (if any) are in the (). After the closing parentheses put a <code>{</code> and at the very end of the function, after the <code>return()</code>, close those squiggly brackets with a “}.” The <code>&lt;- function()</code> tells R that you are making a function rather than some other type of object. And the <code>{</code> and <code>}</code> tell R that all the code in between are part of that function.</li>
 </ul>
 <p>Our function here adds 2 to any number we input.</p>
-<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="functions.html#cb373-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
-<span id="cb373-2"><a href="functions.html#cb373-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="functions.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">5</span>)</span>
-<span id="cb374-2"><a href="functions.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="functions.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
+<span id="cb374-2"><a href="functions.html#cb374-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="functions.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">5</span>)</span>
+<span id="cb375-2"><a href="functions.html#cb375-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span></code></pre></div>
 </div>
 <div id="adding-parameters" class="section level2" number="21.2">
 <h2><span class="header-section-number">21.2</span> Adding parameters</h2>
 <p>Let’s add a single parameter which multiplies the result by 5 if selected.</p>
-<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="functions.html#cb375-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number, <span class="at">times_5 =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb375-2"><a href="functions.html#cb375-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb375-3"><a href="functions.html#cb375-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
-<span id="cb375-4"><a href="functions.html#cb375-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Now we have added a parameter called <code>time_5</code> to the () part of the function and set it the be FALSE by default. Right now it doesn’t do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters).</p>
 <div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="functions.html#cb376-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number, <span class="at">times_5 =</span> <span class="cn">FALSE</span>) {</span>
 <span id="cb376-2"><a href="functions.html#cb376-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb376-3"><a href="functions.html#cb376-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb376-4"><a href="functions.html#cb376-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (times_5 <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb376-5"><a href="functions.html#cb376-5" aria-hidden="true" tabindex="-1"></a>    number <span class="ot">&lt;-</span> number <span class="sc">*</span> <span class="dv">5</span></span>
-<span id="cb376-6"><a href="functions.html#cb376-6" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb376-7"><a href="functions.html#cb376-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb376-8"><a href="functions.html#cb376-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
-<span id="cb376-9"><a href="functions.html#cb376-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb376-3"><a href="functions.html#cb376-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb376-4"><a href="functions.html#cb376-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now we have added a parameter called <code>time_5</code> to the () part of the function and set it the be FALSE by default. Right now it doesn’t do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters).</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="functions.html#cb377-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number, <span class="at">times_5 =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb377-2"><a href="functions.html#cb377-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb377-3"><a href="functions.html#cb377-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb377-4"><a href="functions.html#cb377-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (times_5 <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb377-5"><a href="functions.html#cb377-5" aria-hidden="true" tabindex="-1"></a>    number <span class="ot">&lt;-</span> number <span class="sc">*</span> <span class="dv">5</span></span>
+<span id="cb377-6"><a href="functions.html#cb377-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb377-7"><a href="functions.html#cb377-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb377-8"><a href="functions.html#cb377-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb377-9"><a href="functions.html#cb377-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now our code says if the parameter <code>times_5</code> is TRUE, then do the thing in the squiggly brackets <code>{}</code> below. Note that we use the same squiggly brackets as when making the entire function. That just tells R that the code in those brackets belong together. Let’s try out our function.</p>
-<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="functions.html#cb377-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
-<span id="cb377-2"><a href="functions.html#cb377-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="functions.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>)</span>
+<span id="cb378-2"><a href="functions.html#cb378-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span></code></pre></div>
 <p>It returns 4, as expected. Since the parameter <code>times_5</code> is defaulted to FALSE, we don’t need to specify that parameter if we want it to stay FALSE. When we don’t tell the function that we want it to be TRUE, the code in our “if statement” doesn’t run. When we set <code>times_5</code> to TRUE, it runs that code.</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="functions.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>, <span class="at">times_5 =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb378-2"><a href="functions.html#cb378-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="functions.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add_2</span>(<span class="dv">2</span>, <span class="at">times_5 =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb379-2"><a href="functions.html#cb379-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span></code></pre></div>
 </div>
 <div id="recipes-function" class="section level2" number="21.3">
 <h2><span class="header-section-number">21.3</span> Making a function to scrape recipes</h2>
 <p>In Section <a href="webscraping-with-rvest.html#scraping-one-page">20.1</a> we wrote some code to scrape data from the website <a href="https://www.allrecipes.com/">All Recipes</a> for a recipe. We are going to turn that code into a function here. The benefit is that our input to the function will be an URL and then it will print out the ingredients and directions for that recipe. If we want multiple recipes (and for webscraping you usually will want to scrape multiple pages), we just change the URL we input without changing the code at all.</p>
 <p>We used the <code>rvest</code> package so we need to tell R want to use it again.</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="functions.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="functions.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code></pre></div>
 <p>Let’s start by writing a shell of the function - everything but the code. We can call it <em>scrape_recipes</em> (though any name would work), add in the <code>&lt;- function()</code> and put URL in the () as our input for the function is the URL of the page with the recipe we want. For this function we won’t return any object, we will just print things to the console, so we don’t need the <code>return()</code> value. Don’t forget the <code>{</code> after the end of the <code>function()</code> and <code>}</code> at the very end of the function.</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="functions.html#cb380-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
-<span id="cb380-2"><a href="functions.html#cb380-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb380-3"><a href="functions.html#cb380-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Now we need to add the code that takes the URL, scrapes the website, and saves the ingredients part of the page to an object called <em>ingredients</em> and the directs part to an object called <em>directions</em>. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
 <div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="functions.html#cb381-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
 <span id="cb381-2"><a href="functions.html#cb381-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb381-3"><a href="functions.html#cb381-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
-<span id="cb381-4"><a href="functions.html#cb381-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb381-5"><a href="functions.html#cb381-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
-<span id="cb381-6"><a href="functions.html#cb381-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
-<span id="cb381-7"><a href="functions.html#cb381-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb381-8"><a href="functions.html#cb381-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
-<span id="cb381-9"><a href="functions.html#cb381-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
-<span id="cb381-10"><a href="functions.html#cb381-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
-<span id="cb381-11"><a href="functions.html#cb381-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>The part inside the () of <code>read_html()</code> is the URL of the page we want to scrape. This is the part of the function that will change based on our input. We want whatever input is in the URL parameter to be the URL we scrape. So let’s change the URL of the brownies recipe we scraped previously to simply say URL (without quotes).</p>
+<span id="cb381-3"><a href="functions.html#cb381-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Now we need to add the code that takes the URL, scrapes the website, and saves the ingredients part of the page to an object called <em>ingredients</em> and the directs part to an object called <em>directions</em>. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.</p>
 <div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="functions.html#cb382-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
 <span id="cb382-2"><a href="functions.html#cb382-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb382-3"><a href="functions.html#cb382-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb382-3"><a href="functions.html#cb382-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
 <span id="cb382-4"><a href="functions.html#cb382-4" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb382-5"><a href="functions.html#cb382-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
 <span id="cb382-6"><a href="functions.html#cb382-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
@@ -616,7 +604,7 @@ return(output)<br />
 <span id="cb382-9"><a href="functions.html#cb382-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
 <span id="cb382-10"><a href="functions.html#cb382-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
 <span id="cb382-11"><a href="functions.html#cb382-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>To make this function print something to the console, we need to specifically tell it to do so in the code. We do this using the <code>print()</code> function. Let’s first print the ingredients and then the directions. We’ll add that to the final lines of the function.</p>
+<p>The part inside the () of <code>read_html()</code> is the URL of the page we want to scrape. This is the part of the function that will change based on our input. We want whatever input is in the URL parameter to be the URL we scrape. So let’s change the URL of the brownies recipe we scraped previously to simply say URL (without quotes).</p>
 <div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="functions.html#cb383-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
 <span id="cb383-2"><a href="functions.html#cb383-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb383-3"><a href="functions.html#cb383-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
@@ -627,20 +615,32 @@ return(output)<br />
 <span id="cb383-8"><a href="functions.html#cb383-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
 <span id="cb383-9"><a href="functions.html#cb383-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
 <span id="cb383-10"><a href="functions.html#cb383-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
-<span id="cb383-11"><a href="functions.html#cb383-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb383-12"><a href="functions.html#cb383-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
-<span id="cb383-13"><a href="functions.html#cb383-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
-<span id="cb383-14"><a href="functions.html#cb383-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb383-11"><a href="functions.html#cb383-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To make this function print something to the console, we need to specifically tell it to do so in the code. We do this using the <code>print()</code> function. Let’s first print the ingredients and then the directions. We’ll add that to the final lines of the function.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="functions.html#cb384-1" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb384-2"><a href="functions.html#cb384-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb384-3"><a href="functions.html#cb384-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb384-4"><a href="functions.html#cb384-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb384-5"><a href="functions.html#cb384-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
+<span id="cb384-6"><a href="functions.html#cb384-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb384-7"><a href="functions.html#cb384-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb384-8"><a href="functions.html#cb384-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
+<span id="cb384-9"><a href="functions.html#cb384-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb384-10"><a href="functions.html#cb384-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
+<span id="cb384-11"><a href="functions.html#cb384-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb384-12"><a href="functions.html#cb384-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
+<span id="cb384-13"><a href="functions.html#cb384-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
+<span id="cb384-14"><a href="functions.html#cb384-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now we can try it for a new recipe, this one for “The Best Lemon Bars” at URL <a href="https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/" class="uri">https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/</a>.</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="functions.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_recipes</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>)</span>
-<span id="cb384-2"><a href="functions.html#cb384-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1 cup butter, softened &quot;   &quot;½ cup white sugar &quot;       </span></span>
-<span id="cb384-3"><a href="functions.html#cb384-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;2 cups all-purpose flour &quot; &quot;4 eggs &quot;                  </span></span>
-<span id="cb384-4"><a href="functions.html#cb384-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 ½ cups white sugar &quot;     &quot;¼ cup all-purpose flour &quot; </span></span>
-<span id="cb384-5"><a href="functions.html#cb384-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;2 lemons, juiced &quot;        </span></span>
-<span id="cb384-6"><a href="functions.html#cb384-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Preheat oven to 350 degrees F (175 degrees C).    Advertisement&quot;                                                                                                                                                                                                                                                                         </span></span>
-<span id="cb384-7"><a href="functions.html#cb384-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   In a medium bowl, blend together softened butter, 2 cups flour and 1/2 cup sugar. Press into the bottom of an ungreased 9x13 inch pan.&quot;                                                                                                                                                                                                  </span></span>
-<span id="cb384-8"><a href="functions.html#cb384-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 15 to 20 minutes in the preheated oven, or until firm and golden. In another bowl, whisk together the remaining 1 1/2 cups sugar and 1/4 cup flour. Whisk in the eggs and lemon juice. Pour over the baked crust.&quot;                                                                                                              </span></span>
-<span id="cb384-9"><a href="functions.html#cb384-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Step 4   Bake for an additional 20 minutes in the preheated oven. The bars will firm up as they cool. For a festive tray, make another pan using limes instead of lemons and adding a drop of green food coloring to give a very pale green. After both pans have cooled, cut into uniform 2 inch squares and arrange in a checker board fashion.&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="functions.html#cb385-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scrape_recipes</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>)</span>
+<span id="cb385-2"><a href="functions.html#cb385-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1 cup butter, softened &quot;   &quot;½ cup white sugar &quot;       </span></span>
+<span id="cb385-3"><a href="functions.html#cb385-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;2 cups all-purpose flour &quot; &quot;4 eggs &quot;                  </span></span>
+<span id="cb385-4"><a href="functions.html#cb385-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 ½ cups white sugar &quot;     &quot;¼ cup all-purpose flour &quot; </span></span>
+<span id="cb385-5"><a href="functions.html#cb385-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;2 lemons, juiced &quot;        </span></span>
+<span id="cb385-6"><a href="functions.html#cb385-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Preheat oven to 350 degrees F (175 degrees C).    Advertisement&quot;                                                                                                                                                                                                                                                                         </span></span>
+<span id="cb385-7"><a href="functions.html#cb385-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   In a medium bowl, blend together softened butter, 2 cups flour and 1/2 cup sugar. Press into the bottom of an ungreased 9x13 inch pan.&quot;                                                                                                                                                                                                  </span></span>
+<span id="cb385-8"><a href="functions.html#cb385-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 15 to 20 minutes in the preheated oven, or until firm and golden. In another bowl, whisk together the remaining 1 1/2 cups sugar and 1/4 cup flour. Whisk in the eggs and lemon juice. Pour over the baked crust.&quot;                                                                                                              </span></span>
+<span id="cb385-9"><a href="functions.html#cb385-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Step 4   Bake for an additional 20 minutes in the preheated oven. The bars will firm up as they cool. For a festive tray, make another pan using limes instead of lemons and adding a drop of green food coloring to give a very pale green. After both pans have cooled, cut into uniform 2 inch squares and arrange in a checker board fashion.&quot;</span></span></code></pre></div>
 <p>In the next lesson we’ll use “for loops” to scrape multiple recipes very quickly.</p>
 </div>
 <div id="practice-problems-14" class="section level2" number="21.4">
