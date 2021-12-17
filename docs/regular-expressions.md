@@ -5,7 +5,7 @@ Many word processing programs like Microsoft Word or Google Docs let you search 
   * `grep()` - Find
   * `gsub()` - Find and Replace
 
-The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern (in a data.frame this tells you which row has a match). `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is substitute text with new text. 
+The `grep()` function lets you find a pattern in the text and it will return a number saying which element has the pattern (in a data.frame this tells you which row has a match). `gsub()` lets you input a pattern to find and a pattern to replace it with, just like Find and Replace features elsewhere. You can remember the difference because `gsub()` has the word "sub" in it and what it does is **sub**stitute text with new text. 
 
 A useful cheat sheet on regular expressions is available [here](https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf).
 
@@ -125,7 +125,7 @@ crimes[grep("a", crimes)]
 #> [26] "Weapons Offense"
 ```
 
-Searching for the letter "a" isn't that useful. Let's say we want to subset the data to only include theft related crimes. From reading the list of crimes we can see there are multiple theft crimes - "Larceny Theft", "Motor Vehicle Theft", and "Motor Vehicle Theft?". We may also want to include "Stolen Property" in this search but we'll wait until later in this lesson for how to search for multiple patterns. Since those three crimes all have the word "Theft" in the name we can search for the pattern and it will return only those crimes
+Searching for the letter "a" isn't that useful. Let's say we want to subset the data to only include theft related crimes. From reading the list of crimes we can see there are multiple theft crimes - "Larceny Theft", "Motor Vehicle Theft", and "Motor Vehicle Theft?". We may also want to include "Stolen Property" in this search but we'll wait until later in this lesson for how to search for multiple patterns. Since those three crimes all have the word "Theft" in the name we can search for that pattern and it will return only those crimes.
  
 
 ```r
@@ -139,7 +139,7 @@ crimes[grep("Theft", crimes)]
 #> [1] "Larceny Theft"        "Motor Vehicle Theft"  "Motor Vehicle Theft?"
 ```
 
-A very useful parameter is `value`. When we set `value` to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset (since R no longer knows which rows are a match), it is an excellent tool to check if the `grep()` was successful as we can visually confirm it returns what we want. When we start to learn about special characters which make the patterns more complicated, this will be important.
+A very useful parameter in `grep()` is `value`. When we set `value` to TRUE, it will print out the actual strings that are a match rather than the element number. While this prevents us from using it to subset (since R no longer knows which rows are a match), it is an excellent tool to check if the `grep()` was successful as we can visually confirm it returns what we want. When we start to learn about special characters which make the patterns more complicated, this will be important.
 
 
 ```r
@@ -473,7 +473,7 @@ grep("[aeiou]{3}", crimes, value = TRUE)
 
 ### n-many to m-many of previous character `{n,m}`
 
-While `{n}` says "the previous character (or characters inside a `[]`) must be present exactly n times", we can allow a range by using `{n,m}`. Here the previous character must be present between n and m times.
+While `{n}` says "the previous character (or characters inside a `[]`) must be present exactly n times", we can allow a range by using `{n,m}`. Here the previous character must be present between n and m times (inclusive).
 
 We can check for values where there are 2-3 vowels in a row. Note that there cannot be a space before or after the comma.
 
@@ -725,7 +725,7 @@ grep("(Offense)", crimes, value = TRUE)
 
 Running the above code returns the same results as if we didn't include the parentheses. The usefulness of parentheses comes when combining it with the `|` symbol to be able to check "(X|Y) Z"), which says, "look for either X or Y which must be followed by Z". 
 
-Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say, "search for either the word 'Drug'"' or the word 'Family' and they should be followed by the word 'Offense'."
+Running just "(Offense)" returns values for multiple types of offenses. Let's say we just care about Drug and Weapon Offenses. We can search for "Offense" normally and combine `()` and `|` to say, "search for either the word 'Drug' or the word 'Family' and they should be followed by the word 'Offense'."
 
 
 ```r

@@ -57,7 +57,7 @@ Checking "2" (in quotes), gives us four different types of data for this value: 
 is(TRUE)
 ```
 
-Finally, checking what TRUE is returns both "logical" and "vector". We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character and if we don't have quotes R will think that it is an object (such as something we make using `<-` and not a Boolean).
+Finally, checking what TRUE is returns both "logical" and "vector". We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character and if we have it lowercase and without quotes R will think that it is an object (such as something we make using `<-` and not a Boolean).
 
 ```{r}
 is("TRUE")
@@ -87,7 +87,7 @@ is.character(2)
 is.logical(TRUE)
 ```
 
-So far we've just been checking the value of a single thing: a single number, a single character/string, or a single Boolean value. In practice almost everything we do will be on a column of a data set. These functions still work in the exact same way. We input the column (using the data$column syntax discussed in Chapter \@ref(intro-to-r) to specify which data set we want and which column in that data set) and the function will behave just like it did above. That's because each column can only be a single type of data; if the column is numeric, all values will be numeric; if the column is character, all values in that column are character; if the column is logical, every value in that column is also logical. 
+So far we've just been checking the value of a single thing: a single number, a single character/string, or a single logical/Boolean value. In practice almost everything we do will be on a column of a data set. These functions still work in the exact same way. We input the column (using the data$column syntax discussed in Chapter \@ref(intro-to-r) to specify which data set we want and specifically which column in that data set) and the function will behave just like it did above. That's because each column can only be a single type of data; if the column is numeric, all values will be numeric; if the column is character, all values in that column are character; if the column is logical, every value in that column is also logical. 
 
 Let's use the UCR data from 2017 that was introduced in Chapter \@ref(intro-to-r). Remember that the data must be in your working directory to load it. And here I have "data/" before the data name because the data is in a folder called "data" in my working directory. For more on working directories, please see Section \@ref(setting-the-working-directory).
 
@@ -114,11 +114,11 @@ is.numeric(ucr2017$year)
 
 ## Data structures
 
-We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
+We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 data set which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good to understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
 
 ### Vectors (collections of "things") {#vectors}
 
-The first data structure we'll discuss is a vector. A vector is a collection of same type (numeric, character, logical) values in a single object. When we made *a* in Chapter \@ref(intro-to-r), we assigned it only a single value, such as `a <- 1`. Usually we'll want to have a group of values - such as a set of years or a group of crime types - rather than just a single value. We can do this by using the same assignment method as `a <- 1` but put all of the values we want to assign to a into the function `c()` and separate each value by a comma. The `c()` function **c**ombines each value together into a single vector.
+The first data structure we'll discuss is a vector. A vector is a collection of same type (numeric, character, logical, Date) values in a single object. When we made "a" in Chapter \@ref(intro-to-r), we assigned it only a single value, such as `a <- 1`. Usually we'll want to have a group of values - such as a set of years or a group of crime types - rather than just a single value. We can do this by using the same assignment method as `a <- 1` but put all of the values we want to assign to a into the function `c()` and separate each value by a comma. The `c()` function **c**ombines each value together into a single vector.
 
 Now, technically a single value, such as our object called "a" which now equals 1, is still a vector. In this case it'd be a vector of length 1, since there is only one value in it. But when we generally talk about vectors there are multiple elements in it. 
 
@@ -144,7 +144,7 @@ The terminology for talking about values in a vector is that each value is calle
 
 If we assigned a to b (`b <- a`) we don't need to use the `c()` again. a is already a vector so if we assign its value to something, that carries over the vector. The `c()` is only necessary when first creating the vector.
 
-Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type, R will automatically convert it. 
+Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type, R will automatically convert it to the same type. 
 
 ```{r}
 c("cat", "dog", 2)
@@ -152,9 +152,9 @@ c("cat", "dog", 2)
 
 Above we made a vector with the values "cat", "dog" and 2 (without quotes) and it added quotes to the 2. Since everything must be the same type, R automatically converted the 2 to a string of "2".
 
-### Data.frames
+### Data.frames {#dataframes}
 
-Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of rows. You can't have, for example, a data.frame with 10 rows of data for the city and only 8 for the year. It must be 10 for each. Since vectors can only be a single type, each row in a particular column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame which has both numeric and character type columns. 
+Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of rows. You can't have, for example, a data.frame with 10 rows of data for the city column and only 8 rows for the year column. It must be 10 for each. Since vectors can only be a single type, each row in a particular column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame which has both numeric and character type columns. 
 
 In this book I'll refer to data.frames by keeping it all lower case and with a dot between the words. This is just because the function to make one is `data.frame()` and writing it this way is the normal convention. But writing it as a data frame is also fine. In nearly all cases we'll be using data that is loaded into R and is already in the structure of a data.frame (usually these will be Excel files or R data files like an .rda or .rds file).
 
@@ -192,7 +192,7 @@ As with other objects, we can use the `is()` function to see what type it is. If
 is(example)
 ```
 
-We also often will want to know how many columns and rows a data.frame has. For finding the number of rows we use the function `nrow()` and for finding the number of columns we'll use the `ncol()` column.^[We could also use the `dim()` function which tells the dimensions of the data.frame - so how many rows and columns it has. This function returns a vector showing first the number of rows and then the number of columns. But I find it easier to simply ask for the number of rows or columns separately, and to not deal with the result which has two values.] In each the "n" part of the function just stands for number. So `nrow()` is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R) and it will return the number of rows/columns.
+We also often will want to know how many columns and rows a data.frame has. For finding the number of rows we use the function `nrow()` and for finding the number of columns we'll use the `ncol()` function.^[We could also use the `dim()` function which tells the dimensions of the data.frame - so how many rows and columns it has. This function returns a vector showing first the number of rows and then the number of columns. But I find it easier to simply ask for the number of rows or columns separately, and to not deal with the result which has two values.] In each the "n" part of the function just stands for number. So `nrow()` is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R) and it will return the number of rows/columns.
 
 ```{r}
 nrow(example)
@@ -202,29 +202,30 @@ nrow(example)
 ncol(example)
 ```
 
-Alternatively, we could have looked in the Environment tab which shows us the number of rows and columns of each data.frame that is loaded to R. For example, ucr2017 says it has "15764 obs. of 9 variables". This just means there are 15,764 rows and 9 variables. A variable in this context is just another way to say a column. However, you'll occasionally want to have the exact number of rows and columns and as you'll often delete certain rows and columns from your data this can change throughout your code so being able to use `nrow()` and `ncol()` is easier than repeatedly checking the Environment tab. 
+Alternatively, we could have looked in the Environment tab which shows us the number of rows and columns of each data.frame that is loaded to R. For example, ucr2017 says it has "15764 obs. of 9 variables". This just means there are 15,764 rows and 9 variables. A variable in this context is just another way to say a column. However, you'll occasionally want to find the exact number of rows and columns and as you'll often delete certain rows and columns from your data this can change throughout your code. So being able to use `nrow()` and `ncol()` is easier than repeatedly checking the Environment tab. 
 
-You may encounter something called a data.table or a tibble. These are two popular variations of data.frames that operate much the same way as data.frames but with some different features. 
+You may encounter something called a data.table or a tibble. These are two popular variations of data.frames that operate much the same way as data.frames but with some different features. We'll use tibbles in this book so will discuss their features when we use them.
 
 ### Other data structures
 
-There are two other data structures that I'll mention only so you have heard of them and can look up more information on them if you'd like. However, these are not *that* important to know about for the purpose of this book, which is specifically on being able to conduct research in criminology using R. Some of these structures may come up in rare cases when you're programming, so it's important to know that they exist.
+There are two other data structures that I'll mention only so you have heard of them and can look up more information on them if you'd like. However, these are not *that* important to know about for the purpose of this book. Some of these structures may come up in rare cases when you're programming, so it's important to know that they exist.
 
-The first data structure is a list. A list is essentially a vector but where different values can be different types. Lists are actually very powerful data structures and ones that you'll encounter a lot when using R, but are almost entirely on the backed of R so not things you'll actually deal with much. For example, all data.frames are actually lists. And more specifically, they are a list of vectors. Lists can come in handy because they can store different types of data structures. A single list can, for example, have a number, a vector, a matrix (discussed below), and an entire data.frame inside. Lists can even have other lists inside of them. Let's look at an example of this.
+The first data structure is a list. A list is essentially a vector but where different values can be different types. Lists are actually very powerful data structures and ones that you'll encounter a lot when using R, but are almost entirely on the backend of R so not things you'll actually deal with much. For example, all data.frames are actually lists. And more specifically, they are a list of vectors. Lists can come in handy because they can store different types of data structures. A single list can, for example, have a number, a vector, a matrix (discussed below), and an entire data.frame inside. Lists can even have other lists inside of them. Let's look at an example of this.
 
 ```{r}
 list_example <- list("hello", 1:5, 6:10, list(c(33, 66, 99)), head(mtcars))
 head(list_example)
 ```
+
 The list that I called list_example contains six different elements in it: a character, two numeric vectors, a list of a numeric vector, and the first six rows of the mtcars data.frame. Lists can be useful when storing many different objects at once, but as they are not used too often for research-related programming I'll say no more of them. 
 
-The other type of data structure is a matrix. A matrix is a two-dimensional object where every value is the same type. Think of a data.frame but each column has to be the same type. Below is an example of a matrix, I just made a simple one with values 1 through 50 and with five columns and five rows. Every value here is a number.
+The other type of data structure is a matrix. A matrix is a two-dimensional object where every value is the same type. Think of a data.frame but each column has to be the same type. Below is an example of a matrix with values 1 through 50 and with five columns and five rows. Every value here is a number.
 
 ```{r}
 matrix(1:50, nrow = 5, ncol = 5)
 ```
 
-If I change it to have the first value be "1" (in quotes so it is a character) and the others be the numbers 2 through 50, the matrix will automatically convert everything to a character type. So it will remain having everything be the same type, but now nothing is a number.
+If I change it to have the first value be "1" (in quotes so it is a character) and the others be the numbers 2 through 50, the matrix will automatically convert everything to a character type. So it will remain having everything be the same type, but now everything is a character.
 
 ```{r}
 matrix(c("1", 2:50), nrow = 5, ncol = 5)

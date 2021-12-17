@@ -2,7 +2,7 @@
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
 
-When you're using data for research the end result is usually a regression or a graph (or both) and that requires your data to be in a particular format. Usually your data should have one row for each unit of analysis and each column should have information about that unit. As an example, if you wanted to study city-level crime over time, you'd have each row be a single city in a single time period. If you looked at 10 different time periods, say 10 years, you'd have 10 rows for each city. And each column would have information about that city in that time period, such as the number of murders that occurred. 
+When you're using data for research, the end result is usually a regression or a graph (or both) and that requires your data to be in a particular format. Usually your data should have one row for each unit of analysis and each column should have information about that unit. As an example, if you wanted to study city-level crime over time, you'd have each row be a single city in a single time period. If you looked at 10 different time periods, say 10 years, you'd have 10 rows for each city. And each column would have information about that city in that time period, such as the number of murders that occurred. 
 
 This is what is known as "long" format as this data often has many rows and few columns. The alternative is what's known as "wide" format where each row (in our example) is a single agency and you'd have 10 times as many columns as in "long" data as there are 10 time periods. Whereas with "long" data you'd have, for example, a "murder" column and 10 rows showing the murder in each year, with "wide" data you'd have 10 murder columns showing the value for each year's murder count. While long data is more commonly used in criminology research, some statistical and graphing approaches require wide data. If this seems like an abstract concept, bear with it for a bit as we'll go over several examples in this chapter.
 
@@ -21,9 +21,9 @@ library(readxl)
 sqf <- read_excel("data/sqf-2019.xlsx")
 ```
 
-The first thing we want to do when loading in a new data set to R is to look at it. We can do this a few different ways, including using `View()` which opens up an Excel-like tab where we can scroll through the data, and through `head()` which prints the first 6 rows of every column to the console. The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that is doesn't print out every single column when we use `head()` to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console.
+The first thing we want to do when loading in a new data set to R is to look at it. We can do this a few different ways, including using `View()` which opens up an Excel-like tab where we can scroll through the data, and through `head()` which prints the first 6 rows of every column to the console. The `readxl` package converts the data into a "tibble" which is essentially a modified data.frame. One of the modifications is that it doesn't print out every single column when we use `head()` to view the first 6 rows of each column. That's because tibble's don't want to print large amounts of text to the console.
 
-Normally we'd use `head()` to look at the data, but as there are dozens of columns of this data, I don't want to print out the first six rows of every column to the console as it will take up a lot of space in the book. If this were real data you were working on, you would use `head()` or `View()` to look at the data. Instead, here we'll use `names()` to see what columns are in the data. Let's also use `nrow()` to see how many rows of data we have.
+Normally we'd use `head()` to look at the data, but as there are dozens of columns in this data, I don't want to print out the first six rows of every column to the console as it will take up a lot of space in the book. If this were real data you were working on, you would use `head()` or `View()` to look at the data. Instead, here we'll use `names()` to see what columns are in the data. Let's also use `nrow()` to see how many rows of data we have.
 
 
 ```r
@@ -118,13 +118,15 @@ nrow(sqf)
 
 Each row of data is a stop and frisk, and there were 13,459 in 2019. That number may seem low to you, especially if you've read articles about how frequent stop and frisks happens in New York City. It is correct - at least correct in terms of reported stops. Stop and frisks in New York City peaked in 2011 with nearly 700,000 conducted, and then fell sharply after that to fewer than 23,000 from 2015 through 2019 (the last year available at the time of this writing). 
 
-Looking at the results of `head()`, we can see that this is a rich data set with lots of information about each stop (though many columns also have missing data, so not as rich as it initially appears). Each stop has, for example, the date and time of the stop, whether an arrest was made and for what, physical characteristics (race, sex, age, height, weight, clothing) of the person stopped, and the location of the stop. One important variable that's missing is a unique identifier for either the officer or the person stopped so we can see how often they are in the data. The "ISSUING_OFFICER_COMMAND_CODE" variable may be a unique ID for the officer but it's not clear that it is - there are different officer ranks for the same command code so this appears to me to be different officers. 
+Looking at the results of `names()`, we can see that this is a rich data set with lots of information about each stop (though many columns also have missing data, so it is not as rich as it initially appears). Each stop has, for example, the date and time of the stop, whether an arrest was made and for what, physical characteristics (race, sex, age, height, weight, clothing) of the person stopped, and the location of the stop. One important variable that's missing is a unique identifier for either the officer or the person stopped so we can see how often they are in the data. The "ISSUING_OFFICER_COMMAND_CODE" variable may be a unique ID for the officer but it's not clear that it is - there are different officer ranks for the same command code so this appears to me to be different officers. 
 
 ## Reshaping a single column
 
 Relative to most data sets in criminology, this is an enormous amount of information. So I encourage you to explore this data and practice your R skills. As this chapter focuses on reshaping, we won't do much exploring of the data. This data is in long format as each row is a different stop and the columns are information about that specific stop. We can't convert this to wide format as there are no repeated entries in the data; each row is of a unique person stopped (at least as far as we can tell. In reality there are likely to be many people stopped multiple times in the data). We could use another variable such as stopped persons' race or gender and reshape it using that, but that'll lead to many thousands of columns so is not a great idea. 
 
-Instead, we'll first aggregate the data and then reshape that aggregated data. We'll aggregate the data by month and by day of week and see how many people of each race were stopped at each month-day-of-week. In addition to `tidyr`, we'll use functions from `dplyr` to aggregate our data. Since we've already installed that package we just need to use `library()` and don't need to use `install.packages()` again. We've already used the `group_by()` function in aggregating, and now we'll introduce a new function: `count()`. In our earlier aggregation code (introduced in Section \@ref(aggregate)), we used the function `summarize()` and summed up columns which had a numeric variable (e.g. the number of murders). `count()` works similarly by sums up categorical variables, which in our case is the race of people stopped. Using `count()` we enter in the categorical column in the parentheses, and it'll make a new column called "n" which is the sum of each category. Since we're aggregating the data let's save the result of our aggregating to a new object called "sqf_agg".
+Instead, we'll first aggregate the data and then reshape that aggregated data. We'll aggregate the data by month and by day of week and see how many people of each race were stopped at each month-day-of-week. In addition to `tidyr`, we'll use functions from `dplyr` to aggregate our data. Since we've already installed that package we just need to use `library()` and don't need to use `install.packages()` again. 
+
+We've already used the `group_by()` function in aggregating, and now we'll introduce a new function: `count()`. In our earlier aggregation code (introduced in Section \@ref(aggregate)), we used the function `summarize()` and summed up columns which had a numeric variable (e.g. the number of murders). `count()` works similarly by sums up categorical variables, which in our case is the race of people stopped. Using `count()` we enter in the categorical column in the parentheses, and it'll make a new column called "n" which is the sum of each category. Since we're aggregating the data let's assign the result of our aggregating to a new object called "sqf_agg".
 
 
 ```r
@@ -161,7 +163,7 @@ head(sqf_agg)
 #> 6 April  Friday WHITE HISPANIC              31
 ```
 
-Each row is now a month-day-of-week-race combination and we have two additional columns: first the person stopped's race and then the "n" column which says how many people of that race were stopped in that month-day-of-week. The first race is "(null)" which means we don't know the race. We could keep these values as an "unknown" race but for simplicity we'll just remove those using `filter()`. 
+Each row is now a month-day-of-week-race combination and we have two additional columns: first the person stopped's race and then the "n" column which says how many people of that race were stopped in that month-day-of-week. The first race is "(null)" which means we don't know the race. We could keep these values as an "unknown" race but for simplicity we'll just remove them using `filter()`. 
 
 To make sure we only have values we expect, we can use the `unique()` function to check that we have only months and week days we expect, and that our race names are consistent. This is important because even though you know, for example, that there are only seven days in a week, there may be more in our data due to typos or erroneous data entry. So it is always good to check.
 
@@ -180,9 +182,10 @@ unique(sqf_agg$SUSPECT_RACE_DESCRIPTION)
 #> [5] "WHITE"                     "WHITE HISPANIC"           
 #> [7] "AMERICAN INDIAN/ALASKAN N"
 ```
-The months and days of the week look good. For an actual data analysis we may want to combine the Hispanic values to a single "Hispanic" value instead of splitting it between 'BLACK HISPANIC" and "WHITE HISPANIC" but for this lesson we'll leave it as it is.
 
-Now, we want to reshape the data from its current long format to a wide format. We do this using the `pivot_wider()` function from the `tidyr` package. In the function we need to input two values, the name of the column which has the column which identify what each value in the row means, and the column which has that value. In our case this is the "SUSPECT_RACE_DESCRIPTION" column and the "n" column. We don't need to put the column names in quotes. These function parameters are called "names_from" and "values_from" so we'll also include that in the `pivot_wider()` function. And finally before we run `pivot_wider()` we'll first use `filter()` to remove any row where the race is "(null)". We'll save the result of this code to an object called "sqf_agg_wide" and use `head()` to look at this result. 
+The months and days of the week look good. For an actual data analysis we may want to combine the Hispanic values to a single "Hispanic" value instead of splitting it between "BLACK HISPANIC" and "WHITE HISPANIC", but for this lesson we'll leave it as it is.
+
+Now, we want to reshape the data from its current long format to a wide format. We do this using the `pivot_wider()` function from the `tidyr` package. In the function we need to input two values, the name of the column which identifies what each value in the row means, and the column which has that value. In our case this is the "SUSPECT_RACE_DESCRIPTION" column and the "n" column. We don't need to put the column names in quotes. These function parameters are called "names_from" and "values_from" so we'll also include that in the `pivot_wider()` function. And finally before we run `pivot_wider()` we'll first use `filter()` to remove any row where the race is "(null)". We'll assign the result of this code to an object called "sqf_agg_wide" and use `head()` to look at this result. 
 
 
 ```r
@@ -192,27 +195,27 @@ sqf_agg_wide <- sqf_agg %>%
 head(sqf_agg_wide)
 #> # A tibble: 6 x 8
 #> # Groups:   MONTH2, DAY2 [6]
-#>   MONTH2 DAY2     `ASIAN / PACIFIC ISLANDER` BLACK `BLACK HISPANIC` WHITE `WHITE HISPANIC`
-#>   <chr>  <chr>                         <int> <int>            <int> <int>            <int>
-#> 1 April  Friday                            1   104               17    16               31
-#> 2 April  Monday                            1    92               10    32               29
-#> 3 April  Saturday                          3   115               24    24               44
-#> 4 April  Sunday                            2    96               12    15               38
-#> 5 April  Thursday                          2   122               10    18               38
-#> 6 April  Tuesday                           7   137               14    20               49
+#>   MONTH2 DAY2     `ASIAN / PACIFI~ BLACK `BLACK HISPANIC` WHITE `WHITE HISPANIC`
+#>   <chr>  <chr>               <int> <int>            <int> <int>            <int>
+#> 1 April  Friday                  1   104               17    16               31
+#> 2 April  Monday                  1    92               10    32               29
+#> 3 April  Saturday                3   115               24    24               44
+#> 4 April  Sunday                  2    96               12    15               38
+#> 5 April  Thursday                2   122               10    18               38
+#> 6 April  Tuesday                 7   137               14    20               49
 #> # ... with 1 more variable: AMERICAN INDIAN/ALASKAN N <int>
 ```
 
 Now instead of having one row be a month-day-of-week-race combination, each row is a month-day-of-week pair and we have one column for every race in our data. Each of these race columns tell us how many people of that race were stopped in that month-day-of-week. This allows for really easy comparison of things like racial differences in stops for each month-day-of-week as we just look at different columns in the same row. We have now successfully done our first reshaping, moving this data from long to wide format!
 
-Now we want to reshape it again to go from wide to long. Our race columns names just took the values from the race column which means that we have column names all in capital letters and with spaces and slashes in it. We could technically use this as it is but it's a bit trickier to use any name with punctuation in it, and is against R column name convention, so we'll quickly fix this. To do so we'll use the package `make_clean_names()` function from the janitor package that automatically makes all character inputs to the function lowercase and replaces all punctuation with an underscore. First we need to install the package with `install.packages()`. 
+Now we want to reshape it again to go from wide to long. Our race columns names just took the values from the race column which means that we have column names all in capital letters and with spaces and slashes in them. We could technically use this as it is but it's a bit trickier to use any name with punctuation in it, and is against R column name convention, so we'll quickly fix this. To do so we'll use the `make_clean_names()` function from the `janitor` package that automatically makes all character inputs to the function lowercase and replaces all punctuation with an underscore. First, we need to install the package with `install.packages()`. 
 
 
 ```r
 install.packages("janitor")
 ```
 
-To use this function on the column names we'll make the input of the function `names(sqf_agg_wide)` which returns the names of the "sqf_agg_wide" data and save the result also into `names(sqf_agg_wide)`. It might look weird to put a function inside of a function but R is completely fine with it. Running `names(sqf_agg_wide)` at the end will print out the column names so we can check that it worked.
+To use this function on the column names we'll make the input of the function `names(sqf_agg_wide)` which returns the names of the "sqf_agg_wide" data and assign the result back into `names(sqf_agg_wide)`. It might look weird to put a function inside of a function but R is completely fine with it. Running `names(sqf_agg_wide)` at the end will print out the column names so we can check that it worked.
 
 
 ```r
@@ -258,7 +261,7 @@ head(sqf_agg_long)
 #> 6 April  Friday american_indian_alaskan_n                       NA
 ```
 
-In some cases you'll have many columns that you want to include while reshaping which makes writing them all out by hand time consuming. If all of the columns are sequential you can use a trick in this function to writing `first_column:last_column` where the : will make it include each column (in order) from the first one you input to the last one. This is doing the same thing as `1:3` which returns 1, 2, and 3, but for columns instead of numbers. This doesn't work in most cases but does work for many tidyverse packages. There are also a large number of functions from the `dplyr` package that are for selecting columns, and are very helpful for doing things like this. The functions are numerous and have changed relatively frequently in the past so I won't cover them in this book, but if you're interested you can look at them on [this page](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) of `dplyr`'s website.
+In some cases you'll have many columns that you want to include while reshaping which makes writing them all out by hand time consuming. If all of the columns are sequential you can use a trick in this function by writing `first_column:last_column` where the : will make it include each column (in order) from the first one you input to the last one. This is doing the same thing as `1:3` which returns 1, 2, and 3, but for columns instead of numbers. This doesn't work in most cases but does work for many tidyverse packages. There are also a large number of functions from the `dplyr` package that are for selecting columns, and are very helpful for doing things like this. The functions are numerous and have changed relatively frequently in the past so I won't cover them in this book, but if you're interested you can look at them on [this page](https://dplyr.tidyverse.org/reference/dplyr_tidy_select.html) of `dplyr`'s website.
 
 
 ```r
@@ -288,7 +291,7 @@ So far we've just been reshaping using a single column. This is the simplest met
 sqf_agg$n2 <- sqf_agg$n + 10
 ```
 
-Since these columns both relate to the race column (called "SUSPECT_RACE_DESCRIPTION") we can reuse the `pivot_wider()` code from before but now the `values_from` parameter takes a vector of column names instead of a single column name. Here we want to include both the "n" and the "n2" column. Since it's a `dplyr` function it's not necessary to put the column names in quotes. We also want to keep our `filter()` function from before which removes "(null)" races and then add a `head()` function at the end so it prints out the first six columns of our resulting data set. 
+Since these columns both relate to the race column (called "SUSPECT_RACE_DESCRIPTION") we can reuse the `pivot_wider()` code from before but now the `values_from` parameter takes a vector of column names instead of a single column name. Here we want to include both the "n" and the "n2" column. Since it's a `dplyr` function it's not necessary to put the column names in quotes. We also want to keep our `filter()` function from before which removes "(null)" races and then add a `head()` function at the end so it prints out the first six rows of our resulting data set. 
 
 
 ```r

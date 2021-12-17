@@ -46,7 +46,7 @@ shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in%
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
-# Sort data by largest to smallest percent change
+# Sort data by smallest to largest percent change
 shr_difference <- 
   shr_2019_and_2020 %>%
   group_by(year) %>%
@@ -59,7 +59,7 @@ shr_difference <-
   arrange(percent_change)
 
 # This is only for the graph. By default graphs order alphabetically but this makes
-# sure it orders it based on the ordering we made above (largest to smallest percent
+# sure it orders it based on the ordering we made above (smallest to largest percent
 # change)
 shr_difference$victim_1_relation_to_offender_1 <- 
   factor(shr_difference$victim_1_relation_to_offender_1,
@@ -148,7 +148,7 @@ shr_difference
 
 ### Graphing
 
-Once we have our data cleaned and organized in the way we want, we are ready to graph it. By default when R graphs data it will organize it alphabetically. In our case we want it ordered by largest to smallest change in the number of murders between 2019 and 2020 by relationship type. So we first tell R to order it by the relationship type variable which we've already sorted in the last section of code. Then we use the `ggplot()` function (which is covered extensively in Chapters \@ref(graphing-intro) and \@ref(ois-graphs)) to make our graph. In our code we include the data set we're using, which is the shr_difference data and the columns we want to graph. Then we tell it we want to create a bar chart and what we want the x-axis and y-axis labels to be. Finally, we have two lines that just affect how the graph looks. All of this is covered in the two graphing chapters, but is only several lines of code to go from cleaned data to a beautiful - and informative - graphic. 
+Once we have our data cleaned and organized in the way we want, we are ready to graph it. By default when R graphs data it will organize it alphabetically. In our case we want it ordered by smallest to largest change in the number of murders between 2019 and 2020 by relationship type. So we first tell R to order it by the relationship type variable which we've already sorted in the last section of code. Then we use the `ggplot()` function (which is covered extensively in Chapters \@ref(graphing-intro) and \@ref(ois-graphs)) to make our graph. In our code we include the data set we're using, which is the shr_difference data and the columns we want to graph. Then we tell it we want to create a bar chart and what we want the x-axis and y-axis labels to be. Finally, we have two lines that just affect how the graph looks. All of this is covered in the two graphing chapters, but is only several lines of code to go from cleaned data to a beautiful - and informative - graphic. 
 
 ```{r}
 shr_difference$victim_1_relation_to_offender_1 <- 

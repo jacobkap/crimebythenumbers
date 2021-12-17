@@ -3,15 +3,15 @@
 For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): AbbreRptCurrent.pdf and PregnantFemaleReportingCurrent.pdf.
 
 
-In Chapter \@ref(scrape-table) we used the package `pdftools` to scrape tables on arrests/seizures from the United States Border Patrol that were only available in a PDF. Given the importance of PDF scraping, in this chapter we'll continue working on scraping tables from PDFs. Here we will use the package `tabulizer` which has a number of features making it especially useful for grabbing tables from PDFs.
+In Chapter \@ref(scrape-table) we used the package `pdftools` to scrape tables on arrests/seizures from the US Customs and Border Protection that were only available in a PDF. Given the importance of PDF scraping, in this chapter we'll continue working on scraping tables from PDFs. Here, we will use the package `tabulizer` which has a number of features making it especially useful for grabbing tables from PDFs.
 
 One issue which we saw in Chapter \@ref(scrape-table) is that the table may not be the only thing on the page - the page could also have a title, page number, etc. When using `pdftools` we use regular expressions and subsetting to remove all the extra lines. Using `tabulizer` we can simply say (through a handy function) that we only want a part of the page, so we only scrape the table itself.  For more info about the `tabulizer` package please see its site [here](https://docs.ropensci.org/tabulizer/). 
 
 ## Texas jail data
 
-For this chapter we'll scrape data from the Texas Commission on Jail Standards - Abbreviated Population Report. This is a report that shows monthly data on people incarcerated in jails for counties in Texas. This PDF is 9 pages long because of how many counties there are in Texas. Let's take a look at what the first page looks like. If you look at the PDF yourself you'll see that every page follows the format of the 1st page, which greatly simplifies our scrape. The data is in county-month units which means that each row of data has info for a single county in a single month. We know that because the first column is "County" and each row is a single county (this is not true is every case. For example, on page 3 there are the rows 'Fannin 1(P)' and 'Fannin 2(P)', possibly indicating that there are two jails in that county. It is unclear from this PDF what the '(P)' means.). For knowing that the data is monthly, the title of this document says 'for 06/01/2020' indicating that it is for that date, though this doesn't by itself mean the data is monthly - it could be daily based only on this data. 
+For this chapter we'll scrape data from the Texas Commission on Jail Standards - Abbreviated Population Report. This is a report that shows monthly data on people incarcerated in jails for counties in Texas. This PDF is 9 pages long because of how many counties there are in Texas. Let's take a look at what the first page looks like. If you look at the PDF yourself you'll see that every page follows the format of the 1st page, which greatly simplifies our scrape. The data is in county-month units which means that each row of data has info for a single county in a single month. We know that because the first column is "County" and each row is a single county (this is not true in every case. For example, on page 3 there are the rows "Fannin 1(P)" and "Fannin 2(P)", possibly indicating that there are two jails in that county. It is unclear from this PDF what the "(P)" means.). For knowing that the data is monthly, the title of this document says "for 06/01/2020" indicating that it is for that date, though this doesn't by itself mean the data is monthly - it could be daily based only on this data. 
 
-To know for sure that it is monthly data we'd have to go to the original source on the Texas Commission on Jail Standards website [here](https://www.tcjs.state.tx.us/historical-population-reports/#1580454195676-420daca6-0a306). On this page it says that 'Monthly population reports are available for review below," which tells us that the data is monthly. It's important to know the unit so you can understand the data properly - primarily so you know what kinds of questions you can answer. If someone asks whether yearly trends on jail incarceration change in Texas, you can answer that with this data. If they ask whether more people are in jail on a Tuesday than on a Friday, you can't.
+To know for sure that it is monthly data we'd have to go to the original source on the Texas Commission on Jail Standards website [here](https://www.tcjs.state.tx.us/historical-population-reports/#1580454195676-420daca6-0a306). On this page it says that "Monthly population reports are available for review below," which tells us that the data is monthly. It's important to know the unit so you can understand the data properly - primarily so you know what kinds of questions you can answer. If someone asks whether yearly trends on jail incarceration change in Texas, you can answer that with this data. If they ask whether more people are in jail on a Tuesday than on a Friday, you can't.
 
 Just to understand what units our data is in we had to look at both the PDF itself and the site it came from. This kind of multi-step process is tedious but often necessary to truly understand your data. And even now we have questions - what does the (P) that's in some rows mean? For this we'd have to email or call the people who handle the data and ask directly. This is often the easiest way to answer your question, though different organizations have varying speeds in responding - if ever. 
 
@@ -127,7 +127,7 @@ tail(data[[2]])
 #> [29,] "3"   "0"   "143" "21"  "164" "301" "54.49" "107"
 ```
 
-We're looking just at the `head()` and `tail()` to get the first and last six rows as otherwise we'd print out all 29 rows in that table. When you are exploring you own data, you'll probably want to be more thorough and ensure that rows around the middle are also correct - but this is a good first pass. If you look at the output we just printed out and compare it to the PDF, you'll see that the scrape was successful. Every row is where it should be and the columns are correct - unlike when using `pdftools()`, we have the results already in proper columns.
+We're looking just at the `head()` and `tail()` to get the first and last six rows as otherwise we'd print out all 29 rows in that table. When you are exploring your own data, you'll probably want to be more thorough and ensure that rows around the middle are also correct - but this is a good first pass. If you look at the output we just printed out and compare it to the PDF, you'll see that the scrape was successful. Every row is where it should be and the columns are correct - unlike when using `pdftools()`, we have the results already in proper columns.
 
 One thing to note is that this data isn't in a data.frame format, it's in a matrix. Matrices are the default output of `extract_tables()` though you can set it to output a data.frame by setting the parameter `output = "data.frame"`. In our case we actually wouldn't want that due to the issue of the column names. As shown below, outputting to a data.frame will automatically take the first row of data and convert that to column names. So now we have our first county as the column names, which is not correct. Note too that the function added "X" before the column names which are numbers. That's because column names cannot start with a number so the function tries to fix it by adding the "X" to the start. 
 
@@ -158,7 +158,7 @@ Let's rerun the `extract_tables()` function, this time keeping it as outputting 
 data <- extract_tables(file = "data/AbbreRptCurrent.pdf")
 ```
 
-Since the column names are the same of each page, we can set the names manually. There are 20 columns so this will be a lot of writing, but it's simpler and quicker than trying to do it programmatically. Since each table will have the same column names, we'll want to create a vector with the column names to use for every table. Following normal naming conventions, we'll make everything lowercase and the only punctuation we'll use is an underscore.
+Since the column names are the same on each page, we can set the names manually. There are 20 columns so this will be a lot of writing, but it's simpler and quicker than trying to do it programmatically. Since each table will have the same column names, we'll want to create a vector with the column names to use for every table. Following normal naming conventions, we'll make everything lowercase and the only punctuation we'll use is an underscore.
 
 
 ```r
@@ -184,7 +184,7 @@ column_names <- c("county",
                   "available_beds")
 ```
 
-We can combine the results from this vector with that of the second table to have a complete table from page 1 of our PDF. We do this first by making the second element from our data object into a data.frame. Then we use `names()` and assign the column names to that of the vector of names we just made. Since this is the table from page 1 of the PDF, we'll call the object `page1_table`. We'll look just at the `head()` and `tail()` of our page1_table object.
+We can combine the results from this vector with that of the second table to have a complete table from page 1 of our PDF. We do this first by making the second element from our data object into a data.frame. Then we use `names()` and assign the column names to that of the vector of names we just made. Since this is the table from page 1 of the PDF, we'll call the object *page1_table*. We'll look just at the `head()` of our *page1_table* object.
 
 
 ```r
@@ -234,54 +234,11 @@ head(page1_table)
 #> 4              129            212               60.85             62
 #> 5               35             48               72.92              0
 #> 6                2              8               25.00              0
-tail(page1_table)
-#>        county pretrial_felons conv_felons
-#> 24     Brooks              15           1
-#> 25 Brooks (P)               0           0
-#> 26      Brown              70          20
-#> 27   Burleson              19           2
-#> 28     Burnet              57          23
-#> 29   Caldwell              89           4
-#>    conv_felons_sentence_to_county_jail_time parole_violators
-#> 24                                        1                1
-#> 25                                        0                0
-#> 26                                        0                7
-#> 27                                        0                2
-#> 28                                        1                5
-#> 29                                        0                3
-#>    parole_violators_with_a_new_charge pretrial_misd conv_misd bench_warrants
-#> 24                                  0             0         0              0
-#> 25                                  0             0         0              0
-#> 26                                 20             9         0              2
-#> 27                                  0             3         0              0
-#> 28                                  9             3         0              1
-#> 29                                  2            26         1              2
-#>    federal pretrial_sjf conv_sjf_sentenced_to_co_jail_time
-#> 24       0            0                                  0
-#> 25     164            0                                  0
-#> 26       0            0                                  3
-#> 27       0            0                                  0
-#> 28       0           10                                  1
-#> 29      19           13                                  0
-#>    conv_sjf_sentence_to_state_jail total_others total_local total_contract
-#> 24                               0            0          18              0
-#> 25                               0            0           0            408
-#> 26                               0            2         133              7
-#> 27                               0            1          27              0
-#> 28                               0            0         110            158
-#> 29                               3            0         143             21
-#>    total_population total_capacity percent_of_capacity available_beds
-#> 24               18             36               50.00             14
-#> 25              408            652               62.58            179
-#> 26              140            196               71.43             36
-#> 27               27             96               28.13             59
-#> 28              268            595               45.04            268
-#> 29              164            301               54.49            107
 ```
 
-Looking at the results, we've done this correctly. The values are right and the column names are correct. We've done it for one page but now must add the remaining pages. We'll do this through a for loop. We want to take the code we used above and loop through each of the tables we have. Since half of our tables are just the column names and not actual data, we need to skip those elements in our for loop. Luckily, our data follows a pattern where the first element is the column names from page 1, the second is the data from page 1, the third is the column names from page 2, the fourth is the data from page 2, and so on. So we need only every other value from 1 to 18, or every even number. We can get every other value using logical values, as shown in the next section, but since we only have 18 elements we'll just create the simple vector ourselves: c(2, 4, 6, 8, 10, 12, 14, 16, 18). 
+Looking at the results, we've done this correctly. The values are right and the column names are correct. We've done it for one page but now must add the remaining pages. We'll do this through a for loop. We want to take the code we used above and loop through each of the tables we have. Since half of our tables are just the column names and not actual data, we need to skip those elements in our for loop. Luckily, our data follows a pattern where the first element is the column names from page 1, the second is the data from page 1, the third is the column names from page 2, the fourth is the data from page 2, and so on. So we need only every other value from 1 to 18, or every even number. We can get every other value using logical values, as shown in the next section, but since we only have 18 elements we'll just create the simple vector ourselves: `c(2, 4, 6, 8, 10, 12, 14, 16, 18)`. 
 
-For our for loop we can copy the code above but let's change the object name from "page1_table" to "temp" as each iteration will be of a different page so "page1_table" doesn't make sense.
+For our for loop we can copy the code above but let's change the object name from *page1_table* to *temp* as each iteration will be of a different page so *page1_table* doesn't make sense.
 
 
 ```r
@@ -292,9 +249,9 @@ for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
 }
 ```
 
-Running the above code runs our for loop successfully but doesn't assign the output anywhere. It just runs one iteration, assigns it to temp, and then overwrites temp for the next iteration. What we really want is a single object which will end up having every single row of data from every page in one data.frame. To do this we make an empty data.frame by saying some object gets `data.frame()` without anything in the parentheses. And then for every iteration of the loop we add the data that is in temp to this empty data.frame (which will soon fill up with data). 
+Running the above code runs our for loop successfully but doesn't assign the output anywhere. It just runs one iteration, assigns it to *temp*, and then overwrites *temp* for the next iteration. What we really want is a single object which will end up having every single row of data from every page in one data.frame. To do this we make an empty data.frame by saying some object gets `data.frame()` without anything in the parentheses. And then for every iteration of the loop we add the data that is in temp to this empty data.frame (which will soon fill up with data). 
 
-By creating an empty data.frame at the start we avoid having to name any of the column names or say how many rows of data there will be. To add data to this data.frame each iteration we will use the function `bind_rows()` from `dplyr` which stacks data sets on top of each other. Let's first look at a simple example of this before including it in our for loop. To use `bind_rows()` we put two (or more) data.frames as the parameters and it will return a single data set will all rows stacked together. Let's create two data.frames that each have the rows of `head(mtcars)` as a demonstration.
+By creating an empty data.frame at the start we avoid having to name any of the column names or say how many rows of data there will be. To add data to this data.frame each iteration we will use the function `bind_rows()` from `dplyr` which stacks data sets on top of each other. Let's first look at a simple example of this before including it in our for loop. To use `bind_rows()` we put two (or more) data.frames as the parameters and it will return a single data set with all rows stacked together. Let's create two data.frames that each have the rows of `head(mtcars)` as a demonstration.
 
 
 ```r
@@ -324,9 +281,9 @@ bind_rows(example1, example2)
 #> Hornet Sportabout...11 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 #> Valiant...12           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
-The data that is printed out has 12 rows and in this example the first six and the last six rows are identical. `bind_rows()` took the second object in the parentheses (example2) and stacked it right below the last row in example1. In this case the columns are already in the same order but if they weren't, `bind_rows()` is smart enough to arrange the columns in the second object to be the same as the first object.
+The data that is printed out has 12 rows and in this example the first six and the last six rows are identical. `bind_rows()` took the second object in the parentheses (*example2*) and stacked it right below the last row in *example1.* In this case the columns are already in the same order but if they weren't, `bind_rows()` is smart enough to arrange the columns in the second object to be the same as the first object.
 
-Now we can run our for loop and create a single data set with every row from our 9 pages of data. We start by creating our empty data.frame and we'll call that "final." At the end of our loop we say that final gets `bind_rows(final, temp)` meaning that temp is stacked to the bottom of final every time the loop runs. We'll end this code chunk by looking at `head()` and `tail()` of final to be sure it worked correctly.
+Now we can run our for loop and create a single data set with every row from our 9 pages of data. We start by creating our empty data.frame and we'll call that *final*. At the end of our loop we say that *final* gets `bind_rows(final, temp)` meaning that temp is stacked to the bottom of *final* every time the loop runs. We'll end this code chunk by looking at `head()` and `tail()` of *final* to be sure it worked correctly.
 
 
 ```r
@@ -427,15 +384,17 @@ tail(final)
 #> 269             6696          59713               93991          63.53 24681
 ```
 
+If you look closely at the final several rows you'll see that there is an extra column, and that the second column ("pretrial_felons") is blank for all of these rows. That's because when scraping the final page `tabulizer` incorrectly added an empty column between the first and second column, meaning that all columns to the right of the first column shifted once to the right. So all the values in "pretrial_felons" are actually in "conv_felons" and so on. The last column now is named "...21" since it is the 21st column and that name was made automatically as our *column_names* object only has 20 values. This can occasionally happen, even if seemingly identical formatted pages like we have here. To fix something like this, we'd want to check every column and delete any that had all values be empty strings. We won't go over how to do this now as it will be one of the questions in this chapters practice problems. 
+
 ## Pregnant women incarcerated
 
-We'll finish this lesson with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge, it has 10 columns but we want to make it have only 2. In the data (shown below), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using `tabulizer()` and then work to fix this multiple-column issue. 
+We'll finish this chapter with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge, it has 10 columns but we want to make it have only 2. In the data (shown below), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using `tabulizer()` and then work to fix this multiple-column issue. 
 
 <img src="images/pregnant.PNG" width="90%"  style="display: block; margin: auto;" />
 
-Notice that this data doesn't even have column names so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape something that recurring - that is, that you'll scrape a future version of - be careful about situations like this.
+Notice that this data doesn't even have column names so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape PDFs that regularly update (such as when a new month of data comes out) be careful about situations like this.
 
-We'll start scraping this PDF using the standard `extract_tables()` function without any parameters other than the file name. This is usually a good start since it's quick and often works - and if it doesn't, we haven't lost much time checking. Since we know `extract_tables()` will return a list by default, we'll assign the result of `extract_tables()` to an object called `data` and then just pull the first element (the only element if this works) from that list. And to see how the scraping went, we'll look at the `head()` of the data.
+We'll start scraping this PDF using the standard `extract_tables()` function without any parameters other than the file name. This is usually a good start since it's quick and often works - and if it doesn't, we haven't lost much time checking. Since we know `extract_tables()` will return a list by default, we'll assign the result of `extract_tables()` to an object called `data` and then just pull the first element (the only element if this scrape works properly) from that list. And to see how the scraping went, we'll look at the `head()` of the data.
 
 
 ```r
@@ -458,9 +417,9 @@ head(data)
 #> [6,] "Walker"        "1"
 ```
 
-If we check the output from the above code to the PDF, we can see that it worked. Every column in the PDF is in our output and the values were scraped correctly. This is great! Now we want to make two columns - "county" and "pregnant_females_booked" (or whatever you'd like to call it) - from these 10. As usual with R, there are a few ways we can do this. We'll just do so two ways. 
+If we check the output from the above code to the PDF, we can see that it worked. Every column in the PDF is in our output and the values were scraped correctly. This is great! Now we want to make two columns - "county" and "pregnant_females_booked" (or whatever you'd like to call it) - from these 10. As usual with R, there are a few ways we can do this. We'll just do this in two different ways. 
 
-First, since there are only 10 columns, we can just do it manually. We can use square bracket `[]` notation to grab specific columns using the column number (since the data is a matrix and not a data.frame we can't use dollar sign notation even if we wanted to). Let's print out the head of all the county columns. We can see from the PDF that these are columns 1, 3, 5, 7, and 9. So can use a vector of numbers to get that `c(1, 3, 5, 7, 9)`.
+First, since there are only 10 columns, we can just do it manually. We can use square bracket `[]` notation to grab specific columns using the column number (since the data is a matrix and not a data.frame we can't use dollar sign notation even if we wanted to). We can see from the PDF that the county columns are columns 1, 3, 5, 7, and 9. So can use a vector of numbers to get that `c(1, 3, 5, 7, 9)`.
 
 
 ```r
@@ -474,7 +433,7 @@ head(data[, c(1, 3, 5, 7, 9)])
 #> [6,] "Armstrong" "Dimmit"      "Jefferson"  "Nolan"       "Walker"
 ```
 
-Now again for the "pregnant_females_booked" column.
+Now again for the "pregnant_females_booked" columns which are the even numbers.
 
 
 ```r
@@ -488,7 +447,7 @@ head(data[, c(2, 4, 6, 8, 10)])
 #> [6,] "0"  "0"  "0"  "2"  "1"
 ```
 
-These results look right so we can make a data.frame using the `data.frame()` and having the input be from the above code - removing the `head()` function since we want every now. Conveniently, `data.frame()` allows us to name the columns we are making so we'll name the two columns "county" and "pregnant_females_booked". We'll save the result as `data` and check out the `head()` and `tail()` of that data.frame.
+These results look right so we can make a data.frame using the `data.frame()` and having the input be from the above code - removing the `head()` function since we want every row. Conveniently, `data.frame()` allows us to name the columns we are making so we'll name the two columns "county" and "pregnant_females_booked". We'll assign the result to an object that we'll call *data* and check out the `head()` and `tail()` of that data.frame.
 
 
 ```r
@@ -512,7 +471,7 @@ tail(data)
 #> 300
 ```
 
-These results look good! We now have only two columns and the first six rows (from `head()`) look right. Why are the last six rows all empty? Look back at the PDF. The final two columns are shorter than the others, so `extract_tables()` interprets them as empty strings "". We can subset those away using a conditional statement to remove any row with an empty string in either column. Since we know that if there's an empty string in one of the columns it will also be there in the other, we only need to run this once.
+These results look good! We now have only two columns and the first six rows (from `head()`) look right. Why are the last six rows all empty? Look back at the PDF. The final two columns are shorter than the others, so `extract_tables()` interprets them as empty strings. We can subset those away using a conditional statement to remove any row with an empty string in either column. Since we know that if there's an empty string in one of the columns it will also be there in the other, we only need to run this once.
 
 
 ```r
@@ -537,7 +496,7 @@ tail(data)
 
 Now the results from `tail()` look right. 
 
-We can now use the second method which will use logical values to only keep odd or even columns (as the columns we want are conveniently all odd or all even columns). First, I'm rerunning the code to scrape the PDF since now our `data` data set is already cleaned from above. 
+We can now use the second method which will use logical values to only keep odd or even columns (as the columns we want are conveniently all odd or all even columns). First, I'm rerunning the code to scrape the PDF since now our *data* data set is already cleaned from above. 
 
 
 ```r
@@ -545,7 +504,7 @@ data <- extract_tables(file = "data/PregnantFemaleReportingCurrent.pdf")
 data <- data[[1]]
 ```
 
-We'll use a toy example now with a vector of numbers from 1 to 10 `1:10` which we can call `x`.
+We'll use a toy example now with a vector of numbers from 1 to 10 `1:10` which we can call *x*.
 
 
 ```r
@@ -554,7 +513,7 @@ x
 #>  [1]  1  2  3  4  5  6  7  8  9 10
 ```
 
-Now say we want every value of x and want to use logical values (also called Booleans) to get it. We need a vector of 10 values since we'd need one for every element in `x`. Specifically, we'd be using square bracket `[]` notation to subset (in this case not really a true subset since we'd return all the original values) and write ten TRUEs in the square brackets `[]`.
+Now say we want every value of x and want to use logical values (also called Booleans) to get it. We need a vector of 10 values since we'd need one for every element in *x*. Specifically, we'd be using square bracket `[]` notation to subset (in this case not really a true subset since we'd return all the original values) and write ten TRUEs in the square brackets `[]`.
 
 
 ```r
@@ -578,7 +537,7 @@ x[c(TRUE, FALSE)]
 #> [1] 1 3 5 7 9
 ```
 
-It returns only the odd numbers. That's because the first value in our vector is TRUE so it returns the first value of `x` which is 1. The next value is FALSE so it does not return the second value of `x` which is 2. R then "recycles" our vector and uses the first value in our vector (TRUE) to interpret how to subset the third value of `x` (3). Since it's TRUE, it returns 3. But now the value for 4 is FALSE so it doesn't return it. The process repeats again until the end of the subset. Since every other value is returned, it returns only the odd numbers. 
+It returns only the odd numbers. That's because the first value in our vector is TRUE so it returns the first value of *x* which is 1. The next value is FALSE so it does not return the second value of *x* which is 2. R then "recycles" our vector and uses the first value in our vector (TRUE) to interpret how to subset the third value of *x*. Since it's TRUE, it returns 3. But now the value for 4 is FALSE so it doesn't return it. The process repeats again until the end of the subset. Since every other value is returned, it returns only the odd numbers. 
 
 We can use R's method of "recycling" a vector that is shorter than it expects to solve our pregnant females booked issue. Indeed we can use this exact `c(TRUE, FALSE)` vector to select only the odd columns. Reversing it to `c(FALSE, TRUE)` gives us only the even columns. 
 
@@ -609,7 +568,7 @@ tail(data)
 
 ## Making PDF-scraped data available to others
 
-You've now seen two examples of scraping tables from PDFs using the `tabulizer()` package and a few more examples from the `pdftools` package in Chapter \@ref(scrape-table). These lessons should get you started on most PDF scraping, but every PDF is different so don't rely on the functions alone to do all of the work. You'll still likely have to spend some time cleaning up the data afterwards to make it usable. 
+You've now seen two examples of scraping tables from PDFs using the `tabulizer()` package and a few more examples from the `pdftools` package in Chapter \@ref(scrape-table). These chapters should get you started on most PDF scraping, but every PDF is different so don't rely on the functions alone to do all of the work. You'll still likely have to spend some time cleaning up the data afterwards to make it usable. 
 
 Given the effort you'll spend in scraping a PDF - and the relative rarity of this skill in criminology - I recommend that you help others by making your data available to the public. There are several current websites that let you do this but I recommend [openICPSR](https://www.icpsr.umich.edu/web/pages/NACJD/index.html). openICPSR lets people submit data for free (under a certain limit, 3GB per submission as of mid-2020 though you can ask for a limit increase) and has a number of features to make it easier to store and document the data. This includes a section to describe your data in text form, fill out tags to help people search for the data, and answer (optional) questions on how the data was collected and the geographic and temporal scope of the data.
 

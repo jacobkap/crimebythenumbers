@@ -2,11 +2,11 @@
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
-In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. 
+Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. 
 
-Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem. While all PDF scraping follows a general format, you cannot necessarily reuse your old code as each situation is likely slightly different. Our data is from the U.S. Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
+Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem. While all PDF scraping follows a general format, you cannot necessarily reuse your old code as each situation is likely slightly different. Our data is from the US Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
-We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the U.S. Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
+We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the US Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
 
 The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has four tables in the PDF. Let's take a look at them one at a time, understanding what variables are available, and what units each row is in. Then we'll start scraping the tables.
 
@@ -14,7 +14,7 @@ The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30
 
 <img src="images/pdf_table_1.PNG" width="90%"  style="display: block; margin: auto;" />
 
-Now if we look more at the table, we can see that each row is a section of the U.S. border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
+Now if we look more at the table, we can see that each row is a section of the US border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data sets will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
 There are 9 columns in the data other than the border section identifier. We have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
 
@@ -32,7 +32,7 @@ Finally, Table 4 is a bit different in its format. The rows are now variables an
 
 ## Scraping the first table
 
-We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code three times. 
+We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code. 
 
 We will start by using the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
 
@@ -48,7 +48,7 @@ library(pdftools)
 #> Using poppler version 21.04.0
 ```
 
-We can save the output of the `pdf_text()` function as the object *border_patrol* and we'll use it for each table. The input to `pdf_text()` is the name of the PDF we want to scrape.
+We can assign the output of the `pdf_text()` function to the object *border_patrol* and we'll use it for each table. The input to `pdf_text()` is the name of the PDF we want to scrape.
 
 
 ```r
@@ -76,13 +76,13 @@ length(border_patrol)
 
 It is four elements long, one for each table. 
 
+Looking at just the first element in *border_patrol* gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\n`. 
+
 
 ```r
 border_patrol[1]
 #> [1] "                                                           United States Border Patrol\n                                                            Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)\n\n                                                Agent                              Other Than Mexican            Marijuana          Cocaine         Accepted\n              SECTOR                           Staffing*\n                                                             Apprehensions\n                                                                                     Apprehensions                 (pounds)          (pounds)     Prosecutions\n                                                                                                                                                               Assaults Rescues                 Deaths\n\nMiami                                             111              2,280                     1,646                  2,253              231               292              1              N/A      N/A\nNew Orleans                                        63                920                      528                     21                 6               10               0              N/A      N/A\nRamey                                              38               388                       387                     3               2,932              89               0           N/A         N/A\nCoastal Border Sectors Total                      212              3,588                     2,561                  2,277             3,169              391              1         N/A ****    N/A ****\n\nBlaine                                            296                288                      237                      0                 0                9               0              N/A      N/A\nBuffalo                                           277                447                      293                    228                 2               37               2              N/A      N/A\nDetroit                                           408              1,070                      322                    124                 0               85               1              N/A      N/A\nGrand Forks                                       189                496                      202                      0                 0               40               2              N/A      N/A\nHavre                                             183                39                        28                     98                 0                2               0              N/A      N/A\nHoulton                                           173                30                        30                     17                 0                2               0              N/A      N/A\nSpokane                                           230                208                       67                     68                 0               24               0              N/A      N/A\nSwanton                                           292               449                       359                    531                 1               103               6             N/A      N/A\nNorthern Border Sectors Total                    2,048             3,027                     1,538                  1,066                3               302              11        N/A ****    N/A   ****\nBig Bend (formerly Marfa)                         500              6,002                     3,346                  40,852              45              2,847             11             26       1\nDel Rio                                          1,391             13,476                    6,156                  9,482               62              8,022             12             99       18\nEl Centro                                         870              18,633                    5,812                  5,554              484              1,413             34             4        2\nEl Paso                                          2,182             25,193                   15,337                  34,189             140              6,996             54             44       8\nLaredo                                           1,666             25,460                    7,891                  69,535             757              6,119             31            1,054     83\nRio Grande Valley (formerly McAllen)             3,130            137,562                  107,909                 260,020            1,192             7,979            422            1,190    104\nSan Diego                                        2,199             26,086                    7,060                  10,985            2,903             3,099             84             48       4\nTucson                                           3,691             38,657                   12,328                 397,090             331             20,963             93            750       72\nYuma                                              859              12,847                   10,139                  30,181             261              2,367             33             6        2\nSouthwest Border Sectors Total**                16,605            303,916                  175,978                 857,888            6,174            59,805            774            3,221    294\nNationwide Total***                             19,437            310,531                  180,077                 861,231            9,346            60,498            786            3,221    294\n* Agent staffing statistics depict FY17 on-board personnel data as of 9/30/2017\n** Southwest Border Sectors staffing statistics include: Big Bend, Del Rio, El Centro, El Paso, Laredo, Rio Grande Valley, San Diego, Tucson, Yuma, and the Special Operations Group.\n*** Nationwide staffing statistics include: All on-board Border Patrol agents in CBP\n**** Rescue and Death statistics are not tracked for Northern and Coastal Border Sectors.\n"
 ```
-
-And this gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\n`. 
 
 The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
 
@@ -92,9 +92,10 @@ strsplit("criminology", split = "n")
 #> [[1]]
 #> [1] "crimi" "ology"
 ```
+
 Note that it deletes whatever value is used to break up the string. 
 
-Let's save a new object with the value in the first element of "border_patrol", calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it to split it every `\n`. In effect this makes each line of the table an element in a vector that we'll create rather than having the entire table be a single long string as it is now. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
+Let's assign a new object with the value in the first element of *border_patrol*, calling it *sector_profile* as that's the name of that table, and then using `strsplit()` on it to split it every `\n`. In effect this makes each line of the table an element in a vector that we'll create rather than having the entire table be a single long string as it is now. `strsplit()` returns a list so we will also want to keep just the first element of that list using double square bracket `[[]]` notation.
 
 
 ```r
@@ -116,7 +117,7 @@ head(sector_profile)
 #> [6] "                                                             Apprehensions"
 ```
 
-Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire "sector_profile" data in the () and it'll remove any white space that is at the beginning or end of the string.
+Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the () and it'll remove any white space that is at the beginning or end of the string.
 
 
 ```r
@@ -218,7 +219,7 @@ install.packages("stringr")
 library(stringr)
 ```
 
-The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coast Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of * they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
+The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors  "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
 
 
 ```r
@@ -373,7 +374,7 @@ table_3 <- scrape_pdf(list_of_tables = border_patrol,
                                        "total_apprehensions"))
 ```
 
-We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterisk after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. 
+We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterisks after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. 
 
 
 ```r

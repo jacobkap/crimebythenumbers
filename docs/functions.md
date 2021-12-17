@@ -1,6 +1,6 @@
 # Functions
 
-So far, we have been writing code to handle specific situations such as subsetting a single data set, often using other people's functions. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc) on those values. We've used lots of other people's function throughout this book and in this chapter we'll learn how to create our own.
+So far, we have been writing code to handle specific situations such as subsetting a single data set, often using other people's functions. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc.) on those values. We've used lots of other people's function throughout this book and in this chapter we'll learn how to create our own.
 
 Think of a function like a stapler - you put the paper in, push down, and it staples the paper together. It doesn't matter what papers you are using; it always staples them together. If you needed to buy a new stapler every time you needed to staple something (i.e. copy and pasting code) you'd quickly have way too many staplers (and waste a bunch of money). 
 
@@ -8,7 +8,7 @@ An important benefit is that you can use this function again and again to help s
 
 ## A simple function
 
-We'll start with a simple function that takes a number and returns that number plus the value 2.
+We'll start with a simple function that takes a number and returns that number plus the number 2.
 
 
 ```r
@@ -30,9 +30,9 @@ There are five essential parts of a function
 
 + function_name  - This is just the name we give to the function. It can be anything but, like when making other objects, call it something that is easy to remember what it does.
 + parameters  - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function `mean()` you put in a vector of numbers in the () section and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.
-+ code - This is the code you write to do the thing you want the function to do. In the above example our code is `number <- number + 2`. For any number inputted, our code adds 2 to it and saves it back into the object number. 
-+ return - This is something new in this book, here you use the `return()` function and inside the () you put the object you want to be outputted. In our example we have "number" inside the `return()` as that's what we want to come out of the function. It is not always necessary to end your function with `return()` but is highly recommended to do so to make sure you're outputting what it is you want to output. 
-+ The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text `<- function()` where the parameters (if any) are in the (). After the closing parentheses put a `{` and at the very end of the function, after the `return()`, close those squiggly brackets with a "}". The `<- function()` tells R that you are making a function rather than some other type of object. And the `{` and `}` tell R that all the code in between are part of that function.
++ code - This is the code you write to do the thing you want the function to do. In the above example our code is `number <- number + 2`. For any number inputted, our code adds 2 to it and assigns it back into the object *number*. 
++ return - This is something new in this book, here you use the `return()` function and inside the () you put the object you want to be outputted. In our example we have *number* inside the `return()` as that's what we want to come out of the function. It is not always necessary to end your function with `return()` but is highly recommended to do so to make sure you're outputting what it is you want to output. 
++ The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text `<- function()` where the parameters (if any) are in the (). After the closing parentheses put a `{` and at the very end of the function, after the `return()`, close those squiggly brackets with a `}`. The `<- function()` tells R that you are making a function rather than some other type of object. And the `{` and `}` tell R that all the code in between are part of that function.
 
 Our function here adds 2 to any number we input. 
 
@@ -60,7 +60,7 @@ add_2 <- function(number, times_5 = FALSE) {
 }
 ```
 
-Now we have added a parameter called `time_5` to the () part of the function and set it the be FALSE by default. Right now it doesn't do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters).
+Now we have added a parameter called `time_5` to the () part of the function and set it the be FALSE by default. Right now it doesn't do anything so we need to add code to say what happens if it is TRUE (remember in R true and false must always be all capital letters and not in quotes).
 
 
 ```r
@@ -111,7 +111,7 @@ scrape_recipes <- function(URL) {
 }
 ```
 
-Now we need to add the code that takes the URL, scrapes the website, and saves the ingredients part of the page to an object called *ingredients* and the directs part to an object called *directions*. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.
+Now we need to add the code that takes the URL, scrapes the website, and assigns the ingredients part of the page to an object called *ingredients* and the directions part to an object called *directions*. Since we have the code from an earlier lesson, we can copy and paste that code into the function and make a small change to get a working function.
 
 
 ```r
@@ -165,7 +165,7 @@ scrape_recipes <- function(URL) {
 }
 ```
 
-Now we can try it for a new recipe, this one for "The Best Lemon Bars" at URL https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/. 
+Now we can try it for a new recipe, this one for "The Best Lemon Bars" at this [link](https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/). 
 
 
 ```r

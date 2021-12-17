@@ -24,7 +24,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2021-12-14" />
+<meta name="date" content="2021-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -81,6 +81,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
@@ -239,7 +240,7 @@ div.csl-indent {
 <li class="chapter" data-level="4.2" data-path="data-types.html"><a href="data-types.html#data-structures"><i class="fa fa-check"></i><b>4.2</b> Data structures</a>
 <ul>
 <li class="chapter" data-level="4.2.1" data-path="data-types.html"><a href="data-types.html#vectors"><i class="fa fa-check"></i><b>4.2.1</b> Vectors (collections of “things”)</a></li>
-<li class="chapter" data-level="4.2.2" data-path="data-types.html"><a href="data-types.html#data.frames"><i class="fa fa-check"></i><b>4.2.2</b> Data.frames</a></li>
+<li class="chapter" data-level="4.2.2" data-path="data-types.html"><a href="data-types.html#dataframes"><i class="fa fa-check"></i><b>4.2.2</b> Data.frames</a></li>
 <li class="chapter" data-level="4.2.3" data-path="data-types.html"><a href="data-types.html#other-data-structures"><i class="fa fa-check"></i><b>4.2.3</b> Other data structures</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="data-types.html"><a href="data-types.html#practice-problems-2"><i class="fa fa-check"></i><b>4.3</b> Practice problems</a></li>
@@ -402,19 +403,19 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="16" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>16</b> More graphing with <code>ggplot2</code></a>
 <ul>
-<li class="chapter" data-level="16.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>16.1</b> Exploring Data</a></li>
-<li class="chapter" data-level="16.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>16.2</b> Graphing a Single Numeric Variable</a>
+<li class="chapter" data-level="16.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>16.1</b> Exploring data</a></li>
+<li class="chapter" data-level="16.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>16.2</b> Graphing a single numeric variable</a>
 <ul>
 <li class="chapter" data-level="16.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>16.2.1</b> Histogram</a></li>
 <li class="chapter" data-level="16.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>16.2.2</b> Density plot</a></li>
-<li class="chapter" data-level="16.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>16.2.3</b> Count Graph</a></li>
+<li class="chapter" data-level="16.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>16.2.3</b> Count graph</a></li>
 </ul></li>
-<li class="chapter" data-level="16.3" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>16.3</b> Graphing a Categorical Variable</a>
+<li class="chapter" data-level="16.3" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>16.3</b> Graphing a categorical variable</a>
 <ul>
 <li class="chapter" data-level="16.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>16.3.1</b> Bar graph</a></li>
 </ul></li>
-<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing data Over Time</a></li>
-<li class="chapter" data-level="16.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>16.5</b> Pretty Graphs</a>
+<li class="chapter" data-level="16.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>16.4</b> Graphing data over time</a></li>
+<li class="chapter" data-level="16.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>16.5</b> Pretty graphs</a>
 <ul>
 <li class="chapter" data-level="16.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>16.5.1</b> Themes</a></li>
 </ul></li>
@@ -529,168 +530,133 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="for-loops" class="section level1" number="22">
 <h1><span class="header-section-number">22</span> For loops</h1>
-<p>We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through “for loops.” Earlier in this course we learned how to scrape the recipe website <a href="https://www.allrecipes.com/">All Recipes</a>. We did so for a single recipe. If we wanted to get a feasts worth of recipes, typing out each recipe would be excessively slow, even with the function we made in Section <a href="functions.html#recipes-function">21.3</a>. In this lesson we will use a for loop to scrape multiple recipes very quickly.</p>
+<p>We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through “for loops.” Earlier in this book we learned how to scrape the recipe website <a href="https://www.allrecipes.com/">All Recipes</a>. We did so for a single recipe. If we wanted to get a feasts worth of recipes, typing out each recipe would be slow, even with the function we made in Section <a href="functions.html#recipes-function">21.3</a>. In this chapter we will use a for loop to scrape multiple recipes very quickly.</p>
 <div id="basic-for-loops" class="section level2" number="22.1">
 <h2><span class="header-section-number">22.1</span> Basic for loops</h2>
 <p>We’ll start with a simple example of a for loop, making R print the numbers 1-10.</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="for-loops.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb386-2"><a href="for-loops.html#cb386-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(i)</span>
-<span id="cb386-3"><a href="for-loops.html#cb386-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb386-4"><a href="for-loops.html#cb386-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb386-5"><a href="for-loops.html#cb386-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb386-6"><a href="for-loops.html#cb386-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb386-7"><a href="for-loops.html#cb386-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb386-8"><a href="for-loops.html#cb386-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb386-9"><a href="for-loops.html#cb386-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb386-10"><a href="for-loops.html#cb386-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb386-11"><a href="for-loops.html#cb386-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb386-12"><a href="for-loops.html#cb386-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb386-13"><a href="for-loops.html#cb386-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
-<p>The basic concept of a for loop is you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the <code>{</code> and <code>}</code> squiggly brackets. And you loop through all the values you specify - meaning that the code runs once for each of those values.</p>
-<p>Let’s look closer at the <code>(i in 1:10)</code>. The <code>i</code> is simply a placeholder object which takes the value 1:10 each iteration of the loop. An iteration is the formal term for each time the loop runs. In our loop it will run 10 times as we have 10 numbers (1-10). The first time it runs the i gets the value of 1, the second time it runs i gets the value of 2, and so on.</p>
-<p>It’s not necessary to call it <code>i</code> but that is convention in programming to do so. It takes the value of whatever follows the <code>in</code> which can range from a vector of strings or numbers to lists of data.frames (though we won’t do anything that complicated in this chapter). Especially when you’re an early learner of R it could help to call the <code>i</code> something informative to you about what value it has.</p>
-<p>Let’s go through a few examples with different names for <code>i</code> and different values it is looping through.</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="for-loops.html#cb387-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb387-2"><a href="for-loops.html#cb387-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number)</span>
-<span id="cb387-3"><a href="for-loops.html#cb387-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb387-4"><a href="for-loops.html#cb387-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
-<span id="cb387-5"><a href="for-loops.html#cb387-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
-<span id="cb387-6"><a href="for-loops.html#cb387-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb387-7"><a href="for-loops.html#cb387-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb387-8"><a href="for-loops.html#cb387-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb387-9"><a href="for-loops.html#cb387-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb387-10"><a href="for-loops.html#cb387-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb387-11"><a href="for-loops.html#cb387-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb387-12"><a href="for-loops.html#cb387-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb387-13"><a href="for-loops.html#cb387-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="for-loops.html#cb388-1" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span>
-<span id="cb388-2"><a href="for-loops.html#cb388-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (animal <span class="cf">in</span> animals) {</span>
-<span id="cb388-3"><a href="for-loops.html#cb388-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(animal)</span>
-<span id="cb388-4"><a href="for-loops.html#cb388-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb388-5"><a href="for-loops.html#cb388-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cat&quot;</span></span>
-<span id="cb388-6"><a href="for-loops.html#cb388-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dog&quot;</span></span>
-<span id="cb388-7"><a href="for-loops.html#cb388-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span>
-<span id="cb388-8"><a href="for-loops.html#cb388-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;buffalo&quot;</span></span>
-<span id="cb388-9"><a href="for-loops.html#cb388-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lion&quot;</span></span>
-<span id="cb388-10"><a href="for-loops.html#cb388-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
-<p>Now let’s make our code a bit more complicated, adding the number 2 every loop.</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="for-loops.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb388-2"><a href="for-loops.html#cb388-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(i)</span>
+<span id="cb388-3"><a href="for-loops.html#cb388-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb388-4"><a href="for-loops.html#cb388-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb388-5"><a href="for-loops.html#cb388-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb388-6"><a href="for-loops.html#cb388-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb388-7"><a href="for-loops.html#cb388-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb388-8"><a href="for-loops.html#cb388-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb388-9"><a href="for-loops.html#cb388-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb388-10"><a href="for-loops.html#cb388-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb388-11"><a href="for-loops.html#cb388-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb388-12"><a href="for-loops.html#cb388-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb388-13"><a href="for-loops.html#cb388-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<p>The basic concept of a for loop is that you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the <code>{</code> and <code>}</code> squiggly brackets. And you loop through all the values you specify - meaning that the code runs once for each of those values.</p>
+<p>Let’s look closer at the <code>(i in 1:10)</code>. The <code>i</code> is simply a placeholder object which takes the value 1 through 10 each iteration of the loop. An iteration is the formal term for each time the loop runs. In our loop it will run 10 times as we have 10 numbers (1-10). The first time it runs the <code>i</code> gets the value of 1, the second time it runs <code>i</code> gets the value of 2, and so on.</p>
+<p>It’s not necessary to call it <code>i</code> but it is the convention in programming to do so. It takes the value of whatever follows the <code>in</code> which can range from a vector of strings or numbers to lists of data.frames (though we won’t do anything that complicated in this chapter). Especially when you’re an early learner of R it could help to call the <code>i</code> something informative to you about what value it has.
+Let’s go through a few examples with different names for <code>i</code> and different values it is looping through.</p>
 <div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="for-loops.html#cb389-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb389-2"><a href="for-loops.html#cb389-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb389-2"><a href="for-loops.html#cb389-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number)</span>
 <span id="cb389-3"><a href="for-loops.html#cb389-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb389-4"><a href="for-loops.html#cb389-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
-<span id="cb389-5"><a href="for-loops.html#cb389-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
-<span id="cb389-6"><a href="for-loops.html#cb389-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
-<span id="cb389-7"><a href="for-loops.html#cb389-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
-<span id="cb389-8"><a href="for-loops.html#cb389-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
-<span id="cb389-9"><a href="for-loops.html#cb389-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
-<span id="cb389-10"><a href="for-loops.html#cb389-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
-<span id="cb389-11"><a href="for-loops.html#cb389-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span>
-<span id="cb389-12"><a href="for-loops.html#cb389-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11</span></span>
-<span id="cb389-13"><a href="for-loops.html#cb389-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+<span id="cb389-4"><a href="for-loops.html#cb389-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb389-5"><a href="for-loops.html#cb389-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb389-6"><a href="for-loops.html#cb389-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb389-7"><a href="for-loops.html#cb389-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb389-8"><a href="for-loops.html#cb389-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb389-9"><a href="for-loops.html#cb389-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb389-10"><a href="for-loops.html#cb389-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb389-11"><a href="for-loops.html#cb389-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb389-12"><a href="for-loops.html#cb389-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb389-13"><a href="for-loops.html#cb389-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="for-loops.html#cb390-1" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span>
+<span id="cb390-2"><a href="for-loops.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (animal <span class="cf">in</span> animals) {</span>
+<span id="cb390-3"><a href="for-loops.html#cb390-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(animal)</span>
+<span id="cb390-4"><a href="for-loops.html#cb390-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb390-5"><a href="for-loops.html#cb390-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cat&quot;</span></span>
+<span id="cb390-6"><a href="for-loops.html#cb390-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dog&quot;</span></span>
+<span id="cb390-7"><a href="for-loops.html#cb390-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span>
+<span id="cb390-8"><a href="for-loops.html#cb390-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;buffalo&quot;</span></span>
+<span id="cb390-9"><a href="for-loops.html#cb390-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lion&quot;</span></span>
+<span id="cb390-10"><a href="for-loops.html#cb390-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
+<p>Now let’s make our code a bit more complicated, adding the number 2 every loop.</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="for-loops.html#cb391-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb391-2"><a href="for-loops.html#cb391-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">print</span>(a_number <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb391-3"><a href="for-loops.html#cb391-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb391-4"><a href="for-loops.html#cb391-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb391-5"><a href="for-loops.html#cb391-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb391-6"><a href="for-loops.html#cb391-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb391-7"><a href="for-loops.html#cb391-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb391-8"><a href="for-loops.html#cb391-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb391-9"><a href="for-loops.html#cb391-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb391-10"><a href="for-loops.html#cb391-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb391-11"><a href="for-loops.html#cb391-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span>
+<span id="cb391-12"><a href="for-loops.html#cb391-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11</span></span>
+<span id="cb391-13"><a href="for-loops.html#cb391-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
 <p>We’re keeping the results inside of <code>print()</code> since for loops do not print the results by default. Let’s try combining this with some subsetting using square bracket notation <code>[]</code>. We will look through every value in <em>numbers</em>, a vector we will make with the values 1:10 and replace each value with its value plus 2.</p>
 <p>The object we’re looping through is <em>numbers</em>. But we’re actually looping through every index it has, hence the <code>1:length(numbers)</code>. That is saying, <code>i</code> takes the value of each index in <em>numbers</em> which is useful when we want to change that element. <code>length(numbers)</code> finds how long the vector <em>numbers</em> is (if this was a data.frame we could use <code>nrow()</code>) to find how many elements it has. In the code we take the value at each index <code>numbers[i]</code> and add 2 to it.</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="for-loops.html#cb390-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb390-2"><a href="for-loops.html#cb390-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
-<span id="cb390-3"><a href="for-loops.html#cb390-3" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> numbers[i] <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb390-4"><a href="for-loops.html#cb390-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="for-loops.html#cb391-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
-<span id="cb391-2"><a href="for-loops.html#cb391-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span></span></code></pre></div>
-<p>We can also include functions we made in for loops. Here’s a function we made last lesson which adds 2 to each inputted number.</p>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="for-loops.html#cb392-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
-<span id="cb392-2"><a href="for-loops.html#cb392-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
-<span id="cb392-3"><a href="for-loops.html#cb392-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="for-loops.html#cb392-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb392-2"><a href="for-loops.html#cb392-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb392-3"><a href="for-loops.html#cb392-3" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> numbers[i] <span class="sc">+</span> <span class="dv">2</span></span>
 <span id="cb392-4"><a href="for-loops.html#cb392-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="for-loops.html#cb393-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb393-2"><a href="for-loops.html#cb393-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span></span></code></pre></div>
+<p>We can also include functions we made in for loops. Here’s a function we made last chapter which adds 2 to each inputted number.</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="for-loops.html#cb394-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
+<span id="cb394-2"><a href="for-loops.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb394-3"><a href="for-loops.html#cb394-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb394-4"><a href="for-loops.html#cb394-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s put that in the loop.</p>
-<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="for-loops.html#cb393-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
-<span id="cb393-2"><a href="for-loops.html#cb393-2" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> <span class="fu">add_2</span>(numbers[i])</span>
-<span id="cb393-3"><a href="for-loops.html#cb393-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="for-loops.html#cb394-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
-<span id="cb394-2"><a href="for-loops.html#cb394-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  5  6  7  8  9 10 11 12 13 14</span></span></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="for-loops.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb395-2"><a href="for-loops.html#cb395-2" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> <span class="fu">add_2</span>(numbers[i])</span>
+<span id="cb395-3"><a href="for-loops.html#cb395-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="for-loops.html#cb396-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb396-2"><a href="for-loops.html#cb396-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  5  6  7  8  9 10 11 12 13 14</span></span></code></pre></div>
 </div>
 <div id="scraping-multiple-recipes" class="section level2" number="22.2">
 <h2><span class="header-section-number">22.2</span> Scraping multiple recipes</h2>
-<p>Below is the function copied from Section <a href="functions.html#recipes-function">21.3</a> which takes a single URL and scraped the site <a href="https://www.allrecipes.com/">All Recipes</a> for that recipe. It printed the ingredients and directions to cook that recipe to the console. If we wanted to get that info for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we’re using the <code>read_html()</code> function from <code>rvest</code>, we need to tell R we want to use that package.</p>
-<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="for-loops.html#cb395-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb395-2"><a href="for-loops.html#cb395-2" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
-<span id="cb395-3"><a href="for-loops.html#cb395-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb395-4"><a href="for-loops.html#cb395-4" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
-<span id="cb395-5"><a href="for-loops.html#cb395-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb395-6"><a href="for-loops.html#cb395-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
-<span id="cb395-7"><a href="for-loops.html#cb395-7" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
-<span id="cb395-8"><a href="for-loops.html#cb395-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb395-9"><a href="for-loops.html#cb395-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
-<span id="cb395-10"><a href="for-loops.html#cb395-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
-<span id="cb395-11"><a href="for-loops.html#cb395-11" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
-<span id="cb395-12"><a href="for-loops.html#cb395-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb395-13"><a href="for-loops.html#cb395-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
-<span id="cb395-14"><a href="for-loops.html#cb395-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
-<span id="cb395-15"><a href="for-loops.html#cb395-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Below is the function copied from Section <a href="functions.html#recipes-function">21.3</a> which takes a single URL and scraped the site <a href="https://www.allrecipes.com/">All Recipes</a> for that recipe. It printed the ingredients and directions to cook that recipe to the Console. If we wanted to get that info for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we’re using the <code>read_html()</code> function from <code>rvest</code>, we need to tell R we want to use that package.</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="for-loops.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb397-2"><a href="for-loops.html#cb397-2" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb397-3"><a href="for-loops.html#cb397-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-4"><a href="for-loops.html#cb397-4" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb397-5"><a href="for-loops.html#cb397-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-6"><a href="for-loops.html#cb397-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
+<span id="cb397-7"><a href="for-loops.html#cb397-7" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb397-8"><a href="for-loops.html#cb397-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-9"><a href="for-loops.html#cb397-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
+<span id="cb397-10"><a href="for-loops.html#cb397-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb397-11"><a href="for-loops.html#cb397-11" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
+<span id="cb397-12"><a href="for-loops.html#cb397-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb397-13"><a href="for-loops.html#cb397-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
+<span id="cb397-14"><a href="for-loops.html#cb397-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
+<span id="cb397-15"><a href="for-loops.html#cb397-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple recipes, we will make a vector with the URLs of all the recipes we want.</p>
-<p>Here I am making a vector called <em>recipe_urls</em> with the URLs of several recipes that I like on the site. The way I got the URLs was to go to each recipe’s page and copy and paste the URL. Is this the right approach? Shouldn’t we do everything in R? Not always. In situations like this where we know that there are a small number of links we want - and there is no easy way to get them through R - it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project.</p>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="for-loops.html#cb396-1" aria-hidden="true" tabindex="-1"></a>recipe_urls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>,</span>
-<span id="cb396-2"><a href="for-loops.html#cb396-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/27188/crepes/&quot;</span>,</span>
-<span id="cb396-3"><a href="for-loops.html#cb396-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/&quot;</span>,</span>
-<span id="cb396-4"><a href="for-loops.html#cb396-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/&quot;</span>,</span>
-<span id="cb396-5"><a href="for-loops.html#cb396-5" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/&quot;</span>,</span>
-<span id="cb396-6"><a href="for-loops.html#cb396-6" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/&quot;</span>,</span>
-<span id="cb396-7"><a href="for-loops.html#cb396-7" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/189058/super-simple-salmon/&quot;</span>)</span></code></pre></div>
+<p>Here I am making a vector called <em>recipe_urls</em> with the URLs of a few recipes that I like on the site. The way I got the URLs was to go to each recipe’s page and copy and paste the URL. Is this the right approach? Shouldn’t we do everything in R? Not always. In situations like this where we know that there are a small number of links we want it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project.</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="for-loops.html#cb398-1" aria-hidden="true" tabindex="-1"></a>recipe_urls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>,</span>
+<span id="cb398-2"><a href="for-loops.html#cb398-2" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/27188/crepes/&quot;</span>,</span>
+<span id="cb398-3"><a href="for-loops.html#cb398-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/&quot;</span>)</span></code></pre></div>
 <p>Now we can write the for loop to go through every single URL in <em>recipe_urls</em> and use the function <code>scrape_recipes</code> on that URL.</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="for-loops.html#cb397-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (recipe_url <span class="cf">in</span> recipe_urls) {</span>
-<span id="cb397-2"><a href="for-loops.html#cb397-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scrape_recipes</span>(recipe_url)</span>
-<span id="cb397-3"><a href="for-loops.html#cb397-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb397-4"><a href="for-loops.html#cb397-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;½ cup white sugar &quot;                  &quot;2 tablespoons butter &quot;              </span></span>
-<span id="cb397-5"><a href="for-loops.html#cb397-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;2 tablespoons water &quot;                &quot;1 ½ cups semisweet chocolate chips &quot;</span></span>
-<span id="cb397-6"><a href="for-loops.html#cb397-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;2 eggs &quot;                             &quot;½ teaspoon vanilla extract &quot;        </span></span>
-<span id="cb397-7"><a href="for-loops.html#cb397-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;&lt;U+2154&gt; cup all-purpose flour &quot;     &quot;¼ teaspoon baking soda &quot;            </span></span>
-<span id="cb397-8"><a href="for-loops.html#cb397-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;½ teaspoon salt &quot;                   </span></span>
-<span id="cb397-9"><a href="for-loops.html#cb397-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement&quot;                                                                                                                                                                                                               </span></span>
-<span id="cb397-10"><a href="for-loops.html#cb397-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.&quot;</span></span>
-<span id="cb397-11"><a href="for-loops.html#cb397-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.&quot;                                                                                                                                                                                       </span></span>
-<span id="cb397-12"><a href="for-loops.html#cb397-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2 eggs &quot;                      &quot;1 cup milk &quot;                 </span></span>
-<span id="cb397-13"><a href="for-loops.html#cb397-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;&lt;U+2154&gt; cup all-purpose flour &quot; &quot;1 pinch salt &quot;               </span></span>
-<span id="cb397-14"><a href="for-loops.html#cb397-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 ½ teaspoons vegetable oil &quot;</span></span>
-<span id="cb397-15"><a href="for-loops.html#cb397-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   In a blender combine eggs, milk, flour, salt and oil. Process until smooth. Cover and refrigerate 1 hour.    Advertisement&quot;                                                                                                       </span></span>
-<span id="cb397-16"><a href="for-loops.html#cb397-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Heat a skillet over medium-high heat and brush with oil. Pour 1/4 cup of crepe batter into pan, tilting to completely coat the surface of the pan. Cook 2 to 5 minutes, turning once, until golden. Repeat with remaining batter.&quot;</span></span>
-<span id="cb397-17"><a href="for-loops.html#cb397-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;4 large carrots, peeled and cut into matchstick pieces &quot;</span></span>
-<span id="cb397-18"><a href="for-loops.html#cb397-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;10 baby red potatoes, quartered &quot;                       </span></span>
-<span id="cb397-19"><a href="for-loops.html#cb397-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;1 onion, peeled and cut into bite-sized pieces &quot;        </span></span>
-<span id="cb397-20"><a href="for-loops.html#cb397-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;4 cups water &quot;                                          </span></span>
-<span id="cb397-21"><a href="for-loops.html#cb397-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 (4 pound) corned beef brisket with spice packet &quot;     </span></span>
-<span id="cb397-22"><a href="for-loops.html#cb397-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;6 ounces beer &quot;                                         </span></span>
-<span id="cb397-23"><a href="for-loops.html#cb397-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;½ head cabbage, coarsely chopped &quot;                      </span></span>
-<span id="cb397-24"><a href="for-loops.html#cb397-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High.    Advertisement&quot;</span></span>
-<span id="cb397-25"><a href="for-loops.html#cb397-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour.&quot;                                                                                                                                                              </span></span>
-<span id="cb397-26"><a href="for-loops.html#cb397-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;4 cups all-purpose flour &quot;   &quot;1 teaspoon baking powder &quot;  </span></span>
-<span id="cb397-27"><a href="for-loops.html#cb397-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [3] &quot;½ teaspoon baking soda &quot;     &quot;½ teaspoon salt &quot;           </span></span>
-<span id="cb397-28"><a href="for-loops.html#cb397-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;¼ teaspoon ground nutmeg &quot;   &quot;1 cup butter, softened &quot;    </span></span>
-<span id="cb397-29"><a href="for-loops.html#cb397-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] &quot;1 ½ cups white sugar &quot;       &quot;1 egg &quot;                     </span></span>
-<span id="cb397-30"><a href="for-loops.html#cb397-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;1 teaspoon vanilla extract &quot; &quot;½ cup sour cream &quot;          </span></span>
-<span id="cb397-31"><a href="for-loops.html#cb397-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Sift together the flour, baking powder, baking soda, salt and nutmeg; set aside. In a large bowl, cream together the butter and sugar until smooth. Beat in the egg, vanilla and sour cream until well blended. Stir in the sifted ingredients. Wrap dough in plastic wrap and chill overnight.    Advertisement&quot;</span></span>
-<span id="cb397-32"><a href="for-loops.html#cb397-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Preheat the oven to 375 degrees F (190 degrees C). On a lightly floured surface, roll the dough out to 1/4 inch in thickness. Cut into desired shapes with cookie cutters. Place cookies 1 1/2 inches apart onto ungreased cookie sheets.&quot;                                                                       </span></span>
-<span id="cb397-33"><a href="for-loops.html#cb397-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 8 to 10 minutes in the preheated oven. Allow cookies to cool on baking sheet for 5 minutes before removing to a wire rack to cool completely.&quot;                                                                                                                                                          </span></span>
-<span id="cb397-34"><a href="for-loops.html#cb397-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2 (10 ounce) packages frozen corn kernels, thawed &quot;</span></span>
-<span id="cb397-35"><a href="for-loops.html#cb397-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;1 cup heavy cream &quot;                                </span></span>
-<span id="cb397-36"><a href="for-loops.html#cb397-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;1 teaspoon salt &quot;                                  </span></span>
-<span id="cb397-37"><a href="for-loops.html#cb397-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;2 tablespoons granulated sugar &quot;                   </span></span>
-<span id="cb397-38"><a href="for-loops.html#cb397-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;¼ teaspoon freshly ground black pepper &quot;           </span></span>
-<span id="cb397-39"><a href="for-loops.html#cb397-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;2 tablespoons butter &quot;                             </span></span>
-<span id="cb397-40"><a href="for-loops.html#cb397-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;1 cup whole milk &quot;                                 </span></span>
-<span id="cb397-41"><a href="for-loops.html#cb397-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [8] &quot;2 tablespoons all-purpose flour &quot;                  </span></span>
-<span id="cb397-42"><a href="for-loops.html#cb397-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;¼ cup freshly grated Parmesan cheese &quot;             </span></span>
-<span id="cb397-43"><a href="for-loops.html#cb397-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   In a skillet over medium heat, combine the corn, cream, salt, sugar, pepper and butter. Whisk together the milk and flour, and stir into the corn mixture. Cook stirring over medium heat until the mixture is thickened, and corn is cooked through. Remove from heat, and stir in the Parmesan cheese until melted. Serve hot.    Advertisement&quot;</span></span>
-<span id="cb397-44"><a href="for-loops.html#cb397-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1 cup butter, softened &quot;   &quot;½ cup white sugar &quot;       </span></span>
-<span id="cb397-45"><a href="for-loops.html#cb397-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;2 cups all-purpose flour &quot; &quot;4 eggs &quot;                  </span></span>
-<span id="cb397-46"><a href="for-loops.html#cb397-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 ½ cups white sugar &quot;     &quot;¼ cup all-purpose flour &quot; </span></span>
-<span id="cb397-47"><a href="for-loops.html#cb397-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;2 lemons, juiced &quot;        </span></span>
-<span id="cb397-48"><a href="for-loops.html#cb397-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Preheat oven to 350 degrees F (175 degrees C).    Advertisement&quot;                                                                                                                                                                                                                                                                         </span></span>
-<span id="cb397-49"><a href="for-loops.html#cb397-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   In a medium bowl, blend together softened butter, 2 cups flour and 1/2 cup sugar. Press into the bottom of an ungreased 9x13 inch pan.&quot;                                                                                                                                                                                                  </span></span>
-<span id="cb397-50"><a href="for-loops.html#cb397-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 15 to 20 minutes in the preheated oven, or until firm and golden. In another bowl, whisk together the remaining 1 1/2 cups sugar and 1/4 cup flour. Whisk in the eggs and lemon juice. Pour over the baked crust.&quot;                                                                                                              </span></span>
-<span id="cb397-51"><a href="for-loops.html#cb397-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;Step 4   Bake for an additional 20 minutes in the preheated oven. The bars will firm up as they cool. For a festive tray, make another pan using limes instead of lemons and adding a drop of green food coloring to give a very pale green. After both pans have cooled, cut into uniform 2 inch squares and arrange in a checker board fashion.&quot;</span></span>
-<span id="cb397-52"><a href="for-loops.html#cb397-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1 tablespoon garlic powder &quot; &quot;1 tablespoon dried basil &quot;  </span></span>
-<span id="cb397-53"><a href="for-loops.html#cb397-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;½ teaspoon salt &quot;            &quot;4 (6 ounce) salmon &quot;        </span></span>
-<span id="cb397-54"><a href="for-loops.html#cb397-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;2 tablespoons butter &quot;       &quot;4 lemon wedges &quot;            </span></span>
-<span id="cb397-55"><a href="for-loops.html#cb397-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Stir together the garlic powder, basil, and salt in a small bowl; rub in equal amounts onto the salmon fillets.    Advertisement&quot;                                              </span></span>
-<span id="cb397-56"><a href="for-loops.html#cb397-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Melt the butter in a skillet over medium heat; cook the salmon in the butter until browned and flaky, about 5 minutes per side. Serve each piece of salmon with a lemon wedge.&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="for-loops.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (recipe_url <span class="cf">in</span> recipe_urls) {</span>
+<span id="cb399-2"><a href="for-loops.html#cb399-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scrape_recipes</span>(recipe_url)</span>
+<span id="cb399-3"><a href="for-loops.html#cb399-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb399-4"><a href="for-loops.html#cb399-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;½ cup white sugar &quot;                  &quot;2 tablespoons butter &quot;              </span></span>
+<span id="cb399-5"><a href="for-loops.html#cb399-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;2 tablespoons water &quot;                &quot;1 ½ cups semisweet chocolate chips &quot;</span></span>
+<span id="cb399-6"><a href="for-loops.html#cb399-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;2 eggs &quot;                             &quot;½ teaspoon vanilla extract &quot;        </span></span>
+<span id="cb399-7"><a href="for-loops.html#cb399-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;&lt;U+2154&gt; cup all-purpose flour &quot;     &quot;¼ teaspoon baking soda &quot;            </span></span>
+<span id="cb399-8"><a href="for-loops.html#cb399-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [9] &quot;½ teaspoon salt &quot;                   </span></span>
+<span id="cb399-9"><a href="for-loops.html#cb399-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Preheat the oven to 325 degrees F (165 degrees C). Grease an 8x8 inch square pan.    Advertisement&quot;                                                                                                                                                                                                               </span></span>
+<span id="cb399-10"><a href="for-loops.html#cb399-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   In a medium saucepan, combine the sugar, butter and water. Cook over medium heat until boiling. Remove from heat and stir in chocolate chips until melted and smooth. Mix in the eggs and vanilla. Combine the flour, baking soda and salt; stir into the chocolate mixture. Spread evenly into the prepared pan.&quot;</span></span>
+<span id="cb399-11"><a href="for-loops.html#cb399-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Step 3   Bake for 25 to 30 minutes in the preheated oven, until brownies set up. Do not overbake! Cool in pan and cut into squares.&quot;                                                                                                                                                                                       </span></span>
+<span id="cb399-12"><a href="for-loops.html#cb399-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;2 eggs &quot;                      &quot;1 cup milk &quot;                 </span></span>
+<span id="cb399-13"><a href="for-loops.html#cb399-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;&lt;U+2154&gt; cup all-purpose flour &quot; &quot;1 pinch salt &quot;               </span></span>
+<span id="cb399-14"><a href="for-loops.html#cb399-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 ½ teaspoons vegetable oil &quot;</span></span>
+<span id="cb399-15"><a href="for-loops.html#cb399-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   In a blender combine eggs, milk, flour, salt and oil. Process until smooth. Cover and refrigerate 1 hour.    Advertisement&quot;                                                                                                       </span></span>
+<span id="cb399-16"><a href="for-loops.html#cb399-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Heat a skillet over medium-high heat and brush with oil. Pour 1/4 cup of crepe batter into pan, tilting to completely coat the surface of the pan. Cook 2 to 5 minutes, turning once, until golden. Repeat with remaining batter.&quot;</span></span>
+<span id="cb399-17"><a href="for-loops.html#cb399-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;4 large carrots, peeled and cut into matchstick pieces &quot;</span></span>
+<span id="cb399-18"><a href="for-loops.html#cb399-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;10 baby red potatoes, quartered &quot;                       </span></span>
+<span id="cb399-19"><a href="for-loops.html#cb399-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] &quot;1 onion, peeled and cut into bite-sized pieces &quot;        </span></span>
+<span id="cb399-20"><a href="for-loops.html#cb399-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;4 cups water &quot;                                          </span></span>
+<span id="cb399-21"><a href="for-loops.html#cb399-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;1 (4 pound) corned beef brisket with spice packet &quot;     </span></span>
+<span id="cb399-22"><a href="for-loops.html#cb399-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] &quot;6 ounces beer &quot;                                         </span></span>
+<span id="cb399-23"><a href="for-loops.html#cb399-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [7] &quot;½ head cabbage, coarsely chopped &quot;                      </span></span>
+<span id="cb399-24"><a href="for-loops.html#cb399-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Step 1   Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High.    Advertisement&quot;</span></span>
+<span id="cb399-25"><a href="for-loops.html#cb399-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Step 2   Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour.&quot;</span></span></code></pre></div>
 </div>
 <div id="practice-problems-15" class="section level2" number="22.3">
 <h2><span class="header-section-number">22.3</span> Practice problems</h2>

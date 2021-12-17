@@ -2,7 +2,7 @@
 
 For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
 
-So far in these lessons we've used data from a number of sources but which all came as .rda or .rds files which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda file but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
+So far in these lessons we've used data from a number of sources but which all came as .rda or .rds files which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda or .rds files but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
 In this lesson we'll load and save multiple files into R as examples of how R can handle data that is used in many different software programs. 
 
@@ -121,15 +121,15 @@ install.packages("haven")
 library(haven)
 ```
 
-`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate an name to be assigned the data.
+`haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate a name to be assigned the data.
 
-Like with `read_csv()` the functions to read data through `haven` all start with `read_` and end with the extension you're reading in. 
+Like with `read_csv()`, the functions to read data through `haven` all start with `read_` and end with the extension you're reading in. 
 
   * `read_dta()` - Stata file, extension ".dta"
   * `read_sas()` - SAS file, extension ".sas"
   * `read_sav()` - SPSS file, extension ".sav"
   
-To read the data as a .dta format we can copy the code to read it as a .csv but change .csv to .dta.
+To read the data as a .dta format we can copy the code above that read in the .csv file but change .csv to .dta and change the function from `read_csv()` to `read_dta()`.
 
 
 ```r
@@ -154,7 +154,7 @@ shootings <- read_sav("data/fatal-police-shootings-data.sav")
 
 ### Fixed-width ASCII
 
-The final type of data source we'll talk about is a fixed-width ASCII. An ASCII file is just a text file and the fixed-width part means that each row has the exact same number of characters. This is a very old file format system that hopefully you'll never encounter but is one that some government agencies - including the FBI for their annual data releases (though some individuals and organizations re-release the data in better formats like R and Stata files) - still use, so is good to know to how handle. A fixed-width ASCII file is essentially an Excel file but with all of the columns smushed together. It also tries to reduce its file size by replacing long strings of text with short ones. For example, instead of including a state name it'll usually have a number - as a number has fewer characters than an entire name, the file is therefore smaller. 
+The final type of data source we'll talk about is a fixed-width ASCII. An ASCII file is just a text file and the fixed-width part means that each row has the exact same number of characters. This is a very old file format system that hopefully you'll never encounter but is one that some government agencies - including the FBI for their annual data releases (though some individuals and organizations re-release the data in better formats like R and Stata files) - still use, so it is good to know to how handle. A fixed-width ASCII file is essentially an Excel file but with all of the columns smushed together. It also tries to reduce its file size by replacing long strings of text with short ones. For example, instead of including a state name it'll usually have a number - as a number has fewer characters than an entire name, the file is therefore smaller. 
 
 Each fixed-width ASCII file also comes with what is called a "setup" file which is some code that tells the program you're reading the data into how to separate columns and when to replace the (in our example) numbers that indicate the state with the actual state name. In nearly all cases where you have a fixed-width ASCII you'll also be able to download the setup file from the same source, so I won't cover how to make a setup file yourself.
 
@@ -165,7 +165,7 @@ To read fixed-width ASCII files into R we'll use the `asciiSetupReader` package 
 install.packages("asciiSetupReader")
 ```
 
-We'll use the `read_ascii_setup()` function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file is the 2020 FBI Supplementary Homicide Report data (their murder data set) which is called "2020_SHR_NATIONAL_MASTER_FILE.txt" and the setup file is one that I wrote myself and is called "ucr_shr.sps". We can name the object we read "shr".
+We'll use the `read_ascii_setup()` function which takes two mandatory inputs in the parentheses: the name of the data file (which will have a file name ending in .txt or .dat) and the name of the setup file (which will have a file name ending is .sps or .sas). Each of these file names must be in your current working directory and you must put the names in quotes. For this example the data file in this example is the 2020 FBI Supplementary Homicide Report data (their murder data set) which is called "2020_SHR_NATIONAL_MASTER_FILE.txt" and the setup file is called "ucr_shr.sps". We can name the object we read "shr".
 
 
 ```r
@@ -175,7 +175,7 @@ shr <- read_ascii_setup("data/2020_SHR_NATIONAL_MASTER_FILE.txt", "data/ucr_shr.
 
 ## Writing Data 
 
-When we're done with a project (or an important part of a project) or when we need to send data to someone, we need to save the data we've worked on in a suitable format. For each format, we are saving the data in we will follow the same syntax of 
+When we're done with a project (or an important part of a project) or when we need to send data to someone, we need to save the data we've worked on in a suitable format. For each format we are saving the data in, we will follow the same syntax of 
 
 `function_name(data, "file_name")`
 
@@ -188,7 +188,7 @@ For saving an .rda or .rdata file we use the `save()` function. For saving a .rd
   * `write_sas()` - SAS file, extension ".sas"
   * `write_sav()` - SPSS file, extension ".sav"
 
-As with reading the data, `write_csv()` comes from the `readr` package while the other formats are from the `haven` package. Though the `readxl` package lets you read .xls and .xlsx files, it does not have functions that let you save a file to that type. 
+As with reading the data, `write_csv()` comes from the `readr` package while the other formats are from the `haven` package. Though the `readxl` package lets you read .xls and .xlsx files, it does not currently have functions that let you save a file to that type. 
 
 There are other packages that let you save .xls and .xlsx file but in the interest of keeping the packages we learn to a minimum, I won't include those here. In nearly all cases you'll want to save your data as an .rds, .csv, or a .dta file. Fixed-width ASCII files are so primitive that while we may need to load them into R, we should never save data in this format.
 
@@ -196,7 +196,7 @@ There are other packages that let you save .xls and .xlsx file but in the intere
 
 ### .rda and .rdata
 
-For saving an .rda file we must set the parameter `file` to be the name we're saving. For the other types of data they use the parameter `path` rather than `file` but it is not necessary to call them explicitly. Only for `save()` do we need to write `file = ` explicitly in the function.
+For saving an .rda file we must set the parameter `file` to be the name we're saving. For the other types of data they use the parameter `path` rather than `file` but it is not necessary to call them explicitly. A parameter in a function is just an option for how the function works. Only for `save()` do we need to write `file = ` explicitly in the function.
 
 
 ```r

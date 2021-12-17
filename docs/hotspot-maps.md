@@ -95,7 +95,7 @@ sf_map
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%"  style="display: block; margin: auto;" />
 
-Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the suicides from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load ``ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
+Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the suicides from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load `ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
 
 
 ```r
@@ -161,7 +161,7 @@ sf_map +
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="90%"  style="display: block; margin: auto;" />
 
-This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost. 
+This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. For example, this shows all suicides in a single map, meaning that any time trends are lost. 
 
 ## What really are maps?
 
@@ -222,7 +222,7 @@ sf_map +
 
 <img src="hotspot-maps_files/figure-html/unnamed-chunk-15-1.png" width="90%"  style="display: block; margin: auto;" />
 
-Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
+Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are fewer than 1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 
 What about looking at 100 bins?
 
@@ -243,7 +243,7 @@ Now each bin is very small and a much smaller area in San Francisco has had a su
 
 ### Colors
 
-To change the bin colors we can use the parameter `scale_fill_gradient()`. This accepts a color for "low" which is when the events are rare and "high" for the bins with frequent events. We'll use colors from [ColorBrewer](http://colorbrewer2.org), selecting the yellow-reddish theme ("3-class  YlOrRd") from the Multi-hue section of the "sequential" data on the page. 
+To change the bin colors we can use the parameter `scale_fill_gradient()`. This accepts a color for "low" which is when the events are rare and "high" for the bins with frequent events. We'll use colors from [ColorBrewer](http://colorbrewer2.org), selecting the yellow-reddish theme ("3-class  YlOrRd") from the Multi-hue section of the "sequential" data part of the page. 
 
 
 ```r

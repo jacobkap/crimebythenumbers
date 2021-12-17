@@ -53,7 +53,7 @@ shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in%
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
-# Sort data by largest to smallest percent change
+# Sort data by smallest to largest percent change
 shr_difference <- 
   shr_2019_and_2020 %>%
   group_by(year) %>%
@@ -66,7 +66,7 @@ shr_difference <-
   arrange(percent_change)
 
 # This is only for the graph. By default graphs order alphabetically but this makes
-# sure it orders it based on the ordering we made above (largest to smallest percent
+# sure it orders it based on the ordering we made above (smallest to largest percent
 # change)
 shr_difference$victim_1_relation_to_offender_1 <- 
   factor(shr_difference$victim_1_relation_to_offender_1,
@@ -125,7 +125,7 @@ shr <- readRDS("data/shr_1976_2020.rds")
 
 One of the annoying quirks of dealing with FBI data is that different agencies report each year. So comparing different years has an issue because you'll be doing an apples-to-oranges competition as an agency may report one year but not another. So for this data the first thing we need to do is to make sure we're only looking at agencies that reported data in both years. The first few lines check which agencies reported in 2019 and which agencies reported in 2020. We do this by looking at which ORIs (in the "ori" column) are present in each year (as agencies that did not report won't be in the data). An ORI is the an FBI term for a unique ID for that agency. Then we make a vector which has only the ORIs that are present in both years.
 
-We then subset the data to only data from 2019 and 2020 and where the agency reported in both years. Subsetting essentially means that we only keep the rows of data that meet those conditions. Another quirk of this data is that it includes homicides that are not murder - namely, negligent manslaughter. So the final subsetting condition we want it to only include murder and nonnegligent manslaughter.
+We then subset the data to only data from 2019 and 2020 and where the agency reported in both years. Subsetting essentially means that we only keep the rows of data that meet those conditions. Another quirk of this data is that it includes homicides that are not murder - namely, negligent manslaughter. So the final subsetting condition we use is that it only includes murder and nonnegligent manslaughter.
 
 
 ```r
@@ -180,7 +180,7 @@ shr_difference
 
 ### Graphing
 
-Once we have our data cleaned and organized in the way we want, we are ready to graph it. By default when R graphs data it will organize it alphabetically. In our case we want it ordered by largest to smallest change in the number of murders between 2019 and 2020 by relationship type. So we first tell R to order it by the relationship type variable which we've already sorted in the last section of code. Then we use the `ggplot()` function (which is covered extensively in Chapters \@ref(graphing-intro) and \@ref(ois-graphs)) to make our graph. In our code we include the data set we're using, which is the shr_difference data and the columns we want to graph. Then we tell it we want to create a bar chart and what we want the x-axis and y-axis labels to be. Finally, we have two lines that just affect how the graph looks. All of this is covered in the two graphing chapters, but is only several lines of code to go from cleaned data to a beautiful - and informative - graphic. 
+Once we have our data cleaned and organized in the way we want, we are ready to graph it. By default when R graphs data it will organize it alphabetically. In our case we want it ordered by smallest to largest change in the number of murders between 2019 and 2020 by relationship type. So we first tell R to order it by the relationship type variable which we've already sorted in the last section of code. Then we use the `ggplot()` function (which is covered extensively in Chapters \@ref(graphing-intro) and \@ref(ois-graphs)) to make our graph. In our code we include the data set we're using, which is the shr_difference data and the columns we want to graph. Then we tell it we want to create a bar chart and what we want the x-axis and y-axis labels to be. Finally, we have two lines that just affect how the graph looks. All of this is covered in the two graphing chapters, but is only several lines of code to go from cleaned data to a beautiful - and informative - graphic. 
 
 
 ```r
@@ -231,5 +231,3 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
 ```
 
 <img src="example-project_files/figure-html/unnamed-chunk-8-1.png" width="90%"  style="display: block; margin: auto;" />
-
-While all this code may seem overwhelming, by the end of this book you'll be able to recreate these steps - and modify the steps to look at different parts of the data or make a different graph. 
