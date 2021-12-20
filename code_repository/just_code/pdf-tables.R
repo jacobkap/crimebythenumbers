@@ -1,3 +1,11 @@
+knitr::include_graphics('images/pdf_table_1.PNG')
+
+knitr::include_graphics('images/pdf_table_2.PNG')
+
+knitr::include_graphics('images/pdf_table_3.PNG')
+
+knitr::include_graphics('images/pdf_table_4.PNG')
+
 ## install.packages("pdftools")
 
 library(pdftools)

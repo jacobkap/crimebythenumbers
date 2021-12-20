@@ -1,3 +1,5 @@
+knitr::include_graphics('images/tabulizer1.PNG')
+
 ## install.packages("tabulizer")
 
 library(tabulizer)
@@ -41,7 +43,7 @@ column_names <- c("county",
 page1_table <- data[[2]]
 page1_table <- data.frame(page1_table)
 names(page1_table) <- column_names
-page1_table
+head(page1_table)
 
 for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
   temp        <- data[[i]]
@@ -64,9 +66,11 @@ for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
 head(final)
 tail(final)
 
+knitr::include_graphics('images/pregnant.PNG')
+
 data <- extract_tables(file = "data/PregnantFemaleReportingCurrent.pdf")
 data <- data[[1]]
-data
+head(data)
 
 head(data[, c(1, 3, 5, 7, 9)])
 
@@ -98,3 +102,9 @@ data <- data.frame(county = c(data[, c(TRUE, FALSE)]),
 data <- data[data$county != "", ]
 head(data)
 tail(data)
+
+knitr::include_graphics('images/openICPSR1.PNG')
+
+knitr::include_graphics('images/openICPSR2.PNG')
+
+knitr::include_graphics('images/openICPSR3.PNG')

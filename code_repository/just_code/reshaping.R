@@ -4,7 +4,7 @@ library(readxl)
 sqf <- read_excel("data/sqf-2019.xlsx")
 
 sqf <- data.frame(sqf)
-head(sqf)
+names(sqf)
 nrow(sqf)
 
 library(tidyr)

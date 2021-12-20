@@ -51,11 +51,7 @@ scrape_recipes <- function(URL) {
 
 recipe_urls <- c("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/",
                  "https://www.allrecipes.com/recipe/27188/crepes/",
-                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/",
-                 "https://www.allrecipes.com/recipe/25130/soft-sugar-cookies-v/",
-                 "https://www.allrecipes.com/recipe/53304/cream-corn-like-no-other/",
-                 "https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/",
-                 "https://www.allrecipes.com/recipe/189058/super-simple-salmon/")
+                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/")
 
 for (recipe_url in recipe_urls) {
   scrape_recipes(recipe_url)

@@ -344,7 +344,3 @@ matrix(c("1", 2:50), nrow = 5, ncol = 5)
 #> [4,] "4"  "9"  "14" "19" "24"
 #> [5,] "5"  "10" "15" "20" "25"
 ```
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-4). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

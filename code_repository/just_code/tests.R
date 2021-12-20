@@ -15,3 +15,17 @@ add_2 <- function(number) { return(number + 2) }
 expect_equal(add_2(2), 4)
 
 expect_equal(add_2(2), 5)
+
+knitr::include_graphics('images/test_summary.PNG')
+
+knitr::include_graphics('images/test_file_setup.PNG')
+
+knitr::include_graphics('images/usethis_test.PNG')
+
+knitr::include_graphics('images/test_setup.PNG')
+
+knitr::include_graphics('images/usethis_test_default_example.PNG')
+
+knitr::include_graphics('images/usethis_test_default_example2.PNG')
+
+knitr::include_graphics('images/test_example.PNG')

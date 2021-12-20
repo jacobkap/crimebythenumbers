@@ -8,6 +8,8 @@ head(suicide)
 
 library(ggmap)
 
+knitr::include_graphics('images/bounding_box.PNG')
+
 sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996), 
                             source = "stamen"))
 sf_map

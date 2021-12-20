@@ -874,25 +874,3 @@ tolower(crimes)
 #> [50] "weapons offense"
 ```
 
-
-## Practice problems
-
-For these practice problems we will use the following vector of strings. Note that in the first word we have the number 1 instead of the letter "l". 
-
-
-```r
-practice <- c("he11o", "darkness", "my", "old", "friend", "133")
-```
-
-For answers, please see Section \@ref(problem-answers-chapter-13). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.
-
-1. 
-2. 
-3.
-4.
-5.
-6.
-7.
-8.
-9.
-10.

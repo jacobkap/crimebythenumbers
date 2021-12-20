@@ -3,8 +3,8 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 
 shootings <- as.data.frame(shootings)
 
-nrow(shootings)
 ncol(shootings)
+nrow(shootings)
 
 head(shootings)
 
@@ -110,7 +110,7 @@ ggplot(shootings, aes(x = date, y = dummy)) +
 library(lubridate)
 
 shootings$month_year <- floor_date(shootings$date, unit = "month")
-shootings$year <- year(shootings$date)
+shootings$year       <- year(shootings$date)
 
 head(shootings$month_year)
 head(shootings$year)

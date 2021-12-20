@@ -436,7 +436,3 @@ head(final_data)
 ```
 
 In one data set we now have information from three separate tables in a PDF. We have now scraped three different tables from a PDF and turned them into a single data set, turning the PDF into actually usable (and useful) data!
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-23). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

@@ -6,11 +6,11 @@
 #' 
 #' However, there are significant flaws with these kinds of maps. As we'll see during this lesson, minor changes to how we make the maps can cause significant differences in interpretation. For example, determining the size of the clusters that make up the hotspots can make it seem like there are much larger or smaller areas with hotspots than there actually are. 
 #' 
-#' These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (in Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
+#' These clusters are also drawn fairly arbitrarily, without considering context such as neighborhoods (in Chapter \@ref(choropleth-maps) we'll make maps that try to account for these types of areas). This makes it more difficult to interpret because even though maps give us the context of location, it can combine different areas in an arbitrary way. Hotspot maps also often turn into population maps where the dots indicate where people live rather than where the risk of something. For example, a street with several apartment buildings will likely have more crimes (and thus have more dots on a hotspot map) than a street with only single family homes. Maybe this is because the apartment street really is more crime-ridden than the single family home street, but it could simply be that places with more people have more events (e.g. crimes, suicides, etc.) even if they actually have a lower rate of these events than less populated places. So not knowing the context of an area can make hotspot maps very misleading. We'll explore these issues in more detail throughout the lesson but keep in mind these risks as you make your own hotspot maps. 
 #' 
 #' Here, we will make hotspot maps using data on suicides in San Francisco between 2003 and 2017. First, we need to read the data, which is called "san_francisco_suicide_2003_2017.csv". We can name the object we make *suicide*.
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
 suicide <- as.data.frame(suicide)
@@ -18,7 +18,7 @@ suicide <- as.data.frame(suicide)
 #' 
 #' This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. The columns X and Y are our longitude and latitude columns which we will use to map the data.
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 head(suicide)
 
 #' 
@@ -26,11 +26,11 @@ head(suicide)
 #' 
 #' To make these maps we will use the package `ggmap`. 
 #' 
-## ---- eval=FALSE------------------------------------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------------------------------------------
 ## install.packages("ggmap")
 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 library(ggmap)
 
 #' 
@@ -38,17 +38,19 @@ library(ggmap)
 #' 
 #' An easy way to find the four coordinates for a bounding box is to go to the site [Bounding Box](https://boundingbox.klokantech.com/). This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says "Copy & Paste", change the dropdown box to "CSV". In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into `get_map()`
 #' 
-#' ![](images/bounding_box.PNG)
+## ---- echo = FALSE------------------------------------------------------------------------------------------------
+knitr::include_graphics('images/bounding_box.PNG')
+
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996), 
                             source = "stamen"))
 sf_map
 
 #' 
-#' Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the shootings from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load ``ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
+#' Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the suicides from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load `ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide)
@@ -56,7 +58,7 @@ sf_map +
 #' 
 #' If we wanted to color the dots, we can use `color = ` and then select a color. Let's try it with "forestgreen".
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
@@ -65,7 +67,7 @@ sf_map +
 #' 
 #' As with other graphs we can change the size of the dot using `size = `.
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
@@ -73,7 +75,7 @@ sf_map +
              size  = 0.5)
 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
@@ -83,7 +85,7 @@ sf_map +
 #' 
 #' For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
@@ -92,13 +94,13 @@ sf_map +
              alpha = 0.5)
 
 #' 
-#' This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. This shows all suicides in a single map, meaning that any time trends are lost. 
+#' This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. For example, this shows all suicides in a single map, meaning that any time trends are lost. 
 #' 
 #' ## What really are maps?
 #' 
-#' Let's pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per shooting (minus the one without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter \@ref(interactive-maps) we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
+#' Let's pause for a moment to think about what a map really is. Below, I made a simple scatterplot of our data with one dot per suicide (minus the one without coordinates). Compare this to the map above and you'll see that they are the same except the map has a useful background while the plot has a blank background. That is all static maps are (in Chapter \@ref(interactive-maps) we'll learn about interactive maps), scatterplots of coordinates overlayed on a map background. Basically, they are scatterplots with context. And this context is useful, we can interpret the map to see that there are lots of suicides in the northeast part of San Francisco but not so many elsewhere, for example. The exact same pattern is present in the scatterplot but without the ability to tell "where" a dot is. 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 plot(suicide$X, suicide$Y, col = "forestgreen")
 
 #' 
@@ -112,14 +114,14 @@ plot(suicide$X, suicide$Y, col = "forestgreen")
 #' 
 #' To use `stat_binhex()` we'll also need to make sure that the package `hexbin` is installed. `stat_binhex()` will call the necessary function from `hexbin` internally so we don't need to run `library(hexbin)`.
 #' 
-## ---- eval = FALSE----------------------------------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------------------------------------------
 ## install.packages("hexbin")
 
 #' 
 #' 
 #' Let's start with 60 bins and then try some other number of bins to see how it changes the map. 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins = 60,
@@ -131,7 +133,7 @@ sf_map +
 #' 
 #' What happens when we drop the number of bins to 30? 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins = 30,
@@ -139,11 +141,11 @@ sf_map +
   coord_cartesian() 
 
 #' 
-#' Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are <1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
+#' Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot, and that there are fewer than 1,300 suicides, that this is not true. Making maps like this make it easy to mislead the reader, including yourself!
 #' 
 #' What about looking at 100 bins?
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins = 100,
@@ -155,9 +157,9 @@ sf_map +
 #' 
 #' ### Colors
 #' 
-#' To change the bin colors we can use the parameter `scale_fill_gradient()`. This accepts a color for "low" which is when the events are rare and "high" for the bins with frequent events. We'll use colors from [ColorBrewer](http://colorbrewer2.org), selecting the yellow-reddish theme ("3-class  YlOrRd") from the Multi-hue section of the "sequential" data on the page. 
+#' To change the bin colors we can use the parameter `scale_fill_gradient()`. This accepts a color for "low" which is when the events are rare and "high" for the bins with frequent events. We'll use colors from [ColorBrewer](http://colorbrewer2.org), selecting the yellow-reddish theme ("3-class  YlOrRd") from the Multi-hue section of the "sequential" data part of the page. 
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins  = 60,
@@ -169,7 +171,7 @@ sf_map +
 #' 
 #' By default it labels the legend as "count". Since we know these are counts of suicides let's relabel that as such.
 #' 
-## ---------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------------
 sf_map +
   stat_binhex(aes(x = X, y = Y),
               bins  = 60,
@@ -179,8 +181,3 @@ sf_map +
                       low = "#ffeda0",
                       high = "#f03b20")
 
-#' 
-#' 
-#' ## Practice problems
-#' 
-#' For answers, please see Section \@ref(problem-answers-chapter-17). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

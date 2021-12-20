@@ -384,7 +384,7 @@ tail(final)
 #> 269             6696          59713               93991          63.53 24681
 ```
 
-If you look closely at the final several rows you'll see that there is an extra column, and that the second column ("pretrial_felons") is blank for all of these rows. That's because when scraping the final page `tabulizer` incorrectly added an empty column between the first and second column, meaning that all columns to the right of the first column shifted once to the right. So all the values in "pretrial_felons" are actually in "conv_felons" and so on. The last column now is named "...21" since it is the 21st column and that name was made automatically as our *column_names* object only has 20 values. This can occasionally happen, even if seemingly identical formatted pages like we have here. To fix something like this, we'd want to check every column and delete any that had all values be empty strings. We won't go over how to do this now as it will be one of the questions in this chapters practice problems. 
+If you look closely at the final several rows you'll see that there is an extra column, and that the second column ("pretrial_felons") is blank for all of these rows. That's because when scraping the final page `tabulizer` incorrectly added an empty column between the first and second column, meaning that all columns to the right of the first column shifted once to the right. So all the values in "pretrial_felons" are actually in "conv_felons" and so on. The last column now is named "...21" since it is the 21st column and that name was made automatically as our *column_names* object only has 20 values. This can occasionally happen, even if seemingly identical formatted pages like we have here. To fix something like this, we'd want to check every column and delete any that had all values be empty strings. I leave solving this to you. While it may be a challenge, at this point in the book you have the skills to do it. 
 
 ## Pregnant women incarcerated
 
@@ -579,7 +579,3 @@ If you decide to update the data, it'll keep a link to your older submission so 
 <img src="images/openICPSR2.PNG" width="90%"  style="display: block; margin: auto;" />
 
 <img src="images/openICPSR3.PNG" width="90%"  style="display: block; margin: auto;" />
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-24). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

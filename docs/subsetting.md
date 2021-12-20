@@ -906,7 +906,3 @@ unique(colorado$state)
 unique(colorado$year)
 #> [1] 2017 2016 2015 2014 2013 2012 2011
 ```
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-11). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

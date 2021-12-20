@@ -189,7 +189,3 @@ for (recipe_url in recipe_urls) {
 #> [1] "Step 1   Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High.    Advertisement"
 #> [2] "Step 2   Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour."
 ```
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-22). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

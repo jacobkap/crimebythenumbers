@@ -88,7 +88,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "census")
 #> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 1.4 seconds
+#> Query completed in: 2.6 seconds
 example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
@@ -100,7 +100,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.4 seconds
+#> Query completed in: 0.3 seconds
 example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
@@ -114,7 +114,7 @@ By default this function returns a tibble instead of a normal data.frame so it o
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.1 seconds
+#> Query completed in: 0.9 seconds
 example <- data.frame(example)
 example
 #>                               address      lat      long
@@ -156,7 +156,7 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 example <- geocode(address_to_geocode, "address", 
                    method = "census", full_results = TRUE)
 #> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 0.8 seconds
+#> Query completed in: 2.6 seconds
 example <- data.frame(example)
 example
 #>                               address      lat     long
@@ -184,7 +184,7 @@ The Census results are similar to the OSM results and also have the matched addr
 example <- geocode(address_to_geocode, "address", 
                    method = "arcgis", full_results = TRUE)
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.2 seconds
+#> Query completed in: 0.1 seconds
 example <- data.frame(example)
 example
 #>                               address      lat      long
@@ -279,7 +279,7 @@ To do the geocoding we'll just tell `geocode()` our data.frame name and the name
 ```r
 marijuana <- geocode(marijuana, "Premise.Address")
 #> Passing 33 addresses to the Nominatim single address geocoder
-#> Query completed in: 33.7 seconds
+#> Query completed in: 33.1 seconds
 ```
 
 Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.
@@ -308,7 +308,7 @@ marijuana$lat  <- NULL
 marijuana      <- geocode(marijuana, "Premise.Address",
                           method = "arcgis")
 #> Passing 33 addresses to the ArcGIS single address geocoder
-#> Query completed in: 17.2 seconds
+#> Query completed in: 16.5 seconds
 ```
 And let's do the `summary()` check again. 
 
@@ -336,7 +336,3 @@ plot(marijuana$long, marijuana$lat)
 <img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%"  style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-25). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

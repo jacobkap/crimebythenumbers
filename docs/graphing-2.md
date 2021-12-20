@@ -725,7 +725,3 @@ ggplot(yearly_shootings, aes(x = year, y = dummy)) +
 ```
 
 <img src="graphing-2_files/figure-html/unnamed-chunk-45-1.png" width="90%"  style="display: block; margin: auto;" />
-
-## Practice problems
-
-For answers, please see Section \@ref(problem-answers-chapter-16). Please keep in mind that the goal is to have your answers be the same as mine, even if the code isn't. With R you can answer a question in multiple ways, so different code can lead to the same answer.

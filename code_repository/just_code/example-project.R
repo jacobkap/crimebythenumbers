@@ -1,3 +1,5 @@
+knitr::include_graphics('images/shr_motivation_example.png')
+
 library(dplyr)      # Used to aggregate data
 library(ggplot2)    # Used to make the graph
 library(crimeutils) # Used to capitalize words in a column
@@ -7,7 +9,7 @@ library(tidyr)      # Used to reshape the data
 shr <- readRDS("data/shr_1976_2020.rds") 
 
 # See which agencies reported in 2019 and 2020
-# An "ori" is a unique identified for agencies in FBI data
+# An "ori" is a unique identifier code for agencies in FBI data
 agencies_2019 <- shr$ori[shr$year == 2019]
 agencies_2020 <- shr$ori[shr$year == 2020]
 # Get which agencies reported in both years so we have an apples-to-apples comparison
@@ -23,7 +25,7 @@ shr_2019_and_2020 <- shr_2019_and_2020[shr_2019_and_2020$homicide_type %in%
 
 # Get the number of murders by victim-offender relationship in 2019 and 2020
 # Then find the percent change in murders by this group from 2019 to 2020
-# Sort data by largest to smallest percent change
+# Sort data by smallest to largest percent change
 shr_difference <- 
   shr_2019_and_2020 %>%
   group_by(year) %>%
@@ -36,7 +38,7 @@ shr_difference <-
   arrange(percent_change)
 
 # This is only for the graph. By default graphs order alphabetically but this makes
-# sure it orders it based on the ordering we made above (largest to smallest percent
+# sure it orders it based on the ordering we made above (smallest to largest percent
 # change)
 shr_difference$victim_1_relation_to_offender_1 <- 
   factor(shr_difference$victim_1_relation_to_offender_1,

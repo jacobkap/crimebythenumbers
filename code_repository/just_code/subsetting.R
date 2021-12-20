@@ -18,6 +18,10 @@ animals[-1]
 
 animals[-c(1, 2, 3)]
 
+-1:3
+
+animals[-(1:3)]
+
 animals[-1]
 
 animals
@@ -54,6 +58,10 @@ animals %in% c("cat", "dog", "gorilla")
 
 numbers > 3
 
+knitr::include_graphics('images/peanut.png')
+
+knitr::include_graphics('images/dog_food.PNG')
+
 2 == 3 | 2 > 1
 
 2 == 3 & 2 > 1
@@ -71,6 +79,8 @@ names(ucr)
 head(ucr$agency_name)
 
 head(ucr$actual_murder)
+
+knitr::include_graphics('images/tab_example.PNG')
 
 ucr[1, 1]
 
@@ -92,7 +102,8 @@ colorado <- ucr[ucr$state == "colorado", ]
 
 colorado <- colorado[colorado$year %in% 2011:2017, ]
 
-colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder", "state", "year",
+                          "population", "ori", "agency_name")]
 
 unique(colorado$state)
 
@@ -100,7 +111,8 @@ unique(colorado$year)
 
 colorado <- ucr[ucr$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
-colorado <- colorado[ , c("actual_murder", "state", "year", "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder", "state", "year",
+                          "population", "ori", "agency_name")]
 
 ## install.packages("dplyr")
 
