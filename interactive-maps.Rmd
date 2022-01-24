@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Interactive maps
 
 For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
@@ -116,7 +121,7 @@ leaflet() %>%
 
 Try clicking around and you'll see that the owner of the dispensary you clicked on appears over the dot. We usually want to have a title indicating what the value in the popup means. We can do this by using the `paste()` function to combine text explaining the value with the value itself. Let's add the words "Business Owner:" before the business owner column.
 
-```{r}
+```{r, }
 leaflet() %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
@@ -124,7 +129,8 @@ leaflet() %>%
   addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat,
                    radius = 5,
-                   popup = paste("Business Owner:", marijuana$Business_Owner))
+                   popup = paste("Business Owner:",
+                                 marijuana$Business_Owner))
 ```
 
 We don't have too much information in the data but we let's add the address and license number to the popup by adding them to the `paste()` function we're using. 
@@ -137,9 +143,12 @@ leaflet() %>%
   addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat,
                    radius = 5,
-                   popup = paste("Business Owner:", marijuana$Business_Owner,
-                                 "Address:", marijuana$Premise_Address,
-                                 "License:", marijuana$License_Number))
+                   popup = paste("Business Owner:",
+                                 marijuana$Business_Owner,
+                                 "Address:",
+                                 marijuana$Premise_Address,
+                                 "License:", 
+                                 marijuana$License_Number))
 ```
 
 Just adding the location text makes it try to print out everything on one line which is hard to read. If we add the text `<br>` where we want a line break it will make one. `<br>` is the HTML tag for line-break which is why it works making a new line in this case. 
@@ -152,11 +161,14 @@ leaflet() %>%
   addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat,
                    radius = 5,
-                   popup = paste("Business Owner:", marijuana$Business_Owner,
+                   popup = paste("Business Owner:",
+                                 marijuana$Business_Owner,
                                  "<br>",
-                                 "Address:", marijuana$Premise_Address,
+                                 "Address:", 
+                                 marijuana$Premise_Address,
                                  "<br>",
-                                 "License:", marijuana$License_Number))
+                                 "License:",
+                                 marijuana$License_Number))
 ```
 
 ## Dealing with too many markers
@@ -173,11 +185,14 @@ leaflet() %>%
   addCircleMarkers(lng = marijuana$long, 
                    lat = marijuana$lat,
                    radius = 5,
-                   popup = paste("Business Owner:", marijuana$Business_Owner,
+                   popup = paste("Business Owner:", 
+                                 marijuana$Business_Owner,
                                  "<br>",
-                                 "Address:", marijuana$Premise_Address,
+                                 "Address:",
+                                 marijuana$Premise_Address,
                                  "<br>",
-                                 "License:", marijuana$License_Number),
+                                 "License:",
+                                 marijuana$License_Number),
                    clusterOptions = markerClusterOptions())
 ```
 
@@ -189,15 +204,18 @@ This method is very useful for dealing with huge amounts of data as it avoids ov
 
 In Chapter \@ref(choropleth-maps) we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We'll make the same map as before - neighborhoods shaded by the number of suicides. 
 
-Let's load the San Francisco suicides-by-neighborhood data that we made earlier. 
+Let's load the San Francisco suicides-by-neighborhood data that we made earlier. We'll also want to project it to the standard longitude and latitude projection.
 
 ```{r}
-load("data/sf_neighborhoods_suicide.rda")
+library(sf)
+load("data/sf_neighborhoods_suicide.rda") 
+sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide, 
+                                         "+proj=longlat +datum=WGS84")
 ```
 
 We'll begin the `leaflet` map similar to before but use the function `addPolygons()` and our input here is the geometry column of *sf_neighborhoods_suicide*. 
 
-```{r error = TRUE}
+```{r}
 leaflet()  %>% 
   addTiles('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
            attribution = '&copy; <a href="http://openstreetmap.org">
@@ -247,9 +265,11 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
+              popup = paste0("Neighborhood: ", 
+                             sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides))
+                             "Number of Suicides: ",
+                             sf_neighborhoods_suicide$number_suicides))
 ```
 
 For these types of maps we generally want to shade each polygon to indicate how frequently the event occurred in the polygon. We'll use the function `colorNumeric()` which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette which we can get from the site [Color Brewer](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3). Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd". The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
@@ -265,9 +285,11 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
+              popup = paste0("Neighborhood: ",
+                             sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+                             "Number of Suicides: ",
+                             sf_neighborhoods_suicide$number_suicides),
               fillColor = pal(sf_neighborhoods_suicide$number_suicides))
 ```
 
@@ -282,9 +304,11 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
+              popup = paste0("Neighborhood: ",
+                             sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+                             "Number of Suicides: ",
+                             sf_neighborhoods_suicide$number_suicides),
               fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1)
 ```
@@ -300,9 +324,11 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
+              popup = paste0("Neighborhood: ", 
+                             sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+                             "Number of Suicides: ",
+                             sf_neighborhoods_suicide$number_suicides),
               fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 
@@ -321,9 +347,11 @@ leaflet()  %>%
   addPolygons(data = sf_neighborhoods_suicide$geometry,
               col = "black",
               weight = 1,
-              popup = paste0("Neighborhood: ", sf_neighborhoods_suicide$nhood,
+              popup = paste0("Neighborhood: ",
+                             sf_neighborhoods_suicide$nhood,
                              "<br>",
-                             "Number of Suicides: ", sf_neighborhoods_suicide$number_suicides),
+                             "Number of Suicides: ",
+                             sf_neighborhoods_suicide$number_suicides),
               fillColor = pal(sf_neighborhoods_suicide$number_suicides),
               fillOpacity = 1) %>%
   addLegend(pal = pal, 

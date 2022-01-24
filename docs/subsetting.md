@@ -282,11 +282,13 @@ numbers > 3
 
 In many cases when you are subsetting you will want to subset based on more than one condition. These "conditional statements" can be tricky for new R users since you need to remember both what conditions you need *and* the R code to write it. For a simple introduction to combining conditional statements, we'll first start with the dog food instructions for my new puppy Peanut.
 
-<img src="images/peanut.png" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/peanut} \end{center}
 
 Here, the instructions indicate how much food to feed your dog each day. Then instructions are broken down into dog age **and** expected size (in pounds/kilograms) and the intersection of these tells you how much food to feed your dog. Even once you figure out how much to feed the dog, there's another conditional statement to figure out whether you feed them twice a day or three times a day. 
 
-<img src="images/dog_food.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/dog_food} \end{center}
 
 This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the top to figure out how much to feed your dog.^[If you encounter some conditional statements that confuse you - which will be more common as you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.] 
 
@@ -354,7 +356,7 @@ nrow(ucr)
 
 ```r
 ncol(ucr)
-#> [1] 223
+#> [1] 222
 ```
 
 This is a large file with 223 columns and over a million rows. Normally we wouldn't want to print out the names of all 223 columns but let's do so here as we want to know the variables available to subset. We can use `names()` to see the name of every column in a data.frame. Inside the parentheses we put the data.frame name (without quotes).
@@ -383,97 +385,96 @@ names(ucr)
 #>  [37] "fbi_field_office"                 "followup_indication"             
 #>  [39] "zip_code"                         "month_included_in"               
 #>  [41] "covered_by_ori"                   "agency_count"                    
-#>  [43] "special_mailing_group"            "special_mailing_address"         
-#>  [45] "first_line_of_mailing_address"    "second_line_of_mailing_address"  
-#>  [47] "third_line_of_mailing_address"    "fourth_line_of_mailing_address"  
-#>  [49] "officers_killed_by_felony"        "officers_killed_by_accident"     
-#>  [51] "officers_assaulted"               "actual_murder"                   
-#>  [53] "actual_manslaughter"              "actual_rape_total"               
-#>  [55] "actual_rape_by_force"             "actual_rape_attempted"           
-#>  [57] "actual_robbery_total"             "actual_robbery_with_a_gun"       
-#>  [59] "actual_robbery_with_a_knife"      "actual_robbery_other_weapon"     
-#>  [61] "actual_robbery_unarmed"           "actual_assault_total"            
-#>  [63] "actual_assault_with_a_gun"        "actual_assault_with_a_knife"     
-#>  [65] "actual_assault_other_weapon"      "actual_assault_unarmed"          
-#>  [67] "actual_assault_simple"            "actual_burg_total"               
-#>  [69] "actual_burg_force_entry"          "actual_burg_nonforce_entry"      
-#>  [71] "actual_burg_attempted"            "actual_theft_total"              
-#>  [73] "actual_mtr_veh_theft_total"       "actual_mtr_veh_theft_car"        
-#>  [75] "actual_mtr_veh_theft_truck"       "actual_mtr_veh_theft_other"      
-#>  [77] "actual_all_crimes"                "actual_assault_aggravated"       
-#>  [79] "actual_index_violent"             "actual_index_property"           
-#>  [81] "actual_index_total"               "actual_arson_single_occupancy"   
-#>  [83] "actual_arson_other_residential"   "actual_arson_storage"            
-#>  [85] "actual_arson_industrial"          "actual_arson_other_commercial"   
-#>  [87] "actual_arson_community_public"    "actual_arson_all_oth_structures" 
-#>  [89] "actual_arson_total_structures"    "actual_arson_motor_vehicles"     
-#>  [91] "actual_arson_other_mobile"        "actual_arson_total_mobile"       
-#>  [93] "actual_arson_all_other"           "actual_arson_grand_total"        
-#>  [95] "tot_clr_murder"                   "tot_clr_manslaughter"            
-#>  [97] "tot_clr_rape_total"               "tot_clr_rape_by_force"           
-#>  [99] "tot_clr_rape_attempted"           "tot_clr_robbery_total"           
-#> [101] "tot_clr_robbery_with_a_gun"       "tot_clr_robbery_with_a_knife"    
-#> [103] "tot_clr_robbery_other_weapon"     "tot_clr_robbery_unarmed"         
-#> [105] "tot_clr_assault_total"            "tot_clr_assault_with_a_gun"      
-#> [107] "tot_clr_assault_with_a_knife"     "tot_clr_assault_other_weapon"    
-#> [109] "tot_clr_assault_unarmed"          "tot_clr_assault_simple"          
-#> [111] "tot_clr_burg_total"               "tot_clr_burg_force_entry"        
-#> [113] "tot_clr_burg_nonforce_entry"      "tot_clr_burg_attempted"          
-#> [115] "tot_clr_theft_total"              "tot_clr_mtr_veh_theft_total"     
-#> [117] "tot_clr_mtr_veh_theft_car"        "tot_clr_mtr_veh_theft_truck"     
-#> [119] "tot_clr_mtr_veh_theft_other"      "tot_clr_all_crimes"              
-#> [121] "tot_clr_assault_aggravated"       "tot_clr_index_violent"           
-#> [123] "tot_clr_index_property"           "tot_clr_index_total"             
-#> [125] "tot_clr_arson_single_occupancy"   "tot_clr_arson_other_residential" 
-#> [127] "tot_clr_arson_storage"            "tot_clr_arson_industrial"        
-#> [129] "tot_clr_arson_other_commercial"   "tot_clr_arson_community_public"  
-#> [131] "tot_clr_arson_all_oth_structures" "tot_clr_arson_total_structures"  
-#> [133] "tot_clr_arson_motor_vehicles"     "tot_clr_arson_other_mobile"      
-#> [135] "tot_clr_arson_total_mobile"       "tot_clr_arson_all_other"         
-#> [137] "tot_clr_arson_grand_total"        "clr_18_murder"                   
-#> [139] "clr_18_manslaughter"              "clr_18_rape_total"               
-#> [141] "clr_18_rape_by_force"             "clr_18_rape_attempted"           
-#> [143] "clr_18_robbery_total"             "clr_18_robbery_with_a_gun"       
-#> [145] "clr_18_robbery_with_a_knife"      "clr_18_robbery_other_weapon"     
-#> [147] "clr_18_robbery_unarmed"           "clr_18_assault_total"            
-#> [149] "clr_18_assault_with_a_gun"        "clr_18_assault_with_a_knife"     
-#> [151] "clr_18_assault_other_weapon"      "clr_18_assault_unarmed"          
-#> [153] "clr_18_assault_simple"            "clr_18_burg_total"               
-#> [155] "clr_18_burg_force_entry"          "clr_18_burg_nonforce_entry"      
-#> [157] "clr_18_burg_attempted"            "clr_18_theft_total"              
-#> [159] "clr_18_mtr_veh_theft_total"       "clr_18_mtr_veh_theft_car"        
-#> [161] "clr_18_mtr_veh_theft_truck"       "clr_18_mtr_veh_theft_other"      
-#> [163] "clr_18_all_crimes"                "clr_18_assault_aggravated"       
-#> [165] "clr_18_index_violent"             "clr_18_index_property"           
-#> [167] "clr_18_index_total"               "clr_18_arson_single_occupancy"   
-#> [169] "clr_18_arson_other_residential"   "clr_18_arson_storage"            
-#> [171] "clr_18_arson_industrial"          "clr_18_arson_other_commercial"   
-#> [173] "clr_18_arson_community_public"    "clr_18_arson_all_oth_structures" 
-#> [175] "clr_18_arson_total_structures"    "clr_18_arson_motor_vehicles"     
-#> [177] "clr_18_arson_other_mobile"        "clr_18_arson_total_mobile"       
-#> [179] "clr_18_arson_all_other"           "clr_18_arson_grand_total"        
-#> [181] "unfound_murder"                   "unfound_manslaughter"            
-#> [183] "unfound_rape_total"               "unfound_rape_by_force"           
-#> [185] "unfound_rape_attempted"           "unfound_robbery_total"           
-#> [187] "unfound_robbery_with_a_gun"       "unfound_robbery_with_a_knife"    
-#> [189] "unfound_robbery_other_weapon"     "unfound_robbery_unarmed"         
-#> [191] "unfound_assault_total"            "unfound_assault_with_a_gun"      
-#> [193] "unfound_assault_with_a_knife"     "unfound_assault_other_weapon"    
-#> [195] "unfound_assault_unarmed"          "unfound_assault_simple"          
-#> [197] "unfound_burg_total"               "unfound_burg_force_entry"        
-#> [199] "unfound_burg_nonforce_entry"      "unfound_burg_attempted"          
-#> [201] "unfound_theft_total"              "unfound_mtr_veh_theft_total"     
-#> [203] "unfound_mtr_veh_theft_car"        "unfound_mtr_veh_theft_truck"     
-#> [205] "unfound_mtr_veh_theft_other"      "unfound_all_crimes"              
-#> [207] "unfound_assault_aggravated"       "unfound_index_violent"           
-#> [209] "unfound_index_property"           "unfound_index_total"             
-#> [211] "unfound_arson_single_occupancy"   "unfound_arson_other_residential" 
-#> [213] "unfound_arson_storage"            "unfound_arson_industrial"        
-#> [215] "unfound_arson_other_commercial"   "unfound_arson_community_public"  
-#> [217] "unfound_arson_all_oth_structures" "unfound_arson_total_structures"  
-#> [219] "unfound_arson_motor_vehicles"     "unfound_arson_other_mobile"      
-#> [221] "unfound_arson_total_mobile"       "unfound_arson_all_other"         
-#> [223] "unfound_arson_grand_total"
+#>  [43] "special_mailing_address"          "first_line_of_mailing_address"   
+#>  [45] "second_line_of_mailing_address"   "third_line_of_mailing_address"   
+#>  [47] "fourth_line_of_mailing_address"   "officers_killed_by_felony"       
+#>  [49] "officers_killed_by_accident"      "officers_assaulted"              
+#>  [51] "actual_murder"                    "actual_manslaughter"             
+#>  [53] "actual_rape_total"                "actual_rape_by_force"            
+#>  [55] "actual_rape_attempted"            "actual_robbery_total"            
+#>  [57] "actual_robbery_with_a_gun"        "actual_robbery_with_a_knife"     
+#>  [59] "actual_robbery_other_weapon"      "actual_robbery_unarmed"          
+#>  [61] "actual_assault_total"             "actual_assault_with_a_gun"       
+#>  [63] "actual_assault_with_a_knife"      "actual_assault_other_weapon"     
+#>  [65] "actual_assault_unarmed"           "actual_assault_simple"           
+#>  [67] "actual_burg_total"                "actual_burg_force_entry"         
+#>  [69] "actual_burg_nonforce_entry"       "actual_burg_attempted"           
+#>  [71] "actual_theft_total"               "actual_mtr_veh_theft_total"      
+#>  [73] "actual_mtr_veh_theft_car"         "actual_mtr_veh_theft_truck"      
+#>  [75] "actual_mtr_veh_theft_other"       "actual_all_crimes"               
+#>  [77] "actual_assault_aggravated"        "actual_index_violent"            
+#>  [79] "actual_index_property"            "actual_index_total"              
+#>  [81] "actual_arson_single_occupancy"    "actual_arson_other_residential"  
+#>  [83] "actual_arson_storage"             "actual_arson_industrial"         
+#>  [85] "actual_arson_other_commercial"    "actual_arson_community_public"   
+#>  [87] "actual_arson_all_oth_structures"  "actual_arson_total_structures"   
+#>  [89] "actual_arson_motor_vehicles"      "actual_arson_other_mobile"       
+#>  [91] "actual_arson_total_mobile"        "actual_arson_all_other"          
+#>  [93] "actual_arson_grand_total"         "tot_clr_murder"                  
+#>  [95] "tot_clr_manslaughter"             "tot_clr_rape_total"              
+#>  [97] "tot_clr_rape_by_force"            "tot_clr_rape_attempted"          
+#>  [99] "tot_clr_robbery_total"            "tot_clr_robbery_with_a_gun"      
+#> [101] "tot_clr_robbery_with_a_knife"     "tot_clr_robbery_other_weapon"    
+#> [103] "tot_clr_robbery_unarmed"          "tot_clr_assault_total"           
+#> [105] "tot_clr_assault_with_a_gun"       "tot_clr_assault_with_a_knife"    
+#> [107] "tot_clr_assault_other_weapon"     "tot_clr_assault_unarmed"         
+#> [109] "tot_clr_assault_simple"           "tot_clr_burg_total"              
+#> [111] "tot_clr_burg_force_entry"         "tot_clr_burg_nonforce_entry"     
+#> [113] "tot_clr_burg_attempted"           "tot_clr_theft_total"             
+#> [115] "tot_clr_mtr_veh_theft_total"      "tot_clr_mtr_veh_theft_car"       
+#> [117] "tot_clr_mtr_veh_theft_truck"      "tot_clr_mtr_veh_theft_other"     
+#> [119] "tot_clr_all_crimes"               "tot_clr_assault_aggravated"      
+#> [121] "tot_clr_index_violent"            "tot_clr_index_property"          
+#> [123] "tot_clr_index_total"              "tot_clr_arson_single_occupancy"  
+#> [125] "tot_clr_arson_other_residential"  "tot_clr_arson_storage"           
+#> [127] "tot_clr_arson_industrial"         "tot_clr_arson_other_commercial"  
+#> [129] "tot_clr_arson_community_public"   "tot_clr_arson_all_oth_structures"
+#> [131] "tot_clr_arson_total_structures"   "tot_clr_arson_motor_vehicles"    
+#> [133] "tot_clr_arson_other_mobile"       "tot_clr_arson_total_mobile"      
+#> [135] "tot_clr_arson_all_other"          "tot_clr_arson_grand_total"       
+#> [137] "clr_18_murder"                    "clr_18_manslaughter"             
+#> [139] "clr_18_rape_total"                "clr_18_rape_by_force"            
+#> [141] "clr_18_rape_attempted"            "clr_18_robbery_total"            
+#> [143] "clr_18_robbery_with_a_gun"        "clr_18_robbery_with_a_knife"     
+#> [145] "clr_18_robbery_other_weapon"      "clr_18_robbery_unarmed"          
+#> [147] "clr_18_assault_total"             "clr_18_assault_with_a_gun"       
+#> [149] "clr_18_assault_with_a_knife"      "clr_18_assault_other_weapon"     
+#> [151] "clr_18_assault_unarmed"           "clr_18_assault_simple"           
+#> [153] "clr_18_burg_total"                "clr_18_burg_force_entry"         
+#> [155] "clr_18_burg_nonforce_entry"       "clr_18_burg_attempted"           
+#> [157] "clr_18_theft_total"               "clr_18_mtr_veh_theft_total"      
+#> [159] "clr_18_mtr_veh_theft_car"         "clr_18_mtr_veh_theft_truck"      
+#> [161] "clr_18_mtr_veh_theft_other"       "clr_18_all_crimes"               
+#> [163] "clr_18_assault_aggravated"        "clr_18_index_violent"            
+#> [165] "clr_18_index_property"            "clr_18_index_total"              
+#> [167] "clr_18_arson_single_occupancy"    "clr_18_arson_other_residential"  
+#> [169] "clr_18_arson_storage"             "clr_18_arson_industrial"         
+#> [171] "clr_18_arson_other_commercial"    "clr_18_arson_community_public"   
+#> [173] "clr_18_arson_all_oth_structures"  "clr_18_arson_total_structures"   
+#> [175] "clr_18_arson_motor_vehicles"      "clr_18_arson_other_mobile"       
+#> [177] "clr_18_arson_total_mobile"        "clr_18_arson_all_other"          
+#> [179] "clr_18_arson_grand_total"         "unfound_murder"                  
+#> [181] "unfound_manslaughter"             "unfound_rape_total"              
+#> [183] "unfound_rape_by_force"            "unfound_rape_attempted"          
+#> [185] "unfound_robbery_total"            "unfound_robbery_with_a_gun"      
+#> [187] "unfound_robbery_with_a_knife"     "unfound_robbery_other_weapon"    
+#> [189] "unfound_robbery_unarmed"          "unfound_assault_total"           
+#> [191] "unfound_assault_with_a_gun"       "unfound_assault_with_a_knife"    
+#> [193] "unfound_assault_other_weapon"     "unfound_assault_unarmed"         
+#> [195] "unfound_assault_simple"           "unfound_burg_total"              
+#> [197] "unfound_burg_force_entry"         "unfound_burg_nonforce_entry"     
+#> [199] "unfound_burg_attempted"           "unfound_theft_total"             
+#> [201] "unfound_mtr_veh_theft_total"      "unfound_mtr_veh_theft_car"       
+#> [203] "unfound_mtr_veh_theft_truck"      "unfound_mtr_veh_theft_other"     
+#> [205] "unfound_all_crimes"               "unfound_assault_aggravated"      
+#> [207] "unfound_index_violent"            "unfound_index_property"          
+#> [209] "unfound_index_total"              "unfound_arson_single_occupancy"  
+#> [211] "unfound_arson_other_residential"  "unfound_arson_storage"           
+#> [213] "unfound_arson_industrial"         "unfound_arson_other_commercial"  
+#> [215] "unfound_arson_community_public"   "unfound_arson_all_oth_structures"
+#> [217] "unfound_arson_total_structures"   "unfound_arson_motor_vehicles"    
+#> [219] "unfound_arson_other_mobile"       "unfound_arson_total_mobile"      
+#> [221] "unfound_arson_all_other"          "unfound_arson_grand_total"
 ```
 
 Now let's discuss how to subset this data into a smaller data set to answer a specific question. Let's subset the data to answer our above question of "did Colorado's marijuana legalization affect crime in the state?" Like mentioned above, we need data just from Colorado and just for years around the legalization year - we can do 2011-2017 for simplicity. 
@@ -514,7 +515,8 @@ head(ucr$actual_murder)
 
 One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
 
-<img src="images/tab_example.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/tab_example} \end{center}
 
 ### Select specific rows
 
@@ -588,12 +590,8 @@ ucr[1, ]
 #> 1          pacific           NA     core city of msa             3030
 #>       followup_indication zip_code month_included_in covered_by_ori
 #> 1 do not send a follow-up    99507                 0           <NA>
-#>   agency_count
-#> 1            1
-#>                                                              special_mailing_group
-#> 1 the agency is a contributor but not on the mailing list,they are not sent forms.
-#>         special_mailing_address first_line_of_mailing_address
-#> 1 not a special mailing address                4501 elmore rd
+#>   agency_count       special_mailing_address first_line_of_mailing_address
+#> 1            1 not a special mailing address                4501 elmore rd
 #>   second_line_of_mailing_address third_line_of_mailing_address
 #> 1                           <NA>                          <NA>
 #>   fourth_line_of_mailing_address officers_killed_by_felony
@@ -802,8 +800,12 @@ Finally we want the columns stated above and to keep every row in the current da
 
 
 ```r
-colorado <- colorado[ , c("actual_murder", "state", "year",
-                          "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder", 
+                          "state",
+                          "year",
+                          "population",
+                          "ori", 
+                          "agency_name")]
 ```
 
 We can do a quick check using the `unique()` function. The `unique()` function prints all the unique values in a category, such as a column. We will use it on the *state* and *year* columns to make sure only the values that we want are present.
@@ -842,8 +844,12 @@ Let's first copy back some of the code we used earlier when we used base R to su
 ```r
 colorado <- ucr[ucr$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
-colorado <- colorado[ , c("actual_murder", "state", "year",
-                          "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder",
+                          "state",
+                          "year",
+                          "population",
+                          "ori",
+                          "agency_name")]
 ```
 
 We have two conditional statements - keep only rows where state is Colorado and where years are between 2011 and 2017 (including 2017) - and then we kept only a small number of columns.
@@ -890,7 +896,8 @@ We follow similar syntax for `select()` by starting with the name of the data se
 
 
 ```r
-colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
+colorado <- select(colorado, actual_murder, state,
+                   year, population, ori, agency_name)
 ```
 
 If we run the same checks on unique states and years as we did after our base R code, we'll get the same results. This shows that our `dplyr` code did the same thing as our base R code.

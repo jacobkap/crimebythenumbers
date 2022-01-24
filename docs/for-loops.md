@@ -155,7 +155,7 @@ Here I am making a vector called *recipe_urls* with the URLs of a few recipes th
 ```r
 recipe_urls <- c("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/",
                  "https://www.allrecipes.com/recipe/27188/crepes/",
-                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/")
+                 "https://www.allrecipes.com/recipe/22180/waffles-i/")
 ```
 
 
@@ -179,13 +179,10 @@ for (recipe_url in recipe_urls) {
 #> [5] "1 ½ teaspoons vegetable oil "
 #> [1] "Step 1   In a blender combine eggs, milk, flour, salt and oil. Process until smooth. Cover and refrigerate 1 hour.    Advertisement"                                                                                                       
 #> [2] "Step 2   Heat a skillet over medium-high heat and brush with oil. Pour 1/4 cup of crepe batter into pan, tilting to completely coat the surface of the pan. Cook 2 to 5 minutes, turning once, until golden. Repeat with remaining batter."
-#> [1] "4 large carrots, peeled and cut into matchstick pieces "
-#> [2] "10 baby red potatoes, quartered "                       
-#> [3] "1 onion, peeled and cut into bite-sized pieces "        
-#> [4] "4 cups water "                                          
-#> [5] "1 (4 pound) corned beef brisket with spice packet "     
-#> [6] "6 ounces beer "                                         
-#> [7] "½ head cabbage, coarsely chopped "                      
-#> [1] "Step 1   Place the carrots, potatoes, and onion into the bottom of a slow cooker, pour in the water, and place the brisket on top of the vegetables. Pour the beer over the brisket. Sprinkle on the spices from the packet, cover, and set the cooker on High.    Advertisement"
-#> [2] "Step 2   Cook the brisket for about 8 hours. An hour before serving, stir in the cabbage and cook for 1 more hour."
+#> [1] "2 eggs "                     "2 cups all-purpose flour "  
+#> [3] "1 ¾ cups milk "              "½ cup vegetable oil "       
+#> [5] "1 tablespoon white sugar "   "4 teaspoons baking powder " 
+#> [7] "¼ teaspoon salt "            "½ teaspoon vanilla extract "
+#> [1] "Step 1   Preheat waffle iron. Beat eggs in large bowl with hand beater until fluffy. Beat in flour, milk, vegetable oil, sugar, baking powder, salt and vanilla, just until smooth.    Advertisement"
+#> [2] "Step 2   Spray preheated waffle iron with non-stick cooking spray. Pour mix onto hot waffle iron. Cook until golden brown. Serve hot."
 ```

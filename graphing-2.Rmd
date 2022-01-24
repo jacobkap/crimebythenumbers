@@ -203,7 +203,8 @@ If we tie it all together, we can make the "race" column into a factor variable.
 
 ```{r}
 shootings$race <- factor(shootings$race,
-                         levels = names(sort(table(shootings$race), decreasing = TRUE)))
+                         levels = names(sort(table(shootings$race), 
+                                             decreasing = TRUE)))
 ```
 
 Now let's try that barplot again.
@@ -227,7 +228,8 @@ Since it's flipped, now it's sorted from smallest to largest. So we'll need to c
 
 ```{r}
 shootings$race <- factor(shootings$race,
-                         levels = names(sort(table(shootings$race), decreasing = FALSE)))
+                         levels = names(sort(table(shootings$race),
+                                             decreasing = FALSE)))
 ggplot(shootings, aes(x = race)) + 
   geom_bar() +
   coord_flip() 
@@ -255,7 +257,8 @@ Now let's see how our graph looks. We'll need to rerun the `factor()` code since
 
 ```{r}
 shootings$race <- factor(shootings$race,
-                         levels = names(sort(table(shootings$race), decreasing = FALSE)))
+                         levels = names(sort(table(shootings$race),
+                                             decreasing = FALSE)))
 ggplot(shootings, aes(x = race)) + 
   geom_bar() +
   coord_flip() 
@@ -277,7 +280,8 @@ We'll need to make a variable to indicate that the row is for one shooting. We c
 
 ```{r}
 shootings$dummy <- 1
-ggplot(shootings, aes(x = date, y = dummy)) +
+ggplot(shootings, aes(x = date,
+                      y = dummy)) +
   geom_line()
 ```
 This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, let's use the `lubridate()` package that is well-suited for this task. 
@@ -316,7 +320,8 @@ head(monthly_shootings)
 Since we now have a variable that shows the number of people killed each month, we can graph this new data set. We'll use the same process as earlier but our data set is now `monthly_shootings` instead of `shootings` and the x-axis variable is "month_year" instead of "date".
 
 ```{r}
-ggplot(monthly_shootings, aes(x = month_year, y = dummy)) +
+ggplot(monthly_shootings, aes(x = month_year,
+                              y = dummy)) +
   geom_line()
 ```
 The process is the same for yearly data.
@@ -325,7 +330,8 @@ The process is the same for yearly data.
 yearly_shootings <- shootings %>%
   group_by(year) %>% 
   summarize(dummy = sum(dummy))
-ggplot(yearly_shootings, aes(x = year, y = dummy)) +
+ggplot(yearly_shootings, aes(x = year, 
+                             y = dummy)) +
   geom_line()
 ```
 
@@ -350,28 +356,32 @@ Let's do a few examples using the graph made above. First, we'll need to load th
 
 ```{r}
 library(ggthemes)
-ggplot(yearly_shootings, aes(x = year, y = dummy)) +
+ggplot(yearly_shootings, aes(x = year,
+                             y = dummy)) +
   geom_line() +
   theme_fivethirtyeight()
 ```
 
 
 ```{r}
-ggplot(yearly_shootings, aes(x = year, y = dummy)) +
+ggplot(yearly_shootings, aes(x = year, 
+                             y = dummy)) +
   geom_line() +
   theme_tufte()
 ```
 
 
 ```{r}
-ggplot(yearly_shootings, aes(x = year, y = dummy)) +
+ggplot(yearly_shootings, aes(x = year,
+                             y = dummy)) +
   geom_line() +
   theme_few()
 ```
 
 
 ```{r}
-ggplot(yearly_shootings, aes(x = year, y = dummy)) +
+ggplot(yearly_shootings, aes(x = year,
+                             y = dummy)) +
   geom_line() +
   theme_excel()
 ```

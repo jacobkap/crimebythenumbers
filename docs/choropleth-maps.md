@@ -10,15 +10,6 @@ Since we will be working more on the suicide data from San Francisco, let's read
 ```r
 library(readr)
 suicide <- read_csv("data/san_francisco_suicide_2003_2017.csv")
-#> Rows: 1292 Columns: 14
-#> -- Column specification --------------------------------------------------------
-#> Delimiter: ","
-#> chr  (8): Category, Descript, DayOfWeek, Date, PdDistrict, Resolution, Addre...
-#> dbl  (5): IncidntNum, X, Y, PdId, year
-#> time (1): Time
-#> 
-#> i Use `spec()` to retrieve the full column specification for this data.
-#> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 suicide <- as.data.frame(suicide)
 ```
 
@@ -32,7 +23,7 @@ install.packages("sf")
 
 ```r
 library(sf)
-#> Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1
+#> Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 ```
 
 For this chapter we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco.  A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way `sf` reads in the shapefiles is through the `st_read()` function. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we'll call the object *sf_neighborhoods*. 
@@ -41,15 +32,8 @@ I downloaded this data from San Francisco's Open Data site [here](https://data.s
 
 
 ```r
-sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp")
-#> Reading layer `san_francisco_neighborhoods' from data source 
-#>   `C:\Users\jkkap\Dropbox\crimebythenumbers\data\san_francisco_neighborhoods.shp' 
-#>   using driver `ESRI Shapefile'
-#> Simple feature collection with 41 features and 1 field
-#> Geometry type: MULTIPOLYGON
-#> Dimension:     XY
-#> Bounding box:  xmin: -122.5149 ymin: 37.70813 xmax: -122.357 ymax: 37.8333
-#> Geodetic CRS:  WGS84(DD)
+sf_neighborhoods <- st_read("data/san_francisco_neighborhoods.shp",
+                            quiet = TRUE)
 ```
 
 As usual when dealing with a new data set, let's look at the first 6 rows.
@@ -78,90 +62,19 @@ The last column is important. In shapefiles, the "geometry" column is the one wi
 plot(sf_neighborhoods$geometry)
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
 
 Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city's attempt to create definitions of neighborhoods. Indeed, you're likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries [here](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind. 
 
-In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are important for working with spatial data. A way to get just those two results is the `st_crs()` function which is part of `sf`.  Let's look at the "coordinate reference system" (CRS) for `sf_neighborhoods`.
-
-
-```r
-st_crs(sf_neighborhoods)
-Coordinate Reference System:
-  User input: WGS84(DD) 
-  wkt:
-GEOGCRS["WGS84(DD)",
-    DATUM["WGS84",
-        ELLIPSOID["WGS84",6378137,298.257223563,
-            LENGTHUNIT["metre",1,
-                ID["EPSG",9001]]]],
-    PRIMEM["Greenwich",0,
-        ANGLEUNIT["degree",0.0174532925199433]],
-    CS[ellipsoidal,2],
-        AXIS["geodetic longitude",east,
-            ORDER[1],
-            ANGLEUNIT["degree",0.0174532925199433]],
-        AXIS["geodetic latitude",north,
-            ORDER[2],
-            ANGLEUNIT["degree",0.0174532925199433]]]
-```
+In the `head()` results there was a section about something called "epsg" and "proj4string". Let's talk about that specifically since they are important for working with spatial data. 
 
 An issue with working with geographic data is that [the Earth is not flat](https://en.wikipedia.org/wiki/Spherical_Earth). Since the Earth is spherical, there will always be some distortion when trying to plot the data on a flat surface such as a map. To account for this, we need to transform the longitude and latitude values we have to work properly on a map. We do so by "projecting" our data onto the areas of the Earth we want. This is a complex field with lots of work done on it (both abstractly and for R specifically) so this chapter will be an extremely brief overview of the topic and oversimplify some aspects of it. 
 
 If we look at the output of `st_crs(sf_neighborhoods)` we can see that the EPSG is set to 4326 and the proj4string (which tells us the current map projection) is "+proj=longlat +datum=WGS84 +no_defs". This CRS, WGS84, is a standard CRS and is the one used whenever you use a GPS to find a location. To find the CRS for certain parts of the world see [here](https://spatialreference.org/). If you search that site for "California" you'll see that California is broken into 6 zones. The site isn't that helpful on which zones are which but some Googling can often find state or region maps with the zones depicted there. We want California zone 3 which has the EPSG code 2227. We'll use this code to project this data properly. 
 
-If we want to get the proj4string for 2227 we can run `st_crs(2227)`.
-
-
-```r
-st_crs(2227)
-#> Coordinate Reference System:
-#>   User input: EPSG:2227 
-#>   wkt:
-#> PROJCRS["NAD83 / California zone 3 (ftUS)",
-#>     BASEGEOGCRS["NAD83",
-#>         DATUM["North American Datum 1983",
-#>             ELLIPSOID["GRS 1980",6378137,298.257222101,
-#>                 LENGTHUNIT["metre",1]]],
-#>         PRIMEM["Greenwich",0,
-#>             ANGLEUNIT["degree",0.0174532925199433]],
-#>         ID["EPSG",4269]],
-#>     CONVERSION["SPCS83 California zone 3 (US Survey feet)",
-#>         METHOD["Lambert Conic Conformal (2SP)",
-#>             ID["EPSG",9802]],
-#>         PARAMETER["Latitude of false origin",36.5,
-#>             ANGLEUNIT["degree",0.0174532925199433],
-#>             ID["EPSG",8821]],
-#>         PARAMETER["Longitude of false origin",-120.5,
-#>             ANGLEUNIT["degree",0.0174532925199433],
-#>             ID["EPSG",8822]],
-#>         PARAMETER["Latitude of 1st standard parallel",38.4333333333333,
-#>             ANGLEUNIT["degree",0.0174532925199433],
-#>             ID["EPSG",8823]],
-#>         PARAMETER["Latitude of 2nd standard parallel",37.0666666666667,
-#>             ANGLEUNIT["degree",0.0174532925199433],
-#>             ID["EPSG",8824]],
-#>         PARAMETER["Easting at false origin",6561666.667,
-#>             LENGTHUNIT["US survey foot",0.304800609601219],
-#>             ID["EPSG",8826]],
-#>         PARAMETER["Northing at false origin",1640416.667,
-#>             LENGTHUNIT["US survey foot",0.304800609601219],
-#>             ID["EPSG",8827]]],
-#>     CS[Cartesian,2],
-#>         AXIS["easting (X)",east,
-#>             ORDER[1],
-#>             LENGTHUNIT["US survey foot",0.304800609601219]],
-#>         AXIS["northing (Y)",north,
-#>             ORDER[2],
-#>             LENGTHUNIT["US survey foot",0.304800609601219]],
-#>     USAGE[
-#>         SCOPE["Engineering survey, topographic mapping."],
-#>         AREA["United States (USA) - California - counties Alameda; Calaveras; Contra Costa; Madera; Marin; Mariposa; Merced; Mono; San Francisco; San Joaquin; San Mateo; Santa Clara; Santa Cruz; Stanislaus; Tuolumne."],
-#>         BBOX[36.73,-123.02,38.71,-117.83]],
-#>     ID["EPSG",2227]]
-```
-
-Note the text in text in this output includes "US survey foot". This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area. 
+If we want to get the proj4string for 2227 we can run `st_crs(2227)`. I'm not running it here because it will print out a large amount of text, but you should run it on your own computer. Note the text in text in this output includes "US survey foot". This means that the units are in feet. Some projections have units in meters so be mindful of this when doing some analysis such as seeing if a point is within X feet of a certain area. 
 
 Let's convert our sf_neighborhoods data to coordinate reference system 2227 using `st_transform()`. 
 
@@ -286,7 +199,9 @@ plot(sf_neighborhoods$geometry)
 plot(suicide$geometry, add = TRUE, col = "red")
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-13-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
 
 Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let's plan it out before beginning. Our suicide data is one row for each suicide, our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with that the original neighborhood data and we can map it.
 
@@ -442,7 +357,8 @@ We need to convert these values to 0. We will use the `is.na()` function to cond
 
 
 ```r
-sf_neighborhoods_suicide$number_suicides[is.na(sf_neighborhoods_suicide$number_suicides)] <- 0
+sf_neighborhoods_suicide$number_suicides[
+  is.na(sf_neighborhoods_suicide$number_suicides)] <- 0
 ```
 
 Checking it again we see that the minimum is now 0 and the mean number of suicides decreases a bit to about 31.5 per neighborhood.
@@ -475,7 +391,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -483,12 +401,16 @@ We can use `scale_fill_gradient()` to set the colors to what we want. We input a
 
 
 ```r
-ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
+ggplot(sf_neighborhoods_suicide, 
+       aes(fill = number_suicides)) +
   geom_sf() +
-  scale_fill_gradient(low = "white", high = "red") 
+  scale_fill_gradient(low = "white",
+                      high = "red") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -496,23 +418,29 @@ To make this map easier to read and look better, let's add a title to the map an
 
 
 ```r
-ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
+ggplot(sf_neighborhoods_suicide, 
+       aes(fill = number_suicides)) +
   geom_sf() +
-  scale_fill_gradient(low = "white", high = "red") +
+  scale_fill_gradient(low = "white",
+                      high = "red") +
   labs(fill = "# of suicides",
        title = "Suicides in San Francisco, by neighborhood",
        subtitle = "2003 - 2017") 
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
 
 ```r
-ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
+ggplot(sf_neighborhoods_suicide,
+       aes(fill = number_suicides)) +
   geom_sf() +
-  scale_fill_gradient(low = "white", high = "red") +
+  scale_fill_gradient(low = "white",
+                      high = "red") +
   labs(fill = "# of suicides",
        title = "Suicides in San Francisco, by neighborhood",
        subtitle = "2003 - 2017") +
@@ -521,7 +449,9 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
         axis.ticks = element_blank())
 ```
 
-<img src="choropleth-maps_files/figure-html/unnamed-chunk-30-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 
@@ -531,3 +461,6 @@ We'll use this data in Chapter \@ref(interactive-maps) to make interactive choro
 ```r
 save(sf_neighborhoods_suicide, file = "data/sf_neighborhoods_suicide.rda")
 ```
+
+
+

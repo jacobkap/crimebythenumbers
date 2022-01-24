@@ -1,5 +1,10 @@
 # Scraping tables from PDFs {#scrape-table}
 
+```{r, echo = FALSE}
+options(width = 60)
+```
+
+
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
 Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. 
@@ -59,15 +64,15 @@ We can assign the output of the `pdf_text()` function to the object *border_patr
 border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")
 ```
 
-We can take a look at the `head()` of the result.
+We can take a look at the `head()` of the result using `head(border_patrol)`.
 
-```{r}
+```{r, results = "asis"}
 head(border_patrol)
 ```
 
 If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol" which tells us how many elements are in a vector.
 
-```{r}
+```{r, results = "asis"}
 length(border_patrol)
 ```
 
@@ -75,7 +80,7 @@ It is four elements long, one for each table.
 
 Looking at just the first element in *border_patrol* gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn't in our data yet) there is a `\n` indicating that there should be a new line. We want to use `strsplit()` to split at the `\n`. 
 
-```{r}
+```{r, results = "asis"}
 border_patrol[1]
 ```
 
@@ -97,19 +102,19 @@ sector_profile <- sector_profile[[1]]
 
 Now we can look at the first six rows of this data.
 
-```{r}
+```{r, results = "asis"}
 head(sector_profile)
 ```
 
 Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the () and it'll remove any white space that is at the beginning or end of the string.
 
-```{r}
+```{r, results = "asis"}
 sector_profile <- trimws(sector_profile)
 ```
 
 We have more rows than we want so let's look at the entire data and try to figure out how to keep just the necessary rows.
 
-```{r}
+```{r, results = "asis"}
 sector_profile
 ```
 
@@ -133,7 +138,7 @@ sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide 
 
 Note that we're getting rid of the rows which had the column names. It's easier to make the names ourselves than to deal with that mess. The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do.
 
-```{r}
+```{r, results = "asis"}
 head(sector_profile)
 ```
 
@@ -151,13 +156,13 @@ library(stringr)
 
 The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors  "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
 
-```{r}
+```{r, results = "asis"}
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 ```
 
 If we check the `head()` we can see that we have the proper columns now, but this still isn't a data.frame and has no column names. 
 
-```{r}
+```{r, results = "asis"}
 head(sector_profile)
 ```
 
@@ -194,7 +199,10 @@ sector_profile <- border_patrol[1]
 sector_profile <- trimws(sector_profile)
 sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
-sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
+sector_profile <- sector_profile[grep("Miami",
+                                      sector_profile):
+                                   grep("Nationwide Total",
+                                        sector_profile)]
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
@@ -214,7 +222,10 @@ Since each table is so similar our function will only need a few changes in the 
 We do this as it is bad form (and potentially dangerous) to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object (such as by scraping a different file but calling that object *border_patrol*) and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
 
 ```{r}
-scrape_pdf <- function(list_of_tables, table_number, number_columns, column_names) {
+scrape_pdf <- function(list_of_tables,
+                       table_number,
+                       number_columns, 
+                       column_names) {
   data <- list_of_tables[table_number]
   data <- trimws(data)
   data <- strsplit(data, "\n")

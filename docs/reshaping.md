@@ -191,7 +191,8 @@ Now, we want to reshape the data from its current long format to a wide format. 
 ```r
 sqf_agg_wide <- sqf_agg %>%
   filter(SUSPECT_RACE_DESCRIPTION != "(null)") %>%
-  pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION, values_from = n) 
+  pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION,
+              values_from = n) 
 head(sqf_agg_wide)
 #> # A tibble: 6 x 8
 #> # Groups:   MONTH2, DAY2 [6]
@@ -297,7 +298,8 @@ Since these columns both relate to the race column (called "SUSPECT_RACE_DESCRIP
 ```r
 sqf_agg_wide <- sqf_agg %>%
   filter(SUSPECT_RACE_DESCRIPTION != "(null)") %>%
-  pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION, values_from = c(n, n2)) 
+  pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION, 
+              values_from = c(n, n2)) 
 names(sqf_agg_wide) <- make_clean_names(names(sqf_agg_wide))
 head(sqf_agg_wide)
 #> # A tibble: 6 x 14

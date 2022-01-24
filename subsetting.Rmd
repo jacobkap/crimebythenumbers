@@ -416,8 +416,12 @@ colorado <- colorado[colorado$year %in% 2011:2017, ]
 Finally we want the columns stated above and to keep every row in the current data. Since the format is `[row, column]` in this case we keep the "row" part blank to indicate that we want every row.
 
 ```{r}
-colorado <- colorado[ , c("actual_murder", "state", "year",
-                          "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder", 
+                          "state",
+                          "year",
+                          "population",
+                          "ori", 
+                          "agency_name")]
 ```
 
 We can do a quick check using the `unique()` function. The `unique()` function prints all the unique values in a category, such as a column. We will use it on the *state* and *year* columns to make sure only the values that we want are present.
@@ -451,8 +455,12 @@ Let's first copy back some of the code we used earlier when we used base R to su
 ```{r}
 colorado <- ucr[ucr$state == "colorado", ]
 colorado <- colorado[colorado$year %in% 2011:2017, ]
-colorado <- colorado[ , c("actual_murder", "state", "year",
-                          "population", "ori", "agency_name")]
+colorado <- colorado[ , c("actual_murder",
+                          "state",
+                          "year",
+                          "population",
+                          "ori",
+                          "agency_name")]
 ```
 
 We have two conditional statements - keep only rows where state is Colorado and where years are between 2011 and 2017 (including 2017) - and then we kept only a small number of columns.
@@ -486,7 +494,8 @@ colorado <- filter(ucr, state == "colorado", year %in% 2011:2017)
 We follow similar syntax for `select()` by starting with the name of the data set and then the name of every column you want to keep. Unlike in base R we don't need to put the columns in a vector or to put the names in quotes (though you can put the names in quotes if you'd like). The order you put the column names in is also the order it will arrange them, so this function can be used to reorder your columns. 
 
 ```{r}
-colorado <- select(colorado, actual_murder, state, year, population, ori, agency_name)
+colorado <- select(colorado, actual_murder, state,
+                   year, population, ori, agency_name)
 ```
 
 If we run the same checks on unique states and years as we did after our base R code, we'll get the same results. This shows that our `dplyr` code did the same thing as our base R code.

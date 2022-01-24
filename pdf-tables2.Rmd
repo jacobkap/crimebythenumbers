@@ -70,7 +70,8 @@ We're looking just at the `head()` and `tail()` to get the first and last six ro
 One thing to note is that this data isn't in a data.frame format, it's in a matrix. Matrices are the default output of `extract_tables()` though you can set it to output a data.frame by setting the parameter `output = "data.frame"`. In our case we actually wouldn't want that due to the issue of the column names. As shown below, outputting to a data.frame will automatically take the first row of data and convert that to column names. So now we have our first county as the column names, which is not correct. Note too that the function added "X" before the column names which are numbers. That's because column names cannot start with a number so the function tries to fix it by adding the "X" to the start. 
 
 ```{r}
-data <- extract_tables(file = "data/AbbreRptCurrent.pdf", output = "data.frame")
+data <- extract_tables(file = "data/AbbreRptCurrent.pdf",
+                       output = "data.frame")
 head(data[[2]])
 ```
 
@@ -136,6 +137,7 @@ example1 <- head(mtcars)
 example2 <- head(mtcars)
 bind_rows(example1, example2)
 ```
+
 The data that is printed out has 12 rows and in this example the first six and the last six rows are identical. `bind_rows()` took the second object in the parentheses (*example2*) and stacked it right below the last row in *example1.* In this case the columns are already in the same order but if they weren't, `bind_rows()` is smart enough to arrange the columns in the second object to be the same as the first object.
 
 Now we can run our for loop and create a single data set with every row from our 9 pages of data. We start by creating our empty data.frame and we'll call that *final*. At the end of our loop we say that *final* gets `bind_rows(final, temp)` meaning that temp is stacked to the bottom of *final* every time the loop runs. We'll end this code chunk by looking at `head()` and `tail()` of *final* to be sure it worked correctly.

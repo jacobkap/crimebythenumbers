@@ -151,7 +151,7 @@ Note that `grep()` (and `gsub()`) is case sensitive so you must capitalize prope
 
 
 ```r
-grep("theft", value = TRUE, crimes)
+grep("theft", crimes, value = TRUE)
 #> character(0)
 ```
 

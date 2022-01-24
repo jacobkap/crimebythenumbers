@@ -44,7 +44,7 @@ Now let's try again. We'll enter our data.frame *address_to_geocode* first and t
 ```r
 geocode(address_to_geocode, address)
 #> Passing 1 address to the Nominatim single address geocoder
-#> Query completed in: 1 seconds
+#> Query completed in: 1.1 seconds
 #> # A tibble: 1 x 3
 #>   address                               lat  long
 #>   <chr>                               <dbl> <dbl>
@@ -88,7 +88,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "census")
 #> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 2.6 seconds
+#> Query completed in: 1.5 seconds
 example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
@@ -100,7 +100,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.3 seconds
+#> Query completed in: 0.5 seconds
 example
 #> # A tibble: 1 x 3
 #>   address                               lat  long
@@ -114,7 +114,7 @@ By default this function returns a tibble instead of a normal data.frame so it o
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.9 seconds
+#> Query completed in: 0.2 seconds
 example <- data.frame(example)
 example
 #>                               address      lat      long
@@ -123,7 +123,7 @@ example
 
 Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address. 
 
-The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function.
+The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function. The `example$display_name <- NULL` isn't necessary but I use it to remove a column that prints out an extremely long line for the location's full address and that looks bad in the print version of this book.
 
 
 ```r
@@ -132,6 +132,7 @@ example <- geocode(address_to_geocode, "address",
 #> Passing 1 address to the Nominatim single address geocoder
 #> Query completed in: 1 seconds
 example <- data.frame(example)
+example$display_name <- NULL
 example
 #>                               address     lat      long  place_id
 #> 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524
@@ -139,12 +140,10 @@ example
 #> 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
 #>   osm_type   osm_id
 #> 1      way 62202366
-#>                                                          boundingbox
-#> 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327
-#>                                                                                         display_name
-#> 1 750, Race Street, Chinatown, Philadelphia, Philadelphia County, Pennsylvania, 19106, United States
-#>   class  type importance
-#> 1 place house      0.531
+#>                                                          boundingbox class
+#> 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327 place
+#>    type importance
+#> 1 house      0.531
 ```
 
 For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don't seem very useful for our purposes such as the "importance" of the address. It's interesting that OSM classifies this address as a "house" as the headquarters of a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the "display_name". 
@@ -156,7 +155,7 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 example <- geocode(address_to_geocode, "address", 
                    method = "census", full_results = TRUE)
 #> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 2.6 seconds
+#> Query completed in: 0.9 seconds
 example <- data.frame(example)
 example
 #>                               address      lat     long
@@ -184,7 +183,7 @@ The Census results are similar to the OSM results and also have the matched addr
 example <- geocode(address_to_geocode, "address", 
                    method = "arcgis", full_results = TRUE)
 #> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.1 seconds
+#> Query completed in: 0.2 seconds
 example <- data.frame(example)
 example
 #>                               address      lat      long
@@ -207,13 +206,6 @@ Let's read in the marijuana dispensary data which is called "san_francisco_activ
 ```r
 library(readr)
 marijuana <- read_csv("data/san_francisco_active_marijuana_retailers.csv")
-#> Rows: 33 Columns: 10
-#> -- Column specification --------------------------------------------------------
-#> Delimiter: ","
-#> chr (10): License Number, License Type, Business Owner, Business Structure, ...
-#> 
-#> i Use `spec()` to retrieve the full column specification for this data.
-#> i Specify the column types or set `show_col_types = FALSE` to quiet this message.
 marijuana <- data.frame(marijuana)
 ```
 
@@ -308,7 +300,7 @@ marijuana$lat  <- NULL
 marijuana      <- geocode(marijuana, "Premise.Address",
                           method = "arcgis")
 #> Passing 33 addresses to the ArcGIS single address geocoder
-#> Query completed in: 16.5 seconds
+#> Query completed in: 17.3 seconds
 ```
 And let's do the `summary()` check again. 
 
@@ -333,6 +325,8 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="90%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 

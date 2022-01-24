@@ -197,10 +197,10 @@ Now we have the first 6 rows of every column from the `mtcars` data. This is a f
 
 Throughout this book we'll spend a lot of time introducing functions that other people have made and learning how to combine the functions together to be able to get our raw data (e.g. a CSV file downloaded from a police site) into a usable format for research (e.g. cleaned to include only the rows and columns we need to analyze and in the units we want). For functions that other people wrote, we need to tell R that we want to use these functions. We do so by having R download that person's package. A package is just the name for a collection of functions in an easily downloadable format. We can do all of the downloading through R, so we don't have to go searching for them. There are two ways to download a package in R: through writing R code or through a shortcut in RStudio.
 
-Downloading a package through R code uses - like pretty much everything else in R - a function. This function is `install.packages()` where we put the name of the package we want in the (). This name also has to be in quotes since it is an object that is not currently in R. Let's install the package "meditations" which is a simple package I made that gives a random quote from the book Meditations by Marcus Aurelius. We need to run the code `install.packages("meditations")` and be sure to spell "meditations" right and put it in quotes.
+Downloading a package through R code uses - like pretty much everything else in R - a function. This function is `install.packages()` where we put the name of the package we want in the (). This name also has to be in quotes since it is an object that is not currently in R. Let's install the package "caesar" which is a simple package I made that creates a Caesar cipher from some text. We need to run the code `install.packages("caesar")` and be sure to spell "caesar" right and put it in quotes.
 
 ```{r, eval = FALSE}
-install.packages("meditations")
+install.packages("caesar")
 ```
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown below where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
@@ -212,13 +212,13 @@ knitr::include_graphics('images/install_packages.PNG')
 Once we have downloaded the package, we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. We need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting RStudio. The way to do this is to use the function `library()` where we put the package name in the parentheses. Since the package is something that has been installed to R, we don't need to have quotes around the name.
 
 ```{r}
-library(meditations)
+library(caesar)
 ```
 
-Now we can run the `meditations()` function and get a random Marcus Aurelius quote (it's just a coincidence that the function name is the same as the package name). 
+Now we can run the `caesar()` function and make a Caesar cipher for that text (it's just a coincidence that the function name is the same as the package name). 
 
 ```{r}
-meditations()
+caesar("example text")
 ```
 
 ## Reading data into R

@@ -94,19 +94,22 @@ When we run it, we get our graph. It includes the variable names for each axis a
 Let's start with point and line graphs.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_point()
 ```
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_line()
 ```
 
 We can also combine different types of graphs.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_point() +
   geom_line()
 ```
@@ -114,7 +117,8 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_point() +
   geom_line() +
   expand_limits(y = 0)
@@ -125,7 +129,8 @@ Now that graph shows what looks like nearly no change even though that is also n
 Inside the types of graphs we can change how it is displayed. As with using `plot()`, we can specify the color and size of our lines or points. 
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
 ```
 
@@ -137,7 +142,8 @@ Some other useful features are changing the axis labels and the graph title. Unl
   
   
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_beers)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3) +
   xlab("Year") +
   ylab("Number of Beers") +
@@ -149,35 +155,42 @@ Many time-series plots show multiple variables over the same time period (e.g. m
 Start with a normal line graph, this time looking at wine.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_glasses_wine)) +
   geom_line()
 ```
 
 Then include a second `geom_line()` with its own `aes()` for the second variable. Since we are using the penn_alcohol data set for both lines we do not need to include it in the second `geom_line()` as it assumes that the data is the same if we don't specify otherwise. If we used a different data set for the second line, we would need to specify which data set it is inside of `geom_line()` and before `aes()`.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine)) +
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_glasses_wine)) +
   geom_line() +
-  geom_line(aes(x = year, y = number_of_shots_liquor))
+  geom_line(aes(x = year,
+                y = number_of_shots_liquor))
 ```
 
 A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
+ggplot(penn_alcohol, aes(x = year,
+                         y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
-  geom_line(aes(x = year, y = number_of_shots_liquor,
+  geom_line(aes(x = year,
+                y = number_of_shots_liquor,
                 color = "Shots of Liquor"))
 ```
 
 We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
+ggplot(penn_alcohol, aes(x = year, 
+                         y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
-  geom_line(aes(x = year, y = number_of_shots_liquor,
+  geom_line(aes(x = year, 
+                y = number_of_shots_liquor,
                 color = "Shots of Liquor")) +
   labs(color = "Alcohol Type")
 ```
@@ -185,10 +198,12 @@ ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
 Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
+ggplot(penn_alcohol, aes(x = year, 
+                         y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
-  geom_line(aes(x = year, y = number_of_shots_liquor,
+  geom_line(aes(x = year,
+                y = number_of_shots_liquor,
                 color = "Shots of Liquor")) +
   labs(color = "Alcohol Type") +
   theme(legend.position = "bottom")
@@ -222,10 +237,12 @@ This site lets you select which type of colors you want (sequential and divergin
 Let's use an example of a color blind friendly color from the "qualitative" section of ColorBrewer. We have three options on this page (we can change how many colors we want but it defaults to showing 3): green (HEX = #1b9e77), orange (HEX = #d95f02), and purple (HEX = #7570b3). We'll use the orange and purple colors. To manually set colors in `ggplot()` we use `scale_color_manual(values = c())` and include a vector of color names or HEX codes inside the `c()`. Doing that using the orange and purple HEX codes will change our graph colors to these two colors. 
 
 ```{r}
-ggplot(penn_alcohol, aes(x = year, y = number_of_glasses_wine,
+ggplot(penn_alcohol, aes(x = year, 
+                         y = number_of_glasses_wine,
                          color = "Glasses of Wine")) +
   geom_line() +
-  geom_line(aes(x = year, y = number_of_shots_liquor,
+  geom_line(aes(x = year,
+                y = number_of_shots_liquor,
                 color = "Shots of Liquor")) +
   labs(color = "Alcohol Type") +
   theme(legend.position = "bottom") +

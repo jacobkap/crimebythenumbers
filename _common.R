@@ -1,13 +1,22 @@
+library(formatR)
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
-  out.width = "90%",
   fig.align = 'center',
-  fig.width = 10,
-  fig.asp =  0.7,  # 0.618 == 1 / phi
+  fig.width = 9,
+  fig.asp =  0.618,  
   fig.show = "hold",
   error = TRUE,
-  fig.pos = "!H", out.extra = ""
+  fig.pos = "!H", 
+  out.extra = "",
+ 
+  tidy = "styler",
+  out.width = "100%",
+  out.height= "45%"
   )
 
-options(width = 80)
+options(readr.show_col_types = FALSE) 
+
+# To silence coordinate system message
+cf <- ggplot2::coord_fixed()
+cf$default <- TRUE

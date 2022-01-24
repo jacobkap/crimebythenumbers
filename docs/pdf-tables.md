@@ -12,7 +12,8 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-<img src="images/pdf_table_1.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_1} \end{center}
 
 Now if we look more at the table, we can see that each row is a section of the US border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data sets will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -20,15 +21,18 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
 
-<img src="images/pdf_table_2.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_2} \end{center}
 
 Table 3 follows the same format and the new columns are number of apprehensions by gender.
 
-<img src="images/pdf_table_3.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_3} \end{center}
 
 Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-<img src="images/pdf_table_4.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_4} \end{center}
 
 ## Scraping the first table
 
@@ -304,7 +308,8 @@ sector_profile <- border_patrol[1]
 sector_profile <- trimws(sector_profile)
 sector_profile <- strsplit(sector_profile, "\r\n")
 sector_profile <- sector_profile[[1]]
-sector_profile <- sector_profile[grep("Miami", sector_profile):grep("Nationwide Total", sector_profile)]
+sector_profile <- sector_profile[grep("Miami", sector_profile):
+                                   grep("Nationwide Total", sector_profile)]
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
 sector_profile <- data.frame(sector_profile)
 names(sector_profile) <- c("sector",
@@ -325,7 +330,10 @@ We do this as it is bad form (and potentially dangerous) to have a function that
 
 
 ```r
-scrape_pdf <- function(list_of_tables, table_number, number_columns, column_names) {
+scrape_pdf <- function(list_of_tables,
+                       table_number,
+                       number_columns, 
+                       column_names) {
   data <- list_of_tables[table_number]
   data <- trimws(data)
   data <- strsplit(data, "\n")

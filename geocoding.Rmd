@@ -78,12 +78,13 @@ example
 
 Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address. 
 
-The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function.
+The second important parameter is `full_results` which is by default set to FALSE. When set to TRUE it gives more columns in the returning data.frame than just the longitude and latitude of that address. These columns differ for each geocoder source so we'll look at all three. I'll convert all of these results to a data.frame so it prints out all of the columns, and doesn't abbreviate results which is how tibbles function. The `example$display_name <- NULL` isn't necessary but I use it to remove a column that prints out an extremely long line for the location's full address and that looks bad in the print version of this book.
 
 ```{r}
 example <- geocode(address_to_geocode, "address",
                    method = "osm", full_results = TRUE)
 example <- data.frame(example)
+example$display_name <- NULL
 example
 ```
 

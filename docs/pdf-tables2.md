@@ -17,7 +17,8 @@ Just to understand what units our data is in we had to look at both the PDF itse
 
 Now let's look at what columns are available. It looks like each column is the number of people incarcerated in the jail, broken down into categories of people. For example, the first two columns after County are "Pretrial Felons" and "Conv. Felons" so those are probably how many people are incarcerated who are awaiting trial for a felony and those already convicted of a felony. The other columns seem to follow this same format until the last few ones which describe the jails capacity (i.e. how many people they can hold), what percent of capacity they are at, and specifically how many open beds they have. 
 
-<img src="images/tabulizer1.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/tabulizer1} \end{center}
 
 Now that we've familiarized ourselves with the data, let's begin scraping this data using `tabulizer`. If you don't have this package installed, you'll need to install it using `install.packages("tabulizer")`. Then we'll need to run `library(tabulizer)`.
 
@@ -133,7 +134,8 @@ One thing to note is that this data isn't in a data.frame format, it's in a matr
 
 
 ```r
-data <- extract_tables(file = "data/AbbreRptCurrent.pdf", output = "data.frame")
+data <- extract_tables(file = "data/AbbreRptCurrent.pdf",
+                       output = "data.frame")
 head(data[[2]])
 #>    Anderson X81 X13 X3 X1 X5 X12 X1.1 X0 X0.1 X21 X0.2 X1.2 X0.3 X138 X0.4
 #> 1   Andrews  23  11  0  2  4  11    0  0    0   5    0    6    0   35    0
@@ -281,6 +283,7 @@ bind_rows(example1, example2)
 #> Hornet Sportabout...11 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 #> Valiant...12           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
+
 The data that is printed out has 12 rows and in this example the first six and the last six rows are identical. `bind_rows()` took the second object in the parentheses (*example2*) and stacked it right below the last row in *example1.* In this case the columns are already in the same order but if they weren't, `bind_rows()` is smart enough to arrange the columns in the second object to be the same as the first object.
 
 Now we can run our for loop and create a single data set with every row from our 9 pages of data. We start by creating our empty data.frame and we'll call that *final*. At the end of our loop we say that *final* gets `bind_rows(final, temp)` meaning that temp is stacked to the bottom of *final* every time the loop runs. We'll end this code chunk by looking at `head()` and `tail()` of *final* to be sure it worked correctly.
@@ -390,7 +393,8 @@ If you look closely at the final several rows you'll see that there is an extra 
 
 We'll finish this chapter with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge, it has 10 columns but we want to make it have only 2. In the data (shown below), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using `tabulizer()` and then work to fix this multiple-column issue. 
 
-<img src="images/pregnant.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pregnant} \end{center}
 
 Notice that this data doesn't even have column names so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape PDFs that regularly update (such as when a new month of data comes out) be careful about situations like this.
 
@@ -574,8 +578,11 @@ Given the effort you'll spend in scraping a PDF - and the relative rarity of thi
 
 If you decide to update the data, it'll keep a link to your older submission so you essentially have versions of the data. When you update the data, I recommend having a section on the submission description describing the changes in each version. As an example of what it looks like when submitting data to openICPSR, below are a few images showing the submission page for one of my submissions that has many versions (and corresponding version notes). 
 
-<img src="images/openICPSR1.PNG" width="90%"  style="display: block; margin: auto;" />
 
-<img src="images/openICPSR2.PNG" width="90%"  style="display: block; margin: auto;" />
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR1} \end{center}
 
-<img src="images/openICPSR3.PNG" width="90%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR2} \end{center}
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR3} \end{center}
