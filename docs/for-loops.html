@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>21 For loops | Crime by the Numbers: A Criminologist’s Guide to R</title>
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="21 For loops | Crime by the Numbers: A Criminologist’s Guide to R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="21 For loops | Crime by the Numbers: A Criminologist’s Guide to R" />
+  
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2022-01-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="functions.html"/>
+<link rel="next" href="scrape-table.html"/>
+<script src="libs/header-attrs-2.11.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction<span></span></b></span></li>
+<li><a href="index.html#preface">Preface<span></span></a>
+<ul>
+<li><a href="index.html#why-learn-to-program">Why learn to program?<span></span></a>
+<ul>
+<li><a href="index.html#scale">Scale<span></span></a></li>
+<li><a href="index.html#reproducibility">Reproducibility<span></span></a></li>
+</ul></li>
+<li><a href="index.html#what-you-will-learn">What you will learn<span></span></a>
+<ul>
+<li><a href="index.html#skills">Skills<span></span></a></li>
+</ul></li>
+<li><a href="index.html#what-you-wont-learn">What you won’t learn<span></span></a></li>
+<li><a href="index.html#simple-vs-easy">Simple vs Easy<span></span></a></li>
+<li><a href="index.html#how-to-read-this-book">How to read this book<span></span></a></li>
+<li><a href="index.html#citing-this-book">Citing this book<span></span></a></li>
+<li><a href="index.html#how-to-contribute-to-this-book">How to contribute to this book<span></span></a></li>
+<li><a href="index.html#where-to-find-data-included-in-this-book">Where to find data included in this book<span></span></a></li>
+<li><a href="index.html#where-to-find-code-included-in-this-book">Where to find code included in this book<span></span></a></li>
+</ul></li>
+<li><a href="about-the-author.html#about-the-author">About the author<span></span></a></li>
+<li class="chapter" data-level="1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>1</b> A soup to nuts project example<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#big-picture-data-example"><i class="fa fa-check"></i><b>1.1</b> Big picture data example<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#little-picture-data-example"><i class="fa fa-check"></i><b>1.2</b> Little picture data example<span></span></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-packages"><i class="fa fa-check"></i><b>1.2.1</b> Loading packages<span></span></a></li>
+<li class="chapter" data-level="1.2.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-data"><i class="fa fa-check"></i><b>1.2.2</b> Loading data<span></span></a></li>
+<li class="chapter" data-level="1.2.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#cleaning"><i class="fa fa-check"></i><b>1.2.3</b> Cleaning<span></span></a></li>
+<li class="chapter" data-level="1.2.4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#aggregating"><i class="fa fa-check"></i><b>1.2.4</b> Aggregating<span></span></a></li>
+<li class="chapter" data-level="1.2.5" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#graphing"><i class="fa fa-check"></i><b>1.2.5</b> Graphing<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#reusing-and-modifying-code"><i class="fa fa-check"></i><b>1.3</b> Reusing and modifying code<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-r.html"><a href="intro-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro-to-r.html"><a href="intro-to-r.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro-to-r.html"><a href="intro-to-r.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script<span></span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro-to-r.html"><a href="intro-to-r.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory<span></span></a></li>
+<li class="chapter" data-level="2.1.3" data-path="intro-to-r.html"><a href="intro-to-r.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio<span></span></a></li>
+<li class="chapter" data-level="2.1.4" data-path="intro-to-r.html"><a href="intro-to-r.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="intro-to-r.html"><a href="intro-to-r.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning variables<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="intro-to-r.html"><a href="intro-to-r.html#functions-intro"><i class="fa fa-check"></i><b>2.3</b> What are functions (and packages)?<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="intro-to-r.html"><a href="intro-to-r.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.4</b> Reading data into R<span></span></a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro-to-r.html"><a href="intro-to-r.html#loading-data-intro"><i class="fa fa-check"></i><b>2.4.1</b> Loading data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro-to-r.html"><a href="intro-to-r.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.5</b> First steps to exploring data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>3</b> Data types and structures<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-types.html"><a href="data-types.html#section-data-types"><i class="fa fa-check"></i><b>3.1</b> Data types<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="data-types.html"><a href="data-types.html#data-structures"><i class="fa fa-check"></i><b>3.2</b> Data structures<span></span></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data-types.html"><a href="data-types.html#vectors"><i class="fa fa-check"></i><b>3.2.1</b> Vectors (collections of “things”)<span></span></a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-types.html"><a href="data-types.html#dataframes"><i class="fa fa-check"></i><b>3.2.2</b> Data.frames<span></span></a></li>
+<li class="chapter" data-level="3.2.3" data-path="data-types.html"><a href="data-types.html#other-data-structures"><i class="fa fa-check"></i><b>3.2.3</b> Other data structures<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>4</b> Reading and writing Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>4.1</b> Reading Data into R<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>4.1.1</b> R<span></span></a></li>
+<li class="chapter" data-level="4.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>4.1.2</b> Excel<span></span></a></li>
+<li class="chapter" data-level="4.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>4.1.3</b> Stata<span></span></a></li>
+<li class="chapter" data-level="4.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>4.1.4</b> SAS<span></span></a></li>
+<li class="chapter" data-level="4.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>4.1.5</b> SPSS<span></span></a></li>
+<li class="chapter" data-level="4.1.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#fixed-width-ascii"><i class="fa fa-check"></i><b>4.1.6</b> Fixed-width ASCII<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>4.2</b> Writing Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>4.2.1</b> R<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#rda-and-.rdata"><i class="fa fa-check"></i><b>4.2.2</b> .rda and .rdata<span></span></a></li>
+<li class="chapter" data-level="4.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#rds"><i class="fa fa-check"></i><b>4.2.3</b> .rds<span></span></a></li>
+<li class="chapter" data-level="4.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>4.2.4</b> Excel<span></span></a></li>
+<li class="chapter" data-level="4.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>4.2.5</b> Stata<span></span></a></li>
+<li class="chapter" data-level="4.2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>4.2.6</b> SAS<span></span></a></li>
+<li class="chapter" data-level="4.2.7" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>4.2.7</b> SPSS<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Project Management<span></span></b></span></li>
+<li class="chapter" data-level="5" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>5</b> <em>Mise en place</em><span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>5.1</b> Starting with a pencil and paper<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>5.1.1</b> Tables and graphs<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>5.2</b> R Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>5.2.1</b> Folders<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>5.3</b> Modular R scripts<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>5.4</b> Modular code<span></span></a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>5.4.1</b> Section Labels<span></span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>5.4.2</b> Helper R Scripts<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>6</b> Collaboration<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>6.1</b> Code review<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>6.1.1</b> Style guidelines<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>6.2</b> Documentation<span></span></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>6.2.1</b> Comments<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>6.2.2</b> Vignettes<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>7</b> R Markdown<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>7.1</b> Code<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>7.1.1</b> Hiding code in the output<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>7.2</b> Inline Code<span></span></a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>7.3</b> Tables<span></span></a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>7.4</b> Footnotes<span></span></a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>7.5</b> Citation<span></span></a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>7.6</b> Spell check<span></span></a></li>
+<li class="chapter" data-level="7.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>7.7</b> Making the output file<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>8</b> Testing your code<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>8.1</b> Why test your code?<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>8.2</b> Unit tests<span></span></a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>8.2.1</b> Modular test scripts<span></span></a></li>
+<li class="chapter" data-level="8.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>8.2.2</b> How to write unit tests<span></span></a></li>
+<li class="chapter" data-level="8.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>8.2.3</b> What to test<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>8.3</b> Test-driven development (TDD)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>9</b> Git<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>9.1</b> What is Git and why do I need it?<span></span></a></li>
+<li class="chapter" data-level="9.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>9.2</b> Git basics<span></span></a></li>
+<li class="chapter" data-level="9.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>9.3</b> Using Git<span></span></a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>9.3.1</b> Setting up Git<span></span></a></li>
+<li class="chapter" data-level="9.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>9.3.2</b> Setting up GitHub<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>9.4</b> Setting up Git on an already made R Project<span></span></a></li>
+<li class="chapter" data-level="9.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>9.5</b> Using Git through RStudio<span></span></a></li>
+<li class="chapter" data-level="9.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>9.6</b> When to commit<span></span></a></li>
+<li class="chapter" data-level="9.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>9.7</b> Other resources<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>III Clean<span></span></b></span></li>
+<li class="chapter" data-level="10" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>10</b> Subsetting: Making big things small<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>10.1</b> Select specific values<span></span></a></li>
+<li class="chapter" data-level="10.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>10.2</b> Logical values and operations<span></span></a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>10.2.1</b> Matching a single value<span></span></a></li>
+<li class="chapter" data-level="10.2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>10.2.2</b> Matching multiple values<span></span></a></li>
+<li class="chapter" data-level="10.2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>10.2.3</b> Does not match<span></span></a></li>
+<li class="chapter" data-level="10.2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>10.2.4</b> Greater than or less than<span></span></a></li>
+<li class="chapter" data-level="10.2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>10.2.5</b> Combining conditional statements - or, and<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>10.3</b> Subsetting a data.frame<span></span></a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>10.3.1</b> Select specific columns<span></span></a></li>
+<li class="chapter" data-level="10.3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>10.3.2</b> Select specific rows<span></span></a></li>
+<li class="chapter" data-level="10.3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>10.3.3</b> Subset Colorado data<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>11</b> Exploratory data analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>11.1</b> Summary and Table<span></span></a></li>
+<li class="chapter" data-level="11.2" data-path="explore.html"><a href="explore.html#graphing-1"><i class="fa fa-check"></i><b>11.2</b> Graphing<span></span></a></li>
+<li class="chapter" data-level="11.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>11.3</b> Aggregating (summaries of groups)<span></span></a></li>
+<li class="chapter" data-level="11.4" data-path="explore.html"><a href="explore.html#dplyr-pipes"><i class="fa fa-check"></i><b>11.4</b> Pipes in <code>dplyr</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>12</b> Regular Expressions<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>12.1</b> Finding patterns in text with <code>grep()</code><span></span></a></li>
+<li class="chapter" data-level="12.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>12.2</b> Finding and replacing patterns in text with <code>gsub()</code><span></span></a></li>
+<li class="chapter" data-level="12.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>12.3</b> Useful special characters<span></span></a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>12.3.1</b> Multiple characters <code>[]</code><span></span></a></li>
+<li class="chapter" data-level="12.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>12.3.2</b> n-many of previous character <code>{n}</code><span></span></a></li>
+<li class="chapter" data-level="12.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>12.3.3</b> n-many to m-many of previous character <code>{n,m}</code><span></span></a></li>
+<li class="chapter" data-level="12.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>12.3.4</b> Start of string<span></span></a></li>
+<li class="chapter" data-level="12.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>12.3.5</b> End of string <code>$</code><span></span></a></li>
+<li class="chapter" data-level="12.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>12.3.6</b> Anything <code>.</code><span></span></a></li>
+<li class="chapter" data-level="12.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.7</b> One or more of previous <code>+</code><span></span></a></li>
+<li class="chapter" data-level="12.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.8</b> Zero or more of previous <code>*</code><span></span></a></li>
+<li class="chapter" data-level="12.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>12.3.9</b> Multiple patterns <code>|</code><span></span></a></li>
+<li class="chapter" data-level="12.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>12.3.10</b> Parentheses <code>()</code><span></span></a></li>
+<li class="chapter" data-level="12.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>12.3.11</b> Optional text <code>?</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>12.4</b> Changing capitalization<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-single-column"><i class="fa fa-check"></i><b>13.1</b> Reshaping a single column<span></span></a></li>
+<li class="chapter" data-level="13.2" data-path="reshaping.html"><a href="reshaping.html#reshaping-multiple-columns"><i class="fa fa-check"></i><b>13.2</b> Reshaping multiple columns<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>IV Visualize<span></span></b></span></li>
+<li class="chapter" data-level="14" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>14</b> Graphing with <code>ggplot2</code><span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>14.1</b> What does the data look like?<span></span></a></li>
+<li class="chapter" data-level="14.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>14.2</b> Graphing data<span></span></a></li>
+<li class="chapter" data-level="14.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>14.3</b> Time-Series Plots<span></span></a></li>
+<li class="chapter" data-level="14.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>14.4</b> Scatter Plots<span></span></a></li>
+<li class="chapter" data-level="14.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>14.5</b> Color blindness<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>15</b> More graphing with <code>ggplot2</code><span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>15.1</b> Exploring data<span></span></a></li>
+<li class="chapter" data-level="15.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>15.2</b> Graphing a single numeric variable<span></span></a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>15.2.1</b> Histogram<span></span></a></li>
+<li class="chapter" data-level="15.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>15.2.2</b> Density plot<span></span></a></li>
+<li class="chapter" data-level="15.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>15.2.3</b> Count graph<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>15.3</b> Graphing a categorical variable<span></span></a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>15.3.1</b> Bar graph<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>15.4</b> Graphing data over time<span></span></a></li>
+<li class="chapter" data-level="15.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>15.5</b> Pretty graphs<span></span></a>
+<ul>
+<li class="chapter" data-level="15.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>15.5.1</b> Themes<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>16</b> Hotspot maps<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>16.1</b> A simple map<span></span></a></li>
+<li class="chapter" data-level="16.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>16.2</b> What really are maps?<span></span></a></li>
+<li class="chapter" data-level="16.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>16.3</b> Making a hotspot map<span></span></a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>16.3.1</b> Colors<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>17</b> Choropleth maps<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>17.1</b> Spatial joins<span></span></a></li>
+<li class="chapter" data-level="17.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>17.2</b> Making choropleth maps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>18</b> Interactive maps<span></span></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>18.1</b> Why do interactive graphs matter?<span></span></a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>18.1.1</b> Understanding your data<span></span></a></li>
+<li class="chapter" data-level="18.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>18.1.2</b> Police departments use them<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>18.2</b> Making the interactive map<span></span></a></li>
+<li class="chapter" data-level="18.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>18.3</b> Adding popup information<span></span></a></li>
+<li class="chapter" data-level="18.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>18.4</b> Dealing with too many markers<span></span></a></li>
+<li class="chapter" data-level="18.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>18.5</b> Interactive choropleth maps<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>V Collect<span></span></b></span></li>
+<li class="chapter" data-level="19" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>19</b> Webscraping with <code>rvest</code><span></span></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>19.1</b> Scraping one page<span></span></a></li>
+<li class="chapter" data-level="19.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>19.2</b> Cleaning the webscraped data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>20</b> Functions<span></span></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>20.1</b> A simple function<span></span></a></li>
+<li class="chapter" data-level="20.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>20.2</b> Adding parameters<span></span></a></li>
+<li class="chapter" data-level="20.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>20.3</b> Making a function to scrape recipes<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>21</b> For loops<span></span></a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>21.1</b> Basic for loops<span></span></a></li>
+<li class="chapter" data-level="21.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>21.2</b> Scraping multiple recipes<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>22</b> Scraping tables from PDFs<span></span></a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>22.1</b> Scraping the first table<span></span></a></li>
+<li class="chapter" data-level="22.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>22.2</b> Making a function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>23</b> More scraping tables from PDFs<span></span></a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="scrape-table2.html"><a href="scrape-table2.html#texas-jail-data"><i class="fa fa-check"></i><b>23.1</b> Texas jail data<span></span></a></li>
+<li class="chapter" data-level="23.2" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>23.2</b> Pregnant women incarcerated<span></span></a></li>
+<li class="chapter" data-level="23.3" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>23.3</b> Making PDF-scraped data available to others<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>24</b> Geocoding<span></span></a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>24.1</b> Geocoding a single address<span></span></a></li>
+<li class="chapter" data-level="24.2" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>24.2</b> Geocoding San Francisco marijuana dispensary locations<span></span></a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers: A Criminologist’s Guide to R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="for-loops" class="section level1 hasAnchor" number="21">
+<h1><span class="header-section-number">21</span> For loops<a href="for-loops.html#for-loops" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through “for loops.” Earlier in this book we learned how to scrape the recipe website <a href="https://www.allrecipes.com/">All Recipes</a>. We did so for a single recipe. If we wanted to get a feasts worth of recipes, typing out each recipe would be slow, even with the function we made in Section <a href="functions.html#recipes-function">20.3</a>. In this chapter we will use a for loop to scrape multiple recipes very quickly.</p>
+<div id="basic-for-loops" class="section level2 hasAnchor" number="21.1">
+<h2><span class="header-section-number">21.1</span> Basic for loops<a href="for-loops.html#basic-for-loops" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll start with a simple example of a for loop, making R print the numbers 1-10.</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="for-loops.html#cb383-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb383-2"><a href="for-loops.html#cb383-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
+<span id="cb383-3"><a href="for-loops.html#cb383-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb383-4"><a href="for-loops.html#cb383-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb383-5"><a href="for-loops.html#cb383-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb383-6"><a href="for-loops.html#cb383-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb383-7"><a href="for-loops.html#cb383-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb383-8"><a href="for-loops.html#cb383-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb383-9"><a href="for-loops.html#cb383-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb383-10"><a href="for-loops.html#cb383-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb383-11"><a href="for-loops.html#cb383-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb383-12"><a href="for-loops.html#cb383-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb383-13"><a href="for-loops.html#cb383-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<p>The basic concept of a for loop is that you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the <code>{</code> and <code>}</code> squiggly brackets. And you loop through all the values you specify - meaning that the code runs once for each of those values.</p>
+<p>Let’s look closer at the <code>(i in 1:10)</code>. The <code>i</code> is simply a placeholder object which takes the value 1 through 10 each iteration of the loop. An iteration is the formal term for each time the loop runs. In our loop it will run 10 times as we have 10 numbers (1-10). The first time it runs the <code>i</code> gets the value of 1, the second time it runs <code>i</code> gets the value of 2, and so on.</p>
+<p>It’s not necessary to call it <code>i</code> but it is the convention in programming to do so. It takes the value of whatever follows the <code>in</code> which can range from a vector of strings or numbers to lists of data.frames (though we won’t do anything that complicated in this chapter). Especially when you’re an early learner of R it could help to call the <code>i</code> something informative to you about what value it has.
+Let’s go through a few examples with different names for <code>i</code> and different values it is looping through.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="for-loops.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb384-2"><a href="for-loops.html#cb384-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number)</span>
+<span id="cb384-3"><a href="for-loops.html#cb384-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb384-4"><a href="for-loops.html#cb384-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb384-5"><a href="for-loops.html#cb384-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb384-6"><a href="for-loops.html#cb384-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb384-7"><a href="for-loops.html#cb384-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb384-8"><a href="for-loops.html#cb384-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb384-9"><a href="for-loops.html#cb384-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb384-10"><a href="for-loops.html#cb384-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb384-11"><a href="for-loops.html#cb384-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb384-12"><a href="for-loops.html#cb384-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb384-13"><a href="for-loops.html#cb384-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="for-loops.html#cb385-1" aria-hidden="true" tabindex="-1"></a>animals <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;cat&quot;</span>, <span class="st">&quot;dog&quot;</span>, <span class="st">&quot;gorilla&quot;</span>, <span class="st">&quot;buffalo&quot;</span>, <span class="st">&quot;lion&quot;</span>, <span class="st">&quot;snake&quot;</span>)</span>
+<span id="cb385-2"><a href="for-loops.html#cb385-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (animal <span class="cf">in</span> animals) {</span>
+<span id="cb385-3"><a href="for-loops.html#cb385-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(animal)</span>
+<span id="cb385-4"><a href="for-loops.html#cb385-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb385-5"><a href="for-loops.html#cb385-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cat&quot;</span></span>
+<span id="cb385-6"><a href="for-loops.html#cb385-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dog&quot;</span></span>
+<span id="cb385-7"><a href="for-loops.html#cb385-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;gorilla&quot;</span></span>
+<span id="cb385-8"><a href="for-loops.html#cb385-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;buffalo&quot;</span></span>
+<span id="cb385-9"><a href="for-loops.html#cb385-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lion&quot;</span></span>
+<span id="cb385-10"><a href="for-loops.html#cb385-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;snake&quot;</span></span></code></pre></div>
+<p>Now let’s make our code a bit more complicated, adding the number 2 every loop.</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="for-loops.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (a_number <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb386-2"><a href="for-loops.html#cb386-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(a_number <span class="sc">+</span> <span class="dv">2</span>)</span>
+<span id="cb386-3"><a href="for-loops.html#cb386-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb386-4"><a href="for-loops.html#cb386-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span>
+<span id="cb386-5"><a href="for-loops.html#cb386-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 4</span></span>
+<span id="cb386-6"><a href="for-loops.html#cb386-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span>
+<span id="cb386-7"><a href="for-loops.html#cb386-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6</span></span>
+<span id="cb386-8"><a href="for-loops.html#cb386-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span>
+<span id="cb386-9"><a href="for-loops.html#cb386-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 8</span></span>
+<span id="cb386-10"><a href="for-loops.html#cb386-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9</span></span>
+<span id="cb386-11"><a href="for-loops.html#cb386-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10</span></span>
+<span id="cb386-12"><a href="for-loops.html#cb386-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 11</span></span>
+<span id="cb386-13"><a href="for-loops.html#cb386-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12</span></span></code></pre></div>
+<p>We’re keeping the results inside of <code>print()</code> since for loops do not print the results by default. Let’s try combining this with some subsetting using square bracket notation <code>[]</code>. We will look through every value in <em>numbers</em>, a vector we will make with the values 1:10 and replace each value with its value plus 2.</p>
+<p>The object we’re looping through is <em>numbers</em>. But we’re actually looping through every index it has, hence the <code>1:length(numbers)</code>. That is saying, <code>i</code> takes the value of each index in <em>numbers</em> which is useful when we want to change that element. <code>length(numbers)</code> finds how long the vector <em>numbers</em> is (if this was a data.frame we could use <code>nrow()</code>) to find how many elements it has. In the code we take the value at each index <code>numbers[i]</code> and add 2 to it.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="for-loops.html#cb387-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb387-2"><a href="for-loops.html#cb387-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb387-3"><a href="for-loops.html#cb387-3" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> numbers[i] <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb387-4"><a href="for-loops.html#cb387-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="for-loops.html#cb388-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb388-2"><a href="for-loops.html#cb388-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  3  4  5  6  7  8  9 10 11 12</span></span></code></pre></div>
+<p>We can also include functions we made in for loops. Here’s a function we made last chapter which adds 2 to each inputted number.</p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="for-loops.html#cb389-1" aria-hidden="true" tabindex="-1"></a>add_2 <span class="ot">&lt;-</span> <span class="cf">function</span>(number) {</span>
+<span id="cb389-2"><a href="for-loops.html#cb389-2" aria-hidden="true" tabindex="-1"></a>  number <span class="ot">&lt;-</span> number <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb389-3"><a href="for-loops.html#cb389-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(number)</span>
+<span id="cb389-4"><a href="for-loops.html#cb389-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Let’s put that in the loop.</p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="for-loops.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(numbers)) {</span>
+<span id="cb390-2"><a href="for-loops.html#cb390-2" aria-hidden="true" tabindex="-1"></a>  numbers[i] <span class="ot">&lt;-</span> <span class="fu">add_2</span>(numbers[i])</span>
+<span id="cb390-3"><a href="for-loops.html#cb390-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="for-loops.html#cb391-1" aria-hidden="true" tabindex="-1"></a>numbers</span>
+<span id="cb391-2"><a href="for-loops.html#cb391-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  5  6  7  8  9 10 11 12 13 14</span></span></code></pre></div>
+</div>
+<div id="scraping-multiple-recipes" class="section level2 hasAnchor" number="21.2">
+<h2><span class="header-section-number">21.2</span> Scraping multiple recipes<a href="for-loops.html#scraping-multiple-recipes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Below is the function copied from Section <a href="functions.html#recipes-function">20.3</a> which takes a single URL and scraped the site <a href="https://www.allrecipes.com/">All Recipes</a> for that recipe. It printed the ingredients and directions to cook that recipe to the Console. If we wanted to get that info for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we’re using the <code>read_html()</code> function from <code>rvest</code>, we need to tell R we want to use that package.</p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="for-loops.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb392-2"><a href="for-loops.html#cb392-2" aria-hidden="true" tabindex="-1"></a>scrape_recipes <span class="ot">&lt;-</span> <span class="cf">function</span>(URL) {</span>
+<span id="cb392-3"><a href="for-loops.html#cb392-3" aria-hidden="true" tabindex="-1"></a>  brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(URL)</span>
+<span id="cb392-4"><a href="for-loops.html#cb392-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb392-5"><a href="for-loops.html#cb392-5" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.ingredients-item-name&quot;</span>)</span>
+<span id="cb392-6"><a href="for-loops.html#cb392-6" aria-hidden="true" tabindex="-1"></a>  ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span>
+<span id="cb392-7"><a href="for-loops.html#cb392-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb392-8"><a href="for-loops.html#cb392-8" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(brownies, <span class="st">&quot;.instructions-section-item&quot;</span>)</span>
+<span id="cb392-9"><a href="for-loops.html#cb392-9" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">html_text</span>(directions)</span>
+<span id="cb392-10"><a href="for-loops.html#cb392-10" aria-hidden="true" tabindex="-1"></a>  directions <span class="ot">&lt;-</span> <span class="fu">trimws</span>(directions)</span>
+<span id="cb392-11"><a href="for-loops.html#cb392-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb392-12"><a href="for-loops.html#cb392-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(ingredients)</span>
+<span id="cb392-13"><a href="for-loops.html#cb392-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(directions)</span>
+<span id="cb392-14"><a href="for-loops.html#cb392-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple recipes, we will make a vector with the URLs of all the recipes we want.</p>
+<p>Here I am making a vector called <em>recipe_urls</em> with the URLs of a few recipes that I like on the site. The way I got the URLs was to go to each recipe’s page and copy and paste the URL. Is this the right approach? Shouldn’t we do everything in R? Not always. In situations like this where we know that there are a small number of links we want it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project.</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="for-loops.html#cb393-1" aria-hidden="true" tabindex="-1"></a>recipe_urls <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb393-2"><a href="for-loops.html#cb393-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>,</span>
+<span id="cb393-3"><a href="for-loops.html#cb393-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://www.allrecipes.com/recipe/27188/crepes/&quot;</span>,</span>
+<span id="cb393-4"><a href="for-loops.html#cb393-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;https://www.allrecipes.com/recipe/22180/waffles-i/&quot;</span></span>
+<span id="cb393-5"><a href="for-loops.html#cb393-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Now we can write the for loop to go through every single URL in <em>recipe_urls</em> and use the function <code>scrape_recipes</code> on that URL.</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="for-loops.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (recipe_url <span class="cf">in</span> recipe_urls) {</span>
+<span id="cb394-2"><a href="for-loops.html#cb394-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scrape_recipes</span>(recipe_url)</span>
+<span id="cb394-3"><a href="for-loops.html#cb394-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="images/forloops.PNG" width="100%" height="100%"  style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="scrape-table.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/for-loops.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,119 @@
+#' # For loops
+#' 
+#' We will often want to perform the same task on a number of different items, such as cleaning every column in a data set. One effective way to do this is through "for loops". Earlier in this book we learned how to scrape the recipe website [All Recipes](https://www.allrecipes.com/). We did so for a single recipe. If we wanted to get a feasts worth of recipes, typing out each recipe would be slow, even with the function we made in Section \@ref(recipes-function). In this chapter we will use a for loop to scrape multiple recipes very quickly. 
+#' 
+#' ## Basic for loops
+#' 
+#' We'll start with a simple example of a for loop, making R print the numbers 1-10. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+for (i in 1:10) {
+   print(i)
+}
+
+#' 
+#' The basic concept of a for loop is that you have some code that you need to run many times with slight changes to a value or values in the code - somewhat like a function. Like a function, all the code you want to use goes in between the `{` and `}` squiggly brackets. And you loop through all the values you specify - meaning that the code runs once for each of those values.  
+#' 
+#' Let's look closer at the `(i in 1:10)`. The `i` is simply a placeholder object which takes the value 1 through 10 each iteration of the loop. An iteration is the formal term for each time the loop runs. In our loop it will run 10 times as we have 10 numbers (1-10). The first time it runs the `i` gets the value of 1, the second time it runs `i` gets the value of 2, and so on. 
+#' 
+#' It's not necessary to call it `i` but it is the convention in programming to do so. It takes the value of whatever follows the `in` which can range from a vector of strings or numbers to lists of data.frames (though we won't do anything that complicated in this chapter). Especially when you're an early learner of R it could help to call the `i` something informative to you about what value it has. 
+#' Let's go through a few examples with different names for `i` and different values it is looping through. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+for (a_number in 1:10) {
+   print(a_number)
+}
+
+#' 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+animals <- c("cat", "dog", "gorilla", "buffalo", "lion", "snake")
+for (animal in animals) {
+   print(animal)
+}
+
+#' 
+#' Now let's make our code a bit more complicated, adding the number 2 every loop. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+for (a_number in 1:10) {
+   print(a_number + 2)
+}
+
+#' 
+#' We're keeping the results inside of `print()` since for loops do not print the results by default. Let's try combining this with some subsetting using square bracket notation `[]`. We will look through every value in *numbers*, a vector we will make with the values 1:10 and replace each value with its value plus 2.
+#' 
+#' The object we're looping through is *numbers*. But we're actually looping through every index it has, hence the `1:length(numbers)`. That is saying, `i` takes the value of each index in *numbers* which is useful when we want to change that element. `length(numbers)` finds how long the vector *numbers* is (if this was a data.frame we could use `nrow()`) to find how many elements it has. In the code we take the value at each index `numbers[i]` and add 2 to it. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+numbers <- 1:10
+for (i in 1:length(numbers)) {
+  numbers[i] <- numbers[i] + 2
+}
+
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+numbers
+
+#' 
+#' We can also include functions we made in for loops. Here's a function we made last chapter which adds 2 to each inputted number. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+add_2 <- function(number) {
+  number <- number + 2
+  return(number)
+}
+
+#' 
+#' Let's put that in the loop. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+for (i in 1:length(numbers)) {
+  numbers[i] <- add_2(numbers[i])
+}
+
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+numbers
+
+#' 
+#' ## Scraping multiple recipes
+#' 
+#' Below is the function copied from Section \@ref(recipes-function) which takes a single URL and scraped the site [All Recipes](https://www.allrecipes.com/) for that recipe. It printed the ingredients and directions to cook that recipe to the Console. If we wanted to get that info for multiple recipes, we would need to run the function multiple times. Here we will use a for loop to do this. Since we're using the `read_html()` function from `rvest`, we need to tell R we want to use that package.
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+library(rvest)
+scrape_recipes <- function(URL) {
+  
+  brownies <- read_html(URL)
+  
+  ingredients <- html_nodes(brownies, ".ingredients-item-name")
+  ingredients <- html_text(ingredients)
+  
+  directions <- html_nodes(brownies, ".instructions-section-item")
+  directions <- html_text(directions)
+  directions <- trimws(directions)
+  
+  print(ingredients)
+  print(directions)
+}
+
+#' 
+#' With any for loop you need to figure out what is going to be changing, in this case it is the URL. And since we want multiple recipes, we will make a vector with the URLs of all the recipes we want.
+#' 
+#' Here I am making a vector called *recipe_urls* with the URLs of a few recipes that I like on the site. The way I got the URLs was to go to each recipe's page and copy and paste the URL. Is this the right approach? Shouldn't we do everything in R? Not always. In situations like this where we know that there are a small number of links we want it is reasonable to do it by hand. Remember that R is a tool to help you. While keeping everything you do in R is good for reproducibility, it is not always reasonable and may take too much time or effort given the constraints - usually limited time - of your project. 
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+recipe_urls <- c("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/",
+                 "https://www.allrecipes.com/recipe/27188/crepes/",
+                 "https://www.allrecipes.com/recipe/84270/slow-cooker-corned-beef-and-cabbage/")
+
+#' 
+#' 
+#' Now we can write the for loop to go through every single URL in *recipe_urls* and use the function `scrape_recipes` on that URL.
+#' 
+## -----------------------------------------------------------------------------------------------------------------
+for (recipe_url in recipe_urls) {
+  scrape_recipes(recipe_url)
+}
+
