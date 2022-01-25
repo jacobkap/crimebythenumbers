@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Mise en place | Crime by the Numbers: A Criminologist’s Guide to R</title>
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Mise en place | Crime by the Numbers: A Criminologist’s Guide to R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://crimebythenumbers.com" />
+  
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Mise en place | Crime by the Numbers: A Criminologist’s Guide to R" />
+  
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2022-01-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="reading-and-writing-data.html"/>
+<link rel="next" href="collaboration.html"/>
+<script src="libs/header-attrs-2.11.10/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction<span></span></b></span></li>
+<li><a href="index.html#preface">Preface<span></span></a>
+<ul>
+<li><a href="index.html#why-learn-to-program">Why learn to program?<span></span></a>
+<ul>
+<li><a href="index.html#scale">Scale<span></span></a></li>
+<li><a href="index.html#reproducibility">Reproducibility<span></span></a></li>
+</ul></li>
+<li><a href="index.html#what-you-will-learn">What you will learn<span></span></a>
+<ul>
+<li><a href="index.html#skills">Skills<span></span></a></li>
+</ul></li>
+<li><a href="index.html#what-you-wont-learn">What you won’t learn<span></span></a></li>
+<li><a href="index.html#simple-vs-easy">Simple vs Easy<span></span></a></li>
+<li><a href="index.html#how-to-read-this-book">How to read this book<span></span></a></li>
+<li><a href="index.html#citing-this-book">Citing this book<span></span></a></li>
+<li><a href="index.html#how-to-contribute-to-this-book">How to contribute to this book<span></span></a></li>
+<li><a href="index.html#where-to-find-data-included-in-this-book">Where to find data included in this book<span></span></a></li>
+<li><a href="index.html#where-to-find-code-included-in-this-book">Where to find code included in this book<span></span></a></li>
+</ul></li>
+<li><a href="about-the-author.html#about-the-author">About the author<span></span></a></li>
+<li class="chapter" data-level="1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>1</b> A soup to nuts project example<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#big-picture-data-example"><i class="fa fa-check"></i><b>1.1</b> Big picture data example<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#little-picture-data-example"><i class="fa fa-check"></i><b>1.2</b> Little picture data example<span></span></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-packages"><i class="fa fa-check"></i><b>1.2.1</b> Loading packages<span></span></a></li>
+<li class="chapter" data-level="1.2.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-data"><i class="fa fa-check"></i><b>1.2.2</b> Loading data<span></span></a></li>
+<li class="chapter" data-level="1.2.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#cleaning"><i class="fa fa-check"></i><b>1.2.3</b> Cleaning<span></span></a></li>
+<li class="chapter" data-level="1.2.4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#aggregating"><i class="fa fa-check"></i><b>1.2.4</b> Aggregating<span></span></a></li>
+<li class="chapter" data-level="1.2.5" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#graphing"><i class="fa fa-check"></i><b>1.2.5</b> Graphing<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#reusing-and-modifying-code"><i class="fa fa-check"></i><b>1.3</b> Reusing and modifying code<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-r.html"><a href="intro-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro-to-r.html"><a href="intro-to-r.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro-to-r.html"><a href="intro-to-r.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script<span></span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro-to-r.html"><a href="intro-to-r.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory<span></span></a></li>
+<li class="chapter" data-level="2.1.3" data-path="intro-to-r.html"><a href="intro-to-r.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio<span></span></a></li>
+<li class="chapter" data-level="2.1.4" data-path="intro-to-r.html"><a href="intro-to-r.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful Cheat Sheets<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="intro-to-r.html"><a href="intro-to-r.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning variables<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="intro-to-r.html"><a href="intro-to-r.html#functions-intro"><i class="fa fa-check"></i><b>2.3</b> What are functions (and packages)?<span></span></a></li>
+<li class="chapter" data-level="2.4" data-path="intro-to-r.html"><a href="intro-to-r.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.4</b> Reading data into R<span></span></a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro-to-r.html"><a href="intro-to-r.html#loading-data-intro"><i class="fa fa-check"></i><b>2.4.1</b> Loading data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro-to-r.html"><a href="intro-to-r.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.5</b> First steps to exploring data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>3</b> Data types and structures<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-types.html"><a href="data-types.html#section-data-types"><i class="fa fa-check"></i><b>3.1</b> Data types<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="data-types.html"><a href="data-types.html#data-structures"><i class="fa fa-check"></i><b>3.2</b> Data structures<span></span></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="data-types.html"><a href="data-types.html#vectors"><i class="fa fa-check"></i><b>3.2.1</b> Vectors (collections of “things”)<span></span></a></li>
+<li class="chapter" data-level="3.2.2" data-path="data-types.html"><a href="data-types.html#dataframes"><i class="fa fa-check"></i><b>3.2.2</b> Data.frames<span></span></a></li>
+<li class="chapter" data-level="3.2.3" data-path="data-types.html"><a href="data-types.html#other-data-structures"><i class="fa fa-check"></i><b>3.2.3</b> Other data structures<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>4</b> Reading and writing Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>4.1</b> Reading Data into R<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>4.1.1</b> R<span></span></a></li>
+<li class="chapter" data-level="4.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>4.1.2</b> Excel<span></span></a></li>
+<li class="chapter" data-level="4.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>4.1.3</b> Stata<span></span></a></li>
+<li class="chapter" data-level="4.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>4.1.4</b> SAS<span></span></a></li>
+<li class="chapter" data-level="4.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>4.1.5</b> SPSS<span></span></a></li>
+<li class="chapter" data-level="4.1.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#fixed-width-ascii"><i class="fa fa-check"></i><b>4.1.6</b> Fixed-width ASCII<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>4.2</b> Writing Data<span></span></a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>4.2.1</b> R<span></span></a></li>
+<li class="chapter" data-level="4.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#rda-and-.rdata"><i class="fa fa-check"></i><b>4.2.2</b> .rda and .rdata<span></span></a></li>
+<li class="chapter" data-level="4.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#rds"><i class="fa fa-check"></i><b>4.2.3</b> .rds<span></span></a></li>
+<li class="chapter" data-level="4.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>4.2.4</b> Excel<span></span></a></li>
+<li class="chapter" data-level="4.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>4.2.5</b> Stata<span></span></a></li>
+<li class="chapter" data-level="4.2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>4.2.6</b> SAS<span></span></a></li>
+<li class="chapter" data-level="4.2.7" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>4.2.7</b> SPSS<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Project Management<span></span></b></span></li>
+<li class="chapter" data-level="5" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>5</b> <em>Mise en place</em><span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>5.1</b> Starting with a pencil and paper<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>5.1.1</b> Tables and graphs<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>5.2</b> R Projects<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>5.2.1</b> Folders<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>5.3</b> Modular R scripts<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>5.4</b> Modular code<span></span></a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>5.4.1</b> Section Labels<span></span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>5.4.2</b> Helper R Scripts<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>6</b> Collaboration<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>6.1</b> Code review<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>6.1.1</b> Style guidelines<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>6.2</b> Documentation<span></span></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>6.2.1</b> Comments<span></span></a></li>
+<li class="chapter" data-level="6.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>6.2.2</b> Vignettes<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>7</b> R Markdown<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>7.1</b> Code<span></span></a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>7.1.1</b> Hiding code in the output<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>7.2</b> Inline Code<span></span></a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>7.3</b> Tables<span></span></a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>7.4</b> Footnotes<span></span></a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>7.5</b> Citation<span></span></a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>7.6</b> Spell check<span></span></a></li>
+<li class="chapter" data-level="7.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>7.7</b> Making the output file<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>8</b> Testing your code<span></span></a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>8.1</b> Why test your code?<span></span></a></li>
+<li class="chapter" data-level="8.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>8.2</b> Unit tests<span></span></a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>8.2.1</b> Modular test scripts<span></span></a></li>
+<li class="chapter" data-level="8.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>8.2.2</b> How to write unit tests<span></span></a></li>
+<li class="chapter" data-level="8.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>8.2.3</b> What to test<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>8.3</b> Test-driven development (TDD)<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>9</b> Git<span></span></a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>9.1</b> What is Git and why do I need it?<span></span></a></li>
+<li class="chapter" data-level="9.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>9.2</b> Git basics<span></span></a></li>
+<li class="chapter" data-level="9.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>9.3</b> Using Git<span></span></a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>9.3.1</b> Setting up Git<span></span></a></li>
+<li class="chapter" data-level="9.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>9.3.2</b> Setting up GitHub<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>9.4</b> Setting up Git on an already made R Project<span></span></a></li>
+<li class="chapter" data-level="9.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>9.5</b> Using Git through RStudio<span></span></a></li>
+<li class="chapter" data-level="9.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>9.6</b> When to commit<span></span></a></li>
+<li class="chapter" data-level="9.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>9.7</b> Other resources<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>III Clean<span></span></b></span></li>
+<li class="chapter" data-level="10" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>10</b> Subsetting: Making big things small<span></span></a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>10.1</b> Select specific values<span></span></a></li>
+<li class="chapter" data-level="10.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>10.2</b> Logical values and operations<span></span></a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>10.2.1</b> Matching a single value<span></span></a></li>
+<li class="chapter" data-level="10.2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>10.2.2</b> Matching multiple values<span></span></a></li>
+<li class="chapter" data-level="10.2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>10.2.3</b> Does not match<span></span></a></li>
+<li class="chapter" data-level="10.2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>10.2.4</b> Greater than or less than<span></span></a></li>
+<li class="chapter" data-level="10.2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>10.2.5</b> Combining conditional statements - or, and<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>10.3</b> Subsetting a data.frame<span></span></a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>10.3.1</b> Select specific columns<span></span></a></li>
+<li class="chapter" data-level="10.3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>10.3.2</b> Select specific rows<span></span></a></li>
+<li class="chapter" data-level="10.3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>10.3.3</b> Subset Colorado data<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>11</b> Exploratory data analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>11.1</b> Summary and Table<span></span></a></li>
+<li class="chapter" data-level="11.2" data-path="explore.html"><a href="explore.html#graphing-1"><i class="fa fa-check"></i><b>11.2</b> Graphing<span></span></a></li>
+<li class="chapter" data-level="11.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>11.3</b> Aggregating (summaries of groups)<span></span></a></li>
+<li class="chapter" data-level="11.4" data-path="explore.html"><a href="explore.html#dplyr-pipes"><i class="fa fa-check"></i><b>11.4</b> Pipes in <code>dplyr</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>12</b> Regular Expressions<span></span></a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>12.1</b> Finding patterns in text with <code>grep()</code><span></span></a></li>
+<li class="chapter" data-level="12.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>12.2</b> Finding and replacing patterns in text with <code>gsub()</code><span></span></a></li>
+<li class="chapter" data-level="12.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>12.3</b> Useful special characters<span></span></a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>12.3.1</b> Multiple characters <code>[]</code><span></span></a></li>
+<li class="chapter" data-level="12.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>12.3.2</b> n-many of previous character <code>{n}</code><span></span></a></li>
+<li class="chapter" data-level="12.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>12.3.3</b> n-many to m-many of previous character <code>{n,m}</code><span></span></a></li>
+<li class="chapter" data-level="12.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>12.3.4</b> Start of string<span></span></a></li>
+<li class="chapter" data-level="12.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>12.3.5</b> End of string <code>$</code><span></span></a></li>
+<li class="chapter" data-level="12.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>12.3.6</b> Anything <code>.</code><span></span></a></li>
+<li class="chapter" data-level="12.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.7</b> One or more of previous <code>+</code><span></span></a></li>
+<li class="chapter" data-level="12.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.8</b> Zero or more of previous <code>*</code><span></span></a></li>
+<li class="chapter" data-level="12.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>12.3.9</b> Multiple patterns <code>|</code><span></span></a></li>
+<li class="chapter" data-level="12.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>12.3.10</b> Parentheses <code>()</code><span></span></a></li>
+<li class="chapter" data-level="12.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>12.3.11</b> Optional text <code>?</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>12.4</b> Changing capitalization<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data<span></span></a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-single-column"><i class="fa fa-check"></i><b>13.1</b> Reshaping a single column<span></span></a></li>
+<li class="chapter" data-level="13.2" data-path="reshaping.html"><a href="reshaping.html#reshaping-multiple-columns"><i class="fa fa-check"></i><b>13.2</b> Reshaping multiple columns<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>IV Visualize<span></span></b></span></li>
+<li class="chapter" data-level="14" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>14</b> Graphing with <code>ggplot2</code><span></span></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>14.1</b> What does the data look like?<span></span></a></li>
+<li class="chapter" data-level="14.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>14.2</b> Graphing data<span></span></a></li>
+<li class="chapter" data-level="14.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>14.3</b> Time-Series Plots<span></span></a></li>
+<li class="chapter" data-level="14.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>14.4</b> Scatter Plots<span></span></a></li>
+<li class="chapter" data-level="14.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>14.5</b> Color blindness<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>15</b> More graphing with <code>ggplot2</code><span></span></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>15.1</b> Exploring data<span></span></a></li>
+<li class="chapter" data-level="15.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>15.2</b> Graphing a single numeric variable<span></span></a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>15.2.1</b> Histogram<span></span></a></li>
+<li class="chapter" data-level="15.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>15.2.2</b> Density plot<span></span></a></li>
+<li class="chapter" data-level="15.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>15.2.3</b> Count graph<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>15.3</b> Graphing a categorical variable<span></span></a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>15.3.1</b> Bar graph<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>15.4</b> Graphing data over time<span></span></a></li>
+<li class="chapter" data-level="15.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>15.5</b> Pretty graphs<span></span></a>
+<ul>
+<li class="chapter" data-level="15.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>15.5.1</b> Themes<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>16</b> Hotspot maps<span></span></a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>16.1</b> A simple map<span></span></a></li>
+<li class="chapter" data-level="16.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>16.2</b> What really are maps?<span></span></a></li>
+<li class="chapter" data-level="16.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>16.3</b> Making a hotspot map<span></span></a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>16.3.1</b> Colors<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>17</b> Choropleth maps<span></span></a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>17.1</b> Spatial joins<span></span></a></li>
+<li class="chapter" data-level="17.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>17.2</b> Making choropleth maps<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>18</b> Interactive maps<span></span></a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>18.1</b> Why do interactive graphs matter?<span></span></a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>18.1.1</b> Understanding your data<span></span></a></li>
+<li class="chapter" data-level="18.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>18.1.2</b> Police departments use them<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>18.2</b> Making the interactive map<span></span></a></li>
+<li class="chapter" data-level="18.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>18.3</b> Adding popup information<span></span></a></li>
+<li class="chapter" data-level="18.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>18.4</b> Dealing with too many markers<span></span></a></li>
+<li class="chapter" data-level="18.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>18.5</b> Interactive choropleth maps<span></span></a></li>
+</ul></li>
+<li class="part"><span><b>V Collect<span></span></b></span></li>
+<li class="chapter" data-level="19" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>19</b> Webscraping with <code>rvest</code><span></span></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>19.1</b> Scraping one page<span></span></a></li>
+<li class="chapter" data-level="19.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>19.2</b> Cleaning the webscraped data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>20</b> Functions<span></span></a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>20.1</b> A simple function<span></span></a></li>
+<li class="chapter" data-level="20.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>20.2</b> Adding parameters<span></span></a></li>
+<li class="chapter" data-level="20.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>20.3</b> Making a function to scrape recipes<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>21</b> For loops<span></span></a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>21.1</b> Basic for loops<span></span></a></li>
+<li class="chapter" data-level="21.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>21.2</b> Scraping multiple recipes<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>22</b> Scraping tables from PDFs<span></span></a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>22.1</b> Scraping the first table<span></span></a></li>
+<li class="chapter" data-level="22.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>22.2</b> Making a function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>23</b> More scraping tables from PDFs<span></span></a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="scrape-table2.html"><a href="scrape-table2.html#texas-jail-data"><i class="fa fa-check"></i><b>23.1</b> Texas jail data<span></span></a></li>
+<li class="chapter" data-level="23.2" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>23.2</b> Pregnant women incarcerated<span></span></a></li>
+<li class="chapter" data-level="23.3" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>23.3</b> Making PDF-scraped data available to others<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>24</b> Geocoding<span></span></a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>24.1</b> Geocoding a single address<span></span></a></li>
+<li class="chapter" data-level="24.2" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>24.2</b> Geocoding San Francisco marijuana dispensary locations<span></span></a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers: A Criminologist’s Guide to R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="mise-en-place" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> <em>Mise en place</em><a href="mise-en-place.html#mise-en-place" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>If you’re familiar with cooking you might have heard the phrase <a href="https://en.wikipedia.org/wiki/Mise_en_place"><em>mise en place</em></a> which is French for “everything in its place.” In cooking this concept means that you get everything - ingredients, pots, pans, bowls, utensils, etc. - needed to cook that item ready before you begin cooking. This saves time as you have everything you need in front of you and can just cook from start to finish without stopping to find something. This is also a useful idea in programming, especially when you’re programming to conduct research.</p>
+<p>In this chapter, we’ll cover how to get <em>mise en place</em> for your programming projects. First, we’ll discuss how to think about the project and write out each step that we need to take to complete the project, and each output that we want (such as a graph or table). We’ll write this out by hand and in plain English (or whichever language you are most comfortable in), before writing any code. Finally, we’ll go over what is, in my opinion, the best way to organize your folders, data, and code. This method is particularly suited for research projects, but please feel free to modify my methods to suit your own needs and preferences.</p>
+<div id="starting-with-a-pencil-and-paper" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Starting with a pencil and paper<a href="mise-en-place.html#starting-with-a-pencil-and-paper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This may seem counter-intuitive, but the best way to start any programming project - and in particular, research project - is to use a pencil and paper. On this paper you should outline every step (broadly speaking, not literally every line of code) that you’ll take for the project. This is a useful process at the start of a project to step back from the code and think about the overarching goal of the project - and what you need to do to get there. For example, let’s think about doing research using data from the US Border Patrol data (We’ll actually work on this data in Chapter <a href="scrape-table.html#scrape-table">22</a>). The US Border Patrol releases data as PDFs which have a table showing the annual number of apprehensions they make. We want to see if a policy change affected apprehensions at the border. On the data side, that’d require scraping and cleaning the PDFs. On the analysis side, we’d probably want to do a time-series graph showing apprehensions over time, and run a regression to see if the policy had a significant effect. So here we have four broad categories of work (scraping, cleaning, graphing, running a regression) for a fairly simple policy evaluation. Within each category you can make a number of subcategories. For example, in scraping you might want to add download the PDFs, see how each table relates to each other, figure out which parts of the tables are actually relevant, etc. We can probably break down these subcategories even further if we want.</p>
+<p>You essentially want to build a roadmap to follow - you can, of course, deviate from this roadmap if necessary - as you work on the project. This is useful for two reasons. First, writing out what you need to do will often clarify exactly what you need to do. Knowing that you’ll want a time-series graph, for example, will mean that you need to have your data aggregated into a certain time unit. Knowing this before-hand will save you time as you’ll have a tangible goal to work towards and don’t have to keep stopping during your work to figure out what to do next.</p>
+<p>And second, from my experience helping people at Penn with R, people - especially new programmers (and myself when I was first starting learning R, my first programming language) - can get overwhelmed with programming. One major problem they had is they couldn’t articulate what they needed to do since they weren’t familiar enough with R to know the right words. They knew the end goal, and what they had at the start, but couldn’t articulate the path from start to finish. Writing out each step in plain language allowed them to know the path - it is simpler to know what steps you need to do to complete a project in plain language than to actually write the code (though this still requires experience to tell you a lot of the “minor” intermediate steps). Having a game plan helps people avoid being overwhelmed since they could do one step at a time (and feel accomplished at each step).</p>
+<div id="tables-and-graphs" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Tables and graphs<a href="mise-en-place.html#tables-and-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One of the biggest challenges I had early in my PhD was figuring out what data was supposed to look like. I mean that literally. My first research project was analyzing if monthly crime in school buildings changed after a new policy was instituted that increased building security. The data I had available was incident-level so one row for every crime at the school, and I needed to convert it to the building-month level. For some reason I just couldn’t think of the proper way for my data to appear in the final data set which prevented me from figuring out what I needed to do. One solution to this - and useful even if you don’t have this problem - is to draw out the graphs and tables you want before starting the code. Like writing out the steps for the code, drawing the graph will help you understand exactly how your data needs to look - and thus what code you need to write - for these graphs.</p>
+<p>Below are two images from a recent project of mine with the tables and graphs that I wanted sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren’t chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out helps you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, from the US Census). If we continue our example of using the US Border Patrol data, this means that you’ll also need to grab, clean, and merge Census data to your other data sets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you’ll need to do for the project but may have not thought of.</p>
+<p><img src="workflow_files/figure-html/unnamed-chunk-1-1.png" width="100%" height="60%"  style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="r-projects" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> R Projects<a href="mise-en-place.html#r-projects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ve talked about projects in an abstract sense - that they are research papers or specific data exploration jobs. RStudio provides, a bit confusingly, something called an R Project which is merely a helpful way to organize folders for a specific project (paper, data exploration, etc.) that you do. When you do a project, I recommend keeping <em>everything</em> for that project in a single folder on your computer. Below is an image showing all of the folders I use for my various R work. As you can see from the file names, each folder is for a separate project, and there is not overlap between them - each project is independent.</p>
+<p><img src="images/projects.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>First, I’ll explain how to set up an R Project through RStudio, and why you would want to do it. There are two main reasons to want to use an R Project. First, throughout this book I had you set your working directory so that R knew where to look for a particular file. In R Projects, by default the working directory is in that project’s folder. So if you had a file <code>example.csv</code> in your project folder, you wouldn’t need to set a working directory since R would already be looking in that folder.</p>
+<p>This may be a minor time-saving method if you’re working alone since you’d only need to set the working directory once when not using an R Project. But consider if you’re collaborating with three people and you’ve shared your code. When using an R Project, it just runs. Your collaborators won’t need to change the working directory to their own directory. Second, it provides easy access to using the version control software Git, which we’ll talk about in detail in Chapter <a href="git.html#git">9</a>.</p>
+<p>To make an R Project, start by clicking the <em>File</em> button on the top left corner of RStudio and then click <em>New Project</em>. This will open up a window that has three options: New Directory, Existing Directory, and Version Control. New Directory says that the project we are making is going to be in a brand new folder that we’re (R will do this automatically) going to create. This is the one you’ll click on in the majority of cases. Existing Directory is for making a folder in an existing folder, which doesn’t have too many useful cases. The Version Control is taking a project that someone else has created and downloading it to your computer. We’ll cover this more in Chapter <a href="git.html#git">9</a>.</p>
+<p><img src="images/new_project_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Once you’ve clicked New Directory, it’ll change the window to ask you what type of project you want. The below two figures show all the different types of projects R can make (installing some R packages such as <code>bookdown</code> can add more types of projects to this list). R is very versatile and has project types ranging from the standard R Project to books and websites. We just want a standard project so click the New Project button at the top.</p>
+<p><img src="images/new_project_2.PNG" width="100%" height="40%"  style="display: block; margin: auto;" /></p>
+<p>Now it’ll have a window that says Create New Project up top. In the Directory name: section you write the name of your R Project. This will be the name of your folder so you want it descriptive enough to understand (and for collaborators to understand) what it is for, without being overly long. Once you have a name you can click the Browse… button on the right and go to the folder on your computer where you want to put this folder (ideally, you’ll put it in a folder which is backed up by something like DropBox). Make sure the <em>Create a git repository</em> checkbox is selected, and we’ll explain why in Chapter <a href="git.html#git">9</a>. Click Create Project and R will make the project folder on your computer and open that project in RStudio.</p>
+<p><img src="images/new_project_4.PNG" width="100%" height="40%"  style="display: block; margin: auto;" /></p>
+<p>Below are images of a brand new R Project that I made called <em>example</em> that I put in my Desktop folder. The folder is now empty except for two files - .gitignore (which we won’t talk about here) and <em>example</em> which is type “R Project” (and the full name would be <em>example.Rproj</em>). This is a <strong>very</strong> important file. Note that its name is the same as the R Project name that I made, and the same as the folder name on my computer. This file is essentially a shortcut that you click to open that R Project. It doesn’t do anything more than open the R Project but this is the way you’ll access the project every time you want to use it. Double-click this and the R Project will open.</p>
+<p><img src="images/new_project_6.PNG" width="100%" height="40%"  style="display: block; margin: auto;" /></p>
+<p>This RStudio session looks nearly identical to other sessions that we’ve used - and it is nearly identical. A few key differences can be found in the top left corner where it says “example - RStudio,” indicating that we’re in the <em>example</em> R Project. And then directly below the “Console” tab it says “C:/Users/user/Desktop/example/.” This is the working directory of this project. I didn’t set it, R just knew where it was. If you move this folder to a new folder (say, the Downloads folder) or if someone else downloads it to their computer, R will automatically change the working directory to the right one. You no longer have to worry about it.</p>
+<p><img src="images/new_project_5.PNG" width="100%" height="40%"  style="display: block; margin: auto;" /></p>
+<div id="folders" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Folders<a href="mise-en-place.html#folders" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now that we have the R Project made, we need to start adding some R code and data files to the project so we can get started working. But first, let’s talk about proper ways to organize the folder. I’ve added a few new folders to the new <em>example</em> R Project as the basic layout of my work process. This is for a research-oriented project so may not apply in your particular case. Organizing your folders (and as we’ll see below, your code) is important so please play around with different ways to organize and find a way that works well for you.</p>
+<p><img src="images/new_project_7.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>I’ve added five folders to the R Project folder: analysis, articles, data, drafts, and R (note that I moved it to the Downloads folder, and if I opened the project RStudio would know where the new working directory was). I tend to do my analysis using Stata (primarily because most of my co-authors use Stata instead of R so this is a way we can both work on the analysis) so in the analysis folder I’d keep all of the .do (Stata) files to run the regressions. In articles, I put PDFs of every article I read that I use (or planned to use while reading it) for the paper I’m working on in this project. It’s good to keep this organized to share with co-authors or just for easy reference after you’ve read it. It certainly takes time to find good sources for a lot of research, so you don’t want to have to search again because you’ve forgotten which article you had a particular reference from or that was important to your study. While I recommend writing your papers in R Markdown (see Chapter <a href="r-markdown.html#r-markdown">7</a>), you will need to create drafts of the paper to send to others (e.g. your collaborators or journals). The “drafts” folder is a good place to keep these versions - some journals require that you submit a Word Document with track-changes for a revise and resubmit so you will need to leave R Markdown occasionally to comply with these rules.</p>
+<p>The final two important folders are “R” and “data.” In the R folder - as you may have guessed - belong the various R scripts that you write during the project. In Section <a href="mise-en-place.html#modular-r-scripts">5.3</a>, we’ll talk in detail as to how to organize these scripts. Inside the “data” folder I made two subfolders: “raw” and “clean.” The raw folder is where you’ll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn’t necessary). This folder will have, for example, the PDFs that you intend to scrape, or .csv files with crime data in them. It is important to keep this data always unchanged (change it only in R and save the output to a new file) so you can replicate your results from the original data. In the clean folder is that final data output from your work to clean and manipulate (e.g. subset, aggregate) the data. It isn’t strictly necessary to even output a final data set - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but it is important both for safekeeping and to be able to share with others. If you collaborate with people, you’ll want to be able to send them the data so they can examine it without having to run all of your code themselves.</p>
+<p><img src="images/new_project_8.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="modular-r-scripts" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Modular R scripts<a href="mise-en-place.html#modular-r-scripts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If you are like many people who start programming, all of your code will be in a single R script. This is fine when you’re first getting familiar with R and don’t want to go searching for code in places when you’re still uncomfortable with the language. As you become more familiar with R - and as your projects get more complex - you’ll want to start making multiple R scripts in a single project.</p>
+<p>When you’re writing a paper you don’t just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize your thoughts and to make it readable for others. It’s also useful when working since you know, for example, “Section 1 is done but I still need to finish Section 2 and the last part of Section 3.” This way you don’t confront working on the entire paper at once. You’ll want to follow these lessons in the code you write, with each “section” of code being its own R script and within a script split up code into particular “paragraphs.” The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let’s use a real example from one of my recent projects.</p>
+<p><img src="images/modular_scripts.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate data set than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper.</p>
+<p>This is an example of how I approach making R scripts, not necessarily the best way to do so. Even here, other decisions could be made. For example, I could have put the code from census.R into clean.R since they’re both about cleaning data. While you should try to make separate R scripts for broadly different tasks (regardless of how much code that task requires), you should experiment with how you prefer to separate these scripts, and balance between having one (or a few) super scripts that comprise everything with having too many scripts that do too little - this balance requires experience and experimentation so keep at it!</p>
+</div>
+<div id="modular-code" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Modular code<a href="mise-en-place.html#modular-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In addition to having separate scripts for each major part of your project, you will want to organize each individual script into relatively modular parts. Whereas each script is like a book chapter, the code inside the script should be like paragraphs, separated into distinct chunks. For example, let’s say you have some raw data and want to subset it, change some values (e.g. renaming F to Female, M to Male), and then aggregate to a larger geographic area. This is a three-step process - subset, change, aggregate - so you’ll want to have three different parts of your R script dedicated to this. Now, if this is a simple process (and it will always depend on the data and what you want to do with it), you may want to have each step in its own Section (as we’ll discuss next). If it’s relatively simple and takes only a few lines per step, you’ll likely just want to have a line break between steps and identify your choices in comments. It’s hard to give precise rules on how to do this as it really does depend on personal preference - I think having more comments and line breaks early in your R career is best as you’re still learning R and it is good practice to comment your code. You can always alter this balance to suit your preferences as you get more experience.</p>
+<p>The goal of making modular code is to avoid having a large amount of code without breaks or comments - that’d be like reading a run-on sentence. We’ll talk about comments more in Section <a href="collaboration.html#comments">6.2.1</a>, but here you should explain your choices (e.g. “Subset to only violent crime and property crime”) to inform collaborators (other people and yourself in the future who will likely forget what or why you did something), but without writing too much. Generally the rule of thumb is to have comments for why you did something, not explaining what you did as the what can be deduced from looking at the code. I think a mix of what and why is helpful as it’s quicker than looking at the code, especially if your code is complex. Like a lot of your work, however, this depends on the project and your audience - if you’re working with someone new to R, having more comments explaining what you did is helpful.</p>
+<div id="section-labels" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Section Labels<a href="mise-en-place.html#section-labels" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When you have major parts of an R script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating Sections in your R script. Press the keys Control+Shift+R (Command+Shift+R in a Mac) and it will open up a window where you can set a section label. Write the name of the section you want and click OK and it’ll add that to where your cursor was in the R Script. You can also do this by simply adding four dashes on the end of a comment</p>
+<p><img src="images/section_label1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Sections are more than just commented parts of a Script. Note that in the photo below, there is both the Section label in the R Script and that same label in a new section of the Source tab on the right. You can get to this section by clicking on the button on the very top right, the one that looks like a bunch of misaligned lines. In here, it shows all the Sections that exist and clicking the Section name will move to the start of that Section in your R Script. If you have a long script (which is generally unadvised but sometimes can’t be helped), this is an easy way to find a particular part of your code.</p>
+<p><img src="images/section_label2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+<div id="helper-r-scripts" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Helper R Scripts<a href="mise-en-place.html#helper-r-scripts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As part of making code organized, I find it helpful to make an R script in each (or most) of my projects to hold helper functions or objects - and I call this utils.R (utils stands for utility as these are helpful pieces of code for the project). This file should be for code that will be used in multiple R Scripts, so you want them in a single place rather than copying them over in each script where you need them.</p>
+<p>In utils.R, I keep functions that are either auxiliary (such as code to check data by printing out a set of outputs) or code that is used infrequently (such as loading several files and merging them together at the start of an R Script) where I don’t want them in the main file. I also include useful objects such as a vector of values that I will use to subset. For example, if I wanted to subset all violent crimes from a data set, I would need to know what crimes in that data are considered violent, put them as strings in a vector, and subset to only rows that match those strings. I could make an object with this vector, such as <code>violent_crimes &lt;- c("murder", "rape", "robbery", "assault")</code>.</p>
+<p>If you want to run utils.R (or any .R file) in a different R script, you can use the <code>source()</code> function which makes R run the entire script inputted in the parentheses. Just put the file name (in quotes) in the parentheses and it will run. For example, if we want to run utils.R, we’d write <code>source("utils.R")</code>. If that file was in the “data” folder of our R Project, we’d write <code>source("data/utils.R")</code> so R knew to look in the “data” folder for the file.</p>
+<p>It isn’t necessary to make helper functions like these but I find them helpful. I recommend that you try them out when you do R projects but if you don’t find them useful please feel free to stop using them.</p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>The analysis was done in Stata so there are separate files for that<a href="mise-en-place.html#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="reading-and-writing-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="collaboration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/workflow.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
