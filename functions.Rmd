@@ -5,7 +5,7 @@ options(width = 60)
 ```
 
 
-So far, we have been writing code to handle specific situations such as subsetting a single data set, often using other people's functions. In cases where you want to reuse the code it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc.) on those values. We've used lots of other people's function throughout this book and in this chapter we'll learn how to create our own.
+So far, we have been writing code to handle specific situations, such as subsetting a single data set, often using other people's functions. In cases where you want to reuse the code, it is unwise to simply copy and paste the code and make minor changes to handle the new data. Instead we want something that is able to take multiple values and perform the same action (subset, aggregate, make a plot, webscrape, etc.) on those values. We've used lots of other people's function throughout this book, and in this chapter we'll learn how to create our own.
 
 Think of a function like a stapler - you put the paper in, push down, and it staples the paper together. It doesn't matter what papers you are using; it always staples them together. If you needed to buy a new stapler every time you needed to staple something (i.e. copy and pasting code) you'd quickly have way too many staplers (and waste a bunch of money). 
 
@@ -32,11 +32,11 @@ return(output)
 
 There are five essential parts of a function
 
-+ function_name  - This is just the name we give to the function. It can be anything but, like when making other objects, call it something that is easy to remember what it does.
-+ parameters  - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function `mean()` you put in a vector of numbers in the () section and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.
++ function_name  - This is just the name we give to the function. It can be anything, but as when making other objects, call it something that is easy to remember what it does.
++ parameters  - Here is where we say what goes into the function. In most cases you will want to put some data in and expect something new out. For example, for the function `mean()` you put in a vector of numbers in the () section, and it returns the mean of those numbers. Here is also where you can put any options to affect how the code is run.
 + code - This is the code you write to do the thing you want the function to do. In the above example our code is `number <- number + 2`. For any number inputted, our code adds 2 to it and assigns it back into the object *number*. 
 + return - This is something new in this book, here you use the `return()` function and inside the () you put the object you want to be outputted. In our example we have *number* inside the `return()` as that's what we want to come out of the function. It is not always necessary to end your function with `return()` but is highly recommended to do so to make sure you're outputting what it is you want to output. 
-+ The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text `<- function()` where the parameters (if any) are in the (). After the closing parentheses put a `{` and at the very end of the function, after the `return()`, close those squiggly brackets with a `}`. The `<- function()` tells R that you are making a function rather than some other type of object. And the `{` and `}` tell R that all the code in between are part of that function.
++ The final piece is the structure of your function. After the function_name (whatever it is you call it) you always need the text `<- function()` where the parameters (if any) are in the (). After the closing parentheses put a `{`, and at the very end of the function, after the `return()`, close those squiggly brackets with a `}`. The `<- function()` tells R that you are making a function rather than some other type of object. And the `{` and `}` tell R that all the code in between are part of that function.
 
 Our function here adds 2 to any number we input. 
 
@@ -50,7 +50,7 @@ add_2(5)
 
 ## Adding parameters 
 
-Let's add a single parameter which multiplies the result by 5 if selected.
+Let's add a single parameter, which multiplies the result by 5 if selected.
 
 ```{r}
 add_2 <- function(number, times_5 = FALSE) {
@@ -87,9 +87,9 @@ add_2(2, times_5 = TRUE)
 
 ## Making a function to scrape recipes {#recipes-function}
 
-In Section \@ref(scraping-one-page) we wrote some code to scrape data from the website [All Recipes](https://www.allrecipes.com/) for a recipe. We are going to turn that code into a function here. The benefit is that our input to the function will be an URL and then it will print out the ingredients and directions for that recipe. If we want multiple recipes (and for webscraping you usually will want to scrape multiple pages), we just change the URL we input without changing the code at all.
+In Section \@ref(scraping-one-page) we wrote some code to scrape data from the website [All Recipes](https://www.allrecipes.com/) for a recipe. We are going to turn that code into a function here. The benefit is that our input to the function will be a URL, and then it will print out the ingredients and directions for that recipe. If we want multiple recipes (and for webscraping you usually will want to scrape multiple pages), we just change the URL we input without changing the code at all.
 
-We used the `rvest` package so we need to tell R want to use it again.
+We used the `rvest` package so we need to tell R we want to use it again.
 
 ```{r}
 library(rvest)

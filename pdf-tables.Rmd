@@ -12,15 +12,15 @@ options(width = 60)
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
-Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different than what we've done before. 
+Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different from what we've done before. 
 
 Let's first take a look at the data we will be scraping. The first step in any PDF scraping should be to look at the PDF and try to think about the best way to approach this particular problem. While all PDF scraping follows a general format, you cannot necessarily reuse your old code as each situation is likely slightly different. Our data is from the US Customs and Border Protection (CBP) and contains a wealth of information about apprehensions and contraband seizures in border sectors. 
 
-We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the US Customs and Border Protection "Stats and Summaries" page [here](https://www.cbp.gov/newsroom/media-resources/stats). If you're interested in using more of their data, some of it has been cleaned and made available [here](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view). 
+We will be using the Sector Profile 2017 PDF which has information in four tables, three of which we'll scrape and then combine together. The data was downloaded from the US Customs and Border Protection "Stats and Summaries" page [here.](https://www.cbp.gov/newsroom/media-resources/stats) If you're interested in using more of their data, some of it has been cleaned and made available [here.](https://www.openicpsr.org/openicpsr/project/109522/version/V2/view) 
 
 The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has four tables in the PDF. Let's take a look at them one at a time, understanding what variables are available, and what units each row is in. Then we'll start scraping the tables.
 
-The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017 which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
+The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017, which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
 ```{r, echo = FALSE}
 knitr::include_graphics('images/pdf_table_1.PNG')
@@ -30,19 +30,19 @@ Now if we look more at the table, we can see that each row is a section of the U
 
 There are 9 columns in the data other than the border section identifier. We have total apprehensions, apprehensions for people who are not Mexican citizens, marijuana and cocaine seizures (in pounds), the number of accepted prosecutions (presumably of those apprehended), and the number of CBP agents assaulted. The last two columns have the number of people rescued by CBP and the number of people who died (it is unclear from this data alone if this is solely people in custody or deaths during crossing the border). These two columns are also special as they only have data for the Southwest border. 
 
-Table 2 has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in Table 1.
+The second table has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in the first table.
 
 ```{r, echo = FALSE}
 knitr::include_graphics('images/pdf_table_2.PNG')
 ```
 
-Table 3 follows the same format and the new columns are number of apprehensions by gender.
+The third table follows the same format, and the new columns are number of apprehensions by gender.
 
 ```{r, echo = FALSE}
 knitr::include_graphics('images/pdf_table_3.PNG')
 ```
 
-Finally, Table 4 is a bit different in its format. The rows are now variables and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of Table 1 but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently than the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
+Finally, the fourth table is a bit different in its format. The rows are now variables, and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of the first table but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently from the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
 ```{r, echo = FALSE}
 knitr::include_graphics('images/pdf_table_4.PNG')
@@ -50,7 +50,7 @@ knitr::include_graphics('images/pdf_table_4.PNG')
 
 ## Scraping the first table
 
-We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code. 
+We've now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar, meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code. 
 
 We will start by using the `pdf_text()` function from the `pdftools` package to read the PDFs into R. 
 
@@ -63,7 +63,7 @@ install.packages("pdftools")
 library(pdftools)
 ```
 
-We can assign the output of the `pdf_text()` function to the object *border_patrol* and we'll use it for each table. The input to `pdf_text()` is the name of the PDF we want to scrape.
+We can assign the output of the `pdf_text()` function to the object *border_patrol*, and we'll use it for each table. The input to `pdf_text()` is the name of the PDF we want to scrape.
 
 ```{r}
 border_patrol <- pdf_text("data/usbp_stats_fy2017_sector_profile.pdf")
@@ -79,7 +79,7 @@ head(border_patrol)
 knitr::include_graphics('images/pdf_scrape_1.PNG')
 ```
 
-If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol" which tells us how many elements are in a vector.
+If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol", which tells us how many elements are in a vector.
 
 ```{r}
 length(border_patrol)
@@ -123,7 +123,7 @@ head(sector_profile)
 knitr::include_graphics('images/pdf_scrape_3.PNG')
 ```
 
-Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the () and it'll remove any white space that is at the beginning or end of the string.
+Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the (), and it'll remove any white space that is at the beginning or end of the string.
 
 ```{r}
 sector_profile <- trimws(sector_profile)
@@ -158,7 +158,7 @@ sector_profile <- sector_profile[grep("Miami", sector_profile):
                                    grep("Nationwide Total", sector_profile)]
 ```
 
-Note that we're getting rid of the rows which had the column names. It's easier to make the names ourselves than to deal with that mess. The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do.
+Note that we're getting rid of the rows that had the column names. It's easier to make the names ourselves than to deal with that mess. The data now has only the rows we want but still doesn't have any columns, it's currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do.
 
 ```{r, eval = FALSE}
 head(sector_profile)
@@ -180,7 +180,7 @@ install.packages("stringr")
 library(stringr)
 ```
 
-The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors  "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
+The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
 
 ```{r}
 sector_profile <- str_split_fixed(sector_profile, " {2,}", 10)
@@ -214,11 +214,11 @@ We have now taken a table from a PDF and successfully scraped it to a data.frame
 head(sector_profile)
 ```
 
-To really be able to use this data we'll want to clean the columns to turn the values to numeric type but we can leave that until later. For now let's write a function that replicates much of this work for the next tables. 
+To really be able to use this data we'll want to clean the columns to turn the values to numeric type, but we can leave that until later. For now let's write a function that replicates much of this work for the next tables. 
 
 ## Making a function
 
-As we've done before, we want to take the code we wrote for the specific case of the first table in this PDF and turn it into a function for the general case of other tables in the PDF. Let's copy the code we used above before we convert it to a function.
+As we've done before, we want to take the code we wrote for the specific case of the first table in this PDF and turn it into a function for the general case of other tables in the PDF. Let's copy the code we used previously before we convert it to a function.
 
 ```{r}
 sector_profile <- border_patrol[1]
@@ -243,7 +243,7 @@ names(sector_profile) <- c("sector",
                            "deaths")
 ```
 
-Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to its proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. 
+Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object *border_patrol* has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter `table_number`. Then each table has a different number of columns so we need to change the `str_split_fixed()` function to take a variable with the number of columns we input, a value we'll call `number_columns`. We rename each column to its proper name so we need to input a vector - which we'll call `column_names` - with the names for each column. Finally, we want to have a parameter where we enter in the data, which holds all of the tables, our object *border_patrol*, we can call this `list_of_tables` as it is fairly descriptive. 
 
 We do this as it is bad form (and potentially dangerous) to have a function that relies on an object that isn't explicitly put in the function. It we change our *border_patrol* object (such as by scraping a different file but calling that object *border_patrol*) and the function doesn't have that as an input, it will work differently than we expect. Since we called the object we scraped *sector_profile* for the first table, let's change that to *data* as not all tables are called Sector Profile.
 
@@ -300,7 +300,7 @@ table_3 <- scrape_pdf(list_of_tables = border_patrol,
                                        "total_apprehensions"))
 ```
 
-We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterisks after the final two row names in the Sector column. For our match to work properly we need to delete them which we can do using `gsub()`. 
+We can use the function `left_join()` from the `dplyr` package to combine the three tables into a single object. In the first table there are some asterisks after the final two row names in the Sector column. For our match to work properly we need to delete them, which we can do using `gsub()`. 
 
 ```{r}
 table_1$sector <- gsub("\\*", "", table_1$sector)

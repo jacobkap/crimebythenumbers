@@ -16,6 +16,9 @@
 \DeclareOption{a4paper}
    {\setlength\paperheight {297mm}%
     \setlength\paperwidth  {210mm}}
+\DeclareOption{crcpaper}
+   {\setlength\paperheight {254mm}%
+    \setlength\paperwidth  {178mm}}
 \DeclareOption{a5paper}
    {\setlength\paperheight {210mm}%
     \setlength\paperwidth  {148mm}}

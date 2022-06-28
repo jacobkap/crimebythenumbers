@@ -2,7 +2,7 @@
 
 ## Data types {#section-data-types}
 
-When you read a sentence like "two plus two" you know the answer is four. R doesn't know that. This is because R takes things very literally. It will read "two" as a word, not as a number. For R to understand numbers you need to specify that you're talking about numbers, and not just words. Let's look at an example, making two variables which each have the value of "2".
+When you read a sentence like "two plus two" you know the answer is four. R doesn't know that. This is because R takes things very literally. It will read "two" as a word, not as a number. For R to understand numbers you need to specify that you're talking about numbers, and not just words. Let's look at an example, making two variables which each have the value of "2."
 
 ```{r}
 a <- "2"
@@ -22,7 +22,10 @@ a <- 2
 b <- 2
 a + b
 ```
+
 This may seem like a pretty simple concept but is fundamental to how R works, and can trip up new and experienced programmers alike. R trusts you. It only knows what you tell it. If you tell it that something is a word (by including quotes), it will treat it as a word, even if it looks to you like a number. So we must be very precise about what code we write, as R won't (for the most part) fix our mistakes - though it will give us an error if we try to do something it doesn't like, like add two words. 
+
+## Numeric, character, and logical (boolean)
 
 There are three main data types that are important to know for using R to do research: numeric, character, and logical. 
 
@@ -58,7 +61,7 @@ Checking "2" (in quotes), gives us four different types of data for this value: 
 is(TRUE)
 ```
 
-Finally, checking what TRUE is returns both "logical" and "vector". We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character and if we have it lowercase and without quotes R will think that it is an object (such as something we make using `<-` and not a Boolean).
+Finally, checking what TRUE is returns both "logical" and "vector". We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character, and if we have it lowercase and without quotes R will think that it is an object (such as something we make using `<-` and not a Boolean).
 
 ```{r}
 is("TRUE")
@@ -68,8 +71,7 @@ is("TRUE")
 is(true)
 ```
 
-
-All three of the values we checked say that they are a "vector" type. We'll cover vectors in the next section, but for now let's see one other function that tell us the type of data something is. If we use `class()` instead of `is()` we'll get just the first value returned in the types of data that we input.
+All three of the values we checked say that they are a "vector" type. We'll cover vectors in the next section, but for now let's see one other function that tells us the type of data something is. If we use `class()` instead of `is()` we'll get just the first value returned in the types of data that we input.
 
 ```{r}
 class(2)
@@ -102,7 +104,7 @@ We need to know the column names before using them, so we can use the `names()` 
 names(ucr2017)
 ```
 
-Now we can check the types of some of the columns. Let's check the year column as an example. A year is a number so we may expect it to be numeric but there's technically nothing stopping that data from being character type. It can't be logical type because then instead of a year value it'd just be TRUE or FALSE, which is certainly not what a year is.
+Now we can check the types of some of the columns. Let's check the year column as an example. A year is a number so we may expect it to be numeric, but there's technically nothing stopping that data from being character type. It can't be logical type because then instead of a year value it'd just be TRUE or FALSE, which is certainly not what a year is.
 
 ```{r}
 is(ucr2017$year)
@@ -115,7 +117,7 @@ is.numeric(ucr2017$year)
 
 ## Data structures
 
-We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 data set which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good to understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(subsetting-intro) which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
+We'll look in detail about two important data structures - vectors and data.frames - and then talk briefly about two other structures that are not that important in this book, but are nonetheless good to know that they exist. So far we've just been looking at either a single value, such as `a <- 1` or more complicated structures such as the ucr2017 data set, which is called a data.frame - R's version of an Excel file. Data structures each operate a little differently from each other so it's good to understand what they are and how they work. We'll cover much more of how they work in Chapter \@ref(subsetting-intro), which covers how to subset data - which is just how to keep only certain values (such as specific rows or columns) in the data.
 
 ### Vectors (collections of "things") {#vectors}
 
@@ -141,11 +143,11 @@ It is likewise crucial to have a comma separating every single separate value.
 a <- c(1 2 3)
 ```
 
-The terminology for talking about values in a vector is that each value is called an "element" and we identify them by the number they are, in order from start to finish. So here we have 1, 2, and 3, and we can say that the first element is 1, the second element is 2, the third element is 3. 
+The terminology for talking about values in a vector is that each value is called an "element," and we identify them by the number they are, in order from start to finish. So here we have 1, 2, and 3, and we can say that the first element is 1, the second element is 2, the third element is 3. 
 
 If we assigned a to b (`b <- a`) we don't need to use the `c()` again. a is already a vector so if we assign its value to something, that carries over the vector. The `c()` is only necessary when first creating the vector.
 
-Note that vectors take values that are the same type, so all values included must be the same type such as a number or a string. If they aren't the same type, R will automatically convert it to the same type. 
+Note that vectors take values that are the same type, so all values included must be the same type, such as a number or a string. If they aren't the same type, R will automatically convert it to the same type. 
 
 ```{r}
 c("cat", "dog", 2)
@@ -155,11 +157,11 @@ Above we made a vector with the values "cat", "dog" and 2 (without quotes) and i
 
 ### Data.frames {#dataframes}
 
-Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of rows. You can't have, for example, a data.frame with 10 rows of data for the city column and only 8 rows for the year column. It must be 10 for each. Since vectors can only be a single type, each row in a particular column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame which has both numeric and character type columns. 
+Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R's version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of rows. You can't have, for example, a data.frame with 10 rows of data for the city column and only 8 rows for the year column. It must be 10 for each. Since vectors can only be a single type, each row in a particular column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame, which has both numeric and character type columns. 
 
-In this book I'll refer to data.frames by keeping it all lower case and with a dot between the words. This is just because the function to make one is `data.frame()` and writing it this way is the normal convention. But writing it as a data frame is also fine. In nearly all cases we'll be using data that is loaded into R and is already in the structure of a data.frame (usually these will be Excel files or R data files like an .rda or .rds file).
+In this book I'll refer to data.frames by keeping it all lower case and with a dot between the words. This is just because the function to make one is `data.frame()`, and writing it this way is the normal convention. But writing it as a data frame is also fine. In nearly all cases we'll be using data that is loaded into R and is already in the structure of a data.frame (usually these will be Excel files or R data files like an .rda or .rds file).
 
-If we wanted to create our own data.frame we would use the `data.frame()` function and the input would be vectors which will become our columns. Let's make a simple one. If the vector is already created then R would automatically take the name of that vector object as the column name, otherwise we could name it ourselves
+If we wanted to create our own data.frame we would use the `data.frame()`, function and the input would be vectors, which will become our columns. Let's make a simple one. If the vector is already created then R would automatically take the name of that vector object as the column name, otherwise we could name it ourselves
 
 ```{r}
 example <- data.frame(column_1 = c(1, 3, 5, 7, 9),
@@ -171,7 +173,7 @@ example <- data.frame(column_1 = c(1, 3, 5, 7, 9),
 example
 ```
 
-Now we have a new data.frame called example which has two columns and five rows. We named the columns ourselves and in this case we don't need to put the column name in quotes, though doing so would give the same result. Here we're saying that the column "column_1" is equal to the vector `c(1, 3, 5, 7, 9)` and "column_2" is equal to the vector `c("hello", "darkness", "my", "old", "friend")`. We're essentially creating an object inside of the `data.frame()` function but in this case we need to use the equal sign and not the `<-` because R doesn't allow the use of `<-` inside of a function. 
+Now we have a new data.frame called example, which has two columns and five rows. We named the columns ourselves, and in this case we don't need to put the column name in quotes, though doing so would give the same result. Here we're saying that the column "column_1" is equal to the vector `c(1, 3, 5, 7, 9)` and "column_2" is equal to the vector `c("hello", "darkness", "my", "old", "friend")`. We're essentially creating an object inside of the `data.frame()` function but in this case we need to use the equal sign and not the `<-` because R doesn't allow the use of `<-` inside of a function. 
 
 If we forget to name the columns, and our vectors aren't already created with their own name, R will create a name based on the values in that vector. As shown below, this looks really bad so make sure to always name your columns. 
 
@@ -185,7 +187,7 @@ example <- data.frame(c(1, 3, 5, 7, 9),
 example
 ```
 
-If the vectors are already made then we won't have an issue. R will default to the vector name but we can override that if we want.
+If the vectors are already made then we won't have an issue. R will default to the vector name, but we can override that if we want.
 
 ```{r}
 column_1 = c(1, 3, 5, 7, 9)
@@ -195,13 +197,13 @@ example <- data.frame(column_1,
 example
 ```
 
-As with other objects, we can use the `is()` function to see what type it is. If we use `is()` on our example object it'll tell us that it is a data.frame.
+As with other objects, we can use the `is()` function to see what type it is. If we use `is()` on our example object, it'll tell us that it is a data.frame.
 
 ```{r}
 is(example)
 ```
 
-We also often will want to know how many columns and rows a data.frame has. For finding the number of rows we use the function `nrow()` and for finding the number of columns we'll use the `ncol()` function.^[We could also use the `dim()` function which tells the dimensions of the data.frame - so how many rows and columns it has. This function returns a vector showing first the number of rows and then the number of columns. But I find it easier to simply ask for the number of rows or columns separately, and to not deal with the result which has two values.] In each the "n" part of the function just stands for number. So `nrow()` is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R) and it will return the number of rows/columns.
+We also often will want to know how many columns and rows a data.frame has. For finding the number of rows we use the function `nrow()`, and for finding the number of columns we'll use the `ncol()` function.^[We could also use the `dim()`, function which tells the dimensions of the data.frame. The dimensions are the rows and columns in the data.frame so `dim()` tell us the results of both `nrow()` and `ncol()` at the same time. This function returns a vector showing first the number of rows and then the number of columns. But I find it easier to simply ask for the number of rows or columns separately, and to not deal with the result, which has two values.] In each the "n" part of the function just stands for number. So `nrow()` is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R), and it will return the number of rows/columns.
 
 ```{r}
 nrow(example)
@@ -211,7 +213,7 @@ nrow(example)
 ncol(example)
 ```
 
-Alternatively, we could have looked in the Environment tab which shows us the number of rows and columns of each data.frame that is loaded to R. For example, ucr2017 says it has "15764 obs. of 9 variables". This just means there are 15,764 rows and 9 variables. A variable in this context is just another way to say a column. However, you'll occasionally want to find the exact number of rows and columns and as you'll often delete certain rows and columns from your data this can change throughout your code. So being able to use `nrow()` and `ncol()` is easier than repeatedly checking the Environment tab. 
+Alternatively, we could have looked in the Environment tab which shows us the number of rows and columns of each data.frame that is loaded to R. For example, ucr2017 says it has "15764 obs. of 9 variables". This just means there are 15,764 rows and 9 variables. A variable in this context is just another way to say a column. However, you'll occasionally want to find the exact number of rows and columns, and as you'll often delete certain rows and columns from your data this can change throughout your code. So being able to use `nrow()` and `ncol()` is easier than repeatedly checking the Environment tab. 
 
 You may encounter something called a data.table or a tibble. These are two popular variations of data.frames that operate much the same way as data.frames but with some different features. We'll use tibbles in this book so will discuss their features when we use them.
 

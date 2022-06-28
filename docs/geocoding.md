@@ -1,4 +1,8 @@
+
 # Geocoding 
+
+
+
 
 For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_active_marijuana_retailers.csv.
 
@@ -28,7 +32,7 @@ To geocode our addresses we'll use the helpfully named `geocode()` function insi
 
 ```r
 geocode("750 Race St. Philadelphia, PA 19106")
-#> Error: .tbl is not a dataframe. See ?geocode
+# Error: .tbl is not a dataframe. See ?geocode
 ```
 As shown above, running `geocode("750 Race St. Philadelphia, PA 19106")` gives us an error that tells us that ".tbl is not a dataframe." The issue is that `geocode()` expects a data.frame (and .tbl is an abbreviation for tibble which is a kind of data.frame), but we entered only the string with our one address, not a data.frame. For this function to work we need to enter two parameters into `geocode()`: a data.frame (or something similar such as a tibble) and the name of the column which has the addresses.^[We can look at all of the parameters for this function by running the code `help(geocode)` or `?geocode()` to look at the functions Help page.] Since we need a data.frame, we'll make one below. I'm calling it *address_to_geocode* and calling the column with the address "address", but you can call both the data.frame and the column whatever name you want. 
 
@@ -43,12 +47,10 @@ Now let's try again. We'll enter our data.frame *address_to_geocode* first and t
 
 ```r
 geocode(address_to_geocode, address)
-#> Passing 1 address to the Nominatim single address geocoder
-#> Query completed in: 1 seconds
-#> # A tibble: 1 x 3
-#>   address                               lat  long
-#>   <chr>                               <dbl> <dbl>
-#> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
+# # A tibble: 1 x 3
+#   address                               lat  long
+#   <chr>                               <dbl> <dbl>
+# 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
 It worked, returning the same data.frame but with two additional columns with the latitude and longitude of that address.
@@ -58,12 +60,10 @@ You might be wondering why we put "address" into `geocode()` without quotes when
 
 ```r
 geocode(address_to_geocode, "address")
-#> Passing 1 address to the Nominatim single address geocoder
-#> Query completed in: 1 seconds
-#> # A tibble: 1 x 3
-#>   address                               lat  long
-#>   <chr>                               <dbl> <dbl>
-#> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
+# # A tibble: 1 x 3
+#   address                               lat  long
+#   <chr>                               <dbl> <dbl>
+# 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
 There are two additional parameters which are important to talk about for this function, especially when you encounter an address that doesn't geocode properly. 
@@ -75,37 +75,31 @@ At the time of this writing the `tidygeocoder` package can handle geocoding from
 
 ```r
 example <- geocode(address_to_geocode, "address", method = "osm")
-#> Passing 1 address to the Nominatim single address geocoder
-#> Query completed in: 1 seconds
 example
-#> # A tibble: 1 x 3
-#>   address                               lat  long
-#>   <chr>                               <dbl> <dbl>
-#> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
+# # A tibble: 1 x 3
+#   address                               lat  long
+#   <chr>                               <dbl> <dbl>
+# 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
 
 ```r
 example <- geocode(address_to_geocode, "address", method = "census")
-#> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 1.1 seconds
 example
-#> # A tibble: 1 x 3
-#>   address                               lat  long
-#>   <chr>                               <dbl> <dbl>
-#> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
+# # A tibble: 1 x 3
+#   address                               lat  long
+#   <chr>                               <dbl> <dbl>
+# 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
 
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
-#> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.3 seconds
 example
-#> # A tibble: 1 x 3
-#>   address                               lat  long
-#>   <chr>                               <dbl> <dbl>
-#> 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
+# # A tibble: 1 x 3
+#   address                               lat  long
+#   <chr>                               <dbl> <dbl>
+# 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
 ```
 
 By default this function returns a tibble instead of a normal data.frame so it only shows one decimal point by default - though it doesn't actually round the number, merely shorten what it shows us. We can change the output back into a data.frame by using the `data.frame()` function. If you check each result after converting it to a data.frame you'll see that each set of coordinates are very slightly different, though for all purposes are the same location.
@@ -113,12 +107,10 @@ By default this function returns a tibble instead of a normal data.frame so it o
 
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
-#> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.1 seconds
 example <- data.frame(example)
 example
-#>                               address      lat      long
-#> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
+#                               address      lat      long
+# 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
 ```
 
 Given how similar the coordinates are, you really only need to set the source of the geocoder in cases where one geocoder fails to find a match for the address. 
@@ -129,21 +121,19 @@ The second important parameter is `full_results` which is by default set to FALS
 ```r
 example <- geocode(address_to_geocode, "address",
                    method = "osm", full_results = TRUE)
-#> Passing 1 address to the Nominatim single address geocoder
-#> Query completed in: 1 seconds
 example <- data.frame(example)
 example$display_name <- NULL
 example
-#>                               address     lat      long  place_id
-#> 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524
-#>                                                                  licence
-#> 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
-#>   osm_type   osm_id
-#> 1      way 62202366
-#>                                                          boundingbox class
-#> 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327 place
-#>    type importance
-#> 1 house      0.531
+#                               address     lat      long  place_id
+# 1 750 Race St. Philadelphia, PA 19106 39.9548 -75.15142 288259524
+#                                                                  licence
+# 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright
+#   osm_type   osm_id
+# 1      way 62202366
+#                                                          boundingbox class
+# 1 39.95474977551, 39.95484977551, -75.151465816327, -75.151365816327 place
+#    type importance
+# 1 house      0.531
 ```
 
 For OSM as a source we also get information about the address such as what type of place it is, a bounding box which is a geographic area right around this coordinate, the address for those coordinates in the OSM database, and a bunch of other variables that don't seem very useful for our purposes such as the "importance" of the address. It's interesting that OSM classifies this address as a "house" as the headquarters of a major police department is quite a bit bigger than a house, so this is likely an misclassification of the type of address. The most important extra variable here is the address, called the "display_name". 
@@ -154,26 +144,24 @@ Sometimes geocoders will be quite a bit off in their geocoding because they matc
 ```r
 example <- geocode(address_to_geocode, "address", 
                    method = "census", full_results = TRUE)
-#> Passing 1 address to the US Census single address geocoder
-#> Query completed in: 0.9 seconds
 example <- data.frame(example)
 example
-#>                               address      lat     long
-#> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514
-#>                         matchedAddress tigerLine.tigerLineId tigerLine.side
-#> 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677              L
-#>   addressComponents.fromAddress addressComponents.toAddress
-#> 1                           700                         798
-#>   addressComponents.preQualifier addressComponents.preDirection
-#> 1                                                              
-#>   addressComponents.preType addressComponents.streetName
-#> 1                                                   RACE
-#>   addressComponents.suffixType addressComponents.suffixDirection
-#> 1                           ST                                  
-#>   addressComponents.suffixQualifier addressComponents.city
-#> 1                                             PHILADELPHIA
-#>   addressComponents.state addressComponents.zip
-#> 1                      PA                 19106
+#                               address      lat     long
+# 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.1514
+#                         matchedAddress tigerLine.tigerLineId tigerLine.side
+# 1 750 RACE ST, PHILADELPHIA, PA, 19106             131423677              L
+#   addressComponents.fromAddress addressComponents.toAddress
+# 1                           700                         798
+#   addressComponents.preQualifier addressComponents.preDirection
+# 1                                                              
+#   addressComponents.preType addressComponents.streetName
+# 1                                                   RACE
+#   addressComponents.suffixType addressComponents.suffixDirection
+# 1                           ST                                  
+#   addressComponents.suffixQualifier addressComponents.city
+# 1                                             PHILADELPHIA
+#   addressComponents.state addressComponents.zip
+# 1                      PA                 19106
 ```
 
 The Census results are similar to the OSM results and also have the matched address to compare your inputted address to. Most of the columns are just the address broken into different pieces (street, city, state, etc.) so are mostly repeating the address again in multiple columns. 
@@ -182,16 +170,14 @@ The Census results are similar to the OSM results and also have the matched addr
 ```r
 example <- geocode(address_to_geocode, "address", 
                    method = "arcgis", full_results = TRUE)
-#> Passing 1 address to the ArcGIS single address geocoder
-#> Query completed in: 0.2 seconds
 example <- data.frame(example)
 example
-#>                               address      lat      long
-#> 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
-#>                                   arcgis_address score location.x location.y
-#> 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205   39.95488
-#>   extent.xmin extent.ymin extent.xmax extent.ymax
-#> 1   -75.15305    39.95388   -75.15105    39.95588
+#                               address      lat      long
+# 1 750 Race St. Philadelphia, PA 19106 39.95488 -75.15205
+#                                   arcgis_address score location.x location.y
+# 1 750 Race St, Philadelphia, Pennsylvania, 19106   100  -75.15205   39.95488
+#   extent.xmin extent.ymin extent.xmax extent.ymax
+# 1   -75.15305    39.95388   -75.15105    39.95588
 ```
 
 For the ArcGIS results we have the matched address again, and then an important variable called "score" which is basically a measure of how confident ArcGIS is that it matched the right address. Higher values are more confident, but in my experience anything under 90-95 confidence is an incorrect address. These results also repeat the longitude and latitude columns as "location.x" and "location.y" columns, and I'm not sure why they do so. 
@@ -214,34 +200,34 @@ Let's look at the top 6 rows.
 
 ```r
 head(marijuana)
-#>    License.Number                License.Type   Business.Owner
-#> 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
-#> 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
-#> 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
-#> 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
-#> 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
-#> 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
-#>          Business.Structure
-#> 1 Limited Liability Company
-#> 2               Corporation
-#> 3               Corporation
-#> 4               Corporation
-#> 5 Limited Liability Company
-#> 6 Limited Liability Company
-#>                                                 Premise.Address Status
-#> 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active
-#> 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active
-#> 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active
-#> 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active
-#> 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active
-#> 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active
-#>   Issue.Date Expiration.Date                Activities Adult.Use.Medicinal
-#> 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
-#> 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
-#> 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
-#> 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
-#> 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
+#    License.Number                License.Type   Business.Owner
+# 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller
+# 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin
+# 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin
+# 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle
+# 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson
+# 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson
+#          Business.Structure
+# 1 Limited Liability Company
+# 2               Corporation
+# 3               Corporation
+# 4               Corporation
+# 5 Limited Liability Company
+# 6 Limited Liability Company
+#                                                 Premise.Address Status
+# 1  2165 IRVING ST san francisco, CA 94122 County: SAN FRANCISCO Active
+# 2 122 10TH ST SAN FRANCISCO, CA 941032605 County: SAN FRANCISCO Active
+# 3   843 Howard ST SAN FRANCISCO, CA 94103 County: SAN FRANCISCO Active
+# 4    70 SECOND ST SAN FRANCISCO, CA 94105 County: SAN FRANCISCO Active
+# 5   527 Howard ST San Francisco, CA 94105 County: SAN FRANCISCO Active
+# 6 2414 Lombard ST San Francisco, CA 94123 County: SAN FRANCISCO Active
+#   Issue.Date Expiration.Date                Activities Adult.Use.Medicinal
+# 1  9/13/2019       9/12/2020 N/A for this license type                BOTH
+# 2  8/26/2019       8/25/2020 N/A for this license type                BOTH
+# 3  8/26/2019       8/25/2020 N/A for this license type                BOTH
+# 4   8/5/2019        8/4/2020 N/A for this license type                BOTH
+# 5  7/29/2019       7/28/2020 N/A for this license type                BOTH
+# 6  7/29/2019       7/28/2020 N/A for this license type                BOTH
 ```
 
 The column with the address is called *Premise Address*. Since the address county is always " County: SAN FRANCISCO" we can just `gsub()` out that entire string.
@@ -257,12 +243,12 @@ Now let's make sure we did it right.
 
 ```r
 head(marijuana$Premise.Address)
-#> [1] "2165 IRVING ST san francisco, CA 94122" 
-#> [2] "122 10TH ST SAN FRANCISCO, CA 941032605"
-#> [3] "843 Howard ST SAN FRANCISCO, CA 94103"  
-#> [4] "70 SECOND ST SAN FRANCISCO, CA 94105"   
-#> [5] "527 Howard ST San Francisco, CA 94105"  
-#> [6] "2414 Lombard ST San Francisco, CA 94123"
+# [1] "2165 IRVING ST san francisco, CA 94122" 
+# [2] "122 10TH ST SAN FRANCISCO, CA 941032605"
+# [3] "843 Howard ST SAN FRANCISCO, CA 94103"  
+# [4] "70 SECOND ST SAN FRANCISCO, CA 94105"   
+# [5] "527 Howard ST San Francisco, CA 94105"  
+# [6] "2414 Lombard ST San Francisco, CA 94123"
 ```
 
 To do the geocoding we'll just tell `geocode()` our data.frame name and the name of the column with the addresses. We'll assign the results back into the `marijuana` object. As noted earlier, we don't need to put the name of our column in quotes, but I like to do so because it is consistent with some other functions that require it. Running this code may take up to a minute because it's geocoding 33 different addresses.
@@ -270,8 +256,6 @@ To do the geocoding we'll just tell `geocode()` our data.frame name and the name
 
 ```r
 marijuana <- geocode(marijuana, "Premise.Address")
-#> Passing 33 addresses to the Nominatim single address geocoder
-#> Query completed in: 33.1 seconds
 ```
 
 Now it appears that we have longitude and latitude for every dispensary. We should check that they all look sensible.
@@ -279,15 +263,15 @@ Now it appears that we have longitude and latitude for every dispensary. We shou
 
 ```r
 summary(marijuana$long)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4      10
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4      10
 ```
 
 
 ```r
 summary(marijuana$lat)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-#>   37.71   37.75   37.78   37.77   37.78   37.80      10
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#   37.71   37.75   37.77   37.76   37.78   37.80      10
 ```
 The minimum and maximum are very similar to each other for both longitude and latitude so that's a sign that it geocoded correctly. The 10 NA values mean that it didn't find a match for 10 of the addresses. Let's try again and now set `method` to "arcgis" which generally has a very high match rate. Before we do this let's just remove the entire latitude and longitude columns from our data. How the `geocode()` function works is that if we keep the "long" and "lat" columns that are currently in the data from when we just geocoded, when we run it again it'll make new columns that have nearly identical names. We usually want as few columns in our data as possible so there's no point having the "lat" column from the last geocode run with the 10 NAs and another "lat" (though slightly different, automatically chosen name) column from this time we run `geocode().` 
 
@@ -299,23 +283,21 @@ marijuana$long <- NULL
 marijuana$lat  <- NULL
 marijuana      <- geocode(marijuana, "Premise.Address",
                           method = "arcgis")
-#> Passing 33 addresses to the ArcGIS single address geocoder
-#> Query completed in: 19 seconds
 ```
 And let's do the `summary()` check again. 
 
 
 ```r
 summary(marijuana$long)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#  -122.5  -122.4  -122.4  -122.4  -122.4  -122.4
 ```
 
 
 ```r
 summary(marijuana$lat)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#>   37.71   37.76   37.77   37.77   37.78   37.80
+#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   37.71   37.76   37.77   37.77   37.78   37.80
 ```
 
 No more NAs which means that we successfully geocoded our addresses. Another check is to make a simple scatterplot of the data. Since all of the data is from San Francisco, they should be relatively close to each other. If there are dots far from the rest, that is probably a geocoding issue.
@@ -325,6 +307,6 @@ No more NAs which means that we successfully geocoded our addresses. Another che
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-24-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
+<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
