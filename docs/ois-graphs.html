@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>15 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R</title>
+  <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="15 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  <meta name="github-repo" content="jacobkap/crimebythenumbers" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="15 More graphing with ggplot2 | Crime by the Numbers: A Criminologist’s Guide to R" />
+  
+  <meta name="twitter:description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
+  
+
+<meta name="author" content="Jacob Kaplan" />
+
+
+<meta name="date" content="2022-06-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="graphing-intro.html"/>
+<link rel="next" href="hotspot-maps.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99359926-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99359926-6');
+</script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><strong><a href="./">Crime by the Numbers: A Criminologist's Guide to R</a></strong></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-learn-to-program"><i class="fa fa-check"></i>Why learn to program?</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#scale"><i class="fa fa-check"></i>Scale</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#reproducibility"><i class="fa fa-check"></i>Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-will-learn"><i class="fa fa-check"></i>What you will learn</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#skills"><i class="fa fa-check"></i>Skills</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#what-you-wont-learn"><i class="fa fa-check"></i>What you won’t learn</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#simple-vs-easy"><i class="fa fa-check"></i>Simple vs easy</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-read-this-book"><i class="fa fa-check"></i>How to read this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#citing-this-book"><i class="fa fa-check"></i>Citing this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#how-to-contribute-to-this-book"><i class="fa fa-check"></i>How to contribute to this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#where-to-find-data-included-in-this-book"><i class="fa fa-check"></i>Where to find data included in this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#where-to-find-code-included-in-this-book"><i class="fa fa-check"></i>Where to find code included in this book</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i>About the author</a></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html"><i class="fa fa-check"></i><b>1</b> A soup to nuts project example</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#big-picture-data-example"><i class="fa fa-check"></i><b>1.1</b> Big picture data example</a></li>
+<li class="chapter" data-level="1.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#little-picture-data-example"><i class="fa fa-check"></i><b>1.2</b> Little picture data example</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-packages"><i class="fa fa-check"></i><b>1.2.1</b> Loading packages</a></li>
+<li class="chapter" data-level="1.2.2" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#loading-data"><i class="fa fa-check"></i><b>1.2.2</b> Loading data</a></li>
+<li class="chapter" data-level="1.2.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#cleaning"><i class="fa fa-check"></i><b>1.2.3</b> Cleaning</a></li>
+<li class="chapter" data-level="1.2.4" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#aggregating"><i class="fa fa-check"></i><b>1.2.4</b> Aggregating</a></li>
+<li class="chapter" data-level="1.2.5" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#graphing"><i class="fa fa-check"></i><b>1.2.5</b> Graphing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="a-soup-to-nuts-project-example.html"><a href="a-soup-to-nuts-project-example.html#reusing-and-modifying-code"><i class="fa fa-check"></i><b>1.3</b> Reusing and modifying code</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro-to-r.html"><a href="intro-to-r.html"><i class="fa fa-check"></i><b>2</b> Introduction to R and RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro-to-r.html"><a href="intro-to-r.html#using-rstudio"><i class="fa fa-check"></i><b>2.1</b> Using RStudio</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="intro-to-r.html"><a href="intro-to-r.html#opening-an-r-script"><i class="fa fa-check"></i><b>2.1.1</b> Opening an R Script</a></li>
+<li class="chapter" data-level="2.1.2" data-path="intro-to-r.html"><a href="intro-to-r.html#setting-the-working-directory"><i class="fa fa-check"></i><b>2.1.2</b> Setting the working directory</a></li>
+<li class="chapter" data-level="2.1.3" data-path="intro-to-r.html"><a href="intro-to-r.html#changing-rstudio"><i class="fa fa-check"></i><b>2.1.3</b> Changing RStudio</a></li>
+<li class="chapter" data-level="2.1.4" data-path="intro-to-r.html"><a href="intro-to-r.html#helpful-cheat-sheets"><i class="fa fa-check"></i><b>2.1.4</b> Helpful cheat sheets</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="intro-to-r.html"><a href="intro-to-r.html#assignment"><i class="fa fa-check"></i><b>2.2</b> Assigning variables</a></li>
+<li class="chapter" data-level="2.3" data-path="intro-to-r.html"><a href="intro-to-r.html#functions-intro"><i class="fa fa-check"></i><b>2.3</b> What are functions (and packages)?</a></li>
+<li class="chapter" data-level="2.4" data-path="intro-to-r.html"><a href="intro-to-r.html#reading-data-into-r"><i class="fa fa-check"></i><b>2.4</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro-to-r.html"><a href="intro-to-r.html#loading-data-intro"><i class="fa fa-check"></i><b>2.4.1</b> Loading data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro-to-r.html"><a href="intro-to-r.html#first-steps-to-exploring-data"><i class="fa fa-check"></i><b>2.5</b> First steps to exploring data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>3</b> Data types and structures</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-types.html"><a href="data-types.html#section-data-types"><i class="fa fa-check"></i><b>3.1</b> Data types</a></li>
+<li class="chapter" data-level="3.2" data-path="data-types.html"><a href="data-types.html#numeric-character-and-logical-boolean"><i class="fa fa-check"></i><b>3.2</b> Numeric, character, and logical (boolean)</a></li>
+<li class="chapter" data-level="3.3" data-path="data-types.html"><a href="data-types.html#data-structures"><i class="fa fa-check"></i><b>3.3</b> Data structures</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="data-types.html"><a href="data-types.html#vectors"><i class="fa fa-check"></i><b>3.3.1</b> Vectors (collections of “things”)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="data-types.html"><a href="data-types.html#dataframes"><i class="fa fa-check"></i><b>3.3.2</b> Data.frames</a></li>
+<li class="chapter" data-level="3.3.3" data-path="data-types.html"><a href="data-types.html#other-data-structures"><i class="fa fa-check"></i><b>3.3.3</b> Other data structures</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>4</b> Reading and writing data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#reading-data-into-r-1"><i class="fa fa-check"></i><b>4.1</b> Reading data into R</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r"><i class="fa fa-check"></i><b>4.1.1</b> R</a></li>
+<li class="chapter" data-level="4.1.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel"><i class="fa fa-check"></i><b>4.1.2</b> Excel</a></li>
+<li class="chapter" data-level="4.1.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata"><i class="fa fa-check"></i><b>4.1.3</b> Stata</a></li>
+<li class="chapter" data-level="4.1.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas"><i class="fa fa-check"></i><b>4.1.4</b> SAS</a></li>
+<li class="chapter" data-level="4.1.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss"><i class="fa fa-check"></i><b>4.1.5</b> SPSS</a></li>
+<li class="chapter" data-level="4.1.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#fixed-width-ascii"><i class="fa fa-check"></i><b>4.1.6</b> Fixed-width ASCII</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#writing-data"><i class="fa fa-check"></i><b>4.2</b> Writing data</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#r-1"><i class="fa fa-check"></i><b>4.2.1</b> R</a></li>
+<li class="chapter" data-level="4.2.2" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#excel-1"><i class="fa fa-check"></i><b>4.2.2</b> Excel</a></li>
+<li class="chapter" data-level="4.2.3" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#stata-1"><i class="fa fa-check"></i><b>4.2.3</b> Stata</a></li>
+<li class="chapter" data-level="4.2.4" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#sas-1"><i class="fa fa-check"></i><b>4.2.4</b> SAS</a></li>
+<li class="chapter" data-level="4.2.5" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html#spss-1"><i class="fa fa-check"></i><b>4.2.5</b> SPSS</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>II Project Management</b></span></li>
+<li class="chapter" data-level="5" data-path="mise-en-place.html"><a href="mise-en-place.html"><i class="fa fa-check"></i><b>5</b> <em>Mise en place</em></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="mise-en-place.html"><a href="mise-en-place.html#starting-with-a-pencil-and-paper"><i class="fa fa-check"></i><b>5.1</b> Starting with a pencil and paper</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="mise-en-place.html"><a href="mise-en-place.html#tables-and-graphs"><i class="fa fa-check"></i><b>5.1.1</b> Tables and graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="mise-en-place.html"><a href="mise-en-place.html#r-projects"><i class="fa fa-check"></i><b>5.2</b> R Projects</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="mise-en-place.html"><a href="mise-en-place.html#folders"><i class="fa fa-check"></i><b>5.2.1</b> Folders</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-r-scripts"><i class="fa fa-check"></i><b>5.3</b> Modular R scripts</a></li>
+<li class="chapter" data-level="5.4" data-path="mise-en-place.html"><a href="mise-en-place.html#modular-code"><i class="fa fa-check"></i><b>5.4</b> Modular code</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="mise-en-place.html"><a href="mise-en-place.html#section-labels"><i class="fa fa-check"></i><b>5.4.1</b> Section labels</a></li>
+<li class="chapter" data-level="5.4.2" data-path="mise-en-place.html"><a href="mise-en-place.html#helper-r-scripts"><i class="fa fa-check"></i><b>5.4.2</b> Helper R scripts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="collaboration.html"><a href="collaboration.html"><i class="fa fa-check"></i><b>6</b> Collaboration</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="collaboration.html"><a href="collaboration.html#code-review"><i class="fa fa-check"></i><b>6.1</b> Code review</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="collaboration.html"><a href="collaboration.html#style-guidelines"><i class="fa fa-check"></i><b>6.1.1</b> Style guidelines</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="collaboration.html"><a href="collaboration.html#documentation"><i class="fa fa-check"></i><b>6.2</b> Documentation</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="collaboration.html"><a href="collaboration.html#comments"><i class="fa fa-check"></i><b>6.2.1</b> Comments</a></li>
+<li class="chapter" data-level="6.2.2" data-path="collaboration.html"><a href="collaboration.html#vignettes"><i class="fa fa-check"></i><b>6.2.2</b> Vignettes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>7</b> R Markdown</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="r-markdown.html"><a href="r-markdown.html#code-1"><i class="fa fa-check"></i><b>7.1</b> Code</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="r-markdown.html"><a href="r-markdown.html#hiding-code-in-the-output"><i class="fa fa-check"></i><b>7.1.1</b> Hiding code in the output</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="r-markdown.html"><a href="r-markdown.html#inline-code"><i class="fa fa-check"></i><b>7.2</b> Inline Code</a></li>
+<li class="chapter" data-level="7.3" data-path="r-markdown.html"><a href="r-markdown.html#tables"><i class="fa fa-check"></i><b>7.3</b> Tables</a></li>
+<li class="chapter" data-level="7.4" data-path="r-markdown.html"><a href="r-markdown.html#footnotes"><i class="fa fa-check"></i><b>7.4</b> Footnotes</a></li>
+<li class="chapter" data-level="7.5" data-path="r-markdown.html"><a href="r-markdown.html#citation"><i class="fa fa-check"></i><b>7.5</b> Citation</a></li>
+<li class="chapter" data-level="7.6" data-path="r-markdown.html"><a href="r-markdown.html#spell-check"><i class="fa fa-check"></i><b>7.6</b> Spell check</a></li>
+<li class="chapter" data-level="7.7" data-path="r-markdown.html"><a href="r-markdown.html#making-the-output-file"><i class="fa fa-check"></i><b>7.7</b> Making the output file</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tests.html"><a href="tests.html"><i class="fa fa-check"></i><b>8</b> Testing your code</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tests.html"><a href="tests.html#why-test-your-code"><i class="fa fa-check"></i><b>8.1</b> Why test your code?</a></li>
+<li class="chapter" data-level="8.2" data-path="tests.html"><a href="tests.html#unit-tests"><i class="fa fa-check"></i><b>8.2</b> Unit tests</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="tests.html"><a href="tests.html#modular-test-scripts"><i class="fa fa-check"></i><b>8.2.1</b> Modular test scripts</a></li>
+<li class="chapter" data-level="8.2.2" data-path="tests.html"><a href="tests.html#how-to-write-unit-tests"><i class="fa fa-check"></i><b>8.2.2</b> How to write unit tests</a></li>
+<li class="chapter" data-level="8.2.3" data-path="tests.html"><a href="tests.html#what-to-test"><i class="fa fa-check"></i><b>8.2.3</b> What to test</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="tests.html"><a href="tests.html#test-driven-development-tdd"><i class="fa fa-check"></i><b>8.3</b> Test-driven development (TDD)</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="git.html"><a href="git.html"><i class="fa fa-check"></i><b>9</b> Git</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="git.html"><a href="git.html#what-is-git-and-why-do-i-need-it"><i class="fa fa-check"></i><b>9.1</b> What is Git, and why do I need it?</a></li>
+<li class="chapter" data-level="9.2" data-path="git.html"><a href="git.html#git-basics"><i class="fa fa-check"></i><b>9.2</b> Git basics</a></li>
+<li class="chapter" data-level="9.3" data-path="git.html"><a href="git.html#using-git"><i class="fa fa-check"></i><b>9.3</b> Using Git</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="git.html"><a href="git.html#setting-up-git"><i class="fa fa-check"></i><b>9.3.1</b> Setting up Git</a></li>
+<li class="chapter" data-level="9.3.2" data-path="git.html"><a href="git.html#setting-up-github"><i class="fa fa-check"></i><b>9.3.2</b> Setting up GitHub</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="git.html"><a href="git.html#setting-up-git-on-an-already-made-r-project"><i class="fa fa-check"></i><b>9.4</b> Setting up Git on an already-made R Project</a></li>
+<li class="chapter" data-level="9.5" data-path="git.html"><a href="git.html#using-git-through-rstudio"><i class="fa fa-check"></i><b>9.5</b> Using Git through RStudio</a></li>
+<li class="chapter" data-level="9.6" data-path="git.html"><a href="git.html#when-to-commit"><i class="fa fa-check"></i><b>9.6</b> When to commit</a></li>
+<li class="chapter" data-level="9.7" data-path="git.html"><a href="git.html#other-resources"><i class="fa fa-check"></i><b>9.7</b> Other resources</a></li>
+</ul></li>
+<li class="part"><span><b>III Clean</b></span></li>
+<li class="chapter" data-level="10" data-path="subsetting-intro.html"><a href="subsetting-intro.html"><i class="fa fa-check"></i><b>10</b> Subsetting: Making big things small</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-values"><i class="fa fa-check"></i><b>10.1</b> Select specific values</a></li>
+<li class="chapter" data-level="10.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#logical-values-and-operations"><i class="fa fa-check"></i><b>10.2</b> Logical values and operations</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-a-single-value"><i class="fa fa-check"></i><b>10.2.1</b> Matching a single value</a></li>
+<li class="chapter" data-level="10.2.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#matching-multiple-values"><i class="fa fa-check"></i><b>10.2.2</b> Matching multiple values</a></li>
+<li class="chapter" data-level="10.2.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#does-not-match"><i class="fa fa-check"></i><b>10.2.3</b> Does not match</a></li>
+<li class="chapter" data-level="10.2.4" data-path="subsetting-intro.html"><a href="subsetting-intro.html#greater-than-or-less-than"><i class="fa fa-check"></i><b>10.2.4</b> Greater than or less than</a></li>
+<li class="chapter" data-level="10.2.5" data-path="subsetting-intro.html"><a href="subsetting-intro.html#combining-conditional-statements---or-and"><i class="fa fa-check"></i><b>10.2.5</b> Combining conditional statements - or, and</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subsetting-a-data.frame"><i class="fa fa-check"></i><b>10.3</b> Subsetting a data.frame</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-columns"><i class="fa fa-check"></i><b>10.3.1</b> Select specific columns</a></li>
+<li class="chapter" data-level="10.3.2" data-path="subsetting-intro.html"><a href="subsetting-intro.html#select-specific-rows"><i class="fa fa-check"></i><b>10.3.2</b> Select specific rows</a></li>
+<li class="chapter" data-level="10.3.3" data-path="subsetting-intro.html"><a href="subsetting-intro.html#subset-colorado-data"><i class="fa fa-check"></i><b>10.3.3</b> Subset Colorado data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="explore.html"><a href="explore.html"><i class="fa fa-check"></i><b>11</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="explore.html"><a href="explore.html#summary-and-table"><i class="fa fa-check"></i><b>11.1</b> Summary and Table</a></li>
+<li class="chapter" data-level="11.2" data-path="explore.html"><a href="explore.html#graphing-1"><i class="fa fa-check"></i><b>11.2</b> Graphing</a></li>
+<li class="chapter" data-level="11.3" data-path="explore.html"><a href="explore.html#aggregate"><i class="fa fa-check"></i><b>11.3</b> Aggregating (summaries of groups)</a></li>
+<li class="chapter" data-level="11.4" data-path="explore.html"><a href="explore.html#dplyr-pipes"><i class="fa fa-check"></i><b>11.4</b> Pipes in <code>dplyr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>12</b> Regular Expressions</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-patterns-in-text-with-grep"><i class="fa fa-check"></i><b>12.1</b> Finding patterns in text with <code>grep()</code></a></li>
+<li class="chapter" data-level="12.2" data-path="regular-expressions.html"><a href="regular-expressions.html#finding-and-replacing-patterns-in-text-with-gsub"><i class="fa fa-check"></i><b>12.2</b> Finding and replacing patterns in text with <code>gsub()</code></a></li>
+<li class="chapter" data-level="12.3" data-path="regular-expressions.html"><a href="regular-expressions.html#useful-special-characters"><i class="fa fa-check"></i><b>12.3</b> Useful special characters</a>
+<ul>
+<li class="chapter" data-level="12.3.1" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-characters"><i class="fa fa-check"></i><b>12.3.1</b> Multiple characters <code>[]</code></a></li>
+<li class="chapter" data-level="12.3.2" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-of-previous-character-n"><i class="fa fa-check"></i><b>12.3.2</b> n-many of previous character <code>{n}</code></a></li>
+<li class="chapter" data-level="12.3.3" data-path="regular-expressions.html"><a href="regular-expressions.html#n-many-to-m-many-of-previous-character-nm"><i class="fa fa-check"></i><b>12.3.3</b> n-many to m-many of previous character <code>{n,m}</code></a></li>
+<li class="chapter" data-level="12.3.4" data-path="regular-expressions.html"><a href="regular-expressions.html#start-of-string"><i class="fa fa-check"></i><b>12.3.4</b> Start of string</a></li>
+<li class="chapter" data-level="12.3.5" data-path="regular-expressions.html"><a href="regular-expressions.html#end-of-string"><i class="fa fa-check"></i><b>12.3.5</b> End of string <code>$</code></a></li>
+<li class="chapter" data-level="12.3.6" data-path="regular-expressions.html"><a href="regular-expressions.html#anything-."><i class="fa fa-check"></i><b>12.3.6</b> Anything <code>.</code></a></li>
+<li class="chapter" data-level="12.3.7" data-path="regular-expressions.html"><a href="regular-expressions.html#one-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.7</b> One or more of previous <code>+</code></a></li>
+<li class="chapter" data-level="12.3.8" data-path="regular-expressions.html"><a href="regular-expressions.html#zero-or-more-of-previous"><i class="fa fa-check"></i><b>12.3.8</b> Zero or more of previous <code>*</code></a></li>
+<li class="chapter" data-level="12.3.9" data-path="regular-expressions.html"><a href="regular-expressions.html#multiple-patterns"><i class="fa fa-check"></i><b>12.3.9</b> Multiple patterns <code>|</code></a></li>
+<li class="chapter" data-level="12.3.10" data-path="regular-expressions.html"><a href="regular-expressions.html#parentheses"><i class="fa fa-check"></i><b>12.3.10</b> Parentheses <code>()</code></a></li>
+<li class="chapter" data-level="12.3.11" data-path="regular-expressions.html"><a href="regular-expressions.html#optional-text"><i class="fa fa-check"></i><b>12.3.11</b> Optional text <code>?</code></a></li>
+</ul></li>
+<li class="chapter" data-level="12.4" data-path="regular-expressions.html"><a href="regular-expressions.html#changing-capitalization"><i class="fa fa-check"></i><b>12.4</b> Changing capitalization</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="reshaping.html"><a href="reshaping.html"><i class="fa fa-check"></i><b>13</b> Reshaping data</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="reshaping.html"><a href="reshaping.html#reshaping-a-single-column"><i class="fa fa-check"></i><b>13.1</b> Reshaping a single column</a></li>
+<li class="chapter" data-level="13.2" data-path="reshaping.html"><a href="reshaping.html#reshaping-multiple-columns"><i class="fa fa-check"></i><b>13.2</b> Reshaping multiple columns</a></li>
+</ul></li>
+<li class="part"><span><b>IV Visualize</b></span></li>
+<li class="chapter" data-level="14" data-path="graphing-intro.html"><a href="graphing-intro.html"><i class="fa fa-check"></i><b>14</b> Graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="14.1" data-path="graphing-intro.html"><a href="graphing-intro.html#what-does-the-data-look-like"><i class="fa fa-check"></i><b>14.1</b> What does the data look like?</a></li>
+<li class="chapter" data-level="14.2" data-path="graphing-intro.html"><a href="graphing-intro.html#graphing-data"><i class="fa fa-check"></i><b>14.2</b> Graphing data</a></li>
+<li class="chapter" data-level="14.3" data-path="graphing-intro.html"><a href="graphing-intro.html#time-series-plots"><i class="fa fa-check"></i><b>14.3</b> Time-series plots</a></li>
+<li class="chapter" data-level="14.4" data-path="graphing-intro.html"><a href="graphing-intro.html#scatter-plots"><i class="fa fa-check"></i><b>14.4</b> Scatter plots</a></li>
+<li class="chapter" data-level="14.5" data-path="graphing-intro.html"><a href="graphing-intro.html#color-blindness"><i class="fa fa-check"></i><b>14.5</b> Color blindness</a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="ois-graphs.html"><a href="ois-graphs.html"><i class="fa fa-check"></i><b>15</b> More graphing with <code>ggplot2</code></a>
+<ul>
+<li class="chapter" data-level="15.1" data-path="ois-graphs.html"><a href="ois-graphs.html#exploring-data"><i class="fa fa-check"></i><b>15.1</b> Exploring data</a></li>
+<li class="chapter" data-level="15.2" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-single-numeric-variable"><i class="fa fa-check"></i><b>15.2</b> Graphing a single numeric variable</a>
+<ul>
+<li class="chapter" data-level="15.2.1" data-path="ois-graphs.html"><a href="ois-graphs.html#histogram"><i class="fa fa-check"></i><b>15.2.1</b> Histogram</a></li>
+<li class="chapter" data-level="15.2.2" data-path="ois-graphs.html"><a href="ois-graphs.html#density-plot"><i class="fa fa-check"></i><b>15.2.2</b> Density plot</a></li>
+<li class="chapter" data-level="15.2.3" data-path="ois-graphs.html"><a href="ois-graphs.html#count-graph"><i class="fa fa-check"></i><b>15.2.3</b> Count graph</a></li>
+</ul></li>
+<li class="chapter" data-level="15.3" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-a-categorical-variable"><i class="fa fa-check"></i><b>15.3</b> Graphing a categorical variable</a>
+<ul>
+<li class="chapter" data-level="15.3.1" data-path="ois-graphs.html"><a href="ois-graphs.html#bar-graph"><i class="fa fa-check"></i><b>15.3.1</b> Bar graph</a></li>
+</ul></li>
+<li class="chapter" data-level="15.4" data-path="ois-graphs.html"><a href="ois-graphs.html#graphing-data-over-time"><i class="fa fa-check"></i><b>15.4</b> Graphing data over time</a></li>
+<li class="chapter" data-level="15.5" data-path="ois-graphs.html"><a href="ois-graphs.html#pretty-graphs"><i class="fa fa-check"></i><b>15.5</b> Pretty graphs</a>
+<ul>
+<li class="chapter" data-level="15.5.1" data-path="ois-graphs.html"><a href="ois-graphs.html#themes"><i class="fa fa-check"></i><b>15.5.1</b> Themes</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="hotspot-maps.html"><a href="hotspot-maps.html"><i class="fa fa-check"></i><b>16</b> Hotspot maps</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#a-simple-map"><i class="fa fa-check"></i><b>16.1</b> A simple map</a></li>
+<li class="chapter" data-level="16.2" data-path="hotspot-maps.html"><a href="hotspot-maps.html#what-really-are-maps"><i class="fa fa-check"></i><b>16.2</b> What really are maps?</a></li>
+<li class="chapter" data-level="16.3" data-path="hotspot-maps.html"><a href="hotspot-maps.html#making-a-hotspot-map"><i class="fa fa-check"></i><b>16.3</b> Making a hotspot map</a>
+<ul>
+<li class="chapter" data-level="16.3.1" data-path="hotspot-maps.html"><a href="hotspot-maps.html#colors"><i class="fa fa-check"></i><b>16.3.1</b> Colors</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="choropleth-maps.html"><a href="choropleth-maps.html"><i class="fa fa-check"></i><b>17</b> Choropleth maps</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="choropleth-maps.html"><a href="choropleth-maps.html#spatial-joins"><i class="fa fa-check"></i><b>17.1</b> Spatial joins</a></li>
+<li class="chapter" data-level="17.2" data-path="choropleth-maps.html"><a href="choropleth-maps.html#making-choropleth-maps"><i class="fa fa-check"></i><b>17.2</b> Making choropleth maps</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="interactive-maps.html"><a href="interactive-maps.html"><i class="fa fa-check"></i><b>18</b> Interactive maps</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="interactive-maps.html"><a href="interactive-maps.html#why-do-interactive-graphs-matter"><i class="fa fa-check"></i><b>18.1</b> Why do interactive graphs matter?</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="interactive-maps.html"><a href="interactive-maps.html#understanding-your-data"><i class="fa fa-check"></i><b>18.1.1</b> Understanding your data</a></li>
+<li class="chapter" data-level="18.1.2" data-path="interactive-maps.html"><a href="interactive-maps.html#police-departments-use-them"><i class="fa fa-check"></i><b>18.1.2</b> Police departments use them</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="interactive-maps.html"><a href="interactive-maps.html#making-the-interactive-map"><i class="fa fa-check"></i><b>18.2</b> Making the interactive map</a></li>
+<li class="chapter" data-level="18.3" data-path="interactive-maps.html"><a href="interactive-maps.html#adding-popup-information"><i class="fa fa-check"></i><b>18.3</b> Adding popup information</a></li>
+<li class="chapter" data-level="18.4" data-path="interactive-maps.html"><a href="interactive-maps.html#dealing-with-too-many-markers"><i class="fa fa-check"></i><b>18.4</b> Dealing with too many markers</a></li>
+<li class="chapter" data-level="18.5" data-path="interactive-maps.html"><a href="interactive-maps.html#interactive-choropleth-maps"><i class="fa fa-check"></i><b>18.5</b> Interactive choropleth maps</a></li>
+</ul></li>
+<li class="part"><span><b>V Collect</b></span></li>
+<li class="chapter" data-level="19" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html"><i class="fa fa-check"></i><b>19</b> Webscraping with <code>rvest</code></a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#scraping-one-page"><i class="fa fa-check"></i><b>19.1</b> Scraping one page</a></li>
+<li class="chapter" data-level="19.2" data-path="webscraping-with-rvest.html"><a href="webscraping-with-rvest.html#cleaning-the-webscraped-data"><i class="fa fa-check"></i><b>19.2</b> Cleaning the webscraped data</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="functions.html"><a href="functions.html"><i class="fa fa-check"></i><b>20</b> Functions</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="functions.html"><a href="functions.html#a-simple-function"><i class="fa fa-check"></i><b>20.1</b> A simple function</a></li>
+<li class="chapter" data-level="20.2" data-path="functions.html"><a href="functions.html#adding-parameters"><i class="fa fa-check"></i><b>20.2</b> Adding parameters</a></li>
+<li class="chapter" data-level="20.3" data-path="functions.html"><a href="functions.html#recipes-function"><i class="fa fa-check"></i><b>20.3</b> Making a function to scrape recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="for-loops.html"><a href="for-loops.html"><i class="fa fa-check"></i><b>21</b> For loops</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="for-loops.html"><a href="for-loops.html#basic-for-loops"><i class="fa fa-check"></i><b>21.1</b> Basic for loops</a></li>
+<li class="chapter" data-level="21.2" data-path="for-loops.html"><a href="for-loops.html#scraping-multiple-recipes"><i class="fa fa-check"></i><b>21.2</b> Scraping multiple recipes</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="scrape-table.html"><a href="scrape-table.html"><i class="fa fa-check"></i><b>22</b> Scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="scrape-table.html"><a href="scrape-table.html#scraping-the-first-table"><i class="fa fa-check"></i><b>22.1</b> Scraping the first table</a></li>
+<li class="chapter" data-level="22.2" data-path="scrape-table.html"><a href="scrape-table.html#making-a-function"><i class="fa fa-check"></i><b>22.2</b> Making a function</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="scrape-table2.html"><a href="scrape-table2.html"><i class="fa fa-check"></i><b>23</b> More scraping tables from PDFs</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="scrape-table2.html"><a href="scrape-table2.html#texas-jail-data"><i class="fa fa-check"></i><b>23.1</b> Texas jail data</a></li>
+<li class="chapter" data-level="23.2" data-path="scrape-table2.html"><a href="scrape-table2.html#pregnant-women-incarcerated"><i class="fa fa-check"></i><b>23.2</b> Pregnant women incarcerated</a></li>
+<li class="chapter" data-level="23.3" data-path="scrape-table2.html"><a href="scrape-table2.html#making-pdf-scraped-data-available-to-others"><i class="fa fa-check"></i><b>23.3</b> Making PDF-scraped data available to others</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="geocoding.html"><a href="geocoding.html"><i class="fa fa-check"></i><b>24</b> Geocoding</a>
+<ul>
+<li class="chapter" data-level="24.1" data-path="geocoding.html"><a href="geocoding.html#geocoding-a-single-address"><i class="fa fa-check"></i><b>24.1</b> Geocoding a single address</a></li>
+<li class="chapter" data-level="24.2" data-path="geocoding.html"><a href="geocoding.html#geocoding-san-francisco-marijuana-dispensary-locations"><i class="fa fa-check"></i><b>24.2</b> Geocoding San Francisco marijuana dispensary locations</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Crime by the Numbers: A Criminologist’s Guide to R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ois-graphs" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">15</span> More graphing with <code>ggplot2</code><a href="ois-graphs.html#ois-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>For this chapter you’ll need the following file, which is available for download <a href="https://github.com/jacobkap/r4crimz/tree/master/data">here</a>: fatal-police-shootings-data.csv.</p>
+<p>In this lesson we will continue to explore graphing using <code>ggplot2</code>. The data we will use is microdata on officer-involved shootings that resulted in a death in the United States since January 1st, 2015. This data has been compiled and released by <em>The Washington Post</em> so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. Each row of data is a different person who was shot and killed by the police, and each column gives us information about the individual or the shooting, such as their age, whether they carried any weapon, and the shooting location.</p>
+<p>To explore the data on <em>The Washington Post’s</em> website, see <a href="https://www.washingtonpost.com/graphics/2019/national/police-shootings-2019/?utm_term=.e870afc9a00c">here.</a>
+To examine their methodology, see <a href="https://www.washingtonpost.com/national/how-the-washington-post-is-examining-police-shootings-in-the-united-states/2016/07/07/d9c52238-43ad-11e6-8856-f26de2537a9d_story.html?utm_term=.f07e9800092b">here.</a></p>
+<p>The data initially comes as a .csv file so we’ll use the <code>read_csv()</code> function from the <code>readr</code> package.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="ois-graphs.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb245-2"><a href="ois-graphs.html#cb245-2" aria-hidden="true" tabindex="-1"></a>shootings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/fatal-police-shootings-data.csv&quot;</span>)</span></code></pre></div>
+<p>Since <code>read_csv()</code> reads files into a tibble object, we’ll turn it into a data.frame so <code>head()</code> shows every single column.</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="ois-graphs.html#cb246-1" aria-hidden="true" tabindex="-1"></a>shootings <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(shootings)</span></code></pre></div>
+<div id="exploring-data" class="section level2 hasAnchor" number="15.1">
+<h2><span class="header-section-number">15.1</span> Exploring data<a href="ois-graphs.html#exploring-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we have the data read in, let’s look at it.</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="ois-graphs.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(shootings)</span>
+<span id="cb247-2"><a href="ois-graphs.html#cb247-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 14</span></span>
+<span id="cb247-3"><a href="ois-graphs.html#cb247-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(shootings)</span>
+<span id="cb247-4"><a href="ois-graphs.html#cb247-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 4371</span></span></code></pre></div>
+<p>The data has 14 variables and covers 4,371 shootings. Let’s check out some of the variables, first using <code>head()</code> then using <code>summary()</code> and <code>table()</code>.</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="ois-graphs.html#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shootings)</span>
+<span id="cb248-2"><a href="ois-graphs.html#cb248-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   id               name       date  manner_of_death      armed age gender race          city state</span></span>
+<span id="cb248-3"><a href="ois-graphs.html#cb248-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A       Shelton    WA</span></span>
+<span id="cb248-4"><a href="ois-graphs.html#cb248-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W         Aloha    OR</span></span>
+<span id="cb248-5"><a href="ois-graphs.html#cb248-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H       Wichita    KS</span></span>
+<span id="cb248-6"><a href="ois-graphs.html#cb248-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W San Francisco    CA</span></span>
+<span id="cb248-7"><a href="ois-graphs.html#cb248-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H         Evans    CO</span></span>
+<span id="cb248-8"><a href="ois-graphs.html#cb248-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W       Guthrie    OK</span></span>
+<span id="cb248-9"><a href="ois-graphs.html#cb248-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   signs_of_mental_illness threat_level        flee body_camera</span></span>
+<span id="cb248-10"><a href="ois-graphs.html#cb248-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                    TRUE       attack Not fleeing       FALSE</span></span>
+<span id="cb248-11"><a href="ois-graphs.html#cb248-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                   FALSE       attack Not fleeing       FALSE</span></span>
+<span id="cb248-12"><a href="ois-graphs.html#cb248-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                   FALSE        other Not fleeing       FALSE</span></span>
+<span id="cb248-13"><a href="ois-graphs.html#cb248-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                    TRUE       attack Not fleeing       FALSE</span></span>
+<span id="cb248-14"><a href="ois-graphs.html#cb248-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                   FALSE       attack Not fleeing       FALSE</span></span>
+<span id="cb248-15"><a href="ois-graphs.html#cb248-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                   FALSE       attack Not fleeing       FALSE</span></span></code></pre></div>
+<p>Each row is a single shooting, and it includes variables such as the victim’s name, the date of the shooting, demographic information about that person, the city and state where the shooting occurred, and some information about the incident. It is clear from these first 6 rows that most variables are categorical so we can’t use <code>summary()</code> on them. Let’s use <code>summary()</code> on the date and age columns and then use <code>table()</code> for the rest.</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="ois-graphs.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shootings<span class="sc">$</span>date)</span>
+<span id="cb249-2"><a href="ois-graphs.html#cb249-2" aria-hidden="true" tabindex="-1"></a><span class="co">#         Min.      1st Qu.       Median         Mean      3rd Qu.         Max. </span></span>
+<span id="cb249-3"><a href="ois-graphs.html#cb249-3" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;2015-01-02&quot; &quot;2016-02-07&quot; &quot;2017-03-16&quot; &quot;2017-03-18&quot; &quot;2018-04-11&quot; &quot;2019-06-25&quot;</span></span>
+<span id="cb249-4"><a href="ois-graphs.html#cb249-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shootings<span class="sc">$</span>age)</span>
+<span id="cb249-5"><a href="ois-graphs.html#cb249-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s </span></span>
+<span id="cb249-6"><a href="ois-graphs.html#cb249-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    6.00   27.00   35.00   36.84   45.00   91.00     182</span></span></code></pre></div>
+<p>From this we can see that the data is from early January through mid-2019.<a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> From the age column we can see that the average age is about 37 with most people around that range. Now we can use <code>table()</code> to see how often each value appears in each variable. We don’t want to do this for city or name as there would be too many values, but it will work for the other columns. Let’s start with the “manner_of_death” column.</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="ois-graphs.html#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shootings<span class="sc">$</span>manner_of_death)</span>
+<span id="cb250-2"><a href="ois-graphs.html#cb250-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb250-3"><a href="ois-graphs.html#cb250-3" aria-hidden="true" tabindex="-1"></a><span class="co">#             shot shot and Tasered </span></span>
+<span id="cb250-4"><a href="ois-graphs.html#cb250-4" aria-hidden="true" tabindex="-1"></a><span class="co">#             4146              225</span></span></code></pre></div>
+<p>To turn these counts into percentages we can divide the results by the number of rows in our data and multiply by 100.</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="ois-graphs.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shootings<span class="sc">$</span>manner_of_death) <span class="sc">/</span> <span class="fu">nrow</span>(shootings) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb251-2"><a href="ois-graphs.html#cb251-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb251-3"><a href="ois-graphs.html#cb251-3" aria-hidden="true" tabindex="-1"></a><span class="co">#             shot shot and Tasered </span></span>
+<span id="cb251-4"><a href="ois-graphs.html#cb251-4" aria-hidden="true" tabindex="-1"></a><span class="co">#        94.852437         5.147563</span></span></code></pre></div>
+<p>Now it is clear to see that in about 95% of shootings, officers used a gun and in 5% of shootings they also used a Taser. As this is data on officer shooting deaths, this is unsurprising. Let’s take a look at whether the victim was armed.</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="ois-graphs.html#cb252-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shootings<span class="sc">$</span>armed) <span class="sc">/</span> <span class="fu">nrow</span>(shootings) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb252-2"><a href="ois-graphs.html#cb252-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb252-3"><a href="ois-graphs.html#cb252-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                  air conditioner                               ax                         barstool </span></span>
+<span id="cb252-4"><a href="ois-graphs.html#cb252-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.48043926                       0.02287806 </span></span>
+<span id="cb252-5"><a href="ois-graphs.html#cb252-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                     baseball bat          baseball bat and bottle baseball bat and fireplace poker </span></span>
+<span id="cb252-6"><a href="ois-graphs.html#cb252-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.27453672                       0.02287806                       0.02287806 </span></span>
+<span id="cb252-7"><a href="ois-graphs.html#cb252-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                            baton                          bayonet                           BB gun </span></span>
+<span id="cb252-8"><a href="ois-graphs.html#cb252-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.09151224                       0.02287806                       0.06863418 </span></span>
+<span id="cb252-9"><a href="ois-graphs.html#cb252-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                     bean-bag gun                      beer bottle                     blunt object </span></span>
+<span id="cb252-10"><a href="ois-graphs.html#cb252-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.06863418                       0.11439030 </span></span>
+<span id="cb252-11"><a href="ois-graphs.html#cb252-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                    bow and arrow                       box cutter                            brick </span></span>
+<span id="cb252-12"><a href="ois-graphs.html#cb252-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.22878060                       0.04575612 </span></span>
+<span id="cb252-13"><a href="ois-graphs.html#cb252-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                          carjack                            chain                        chain saw </span></span>
+<span id="cb252-14"><a href="ois-graphs.html#cb252-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.04575612                       0.04575612 </span></span>
+<span id="cb252-15"><a href="ois-graphs.html#cb252-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                         chainsaw                            chair              claimed to be armed </span></span>
+<span id="cb252-16"><a href="ois-graphs.html#cb252-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.04575612                       0.02287806 </span></span>
+<span id="cb252-17"><a href="ois-graphs.html#cb252-17" aria-hidden="true" tabindex="-1"></a><span class="co">#               contractor&#39;s level                   cordless drill                         crossbow </span></span>
+<span id="cb252-18"><a href="ois-graphs.html#cb252-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.02287806                       0.20590254 </span></span>
+<span id="cb252-19"><a href="ois-graphs.html#cb252-19" aria-hidden="true" tabindex="-1"></a><span class="co">#                          crowbar                        fireworks                         flagpole </span></span>
+<span id="cb252-20"><a href="ois-graphs.html#cb252-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.02287806                       0.02287806 </span></span>
+<span id="cb252-21"><a href="ois-graphs.html#cb252-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                       flashlight                      garden tool                      glass shard </span></span>
+<span id="cb252-22"><a href="ois-graphs.html#cb252-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.02287806                       0.06863418 </span></span>
+<span id="cb252-23"><a href="ois-graphs.html#cb252-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                              gun                      gun and car                    gun and knife </span></span>
+<span id="cb252-24"><a href="ois-graphs.html#cb252-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                      55.43353924                       0.11439030                       0.34317090 </span></span>
+<span id="cb252-25"><a href="ois-graphs.html#cb252-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                    gun and sword                  gun and vehicle              guns and explosives </span></span>
+<span id="cb252-26"><a href="ois-graphs.html#cb252-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.04575612                       0.06863418 </span></span>
+<span id="cb252-27"><a href="ois-graphs.html#cb252-27" aria-hidden="true" tabindex="-1"></a><span class="co">#                           hammer                       hand torch                          hatchet </span></span>
+<span id="cb252-28"><a href="ois-graphs.html#cb252-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.22878060                       0.02287806                       0.18302448 </span></span>
+<span id="cb252-29"><a href="ois-graphs.html#cb252-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                  hatchet and gun                incendiary device                            knife </span></span>
+<span id="cb252-30"><a href="ois-graphs.html#cb252-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.04575612                       0.04575612                      14.96225120 </span></span>
+<span id="cb252-31"><a href="ois-graphs.html#cb252-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                 lawn mower blade                          machete                  machete and gun </span></span>
+<span id="cb252-32"><a href="ois-graphs.html#cb252-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.04575612                       0.86936628                       0.02287806 </span></span>
+<span id="cb252-33"><a href="ois-graphs.html#cb252-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                     meat cleaver                  metal hand tool                     metal object </span></span>
+<span id="cb252-34"><a href="ois-graphs.html#cb252-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.02287806                       0.09151224 </span></span>
+<span id="cb252-35"><a href="ois-graphs.html#cb252-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                       metal pipe                       metal pole                       metal rake </span></span>
+<span id="cb252-36"><a href="ois-graphs.html#cb252-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.25165866                       0.04575612                       0.02287806 </span></span>
+<span id="cb252-37"><a href="ois-graphs.html#cb252-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                      metal stick                       motorcycle                         nail gun </span></span>
+<span id="cb252-38"><a href="ois-graphs.html#cb252-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.02287806                       0.02287806 </span></span>
+<span id="cb252-39"><a href="ois-graphs.html#cb252-39" aria-hidden="true" tabindex="-1"></a><span class="co">#                              oar                       pellet gun                              pen </span></span>
+<span id="cb252-40"><a href="ois-graphs.html#cb252-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.02287806                       0.02287806 </span></span>
+<span id="cb252-41"><a href="ois-graphs.html#cb252-41" aria-hidden="true" tabindex="-1"></a><span class="co">#                     pepper spray                         pick-axe                    piece of wood </span></span>
+<span id="cb252-42"><a href="ois-graphs.html#cb252-42" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.06863418                       0.06863418 </span></span>
+<span id="cb252-43"><a href="ois-graphs.html#cb252-43" aria-hidden="true" tabindex="-1"></a><span class="co">#                             pipe                        pitchfork                             pole </span></span>
+<span id="cb252-44"><a href="ois-graphs.html#cb252-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.13726836                       0.04575612                       0.04575612 </span></span>
+<span id="cb252-45"><a href="ois-graphs.html#cb252-45" aria-hidden="true" tabindex="-1"></a><span class="co">#                   pole and knife                             rock                    samurai sword </span></span>
+<span id="cb252-46"><a href="ois-graphs.html#cb252-46" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.04575612                       0.09151224                       0.02287806 </span></span>
+<span id="cb252-47"><a href="ois-graphs.html#cb252-47" aria-hidden="true" tabindex="-1"></a><span class="co">#                         scissors                      screwdriver                     sharp object </span></span>
+<span id="cb252-48"><a href="ois-graphs.html#cb252-48" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.18302448                       0.11439030 </span></span>
+<span id="cb252-49"><a href="ois-graphs.html#cb252-49" aria-hidden="true" tabindex="-1"></a><span class="co">#                           shovel                            spear                          stapler </span></span>
+<span id="cb252-50"><a href="ois-graphs.html#cb252-50" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.02287806                       0.02287806 </span></span>
+<span id="cb252-51"><a href="ois-graphs.html#cb252-51" aria-hidden="true" tabindex="-1"></a><span class="co">#              straight edge razor                            sword                            Taser </span></span>
+<span id="cb252-52"><a href="ois-graphs.html#cb252-52" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.06863418                       0.34317090                       0.41180508 </span></span>
+<span id="cb252-53"><a href="ois-graphs.html#cb252-53" aria-hidden="true" tabindex="-1"></a><span class="co">#                        tire iron                       toy weapon                          unarmed </span></span>
+<span id="cb252-54"><a href="ois-graphs.html#cb252-54" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       3.54609929                       6.36010066 </span></span>
+<span id="cb252-55"><a href="ois-graphs.html#cb252-55" aria-hidden="true" tabindex="-1"></a><span class="co">#                     undetermined                   unknown weapon                          vehicle </span></span>
+<span id="cb252-56"><a href="ois-graphs.html#cb252-56" aria-hidden="true" tabindex="-1"></a><span class="co">#                       4.30107527                       1.25829330                       1.57858614 </span></span>
+<span id="cb252-57"><a href="ois-graphs.html#cb252-57" aria-hidden="true" tabindex="-1"></a><span class="co">#                  vehicle and gun                    walking stick                           wrench </span></span>
+<span id="cb252-58"><a href="ois-graphs.html#cb252-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                       0.02287806                       0.02287806                       0.02287806</span></span></code></pre></div>
+<p>This is fairly hard to interpret as it is sorted alphabetically when we’d prefer it to be sorted by most common weapon. It also doesn’t round the numbers so there are many numbers past the decimal point shown. Let’s solve these two issues using <code>sort()</code> and <code>round()</code>. We could just wrap our initial code inside each of these functions but to avoid making too complicated code, we save the results in a vector called “temp” and incrementally use <code>sort()</code> and <code>round()</code> on that. We’ll set the parameter <code>decreasing</code> to TRUE in the <code>sort()</code> function so that it is in descending order of how common each value is. And we’ll round to two decimal places by setting the parameter <code>digits</code> to 2 in <code>round()</code>.</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="ois-graphs.html#cb253-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">table</span>(shootings<span class="sc">$</span>armed) <span class="sc">/</span> <span class="fu">nrow</span>(shootings) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb253-2"><a href="ois-graphs.html#cb253-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">sort</span>(temp, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb253-3"><a href="ois-graphs.html#cb253-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">round</span>(temp, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb253-4"><a href="ois-graphs.html#cb253-4" aria-hidden="true" tabindex="-1"></a>temp</span>
+<span id="cb253-5"><a href="ois-graphs.html#cb253-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb253-6"><a href="ois-graphs.html#cb253-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                              gun                            knife                          unarmed </span></span>
+<span id="cb253-7"><a href="ois-graphs.html#cb253-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                            55.43                            14.96                             6.36 </span></span>
+<span id="cb253-8"><a href="ois-graphs.html#cb253-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                     undetermined                       toy weapon                          vehicle </span></span>
+<span id="cb253-9"><a href="ois-graphs.html#cb253-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                             4.30                             3.55                             1.58 </span></span>
+<span id="cb253-10"><a href="ois-graphs.html#cb253-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                   unknown weapon                          machete                               ax </span></span>
+<span id="cb253-11"><a href="ois-graphs.html#cb253-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                             1.26                             0.87                             0.48 </span></span>
+<span id="cb253-12"><a href="ois-graphs.html#cb253-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                            Taser                    gun and knife                            sword </span></span>
+<span id="cb253-13"><a href="ois-graphs.html#cb253-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.41                             0.34                             0.34 </span></span>
+<span id="cb253-14"><a href="ois-graphs.html#cb253-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                     baseball bat                       metal pipe                       box cutter </span></span>
+<span id="cb253-15"><a href="ois-graphs.html#cb253-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.27                             0.25                             0.23 </span></span>
+<span id="cb253-16"><a href="ois-graphs.html#cb253-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                           hammer                         crossbow                          hatchet </span></span>
+<span id="cb253-17"><a href="ois-graphs.html#cb253-17" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.23                             0.21                             0.18 </span></span>
+<span id="cb253-18"><a href="ois-graphs.html#cb253-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                      screwdriver                             pipe                     blunt object </span></span>
+<span id="cb253-19"><a href="ois-graphs.html#cb253-19" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.18                             0.14                             0.11 </span></span>
+<span id="cb253-20"><a href="ois-graphs.html#cb253-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                      gun and car                     sharp object                            baton </span></span>
+<span id="cb253-21"><a href="ois-graphs.html#cb253-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.11                             0.11                             0.09 </span></span>
+<span id="cb253-22"><a href="ois-graphs.html#cb253-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                     metal object                             rock                           BB gun </span></span>
+<span id="cb253-23"><a href="ois-graphs.html#cb253-23" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.09                             0.09                             0.07 </span></span>
+<span id="cb253-24"><a href="ois-graphs.html#cb253-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                      beer bottle                          crowbar                      glass shard </span></span>
+<span id="cb253-25"><a href="ois-graphs.html#cb253-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.07                             0.07                             0.07 </span></span>
+<span id="cb253-26"><a href="ois-graphs.html#cb253-26" aria-hidden="true" tabindex="-1"></a><span class="co">#              guns and explosives                     meat cleaver                      metal stick </span></span>
+<span id="cb253-27"><a href="ois-graphs.html#cb253-27" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.07                             0.07                             0.07 </span></span>
+<span id="cb253-28"><a href="ois-graphs.html#cb253-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                         pick-axe                    piece of wood                         scissors </span></span>
+<span id="cb253-29"><a href="ois-graphs.html#cb253-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.07                             0.07                             0.07 </span></span>
+<span id="cb253-30"><a href="ois-graphs.html#cb253-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                           shovel              straight edge razor                            brick </span></span>
+<span id="cb253-31"><a href="ois-graphs.html#cb253-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.07                             0.07                             0.05 </span></span>
+<span id="cb253-32"><a href="ois-graphs.html#cb253-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                            chain                        chain saw                            chair </span></span>
+<span id="cb253-33"><a href="ois-graphs.html#cb253-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.05                             0.05                             0.05 </span></span>
+<span id="cb253-34"><a href="ois-graphs.html#cb253-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  gun and vehicle                  hatchet and gun                incendiary device </span></span>
+<span id="cb253-35"><a href="ois-graphs.html#cb253-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.05                             0.05                             0.05 </span></span>
+<span id="cb253-36"><a href="ois-graphs.html#cb253-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                 lawn mower blade                       metal pole                        pitchfork </span></span>
+<span id="cb253-37"><a href="ois-graphs.html#cb253-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.05                             0.05                             0.05 </span></span>
+<span id="cb253-38"><a href="ois-graphs.html#cb253-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                             pole                   pole and knife                  air conditioner </span></span>
+<span id="cb253-39"><a href="ois-graphs.html#cb253-39" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.05                             0.05                             0.02 </span></span>
+<span id="cb253-40"><a href="ois-graphs.html#cb253-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                         barstool          baseball bat and bottle baseball bat and fireplace poker </span></span>
+<span id="cb253-41"><a href="ois-graphs.html#cb253-41" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-42"><a href="ois-graphs.html#cb253-42" aria-hidden="true" tabindex="-1"></a><span class="co">#                          bayonet                     bean-bag gun                    bow and arrow </span></span>
+<span id="cb253-43"><a href="ois-graphs.html#cb253-43" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-44"><a href="ois-graphs.html#cb253-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                          carjack                         chainsaw              claimed to be armed </span></span>
+<span id="cb253-45"><a href="ois-graphs.html#cb253-45" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-46"><a href="ois-graphs.html#cb253-46" aria-hidden="true" tabindex="-1"></a><span class="co">#               contractor&#39;s level                   cordless drill                        fireworks </span></span>
+<span id="cb253-47"><a href="ois-graphs.html#cb253-47" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-48"><a href="ois-graphs.html#cb253-48" aria-hidden="true" tabindex="-1"></a><span class="co">#                         flagpole                       flashlight                      garden tool </span></span>
+<span id="cb253-49"><a href="ois-graphs.html#cb253-49" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-50"><a href="ois-graphs.html#cb253-50" aria-hidden="true" tabindex="-1"></a><span class="co">#                    gun and sword                       hand torch                  machete and gun </span></span>
+<span id="cb253-51"><a href="ois-graphs.html#cb253-51" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-52"><a href="ois-graphs.html#cb253-52" aria-hidden="true" tabindex="-1"></a><span class="co">#                  metal hand tool                       metal rake                       motorcycle </span></span>
+<span id="cb253-53"><a href="ois-graphs.html#cb253-53" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-54"><a href="ois-graphs.html#cb253-54" aria-hidden="true" tabindex="-1"></a><span class="co">#                         nail gun                              oar                       pellet gun </span></span>
+<span id="cb253-55"><a href="ois-graphs.html#cb253-55" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-56"><a href="ois-graphs.html#cb253-56" aria-hidden="true" tabindex="-1"></a><span class="co">#                              pen                     pepper spray                    samurai sword </span></span>
+<span id="cb253-57"><a href="ois-graphs.html#cb253-57" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-58"><a href="ois-graphs.html#cb253-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                            spear                          stapler                        tire iron </span></span>
+<span id="cb253-59"><a href="ois-graphs.html#cb253-59" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02 </span></span>
+<span id="cb253-60"><a href="ois-graphs.html#cb253-60" aria-hidden="true" tabindex="-1"></a><span class="co">#                  vehicle and gun                    walking stick                           wrench </span></span>
+<span id="cb253-61"><a href="ois-graphs.html#cb253-61" aria-hidden="true" tabindex="-1"></a><span class="co">#                             0.02                             0.02                             0.02</span></span></code></pre></div>
+<p>Now it is a little easier to interpret. In over half of the cases the victim was carrying a gun. A knife was involved 15% of the time. And 6% of the time they were unarmed. In 4% of cases there is no data on any weapon. That leaves about 20% of cases where one of the many rare weapons were used, including some that overlap with one of the more common categories.</p>
+<p>Think about how you’d graph this data. There are 85 unique values in this column though fewer than ten of them are common enough to appear more than 1% of the time. Should we graph all of them? No, that would overwhelm any graph. For a useful graph we would need to combine many of these into a single category - possibly called “other weapons.” And how do we deal with values where they could meet multiple larger categories? There is not always a clear answer for these types of questions. It depends on what data you’re interested in, the goal of the graph, the target audience, and personal preference.</p>
+<p>Let’s keep exploring the data by looking at gender and race.</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="ois-graphs.html#cb254-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shootings<span class="sc">$</span>gender) <span class="sc">/</span> <span class="fu">nrow</span>(shootings) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb254-2"><a href="ois-graphs.html#cb254-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb254-3"><a href="ois-graphs.html#cb254-3" aria-hidden="true" tabindex="-1"></a><span class="co">#         F         M </span></span>
+<span id="cb254-4"><a href="ois-graphs.html#cb254-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  4.667124 95.218485</span></span></code></pre></div>
+<p>Nearly all of the shootings are of a man. Given that we saw most shootings involved a person with a weapon and that most violent crimes are committed by men, this shouldn’t be too surprising.</p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="ois-graphs.html#cb255-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">table</span>(shootings<span class="sc">$</span>race) <span class="sc">/</span> <span class="fu">nrow</span>(shootings) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb255-2"><a href="ois-graphs.html#cb255-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">sort</span>(temp)</span>
+<span id="cb255-3"><a href="ois-graphs.html#cb255-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">round</span>(temp, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb255-4"><a href="ois-graphs.html#cb255-4" aria-hidden="true" tabindex="-1"></a>temp</span>
+<span id="cb255-5"><a href="ois-graphs.html#cb255-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb255-6"><a href="ois-graphs.html#cb255-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     O     N     A     H     B     W </span></span>
+<span id="cb255-7"><a href="ois-graphs.html#cb255-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  0.87  1.46  1.62 16.45 22.90 44.89</span></span></code></pre></div>
+<p>White people are the largest race group that is killed by police, followed by Black people and Hispanic people. In fact, there are about twice as many White people killed than Black people killed, and about 2.5 times as many White people killed than Hispanic people killed. Does this mean that the oft-repeated claim that Black people are killed at disproportionate rates is wrong? No. This data simply shows the number of people killed; it doesn’t give any indication on rates of death per group. You’d need to merge it with Census data to get population to determine a rate per race group. And even that would be insufficient since people are, for example, stopped by police at different rates.</p>
+<p>This data provides a lot of information on people killed by the police, but even so it is insufficient to answer many of the questions on that topic. It’s important to understand the data not only to be able to answer questions about it, but to know what questions you can’t answer - and you’ll find when using criminology data that there are a <em>lot</em> of questions that you can’t answer.<a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a></p>
+<p>One annoying thing with the gender and race variables is that they don’t spell out the name. Instead of “Female”, for example, it has “F”. For our graphs we want to spell out the words so it is clear to viewers. We’ll fix this issue, and the issue of having many weapon categories, as we graph each variable.</p>
+</div>
+<div id="graphing-a-single-numeric-variable" class="section level2 hasAnchor" number="15.2">
+<h2><span class="header-section-number">15.2</span> Graphing a single numeric variable<a href="ois-graphs.html#graphing-a-single-numeric-variable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ve spent some time looking at the data so now we’re ready to make the graphs. We need to load the <code>ggplot2</code> package if we haven’t done so already this session (i.e. since you last closed RStudio).</p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="ois-graphs.html#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<p>As a reminder, the benefit of using <code>ggplot()</code> is that we can start with a simple plot and build our way up to more complicated graphs. We’ll start here by building some graphs to depict a numeric variable - in this case the “age” column. We start every <code>ggplot()</code> the same, by inserting the data set first and then put our x and y variables inside of the <code>aes()</code> parameter. In this case we’re only going to be plotting an x variable so we don’t need to write anything for y.</p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="ois-graphs.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-346-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
+Running the above code returns a blank graph since we haven’t told <code>ggplot()</code> what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They’re essentially all variations of each other and show the data at different levels of precision. It’s hard to say which is best - you’ll need to use your best judgment and consider your audience.</p>
+<div id="histogram" class="section level3 hasAnchor" number="15.2.1">
+<h3><span class="header-section-number">15.2.1</span> Histogram<a href="ois-graphs.html#histogram" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The histogram is a very common type of graph for a single numeric variable. Histograms group a numeric variable into categories and then plot them, with the heights of each bar indicating how common the group is. We can make a histogram by adding <code>geom_histogram()</code> to the <code>ggplot()</code>. The results will print out the text “Warning: Removed 182 rows containing non-finite values (stat_bin).” which just means that 182 rows in our data have NA for age, and are excluded from the graph.</p>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="ois-graphs.html#cb258-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb258-2"><a href="ois-graphs.html#cb258-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span>
+<span id="cb258-3"><a href="ois-graphs.html#cb258-3" aria-hidden="true" tabindex="-1"></a><span class="co"># `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span id="cb258-4"><a href="ois-graphs.html#cb258-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-347-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>The x-axis is ages with each bar being a group of certain ages, and the y-axis is how many people are in each group. The grouping is done automatically and we can alter it by changing the <code>bin</code> parameter in <code>geom_histogram()</code>. By default this parameter is set to 30, but we can make each group smaller (have fewer ages per group) by <strong>increasing</strong> it from 30 or make each group larger by <strong>decreasing</strong> it.</p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="ois-graphs.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb259-2"><a href="ois-graphs.html#cb259-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>)</span>
+<span id="cb259-3"><a href="ois-graphs.html#cb259-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-348-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="ois-graphs.html#cb260-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb260-2"><a href="ois-graphs.html#cb260-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">45</span>)</span>
+<span id="cb260-3"><a href="ois-graphs.html#cb260-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-349-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Note that while the overall trend (of most deaths being around age 25) doesn’t change when we alter <code>bin</code>, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.</p>
+<p>These graphs show the y-axis as the number of people in each bar. If we want to show proportions instead, we can add in a parameter for <code>y</code> in the <code>aes()</code> of the <code>geom_histogram()</code>. We add in <code>y = (..count..)/sum(..count..))</code>, which automatically converts the counts to proportions. The <code>(..count..)/sum(..count..))</code> stuff is just taking each group and dividing it from the sum of all groups. You could, of course, do this yourself before making the graph, but it’s an easy helper. If you do this, make sure to relabel the y-axis so you don’t accidentally call the proportions a count.</p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="ois-graphs.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb261-2"><a href="ois-graphs.html#cb261-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..) <span class="sc">/</span> <span class="fu">sum</span>(..count..)))</span>
+<span id="cb261-3"><a href="ois-graphs.html#cb261-3" aria-hidden="true" tabindex="-1"></a><span class="co"># `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</span></span>
+<span id="cb261-4"><a href="ois-graphs.html#cb261-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_bin).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-350-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+<div id="density-plot" class="section level3 hasAnchor" number="15.2.2">
+<h3><span class="header-section-number">15.2.2</span> Density plot<a href="ois-graphs.html#density-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Density plots are essentially smoothed versions of histograms. They’re especially useful for numeric variables, which are not integers (integers are whole numbers). They’re also useful when you want to be more precise than a histogram as they are - to simplify - histograms where each bar is very narrow. Note that the y-axis of a density plot is automatically labeled “density” and has very small numbers. Interpreting the y-axis is fairly hard to explain to someone not familiar with statistics so I’d caution against using this graph unless your audience is already familiar with it.</p>
+<p>To interpret these kinds of graphs, I recommend looking for trends rather than trying to identify specific points. For example, in the below graph we can see that shootings rise rapidly starting around age 10, peak at around age 30 (if we were presenting this graph to other people we’d probably want more ages shown on the x-axis), and then steadily decline until about age 80 where it’s nearly flat.</p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="ois-graphs.html#cb262-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb262-2"><a href="ois-graphs.html#cb262-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span>
+<span id="cb262-3"><a href="ois-graphs.html#cb262-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_density).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-351-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+<div id="count-graph" class="section level3 hasAnchor" number="15.2.3">
+<h3><span class="header-section-number">15.2.3</span> Count graph<a href="ois-graphs.html#count-graph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A count graph is essentially a histogram with a bar for every value in the numeric variable - like a less-smooth density plot. Note that this won’t work well if you have too many unique values so I’d strongly recommend rounding the data to the nearest whole number first if you don’t already have an integer. Our age variable is already rounded so we don’t need to do that. To make a count graph, we add <code>stat_count()</code> to the <code>ggplot()</code>.</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="ois-graphs.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb263-2"><a href="ois-graphs.html#cb263-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>()</span>
+<span id="cb263-3"><a href="ois-graphs.html#cb263-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-352-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to proportion of people using the exact same code.</p>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="ois-graphs.html#cb264-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb264-2"><a href="ois-graphs.html#cb264-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_count</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..) <span class="sc">/</span> <span class="fu">sum</span>(..count..)))</span>
+<span id="cb264-3"><a href="ois-graphs.html#cb264-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 182 rows containing non-finite values (stat_count).</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-353-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="graphing-a-categorical-variable" class="section level2 hasAnchor" number="15.3">
+<h2><span class="header-section-number">15.3</span> Graphing a categorical variable<a href="ois-graphs.html#graphing-a-categorical-variable" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="bar-graph" class="section level3 hasAnchor" number="15.3.1">
+<h3><span class="header-section-number">15.3.1</span> Bar graph<a href="ois-graphs.html#bar-graph" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To make this barplot we’ll set the x-axis variable to our “race” column and add <code>geom_bar()</code> to the end.</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="ois-graphs.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb265-2"><a href="ois-graphs.html#cb265-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-354-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>This gives us a barplot in alphabetical order. In most cases we want the data sorted by frequency, so we can easily see which value is the most common, second most common, etc. There are a few ways to do this, but we’ll do this by turning the “race” variable into a factor and ordering it by frequency. We can do that using the <code>factor()</code> function. The first input will be the “race” variable, and then we will need to set the <code>levels</code> parameter to a vector of values sorted by frequency. An easy way to know how often values are in a column is to use the <code>table()</code> function on that column, such as below.</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="ois-graphs.html#cb266-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(shootings<span class="sc">$</span>race)</span>
+<span id="cb266-2"><a href="ois-graphs.html#cb266-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb266-3"><a href="ois-graphs.html#cb266-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    A    B    H    N    O    W </span></span>
+<span id="cb266-4"><a href="ois-graphs.html#cb266-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   71 1001  719   64   38 1962</span></span></code></pre></div>
+<p>It’s still alphabetical so let’s wrap that in a <code>sort()</code> function.</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="ois-graphs.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race))</span>
+<span id="cb267-2"><a href="ois-graphs.html#cb267-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb267-3"><a href="ois-graphs.html#cb267-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    O    N    A    H    B    W </span></span>
+<span id="cb267-4"><a href="ois-graphs.html#cb267-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   38   64   71  719 1001 1962</span></span></code></pre></div>
+<p>It’s sorted from smallest to largest. We usually want to graph from largest to smallest so let’s set the parameter <code>decreasing</code> in <code>sort()</code> to TRUE.</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="ois-graphs.html#cb268-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb268-2"><a href="ois-graphs.html#cb268-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb268-3"><a href="ois-graphs.html#cb268-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    W    B    H    A    N    O </span></span>
+<span id="cb268-4"><a href="ois-graphs.html#cb268-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1962 1001  719   71   64   38</span></span></code></pre></div>
+<p>Now, we only need the names of each value, not how often they occur. So we can against wrap this whole thing in <code>names()</code> to get just the names.</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="ois-graphs.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race), <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb269-2"><a href="ois-graphs.html#cb269-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;W&quot; &quot;B&quot; &quot;H&quot; &quot;A&quot; &quot;N&quot; &quot;O&quot;</span></span></code></pre></div>
+<p>If we tie it all together, we can make the “race” column into a factor variable.</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="ois-graphs.html#cb270-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">factor</span>(shootings<span class="sc">$</span>race,</span>
+<span id="cb270-2"><a href="ois-graphs.html#cb270-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race),</span>
+<span id="cb270-3"><a href="ois-graphs.html#cb270-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">TRUE</span></span>
+<span id="cb270-4"><a href="ois-graphs.html#cb270-4" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb270-5"><a href="ois-graphs.html#cb270-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Now let’s try that barplot again.</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="ois-graphs.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb271-2"><a href="ois-graphs.html#cb271-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-360-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>It works! Note that all the values that are missing in our data are still reported in the barplot under a column called “NA.” This is not sorted properly since there are more NA values than three of the other values, but NA is still at the far right of the graph. We can change this if we want to make all the NA values an actual character type and call it something like “Unknown.” But this way it does draw attention to how many values are missing from this column. Like most things in graphing, this is a personal choice as to what to do.</p>
+<p>For bar graphs it is often useful to flip the graph so each value is a row in the graph rather than a column. This also makes it much easier to read the value name. If the value names are long, it’ll shrink the graph to accommodate the name. This is usually a sign that you should try to shorten the name to avoid reducing the size of the graph.</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="ois-graphs.html#cb272-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb272-2"><a href="ois-graphs.html#cb272-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb272-3"><a href="ois-graphs.html#cb272-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-361-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Since it’s flipped, now it’s sorted from smallest to largest. So we’ll need to change the <code>factor()</code> code to fix that by making the <code>decreasing</code> parameter in <code>sort()</code> FALSE.</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="ois-graphs.html#cb273-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">factor</span>(shootings<span class="sc">$</span>race,</span>
+<span id="cb273-2"><a href="ois-graphs.html#cb273-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race),</span>
+<span id="cb273-3"><a href="ois-graphs.html#cb273-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">FALSE</span></span>
+<span id="cb273-4"><a href="ois-graphs.html#cb273-4" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb273-5"><a href="ois-graphs.html#cb273-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb273-6"><a href="ois-graphs.html#cb273-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb273-7"><a href="ois-graphs.html#cb273-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb273-8"><a href="ois-graphs.html#cb273-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-362-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>The NA value is now at the top, which looks fairly bad. Let’s change all NA values to the string “Unknown”. And while we’re at it, let’s change all the abbreviated race values to actual names. We can get all the NA values by using <code>is.na(shootings$race)</code> and using a conditional statement to get all rows that meet that condition, then assign them the value “Unknown”. Instead of trying to subset a factor variable to change the values, we should convert it back to a character type first using <code>as.character()</code>, and then convert it to a factor again once we’re done.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="ois-graphs.html#cb274-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">as.character</span>(shootings<span class="sc">$</span>race)</span>
+<span id="cb274-2"><a href="ois-graphs.html#cb274-2" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[<span class="fu">is.na</span>(shootings<span class="sc">$</span>race)] <span class="ot">&lt;-</span> <span class="st">&quot;Unknown&quot;</span></span></code></pre></div>
+<p>Now we can use conditional statements to change all the race letters to names. It’s not clear what race “O” and “N” are so I checked <a href="https://github.com/washingtonpost/data-police-shootings"><em>The Washington Post’s</em> GitHub</a> which explains what they mean. Instead of <code>is.na()</code> we’ll use <code>shootings$race == ""</code>, where we put the letter inside of the quotes.</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="ois-graphs.html#cb275-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;O&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Other&quot;</span></span>
+<span id="cb275-2"><a href="ois-graphs.html#cb275-2" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;N&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Native American&quot;</span></span>
+<span id="cb275-3"><a href="ois-graphs.html#cb275-3" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;A&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Asian&quot;</span></span>
+<span id="cb275-4"><a href="ois-graphs.html#cb275-4" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;H&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Hispanic&quot;</span></span>
+<span id="cb275-5"><a href="ois-graphs.html#cb275-5" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;B&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Black&quot;</span></span>
+<span id="cb275-6"><a href="ois-graphs.html#cb275-6" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race[shootings<span class="sc">$</span>race <span class="sc">==</span> <span class="st">&quot;W&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;White&quot;</span></span></code></pre></div>
+<p>Now let’s see how our graph looks. We’ll need to rerun the <code>factor()</code> code since now all of the values are changed.</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="ois-graphs.html#cb276-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">factor</span>(shootings<span class="sc">$</span>race,</span>
+<span id="cb276-2"><a href="ois-graphs.html#cb276-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(shootings<span class="sc">$</span>race),</span>
+<span id="cb276-3"><a href="ois-graphs.html#cb276-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">FALSE</span></span>
+<span id="cb276-4"><a href="ois-graphs.html#cb276-4" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb276-5"><a href="ois-graphs.html#cb276-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb276-6"><a href="ois-graphs.html#cb276-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb276-7"><a href="ois-graphs.html#cb276-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb276-8"><a href="ois-graphs.html#cb276-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-365-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>As earlier, we can show proportion instead of count by adding <code>y = (..count..)/sum(..count..)</code> to the <code>aes()</code> in <code>geom_bar()</code>.</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="ois-graphs.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(<span class="at">x =</span> race)) <span class="sc">+</span></span>
+<span id="cb277-2"><a href="ois-graphs.html#cb277-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y =</span> (..count..) <span class="sc">/</span> <span class="fu">sum</span>(..count..))) <span class="sc">+</span></span>
+<span id="cb277-3"><a href="ois-graphs.html#cb277-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-366-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="graphing-data-over-time" class="section level2 hasAnchor" number="15.4">
+<h2><span class="header-section-number">15.4</span> Graphing data over time<a href="ois-graphs.html#graphing-data-over-time" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We went over time-series graphs in Chapter <a href="graphing-intro.html#graphing-intro">14</a>, but it’s such an important topic we’ll cover it again. A lot of criminology research is seeing if a policy had an effect, which means we generally want to compare an outcome over time (and compare the treated group to a similar untreated group). To graph that we look at an outcome - in this case numbers of killings - over time. In our case we aren’t evaluating any policy, just seeing if the number of police killings change over time.</p>
+<p>We’ll need to make a variable to indicate that the row is for one shooting. We can call this “dummy” and assign it a value of 1. Then we can make the <code>ggplot()</code> and set this “dummy” column to the y-axis value and set our date variable “date” to the x-axis (the time variable is <strong>always</strong> on the x-axis). Then we’ll set the type of plot to <code>geom_line()</code> so we have a line graph showing killings over time.</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="ois-graphs.html#cb278-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>dummy <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb278-2"><a href="ois-graphs.html#cb278-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shootings, <span class="fu">aes</span>(</span>
+<span id="cb278-3"><a href="ois-graphs.html#cb278-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> date,</span>
+<span id="cb278-4"><a href="ois-graphs.html#cb278-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb278-5"><a href="ois-graphs.html#cb278-5" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb278-6"><a href="ois-graphs.html#cb278-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-367-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
+This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there’s no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We’ll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We’ll start with yearly data and then move to monthly data. Since we’re going to be dealing with dates, let’s use the <code>lubridate()</code> package that is well-suited for this task.</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="ois-graphs.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lubridate&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="ois-graphs.html#cb280-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb280-2"><a href="ois-graphs.html#cb280-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb280-3"><a href="ois-graphs.html#cb280-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;lubridate&#39;</span></span>
+<span id="cb280-4"><a href="ois-graphs.html#cb280-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:cowplot&#39;:</span></span>
+<span id="cb280-5"><a href="ois-graphs.html#cb280-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb280-6"><a href="ois-graphs.html#cb280-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     stamp</span></span>
+<span id="cb280-7"><a href="ois-graphs.html#cb280-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb280-8"><a href="ois-graphs.html#cb280-8" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb280-9"><a href="ois-graphs.html#cb280-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     date, intersect, setdiff, union</span></span></code></pre></div>
+<p>We’ll use two functions to create variables that tell us the month and the year of each date in our data. We’ll use these new variables to aggregate our data to that time unit. First, the <code>floor_date()</code> function is a very useful tool that essentially rounds a date. Here we have the exact date the killing happened on, and we want to determine what month that date is from. So we’ll use the parameter <code>unit</code> in <code>floor_date()</code> and tell the function we want to know the “month” (for a full set of options please see the documentation for <code>floor_date()</code> by entering <code>?floor_date</code> in the console). So we can do <code>floor_date(shootings$date, unit = "month")</code> to get the month - specifically, it returns the date that is the first of the month for that month - in which the killing happened. Even simpler, to get the year, we simply use <code>year()</code> and put our “date” variable in the parentheses. We’ll call the new variables “month_year” and “year”, respectively.</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="ois-graphs.html#cb281-1" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>month_year <span class="ot">&lt;-</span> <span class="fu">floor_date</span>(shootings<span class="sc">$</span>date, <span class="at">unit =</span> <span class="st">&quot;month&quot;</span>)</span>
+<span id="cb281-2"><a href="ois-graphs.html#cb281-2" aria-hidden="true" tabindex="-1"></a>shootings<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">year</span>(shootings<span class="sc">$</span>date)</span>
+<span id="cb281-3"><a href="ois-graphs.html#cb281-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb281-4"><a href="ois-graphs.html#cb281-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shootings<span class="sc">$</span>month_year)</span>
+<span id="cb281-5"><a href="ois-graphs.html#cb281-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot; &quot;2015-01-01&quot;</span></span>
+<span id="cb281-6"><a href="ois-graphs.html#cb281-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shootings<span class="sc">$</span>year)</span>
+<span id="cb281-7"><a href="ois-graphs.html#cb281-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 2015 2015 2015 2015 2015 2015</span></span></code></pre></div>
+<p>Since the data is already sorted by date, all the values printed from <code>head()</code> are the same. But you can look at the data using <code>View()</code> to confirm that the code worked properly.</p>
+<p>We can now aggregate the data by the “month_year” variable and assign the result to a new data set we’ll call <em>monthly_shootings</em>. We’ll use the <code>group_by()</code> and <code>summarize()</code> functions from <code>dplyr</code> that were introduced in Chapter <a href="explore.html#explore">11</a> to do this. And we’ll use the pipe method of writing <code>dplyr</code> code that was discussed in Section <a href="explore.html#dplyr-pipes">11.4</a>. Since the “dummy” column has a value of 1 for each shooting, we’ll sum up this column to get the number of shootings each month/year.</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="ois-graphs.html#cb282-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb282-2"><a href="ois-graphs.html#cb282-2" aria-hidden="true" tabindex="-1"></a>monthly_shootings <span class="ot">&lt;-</span> shootings <span class="sc">%&gt;%</span></span>
+<span id="cb282-3"><a href="ois-graphs.html#cb282-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month_year) <span class="sc">%&gt;%</span></span>
+<span id="cb282-4"><a href="ois-graphs.html#cb282-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">dummy =</span> <span class="fu">sum</span>(dummy))</span>
+<span id="cb282-5"><a href="ois-graphs.html#cb282-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(monthly_shootings)</span>
+<span id="cb282-6"><a href="ois-graphs.html#cb282-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 6 x 2</span></span>
+<span id="cb282-7"><a href="ois-graphs.html#cb282-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   month_year dummy</span></span>
+<span id="cb282-8"><a href="ois-graphs.html#cb282-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;date&gt;     &lt;dbl&gt;</span></span>
+<span id="cb282-9"><a href="ois-graphs.html#cb282-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 2015-01-01    76</span></span>
+<span id="cb282-10"><a href="ois-graphs.html#cb282-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 2015-02-01    77</span></span>
+<span id="cb282-11"><a href="ois-graphs.html#cb282-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 2015-03-01    92</span></span>
+<span id="cb282-12"><a href="ois-graphs.html#cb282-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 2015-04-01    84</span></span>
+<span id="cb282-13"><a href="ois-graphs.html#cb282-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 2015-05-01    71</span></span>
+<span id="cb282-14"><a href="ois-graphs.html#cb282-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 2015-06-01    65</span></span></code></pre></div>
+<p>Since we now have a variable that shows the number of people killed each month, we can graph this new data set. We’ll use the same process as earlier, but our data set is now <code>monthly_shootings</code> instead of <code>shootings</code> and the x-axis variable is “month_year” instead of “date”.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="ois-graphs.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(monthly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb283-2"><a href="ois-graphs.html#cb283-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> month_year,</span>
+<span id="cb283-3"><a href="ois-graphs.html#cb283-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb283-4"><a href="ois-graphs.html#cb283-4" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb283-5"><a href="ois-graphs.html#cb283-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-372-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
+The process is the same for yearly data.</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="ois-graphs.html#cb284-1" aria-hidden="true" tabindex="-1"></a>yearly_shootings <span class="ot">&lt;-</span> shootings <span class="sc">%&gt;%</span></span>
+<span id="cb284-2"><a href="ois-graphs.html#cb284-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb284-3"><a href="ois-graphs.html#cb284-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">dummy =</span> <span class="fu">sum</span>(dummy))</span>
+<span id="cb284-4"><a href="ois-graphs.html#cb284-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb284-5"><a href="ois-graphs.html#cb284-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> year,</span>
+<span id="cb284-6"><a href="ois-graphs.html#cb284-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb284-7"><a href="ois-graphs.html#cb284-7" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb284-8"><a href="ois-graphs.html#cb284-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-373-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<p>Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it’s simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven’t finished this month (year) yet.</p>
+</div>
+<div id="pretty-graphs" class="section level2 hasAnchor" number="15.5">
+<h2><span class="header-section-number">15.5</span> Pretty graphs<a href="ois-graphs.html#pretty-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What’s next for these graphs? You’ll likely want to add labels for the axes and the title. We went over how to do this in Section <a href="graphing-intro.html#time-series-plots">14.3</a> so please refer to that for more info. Also, check out <code>ggplot2</code>’s <a href="https://ggplot2.tidyverse.org/reference/index.html#section-scales">website</a> to see more on this very versatile package. As I’ve said all chapter, a lot of this is going to be personal taste so please spend some time exploring the package and changing the appearance of the graph to learn what looks right to you.</p>
+<div id="themes" class="section level3 hasAnchor" number="15.5.1">
+<h3><span class="header-section-number">15.5.1</span> Themes<a href="ois-graphs.html#themes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In addition to making changes to the graph’s appearance yourself, you can use a theme that someone else made. A theme is just a collection of changes to the graph’s appearance that someone put in a function for others to use. Each theme is different and is fairly opinionated, so you should only use one that you think looks best for your graph. To use a theme, simply add the function for that theme to your ggplot using the <code>+</code> as normal. <code>ggplot2</code> comes with a series of themes that you can look at <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">here</a>.</p>
+<p>Here, we’ll be looking at themes from the <code>ggthemes</code> package, which is a great source of different themes to modify the appearance of your graph. Check out this <a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/">website</a> to see a depiction of all of the possible themes. If you don’t have the <code>ggthemes</code> package installed, do so using <code>install.packages("ggthemes")</code>.</p>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="ois-graphs.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ggthemes&quot;</span>)</span></code></pre></div>
+<p>Let’s do a few examples using the graph made above. First, we’ll need to load the <code>ggthemes</code> library.</p>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="ois-graphs.html#cb286-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb286-2"><a href="ois-graphs.html#cb286-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb286-3"><a href="ois-graphs.html#cb286-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;ggthemes&#39;</span></span>
+<span id="cb286-4"><a href="ois-graphs.html#cb286-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:cowplot&#39;:</span></span>
+<span id="cb286-5"><a href="ois-graphs.html#cb286-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb286-6"><a href="ois-graphs.html#cb286-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_map</span></span>
+<span id="cb286-7"><a href="ois-graphs.html#cb286-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb286-8"><a href="ois-graphs.html#cb286-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> year,</span>
+<span id="cb286-9"><a href="ois-graphs.html#cb286-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb286-10"><a href="ois-graphs.html#cb286-10" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb286-11"><a href="ois-graphs.html#cb286-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb286-12"><a href="ois-graphs.html#cb286-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_fivethirtyeight</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-375-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="ois-graphs.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb287-2"><a href="ois-graphs.html#cb287-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> year,</span>
+<span id="cb287-3"><a href="ois-graphs.html#cb287-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb287-4"><a href="ois-graphs.html#cb287-4" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb287-5"><a href="ois-graphs.html#cb287-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb287-6"><a href="ois-graphs.html#cb287-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-376-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="ois-graphs.html#cb288-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb288-2"><a href="ois-graphs.html#cb288-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> year,</span>
+<span id="cb288-3"><a href="ois-graphs.html#cb288-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb288-4"><a href="ois-graphs.html#cb288-4" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb288-5"><a href="ois-graphs.html#cb288-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb288-6"><a href="ois-graphs.html#cb288-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-377-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="ois-graphs.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_shootings, <span class="fu">aes</span>(</span>
+<span id="cb289-2"><a href="ois-graphs.html#cb289-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> year,</span>
+<span id="cb289-3"><a href="ois-graphs.html#cb289-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> dummy</span>
+<span id="cb289-4"><a href="ois-graphs.html#cb289-4" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb289-5"><a href="ois-graphs.html#cb289-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb289-6"><a href="ois-graphs.html#cb289-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_excel</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-378-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="18">
+<li id="fn18"><p><em>The Washington Post</em> is continuing to collect this data so if you look on their site you’ll find more up-to-date data.<a href="ois-graphs.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>It is especially important to not overreach when trying to answer a question when the data can’t do it well. Often, no answer is better than a wrong one - especially in a field with serious consequences like criminology. This isn’t to say that you should never try to answer questions since no data is perfect and you may be wrong. You should try to develop a deep understanding of the data and be confident that you can actually answer those questions with confidence.<a href="ois-graphs.html#fnref19" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="graphing-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hotspot-maps.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": true,
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/jacobkap/crimebythenumbers/edit/master/graphing-2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
