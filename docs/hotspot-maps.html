@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-08-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -485,27 +485,20 @@ div.csl-indent {
 <p>This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. Please note that suicide is not actually a crime, even though it is included in the San Francisco Police Department’s crime data. As shown in Chapter <a href="regular-expressions.html#regular-expressions">12</a>, which also used San Francisco crime data, there are a number of other non-crimes included such as “Fire Report,” “Traffic Collision,” and “Non-Criminal.” This is a fairly common occurrence in “crime” data where it also includes non-crimes that the police generally respond to so it is important to carefully examine your data to see what is included. Simply summing up the rows as a measure of crime will generally overcount crimes.</p>
 <p>The columns X and Y are our longitude and latitude columns, which we will use to map the data.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="hotspot-maps.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span>
-<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category                           Descript DayOfWeek       Date     Time PdDistrict</span></span>
-<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018 06:30:00    TARAVAL</span></span>
-<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018 17:54:00   NORTHERN</span></span>
-<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018 12:20:00   RICHMOND</span></span>
-<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018 05:13:00    CENTRAL</span></span>
-<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018 09:15:00    TARAVAL</span></span>
-<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018 17:30:00   RICHMOND</span></span>
-<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   Resolution                 Address         X        Y                                       Location</span></span>
-<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       NONE     0 Block of BRUCE AV -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315)</span></span>
-<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       NONE   700 Block of HAYES ST -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792)</span></span>
-<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       NONE   3700 Block of CLAY ST -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736)</span></span>
-<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       NONE     0 Block of DRUMM ST -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039)</span></span>
-<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551)</span></span>
-<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       NONE    300 Block of 29TH AV -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265)</span></span>
-<span id="cb291-16"><a href="hotspot-maps.html#cb291-16" aria-hidden="true" tabindex="-1"></a><span class="co">#           PdId year</span></span>
-<span id="cb291-17"><a href="hotspot-maps.html#cb291-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 1.803189e+13 2018</span></span>
-<span id="cb291-18"><a href="hotspot-maps.html#cb291-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 1.803155e+13 2018</span></span>
-<span id="cb291-19"><a href="hotspot-maps.html#cb291-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 1.802957e+13 2018</span></span>
-<span id="cb291-20"><a href="hotspot-maps.html#cb291-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 1.802637e+13 2018</span></span>
-<span id="cb291-21"><a href="hotspot-maps.html#cb291-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 1.802355e+13 2018</span></span>
-<span id="cb291-22"><a href="hotspot-maps.html#cb291-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 1.802365e+13 2018</span></span></code></pre></div>
+<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category                           Descript DayOfWeek       Date     Time PdDistrict Resolution</span></span>
+<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018 06:30:00    TARAVAL       NONE</span></span>
+<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018 17:54:00   NORTHERN       NONE</span></span>
+<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018 12:20:00   RICHMOND       NONE</span></span>
+<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE</span></span>
+<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018 09:15:00    TARAVAL       NONE</span></span>
+<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018 17:30:00   RICHMOND       NONE</span></span>
+<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                   Address         X        Y                                       Location         PdId year</span></span>
+<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     0 Block of BRUCE AV -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
+<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2   700 Block of HAYES ST -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
+<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   3700 Block of CLAY ST -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
+<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     0 Block of DRUMM ST -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
+<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 0 Block of FAIRFIELD WY -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
+<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    300 Block of 29TH AV -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span></code></pre></div>
 <div id="a-simple-map" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> A simple map<a href="hotspot-maps.html#a-simple-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To make these maps we will use the package <code>ggmap</code>.</p>
@@ -517,23 +510,17 @@ div.csl-indent {
 <span id="cb293-5"><a href="hotspot-maps.html#cb293-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;ggmap&#39;</span></span>
 <span id="cb293-6"><a href="hotspot-maps.html#cb293-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:cowplot&#39;:</span></span>
 <span id="cb293-7"><a href="hotspot-maps.html#cb293-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb293-8"><a href="hotspot-maps.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_nothing</span></span></code></pre></div>
+<span id="cb293-8"><a href="hotspot-maps.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_nothing</span></span>
+<span id="cb293-9"><a href="hotspot-maps.html#cb293-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:tidygeocoder&#39;:</span></span>
+<span id="cb293-10"><a href="hotspot-maps.html#cb293-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb293-11"><a href="hotspot-maps.html#cb293-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     geocode</span></span></code></pre></div>
 <p>We’ll start by making the background to our map, showing San Francisco. We do so by using the <code>get_map()</code> function from <code>ggmap</code>, which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show.</p>
 <p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box.</a> This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste,” change the dropdown box to “CSV.” In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
 <p><img src="images/bounding_box.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="hotspot-maps.html#cb294-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_map</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">122.530392</span>, <span class="fl">37.698887</span>, <span class="sc">-</span><span class="fl">122.351177</span>, <span class="fl">37.812996</span>),</span>
 <span id="cb294-2"><a href="hotspot-maps.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">&quot;stamen&quot;</span></span>
 <span id="cb294-3"><a href="hotspot-maps.html#cb294-3" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb294-4"><a href="hotspot-maps.html#cb294-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1582.png</span></span>
-<span id="cb294-5"><a href="hotspot-maps.html#cb294-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1582.png</span></span>
-<span id="cb294-6"><a href="hotspot-maps.html#cb294-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1582.png</span></span>
-<span id="cb294-7"><a href="hotspot-maps.html#cb294-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1583.png</span></span>
-<span id="cb294-8"><a href="hotspot-maps.html#cb294-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1583.png</span></span>
-<span id="cb294-9"><a href="hotspot-maps.html#cb294-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1583.png</span></span>
-<span id="cb294-10"><a href="hotspot-maps.html#cb294-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1584.png</span></span>
-<span id="cb294-11"><a href="hotspot-maps.html#cb294-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1584.png</span></span>
-<span id="cb294-12"><a href="hotspot-maps.html#cb294-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1584.png</span></span>
-<span id="cb294-13"><a href="hotspot-maps.html#cb294-13" aria-hidden="true" tabindex="-1"></a>sf_map</span></code></pre></div>
+<span id="cb294-4"><a href="hotspot-maps.html#cb294-4" aria-hidden="true" tabindex="-1"></a>sf_map</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-385-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the suicides from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load <code>ggmap</code> it also automatically loads <code>ggplot2</code> as that package is necessary for <code>ggmap</code> to work, so we don’t need to do <code>library(ggplot2)</code> ourselves.</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="hotspot-maps.html#cb295-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
