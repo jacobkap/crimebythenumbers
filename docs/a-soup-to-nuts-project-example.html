@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -485,70 +485,82 @@ div.csl-indent {
 <p>These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site <a href="https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/">FiveThirtyEight</a> in discussing the murder increase in 2020. So this is an actual work product that is used in a major media publication - and is something that you’ll be able to do by the end of this book. For nearly all research you do you’ll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.</p>
 <p>Please look at the following large chunk of code. We’ll next go through each of the different pieces of this code to start understanding how they work. Throughout the course of this book we’ll cover these steps in more detail - as most research programming work follows the same process - so here we’ll talk more abstractly about what each does. The goal is for you to understand the basic steps necessary for using R to do research, and to understand how R can do it - but not having to understand what each line of code does just yet.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="a-soup-to-nuts-project-example.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># Used to aggregate data</span></span>
-<span id="cb2-2"><a href="a-soup-to-nuts-project-example.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># Used to make the graph</span></span>
-<span id="cb2-3"><a href="a-soup-to-nuts-project-example.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;ggplot2&#39; was built under R version 4.1.3</span></span>
-<span id="cb2-4"><a href="a-soup-to-nuts-project-example.html#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crimeutils) <span class="co"># Used to capitalize words in a column</span></span>
-<span id="cb2-5"><a href="a-soup-to-nuts-project-example.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) <span class="co"># Used to reshape the data</span></span>
-<span id="cb2-6"><a href="a-soup-to-nuts-project-example.html#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="a-soup-to-nuts-project-example.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load in the data</span></span>
-<span id="cb2-8"><a href="a-soup-to-nuts-project-example.html#cb2-8" aria-hidden="true" tabindex="-1"></a>shr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/shr_1976_2020.rds&quot;</span>)</span>
-<span id="cb2-9"><a href="a-soup-to-nuts-project-example.html#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="a-soup-to-nuts-project-example.html#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># See which agencies reported in 2019 and 2020</span></span>
-<span id="cb2-11"><a href="a-soup-to-nuts-project-example.html#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># An &quot;ori&quot; is a unique identifier code for agencies in FBI data</span></span>
-<span id="cb2-12"><a href="a-soup-to-nuts-project-example.html#cb2-12" aria-hidden="true" tabindex="-1"></a>agencies_2019 <span class="ot">&lt;-</span> shr<span class="sc">$</span>ori[shr<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2019</span>]</span>
-<span id="cb2-13"><a href="a-soup-to-nuts-project-example.html#cb2-13" aria-hidden="true" tabindex="-1"></a>agencies_2020 <span class="ot">&lt;-</span> shr<span class="sc">$</span>ori[shr<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2020</span>]</span>
-<span id="cb2-14"><a href="a-soup-to-nuts-project-example.html#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Get which agencies reported in both years so we have an</span></span>
-<span id="cb2-15"><a href="a-soup-to-nuts-project-example.html#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># apples-to-apples comparison</span></span>
-<span id="cb2-16"><a href="a-soup-to-nuts-project-example.html#cb2-16" aria-hidden="true" tabindex="-1"></a>agencies_in_both <span class="ot">&lt;-</span> agencies_2019[agencies_2019 <span class="sc">%in%</span> agencies_2020]</span>
-<span id="cb2-17"><a href="a-soup-to-nuts-project-example.html#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="a-soup-to-nuts-project-example.html#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep just data from 2019 and 2020 and where the agencies</span></span>
-<span id="cb2-19"><a href="a-soup-to-nuts-project-example.html#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># is one of the agencies chosen above. Also keep only murder and</span></span>
-<span id="cb2-20"><a href="a-soup-to-nuts-project-example.html#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># nonnegligent manslaughter (so excluding  negligent manslaughter).</span></span>
-<span id="cb2-21"><a href="a-soup-to-nuts-project-example.html#cb2-21" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr[shr<span class="sc">$</span>year <span class="sc">%in%</span> <span class="dv">2019</span><span class="sc">:</span><span class="dv">2020</span>, ]</span>
-<span id="cb2-22"><a href="a-soup-to-nuts-project-example.html#cb2-22" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr_2019_2020[shr_2019_2020<span class="sc">$</span>ori <span class="sc">%in%</span></span>
-<span id="cb2-23"><a href="a-soup-to-nuts-project-example.html#cb2-23" aria-hidden="true" tabindex="-1"></a>  agencies_in_both, ]</span>
-<span id="cb2-24"><a href="a-soup-to-nuts-project-example.html#cb2-24" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr_2019_2020[shr_2019_2020<span class="sc">$</span>homicide_type <span class="sc">%in%</span></span>
-<span id="cb2-25"><a href="a-soup-to-nuts-project-example.html#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;murder and nonnegligent manslaughter&quot;</span>, ]</span>
-<span id="cb2-26"><a href="a-soup-to-nuts-project-example.html#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="a-soup-to-nuts-project-example.html#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of murders by victim-offender relationship in 2019 and 2020</span></span>
-<span id="cb2-28"><a href="a-soup-to-nuts-project-example.html#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Then find the percent change in murders by this group from 2019 to 2020</span></span>
-<span id="cb2-29"><a href="a-soup-to-nuts-project-example.html#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort data by smallest to largest percent change</span></span>
-<span id="cb2-30"><a href="a-soup-to-nuts-project-example.html#cb2-30" aria-hidden="true" tabindex="-1"></a>shr_difference <span class="ot">&lt;-</span></span>
-<span id="cb2-31"><a href="a-soup-to-nuts-project-example.html#cb2-31" aria-hidden="true" tabindex="-1"></a>  shr_2019_2020 <span class="sc">%&gt;%</span></span>
-<span id="cb2-32"><a href="a-soup-to-nuts-project-example.html#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb2-33"><a href="a-soup-to-nuts-project-example.html#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(victim_1_relation_to_offender_1) <span class="sc">%&gt;%</span></span>
-<span id="cb2-34"><a href="a-soup-to-nuts-project-example.html#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(year, n) <span class="sc">%&gt;%</span></span>
-<span id="cb2-35"><a href="a-soup-to-nuts-project-example.html#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-36"><a href="a-soup-to-nuts-project-example.html#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">difference =</span> <span class="st">`</span><span class="at">2020</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">2019</span><span class="st">`</span>,</span>
-<span id="cb2-37"><a href="a-soup-to-nuts-project-example.html#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_change =</span> difference <span class="sc">/</span> <span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb2-38"><a href="a-soup-to-nuts-project-example.html#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">victim_1_relation_to_offender_1 =</span></span>
-<span id="cb2-39"><a href="a-soup-to-nuts-project-example.html#cb2-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">capitalize_words</span>(victim_1_relation_to_offender_1)</span>
-<span id="cb2-40"><a href="a-soup-to-nuts-project-example.html#cb2-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-41"><a href="a-soup-to-nuts-project-example.html#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-42"><a href="a-soup-to-nuts-project-example.html#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(percent_change)</span>
-<span id="cb2-43"><a href="a-soup-to-nuts-project-example.html#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-44"><a href="a-soup-to-nuts-project-example.html#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="co"># This is only for the graph. By default graphs order alphabetically</span></span>
-<span id="cb2-45"><a href="a-soup-to-nuts-project-example.html#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="co"># but this makes sure it orders it based on the ordering we made above</span></span>
-<span id="cb2-46"><a href="a-soup-to-nuts-project-example.html#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># (smallest to largest percent change)</span></span>
-<span id="cb2-47"><a href="a-soup-to-nuts-project-example.html#cb2-47" aria-hidden="true" tabindex="-1"></a>shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1 <span class="ot">&lt;-</span></span>
-<span id="cb2-48"><a href="a-soup-to-nuts-project-example.html#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1,</span>
-<span id="cb2-49"><a href="a-soup-to-nuts-project-example.html#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1</span>
-<span id="cb2-50"><a href="a-soup-to-nuts-project-example.html#cb2-50" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-51"><a href="a-soup-to-nuts-project-example.html#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-52"><a href="a-soup-to-nuts-project-example.html#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Makes a barplot showing the percent change from 2019 to 2020 in number</span></span>
-<span id="cb2-53"><a href="a-soup-to-nuts-project-example.html#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co"># of murders by victim group. Labels the x-axis and the y-axis, shifts</span></span>
-<span id="cb2-54"><a href="a-soup-to-nuts-project-example.html#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="co"># the graph so that relationship labels are on the y-axis for easy reading.</span></span>
-<span id="cb2-55"><a href="a-soup-to-nuts-project-example.html#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co"># And finally uses the &quot;crim&quot; theme that changes the colors in the graph to</span></span>
-<span id="cb2-56"><a href="a-soup-to-nuts-project-example.html#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># make it a little easier to see.</span></span>
-<span id="cb2-57"><a href="a-soup-to-nuts-project-example.html#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shr_difference, <span class="fu">aes</span>(</span>
-<span id="cb2-58"><a href="a-soup-to-nuts-project-example.html#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> victim_1_relation_to_offender_1,</span>
-<span id="cb2-59"><a href="a-soup-to-nuts-project-example.html#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> percent_change</span>
-<span id="cb2-60"><a href="a-soup-to-nuts-project-example.html#cb2-60" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
-<span id="cb2-61"><a href="a-soup-to-nuts-project-example.html#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb2-62"><a href="a-soup-to-nuts-project-example.html#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;% Change, 2020 Vs. 2019&quot;</span>) <span class="sc">+</span></span>
-<span id="cb2-63"><a href="a-soup-to-nuts-project-example.html#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Who Victim Is Relative to Murderer&quot;</span>) <span class="sc">+</span></span>
-<span id="cb2-64"><a href="a-soup-to-nuts-project-example.html#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb2-65"><a href="a-soup-to-nuts-project-example.html#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_crim</span>()</span></code></pre></div>
+<span id="cb2-2"><a href="a-soup-to-nuts-project-example.html#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;dplyr&#39; was built under</span></span>
+<span id="cb2-3"><a href="a-soup-to-nuts-project-example.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R version 4.1.3</span></span>
+<span id="cb2-4"><a href="a-soup-to-nuts-project-example.html#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-5"><a href="a-soup-to-nuts-project-example.html#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb2-6"><a href="a-soup-to-nuts-project-example.html#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb2-7"><a href="a-soup-to-nuts-project-example.html#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-8"><a href="a-soup-to-nuts-project-example.html#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     filter, lag</span></span>
+<span id="cb2-9"><a href="a-soup-to-nuts-project-example.html#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb2-10"><a href="a-soup-to-nuts-project-example.html#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-11"><a href="a-soup-to-nuts-project-example.html#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     intersect, setdiff, setequal,</span></span>
+<span id="cb2-12"><a href="a-soup-to-nuts-project-example.html#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     union</span></span>
+<span id="cb2-13"><a href="a-soup-to-nuts-project-example.html#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># Used to make the graph</span></span>
+<span id="cb2-14"><a href="a-soup-to-nuts-project-example.html#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;ggplot2&#39; was built</span></span>
+<span id="cb2-15"><a href="a-soup-to-nuts-project-example.html#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># under R version 4.1.3</span></span>
+<span id="cb2-16"><a href="a-soup-to-nuts-project-example.html#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crimeutils) <span class="co"># Used to capitalize words in a column</span></span>
+<span id="cb2-17"><a href="a-soup-to-nuts-project-example.html#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr) <span class="co"># Used to reshape the data</span></span>
+<span id="cb2-18"><a href="a-soup-to-nuts-project-example.html#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="a-soup-to-nuts-project-example.html#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Load in the data</span></span>
+<span id="cb2-20"><a href="a-soup-to-nuts-project-example.html#cb2-20" aria-hidden="true" tabindex="-1"></a>shr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/shr_1976_2020.rds&quot;</span>)</span>
+<span id="cb2-21"><a href="a-soup-to-nuts-project-example.html#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="a-soup-to-nuts-project-example.html#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># See which agencies reported in 2019 and 2020</span></span>
+<span id="cb2-23"><a href="a-soup-to-nuts-project-example.html#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># An &quot;ori&quot; is a unique identifier code for agencies in FBI data</span></span>
+<span id="cb2-24"><a href="a-soup-to-nuts-project-example.html#cb2-24" aria-hidden="true" tabindex="-1"></a>agencies_2019 <span class="ot">&lt;-</span> shr<span class="sc">$</span>ori[shr<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2019</span>]</span>
+<span id="cb2-25"><a href="a-soup-to-nuts-project-example.html#cb2-25" aria-hidden="true" tabindex="-1"></a>agencies_2020 <span class="ot">&lt;-</span> shr<span class="sc">$</span>ori[shr<span class="sc">$</span>year <span class="sc">==</span> <span class="dv">2020</span>]</span>
+<span id="cb2-26"><a href="a-soup-to-nuts-project-example.html#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Get which agencies reported in both years so we have an</span></span>
+<span id="cb2-27"><a href="a-soup-to-nuts-project-example.html#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># apples-to-apples comparison</span></span>
+<span id="cb2-28"><a href="a-soup-to-nuts-project-example.html#cb2-28" aria-hidden="true" tabindex="-1"></a>agencies_in_both <span class="ot">&lt;-</span> agencies_2019[agencies_2019 <span class="sc">%in%</span> agencies_2020]</span>
+<span id="cb2-29"><a href="a-soup-to-nuts-project-example.html#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="a-soup-to-nuts-project-example.html#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep just data from 2019 and 2020 and where the agencies</span></span>
+<span id="cb2-31"><a href="a-soup-to-nuts-project-example.html#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># is one of the agencies chosen above. Also keep only murder and</span></span>
+<span id="cb2-32"><a href="a-soup-to-nuts-project-example.html#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># nonnegligent manslaughter (so excluding  negligent manslaughter).</span></span>
+<span id="cb2-33"><a href="a-soup-to-nuts-project-example.html#cb2-33" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr[shr<span class="sc">$</span>year <span class="sc">%in%</span> <span class="dv">2019</span><span class="sc">:</span><span class="dv">2020</span>, ]</span>
+<span id="cb2-34"><a href="a-soup-to-nuts-project-example.html#cb2-34" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr_2019_2020[shr_2019_2020<span class="sc">$</span>ori <span class="sc">%in%</span></span>
+<span id="cb2-35"><a href="a-soup-to-nuts-project-example.html#cb2-35" aria-hidden="true" tabindex="-1"></a>  agencies_in_both, ]</span>
+<span id="cb2-36"><a href="a-soup-to-nuts-project-example.html#cb2-36" aria-hidden="true" tabindex="-1"></a>shr_2019_2020 <span class="ot">&lt;-</span> shr_2019_2020[shr_2019_2020<span class="sc">$</span>homicide_type <span class="sc">%in%</span></span>
+<span id="cb2-37"><a href="a-soup-to-nuts-project-example.html#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;murder and nonnegligent manslaughter&quot;</span>, ]</span>
+<span id="cb2-38"><a href="a-soup-to-nuts-project-example.html#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="a-soup-to-nuts-project-example.html#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of murders by victim-offender relationship in 2019 and 2020</span></span>
+<span id="cb2-40"><a href="a-soup-to-nuts-project-example.html#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Then find the percent change in murders by this group from 2019 to 2020</span></span>
+<span id="cb2-41"><a href="a-soup-to-nuts-project-example.html#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort data by smallest to largest percent change</span></span>
+<span id="cb2-42"><a href="a-soup-to-nuts-project-example.html#cb2-42" aria-hidden="true" tabindex="-1"></a>shr_difference <span class="ot">&lt;-</span></span>
+<span id="cb2-43"><a href="a-soup-to-nuts-project-example.html#cb2-43" aria-hidden="true" tabindex="-1"></a>  shr_2019_2020 <span class="sc">%&gt;%</span></span>
+<span id="cb2-44"><a href="a-soup-to-nuts-project-example.html#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb2-45"><a href="a-soup-to-nuts-project-example.html#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(victim_1_relation_to_offender_1) <span class="sc">%&gt;%</span></span>
+<span id="cb2-46"><a href="a-soup-to-nuts-project-example.html#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(year, n) <span class="sc">%&gt;%</span></span>
+<span id="cb2-47"><a href="a-soup-to-nuts-project-example.html#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-48"><a href="a-soup-to-nuts-project-example.html#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">difference =</span> <span class="st">`</span><span class="at">2020</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">2019</span><span class="st">`</span>,</span>
+<span id="cb2-49"><a href="a-soup-to-nuts-project-example.html#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_change =</span> difference <span class="sc">/</span> <span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb2-50"><a href="a-soup-to-nuts-project-example.html#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">victim_1_relation_to_offender_1 =</span></span>
+<span id="cb2-51"><a href="a-soup-to-nuts-project-example.html#cb2-51" aria-hidden="true" tabindex="-1"></a>      <span class="fu">capitalize_words</span>(victim_1_relation_to_offender_1)</span>
+<span id="cb2-52"><a href="a-soup-to-nuts-project-example.html#cb2-52" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-53"><a href="a-soup-to-nuts-project-example.html#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="st">`</span><span class="at">2019</span><span class="st">`</span> <span class="sc">&gt;=</span> <span class="dv">50</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-54"><a href="a-soup-to-nuts-project-example.html#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(percent_change)</span>
+<span id="cb2-55"><a href="a-soup-to-nuts-project-example.html#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="a-soup-to-nuts-project-example.html#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co"># This is only for the graph. By default graphs order alphabetically</span></span>
+<span id="cb2-57"><a href="a-soup-to-nuts-project-example.html#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co"># but this makes sure it orders it based on the ordering we made above</span></span>
+<span id="cb2-58"><a href="a-soup-to-nuts-project-example.html#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co"># (smallest to largest percent change)</span></span>
+<span id="cb2-59"><a href="a-soup-to-nuts-project-example.html#cb2-59" aria-hidden="true" tabindex="-1"></a>shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1 <span class="ot">&lt;-</span></span>
+<span id="cb2-60"><a href="a-soup-to-nuts-project-example.html#cb2-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1,</span>
+<span id="cb2-61"><a href="a-soup-to-nuts-project-example.html#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> shr_difference<span class="sc">$</span>victim_1_relation_to_offender_1</span>
+<span id="cb2-62"><a href="a-soup-to-nuts-project-example.html#cb2-62" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-63"><a href="a-soup-to-nuts-project-example.html#cb2-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-64"><a href="a-soup-to-nuts-project-example.html#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Makes a barplot showing the percent change from 2019 to 2020 in number</span></span>
+<span id="cb2-65"><a href="a-soup-to-nuts-project-example.html#cb2-65" aria-hidden="true" tabindex="-1"></a><span class="co"># of murders by victim group. Labels the x-axis and the y-axis, shifts</span></span>
+<span id="cb2-66"><a href="a-soup-to-nuts-project-example.html#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="co"># the graph so that relationship labels are on the y-axis for easy reading.</span></span>
+<span id="cb2-67"><a href="a-soup-to-nuts-project-example.html#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="co"># And finally uses the &quot;crim&quot; theme that changes the colors in the graph to</span></span>
+<span id="cb2-68"><a href="a-soup-to-nuts-project-example.html#cb2-68" aria-hidden="true" tabindex="-1"></a><span class="co"># make it a little easier to see.</span></span>
+<span id="cb2-69"><a href="a-soup-to-nuts-project-example.html#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(shr_difference, <span class="fu">aes</span>(</span>
+<span id="cb2-70"><a href="a-soup-to-nuts-project-example.html#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> victim_1_relation_to_offender_1,</span>
+<span id="cb2-71"><a href="a-soup-to-nuts-project-example.html#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> percent_change</span>
+<span id="cb2-72"><a href="a-soup-to-nuts-project-example.html#cb2-72" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb2-73"><a href="a-soup-to-nuts-project-example.html#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-74"><a href="a-soup-to-nuts-project-example.html#cb2-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;% Change, 2020 Vs. 2019&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-75"><a href="a-soup-to-nuts-project-example.html#cb2-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Who Victim Is Relative to Murderer&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-76"><a href="a-soup-to-nuts-project-example.html#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb2-77"><a href="a-soup-to-nuts-project-example.html#cb2-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_crim</span>()</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="little-picture-data-example" class="section level2 hasAnchor" number="1.2">
@@ -607,24 +619,27 @@ div.csl-indent {
 <span id="cb6-13"><a href="a-soup-to-nuts-project-example.html#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(percent_change)</span>
 <span id="cb6-14"><a href="a-soup-to-nuts-project-example.html#cb6-14" aria-hidden="true" tabindex="-1"></a>shr_difference</span>
 <span id="cb6-15"><a href="a-soup-to-nuts-project-example.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 16 x 5</span></span>
-<span id="cb6-16"><a href="a-soup-to-nuts-project-example.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    victim_1_relation_to_offender_1 `2019` `2020` difference percent_change</span></span>
-<span id="cb6-17"><a href="a-soup-to-nuts-project-example.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    &lt;chr&gt;                            &lt;int&gt;  &lt;int&gt;      &lt;int&gt;          &lt;dbl&gt;</span></span>
-<span id="cb6-18"><a href="a-soup-to-nuts-project-example.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  1 Wife                               330    294        -36         -10.9 </span></span>
-<span id="cb6-19"><a href="a-soup-to-nuts-project-example.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  2 Brother                             93     86         -7          -7.53</span></span>
-<span id="cb6-20"><a href="a-soup-to-nuts-project-example.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  3 Daughter                            89     86         -3          -3.37</span></span>
-<span id="cb6-21"><a href="a-soup-to-nuts-project-example.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  4 Son                                157    160          3           1.91</span></span>
-<span id="cb6-22"><a href="a-soup-to-nuts-project-example.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#  5 Father                              95    101          6           6.32</span></span>
-<span id="cb6-23"><a href="a-soup-to-nuts-project-example.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#  6 Boyfriend                          164    180         16           9.76</span></span>
-<span id="cb6-24"><a href="a-soup-to-nuts-project-example.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#  7 Girlfriend                         390    431         41          10.5 </span></span>
-<span id="cb6-25"><a href="a-soup-to-nuts-project-example.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#  8 Mother                             118    134         16          13.6 </span></span>
-<span id="cb6-26"><a href="a-soup-to-nuts-project-example.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#  9 Acquaintance                      1494   1729        235          15.7 </span></span>
-<span id="cb6-27"><a href="a-soup-to-nuts-project-example.html#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 10 Stranger                          1549   1886        337          21.8 </span></span>
-<span id="cb6-28"><a href="a-soup-to-nuts-project-example.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 11 Neighbor                            85    105         20          23.5 </span></span>
-<span id="cb6-29"><a href="a-soup-to-nuts-project-example.html#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 12 Other Family                       209    260         51          24.4 </span></span>
-<span id="cb6-30"><a href="a-soup-to-nuts-project-example.html#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 13 Other - Known To Victim            757    955        198          26.2 </span></span>
-<span id="cb6-31"><a href="a-soup-to-nuts-project-example.html#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 14 Friend                             272    358         86          31.6 </span></span>
-<span id="cb6-32"><a href="a-soup-to-nuts-project-example.html#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 Husband                             58     79         21          36.2 </span></span>
-<span id="cb6-33"><a href="a-soup-to-nuts-project-example.html#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 16 Unknown                           6216   8504       2288          36.8</span></span></code></pre></div>
+<span id="cb6-16"><a href="a-soup-to-nuts-project-example.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    victim~1 `2019` `2020` diffe~2 perce~3</span></span>
+<span id="cb6-17"><a href="a-soup-to-nuts-project-example.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    &lt;chr&gt;     &lt;int&gt;  &lt;int&gt;   &lt;int&gt;   &lt;dbl&gt;</span></span>
+<span id="cb6-18"><a href="a-soup-to-nuts-project-example.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  1 Wife        330    294     -36  -10.9 </span></span>
+<span id="cb6-19"><a href="a-soup-to-nuts-project-example.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  2 Brother      93     86      -7   -7.53</span></span>
+<span id="cb6-20"><a href="a-soup-to-nuts-project-example.html#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  3 Daughter     89     86      -3   -3.37</span></span>
+<span id="cb6-21"><a href="a-soup-to-nuts-project-example.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  4 Son         157    160       3    1.91</span></span>
+<span id="cb6-22"><a href="a-soup-to-nuts-project-example.html#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#  5 Father       95    101       6    6.32</span></span>
+<span id="cb6-23"><a href="a-soup-to-nuts-project-example.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#  6 Boyfrie~    164    180      16    9.76</span></span>
+<span id="cb6-24"><a href="a-soup-to-nuts-project-example.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#  7 Girlfri~    390    431      41   10.5 </span></span>
+<span id="cb6-25"><a href="a-soup-to-nuts-project-example.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#  8 Mother      118    134      16   13.6 </span></span>
+<span id="cb6-26"><a href="a-soup-to-nuts-project-example.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#  9 Acquain~   1494   1729     235   15.7 </span></span>
+<span id="cb6-27"><a href="a-soup-to-nuts-project-example.html#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 10 Stranger   1549   1886     337   21.8 </span></span>
+<span id="cb6-28"><a href="a-soup-to-nuts-project-example.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 11 Neighbor     85    105      20   23.5 </span></span>
+<span id="cb6-29"><a href="a-soup-to-nuts-project-example.html#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 12 Other F~    209    260      51   24.4 </span></span>
+<span id="cb6-30"><a href="a-soup-to-nuts-project-example.html#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 13 Other -~    757    955     198   26.2 </span></span>
+<span id="cb6-31"><a href="a-soup-to-nuts-project-example.html#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 14 Friend      272    358      86   31.6 </span></span>
+<span id="cb6-32"><a href="a-soup-to-nuts-project-example.html#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 15 Husband      58     79      21   36.2 </span></span>
+<span id="cb6-33"><a href="a-soup-to-nuts-project-example.html#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 16 Unknown    6216   8504    2288   36.8 </span></span>
+<span id="cb6-34"><a href="a-soup-to-nuts-project-example.html#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with abbreviated variable names</span></span>
+<span id="cb6-35"><a href="a-soup-to-nuts-project-example.html#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># #   1: victim_1_relation_to_offender_1,</span></span>
+<span id="cb6-36"><a href="a-soup-to-nuts-project-example.html#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># #   2: difference, 3: percent_change</span></span></code></pre></div>
 </div>
 <div id="graphing" class="section level3 hasAnchor" number="1.2.5">
 <h3><span class="header-section-number">1.2.5</span> Graphing<a href="a-soup-to-nuts-project-example.html#graphing" class="anchor-section" aria-label="Anchor link to header"></a></h3>

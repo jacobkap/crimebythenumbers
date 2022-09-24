@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -504,13 +504,19 @@ div.csl-indent {
 <span id="cb28-2"><a href="data-types.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;numeric&quot; &quot;vector&quot;</span></span></code></pre></div>
 <p>Checking what 2 is tells us that it is both a “numeric” type and a “vector” type.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-types.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="st">&quot;2&quot;</span>)</span>
-<span id="cb29-2"><a href="data-types.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot; &quot;SuperClassMethod&quot;</span></span></code></pre></div>
+<span id="cb29-2"><a href="data-types.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;          </span></span>
+<span id="cb29-3"><a href="data-types.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &quot;vector&quot;             </span></span>
+<span id="cb29-4"><a href="data-types.html#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;data.frameRowLabels&quot;</span></span>
+<span id="cb29-5"><a href="data-types.html#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;SuperClassMethod&quot;</span></span></code></pre></div>
 <p>Checking “2” (in quotes), gives us four different types of data for this value: “character”, “vector”, “data.frameRowLabels”, and “SuperClassMethod”. You can ignore the last two types, we just are interested in that it is a “character” type and, like the type of 2, is a “vector”.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="data-types.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="cn">TRUE</span>)</span>
 <span id="cb30-2"><a href="data-types.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;logical&quot; &quot;vector&quot;</span></span></code></pre></div>
 <p>Finally, checking what TRUE is returns both “logical” and “vector”. We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character, and if we have it lowercase and without quotes R will think that it is an object (such as something we make using <code>&lt;-</code> and not a Boolean).</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-types.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="st">&quot;TRUE&quot;</span>)</span>
-<span id="cb31-2"><a href="data-types.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot; &quot;SuperClassMethod&quot;</span></span></code></pre></div>
+<span id="cb31-2"><a href="data-types.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;          </span></span>
+<span id="cb31-3"><a href="data-types.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &quot;vector&quot;             </span></span>
+<span id="cb31-4"><a href="data-types.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;data.frameRowLabels&quot;</span></span>
+<span id="cb31-5"><a href="data-types.html#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;SuperClassMethod&quot;</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="data-types.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(true)</span>
 <span id="cb32-2"><a href="data-types.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in is(true): object &#39;true&#39; not found</span></span></code></pre></div>
 <p>All three of the values we checked say that they are a “vector” type. We’ll cover vectors in the next section, but for now let’s see one other function that tells us the type of data something is. If we use <code>class()</code> instead of <code>is()</code> we’ll get just the first value returned in the types of data that we input.</p>
@@ -535,9 +541,15 @@ div.csl-indent {
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="data-types.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
 <p>We need to know the column names before using them, so we can use the <code>names()</code> function to get a list of all of the column names (the <code>colnames()</code> function does the same thing).</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data-types.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
-<span id="cb36-2"><a href="data-types.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                       &quot;year&quot;                      &quot;agency_name&quot;               &quot;state&quot;                    </span></span>
-<span id="cb36-3"><a href="data-types.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;population&quot;                &quot;actual_murder&quot;             &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></span>
-<span id="cb36-4"><a href="data-types.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
+<span id="cb36-2"><a href="data-types.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                      </span></span>
+<span id="cb36-3"><a href="data-types.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &quot;year&quot;                     </span></span>
+<span id="cb36-4"><a href="data-types.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;agency_name&quot;              </span></span>
+<span id="cb36-5"><a href="data-types.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;state&quot;                    </span></span>
+<span id="cb36-6"><a href="data-types.html#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;population&quot;               </span></span>
+<span id="cb36-7"><a href="data-types.html#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [6] &quot;actual_murder&quot;            </span></span>
+<span id="cb36-8"><a href="data-types.html#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;actual_rape_total&quot;        </span></span>
+<span id="cb36-9"><a href="data-types.html#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [8] &quot;actual_robbery_total&quot;     </span></span>
+<span id="cb36-10"><a href="data-types.html#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
 <p>Now we can check the types of some of the columns. Let’s check the year column as an example. A year is a number so we may expect it to be numeric, but there’s technically nothing stopping that data from being character type. It can’t be logical type because then instead of a year value it’d just be TRUE or FALSE, which is certainly not what a year is.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="data-types.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(ucr2017<span class="sc">$</span>year)</span>
 <span id="cb37-2"><a href="data-types.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;numeric&quot; &quot;vector&quot;</span></span></code></pre></div>
@@ -606,12 +618,18 @@ div.csl-indent {
 <span id="cb44-9"><a href="data-types.html#cb44-9" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb44-10"><a href="data-types.html#cb44-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb44-11"><a href="data-types.html#cb44-11" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb44-12"><a href="data-types.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   c.1..3..5..7..9. c..hello....darkness....my....old....friend..</span></span>
-<span id="cb44-13"><a href="data-types.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                1                                         hello</span></span>
-<span id="cb44-14"><a href="data-types.html#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                3                                      darkness</span></span>
-<span id="cb44-15"><a href="data-types.html#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                5                                            my</span></span>
-<span id="cb44-16"><a href="data-types.html#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                7                                           old</span></span>
-<span id="cb44-17"><a href="data-types.html#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                9                                        friend</span></span></code></pre></div>
+<span id="cb44-12"><a href="data-types.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   c.1..3..5..7..9.</span></span>
+<span id="cb44-13"><a href="data-types.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                1</span></span>
+<span id="cb44-14"><a href="data-types.html#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                3</span></span>
+<span id="cb44-15"><a href="data-types.html#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                5</span></span>
+<span id="cb44-16"><a href="data-types.html#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                7</span></span>
+<span id="cb44-17"><a href="data-types.html#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                9</span></span>
+<span id="cb44-18"><a href="data-types.html#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   c..hello....darkness....my....old....friend..</span></span>
+<span id="cb44-19"><a href="data-types.html#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                                         hello</span></span>
+<span id="cb44-20"><a href="data-types.html#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                                      darkness</span></span>
+<span id="cb44-21"><a href="data-types.html#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                                            my</span></span>
+<span id="cb44-22"><a href="data-types.html#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                                           old</span></span>
+<span id="cb44-23"><a href="data-types.html#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                        friend</span></span></code></pre></div>
 <p>If the vectors are already made then we won’t have an issue. R will default to the vector name, but we can override that if we want.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="data-types.html#cb45-1" aria-hidden="true" tabindex="-1"></a>column_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
 <span id="cb45-2"><a href="data-types.html#cb45-2" aria-hidden="true" tabindex="-1"></a>column2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;darkness&quot;</span>, <span class="st">&quot;my&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;friend&quot;</span>)</span>
@@ -627,7 +645,8 @@ div.csl-indent {
 <span id="cb45-12"><a href="data-types.html#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 5        9          friend</span></span></code></pre></div>
 <p>As with other objects, we can use the <code>is()</code> function to see what type it is. If we use <code>is()</code> on our example object, it’ll tell us that it is a data.frame.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="data-types.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(example)</span>
-<span id="cb46-2"><a href="data-types.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;data.frame&quot; &quot;list&quot;       &quot;oldClass&quot;   &quot;vector&quot;</span></span></code></pre></div>
+<span id="cb46-2"><a href="data-types.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;data.frame&quot; &quot;list&quot;      </span></span>
+<span id="cb46-3"><a href="data-types.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;oldClass&quot;   &quot;vector&quot;</span></span></code></pre></div>
 <p>We also often will want to know how many columns and rows a data.frame has. For finding the number of rows we use the function <code>nrow()</code>, and for finding the number of columns we’ll use the <code>ncol()</code> function.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> In each the “n” part of the function just stands for number. So <code>nrow()</code> is number of rows. For each we put our data.frame object in the parentheses (without quotes since it is something already loaded in R), and it will return the number of rows/columns.</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="data-types.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(example)</span>
 <span id="cb47-2"><a href="data-types.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 5</span></span></code></pre></div>
@@ -663,13 +682,27 @@ div.csl-indent {
 <span id="cb49-21"><a href="data-types.html#cb49-21" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
 <span id="cb49-22"><a href="data-types.html#cb49-22" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
 <span id="cb49-23"><a href="data-types.html#cb49-23" aria-hidden="true" tabindex="-1"></a><span class="co"># [[5]]</span></span>
-<span id="cb49-24"><a href="data-types.html#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
-<span id="cb49-25"><a href="data-types.html#cb49-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
-<span id="cb49-26"><a href="data-types.html#cb49-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
-<span id="cb49-27"><a href="data-types.html#cb49-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></span>
-<span id="cb49-28"><a href="data-types.html#cb49-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></span>
-<span id="cb49-29"><a href="data-types.html#cb49-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></span>
-<span id="cb49-30"><a href="data-types.html#cb49-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code></pre></div>
+<span id="cb49-24"><a href="data-types.html#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                    mpg cyl disp  hp drat</span></span>
+<span id="cb49-25"><a href="data-types.html#cb49-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4         21.0   6  160 110 3.90</span></span>
+<span id="cb49-26"><a href="data-types.html#cb49-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag     21.0   6  160 110 3.90</span></span>
+<span id="cb49-27"><a href="data-types.html#cb49-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710        22.8   4  108  93 3.85</span></span>
+<span id="cb49-28"><a href="data-types.html#cb49-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive    21.4   6  258 110 3.08</span></span>
+<span id="cb49-29"><a href="data-types.html#cb49-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout 18.7   8  360 175 3.15</span></span>
+<span id="cb49-30"><a href="data-types.html#cb49-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant           18.1   6  225 105 2.76</span></span>
+<span id="cb49-31"><a href="data-types.html#cb49-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                      wt  qsec vs am gear</span></span>
+<span id="cb49-32"><a href="data-types.html#cb49-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4         2.620 16.46  0  1    4</span></span>
+<span id="cb49-33"><a href="data-types.html#cb49-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag     2.875 17.02  0  1    4</span></span>
+<span id="cb49-34"><a href="data-types.html#cb49-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710        2.320 18.61  1  1    4</span></span>
+<span id="cb49-35"><a href="data-types.html#cb49-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive    3.215 19.44  1  0    3</span></span>
+<span id="cb49-36"><a href="data-types.html#cb49-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout 3.440 17.02  0  0    3</span></span>
+<span id="cb49-37"><a href="data-types.html#cb49-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant           3.460 20.22  1  0    3</span></span>
+<span id="cb49-38"><a href="data-types.html#cb49-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                   carb</span></span>
+<span id="cb49-39"><a href="data-types.html#cb49-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4            4</span></span>
+<span id="cb49-40"><a href="data-types.html#cb49-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag        4</span></span>
+<span id="cb49-41"><a href="data-types.html#cb49-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710           1</span></span>
+<span id="cb49-42"><a href="data-types.html#cb49-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive       1</span></span>
+<span id="cb49-43"><a href="data-types.html#cb49-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout    2</span></span>
+<span id="cb49-44"><a href="data-types.html#cb49-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant              1</span></span></code></pre></div>
 <p>The list that I called list_example contains six different elements in it: a character, two numeric vectors, a list of a numeric vector, and the first six rows of the mtcars data.frame. Lists can be useful when storing many different objects at once, but as they are not used too often for research-related programming I’ll say no more of them.</p>
 <p>The other type of data structure is a matrix. A matrix is a two-dimensional object where every value is the same type. Think of a data.frame but each column has to be the same type. Below is an example of a matrix with values 1 through 50 and with five columns and five rows. Every value here is a number.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="data-types.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>

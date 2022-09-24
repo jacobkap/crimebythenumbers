@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -505,22 +505,29 @@ div.csl-indent {
 <p><code>read_csv()</code> also reads in data to an object called a <code>tibble</code>, which is very similar to a data.frame but has some differences in displaying the data. If we run <code>head()</code> on the data it doesn’t show all columns. This is useful to avoid accidentally printing out a massive amounts of columns.</p>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="reading-and-writing-data.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(shootings)</span>
 <span id="cb57-2"><a href="reading-and-writing-data.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 6 x 14</span></span>
-<span id="cb57-3"><a href="reading-and-writing-data.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      id name               date       manner_o~1 armed   age gender race  city  state signs~2 threa~3 flee  body_~4</span></span>
-<span id="cb57-4"><a href="reading-and-writing-data.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt; &lt;chr&gt;              &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;   &lt;chr&gt;   &lt;chr&gt; &lt;lgl&gt;  </span></span>
-<span id="cb57-5"><a href="reading-and-writing-data.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     3 Tim Elliot         2015-01-02 shot       gun      53 M      A     Shel~ WA    TRUE    attack  Not ~ FALSE  </span></span>
-<span id="cb57-6"><a href="reading-and-writing-data.html#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2     4 Lewis Lee Lembke   2015-01-02 shot       gun      47 M      W     Aloha OR    FALSE   attack  Not ~ FALSE  </span></span>
-<span id="cb57-7"><a href="reading-and-writing-data.html#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3     5 John Paul Quintero 2015-01-03 shot and ~ unar~    23 M      H     Wich~ KS    FALSE   other   Not ~ FALSE  </span></span>
-<span id="cb57-8"><a href="reading-and-writing-data.html#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     8 Matthew Hoffman    2015-01-04 shot       toy ~    32 M      W     San ~ CA    TRUE    attack  Not ~ FALSE  </span></span>
-<span id="cb57-9"><a href="reading-and-writing-data.html#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5     9 Michael Rodriguez  2015-01-04 shot       nail~    39 M      H     Evans CO    FALSE   attack  Not ~ FALSE  </span></span>
-<span id="cb57-10"><a href="reading-and-writing-data.html#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    11 Kenneth Joe Brown  2015-01-04 shot       gun      18 M      W     Guth~ OK    FALSE   attack  Not ~ FALSE  </span></span>
-<span id="cb57-11"><a href="reading-and-writing-data.html#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with abbreviated variable names 1: manner_of_death, 2: signs_of_mental_illness, 3: threat_level,</span></span>
-<span id="cb57-12"><a href="reading-and-writing-data.html#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="co"># #   4: body_camera</span></span></code></pre></div>
+<span id="cb57-3"><a href="reading-and-writing-data.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      id name     date       manne~1 armed</span></span>
+<span id="cb57-4"><a href="reading-and-writing-data.html#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt; &lt;chr&gt;    &lt;date&gt;     &lt;chr&gt;   &lt;chr&gt;</span></span>
+<span id="cb57-5"><a href="reading-and-writing-data.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     3 Tim Ell~ 2015-01-02 shot    gun  </span></span>
+<span id="cb57-6"><a href="reading-and-writing-data.html#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2     4 Lewis L~ 2015-01-02 shot    gun  </span></span>
+<span id="cb57-7"><a href="reading-and-writing-data.html#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3     5 John Pa~ 2015-01-03 shot a~ unar~</span></span>
+<span id="cb57-8"><a href="reading-and-writing-data.html#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     8 Matthew~ 2015-01-04 shot    toy ~</span></span>
+<span id="cb57-9"><a href="reading-and-writing-data.html#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5     9 Michael~ 2015-01-04 shot    nail~</span></span>
+<span id="cb57-10"><a href="reading-and-writing-data.html#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    11 Kenneth~ 2015-01-04 shot    gun  </span></span>
+<span id="cb57-11"><a href="reading-and-writing-data.html#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with 9 more variables: age &lt;dbl&gt;,</span></span>
+<span id="cb57-12"><a href="reading-and-writing-data.html#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="co"># #   gender &lt;chr&gt;, race &lt;chr&gt;,</span></span>
+<span id="cb57-13"><a href="reading-and-writing-data.html#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co"># #   city &lt;chr&gt;, state &lt;chr&gt;,</span></span>
+<span id="cb57-14"><a href="reading-and-writing-data.html#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="co"># #   signs_of_mental_illness &lt;lgl&gt;,</span></span>
+<span id="cb57-15"><a href="reading-and-writing-data.html#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="co"># #   threat_level &lt;chr&gt;, flee &lt;chr&gt;,</span></span>
+<span id="cb57-16"><a href="reading-and-writing-data.html#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co"># #   body_camera &lt;lgl&gt;, and abbreviated</span></span>
+<span id="cb57-17"><a href="reading-and-writing-data.html#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="co"># #   variable name 1: manner_of_death</span></span>
+<span id="cb57-18"><a href="reading-and-writing-data.html#cb57-18" aria-hidden="true" tabindex="-1"></a><span class="co"># # i Use `colnames()` to see all variable names</span></span></code></pre></div>
 <p>We can convert it to a data.frame using the function <code>as.data.frame()</code> though that isn’t strictly necessary since tibbles and data.frames operate so similarly.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="reading-and-writing-data.html#cb58-1" aria-hidden="true" tabindex="-1"></a>shootings <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(shootings)</span></code></pre></div>
 <p>To read in Excel files that end in .xls or .xlsx, we need to use the <code>readxl</code> package and use the <code>read_excel()</code> function. We’ll read in data on stop, question, and frisks in New York City.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="reading-and-writing-data.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;readxl&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="reading-and-writing-data.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb60-2"><a href="reading-and-writing-data.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;readxl&#39; was built under R version 4.1.3</span></span></code></pre></div>
+<span id="cb60-2"><a href="reading-and-writing-data.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;readxl&#39; was built under</span></span>
+<span id="cb60-3"><a href="reading-and-writing-data.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R version 4.1.3</span></span></code></pre></div>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="reading-and-writing-data.html#cb61-1" aria-hidden="true" tabindex="-1"></a>sqf <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/sqf-2019.xlsx&quot;</span>)</span></code></pre></div>
 </div>
 <div id="stata" class="section level3 hasAnchor" number="4.1.3">
@@ -528,7 +535,8 @@ div.csl-indent {
 <p>For the next three files, we’ll use the package <code>haven</code>.</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="reading-and-writing-data.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;haven&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="reading-and-writing-data.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb63-2"><a href="reading-and-writing-data.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;haven&#39; was built under R version 4.1.3</span></span></code></pre></div>
+<span id="cb63-2"><a href="reading-and-writing-data.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;haven&#39; was built under</span></span>
+<span id="cb63-3"><a href="reading-and-writing-data.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co"># R version 4.1.3</span></span></code></pre></div>
 <p><code>haven</code> follows the same syntax for each data type and is the same as with <code>read_csv()</code> - for each data type we simply include the file name (in quotes, with the extension) and designate a name to be assigned the data.</p>
 <p>Like with <code>read_csv()</code>, the functions to read data through <code>haven</code> all start with <code>read_</code> and end with the extension you’re reading in.</p>
 <ul>

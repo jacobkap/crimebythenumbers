@@ -36,18 +36,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Crime by the Numbers: A Criminologist's Guide to R},
-  pdfauthor={Jacob Kaplan},
-  colorlinks=true,
-  linkcolor={Maroon},
-  filecolor={Maroon},
-  citecolor={Blue},
-  urlcolor={Blue},
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -117,7 +105,7 @@
 \setcounter{secnumdepth}{5}
 \usepackage{makeidx}
 \makeindex
-
+\usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage[bf,singlelinecheck=off]{caption}
@@ -206,10 +194,22 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Crime by the Numbers: A Criminologist's Guide to R},
+  pdfauthor={Jacob Kaplan},
+  colorlinks=true,
+  linkcolor={Maroon},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Crime by the Numbers: A Criminologist's Guide to R}
 \author{Jacob Kaplan}
-\date{2022-06-28}
+\date{2022-09-02}
 
 \begin{document}
 \maketitle
@@ -593,17 +593,9 @@ you want to use. The code is identical in each.
 \chapter*{About the author}\label{about-the-author}}
 
 
-\textbf{Jacob Kaplan} is the Chief Data Scientist of the
-Research on Policing Reform and Accountability (RoPRA), a
-multi-disciplinary, multi-institutional team of social
-scientists studying the feasibility and efficacy of policing
-reform, with a focus on statistically rigorous research and
-practical applications. His current appointment is at the
-Princeton School of Public and International Affairs. He
-holds a PhD and a master's degree in criminology from the
-University of Pennsylvania and a bachelor's degree in
-criminal justice from California State University,
-Sacramento.
+\textbf{Jacob Kaplan} is the a researcher at the Princeton
+School of Public and International Affairs. He holds a PhD
+from the University of Pennsylvania.
 
 He is the author of several R packages that make it easier
 to work with data, including
@@ -719,6 +711,8 @@ having to understand what each line of code does just yet.
 \FunctionTok{library}\NormalTok{(dplyr) }\CommentTok{\# Used to aggregate data}
 \FunctionTok{library}\NormalTok{(ggplot2) }\CommentTok{\# Used to make the graph}
 \CommentTok{\# Warning: package \textquotesingle{}ggplot2\textquotesingle{} was built under R version 4.1.3}
+\CommentTok{\# Need help? Try Stackoverflow:}
+\CommentTok{\# https://stackoverflow.com/tags/ggplot2}
 \FunctionTok{library}\NormalTok{(crimeutils) }\CommentTok{\# Used to capitalize words in a column}
 \FunctionTok{library}\NormalTok{(tidyr) }\CommentTok{\# Used to reshape the data}
 
@@ -940,24 +934,27 @@ you what it looks like.
   \FunctionTok{arrange}\NormalTok{(percent\_change)}
 \NormalTok{shr\_difference}
 \CommentTok{\# \# A tibble: 16 x 5}
-\CommentTok{\#    victim\_1\_relatio\textasciitilde{} \textasciigrave{}2019\textasciigrave{} \textasciigrave{}2020\textasciigrave{} difference percent\_change}
-\CommentTok{\#    \textless{}chr\textgreater{}              \textless{}int\textgreater{}  \textless{}int\textgreater{}      \textless{}int\textgreater{}          \textless{}dbl\textgreater{}}
-\CommentTok{\#  1 Wife                 330    294        {-}36         {-}10.9 }
-\CommentTok{\#  2 Brother               93     86         {-}7          {-}7.53}
-\CommentTok{\#  3 Daughter              89     86         {-}3          {-}3.37}
-\CommentTok{\#  4 Son                  157    160          3           1.91}
-\CommentTok{\#  5 Father                95    101          6           6.32}
-\CommentTok{\#  6 Boyfriend            164    180         16           9.76}
-\CommentTok{\#  7 Girlfriend           390    431         41          10.5 }
-\CommentTok{\#  8 Mother               118    134         16          13.6 }
-\CommentTok{\#  9 Acquaintance        1494   1729        235          15.7 }
-\CommentTok{\# 10 Stranger            1549   1886        337          21.8 }
-\CommentTok{\# 11 Neighbor              85    105         20          23.5 }
-\CommentTok{\# 12 Other Family         209    260         51          24.4 }
-\CommentTok{\# 13 Other {-} Known To\textasciitilde{}    757    955        198          26.2 }
-\CommentTok{\# 14 Friend               272    358         86          31.6 }
-\CommentTok{\# 15 Husband               58     79         21          36.2 }
-\CommentTok{\# 16 Unknown             6216   8504       2288          36.8}
+\CommentTok{\#    victim\_1\_relation\_to\_offe\textasciitilde{}1 \textasciigrave{}2019\textasciigrave{} \textasciigrave{}2020\textasciigrave{} diffe\textasciitilde{}2 perce\textasciitilde{}3}
+\CommentTok{\#    \textless{}chr\textgreater{}                        \textless{}int\textgreater{}  \textless{}int\textgreater{}   \textless{}int\textgreater{}   \textless{}dbl\textgreater{}}
+\CommentTok{\#  1 Wife                           330    294     {-}36  {-}10.9 }
+\CommentTok{\#  2 Brother                         93     86      {-}7   {-}7.53}
+\CommentTok{\#  3 Daughter                        89     86      {-}3   {-}3.37}
+\CommentTok{\#  4 Son                            157    160       3    1.91}
+\CommentTok{\#  5 Father                          95    101       6    6.32}
+\CommentTok{\#  6 Boyfriend                      164    180      16    9.76}
+\CommentTok{\#  7 Girlfriend                     390    431      41   10.5 }
+\CommentTok{\#  8 Mother                         118    134      16   13.6 }
+\CommentTok{\#  9 Acquaintance                  1494   1729     235   15.7 }
+\CommentTok{\# 10 Stranger                      1549   1886     337   21.8 }
+\CommentTok{\# 11 Neighbor                        85    105      20   23.5 }
+\CommentTok{\# 12 Other Family                   209    260      51   24.4 }
+\CommentTok{\# 13 Other {-} Known To Victim        757    955     198   26.2 }
+\CommentTok{\# 14 Friend                         272    358      86   31.6 }
+\CommentTok{\# 15 Husband                         58     79      21   36.2 }
+\CommentTok{\# 16 Unknown                       6216   8504    2288   36.8 }
+\CommentTok{\# \# ... with abbreviated variable names}
+\CommentTok{\# \#   1: victim\_1\_relation\_to\_offender\_1, 2: difference,}
+\CommentTok{\# \#   3: percent\_change}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2744,17 +2741,19 @@ amounts of columns.
 \begin{Highlighting}[]
 \FunctionTok{head}\NormalTok{(shootings)}
 \CommentTok{\# \# A tibble: 6 x 14}
-\CommentTok{\#      id name   date       manner\_of\_death armed   age gender}
-\CommentTok{\#   \textless{}dbl\textgreater{} \textless{}chr\textgreater{}  \textless{}date\textgreater{}     \textless{}chr\textgreater{}           \textless{}chr\textgreater{} \textless{}dbl\textgreater{} \textless{}chr\textgreater{} }
-\CommentTok{\# 1     3 Tim E\textasciitilde{} 2015{-}01{-}02 shot            gun      53 M     }
-\CommentTok{\# 2     4 Lewis\textasciitilde{} 2015{-}01{-}02 shot            gun      47 M     }
-\CommentTok{\# 3     5 John \textasciitilde{} 2015{-}01{-}03 shot and Taser\textasciitilde{} unar\textasciitilde{}    23 M     }
-\CommentTok{\# 4     8 Matth\textasciitilde{} 2015{-}01{-}04 shot            toy \textasciitilde{}    32 M     }
-\CommentTok{\# 5     9 Micha\textasciitilde{} 2015{-}01{-}04 shot            nail\textasciitilde{}    39 M     }
-\CommentTok{\# 6    11 Kenne\textasciitilde{} 2015{-}01{-}04 shot            gun      18 M     }
-\CommentTok{\# \# ... with 7 more variables: race \textless{}chr\textgreater{}, city \textless{}chr\textgreater{},}
-\CommentTok{\# \#   state \textless{}chr\textgreater{}, signs\_of\_mental\_illness \textless{}lgl\textgreater{},}
-\CommentTok{\# \#   threat\_level \textless{}chr\textgreater{}, flee \textless{}chr\textgreater{}, body\_camera \textless{}lgl\textgreater{}}
+\CommentTok{\#      id name     date       manne\textasciitilde{}1 armed   age gender race }
+\CommentTok{\#   \textless{}dbl\textgreater{} \textless{}chr\textgreater{}    \textless{}date\textgreater{}     \textless{}chr\textgreater{}   \textless{}chr\textgreater{} \textless{}dbl\textgreater{} \textless{}chr\textgreater{}  \textless{}chr\textgreater{}}
+\CommentTok{\# 1     3 Tim Ell\textasciitilde{} 2015{-}01{-}02 shot    gun      53 M      A    }
+\CommentTok{\# 2     4 Lewis L\textasciitilde{} 2015{-}01{-}02 shot    gun      47 M      W    }
+\CommentTok{\# 3     5 John Pa\textasciitilde{} 2015{-}01{-}03 shot a\textasciitilde{} unar\textasciitilde{}    23 M      H    }
+\CommentTok{\# 4     8 Matthew\textasciitilde{} 2015{-}01{-}04 shot    toy \textasciitilde{}    32 M      W    }
+\CommentTok{\# 5     9 Michael\textasciitilde{} 2015{-}01{-}04 shot    nail\textasciitilde{}    39 M      H    }
+\CommentTok{\# 6    11 Kenneth\textasciitilde{} 2015{-}01{-}04 shot    gun      18 M      W    }
+\CommentTok{\# \# ... with 6 more variables: city \textless{}chr\textgreater{}, state \textless{}chr\textgreater{},}
+\CommentTok{\# \#   signs\_of\_mental\_illness \textless{}lgl\textgreater{}, threat\_level \textless{}chr\textgreater{},}
+\CommentTok{\# \#   flee \textless{}chr\textgreater{}, body\_camera \textless{}lgl\textgreater{}, and abbreviated variable}
+\CommentTok{\# \#   name 1: manner\_of\_death}
+\CommentTok{\# \# i Use \textasciigrave{}colnames()\textasciigrave{} to see all variable names}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4939,7 +4938,7 @@ When we want another book, we simply redo these steps.
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
-\toprule
+\toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
 Library Steps
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -4947,7 +4946,7 @@ Git steps
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Git code
 \end{minipage} \\
-\midrule
+\midrule()
 \endhead
 Go to library & & \\
 Find book and check out book & Clone (usually will just be
@@ -4962,7 +4961,7 @@ Return book & Add and commit Push & Git add . Git commit --m
 ``message indicating what we wrote'' Git push \\
 Check out book again (to see what other people have written
 in it) & Pull & Git pull \\
-\bottomrule
+\bottomrule()
 \end{longtable}
 
 Another way to think about commit vs push is that of writing
@@ -7703,15 +7702,18 @@ example.
   \FunctionTok{mean}\NormalTok{(actual\_robbery\_total)}
 \NormalTok{)}
 \CommentTok{\# \# A tibble: 7 x 4}
-\CommentTok{\#    year \textasciigrave{}sum(actual\_murd\textasciitilde{}\textasciigrave{} \textasciigrave{}sum(actual\_ro\textasciitilde{}\textasciigrave{} \textasciigrave{}mean(actual\_r\textasciitilde{}\textasciigrave{}}
-\CommentTok{\#   \textless{}dbl\textgreater{}              \textless{}dbl\textgreater{}            \textless{}dbl\textgreater{}            \textless{}dbl\textgreater{}}
-\CommentTok{\# 1  2011                154             3287            11.2 }
-\CommentTok{\# 2  2012                163             3369            11.2 }
-\CommentTok{\# 3  2013                172             3122            10.3 }
-\CommentTok{\# 4  2014                148             3021             9.94}
-\CommentTok{\# 5  2015                173             3305            10.9 }
-\CommentTok{\# 6  2016                203             3513            11.6 }
-\CommentTok{\# 7  2017                218             3811            12.5}
+\CommentTok{\#    year \textasciigrave{}sum(actual\_murder)\textasciigrave{} sum(actual\_robbery\_to\textasciitilde{}1 mean(\textasciitilde{}2}
+\CommentTok{\#   \textless{}dbl\textgreater{}                \textless{}dbl\textgreater{}                   \textless{}dbl\textgreater{}   \textless{}dbl\textgreater{}}
+\CommentTok{\# 1  2011                  154                    3287   11.2 }
+\CommentTok{\# 2  2012                  163                    3369   11.2 }
+\CommentTok{\# 3  2013                  172                    3122   10.3 }
+\CommentTok{\# 4  2014                  148                    3021    9.94}
+\CommentTok{\# 5  2015                  173                    3305   10.9 }
+\CommentTok{\# 6  2016                  203                    3513   11.6 }
+\CommentTok{\# 7  2017                  218                    3811   12.5 }
+\CommentTok{\# \# ... with abbreviated variable names}
+\CommentTok{\# \#   1: \textasciigrave{}sum(actual\_robbery\_total)\textasciigrave{},}
+\CommentTok{\# \#   2: \textasciigrave{}mean(actual\_robbery\_total)\textasciigrave{}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7807,16 +7809,16 @@ do the next assignment.
   \AttributeTok{robbery\_rate =}\NormalTok{ robberies }\SpecialCharTok{/}\NormalTok{ population }\SpecialCharTok{*} \DecValTok{100000}
 \NormalTok{)}
 \CommentTok{\# \# A tibble: 7 x 6}
-\CommentTok{\#    year murders robberies population murder\_rate}
-\CommentTok{\#   \textless{}dbl\textgreater{}   \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}      \textless{}dbl\textgreater{}       \textless{}dbl\textgreater{}}
-\CommentTok{\# 1  2011     154      3287    5155993        2.99}
-\CommentTok{\# 2  2012     163      3369    5227884        3.12}
-\CommentTok{\# 3  2013     172      3122    5308236        3.24}
-\CommentTok{\# 4  2014     148      3021    5402555        2.74}
-\CommentTok{\# 5  2015     173      3305    5505856        3.14}
-\CommentTok{\# 6  2016     203      3513    5590124        3.63}
-\CommentTok{\# 7  2017     218      3811    5661529        3.85}
-\CommentTok{\# \# ... with 1 more variable: robbery\_rate \textless{}dbl\textgreater{}}
+\CommentTok{\#    year murders robberies population murder\_rate robbery\_r\textasciitilde{}1}
+\CommentTok{\#   \textless{}dbl\textgreater{}   \textless{}dbl\textgreater{}     \textless{}dbl\textgreater{}      \textless{}dbl\textgreater{}       \textless{}dbl\textgreater{}       \textless{}dbl\textgreater{}}
+\CommentTok{\# 1  2011     154      3287    5155993        2.99        63.8}
+\CommentTok{\# 2  2012     163      3369    5227884        3.12        64.4}
+\CommentTok{\# 3  2013     172      3122    5308236        3.24        58.8}
+\CommentTok{\# 4  2014     148      3021    5402555        2.74        55.9}
+\CommentTok{\# 5  2015     173      3305    5505856        3.14        60.0}
+\CommentTok{\# 6  2016     203      3513    5590124        3.63        62.8}
+\CommentTok{\# 7  2017     218      3811    5661529        3.85        67.3}
+\CommentTok{\# \# ... with abbreviated variable name 1: robbery\_rate}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9547,16 +9549,17 @@ result.
 \FunctionTok{head}\NormalTok{(sqf\_agg\_wide)}
 \CommentTok{\# \# A tibble: 6 x 8}
 \CommentTok{\# \# Groups:   MONTH2, DAY2 [6]}
-\CommentTok{\#   MONTH2 DAY2  \textasciigrave{}ASIAN / PACIF\textasciitilde{}\textasciigrave{} BLACK \textasciigrave{}BLACK HISPANIC\textasciigrave{} WHITE}
-\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}            \textless{}int\textgreater{} \textless{}int\textgreater{}            \textless{}int\textgreater{} \textless{}int\textgreater{}}
-\CommentTok{\# 1 April  Frid\textasciitilde{}                1   104               17    16}
-\CommentTok{\# 2 April  Mond\textasciitilde{}                1    92               10    32}
-\CommentTok{\# 3 April  Satu\textasciitilde{}                3   115               24    24}
-\CommentTok{\# 4 April  Sund\textasciitilde{}                2    96               12    15}
-\CommentTok{\# 5 April  Thur\textasciitilde{}                2   122               10    18}
-\CommentTok{\# 6 April  Tues\textasciitilde{}                7   137               14    20}
-\CommentTok{\# \# ... with 2 more variables: \textasciigrave{}WHITE HISPANIC\textasciigrave{} \textless{}int\textgreater{},}
-\CommentTok{\# \#   \textasciigrave{}AMERICAN INDIAN/ALASKAN N\textasciigrave{} \textless{}int\textgreater{}}
+\CommentTok{\#   MONTH2 DAY2    ASIAN\textasciitilde{}1 BLACK BLACK\textasciitilde{}2 WHITE WHITE\textasciitilde{}3 AMERI\textasciitilde{}4}
+\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}     \textless{}int\textgreater{} \textless{}int\textgreater{}   \textless{}int\textgreater{} \textless{}int\textgreater{}   \textless{}int\textgreater{}   \textless{}int\textgreater{}}
+\CommentTok{\# 1 April  Friday        1   104      17    16      31      NA}
+\CommentTok{\# 2 April  Monday        1    92      10    32      29      NA}
+\CommentTok{\# 3 April  Saturd\textasciitilde{}       3   115      24    24      44      NA}
+\CommentTok{\# 4 April  Sunday        2    96      12    15      38      NA}
+\CommentTok{\# 5 April  Thursd\textasciitilde{}       2   122      10    18      38      NA}
+\CommentTok{\# 6 April  Tuesday       7   137      14    20      49      NA}
+\CommentTok{\# \# ... with abbreviated variable names}
+\CommentTok{\# \#   1: \textasciigrave{}ASIAN / PACIFIC ISLANDER\textasciigrave{}, 2: \textasciigrave{}BLACK HISPANIC\textasciigrave{},}
+\CommentTok{\# \#   3: \textasciigrave{}WHITE HISPANIC\textasciigrave{}, 4: \textasciigrave{}AMERICAN INDIAN/ALASKAN N\textasciigrave{}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9651,7 +9654,7 @@ it whatever we like.
 \FunctionTok{head}\NormalTok{(sqf\_agg\_long)}
 \CommentTok{\# \# A tibble: 6 x 4}
 \CommentTok{\# \# Groups:   month2, day2 [1]}
-\CommentTok{\#   month2 day2   race                      number\_of\_people\_\textasciitilde{}}
+\CommentTok{\#   month2 day2   race                      number\_of\_people\textasciitilde{}1}
 \CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}  \textless{}chr\textgreater{}                                  \textless{}int\textgreater{}}
 \CommentTok{\# 1 April  Friday asian\_pacific\_islander                     1}
 \CommentTok{\# 2 April  Friday black                                    104}
@@ -9659,6 +9662,8 @@ it whatever we like.
 \CommentTok{\# 4 April  Friday white                                     16}
 \CommentTok{\# 5 April  Friday white\_hispanic                            31}
 \CommentTok{\# 6 April  Friday american\_indian\_alaskan\_n                 NA}
+\CommentTok{\# \# ... with abbreviated variable name}
+\CommentTok{\# \#   1: number\_of\_people\_stopped}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9691,7 +9696,7 @@ page} of \texttt{dplyr}'s website.
 \FunctionTok{head}\NormalTok{(sqf\_agg\_long)}
 \CommentTok{\# \# A tibble: 6 x 4}
 \CommentTok{\# \# Groups:   month2, day2 [1]}
-\CommentTok{\#   month2 day2   race                      number\_of\_people\_\textasciitilde{}}
+\CommentTok{\#   month2 day2   race                      number\_of\_people\textasciitilde{}1}
 \CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}  \textless{}chr\textgreater{}                                  \textless{}int\textgreater{}}
 \CommentTok{\# 1 April  Friday asian\_pacific\_islander                     1}
 \CommentTok{\# 2 April  Friday black                                    104}
@@ -9699,6 +9704,8 @@ page} of \texttt{dplyr}'s website.
 \CommentTok{\# 4 April  Friday white                                     16}
 \CommentTok{\# 5 April  Friday white\_hispanic                            31}
 \CommentTok{\# 6 April  Friday american\_indian\_alaskan\_n                 NA}
+\CommentTok{\# \# ... with abbreviated variable name}
+\CommentTok{\# \#   1: number\_of\_people\_stopped}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9742,21 +9749,22 @@ the first six rows of our resulting data set.
 \FunctionTok{head}\NormalTok{(sqf\_agg\_wide)}
 \CommentTok{\# \# A tibble: 6 x 14}
 \CommentTok{\# \# Groups:   month2, day2 [6]}
-\CommentTok{\#   month2 day2     n\_asian\_pacific\_\textasciitilde{} n\_black n\_black\_hispanic}
-\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}                \textless{}int\textgreater{}   \textless{}int\textgreater{}            \textless{}int\textgreater{}}
-\CommentTok{\# 1 April  Friday                   1     104               17}
-\CommentTok{\# 2 April  Monday                   1      92               10}
-\CommentTok{\# 3 April  Saturday                 3     115               24}
-\CommentTok{\# 4 April  Sunday                   2      96               12}
-\CommentTok{\# 5 April  Thursday                 2     122               10}
-\CommentTok{\# 6 April  Tuesday                  7     137               14}
-\CommentTok{\# \# ... with 9 more variables: n\_white \textless{}int\textgreater{},}
-\CommentTok{\# \#   n\_white\_hispanic \textless{}int\textgreater{},}
+\CommentTok{\#   month2 day2     n\_asian\_\textasciitilde{}1 n\_black n\_bla\textasciitilde{}2 n\_white n\_whi\textasciitilde{}3}
+\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}         \textless{}int\textgreater{}   \textless{}int\textgreater{}   \textless{}int\textgreater{}   \textless{}int\textgreater{}   \textless{}int\textgreater{}}
+\CommentTok{\# 1 April  Friday            1     104      17      16      31}
+\CommentTok{\# 2 April  Monday            1      92      10      32      29}
+\CommentTok{\# 3 April  Saturday          3     115      24      24      44}
+\CommentTok{\# 4 April  Sunday            2      96      12      15      38}
+\CommentTok{\# 5 April  Thursday          2     122      10      18      38}
+\CommentTok{\# 6 April  Tuesday           7     137      14      20      49}
+\CommentTok{\# \# ... with 7 more variables:}
 \CommentTok{\# \#   n\_american\_indian\_alaskan\_n \textless{}int\textgreater{},}
 \CommentTok{\# \#   n2\_asian\_pacific\_islander \textless{}dbl\textgreater{}, n2\_black \textless{}dbl\textgreater{},}
 \CommentTok{\# \#   n2\_black\_hispanic \textless{}dbl\textgreater{}, n2\_white \textless{}dbl\textgreater{},}
 \CommentTok{\# \#   n2\_white\_hispanic \textless{}dbl\textgreater{},}
-\CommentTok{\# \#   n2\_american\_indian\_alaskan\_n \textless{}dbl\textgreater{}}
+\CommentTok{\# \#   n2\_american\_indian\_alaskan\_n \textless{}dbl\textgreater{}, and abbreviated}
+\CommentTok{\# \#   variable names 1: n\_asian\_pacific\_islander, ...}
+\CommentTok{\# \# i Use \textasciigrave{}colnames()\textasciigrave{} to see all variable names}
 \end{Highlighting}
 \end{Shaded}
 
@@ -9800,14 +9808,17 @@ before, but change the column names to suit their new names.
 \FunctionTok{head}\NormalTok{(sqf\_agg\_long)}
 \CommentTok{\# \# A tibble: 6 x 6}
 \CommentTok{\# \# Groups:   month2, day2 [1]}
-\CommentTok{\#   month2 day2  race  number\_of\_peopl\textasciitilde{} race2 number\_of\_peopl\textasciitilde{}}
-\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{} \textless{}chr\textgreater{}            \textless{}int\textgreater{} \textless{}chr\textgreater{}            \textless{}dbl\textgreater{}}
-\CommentTok{\# 1 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_a\textasciitilde{}               11}
-\CommentTok{\# 2 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_b\textasciitilde{}              114}
-\CommentTok{\# 3 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_b\textasciitilde{}               27}
-\CommentTok{\# 4 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_w\textasciitilde{}               26}
-\CommentTok{\# 5 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_w\textasciitilde{}               41}
-\CommentTok{\# 6 April  Frid\textasciitilde{} n\_as\textasciitilde{}                1 n2\_a\textasciitilde{}               NA}
+\CommentTok{\#   month2 day2   race                   numbe\textasciitilde{}1 race2 numbe\textasciitilde{}2}
+\CommentTok{\#   \textless{}chr\textgreater{}  \textless{}chr\textgreater{}  \textless{}chr\textgreater{}                    \textless{}int\textgreater{} \textless{}chr\textgreater{}   \textless{}dbl\textgreater{}}
+\CommentTok{\# 1 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_a\textasciitilde{}      11}
+\CommentTok{\# 2 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_b\textasciitilde{}     114}
+\CommentTok{\# 3 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_b\textasciitilde{}      27}
+\CommentTok{\# 4 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_w\textasciitilde{}      26}
+\CommentTok{\# 5 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_w\textasciitilde{}      41}
+\CommentTok{\# 6 April  Friday n\_asian\_pacific\_islan\textasciitilde{}       1 n2\_a\textasciitilde{}      NA}
+\CommentTok{\# \# ... with abbreviated variable names}
+\CommentTok{\# \#   1: number\_of\_people\_stopped,}
+\CommentTok{\# \#   2: number\_of\_people\_stopped2}
 \end{Highlighting}
 \end{Shaded}
 
@@ -13393,7 +13404,7 @@ map won't work right.
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(sf)}
 \CommentTok{\# Warning: package \textquotesingle{}sf\textquotesingle{} was built under R version 4.1.3}
-\CommentTok{\# Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf\_use\_s2() is TRUE}
+\CommentTok{\# Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 7.2.1; sf\_use\_s2() is TRUE}
 \FunctionTok{load}\NormalTok{(}\StringTok{"data/sf\_neighborhoods\_suicide.rda"}\NormalTok{)}
 \NormalTok{sf\_neighborhoods\_suicide }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(}
 \NormalTok{  sf\_neighborhoods\_suicide,}
@@ -13780,11 +13791,11 @@ Now let's check what we got.
 \CommentTok{\# [2] "2 tablespoons butter "              }
 \CommentTok{\# [3] "2 tablespoons water "               }
 \CommentTok{\# [4] "1 ½ cups semisweet chocolate chips "}
-\CommentTok{\# [5] "2 eggs "                            }
+\CommentTok{\# [5] "2 large eggs, beaten "              }
 \CommentTok{\# [6] "½ teaspoon vanilla extract "        }
 \CommentTok{\# [7] "\textless{}U+2154\textgreater{} cup all{-}purpose flour "    }
-\CommentTok{\# [8] "¼ teaspoon baking soda "            }
-\CommentTok{\# [9] "½ teaspoon salt "}
+\CommentTok{\# [8] "½ teaspoon salt "                   }
+\CommentTok{\# [9] "¼ teaspoon baking soda "}
 \end{Highlighting}
 \end{Shaded}
 
@@ -16461,18 +16472,18 @@ that looks bad in the print version of this book.
 \NormalTok{example }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(example)}
 \NormalTok{example}\SpecialCharTok{$}\NormalTok{display\_name }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
 \NormalTok{example}
-\CommentTok{\#                               address     lat      long}
-\CommentTok{\# 1 750 Race St. Philadelphia, PA 19106 39.9548 {-}75.15142}
+\CommentTok{\#                               address      lat      long}
+\CommentTok{\# 1 750 Race St. Philadelphia, PA 19106 39.95506 {-}75.15217}
 \CommentTok{\#    place\_id}
-\CommentTok{\# 1 288259524}
+\CommentTok{\# 1 304083147}
 \CommentTok{\#                                                                  licence}
 \CommentTok{\# 1 Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright}
-\CommentTok{\#   osm\_type   osm\_id}
-\CommentTok{\# 1      way 62202366}
-\CommentTok{\#                                                          boundingbox}
-\CommentTok{\# 1 39.95474977551, 39.95484977551, {-}75.151465816327, {-}75.151365816327}
+\CommentTok{\#   osm\_type    osm\_id}
+\CommentTok{\# 1      way 626341043}
+\CommentTok{\#                                                            boundingbox}
+\CommentTok{\# 1 39.955010747193, 39.955110747193, {-}75.152217431613, {-}75.152117431613}
 \CommentTok{\#   class  type importance}
-\CommentTok{\# 1 place house      0.531}
+\CommentTok{\# 1 place house      {-}0.62}
 \end{Highlighting}
 \end{Shaded}
 

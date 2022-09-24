@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -497,32 +497,68 @@ div.csl-indent {
 <h2><span class="header-section-number">18.2</span> Making the interactive map<a href="interactive-maps.html#making-the-interactive-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As usual, let’s take a look at the top 6 rows of the data.</p>
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="interactive-maps.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
-<span id="cb342-2"><a href="interactive-maps.html#cb342-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    License_Number                License_Type   Business_Owner        Business_Structure</span></span>
-<span id="cb342-3"><a href="interactive-maps.html#cb342-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller Limited Liability Company</span></span>
-<span id="cb342-4"><a href="interactive-maps.html#cb342-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin               Corporation</span></span>
-<span id="cb342-5"><a href="interactive-maps.html#cb342-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin               Corporation</span></span>
-<span id="cb342-6"><a href="interactive-maps.html#cb342-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle               Corporation</span></span>
-<span id="cb342-7"><a href="interactive-maps.html#cb342-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson Limited Liability Company</span></span>
-<span id="cb342-8"><a href="interactive-maps.html#cb342-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson Limited Liability Company</span></span>
-<span id="cb342-9"><a href="interactive-maps.html#cb342-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                           Premise_Address Status Issue_Date Expiration_Date                Activities</span></span>
-<span id="cb342-10"><a href="interactive-maps.html#cb342-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2165 IRVING ST san francisco, CA 94122 Active  9/13/2019       9/12/2020 N/A for this license type</span></span>
-<span id="cb342-11"><a href="interactive-maps.html#cb342-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 122 10TH ST SAN FRANCISCO, CA 941032605 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb342-12"><a href="interactive-maps.html#cb342-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   843 Howard ST SAN FRANCISCO, CA 94103 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb342-13"><a href="interactive-maps.html#cb342-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    70 SECOND ST SAN FRANCISCO, CA 94105 Active   8/5/2019        8/4/2020 N/A for this license type</span></span>
-<span id="cb342-14"><a href="interactive-maps.html#cb342-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5   527 Howard ST San Francisco, CA 94105 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb342-15"><a href="interactive-maps.html#cb342-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 2414 Lombard ST San Francisco, CA 94123 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb342-16"><a href="interactive-maps.html#cb342-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   Adult-Use/Medicinal      lat      long</span></span>
-<span id="cb342-17"><a href="interactive-maps.html#cb342-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                BOTH 37.76318 -122.4811</span></span>
-<span id="cb342-18"><a href="interactive-maps.html#cb342-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                BOTH 37.77480 -122.4157</span></span>
-<span id="cb342-19"><a href="interactive-maps.html#cb342-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                BOTH 37.78228 -122.4035</span></span>
-<span id="cb342-20"><a href="interactive-maps.html#cb342-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                BOTH 37.78823 -122.4004</span></span>
-<span id="cb342-21"><a href="interactive-maps.html#cb342-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                BOTH 37.78783 -122.3965</span></span>
-<span id="cb342-22"><a href="interactive-maps.html#cb342-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                BOTH 37.79944 -122.4414</span></span></code></pre></div>
+<span id="cb342-2"><a href="interactive-maps.html#cb342-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    License_Number</span></span>
+<span id="cb342-3"><a href="interactive-maps.html#cb342-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 C10-0000614-LIC</span></span>
+<span id="cb342-4"><a href="interactive-maps.html#cb342-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 C10-0000586-LIC</span></span>
+<span id="cb342-5"><a href="interactive-maps.html#cb342-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 C10-0000587-LIC</span></span>
+<span id="cb342-6"><a href="interactive-maps.html#cb342-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 C10-0000539-LIC</span></span>
+<span id="cb342-7"><a href="interactive-maps.html#cb342-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 C10-0000522-LIC</span></span>
+<span id="cb342-8"><a href="interactive-maps.html#cb342-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 C10-0000523-LIC</span></span>
+<span id="cb342-9"><a href="interactive-maps.html#cb342-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                  License_Type</span></span>
+<span id="cb342-10"><a href="interactive-maps.html#cb342-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 Cannabis - Retailer License</span></span>
+<span id="cb342-11"><a href="interactive-maps.html#cb342-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 Cannabis - Retailer License</span></span>
+<span id="cb342-12"><a href="interactive-maps.html#cb342-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 Cannabis - Retailer License</span></span>
+<span id="cb342-13"><a href="interactive-maps.html#cb342-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Cannabis - Retailer License</span></span>
+<span id="cb342-14"><a href="interactive-maps.html#cb342-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 Cannabis - Retailer License</span></span>
+<span id="cb342-15"><a href="interactive-maps.html#cb342-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 Cannabis - Retailer License</span></span>
+<span id="cb342-16"><a href="interactive-maps.html#cb342-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     Business_Owner</span></span>
+<span id="cb342-17"><a href="interactive-maps.html#cb342-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     Terry Muller</span></span>
+<span id="cb342-18"><a href="interactive-maps.html#cb342-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2    Jeremy Goodin</span></span>
+<span id="cb342-19"><a href="interactive-maps.html#cb342-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3     Justin Jarin</span></span>
+<span id="cb342-20"><a href="interactive-maps.html#cb342-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Ondyn Herschelle</span></span>
+<span id="cb342-21"><a href="interactive-maps.html#cb342-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5      Ryan Hudson</span></span>
+<span id="cb342-22"><a href="interactive-maps.html#cb342-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6      Ryan Hudson</span></span>
+<span id="cb342-23"><a href="interactive-maps.html#cb342-23" aria-hidden="true" tabindex="-1"></a><span class="co">#          Business_Structure</span></span>
+<span id="cb342-24"><a href="interactive-maps.html#cb342-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 Limited Liability Company</span></span>
+<span id="cb342-25"><a href="interactive-maps.html#cb342-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2               Corporation</span></span>
+<span id="cb342-26"><a href="interactive-maps.html#cb342-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3               Corporation</span></span>
+<span id="cb342-27"><a href="interactive-maps.html#cb342-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4               Corporation</span></span>
+<span id="cb342-28"><a href="interactive-maps.html#cb342-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 Limited Liability Company</span></span>
+<span id="cb342-29"><a href="interactive-maps.html#cb342-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 Limited Liability Company</span></span>
+<span id="cb342-30"><a href="interactive-maps.html#cb342-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                           Premise_Address</span></span>
+<span id="cb342-31"><a href="interactive-maps.html#cb342-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2165 IRVING ST san francisco, CA 94122</span></span>
+<span id="cb342-32"><a href="interactive-maps.html#cb342-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 122 10TH ST SAN FRANCISCO, CA 941032605</span></span>
+<span id="cb342-33"><a href="interactive-maps.html#cb342-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   843 Howard ST SAN FRANCISCO, CA 94103</span></span>
+<span id="cb342-34"><a href="interactive-maps.html#cb342-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    70 SECOND ST SAN FRANCISCO, CA 94105</span></span>
+<span id="cb342-35"><a href="interactive-maps.html#cb342-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 5   527 Howard ST San Francisco, CA 94105</span></span>
+<span id="cb342-36"><a href="interactive-maps.html#cb342-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 2414 Lombard ST San Francisco, CA 94123</span></span>
+<span id="cb342-37"><a href="interactive-maps.html#cb342-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   Status Issue_Date Expiration_Date</span></span>
+<span id="cb342-38"><a href="interactive-maps.html#cb342-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 Active  9/13/2019       9/12/2020</span></span>
+<span id="cb342-39"><a href="interactive-maps.html#cb342-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 Active  8/26/2019       8/25/2020</span></span>
+<span id="cb342-40"><a href="interactive-maps.html#cb342-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 Active  8/26/2019       8/25/2020</span></span>
+<span id="cb342-41"><a href="interactive-maps.html#cb342-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Active   8/5/2019        8/4/2020</span></span>
+<span id="cb342-42"><a href="interactive-maps.html#cb342-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 Active  7/29/2019       7/28/2020</span></span>
+<span id="cb342-43"><a href="interactive-maps.html#cb342-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 Active  7/29/2019       7/28/2020</span></span>
+<span id="cb342-44"><a href="interactive-maps.html#cb342-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                  Activities</span></span>
+<span id="cb342-45"><a href="interactive-maps.html#cb342-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 N/A for this license type</span></span>
+<span id="cb342-46"><a href="interactive-maps.html#cb342-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 N/A for this license type</span></span>
+<span id="cb342-47"><a href="interactive-maps.html#cb342-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 N/A for this license type</span></span>
+<span id="cb342-48"><a href="interactive-maps.html#cb342-48" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 N/A for this license type</span></span>
+<span id="cb342-49"><a href="interactive-maps.html#cb342-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 N/A for this license type</span></span>
+<span id="cb342-50"><a href="interactive-maps.html#cb342-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 N/A for this license type</span></span>
+<span id="cb342-51"><a href="interactive-maps.html#cb342-51" aria-hidden="true" tabindex="-1"></a><span class="co">#   Adult-Use/Medicinal      lat      long</span></span>
+<span id="cb342-52"><a href="interactive-maps.html#cb342-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                BOTH 37.76318 -122.4811</span></span>
+<span id="cb342-53"><a href="interactive-maps.html#cb342-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                BOTH 37.77480 -122.4157</span></span>
+<span id="cb342-54"><a href="interactive-maps.html#cb342-54" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                BOTH 37.78228 -122.4035</span></span>
+<span id="cb342-55"><a href="interactive-maps.html#cb342-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                BOTH 37.78823 -122.4004</span></span>
+<span id="cb342-56"><a href="interactive-maps.html#cb342-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                BOTH 37.78783 -122.3965</span></span>
+<span id="cb342-57"><a href="interactive-maps.html#cb342-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                BOTH 37.79944 -122.4414</span></span></code></pre></div>
 <p>This data has information about the type of license, who the owner is, and where the dispensary is (as an address and as coordinates). We’ll be making a map showing every dispensary in the city and make it so when you click a dot it’ll make a popup showing information about that dispensary.</p>
 <p>We will use the package <code>leaflet</code> for our interactive map. <code>leaflet</code> produces maps similar to Google Maps with circles (or any icon we choose) for each value we add to the map. It allows you to zoom in, scroll around, and provides context to each incident that isn’t available on a static map.</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="interactive-maps.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;leaflet&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="interactive-maps.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb344-2"><a href="interactive-maps.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;leaflet&#39; was built under R version 4.1.3</span></span></code></pre></div>
+<span id="cb344-2"><a href="interactive-maps.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;leaflet&#39; was built</span></span>
+<span id="cb344-3"><a href="interactive-maps.html#cb344-3" aria-hidden="true" tabindex="-1"></a><span class="co"># under R version 4.1.3</span></span></code></pre></div>
 <p>To make a <code>leaflet</code> map we need to run the function <code>leaflet()</code> and add a tile to the map. We can just use the default tile which doesn’t need an input. If you’re interested in other tiles, please see this <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">website</a>.</p>
 <p>We will use a standard tile from Open Street Maps. This tile gives street names and highlights important features such as parks and large stores which provides useful contexts for looking at the data.</p>
 <div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="interactive-maps.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
@@ -650,13 +686,14 @@ div.csl-indent {
 <p>In Chapter <a href="choropleth-maps.html#choropleth-maps">17</a> we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We’ll make the same map as before - neighborhoods shaded by the number of suicides.</p>
 <p>Let’s load the San Francisco suicides-by-neighborhood data that we made earlier. We’ll also want to project it to the standard longitude and latitude projection, otherwise our map won’t work right.</p>
 <div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="interactive-maps.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb354-2"><a href="interactive-maps.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;sf&#39; was built under R version 4.1.3</span></span>
-<span id="cb354-3"><a href="interactive-maps.html#cb354-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 7.2.1; sf_use_s2() is TRUE</span></span>
-<span id="cb354-4"><a href="interactive-maps.html#cb354-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</span>
-<span id="cb354-5"><a href="interactive-maps.html#cb354-5" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(</span>
-<span id="cb354-6"><a href="interactive-maps.html#cb354-6" aria-hidden="true" tabindex="-1"></a>  sf_neighborhoods_suicide,</span>
-<span id="cb354-7"><a href="interactive-maps.html#cb354-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span></span>
-<span id="cb354-8"><a href="interactive-maps.html#cb354-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb354-2"><a href="interactive-maps.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;sf&#39; was built under R</span></span>
+<span id="cb354-3"><a href="interactive-maps.html#cb354-3" aria-hidden="true" tabindex="-1"></a><span class="co"># version 4.1.3</span></span>
+<span id="cb354-4"><a href="interactive-maps.html#cb354-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 7.2.1; sf_use_s2() is TRUE</span></span>
+<span id="cb354-5"><a href="interactive-maps.html#cb354-5" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</span>
+<span id="cb354-6"><a href="interactive-maps.html#cb354-6" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(</span>
+<span id="cb354-7"><a href="interactive-maps.html#cb354-7" aria-hidden="true" tabindex="-1"></a>  sf_neighborhoods_suicide,</span>
+<span id="cb354-8"><a href="interactive-maps.html#cb354-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span></span>
+<span id="cb354-9"><a href="interactive-maps.html#cb354-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>We’ll begin the <code>leaflet</code> map similar to before but use the function <code>addPolygons()</code>, and our input here is the geometry column of <em>sf_neighborhoods_suicide</em>.</p>
 <div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="interactive-maps.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb355-2"><a href="interactive-maps.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>

@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -485,20 +485,62 @@ div.csl-indent {
 <p>This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. Please note that suicide is not actually a crime, even though it is included in the San Francisco Police Department’s crime data. As shown in Chapter <a href="regular-expressions.html#regular-expressions">12</a>, which also used San Francisco crime data, there are a number of other non-crimes included such as “Fire Report,” “Traffic Collision,” and “Non-Criminal.” This is a fairly common occurrence in “crime” data where it also includes non-crimes that the police generally respond to so it is important to carefully examine your data to see what is included. Simply summing up the rows as a measure of crime will generally overcount crimes.</p>
 <p>The columns X and Y are our longitude and latitude columns, which we will use to map the data.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="hotspot-maps.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span>
-<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category                           Descript DayOfWeek       Date     Time PdDistrict Resolution</span></span>
-<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018 06:30:00    TARAVAL       NONE</span></span>
-<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018 17:54:00   NORTHERN       NONE</span></span>
-<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018 12:20:00   RICHMOND       NONE</span></span>
-<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE</span></span>
-<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018 09:15:00    TARAVAL       NONE</span></span>
-<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018 17:30:00   RICHMOND       NONE</span></span>
-<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                   Address         X        Y                                       Location         PdId year</span></span>
-<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     0 Block of BRUCE AV -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
-<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2   700 Block of HAYES ST -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
-<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   3700 Block of CLAY ST -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
-<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     0 Block of DRUMM ST -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
-<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 0 Block of FAIRFIELD WY -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
-<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    300 Block of 29TH AV -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span></code></pre></div>
+<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category</span></span>
+<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE</span></span>
+<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE</span></span>
+<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE</span></span>
+<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE</span></span>
+<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE</span></span>
+<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE</span></span>
+<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                             Descript</span></span>
+<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 ATTEMPTED SUICIDE BY STRANGULATION</span></span>
+<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       ATTEMPTED SUICIDE BY JUMPING</span></span>
+<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3              SUICIDE BY LACERATION</span></span>
+<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                            SUICIDE</span></span>
+<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5     ATTEMPTED SUICIDE BY INGESTION</span></span>
+<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6            SUICIDE BY ASPHYXIATION</span></span>
+<span id="cb291-16"><a href="hotspot-maps.html#cb291-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   DayOfWeek       Date     Time</span></span>
+<span id="cb291-17"><a href="hotspot-maps.html#cb291-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1    Monday 04/30/2018 06:30:00</span></span>
+<span id="cb291-18"><a href="hotspot-maps.html#cb291-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  Saturday 04/28/2018 17:54:00</span></span>
+<span id="cb291-19"><a href="hotspot-maps.html#cb291-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  Saturday 04/21/2018 12:20:00</span></span>
+<span id="cb291-20"><a href="hotspot-maps.html#cb291-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4   Tuesday 04/10/2018 05:13:00</span></span>
+<span id="cb291-21"><a href="hotspot-maps.html#cb291-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5    Friday 03/30/2018 09:15:00</span></span>
+<span id="cb291-22"><a href="hotspot-maps.html#cb291-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  Thursday 03/29/2018 17:30:00</span></span>
+<span id="cb291-23"><a href="hotspot-maps.html#cb291-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   PdDistrict Resolution</span></span>
+<span id="cb291-24"><a href="hotspot-maps.html#cb291-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1    TARAVAL       NONE</span></span>
+<span id="cb291-25"><a href="hotspot-maps.html#cb291-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2   NORTHERN       NONE</span></span>
+<span id="cb291-26"><a href="hotspot-maps.html#cb291-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   RICHMOND       NONE</span></span>
+<span id="cb291-27"><a href="hotspot-maps.html#cb291-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    CENTRAL       NONE</span></span>
+<span id="cb291-28"><a href="hotspot-maps.html#cb291-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5    TARAVAL       NONE</span></span>
+<span id="cb291-29"><a href="hotspot-maps.html#cb291-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6   RICHMOND       NONE</span></span>
+<span id="cb291-30"><a href="hotspot-maps.html#cb291-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                   Address         X</span></span>
+<span id="cb291-31"><a href="hotspot-maps.html#cb291-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     0 Block of BRUCE AV -122.4517</span></span>
+<span id="cb291-32"><a href="hotspot-maps.html#cb291-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2   700 Block of HAYES ST -122.4288</span></span>
+<span id="cb291-33"><a href="hotspot-maps.html#cb291-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   3700 Block of CLAY ST -122.4546</span></span>
+<span id="cb291-34"><a href="hotspot-maps.html#cb291-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     0 Block of DRUMM ST -122.3964</span></span>
+<span id="cb291-35"><a href="hotspot-maps.html#cb291-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 0 Block of FAIRFIELD WY -122.4632</span></span>
+<span id="cb291-36"><a href="hotspot-maps.html#cb291-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    300 Block of 29TH AV -122.4893</span></span>
+<span id="cb291-37"><a href="hotspot-maps.html#cb291-37" aria-hidden="true" tabindex="-1"></a><span class="co">#          Y</span></span>
+<span id="cb291-38"><a href="hotspot-maps.html#cb291-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 37.72218</span></span>
+<span id="cb291-39"><a href="hotspot-maps.html#cb291-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 37.77620</span></span>
+<span id="cb291-40"><a href="hotspot-maps.html#cb291-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 37.78818</span></span>
+<span id="cb291-41"><a href="hotspot-maps.html#cb291-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 37.79414</span></span>
+<span id="cb291-42"><a href="hotspot-maps.html#cb291-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 37.72679</span></span>
+<span id="cb291-43"><a href="hotspot-maps.html#cb291-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 37.78274</span></span>
+<span id="cb291-44"><a href="hotspot-maps.html#cb291-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                                         Location</span></span>
+<span id="cb291-45"><a href="hotspot-maps.html#cb291-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  POINT (-122.45168059935614 37.72218061554315)</span></span>
+<span id="cb291-46"><a href="hotspot-maps.html#cb291-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  POINT (-122.42876060987851 37.77620120112792)</span></span>
+<span id="cb291-47"><a href="hotspot-maps.html#cb291-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   POINT (-122.45462091999406 37.7881754224736)</span></span>
+<span id="cb291-48"><a href="hotspot-maps.html#cb291-48" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  POINT (-122.39642194376758 37.79414474237039)</span></span>
+<span id="cb291-49"><a href="hotspot-maps.html#cb291-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  POINT (-122.46324153155875 37.72679184368551)</span></span>
+<span id="cb291-50"><a href="hotspot-maps.html#cb291-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 POINT (-122.48929119750689 37.782735835121265)</span></span>
+<span id="cb291-51"><a href="hotspot-maps.html#cb291-51" aria-hidden="true" tabindex="-1"></a><span class="co">#           PdId year</span></span>
+<span id="cb291-52"><a href="hotspot-maps.html#cb291-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 1.803189e+13 2018</span></span>
+<span id="cb291-53"><a href="hotspot-maps.html#cb291-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 1.803155e+13 2018</span></span>
+<span id="cb291-54"><a href="hotspot-maps.html#cb291-54" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 1.802957e+13 2018</span></span>
+<span id="cb291-55"><a href="hotspot-maps.html#cb291-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 1.802637e+13 2018</span></span>
+<span id="cb291-56"><a href="hotspot-maps.html#cb291-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 1.802355e+13 2018</span></span>
+<span id="cb291-57"><a href="hotspot-maps.html#cb291-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 1.802365e+13 2018</span></span></code></pre></div>
 <div id="a-simple-map" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> A simple map<a href="hotspot-maps.html#a-simple-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To make these maps we will use the package <code>ggmap</code>.</p>
@@ -510,24 +552,31 @@ div.csl-indent {
 <span id="cb293-5"><a href="hotspot-maps.html#cb293-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;ggmap&#39;</span></span>
 <span id="cb293-6"><a href="hotspot-maps.html#cb293-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:cowplot&#39;:</span></span>
 <span id="cb293-7"><a href="hotspot-maps.html#cb293-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb293-8"><a href="hotspot-maps.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_nothing</span></span>
-<span id="cb293-9"><a href="hotspot-maps.html#cb293-9" aria-hidden="true" tabindex="-1"></a><span class="co"># The following object is masked from &#39;package:tidygeocoder&#39;:</span></span>
-<span id="cb293-10"><a href="hotspot-maps.html#cb293-10" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb293-11"><a href="hotspot-maps.html#cb293-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     geocode</span></span></code></pre></div>
+<span id="cb293-8"><a href="hotspot-maps.html#cb293-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     theme_nothing</span></span></code></pre></div>
 <p>We’ll start by making the background to our map, showing San Francisco. We do so by using the <code>get_map()</code> function from <code>ggmap</code>, which gets a map background from a number of sources. We’ll set the source to “stamen” since Google no longer allows us to get a map without creating an account. The first parameter in <code>get_map()</code> is simply coordinates for San Francisco’s bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show.</p>
 <p>An easy way to find the four coordinates for a bounding box is to go to the site <a href="https://boundingbox.klokantech.com/">Bounding Box.</a> This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says “Copy &amp; Paste,” change the dropdown box to “CSV.” In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into <code>get_map()</code></p>
 <p><img src="images/bounding_box.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="hotspot-maps.html#cb294-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="ot">&lt;-</span> <span class="fu">ggmap</span>(<span class="fu">get_map</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">122.530392</span>, <span class="fl">37.698887</span>, <span class="sc">-</span><span class="fl">122.351177</span>, <span class="fl">37.812996</span>),</span>
 <span id="cb294-2"><a href="hotspot-maps.html#cb294-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">&quot;stamen&quot;</span></span>
 <span id="cb294-3"><a href="hotspot-maps.html#cb294-3" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb294-4"><a href="hotspot-maps.html#cb294-4" aria-hidden="true" tabindex="-1"></a>sf_map</span></code></pre></div>
+<span id="cb294-4"><a href="hotspot-maps.html#cb294-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1582.png</span></span>
+<span id="cb294-5"><a href="hotspot-maps.html#cb294-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1582.png</span></span>
+<span id="cb294-6"><a href="hotspot-maps.html#cb294-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1582.png</span></span>
+<span id="cb294-7"><a href="hotspot-maps.html#cb294-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1583.png</span></span>
+<span id="cb294-8"><a href="hotspot-maps.html#cb294-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1583.png</span></span>
+<span id="cb294-9"><a href="hotspot-maps.html#cb294-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1583.png</span></span>
+<span id="cb294-10"><a href="hotspot-maps.html#cb294-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/653/1584.png</span></span>
+<span id="cb294-11"><a href="hotspot-maps.html#cb294-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/654/1584.png</span></span>
+<span id="cb294-12"><a href="hotspot-maps.html#cb294-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Source : http://tile.stamen.com/terrain/12/655/1584.png</span></span>
+<span id="cb294-13"><a href="hotspot-maps.html#cb294-13" aria-hidden="true" tabindex="-1"></a>sf_map</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-385-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Since we saved the map output into <em>sf_map</em> we can reuse this map background for all the maps we’re making in this lesson. This saves us time as we don’t have to wait to download the map every time. Let’s plot the suicides from our data set. Just as with a scatterplot we use the <code>geom_point()</code> function from the <code>ggplot2</code> package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load <code>ggmap</code> it also automatically loads <code>ggplot2</code> as that package is necessary for <code>ggmap</code> to work, so we don’t need to do <code>library(ggplot2)</code> ourselves.</p>
 <div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="hotspot-maps.html#cb295-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb295-2"><a href="hotspot-maps.html#cb295-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
 <span id="cb295-3"><a href="hotspot-maps.html#cb295-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> suicide</span>
 <span id="cb295-4"><a href="hotspot-maps.html#cb295-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb295-5"><a href="hotspot-maps.html#cb295-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span id="cb295-5"><a href="hotspot-maps.html#cb295-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing</span></span>
+<span id="cb295-6"><a href="hotspot-maps.html#cb295-6" aria-hidden="true" tabindex="-1"></a><span class="co"># values (geom_point).</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-386-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>If we wanted to color the dots, we can use <code>color =</code> and then select a color. Let’s try it with “forestgreen.”</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="hotspot-maps.html#cb296-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -535,7 +584,8 @@ div.csl-indent {
 <span id="cb296-3"><a href="hotspot-maps.html#cb296-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data  =</span> suicide,</span>
 <span id="cb296-4"><a href="hotspot-maps.html#cb296-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span></span>
 <span id="cb296-5"><a href="hotspot-maps.html#cb296-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb296-6"><a href="hotspot-maps.html#cb296-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span id="cb296-6"><a href="hotspot-maps.html#cb296-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing</span></span>
+<span id="cb296-7"><a href="hotspot-maps.html#cb296-7" aria-hidden="true" tabindex="-1"></a><span class="co"># values (geom_point).</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-387-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>As with other graphs we can change the size of the dot using <code>size =</code>.</p>
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="hotspot-maps.html#cb297-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -544,7 +594,8 @@ div.csl-indent {
 <span id="cb297-4"><a href="hotspot-maps.html#cb297-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
 <span id="cb297-5"><a href="hotspot-maps.html#cb297-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">size  =</span> <span class="fl">0.5</span></span>
 <span id="cb297-6"><a href="hotspot-maps.html#cb297-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb297-7"><a href="hotspot-maps.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span id="cb297-7"><a href="hotspot-maps.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing</span></span>
+<span id="cb297-8"><a href="hotspot-maps.html#cb297-8" aria-hidden="true" tabindex="-1"></a><span class="co"># values (geom_point).</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-388-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="hotspot-maps.html#cb298-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
 <span id="cb298-2"><a href="hotspot-maps.html#cb298-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> X, <span class="at">y =</span> Y),</span>
@@ -552,7 +603,8 @@ div.csl-indent {
 <span id="cb298-4"><a href="hotspot-maps.html#cb298-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;forestgreen&quot;</span>,</span>
 <span id="cb298-5"><a href="hotspot-maps.html#cb298-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">size  =</span> <span class="dv">2</span></span>
 <span id="cb298-6"><a href="hotspot-maps.html#cb298-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb298-7"><a href="hotspot-maps.html#cb298-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span id="cb298-7"><a href="hotspot-maps.html#cb298-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing</span></span>
+<span id="cb298-8"><a href="hotspot-maps.html#cb298-8" aria-hidden="true" tabindex="-1"></a><span class="co"># values (geom_point).</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-389-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter <code>alpha =</code> which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is.</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="hotspot-maps.html#cb299-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -562,7 +614,8 @@ div.csl-indent {
 <span id="cb299-5"><a href="hotspot-maps.html#cb299-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">size  =</span> <span class="dv">2</span>,</span>
 <span id="cb299-6"><a href="hotspot-maps.html#cb299-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.5</span></span>
 <span id="cb299-7"><a href="hotspot-maps.html#cb299-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb299-8"><a href="hotspot-maps.html#cb299-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing values (geom_point).</span></span></code></pre></div>
+<span id="cb299-8"><a href="hotspot-maps.html#cb299-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: Removed 1 rows containing missing</span></span>
+<span id="cb299-9"><a href="hotspot-maps.html#cb299-9" aria-hidden="true" tabindex="-1"></a><span class="co"># values (geom_point).</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-390-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. For example, this shows all suicides in a single map, meaning that any time trends are lost.</p>
 </div>
@@ -586,7 +639,8 @@ div.csl-indent {
 <span id="cb302-4"><a href="hotspot-maps.html#cb302-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> suicide</span>
 <span id="cb302-5"><a href="hotspot-maps.html#cb302-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb302-6"><a href="hotspot-maps.html#cb302-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>()</span></code></pre></div>
-<pre><code># Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+<pre><code># Warning: Removed 1 rows containing non-finite
+# values (stat_binhex).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-395-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.</p>
 <p>What happens when we drop the number of bins to 30?</p>
@@ -596,7 +650,8 @@ div.csl-indent {
 <span id="cb304-4"><a href="hotspot-maps.html#cb304-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> suicide</span>
 <span id="cb304-5"><a href="hotspot-maps.html#cb304-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb304-6"><a href="hotspot-maps.html#cb304-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>()</span></code></pre></div>
-<pre><code># Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+<pre><code># Warning: Removed 1 rows containing non-finite
+# values (stat_binhex).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-398-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot that there are fewer than 1,300 suicides; thus this is not true. Maps like this make it easy to mislead the reader, including yourself!</p>
 <p>What about looking at 100 bins?</p>
@@ -606,7 +661,8 @@ div.csl-indent {
 <span id="cb306-4"><a href="hotspot-maps.html#cb306-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> suicide</span>
 <span id="cb306-5"><a href="hotspot-maps.html#cb306-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
 <span id="cb306-6"><a href="hotspot-maps.html#cb306-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>()</span></code></pre></div>
-<pre><code># Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+<pre><code># Warning: Removed 1 rows containing non-finite
+# values (stat_binhex).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-401-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself.</p>
 <div id="colors" class="section level3 hasAnchor" number="16.3.1">
@@ -622,7 +678,8 @@ div.csl-indent {
 <span id="cb308-8"><a href="hotspot-maps.html#cb308-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</span>
 <span id="cb308-9"><a href="hotspot-maps.html#cb308-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;#f03b20&quot;</span></span>
 <span id="cb308-10"><a href="hotspot-maps.html#cb308-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+<pre><code># Warning: Removed 1 rows containing non-finite
+# values (stat_binhex).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-404-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>By default it labels the legend as “count.” Since we know these are counts of suicides let’s relabel that as such.</p>
 <div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="hotspot-maps.html#cb310-1" aria-hidden="true" tabindex="-1"></a>sf_map <span class="sc">+</span></span>
@@ -635,7 +692,8 @@ div.csl-indent {
 <span id="cb310-8"><a href="hotspot-maps.html#cb310-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">&quot;#ffeda0&quot;</span>,</span>
 <span id="cb310-9"><a href="hotspot-maps.html#cb310-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">&quot;#f03b20&quot;</span></span>
 <span id="cb310-10"><a href="hotspot-maps.html#cb310-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<pre><code># Warning: Removed 1 rows containing non-finite values (stat_binhex).</code></pre>
+<pre><code># Warning: Removed 1 rows containing non-finite
+# values (stat_binhex).</code></pre>
 <p><img src="_main_files/figure-html/unnamed-chunk-407-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 
 </div>

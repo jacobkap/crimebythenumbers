@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -495,8 +495,8 @@ div.csl-indent {
 <div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="webscraping-with-rvest.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span>
 <span id="cb364-2"><a href="webscraping-with-rvest.html#cb364-2" aria-hidden="true" tabindex="-1"></a><span class="co"># {html_document}</span></span>
 <span id="cb364-3"><a href="webscraping-with-rvest.html#cb364-3" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;html lang=&quot;en&quot;&gt;</span></span>
-<span id="cb364-4"><a href="webscraping-with-rvest.html#cb364-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;\n&lt;meta charset=&quot;utf-8&quot;&gt;\n&lt;meta n ...</span></span>
-<span id="cb364-5"><a href="webscraping-with-rvest.html#cb364-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &lt;body class=&quot;template-recipe node- recipePage mdex-test karma-site-container alrcom no-js&quot; data-content-grap ...</span></span></code></pre></div>
+<span id="cb364-4"><a href="webscraping-with-rvest.html#cb364-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content- ...</span></span>
+<span id="cb364-5"><a href="webscraping-with-rvest.html#cb364-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &lt;body class=&quot;template-recipe node- ...</span></span></code></pre></div>
 <p>When running the above code, it returns an XML Document. The <code>rvest</code> package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to assign the output of <code>read_html()</code> to an object, which we’ll call <em>brownies</em> since that is the recipe we are currently scraping.</p>
 <div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="webscraping-with-rvest.html#cb365-1" aria-hidden="true" tabindex="-1"></a>brownies <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://www.allrecipes.com/recipe/25080/mmmmm-brownies/&quot;</span>)</span></code></pre></div>
 <p>We now need to select only a small part of the page that has the relevant information - in this case, the ingredients and directions.</p>
@@ -511,11 +511,15 @@ div.csl-indent {
 <div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="webscraping-with-rvest.html#cb367-1" aria-hidden="true" tabindex="-1"></a>ingredients <span class="ot">&lt;-</span> <span class="fu">html_text</span>(ingredients)</span></code></pre></div>
 <p>Now let’s check what we got.</p>
 <div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="webscraping-with-rvest.html#cb368-1" aria-hidden="true" tabindex="-1"></a>ingredients</span>
-<span id="cb368-2"><a href="webscraping-with-rvest.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;½ cup white sugar &quot;                  &quot;2 tablespoons butter &quot;              </span></span>
-<span id="cb368-3"><a href="webscraping-with-rvest.html#cb368-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;2 tablespoons water &quot;                &quot;1 ½ cups semisweet chocolate chips &quot;</span></span>
-<span id="cb368-4"><a href="webscraping-with-rvest.html#cb368-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;2 large eggs, beaten &quot;               &quot;½ teaspoon vanilla extract &quot;        </span></span>
-<span id="cb368-5"><a href="webscraping-with-rvest.html#cb368-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;&lt;U+2154&gt; cup all-purpose flour &quot;     &quot;½ teaspoon salt &quot;                   </span></span>
-<span id="cb368-6"><a href="webscraping-with-rvest.html#cb368-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;¼ teaspoon baking soda &quot;</span></span></code></pre></div>
+<span id="cb368-2"><a href="webscraping-with-rvest.html#cb368-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;½ cup white sugar &quot;                 </span></span>
+<span id="cb368-3"><a href="webscraping-with-rvest.html#cb368-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &quot;2 tablespoons butter &quot;              </span></span>
+<span id="cb368-4"><a href="webscraping-with-rvest.html#cb368-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;2 tablespoons water &quot;               </span></span>
+<span id="cb368-5"><a href="webscraping-with-rvest.html#cb368-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;1 ½ cups semisweet chocolate chips &quot;</span></span>
+<span id="cb368-6"><a href="webscraping-with-rvest.html#cb368-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;2 large eggs, beaten &quot;              </span></span>
+<span id="cb368-7"><a href="webscraping-with-rvest.html#cb368-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [6] &quot;½ teaspoon vanilla extract &quot;        </span></span>
+<span id="cb368-8"><a href="webscraping-with-rvest.html#cb368-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;&lt;U+2154&gt; cup all-purpose flour &quot;    </span></span>
+<span id="cb368-9"><a href="webscraping-with-rvest.html#cb368-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [8] &quot;½ teaspoon salt &quot;                   </span></span>
+<span id="cb368-10"><a href="webscraping-with-rvest.html#cb368-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;¼ teaspoon baking soda &quot;</span></span></code></pre></div>
 <p>We have successfully scraped the ingredients for this brownies recipes.</p>
 <p>Now let’s do the same process to get the directions for baking.</p>
 <p>In SelectorGadget click clear to unselect the ingredients. Now click one of the lines of directions that starts with the word “Step”. It’ll highlight all three directions as they’re all of the same “type”.<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a> Note that if you click on the instructions without starting on one of the “Step” lines, such as clicking on the actual instructions (e.g. “Preheat the oven…”) lines itself, SelectorGadget will have the node “p” and say it has found 25 “things” on that page that match. To fix this you just scroll up to see where the text “Best brownies I’ve ever had!” is also highlighted in yellow and click that to unselect it. Using SelectorGadget is often steps like this where you use trial and error to only select the parts of the page that you want.</p>

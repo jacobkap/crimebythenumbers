@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-08-24" />
+<meta name="date" content="2022-09-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -491,27 +491,69 @@ div.csl-indent {
 <h2><span class="header-section-number">14.1</span> What does the data look like?<a href="graphing-intro.html#what-does-the-data-look-like" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before graphing, it’s helpful to see what the data includes. An important thing to check is what variables are available and what the units are for these variables.</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="graphing-intro.html#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(penn_alcohol)</span>
-<span id="cb228-2"><a href="graphing-intro.html#cb228-2" aria-hidden="true" tabindex="-1"></a><span class="co">#             state year ethanol_beer_gallons_per_capita ethanol_wine_gallons_per_capita</span></span>
-<span id="cb228-3"><a href="graphing-intro.html#cb228-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559 pennsylvania 2017                            1.29                            0.33</span></span>
-<span id="cb228-4"><a href="graphing-intro.html#cb228-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560 pennsylvania 2016                            1.31                            0.33</span></span>
-<span id="cb228-5"><a href="graphing-intro.html#cb228-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561 pennsylvania 2015                            1.31                            0.32</span></span>
-<span id="cb228-6"><a href="graphing-intro.html#cb228-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562 pennsylvania 2014                            1.32                            0.32</span></span>
-<span id="cb228-7"><a href="graphing-intro.html#cb228-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563 pennsylvania 2013                            1.34                            0.31</span></span>
-<span id="cb228-8"><a href="graphing-intro.html#cb228-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564 pennsylvania 2012                            1.36                            0.31</span></span>
-<span id="cb228-9"><a href="graphing-intro.html#cb228-9" aria-hidden="true" tabindex="-1"></a><span class="co">#      ethanol_spirit_gallons_per_capita ethanol_all_drinks_gallons_per_capita number_of_beers</span></span>
-<span id="cb228-10"><a href="graphing-intro.html#cb228-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559                              0.71                                  2.34        305.7778</span></span>
-<span id="cb228-11"><a href="graphing-intro.html#cb228-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560                              0.72                                  2.36        310.5185</span></span>
-<span id="cb228-12"><a href="graphing-intro.html#cb228-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561                              0.70                                  2.33        310.5185</span></span>
-<span id="cb228-13"><a href="graphing-intro.html#cb228-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562                              0.70                                  2.34        312.8889</span></span>
-<span id="cb228-14"><a href="graphing-intro.html#cb228-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563                              0.68                                  2.33        317.6296</span></span>
-<span id="cb228-15"><a href="graphing-intro.html#cb228-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564                              0.67                                  2.34        322.3704</span></span>
-<span id="cb228-16"><a href="graphing-intro.html#cb228-16" aria-hidden="true" tabindex="-1"></a><span class="co">#      number_of_glasses_wine number_of_shots_liquor number_of_drinks_total</span></span>
-<span id="cb228-17"><a href="graphing-intro.html#cb228-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559               65.48837               147.4128               499.2000</span></span>
-<span id="cb228-18"><a href="graphing-intro.html#cb228-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560               65.48837               149.4891               503.4667</span></span>
-<span id="cb228-19"><a href="graphing-intro.html#cb228-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561               63.50388               145.3366               497.0667</span></span>
-<span id="cb228-20"><a href="graphing-intro.html#cb228-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562               63.50388               145.3366               499.2000</span></span>
-<span id="cb228-21"><a href="graphing-intro.html#cb228-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563               61.51938               141.1841               497.0667</span></span>
-<span id="cb228-22"><a href="graphing-intro.html#cb228-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564               61.51938               139.1079               499.2000</span></span></code></pre></div>
+<span id="cb228-2"><a href="graphing-intro.html#cb228-2" aria-hidden="true" tabindex="-1"></a><span class="co">#             state year</span></span>
+<span id="cb228-3"><a href="graphing-intro.html#cb228-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559 pennsylvania 2017</span></span>
+<span id="cb228-4"><a href="graphing-intro.html#cb228-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560 pennsylvania 2016</span></span>
+<span id="cb228-5"><a href="graphing-intro.html#cb228-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561 pennsylvania 2015</span></span>
+<span id="cb228-6"><a href="graphing-intro.html#cb228-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562 pennsylvania 2014</span></span>
+<span id="cb228-7"><a href="graphing-intro.html#cb228-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563 pennsylvania 2013</span></span>
+<span id="cb228-8"><a href="graphing-intro.html#cb228-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564 pennsylvania 2012</span></span>
+<span id="cb228-9"><a href="graphing-intro.html#cb228-9" aria-hidden="true" tabindex="-1"></a><span class="co">#      ethanol_beer_gallons_per_capita</span></span>
+<span id="cb228-10"><a href="graphing-intro.html#cb228-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559                            1.29</span></span>
+<span id="cb228-11"><a href="graphing-intro.html#cb228-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560                            1.31</span></span>
+<span id="cb228-12"><a href="graphing-intro.html#cb228-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561                            1.31</span></span>
+<span id="cb228-13"><a href="graphing-intro.html#cb228-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562                            1.32</span></span>
+<span id="cb228-14"><a href="graphing-intro.html#cb228-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563                            1.34</span></span>
+<span id="cb228-15"><a href="graphing-intro.html#cb228-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564                            1.36</span></span>
+<span id="cb228-16"><a href="graphing-intro.html#cb228-16" aria-hidden="true" tabindex="-1"></a><span class="co">#      ethanol_wine_gallons_per_capita</span></span>
+<span id="cb228-17"><a href="graphing-intro.html#cb228-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559                            0.33</span></span>
+<span id="cb228-18"><a href="graphing-intro.html#cb228-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560                            0.33</span></span>
+<span id="cb228-19"><a href="graphing-intro.html#cb228-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561                            0.32</span></span>
+<span id="cb228-20"><a href="graphing-intro.html#cb228-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562                            0.32</span></span>
+<span id="cb228-21"><a href="graphing-intro.html#cb228-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563                            0.31</span></span>
+<span id="cb228-22"><a href="graphing-intro.html#cb228-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564                            0.31</span></span>
+<span id="cb228-23"><a href="graphing-intro.html#cb228-23" aria-hidden="true" tabindex="-1"></a><span class="co">#      ethanol_spirit_gallons_per_capita</span></span>
+<span id="cb228-24"><a href="graphing-intro.html#cb228-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559                              0.71</span></span>
+<span id="cb228-25"><a href="graphing-intro.html#cb228-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560                              0.72</span></span>
+<span id="cb228-26"><a href="graphing-intro.html#cb228-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561                              0.70</span></span>
+<span id="cb228-27"><a href="graphing-intro.html#cb228-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562                              0.70</span></span>
+<span id="cb228-28"><a href="graphing-intro.html#cb228-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563                              0.68</span></span>
+<span id="cb228-29"><a href="graphing-intro.html#cb228-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564                              0.67</span></span>
+<span id="cb228-30"><a href="graphing-intro.html#cb228-30" aria-hidden="true" tabindex="-1"></a><span class="co">#      ethanol_all_drinks_gallons_per_capita</span></span>
+<span id="cb228-31"><a href="graphing-intro.html#cb228-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559                                  2.34</span></span>
+<span id="cb228-32"><a href="graphing-intro.html#cb228-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560                                  2.36</span></span>
+<span id="cb228-33"><a href="graphing-intro.html#cb228-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561                                  2.33</span></span>
+<span id="cb228-34"><a href="graphing-intro.html#cb228-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562                                  2.34</span></span>
+<span id="cb228-35"><a href="graphing-intro.html#cb228-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563                                  2.33</span></span>
+<span id="cb228-36"><a href="graphing-intro.html#cb228-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564                                  2.34</span></span>
+<span id="cb228-37"><a href="graphing-intro.html#cb228-37" aria-hidden="true" tabindex="-1"></a><span class="co">#      number_of_beers</span></span>
+<span id="cb228-38"><a href="graphing-intro.html#cb228-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559        305.7778</span></span>
+<span id="cb228-39"><a href="graphing-intro.html#cb228-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560        310.5185</span></span>
+<span id="cb228-40"><a href="graphing-intro.html#cb228-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561        310.5185</span></span>
+<span id="cb228-41"><a href="graphing-intro.html#cb228-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562        312.8889</span></span>
+<span id="cb228-42"><a href="graphing-intro.html#cb228-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563        317.6296</span></span>
+<span id="cb228-43"><a href="graphing-intro.html#cb228-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564        322.3704</span></span>
+<span id="cb228-44"><a href="graphing-intro.html#cb228-44" aria-hidden="true" tabindex="-1"></a><span class="co">#      number_of_glasses_wine</span></span>
+<span id="cb228-45"><a href="graphing-intro.html#cb228-45" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559               65.48837</span></span>
+<span id="cb228-46"><a href="graphing-intro.html#cb228-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560               65.48837</span></span>
+<span id="cb228-47"><a href="graphing-intro.html#cb228-47" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561               63.50388</span></span>
+<span id="cb228-48"><a href="graphing-intro.html#cb228-48" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562               63.50388</span></span>
+<span id="cb228-49"><a href="graphing-intro.html#cb228-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563               61.51938</span></span>
+<span id="cb228-50"><a href="graphing-intro.html#cb228-50" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564               61.51938</span></span>
+<span id="cb228-51"><a href="graphing-intro.html#cb228-51" aria-hidden="true" tabindex="-1"></a><span class="co">#      number_of_shots_liquor</span></span>
+<span id="cb228-52"><a href="graphing-intro.html#cb228-52" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559               147.4128</span></span>
+<span id="cb228-53"><a href="graphing-intro.html#cb228-53" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560               149.4891</span></span>
+<span id="cb228-54"><a href="graphing-intro.html#cb228-54" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561               145.3366</span></span>
+<span id="cb228-55"><a href="graphing-intro.html#cb228-55" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562               145.3366</span></span>
+<span id="cb228-56"><a href="graphing-intro.html#cb228-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563               141.1841</span></span>
+<span id="cb228-57"><a href="graphing-intro.html#cb228-57" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564               139.1079</span></span>
+<span id="cb228-58"><a href="graphing-intro.html#cb228-58" aria-hidden="true" tabindex="-1"></a><span class="co">#      number_of_drinks_total</span></span>
+<span id="cb228-59"><a href="graphing-intro.html#cb228-59" aria-hidden="true" tabindex="-1"></a><span class="co"># 1559               499.2000</span></span>
+<span id="cb228-60"><a href="graphing-intro.html#cb228-60" aria-hidden="true" tabindex="-1"></a><span class="co"># 1560               503.4667</span></span>
+<span id="cb228-61"><a href="graphing-intro.html#cb228-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 1561               497.0667</span></span>
+<span id="cb228-62"><a href="graphing-intro.html#cb228-62" aria-hidden="true" tabindex="-1"></a><span class="co"># 1562               499.2000</span></span>
+<span id="cb228-63"><a href="graphing-intro.html#cb228-63" aria-hidden="true" tabindex="-1"></a><span class="co"># 1563               497.0667</span></span>
+<span id="cb228-64"><a href="graphing-intro.html#cb228-64" aria-hidden="true" tabindex="-1"></a><span class="co"># 1564               499.2000</span></span></code></pre></div>
 <p>So each row of the data is a single year of data for Pennsylvania. It includes alcohol consumption for wine, liquor, beer, and total drinks - both as gallons of ethanol (a hard unit to interpret) and more traditional measures such as glasses of wine or number of beers. The original data only included the gallons of ethanol data, which I converted to the more understandable units. If you encounter data with odd units, it is a good idea to convert it to something easier to understand - especially if you intend to show someone else the data or results.</p>
 </div>
 <div id="graphing-data" class="section level2 hasAnchor" number="14.2">
