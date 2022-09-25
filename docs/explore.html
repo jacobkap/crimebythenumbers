@@ -486,440 +486,208 @@ div.csl-indent {
 </ul>
 <p>For the first part of this lesson we will use a data set of FBI Uniform Crime Reporting (UCR) data for 2017. This data includes every agency that reported their data for all 12 months of the year. In this part of the chapter we will look at some summary statistics for the variables we are interested in and make some basic graphs to visualize the data.</p>
 <p>First, we need to load the data. Make sure your working directory is set to the folder where the data is.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="explore.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="explore.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
 <p>The function <code>head()</code> will print out the first 6 rows of every column in the data. Since we only have 9 columns, we will use this function. Be careful when you have many columns (100+) as printing all of them out makes it difficult to read.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="explore.html#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017)</span>
-<span id="cb145-2"><a href="explore.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="co">#       ori year agency_name  state</span></span>
-<span id="cb145-3"><a href="explore.html#cb145-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 AK00101 2017   anchorage alaska</span></span>
-<span id="cb145-4"><a href="explore.html#cb145-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 AK00102 2017   fairbanks alaska</span></span>
-<span id="cb145-5"><a href="explore.html#cb145-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 AK00103 2017      juneau alaska</span></span>
-<span id="cb145-6"><a href="explore.html#cb145-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 AK00104 2017   ketchikan alaska</span></span>
-<span id="cb145-7"><a href="explore.html#cb145-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 AK00105 2017      kodiak alaska</span></span>
-<span id="cb145-8"><a href="explore.html#cb145-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 AK00106 2017        nome alaska</span></span>
-<span id="cb145-9"><a href="explore.html#cb145-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   population actual_murder</span></span>
-<span id="cb145-10"><a href="explore.html#cb145-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     296188            27</span></span>
-<span id="cb145-11"><a href="explore.html#cb145-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2      32937            10</span></span>
-<span id="cb145-12"><a href="explore.html#cb145-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3      32344             1</span></span>
-<span id="cb145-13"><a href="explore.html#cb145-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       8230             1</span></span>
-<span id="cb145-14"><a href="explore.html#cb145-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       6198             0</span></span>
-<span id="cb145-15"><a href="explore.html#cb145-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       3829             0</span></span>
-<span id="cb145-16"><a href="explore.html#cb145-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_rape_total actual_robbery_total</span></span>
-<span id="cb145-17"><a href="explore.html#cb145-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1               391                  778</span></span>
-<span id="cb145-18"><a href="explore.html#cb145-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                24                   40</span></span>
-<span id="cb145-19"><a href="explore.html#cb145-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                50                   46</span></span>
-<span id="cb145-20"><a href="explore.html#cb145-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                19                    0</span></span>
-<span id="cb145-21"><a href="explore.html#cb145-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                15                    4</span></span>
-<span id="cb145-22"><a href="explore.html#cb145-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                 7                    0</span></span>
-<span id="cb145-23"><a href="explore.html#cb145-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_assault_aggravated</span></span>
-<span id="cb145-24"><a href="explore.html#cb145-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                      2368</span></span>
-<span id="cb145-25"><a href="explore.html#cb145-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                       131</span></span>
-<span id="cb145-26"><a href="explore.html#cb145-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                       206</span></span>
-<span id="cb145-27"><a href="explore.html#cb145-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                        14</span></span>
-<span id="cb145-28"><a href="explore.html#cb145-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                        41</span></span>
-<span id="cb145-29"><a href="explore.html#cb145-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                        52</span></span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="explore.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017)</span>
+<span id="cb146-2"><a href="explore.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co">#       ori year agency_name  state population actual_murder actual_rape_total</span></span>
+<span id="cb146-3"><a href="explore.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 AK00101 2017   anchorage alaska     296188            27               391</span></span>
+<span id="cb146-4"><a href="explore.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 AK00102 2017   fairbanks alaska      32937            10                24</span></span>
+<span id="cb146-5"><a href="explore.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 AK00103 2017      juneau alaska      32344             1                50</span></span>
+<span id="cb146-6"><a href="explore.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 AK00104 2017   ketchikan alaska       8230             1                19</span></span>
+<span id="cb146-7"><a href="explore.html#cb146-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 AK00105 2017      kodiak alaska       6198             0                15</span></span>
+<span id="cb146-8"><a href="explore.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 AK00106 2017        nome alaska       3829             0                 7</span></span>
+<span id="cb146-9"><a href="explore.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_robbery_total actual_assault_aggravated</span></span>
+<span id="cb146-10"><a href="explore.html#cb146-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                  778                      2368</span></span>
+<span id="cb146-11"><a href="explore.html#cb146-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                   40                       131</span></span>
+<span id="cb146-12"><a href="explore.html#cb146-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                   46                       206</span></span>
+<span id="cb146-13"><a href="explore.html#cb146-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                    0                        14</span></span>
+<span id="cb146-14"><a href="explore.html#cb146-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                    4                        41</span></span>
+<span id="cb146-15"><a href="explore.html#cb146-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                    0                        52</span></span></code></pre></div>
 <p>From these results it appears that each row is a single agency’s annual data for 2017, and the columns show the number of crimes for four crime categories included.</p>
 <p>Finally, we can run <code>names()</code> to print out every column name. We can already see every name from <code>head()</code>, but this is useful when we have many columns and don’t want to use <code>head()</code>.</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="explore.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
-<span id="cb146-2"><a href="explore.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                      </span></span>
-<span id="cb146-3"><a href="explore.html#cb146-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [2] &quot;year&quot;                     </span></span>
-<span id="cb146-4"><a href="explore.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;agency_name&quot;              </span></span>
-<span id="cb146-5"><a href="explore.html#cb146-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;state&quot;                    </span></span>
-<span id="cb146-6"><a href="explore.html#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;population&quot;               </span></span>
-<span id="cb146-7"><a href="explore.html#cb146-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [6] &quot;actual_murder&quot;            </span></span>
-<span id="cb146-8"><a href="explore.html#cb146-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;actual_rape_total&quot;        </span></span>
-<span id="cb146-9"><a href="explore.html#cb146-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [8] &quot;actual_robbery_total&quot;     </span></span>
-<span id="cb146-10"><a href="explore.html#cb146-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="explore.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
+<span id="cb147-2"><a href="explore.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                       &quot;year&quot;                     </span></span>
+<span id="cb147-3"><a href="explore.html#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;agency_name&quot;               &quot;state&quot;                    </span></span>
+<span id="cb147-4"><a href="explore.html#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;population&quot;                &quot;actual_murder&quot;            </span></span>
+<span id="cb147-5"><a href="explore.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></span>
+<span id="cb147-6"><a href="explore.html#cb147-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
 <div id="summary-and-table" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Summary and Table<a href="explore.html#summary-and-table" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>An important function in understanding the data you have is <code>summary()</code> which, as discussed in Section <a href="intro-to-r.html#first-steps-to-exploring-data">2.5</a>, provides summary statistics on the numeric columns you have. Let’s take a look at the results before seeing how to do something similar for categorical columns.</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="explore.html#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ucr2017)</span>
-<span id="cb147-2"><a href="explore.html#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      ori                 year     </span></span>
-<span id="cb147-3"><a href="explore.html#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Length:15764       Min.   :2017  </span></span>
-<span id="cb147-4"><a href="explore.html#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  Class :character   1st Qu.:2017  </span></span>
-<span id="cb147-5"><a href="explore.html#cb147-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mode  :character   Median :2017  </span></span>
-<span id="cb147-6"><a href="explore.html#cb147-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Mean   :2017  </span></span>
-<span id="cb147-7"><a href="explore.html#cb147-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                     3rd Qu.:2017  </span></span>
-<span id="cb147-8"><a href="explore.html#cb147-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Max.   :2017  </span></span>
-<span id="cb147-9"><a href="explore.html#cb147-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  agency_name           state          </span></span>
-<span id="cb147-10"><a href="explore.html#cb147-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  Length:15764       Length:15764      </span></span>
-<span id="cb147-11"><a href="explore.html#cb147-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  Class :character   Class :character  </span></span>
-<span id="cb147-12"><a href="explore.html#cb147-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mode  :character   Mode  :character  </span></span>
-<span id="cb147-13"><a href="explore.html#cb147-13" aria-hidden="true" tabindex="-1"></a><span class="co">#                                       </span></span>
-<span id="cb147-14"><a href="explore.html#cb147-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                                       </span></span>
-<span id="cb147-15"><a href="explore.html#cb147-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                                       </span></span>
-<span id="cb147-16"><a href="explore.html#cb147-16" aria-hidden="true" tabindex="-1"></a><span class="co">#    population      actual_murder    </span></span>
-<span id="cb147-17"><a href="explore.html#cb147-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  Min.   :      0   Min.   :  0.000  </span></span>
-<span id="cb147-18"><a href="explore.html#cb147-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  1st Qu.:    914   1st Qu.:  0.000  </span></span>
-<span id="cb147-19"><a href="explore.html#cb147-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  Median :   4460   Median :  0.000  </span></span>
-<span id="cb147-20"><a href="explore.html#cb147-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mean   :  19872   Mean   :  1.069  </span></span>
-<span id="cb147-21"><a href="explore.html#cb147-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  3rd Qu.:  15390   3rd Qu.:  0.000  </span></span>
-<span id="cb147-22"><a href="explore.html#cb147-22" aria-hidden="true" tabindex="-1"></a><span class="co">#  Max.   :8616333   Max.   :653.000  </span></span>
-<span id="cb147-23"><a href="explore.html#cb147-23" aria-hidden="true" tabindex="-1"></a><span class="co">#  actual_rape_total  actual_robbery_total</span></span>
-<span id="cb147-24"><a href="explore.html#cb147-24" aria-hidden="true" tabindex="-1"></a><span class="co">#  Min.   :  -2.000   Min.   :   -1.00    </span></span>
-<span id="cb147-25"><a href="explore.html#cb147-25" aria-hidden="true" tabindex="-1"></a><span class="co">#  1st Qu.:   0.000   1st Qu.:    0.00    </span></span>
-<span id="cb147-26"><a href="explore.html#cb147-26" aria-hidden="true" tabindex="-1"></a><span class="co">#  Median :   1.000   Median :    0.00    </span></span>
-<span id="cb147-27"><a href="explore.html#cb147-27" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mean   :   8.262   Mean   :   19.85    </span></span>
-<span id="cb147-28"><a href="explore.html#cb147-28" aria-hidden="true" tabindex="-1"></a><span class="co">#  3rd Qu.:   5.000   3rd Qu.:    4.00    </span></span>
-<span id="cb147-29"><a href="explore.html#cb147-29" aria-hidden="true" tabindex="-1"></a><span class="co">#  Max.   :2455.000   Max.   :13995.00    </span></span>
-<span id="cb147-30"><a href="explore.html#cb147-30" aria-hidden="true" tabindex="-1"></a><span class="co">#  actual_assault_aggravated</span></span>
-<span id="cb147-31"><a href="explore.html#cb147-31" aria-hidden="true" tabindex="-1"></a><span class="co">#  Min.   :   -1.00         </span></span>
-<span id="cb147-32"><a href="explore.html#cb147-32" aria-hidden="true" tabindex="-1"></a><span class="co">#  1st Qu.:    1.00         </span></span>
-<span id="cb147-33"><a href="explore.html#cb147-33" aria-hidden="true" tabindex="-1"></a><span class="co">#  Median :    5.00         </span></span>
-<span id="cb147-34"><a href="explore.html#cb147-34" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mean   :   49.98         </span></span>
-<span id="cb147-35"><a href="explore.html#cb147-35" aria-hidden="true" tabindex="-1"></a><span class="co">#  3rd Qu.:   21.00         </span></span>
-<span id="cb147-36"><a href="explore.html#cb147-36" aria-hidden="true" tabindex="-1"></a><span class="co">#  Max.   :29771.00</span></span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="explore.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ucr2017)</span>
+<span id="cb148-2"><a href="explore.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      ori                 year      agency_name           state          </span></span>
+<span id="cb148-3"><a href="explore.html#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Length:15764       Min.   :2017   Length:15764       Length:15764      </span></span>
+<span id="cb148-4"><a href="explore.html#cb148-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  Class :character   1st Qu.:2017   Class :character   Class :character  </span></span>
+<span id="cb148-5"><a href="explore.html#cb148-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mode  :character   Median :2017   Mode  :character   Mode  :character  </span></span>
+<span id="cb148-6"><a href="explore.html#cb148-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Mean   :2017                                        </span></span>
+<span id="cb148-7"><a href="explore.html#cb148-7" aria-hidden="true" tabindex="-1"></a><span class="co">#                     3rd Qu.:2017                                        </span></span>
+<span id="cb148-8"><a href="explore.html#cb148-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                     Max.   :2017                                        </span></span>
+<span id="cb148-9"><a href="explore.html#cb148-9" aria-hidden="true" tabindex="-1"></a><span class="co">#    population      actual_murder     actual_rape_total  actual_robbery_total</span></span>
+<span id="cb148-10"><a href="explore.html#cb148-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  Min.   :      0   Min.   :  0.000   Min.   :  -2.000   Min.   :   -1.00    </span></span>
+<span id="cb148-11"><a href="explore.html#cb148-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  1st Qu.:    914   1st Qu.:  0.000   1st Qu.:   0.000   1st Qu.:    0.00    </span></span>
+<span id="cb148-12"><a href="explore.html#cb148-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  Median :   4460   Median :  0.000   Median :   1.000   Median :    0.00    </span></span>
+<span id="cb148-13"><a href="explore.html#cb148-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mean   :  19872   Mean   :  1.069   Mean   :   8.262   Mean   :   19.85    </span></span>
+<span id="cb148-14"><a href="explore.html#cb148-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  3rd Qu.:  15390   3rd Qu.:  0.000   3rd Qu.:   5.000   3rd Qu.:    4.00    </span></span>
+<span id="cb148-15"><a href="explore.html#cb148-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  Max.   :8616333   Max.   :653.000   Max.   :2455.000   Max.   :13995.00    </span></span>
+<span id="cb148-16"><a href="explore.html#cb148-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  actual_assault_aggravated</span></span>
+<span id="cb148-17"><a href="explore.html#cb148-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  Min.   :   -1.00         </span></span>
+<span id="cb148-18"><a href="explore.html#cb148-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  1st Qu.:    1.00         </span></span>
+<span id="cb148-19"><a href="explore.html#cb148-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  Median :    5.00         </span></span>
+<span id="cb148-20"><a href="explore.html#cb148-20" aria-hidden="true" tabindex="-1"></a><span class="co">#  Mean   :   49.98         </span></span>
+<span id="cb148-21"><a href="explore.html#cb148-21" aria-hidden="true" tabindex="-1"></a><span class="co">#  3rd Qu.:   21.00         </span></span>
+<span id="cb148-22"><a href="explore.html#cb148-22" aria-hidden="true" tabindex="-1"></a><span class="co">#  Max.   :29771.00</span></span></code></pre></div>
 <p>The <code>table()</code> function returns every unique value in a category <strong>and</strong> how often that value appears. Unlike <code>summary()</code> we can’t just put the entire data set into the (), we need to specify a single column. To specify a column you use the dollar sign notation, which is <code>data$column</code>. For most functions we use to examine the data as a whole, such as <code>head()</code>, you can do the same for a specific column.</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="explore.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017<span class="sc">$</span>agency_name)</span>
-<span id="cb148-2"><a href="explore.html#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;   </span></span>
-<span id="cb148-3"><a href="explore.html#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="explore.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ucr2017<span class="sc">$</span>agency_name)</span>
+<span id="cb149-2"><a href="explore.html#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;anchorage&quot; &quot;fairbanks&quot; &quot;juneau&quot;    &quot;ketchikan&quot; &quot;kodiak&quot;    &quot;nome&quot;</span></span></code></pre></div>
 <p>There are only two columns in our data with categorical values that we can use - <em>year</em> and <em>state</em>, so let’s use <code>table()</code> on both of them. The columns <em>ori</em> and <em>agency_name</em> are also categorical but as each row of data has a unique ORI and name, running <code>table()</code> on those columns would not be helpful.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="explore.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>year)</span>
-<span id="cb149-2"><a href="explore.html#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb149-3"><a href="explore.html#cb149-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  2017 </span></span>
-<span id="cb149-4"><a href="explore.html#cb149-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 15764</span></span></code></pre></div>
-<p>We can see that every year in our data is 2017, as expected based on the data name. <em>year</em> is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has, for example, 7 murders. As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="explore.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>state)</span>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="explore.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>year)</span>
 <span id="cb150-2"><a href="explore.html#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb150-3"><a href="explore.html#cb150-3" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama </span></span>
-<span id="cb150-4"><a href="explore.html#cb150-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305 </span></span>
-<span id="cb150-5"><a href="explore.html#cb150-5" aria-hidden="true" tabindex="-1"></a><span class="co">#               alaska </span></span>
-<span id="cb150-6"><a href="explore.html#cb150-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                   32 </span></span>
-<span id="cb150-7"><a href="explore.html#cb150-7" aria-hidden="true" tabindex="-1"></a><span class="co">#              arizona </span></span>
-<span id="cb150-8"><a href="explore.html#cb150-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb150-9"><a href="explore.html#cb150-9" aria-hidden="true" tabindex="-1"></a><span class="co">#             arkansas </span></span>
-<span id="cb150-10"><a href="explore.html#cb150-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                  273 </span></span>
-<span id="cb150-11"><a href="explore.html#cb150-11" aria-hidden="true" tabindex="-1"></a><span class="co">#           california </span></span>
-<span id="cb150-12"><a href="explore.html#cb150-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                  732 </span></span>
-<span id="cb150-13"><a href="explore.html#cb150-13" aria-hidden="true" tabindex="-1"></a><span class="co">#             colorado </span></span>
-<span id="cb150-14"><a href="explore.html#cb150-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                  213 </span></span>
-<span id="cb150-15"><a href="explore.html#cb150-15" aria-hidden="true" tabindex="-1"></a><span class="co">#          connecticut </span></span>
-<span id="cb150-16"><a href="explore.html#cb150-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb150-17"><a href="explore.html#cb150-17" aria-hidden="true" tabindex="-1"></a><span class="co">#             delaware </span></span>
-<span id="cb150-18"><a href="explore.html#cb150-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                   63 </span></span>
-<span id="cb150-19"><a href="explore.html#cb150-19" aria-hidden="true" tabindex="-1"></a><span class="co"># district of columbia </span></span>
-<span id="cb150-20"><a href="explore.html#cb150-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                    3 </span></span>
-<span id="cb150-21"><a href="explore.html#cb150-21" aria-hidden="true" tabindex="-1"></a><span class="co">#              florida </span></span>
-<span id="cb150-22"><a href="explore.html#cb150-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                  603 </span></span>
-<span id="cb150-23"><a href="explore.html#cb150-23" aria-hidden="true" tabindex="-1"></a><span class="co">#              georgia </span></span>
-<span id="cb150-24"><a href="explore.html#cb150-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                  522 </span></span>
-<span id="cb150-25"><a href="explore.html#cb150-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                 guam </span></span>
-<span id="cb150-26"><a href="explore.html#cb150-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1 </span></span>
-<span id="cb150-27"><a href="explore.html#cb150-27" aria-hidden="true" tabindex="-1"></a><span class="co">#               hawaii </span></span>
-<span id="cb150-28"><a href="explore.html#cb150-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                    4 </span></span>
-<span id="cb150-29"><a href="explore.html#cb150-29" aria-hidden="true" tabindex="-1"></a><span class="co">#                idaho </span></span>
-<span id="cb150-30"><a href="explore.html#cb150-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                   95 </span></span>
-<span id="cb150-31"><a href="explore.html#cb150-31" aria-hidden="true" tabindex="-1"></a><span class="co">#             illinois </span></span>
-<span id="cb150-32"><a href="explore.html#cb150-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                  696 </span></span>
-<span id="cb150-33"><a href="explore.html#cb150-33" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana </span></span>
-<span id="cb150-34"><a href="explore.html#cb150-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247 </span></span>
-<span id="cb150-35"><a href="explore.html#cb150-35" aria-hidden="true" tabindex="-1"></a><span class="co">#                 iowa </span></span>
-<span id="cb150-36"><a href="explore.html#cb150-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                  216 </span></span>
-<span id="cb150-37"><a href="explore.html#cb150-37" aria-hidden="true" tabindex="-1"></a><span class="co">#               kansas </span></span>
-<span id="cb150-38"><a href="explore.html#cb150-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                  309 </span></span>
-<span id="cb150-39"><a href="explore.html#cb150-39" aria-hidden="true" tabindex="-1"></a><span class="co">#             kentucky </span></span>
-<span id="cb150-40"><a href="explore.html#cb150-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                  352 </span></span>
-<span id="cb150-41"><a href="explore.html#cb150-41" aria-hidden="true" tabindex="-1"></a><span class="co">#            louisiana </span></span>
-<span id="cb150-42"><a href="explore.html#cb150-42" aria-hidden="true" tabindex="-1"></a><span class="co">#                  192 </span></span>
-<span id="cb150-43"><a href="explore.html#cb150-43" aria-hidden="true" tabindex="-1"></a><span class="co">#                maine </span></span>
-<span id="cb150-44"><a href="explore.html#cb150-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                  135 </span></span>
-<span id="cb150-45"><a href="explore.html#cb150-45" aria-hidden="true" tabindex="-1"></a><span class="co">#             maryland </span></span>
-<span id="cb150-46"><a href="explore.html#cb150-46" aria-hidden="true" tabindex="-1"></a><span class="co">#                  152 </span></span>
-<span id="cb150-47"><a href="explore.html#cb150-47" aria-hidden="true" tabindex="-1"></a><span class="co">#        massachusetts </span></span>
-<span id="cb150-48"><a href="explore.html#cb150-48" aria-hidden="true" tabindex="-1"></a><span class="co">#                  346 </span></span>
-<span id="cb150-49"><a href="explore.html#cb150-49" aria-hidden="true" tabindex="-1"></a><span class="co">#             michigan </span></span>
-<span id="cb150-50"><a href="explore.html#cb150-50" aria-hidden="true" tabindex="-1"></a><span class="co">#                  625 </span></span>
-<span id="cb150-51"><a href="explore.html#cb150-51" aria-hidden="true" tabindex="-1"></a><span class="co">#            minnesota </span></span>
-<span id="cb150-52"><a href="explore.html#cb150-52" aria-hidden="true" tabindex="-1"></a><span class="co">#                  397 </span></span>
-<span id="cb150-53"><a href="explore.html#cb150-53" aria-hidden="true" tabindex="-1"></a><span class="co">#          mississippi </span></span>
-<span id="cb150-54"><a href="explore.html#cb150-54" aria-hidden="true" tabindex="-1"></a><span class="co">#                   71 </span></span>
-<span id="cb150-55"><a href="explore.html#cb150-55" aria-hidden="true" tabindex="-1"></a><span class="co">#             missouri </span></span>
-<span id="cb150-56"><a href="explore.html#cb150-56" aria-hidden="true" tabindex="-1"></a><span class="co">#                  580 </span></span>
-<span id="cb150-57"><a href="explore.html#cb150-57" aria-hidden="true" tabindex="-1"></a><span class="co">#              montana </span></span>
-<span id="cb150-58"><a href="explore.html#cb150-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb150-59"><a href="explore.html#cb150-59" aria-hidden="true" tabindex="-1"></a><span class="co">#             nebraska </span></span>
-<span id="cb150-60"><a href="explore.html#cb150-60" aria-hidden="true" tabindex="-1"></a><span class="co">#                  225 </span></span>
-<span id="cb150-61"><a href="explore.html#cb150-61" aria-hidden="true" tabindex="-1"></a><span class="co">#               nevada </span></span>
-<span id="cb150-62"><a href="explore.html#cb150-62" aria-hidden="true" tabindex="-1"></a><span class="co">#                   59 </span></span>
-<span id="cb150-63"><a href="explore.html#cb150-63" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire </span></span>
-<span id="cb150-64"><a href="explore.html#cb150-64" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176 </span></span>
-<span id="cb150-65"><a href="explore.html#cb150-65" aria-hidden="true" tabindex="-1"></a><span class="co">#           new jersey </span></span>
-<span id="cb150-66"><a href="explore.html#cb150-66" aria-hidden="true" tabindex="-1"></a><span class="co">#                  576 </span></span>
-<span id="cb150-67"><a href="explore.html#cb150-67" aria-hidden="true" tabindex="-1"></a><span class="co">#           new mexico </span></span>
-<span id="cb150-68"><a href="explore.html#cb150-68" aria-hidden="true" tabindex="-1"></a><span class="co">#                  116 </span></span>
-<span id="cb150-69"><a href="explore.html#cb150-69" aria-hidden="true" tabindex="-1"></a><span class="co">#             new york </span></span>
-<span id="cb150-70"><a href="explore.html#cb150-70" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb150-71"><a href="explore.html#cb150-71" aria-hidden="true" tabindex="-1"></a><span class="co">#       north carolina </span></span>
-<span id="cb150-72"><a href="explore.html#cb150-72" aria-hidden="true" tabindex="-1"></a><span class="co">#                  310 </span></span>
-<span id="cb150-73"><a href="explore.html#cb150-73" aria-hidden="true" tabindex="-1"></a><span class="co">#         north dakota </span></span>
-<span id="cb150-74"><a href="explore.html#cb150-74" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb150-75"><a href="explore.html#cb150-75" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ohio </span></span>
-<span id="cb150-76"><a href="explore.html#cb150-76" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb150-77"><a href="explore.html#cb150-77" aria-hidden="true" tabindex="-1"></a><span class="co">#             oklahoma </span></span>
-<span id="cb150-78"><a href="explore.html#cb150-78" aria-hidden="true" tabindex="-1"></a><span class="co">#                  409 </span></span>
-<span id="cb150-79"><a href="explore.html#cb150-79" aria-hidden="true" tabindex="-1"></a><span class="co">#               oregon </span></span>
-<span id="cb150-80"><a href="explore.html#cb150-80" aria-hidden="true" tabindex="-1"></a><span class="co">#                  172 </span></span>
-<span id="cb150-81"><a href="explore.html#cb150-81" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania </span></span>
-<span id="cb150-82"><a href="explore.html#cb150-82" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473 </span></span>
-<span id="cb150-83"><a href="explore.html#cb150-83" aria-hidden="true" tabindex="-1"></a><span class="co">#         rhode island </span></span>
-<span id="cb150-84"><a href="explore.html#cb150-84" aria-hidden="true" tabindex="-1"></a><span class="co">#                   49 </span></span>
-<span id="cb150-85"><a href="explore.html#cb150-85" aria-hidden="true" tabindex="-1"></a><span class="co">#       south carolina </span></span>
-<span id="cb150-86"><a href="explore.html#cb150-86" aria-hidden="true" tabindex="-1"></a><span class="co">#                  427 </span></span>
-<span id="cb150-87"><a href="explore.html#cb150-87" aria-hidden="true" tabindex="-1"></a><span class="co">#         south dakota </span></span>
-<span id="cb150-88"><a href="explore.html#cb150-88" aria-hidden="true" tabindex="-1"></a><span class="co">#                   92 </span></span>
-<span id="cb150-89"><a href="explore.html#cb150-89" aria-hidden="true" tabindex="-1"></a><span class="co">#            tennessee </span></span>
-<span id="cb150-90"><a href="explore.html#cb150-90" aria-hidden="true" tabindex="-1"></a><span class="co">#                  466 </span></span>
-<span id="cb150-91"><a href="explore.html#cb150-91" aria-hidden="true" tabindex="-1"></a><span class="co">#                texas </span></span>
-<span id="cb150-92"><a href="explore.html#cb150-92" aria-hidden="true" tabindex="-1"></a><span class="co">#                  999 </span></span>
-<span id="cb150-93"><a href="explore.html#cb150-93" aria-hidden="true" tabindex="-1"></a><span class="co">#                 utah </span></span>
-<span id="cb150-94"><a href="explore.html#cb150-94" aria-hidden="true" tabindex="-1"></a><span class="co">#                  125 </span></span>
-<span id="cb150-95"><a href="explore.html#cb150-95" aria-hidden="true" tabindex="-1"></a><span class="co">#              vermont </span></span>
-<span id="cb150-96"><a href="explore.html#cb150-96" aria-hidden="true" tabindex="-1"></a><span class="co">#                   85 </span></span>
-<span id="cb150-97"><a href="explore.html#cb150-97" aria-hidden="true" tabindex="-1"></a><span class="co">#             virginia </span></span>
-<span id="cb150-98"><a href="explore.html#cb150-98" aria-hidden="true" tabindex="-1"></a><span class="co">#                  407 </span></span>
-<span id="cb150-99"><a href="explore.html#cb150-99" aria-hidden="true" tabindex="-1"></a><span class="co">#           washington </span></span>
-<span id="cb150-100"><a href="explore.html#cb150-100" aria-hidden="true" tabindex="-1"></a><span class="co">#                  250 </span></span>
-<span id="cb150-101"><a href="explore.html#cb150-101" aria-hidden="true" tabindex="-1"></a><span class="co">#        west virginia </span></span>
-<span id="cb150-102"><a href="explore.html#cb150-102" aria-hidden="true" tabindex="-1"></a><span class="co">#                  200 </span></span>
-<span id="cb150-103"><a href="explore.html#cb150-103" aria-hidden="true" tabindex="-1"></a><span class="co">#            wisconsin </span></span>
-<span id="cb150-104"><a href="explore.html#cb150-104" aria-hidden="true" tabindex="-1"></a><span class="co">#                  433 </span></span>
-<span id="cb150-105"><a href="explore.html#cb150-105" aria-hidden="true" tabindex="-1"></a><span class="co">#              wyoming </span></span>
-<span id="cb150-106"><a href="explore.html#cb150-106" aria-hidden="true" tabindex="-1"></a><span class="co">#                   57</span></span></code></pre></div>
-<p>This shows us how many times each state is present in the data. States with a larger population tend to appear more often; this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears, we usually want it ordered by frequency. We can use the <code>sort()</code> function to order the results from <code>table()</code>. Just put the entire <code>table()</code> function inside of the () in <code>sort()</code>.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="explore.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state))</span>
+<span id="cb150-3"><a href="explore.html#cb150-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  2017 </span></span>
+<span id="cb150-4"><a href="explore.html#cb150-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 15764</span></span></code></pre></div>
+<p>We can see that every year in our data is 2017, as expected based on the data name. <em>year</em> is a numerical column so why can we use <code>table()</code> on it? R doesn’t differentiate between numbers and characters when seeing how often each value appears. If we ran <code>table()</code> on the column “actual_murder” it would tell us how many times each unique value in the column appeared in the data. That wouldn’t be very useful as we don’t really care how many times an agency has, for example, 7 murders. As numeric variables often have many more unique values than character variables, it also leads to many values being printed, making it harder to understand. For columns where the number of categories is important to us, such as years, states, neighborhoods, we should use <code>table()</code>.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="explore.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ucr2017<span class="sc">$</span>state)</span>
 <span id="cb151-2"><a href="explore.html#cb151-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb151-3"><a href="explore.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                 guam </span></span>
-<span id="cb151-4"><a href="explore.html#cb151-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1 </span></span>
-<span id="cb151-5"><a href="explore.html#cb151-5" aria-hidden="true" tabindex="-1"></a><span class="co"># district of columbia </span></span>
-<span id="cb151-6"><a href="explore.html#cb151-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                    3 </span></span>
-<span id="cb151-7"><a href="explore.html#cb151-7" aria-hidden="true" tabindex="-1"></a><span class="co">#               hawaii </span></span>
-<span id="cb151-8"><a href="explore.html#cb151-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                    4 </span></span>
-<span id="cb151-9"><a href="explore.html#cb151-9" aria-hidden="true" tabindex="-1"></a><span class="co">#               alaska </span></span>
-<span id="cb151-10"><a href="explore.html#cb151-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                   32 </span></span>
-<span id="cb151-11"><a href="explore.html#cb151-11" aria-hidden="true" tabindex="-1"></a><span class="co">#         rhode island </span></span>
-<span id="cb151-12"><a href="explore.html#cb151-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                   49 </span></span>
-<span id="cb151-13"><a href="explore.html#cb151-13" aria-hidden="true" tabindex="-1"></a><span class="co">#              wyoming </span></span>
-<span id="cb151-14"><a href="explore.html#cb151-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                   57 </span></span>
-<span id="cb151-15"><a href="explore.html#cb151-15" aria-hidden="true" tabindex="-1"></a><span class="co">#               nevada </span></span>
-<span id="cb151-16"><a href="explore.html#cb151-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                   59 </span></span>
-<span id="cb151-17"><a href="explore.html#cb151-17" aria-hidden="true" tabindex="-1"></a><span class="co">#             delaware </span></span>
-<span id="cb151-18"><a href="explore.html#cb151-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                   63 </span></span>
-<span id="cb151-19"><a href="explore.html#cb151-19" aria-hidden="true" tabindex="-1"></a><span class="co">#          mississippi </span></span>
-<span id="cb151-20"><a href="explore.html#cb151-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                   71 </span></span>
-<span id="cb151-21"><a href="explore.html#cb151-21" aria-hidden="true" tabindex="-1"></a><span class="co">#              vermont </span></span>
-<span id="cb151-22"><a href="explore.html#cb151-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                   85 </span></span>
-<span id="cb151-23"><a href="explore.html#cb151-23" aria-hidden="true" tabindex="-1"></a><span class="co">#         south dakota </span></span>
-<span id="cb151-24"><a href="explore.html#cb151-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                   92 </span></span>
-<span id="cb151-25"><a href="explore.html#cb151-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                idaho </span></span>
-<span id="cb151-26"><a href="explore.html#cb151-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                   95 </span></span>
-<span id="cb151-27"><a href="explore.html#cb151-27" aria-hidden="true" tabindex="-1"></a><span class="co">#              arizona </span></span>
-<span id="cb151-28"><a href="explore.html#cb151-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb151-29"><a href="explore.html#cb151-29" aria-hidden="true" tabindex="-1"></a><span class="co">#          connecticut </span></span>
-<span id="cb151-30"><a href="explore.html#cb151-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb151-31"><a href="explore.html#cb151-31" aria-hidden="true" tabindex="-1"></a><span class="co">#              montana </span></span>
-<span id="cb151-32"><a href="explore.html#cb151-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb151-33"><a href="explore.html#cb151-33" aria-hidden="true" tabindex="-1"></a><span class="co">#         north dakota </span></span>
-<span id="cb151-34"><a href="explore.html#cb151-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb151-35"><a href="explore.html#cb151-35" aria-hidden="true" tabindex="-1"></a><span class="co">#           new mexico </span></span>
-<span id="cb151-36"><a href="explore.html#cb151-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                  116 </span></span>
-<span id="cb151-37"><a href="explore.html#cb151-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                 utah </span></span>
-<span id="cb151-38"><a href="explore.html#cb151-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                  125 </span></span>
-<span id="cb151-39"><a href="explore.html#cb151-39" aria-hidden="true" tabindex="-1"></a><span class="co">#                maine </span></span>
-<span id="cb151-40"><a href="explore.html#cb151-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                  135 </span></span>
-<span id="cb151-41"><a href="explore.html#cb151-41" aria-hidden="true" tabindex="-1"></a><span class="co">#             maryland </span></span>
-<span id="cb151-42"><a href="explore.html#cb151-42" aria-hidden="true" tabindex="-1"></a><span class="co">#                  152 </span></span>
-<span id="cb151-43"><a href="explore.html#cb151-43" aria-hidden="true" tabindex="-1"></a><span class="co">#               oregon </span></span>
-<span id="cb151-44"><a href="explore.html#cb151-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                  172 </span></span>
-<span id="cb151-45"><a href="explore.html#cb151-45" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire </span></span>
-<span id="cb151-46"><a href="explore.html#cb151-46" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176 </span></span>
-<span id="cb151-47"><a href="explore.html#cb151-47" aria-hidden="true" tabindex="-1"></a><span class="co">#            louisiana </span></span>
-<span id="cb151-48"><a href="explore.html#cb151-48" aria-hidden="true" tabindex="-1"></a><span class="co">#                  192 </span></span>
-<span id="cb151-49"><a href="explore.html#cb151-49" aria-hidden="true" tabindex="-1"></a><span class="co">#        west virginia </span></span>
-<span id="cb151-50"><a href="explore.html#cb151-50" aria-hidden="true" tabindex="-1"></a><span class="co">#                  200 </span></span>
-<span id="cb151-51"><a href="explore.html#cb151-51" aria-hidden="true" tabindex="-1"></a><span class="co">#             colorado </span></span>
-<span id="cb151-52"><a href="explore.html#cb151-52" aria-hidden="true" tabindex="-1"></a><span class="co">#                  213 </span></span>
-<span id="cb151-53"><a href="explore.html#cb151-53" aria-hidden="true" tabindex="-1"></a><span class="co">#                 iowa </span></span>
-<span id="cb151-54"><a href="explore.html#cb151-54" aria-hidden="true" tabindex="-1"></a><span class="co">#                  216 </span></span>
-<span id="cb151-55"><a href="explore.html#cb151-55" aria-hidden="true" tabindex="-1"></a><span class="co">#             nebraska </span></span>
-<span id="cb151-56"><a href="explore.html#cb151-56" aria-hidden="true" tabindex="-1"></a><span class="co">#                  225 </span></span>
-<span id="cb151-57"><a href="explore.html#cb151-57" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana </span></span>
-<span id="cb151-58"><a href="explore.html#cb151-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247 </span></span>
-<span id="cb151-59"><a href="explore.html#cb151-59" aria-hidden="true" tabindex="-1"></a><span class="co">#           washington </span></span>
-<span id="cb151-60"><a href="explore.html#cb151-60" aria-hidden="true" tabindex="-1"></a><span class="co">#                  250 </span></span>
-<span id="cb151-61"><a href="explore.html#cb151-61" aria-hidden="true" tabindex="-1"></a><span class="co">#             arkansas </span></span>
-<span id="cb151-62"><a href="explore.html#cb151-62" aria-hidden="true" tabindex="-1"></a><span class="co">#                  273 </span></span>
-<span id="cb151-63"><a href="explore.html#cb151-63" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama </span></span>
-<span id="cb151-64"><a href="explore.html#cb151-64" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305 </span></span>
-<span id="cb151-65"><a href="explore.html#cb151-65" aria-hidden="true" tabindex="-1"></a><span class="co">#               kansas </span></span>
-<span id="cb151-66"><a href="explore.html#cb151-66" aria-hidden="true" tabindex="-1"></a><span class="co">#                  309 </span></span>
-<span id="cb151-67"><a href="explore.html#cb151-67" aria-hidden="true" tabindex="-1"></a><span class="co">#       north carolina </span></span>
-<span id="cb151-68"><a href="explore.html#cb151-68" aria-hidden="true" tabindex="-1"></a><span class="co">#                  310 </span></span>
-<span id="cb151-69"><a href="explore.html#cb151-69" aria-hidden="true" tabindex="-1"></a><span class="co">#        massachusetts </span></span>
-<span id="cb151-70"><a href="explore.html#cb151-70" aria-hidden="true" tabindex="-1"></a><span class="co">#                  346 </span></span>
-<span id="cb151-71"><a href="explore.html#cb151-71" aria-hidden="true" tabindex="-1"></a><span class="co">#             kentucky </span></span>
-<span id="cb151-72"><a href="explore.html#cb151-72" aria-hidden="true" tabindex="-1"></a><span class="co">#                  352 </span></span>
-<span id="cb151-73"><a href="explore.html#cb151-73" aria-hidden="true" tabindex="-1"></a><span class="co">#            minnesota </span></span>
-<span id="cb151-74"><a href="explore.html#cb151-74" aria-hidden="true" tabindex="-1"></a><span class="co">#                  397 </span></span>
-<span id="cb151-75"><a href="explore.html#cb151-75" aria-hidden="true" tabindex="-1"></a><span class="co">#             virginia </span></span>
-<span id="cb151-76"><a href="explore.html#cb151-76" aria-hidden="true" tabindex="-1"></a><span class="co">#                  407 </span></span>
-<span id="cb151-77"><a href="explore.html#cb151-77" aria-hidden="true" tabindex="-1"></a><span class="co">#             oklahoma </span></span>
-<span id="cb151-78"><a href="explore.html#cb151-78" aria-hidden="true" tabindex="-1"></a><span class="co">#                  409 </span></span>
-<span id="cb151-79"><a href="explore.html#cb151-79" aria-hidden="true" tabindex="-1"></a><span class="co">#       south carolina </span></span>
-<span id="cb151-80"><a href="explore.html#cb151-80" aria-hidden="true" tabindex="-1"></a><span class="co">#                  427 </span></span>
-<span id="cb151-81"><a href="explore.html#cb151-81" aria-hidden="true" tabindex="-1"></a><span class="co">#            wisconsin </span></span>
-<span id="cb151-82"><a href="explore.html#cb151-82" aria-hidden="true" tabindex="-1"></a><span class="co">#                  433 </span></span>
-<span id="cb151-83"><a href="explore.html#cb151-83" aria-hidden="true" tabindex="-1"></a><span class="co">#            tennessee </span></span>
-<span id="cb151-84"><a href="explore.html#cb151-84" aria-hidden="true" tabindex="-1"></a><span class="co">#                  466 </span></span>
-<span id="cb151-85"><a href="explore.html#cb151-85" aria-hidden="true" tabindex="-1"></a><span class="co">#              georgia </span></span>
-<span id="cb151-86"><a href="explore.html#cb151-86" aria-hidden="true" tabindex="-1"></a><span class="co">#                  522 </span></span>
-<span id="cb151-87"><a href="explore.html#cb151-87" aria-hidden="true" tabindex="-1"></a><span class="co">#             new york </span></span>
-<span id="cb151-88"><a href="explore.html#cb151-88" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb151-89"><a href="explore.html#cb151-89" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ohio </span></span>
-<span id="cb151-90"><a href="explore.html#cb151-90" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb151-91"><a href="explore.html#cb151-91" aria-hidden="true" tabindex="-1"></a><span class="co">#           new jersey </span></span>
-<span id="cb151-92"><a href="explore.html#cb151-92" aria-hidden="true" tabindex="-1"></a><span class="co">#                  576 </span></span>
-<span id="cb151-93"><a href="explore.html#cb151-93" aria-hidden="true" tabindex="-1"></a><span class="co">#             missouri </span></span>
-<span id="cb151-94"><a href="explore.html#cb151-94" aria-hidden="true" tabindex="-1"></a><span class="co">#                  580 </span></span>
-<span id="cb151-95"><a href="explore.html#cb151-95" aria-hidden="true" tabindex="-1"></a><span class="co">#              florida </span></span>
-<span id="cb151-96"><a href="explore.html#cb151-96" aria-hidden="true" tabindex="-1"></a><span class="co">#                  603 </span></span>
-<span id="cb151-97"><a href="explore.html#cb151-97" aria-hidden="true" tabindex="-1"></a><span class="co">#             michigan </span></span>
-<span id="cb151-98"><a href="explore.html#cb151-98" aria-hidden="true" tabindex="-1"></a><span class="co">#                  625 </span></span>
-<span id="cb151-99"><a href="explore.html#cb151-99" aria-hidden="true" tabindex="-1"></a><span class="co">#             illinois </span></span>
-<span id="cb151-100"><a href="explore.html#cb151-100" aria-hidden="true" tabindex="-1"></a><span class="co">#                  696 </span></span>
-<span id="cb151-101"><a href="explore.html#cb151-101" aria-hidden="true" tabindex="-1"></a><span class="co">#           california </span></span>
-<span id="cb151-102"><a href="explore.html#cb151-102" aria-hidden="true" tabindex="-1"></a><span class="co">#                  732 </span></span>
-<span id="cb151-103"><a href="explore.html#cb151-103" aria-hidden="true" tabindex="-1"></a><span class="co">#                texas </span></span>
-<span id="cb151-104"><a href="explore.html#cb151-104" aria-hidden="true" tabindex="-1"></a><span class="co">#                  999 </span></span>
-<span id="cb151-105"><a href="explore.html#cb151-105" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania </span></span>
-<span id="cb151-106"><a href="explore.html#cb151-106" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473</span></span></code></pre></div>
-<p>And if we want to sort it in decreasing order of frequency, we can use the parameter <code>decreasing</code> in <code>sort()</code> and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters, and they are useful if you don’t want to use the default setting in the function. This parameter, <code>decreasing</code>, changes the <code>sort()</code> output to print from largest to smallest. By default this parameter is set to FALSE, and here we say it is equal to TRUE.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="explore.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb151-3"><a href="explore.html#cb151-3" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama               alaska              arizona </span></span>
+<span id="cb151-4"><a href="explore.html#cb151-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305                   32                  107 </span></span>
+<span id="cb151-5"><a href="explore.html#cb151-5" aria-hidden="true" tabindex="-1"></a><span class="co">#             arkansas           california             colorado </span></span>
+<span id="cb151-6"><a href="explore.html#cb151-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                  273                  732                  213 </span></span>
+<span id="cb151-7"><a href="explore.html#cb151-7" aria-hidden="true" tabindex="-1"></a><span class="co">#          connecticut             delaware district of columbia </span></span>
+<span id="cb151-8"><a href="explore.html#cb151-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107                   63                    3 </span></span>
+<span id="cb151-9"><a href="explore.html#cb151-9" aria-hidden="true" tabindex="-1"></a><span class="co">#              florida              georgia                 guam </span></span>
+<span id="cb151-10"><a href="explore.html#cb151-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                  603                  522                    1 </span></span>
+<span id="cb151-11"><a href="explore.html#cb151-11" aria-hidden="true" tabindex="-1"></a><span class="co">#               hawaii                idaho             illinois </span></span>
+<span id="cb151-12"><a href="explore.html#cb151-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                    4                   95                  696 </span></span>
+<span id="cb151-13"><a href="explore.html#cb151-13" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana                 iowa               kansas </span></span>
+<span id="cb151-14"><a href="explore.html#cb151-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247                  216                  309 </span></span>
+<span id="cb151-15"><a href="explore.html#cb151-15" aria-hidden="true" tabindex="-1"></a><span class="co">#             kentucky            louisiana                maine </span></span>
+<span id="cb151-16"><a href="explore.html#cb151-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                  352                  192                  135 </span></span>
+<span id="cb151-17"><a href="explore.html#cb151-17" aria-hidden="true" tabindex="-1"></a><span class="co">#             maryland        massachusetts             michigan </span></span>
+<span id="cb151-18"><a href="explore.html#cb151-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                  152                  346                  625 </span></span>
+<span id="cb151-19"><a href="explore.html#cb151-19" aria-hidden="true" tabindex="-1"></a><span class="co">#            minnesota          mississippi             missouri </span></span>
+<span id="cb151-20"><a href="explore.html#cb151-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                  397                   71                  580 </span></span>
+<span id="cb151-21"><a href="explore.html#cb151-21" aria-hidden="true" tabindex="-1"></a><span class="co">#              montana             nebraska               nevada </span></span>
+<span id="cb151-22"><a href="explore.html#cb151-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108                  225                   59 </span></span>
+<span id="cb151-23"><a href="explore.html#cb151-23" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire           new jersey           new mexico </span></span>
+<span id="cb151-24"><a href="explore.html#cb151-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176                  576                  116 </span></span>
+<span id="cb151-25"><a href="explore.html#cb151-25" aria-hidden="true" tabindex="-1"></a><span class="co">#             new york       north carolina         north dakota </span></span>
+<span id="cb151-26"><a href="explore.html#cb151-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532                  310                  108 </span></span>
+<span id="cb151-27"><a href="explore.html#cb151-27" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ohio             oklahoma               oregon </span></span>
+<span id="cb151-28"><a href="explore.html#cb151-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532                  409                  172 </span></span>
+<span id="cb151-29"><a href="explore.html#cb151-29" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania         rhode island       south carolina </span></span>
+<span id="cb151-30"><a href="explore.html#cb151-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473                   49                  427 </span></span>
+<span id="cb151-31"><a href="explore.html#cb151-31" aria-hidden="true" tabindex="-1"></a><span class="co">#         south dakota            tennessee                texas </span></span>
+<span id="cb151-32"><a href="explore.html#cb151-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                   92                  466                  999 </span></span>
+<span id="cb151-33"><a href="explore.html#cb151-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                 utah              vermont             virginia </span></span>
+<span id="cb151-34"><a href="explore.html#cb151-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  125                   85                  407 </span></span>
+<span id="cb151-35"><a href="explore.html#cb151-35" aria-hidden="true" tabindex="-1"></a><span class="co">#           washington        west virginia            wisconsin </span></span>
+<span id="cb151-36"><a href="explore.html#cb151-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                  250                  200                  433 </span></span>
+<span id="cb151-37"><a href="explore.html#cb151-37" aria-hidden="true" tabindex="-1"></a><span class="co">#              wyoming </span></span>
+<span id="cb151-38"><a href="explore.html#cb151-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                   57</span></span></code></pre></div>
+<p>This shows us how many times each state is present in the data. States with a larger population tend to appear more often; this makes sense as those states have more agencies to report. Right now the results are in alphabetical order, but when knowing how frequently something appears, we usually want it ordered by frequency. We can use the <code>sort()</code> function to order the results from <code>table()</code>. Just put the entire <code>table()</code> function inside of the () in <code>sort()</code>.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="explore.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state))</span>
 <span id="cb152-2"><a href="explore.html#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb152-3"><a href="explore.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania </span></span>
-<span id="cb152-4"><a href="explore.html#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473 </span></span>
-<span id="cb152-5"><a href="explore.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co">#                texas </span></span>
-<span id="cb152-6"><a href="explore.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                  999 </span></span>
-<span id="cb152-7"><a href="explore.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="co">#           california </span></span>
-<span id="cb152-8"><a href="explore.html#cb152-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                  732 </span></span>
-<span id="cb152-9"><a href="explore.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="co">#             illinois </span></span>
-<span id="cb152-10"><a href="explore.html#cb152-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                  696 </span></span>
-<span id="cb152-11"><a href="explore.html#cb152-11" aria-hidden="true" tabindex="-1"></a><span class="co">#             michigan </span></span>
-<span id="cb152-12"><a href="explore.html#cb152-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                  625 </span></span>
-<span id="cb152-13"><a href="explore.html#cb152-13" aria-hidden="true" tabindex="-1"></a><span class="co">#              florida </span></span>
-<span id="cb152-14"><a href="explore.html#cb152-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                  603 </span></span>
-<span id="cb152-15"><a href="explore.html#cb152-15" aria-hidden="true" tabindex="-1"></a><span class="co">#             missouri </span></span>
-<span id="cb152-16"><a href="explore.html#cb152-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                  580 </span></span>
-<span id="cb152-17"><a href="explore.html#cb152-17" aria-hidden="true" tabindex="-1"></a><span class="co">#           new jersey </span></span>
-<span id="cb152-18"><a href="explore.html#cb152-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                  576 </span></span>
-<span id="cb152-19"><a href="explore.html#cb152-19" aria-hidden="true" tabindex="-1"></a><span class="co">#             new york </span></span>
-<span id="cb152-20"><a href="explore.html#cb152-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb152-21"><a href="explore.html#cb152-21" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ohio </span></span>
-<span id="cb152-22"><a href="explore.html#cb152-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532 </span></span>
-<span id="cb152-23"><a href="explore.html#cb152-23" aria-hidden="true" tabindex="-1"></a><span class="co">#              georgia </span></span>
-<span id="cb152-24"><a href="explore.html#cb152-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                  522 </span></span>
-<span id="cb152-25"><a href="explore.html#cb152-25" aria-hidden="true" tabindex="-1"></a><span class="co">#            tennessee </span></span>
-<span id="cb152-26"><a href="explore.html#cb152-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                  466 </span></span>
-<span id="cb152-27"><a href="explore.html#cb152-27" aria-hidden="true" tabindex="-1"></a><span class="co">#            wisconsin </span></span>
-<span id="cb152-28"><a href="explore.html#cb152-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                  433 </span></span>
-<span id="cb152-29"><a href="explore.html#cb152-29" aria-hidden="true" tabindex="-1"></a><span class="co">#       south carolina </span></span>
-<span id="cb152-30"><a href="explore.html#cb152-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                  427 </span></span>
-<span id="cb152-31"><a href="explore.html#cb152-31" aria-hidden="true" tabindex="-1"></a><span class="co">#             oklahoma </span></span>
-<span id="cb152-32"><a href="explore.html#cb152-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                  409 </span></span>
-<span id="cb152-33"><a href="explore.html#cb152-33" aria-hidden="true" tabindex="-1"></a><span class="co">#             virginia </span></span>
-<span id="cb152-34"><a href="explore.html#cb152-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  407 </span></span>
-<span id="cb152-35"><a href="explore.html#cb152-35" aria-hidden="true" tabindex="-1"></a><span class="co">#            minnesota </span></span>
-<span id="cb152-36"><a href="explore.html#cb152-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                  397 </span></span>
-<span id="cb152-37"><a href="explore.html#cb152-37" aria-hidden="true" tabindex="-1"></a><span class="co">#             kentucky </span></span>
-<span id="cb152-38"><a href="explore.html#cb152-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                  352 </span></span>
-<span id="cb152-39"><a href="explore.html#cb152-39" aria-hidden="true" tabindex="-1"></a><span class="co">#        massachusetts </span></span>
-<span id="cb152-40"><a href="explore.html#cb152-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                  346 </span></span>
-<span id="cb152-41"><a href="explore.html#cb152-41" aria-hidden="true" tabindex="-1"></a><span class="co">#       north carolina </span></span>
-<span id="cb152-42"><a href="explore.html#cb152-42" aria-hidden="true" tabindex="-1"></a><span class="co">#                  310 </span></span>
-<span id="cb152-43"><a href="explore.html#cb152-43" aria-hidden="true" tabindex="-1"></a><span class="co">#               kansas </span></span>
-<span id="cb152-44"><a href="explore.html#cb152-44" aria-hidden="true" tabindex="-1"></a><span class="co">#                  309 </span></span>
-<span id="cb152-45"><a href="explore.html#cb152-45" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama </span></span>
-<span id="cb152-46"><a href="explore.html#cb152-46" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305 </span></span>
-<span id="cb152-47"><a href="explore.html#cb152-47" aria-hidden="true" tabindex="-1"></a><span class="co">#             arkansas </span></span>
-<span id="cb152-48"><a href="explore.html#cb152-48" aria-hidden="true" tabindex="-1"></a><span class="co">#                  273 </span></span>
-<span id="cb152-49"><a href="explore.html#cb152-49" aria-hidden="true" tabindex="-1"></a><span class="co">#           washington </span></span>
-<span id="cb152-50"><a href="explore.html#cb152-50" aria-hidden="true" tabindex="-1"></a><span class="co">#                  250 </span></span>
-<span id="cb152-51"><a href="explore.html#cb152-51" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana </span></span>
-<span id="cb152-52"><a href="explore.html#cb152-52" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247 </span></span>
-<span id="cb152-53"><a href="explore.html#cb152-53" aria-hidden="true" tabindex="-1"></a><span class="co">#             nebraska </span></span>
-<span id="cb152-54"><a href="explore.html#cb152-54" aria-hidden="true" tabindex="-1"></a><span class="co">#                  225 </span></span>
-<span id="cb152-55"><a href="explore.html#cb152-55" aria-hidden="true" tabindex="-1"></a><span class="co">#                 iowa </span></span>
-<span id="cb152-56"><a href="explore.html#cb152-56" aria-hidden="true" tabindex="-1"></a><span class="co">#                  216 </span></span>
-<span id="cb152-57"><a href="explore.html#cb152-57" aria-hidden="true" tabindex="-1"></a><span class="co">#             colorado </span></span>
-<span id="cb152-58"><a href="explore.html#cb152-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                  213 </span></span>
-<span id="cb152-59"><a href="explore.html#cb152-59" aria-hidden="true" tabindex="-1"></a><span class="co">#        west virginia </span></span>
-<span id="cb152-60"><a href="explore.html#cb152-60" aria-hidden="true" tabindex="-1"></a><span class="co">#                  200 </span></span>
-<span id="cb152-61"><a href="explore.html#cb152-61" aria-hidden="true" tabindex="-1"></a><span class="co">#            louisiana </span></span>
-<span id="cb152-62"><a href="explore.html#cb152-62" aria-hidden="true" tabindex="-1"></a><span class="co">#                  192 </span></span>
-<span id="cb152-63"><a href="explore.html#cb152-63" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire </span></span>
-<span id="cb152-64"><a href="explore.html#cb152-64" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176 </span></span>
-<span id="cb152-65"><a href="explore.html#cb152-65" aria-hidden="true" tabindex="-1"></a><span class="co">#               oregon </span></span>
-<span id="cb152-66"><a href="explore.html#cb152-66" aria-hidden="true" tabindex="-1"></a><span class="co">#                  172 </span></span>
-<span id="cb152-67"><a href="explore.html#cb152-67" aria-hidden="true" tabindex="-1"></a><span class="co">#             maryland </span></span>
-<span id="cb152-68"><a href="explore.html#cb152-68" aria-hidden="true" tabindex="-1"></a><span class="co">#                  152 </span></span>
-<span id="cb152-69"><a href="explore.html#cb152-69" aria-hidden="true" tabindex="-1"></a><span class="co">#                maine </span></span>
-<span id="cb152-70"><a href="explore.html#cb152-70" aria-hidden="true" tabindex="-1"></a><span class="co">#                  135 </span></span>
-<span id="cb152-71"><a href="explore.html#cb152-71" aria-hidden="true" tabindex="-1"></a><span class="co">#                 utah </span></span>
-<span id="cb152-72"><a href="explore.html#cb152-72" aria-hidden="true" tabindex="-1"></a><span class="co">#                  125 </span></span>
-<span id="cb152-73"><a href="explore.html#cb152-73" aria-hidden="true" tabindex="-1"></a><span class="co">#           new mexico </span></span>
-<span id="cb152-74"><a href="explore.html#cb152-74" aria-hidden="true" tabindex="-1"></a><span class="co">#                  116 </span></span>
-<span id="cb152-75"><a href="explore.html#cb152-75" aria-hidden="true" tabindex="-1"></a><span class="co">#              montana </span></span>
-<span id="cb152-76"><a href="explore.html#cb152-76" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb152-77"><a href="explore.html#cb152-77" aria-hidden="true" tabindex="-1"></a><span class="co">#         north dakota </span></span>
-<span id="cb152-78"><a href="explore.html#cb152-78" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108 </span></span>
-<span id="cb152-79"><a href="explore.html#cb152-79" aria-hidden="true" tabindex="-1"></a><span class="co">#              arizona </span></span>
-<span id="cb152-80"><a href="explore.html#cb152-80" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb152-81"><a href="explore.html#cb152-81" aria-hidden="true" tabindex="-1"></a><span class="co">#          connecticut </span></span>
-<span id="cb152-82"><a href="explore.html#cb152-82" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107 </span></span>
-<span id="cb152-83"><a href="explore.html#cb152-83" aria-hidden="true" tabindex="-1"></a><span class="co">#                idaho </span></span>
-<span id="cb152-84"><a href="explore.html#cb152-84" aria-hidden="true" tabindex="-1"></a><span class="co">#                   95 </span></span>
-<span id="cb152-85"><a href="explore.html#cb152-85" aria-hidden="true" tabindex="-1"></a><span class="co">#         south dakota </span></span>
-<span id="cb152-86"><a href="explore.html#cb152-86" aria-hidden="true" tabindex="-1"></a><span class="co">#                   92 </span></span>
-<span id="cb152-87"><a href="explore.html#cb152-87" aria-hidden="true" tabindex="-1"></a><span class="co">#              vermont </span></span>
-<span id="cb152-88"><a href="explore.html#cb152-88" aria-hidden="true" tabindex="-1"></a><span class="co">#                   85 </span></span>
-<span id="cb152-89"><a href="explore.html#cb152-89" aria-hidden="true" tabindex="-1"></a><span class="co">#          mississippi </span></span>
-<span id="cb152-90"><a href="explore.html#cb152-90" aria-hidden="true" tabindex="-1"></a><span class="co">#                   71 </span></span>
-<span id="cb152-91"><a href="explore.html#cb152-91" aria-hidden="true" tabindex="-1"></a><span class="co">#             delaware </span></span>
-<span id="cb152-92"><a href="explore.html#cb152-92" aria-hidden="true" tabindex="-1"></a><span class="co">#                   63 </span></span>
-<span id="cb152-93"><a href="explore.html#cb152-93" aria-hidden="true" tabindex="-1"></a><span class="co">#               nevada </span></span>
-<span id="cb152-94"><a href="explore.html#cb152-94" aria-hidden="true" tabindex="-1"></a><span class="co">#                   59 </span></span>
-<span id="cb152-95"><a href="explore.html#cb152-95" aria-hidden="true" tabindex="-1"></a><span class="co">#              wyoming </span></span>
-<span id="cb152-96"><a href="explore.html#cb152-96" aria-hidden="true" tabindex="-1"></a><span class="co">#                   57 </span></span>
-<span id="cb152-97"><a href="explore.html#cb152-97" aria-hidden="true" tabindex="-1"></a><span class="co">#         rhode island </span></span>
-<span id="cb152-98"><a href="explore.html#cb152-98" aria-hidden="true" tabindex="-1"></a><span class="co">#                   49 </span></span>
-<span id="cb152-99"><a href="explore.html#cb152-99" aria-hidden="true" tabindex="-1"></a><span class="co">#               alaska </span></span>
-<span id="cb152-100"><a href="explore.html#cb152-100" aria-hidden="true" tabindex="-1"></a><span class="co">#                   32 </span></span>
-<span id="cb152-101"><a href="explore.html#cb152-101" aria-hidden="true" tabindex="-1"></a><span class="co">#               hawaii </span></span>
-<span id="cb152-102"><a href="explore.html#cb152-102" aria-hidden="true" tabindex="-1"></a><span class="co">#                    4 </span></span>
-<span id="cb152-103"><a href="explore.html#cb152-103" aria-hidden="true" tabindex="-1"></a><span class="co"># district of columbia </span></span>
-<span id="cb152-104"><a href="explore.html#cb152-104" aria-hidden="true" tabindex="-1"></a><span class="co">#                    3 </span></span>
-<span id="cb152-105"><a href="explore.html#cb152-105" aria-hidden="true" tabindex="-1"></a><span class="co">#                 guam </span></span>
-<span id="cb152-106"><a href="explore.html#cb152-106" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1</span></span></code></pre></div>
+<span id="cb152-3"><a href="explore.html#cb152-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                 guam district of columbia               hawaii </span></span>
+<span id="cb152-4"><a href="explore.html#cb152-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1                    3                    4 </span></span>
+<span id="cb152-5"><a href="explore.html#cb152-5" aria-hidden="true" tabindex="-1"></a><span class="co">#               alaska         rhode island              wyoming </span></span>
+<span id="cb152-6"><a href="explore.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                   32                   49                   57 </span></span>
+<span id="cb152-7"><a href="explore.html#cb152-7" aria-hidden="true" tabindex="-1"></a><span class="co">#               nevada             delaware          mississippi </span></span>
+<span id="cb152-8"><a href="explore.html#cb152-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                   59                   63                   71 </span></span>
+<span id="cb152-9"><a href="explore.html#cb152-9" aria-hidden="true" tabindex="-1"></a><span class="co">#              vermont         south dakota                idaho </span></span>
+<span id="cb152-10"><a href="explore.html#cb152-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                   85                   92                   95 </span></span>
+<span id="cb152-11"><a href="explore.html#cb152-11" aria-hidden="true" tabindex="-1"></a><span class="co">#              arizona          connecticut              montana </span></span>
+<span id="cb152-12"><a href="explore.html#cb152-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107                  107                  108 </span></span>
+<span id="cb152-13"><a href="explore.html#cb152-13" aria-hidden="true" tabindex="-1"></a><span class="co">#         north dakota           new mexico                 utah </span></span>
+<span id="cb152-14"><a href="explore.html#cb152-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108                  116                  125 </span></span>
+<span id="cb152-15"><a href="explore.html#cb152-15" aria-hidden="true" tabindex="-1"></a><span class="co">#                maine             maryland               oregon </span></span>
+<span id="cb152-16"><a href="explore.html#cb152-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                  135                  152                  172 </span></span>
+<span id="cb152-17"><a href="explore.html#cb152-17" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire            louisiana        west virginia </span></span>
+<span id="cb152-18"><a href="explore.html#cb152-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176                  192                  200 </span></span>
+<span id="cb152-19"><a href="explore.html#cb152-19" aria-hidden="true" tabindex="-1"></a><span class="co">#             colorado                 iowa             nebraska </span></span>
+<span id="cb152-20"><a href="explore.html#cb152-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                  213                  216                  225 </span></span>
+<span id="cb152-21"><a href="explore.html#cb152-21" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana           washington             arkansas </span></span>
+<span id="cb152-22"><a href="explore.html#cb152-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247                  250                  273 </span></span>
+<span id="cb152-23"><a href="explore.html#cb152-23" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama               kansas       north carolina </span></span>
+<span id="cb152-24"><a href="explore.html#cb152-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305                  309                  310 </span></span>
+<span id="cb152-25"><a href="explore.html#cb152-25" aria-hidden="true" tabindex="-1"></a><span class="co">#        massachusetts             kentucky            minnesota </span></span>
+<span id="cb152-26"><a href="explore.html#cb152-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                  346                  352                  397 </span></span>
+<span id="cb152-27"><a href="explore.html#cb152-27" aria-hidden="true" tabindex="-1"></a><span class="co">#             virginia             oklahoma       south carolina </span></span>
+<span id="cb152-28"><a href="explore.html#cb152-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                  407                  409                  427 </span></span>
+<span id="cb152-29"><a href="explore.html#cb152-29" aria-hidden="true" tabindex="-1"></a><span class="co">#            wisconsin            tennessee              georgia </span></span>
+<span id="cb152-30"><a href="explore.html#cb152-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                  433                  466                  522 </span></span>
+<span id="cb152-31"><a href="explore.html#cb152-31" aria-hidden="true" tabindex="-1"></a><span class="co">#             new york                 ohio           new jersey </span></span>
+<span id="cb152-32"><a href="explore.html#cb152-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532                  532                  576 </span></span>
+<span id="cb152-33"><a href="explore.html#cb152-33" aria-hidden="true" tabindex="-1"></a><span class="co">#             missouri              florida             michigan </span></span>
+<span id="cb152-34"><a href="explore.html#cb152-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                  580                  603                  625 </span></span>
+<span id="cb152-35"><a href="explore.html#cb152-35" aria-hidden="true" tabindex="-1"></a><span class="co">#             illinois           california                texas </span></span>
+<span id="cb152-36"><a href="explore.html#cb152-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                  696                  732                  999 </span></span>
+<span id="cb152-37"><a href="explore.html#cb152-37" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania </span></span>
+<span id="cb152-38"><a href="explore.html#cb152-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473</span></span></code></pre></div>
+<p>And if we want to sort it in decreasing order of frequency, we can use the parameter <code>decreasing</code> in <code>sort()</code> and set it to TRUE. A parameter is just an option used in an R function to change the way the function is used or what output it gives. Almost all functions have these parameters, and they are useful if you don’t want to use the default setting in the function. This parameter, <code>decreasing</code>, changes the <code>sort()</code> output to print from largest to smallest. By default this parameter is set to FALSE, and here we say it is equal to TRUE.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="explore.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(ucr2017<span class="sc">$</span>state), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb153-2"><a href="explore.html#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb153-3"><a href="explore.html#cb153-3" aria-hidden="true" tabindex="-1"></a><span class="co">#         pennsylvania                texas           california </span></span>
+<span id="cb153-4"><a href="explore.html#cb153-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                 1473                  999                  732 </span></span>
+<span id="cb153-5"><a href="explore.html#cb153-5" aria-hidden="true" tabindex="-1"></a><span class="co">#             illinois             michigan              florida </span></span>
+<span id="cb153-6"><a href="explore.html#cb153-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                  696                  625                  603 </span></span>
+<span id="cb153-7"><a href="explore.html#cb153-7" aria-hidden="true" tabindex="-1"></a><span class="co">#             missouri           new jersey             new york </span></span>
+<span id="cb153-8"><a href="explore.html#cb153-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                  580                  576                  532 </span></span>
+<span id="cb153-9"><a href="explore.html#cb153-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                 ohio              georgia            tennessee </span></span>
+<span id="cb153-10"><a href="explore.html#cb153-10" aria-hidden="true" tabindex="-1"></a><span class="co">#                  532                  522                  466 </span></span>
+<span id="cb153-11"><a href="explore.html#cb153-11" aria-hidden="true" tabindex="-1"></a><span class="co">#            wisconsin       south carolina             oklahoma </span></span>
+<span id="cb153-12"><a href="explore.html#cb153-12" aria-hidden="true" tabindex="-1"></a><span class="co">#                  433                  427                  409 </span></span>
+<span id="cb153-13"><a href="explore.html#cb153-13" aria-hidden="true" tabindex="-1"></a><span class="co">#             virginia            minnesota             kentucky </span></span>
+<span id="cb153-14"><a href="explore.html#cb153-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                  407                  397                  352 </span></span>
+<span id="cb153-15"><a href="explore.html#cb153-15" aria-hidden="true" tabindex="-1"></a><span class="co">#        massachusetts       north carolina               kansas </span></span>
+<span id="cb153-16"><a href="explore.html#cb153-16" aria-hidden="true" tabindex="-1"></a><span class="co">#                  346                  310                  309 </span></span>
+<span id="cb153-17"><a href="explore.html#cb153-17" aria-hidden="true" tabindex="-1"></a><span class="co">#              alabama             arkansas           washington </span></span>
+<span id="cb153-18"><a href="explore.html#cb153-18" aria-hidden="true" tabindex="-1"></a><span class="co">#                  305                  273                  250 </span></span>
+<span id="cb153-19"><a href="explore.html#cb153-19" aria-hidden="true" tabindex="-1"></a><span class="co">#              indiana             nebraska                 iowa </span></span>
+<span id="cb153-20"><a href="explore.html#cb153-20" aria-hidden="true" tabindex="-1"></a><span class="co">#                  247                  225                  216 </span></span>
+<span id="cb153-21"><a href="explore.html#cb153-21" aria-hidden="true" tabindex="-1"></a><span class="co">#             colorado        west virginia            louisiana </span></span>
+<span id="cb153-22"><a href="explore.html#cb153-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                  213                  200                  192 </span></span>
+<span id="cb153-23"><a href="explore.html#cb153-23" aria-hidden="true" tabindex="-1"></a><span class="co">#        new hampshire               oregon             maryland </span></span>
+<span id="cb153-24"><a href="explore.html#cb153-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                  176                  172                  152 </span></span>
+<span id="cb153-25"><a href="explore.html#cb153-25" aria-hidden="true" tabindex="-1"></a><span class="co">#                maine                 utah           new mexico </span></span>
+<span id="cb153-26"><a href="explore.html#cb153-26" aria-hidden="true" tabindex="-1"></a><span class="co">#                  135                  125                  116 </span></span>
+<span id="cb153-27"><a href="explore.html#cb153-27" aria-hidden="true" tabindex="-1"></a><span class="co">#              montana         north dakota              arizona </span></span>
+<span id="cb153-28"><a href="explore.html#cb153-28" aria-hidden="true" tabindex="-1"></a><span class="co">#                  108                  108                  107 </span></span>
+<span id="cb153-29"><a href="explore.html#cb153-29" aria-hidden="true" tabindex="-1"></a><span class="co">#          connecticut                idaho         south dakota </span></span>
+<span id="cb153-30"><a href="explore.html#cb153-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                  107                   95                   92 </span></span>
+<span id="cb153-31"><a href="explore.html#cb153-31" aria-hidden="true" tabindex="-1"></a><span class="co">#              vermont          mississippi             delaware </span></span>
+<span id="cb153-32"><a href="explore.html#cb153-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                   85                   71                   63 </span></span>
+<span id="cb153-33"><a href="explore.html#cb153-33" aria-hidden="true" tabindex="-1"></a><span class="co">#               nevada              wyoming         rhode island </span></span>
+<span id="cb153-34"><a href="explore.html#cb153-34" aria-hidden="true" tabindex="-1"></a><span class="co">#                   59                   57                   49 </span></span>
+<span id="cb153-35"><a href="explore.html#cb153-35" aria-hidden="true" tabindex="-1"></a><span class="co">#               alaska               hawaii district of columbia </span></span>
+<span id="cb153-36"><a href="explore.html#cb153-36" aria-hidden="true" tabindex="-1"></a><span class="co">#                   32                    4                    3 </span></span>
+<span id="cb153-37"><a href="explore.html#cb153-37" aria-hidden="true" tabindex="-1"></a><span class="co">#                 guam </span></span>
+<span id="cb153-38"><a href="explore.html#cb153-38" aria-hidden="true" tabindex="-1"></a><span class="co">#                    1</span></span></code></pre></div>
 </div>
 <div id="graphing-1" class="section level2 hasAnchor" number="11.2">
 <h2><span class="header-section-number">11.2</span> Graphing<a href="explore.html#graphing-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We often want to make quick plots of our data to get a visual understanding of the data. We will learn a different - and in my opinion a superior - way to make graphs in Chapters <a href="graphing-intro.html#graphing-intro">14</a> and <a href="ois-graphs.html#ois-graphs">15</a>, but for now let’s use the function <code>plot()</code>. The <code>plot()</code> function is built into R so we don’t need to use any packages for it.</p>
 <p>Let’s make a few scatterplots showing the relationship between two variables. With <code>plot()</code> the syntax (how you write the code) is <code>plot(x_axis_variable, y_axis_variable)</code>. So all we need to do is give it the variable for the x- and y-axis. Each dot will represent a single agency (a single row in our data).</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="explore.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb153-2"><a href="explore.html#cb153-2" aria-hidden="true" tabindex="-1"></a>  ucr2017<span class="sc">$</span>actual_murder,</span>
-<span id="cb153-3"><a href="explore.html#cb153-3" aria-hidden="true" tabindex="-1"></a>  ucr2017<span class="sc">$</span>actual_robbery_total</span>
-<span id="cb153-4"><a href="explore.html#cb153-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-237-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="explore.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017<span class="sc">$</span>actual_murder,</span>
+<span id="cb154-2"><a href="explore.html#cb154-2" aria-hidden="true" tabindex="-1"></a>     ucr2017<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city’s number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner that have very few murders or robberies. This makes sense as - as we see in the <code>summary()</code> above - most agencies are small, with the median population under 5,000 people.</p>
 <p>To try to avoid that clump of small agencies at the bottom, let’s make a new data set of only agencies with a population over 1 million. We will use the <code>filter()</code> function from the <code>dplyr</code> package that was introduced in Chapter <a href="subsetting-intro.html#subsetting-intro">10</a>. For <code>filter()</code>, we need to first include our data set name, which is ucr2017, and then say our conditional statement. Our conditional statement is that rows in the “population” column have a value of over 1 million. For the <code>dplyr</code> functions we don’t put our column name in quotes.</p>
 <p>And we’ll assign our results to a new object called ucr2017_big_cities Since we’re using the <code>dplyr</code> package we need to tell R that we want to use it by using <code>library(dplyr)</code>.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="explore.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb154-2"><a href="explore.html#cb154-2" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr2017, population <span class="sc">&gt;</span> <span class="dv">1000000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="explore.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb155-2"><a href="explore.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;dplyr&#39; was built under R version 4.1.3</span></span>
+<span id="cb155-3"><a href="explore.html#cb155-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb155-4"><a href="explore.html#cb155-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb155-5"><a href="explore.html#cb155-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb155-6"><a href="explore.html#cb155-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb155-7"><a href="explore.html#cb155-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     filter, lag</span></span>
+<span id="cb155-8"><a href="explore.html#cb155-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb155-9"><a href="explore.html#cb155-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb155-10"><a href="explore.html#cb155-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     intersect, setdiff, setequal, union</span></span>
+<span id="cb155-11"><a href="explore.html#cb155-11" aria-hidden="true" tabindex="-1"></a>ucr2017_big_cities <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr2017, population <span class="sc">&gt;</span> <span class="dv">1000000</span>) </span></code></pre></div>
 <p>Now we have 18 agencies with a population of over 1 million people.</p>
 <p>Now we can do the same graph as above but using this new data set.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="explore.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb155-2"><a href="explore.html#cb155-2" aria-hidden="true" tabindex="-1"></a>  ucr2017_big_cities<span class="sc">$</span>actual_murder,</span>
-<span id="cb155-3"><a href="explore.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  ucr2017_big_cities<span class="sc">$</span>actual_robbery_total</span>
-<span id="cb155-4"><a href="explore.html#cb155-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-239-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="explore.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder, </span>
+<span id="cb156-2"><a href="explore.html#cb156-2" aria-hidden="true" tabindex="-1"></a>     ucr2017_big_cities<span class="sc">$</span>actual_robbery_total)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>The problem is somewhat solved. There is still a small clumping of agencies with few robberies or murders, but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.</p>
 <p>To make our graph look better, we can add labels for the axes and a title (there are many options for changing the appearance of this graph, we will just use these three).</p>
 <ul>
@@ -928,13 +696,12 @@ div.csl-indent {
 <li>main - Graph title</li>
 </ul>
 <p>Like all parameters, we add them in the () of <code>plot()</code> and separate each parameter by a comma. Since we are adding text to write in the plot, all of these parameter inputs must be in quotes.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="explore.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder,</span>
-<span id="cb156-2"><a href="explore.html#cb156-2" aria-hidden="true" tabindex="-1"></a>  ucr2017_big_cities<span class="sc">$</span>actual_robbery_total,</span>
-<span id="cb156-3"><a href="explore.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Murders&quot;</span>,</span>
-<span id="cb156-4"><a href="explore.html#cb156-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</span>
-<span id="cb156-5"><a href="explore.html#cb156-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span></span>
-<span id="cb156-6"><a href="explore.html#cb156-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-240-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="explore.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ucr2017_big_cities<span class="sc">$</span>actual_murder,</span>
+<span id="cb157-2"><a href="explore.html#cb157-2" aria-hidden="true" tabindex="-1"></a>     ucr2017_big_cities<span class="sc">$</span>actual_robbery_total,</span>
+<span id="cb157-3"><a href="explore.html#cb157-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Murders&quot;</span>,</span>
+<span id="cb157-4"><a href="explore.html#cb157-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Robberies&quot;</span>,</span>
+<span id="cb157-5"><a href="explore.html#cb157-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Relationship between murder and robbery&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="aggregate" class="section level2 hasAnchor" number="11.3">
 <h2><span class="header-section-number">11.3</span> Aggregating (summaries of groups)<a href="explore.html#aggregate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -945,226 +712,173 @@ div.csl-indent {
 <p>To do this in R, we’ll be using two new functions from the <code>dplyr</code> package: <code>group_by()</code> and <code>summarize()</code>.</p>
 <p>These functions do the aggregation process in two steps. First we use <code>group_by()</code> to tell R which columns we want to group our data by - these are the higher level of aggregation columns so in our case will be the year of data. Then we need to sum up the number of murders each year. We do this using <code>summarize()</code>, and we’ll specify in the function that we want to sum up the data, rather than use some other math operation on it like finding the average number of murders each year.</p>
 <p>First, let’s load back in the data and then repeat the subsetting code we did in Chapter <a href="subsetting-intro.html#subset-colorado-data">10.3.3</a> to keep only data for Colorado from 2011 through 2017. We’ll also include the “actual_robbery_total” column that we excluded in Chapter <a href="subsetting-intro.html#subset-colorado-data">10.3.3</a> so we can see how easy it is to aggregate multiple columns at once using this method.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="explore.html#cb157-1" aria-hidden="true" tabindex="-1"></a>ucr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2020.rds&quot;</span>)</span>
-<span id="cb157-2"><a href="explore.html#cb157-2" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">filter</span>(</span>
-<span id="cb157-3"><a href="explore.html#cb157-3" aria-hidden="true" tabindex="-1"></a>  ucr, state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
-<span id="cb157-4"><a href="explore.html#cb157-4" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span></span>
-<span id="cb157-5"><a href="explore.html#cb157-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb157-6"><a href="explore.html#cb157-6" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">select</span>(</span>
-<span id="cb157-7"><a href="explore.html#cb157-7" aria-hidden="true" tabindex="-1"></a>  colorado, actual_murder, actual_robbery_total,</span>
-<span id="cb157-8"><a href="explore.html#cb157-8" aria-hidden="true" tabindex="-1"></a>  state, year, population, ori, agency_name</span>
-<span id="cb157-9"><a href="explore.html#cb157-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="explore.html#cb158-1" aria-hidden="true" tabindex="-1"></a>ucr <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;data/offenses_known_yearly_1960_2020.rds&quot;</span>)</span>
+<span id="cb158-2"><a href="explore.html#cb158-2" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr, state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>, </span>
+<span id="cb158-3"><a href="explore.html#cb158-3" aria-hidden="true" tabindex="-1"></a>                   year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span>)</span>
+<span id="cb158-4"><a href="explore.html#cb158-4" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">select</span>(colorado, actual_murder, actual_robbery_total, </span>
+<span id="cb158-5"><a href="explore.html#cb158-5" aria-hidden="true" tabindex="-1"></a>                   state, year, population, ori, agency_name)</span></code></pre></div>
 <p>First we must group the data by using the <code>group_by()</code> function. Here we’re just grouping the data by year, but we could group it by multiple columns if we want by adding a comma and then the next column we want. Following other <code>dplyr</code> function syntax, we first input the data set name and then the column name - neither of which need to be in quotes.</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="explore.html#cb158-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">group_by</span>(colorado, year)</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="explore.html#cb159-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">group_by</span>(colorado, year)</span></code></pre></div>
 <p>Now we can summarize the data using the <code>summarize()</code> function. As with other <code>dplyr</code> functions the first input is the data set name. Then we choose our math function (sum, mean, median, etc.) and just apply that function on the column we want. So in our case we want the sum of murders so we use <code>sum()</code> and include the column we want to aggregate inside of <code>sum()</code>’s parentheses.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="explore.html#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(colorado, <span class="fu">sum</span>(actual_murder))</span>
-<span id="cb159-2"><a href="explore.html#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 2</span></span>
-<span id="cb159-3"><a href="explore.html#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    year `sum(actual_murder)`</span></span>
-<span id="cb159-4"><a href="explore.html#cb159-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;                &lt;dbl&gt;</span></span>
-<span id="cb159-5"><a href="explore.html#cb159-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011                  154</span></span>
-<span id="cb159-6"><a href="explore.html#cb159-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012                  163</span></span>
-<span id="cb159-7"><a href="explore.html#cb159-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013                  172</span></span>
-<span id="cb159-8"><a href="explore.html#cb159-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014                  148</span></span>
-<span id="cb159-9"><a href="explore.html#cb159-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015                  173</span></span>
-<span id="cb159-10"><a href="explore.html#cb159-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016                  203</span></span>
-<span id="cb159-11"><a href="explore.html#cb159-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017                  218</span></span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="explore.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(colorado, <span class="fu">sum</span>(actual_murder))</span>
+<span id="cb160-2"><a href="explore.html#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 2</span></span>
+<span id="cb160-3"><a href="explore.html#cb160-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    year `sum(actual_murder)`</span></span>
+<span id="cb160-4"><a href="explore.html#cb160-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;                &lt;dbl&gt;</span></span>
+<span id="cb160-5"><a href="explore.html#cb160-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011                  154</span></span>
+<span id="cb160-6"><a href="explore.html#cb160-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012                  163</span></span>
+<span id="cb160-7"><a href="explore.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013                  172</span></span>
+<span id="cb160-8"><a href="explore.html#cb160-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014                  148</span></span>
+<span id="cb160-9"><a href="explore.html#cb160-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015                  173</span></span>
+<span id="cb160-10"><a href="explore.html#cb160-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016                  203</span></span>
+<span id="cb160-11"><a href="explore.html#cb160-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017                  218</span></span></code></pre></div>
 <p>If we want to aggregate another column we just add a comma after our initial column and add another math operation function and the column we want. Here we’re also using <code>sum()</code>, but we could use different math operations if we want - they don’t need to be the same.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="explore.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(</span>
-<span id="cb160-2"><a href="explore.html#cb160-2" aria-hidden="true" tabindex="-1"></a>  colorado, <span class="fu">sum</span>(actual_murder),</span>
-<span id="cb160-3"><a href="explore.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(actual_robbery_total)</span>
-<span id="cb160-4"><a href="explore.html#cb160-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb160-5"><a href="explore.html#cb160-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 3</span></span>
-<span id="cb160-6"><a href="explore.html#cb160-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    year `sum(actual_murder)` sum(actual~1</span></span>
-<span id="cb160-7"><a href="explore.html#cb160-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;</span></span>
-<span id="cb160-8"><a href="explore.html#cb160-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011                  154         3287</span></span>
-<span id="cb160-9"><a href="explore.html#cb160-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012                  163         3369</span></span>
-<span id="cb160-10"><a href="explore.html#cb160-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013                  172         3122</span></span>
-<span id="cb160-11"><a href="explore.html#cb160-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014                  148         3021</span></span>
-<span id="cb160-12"><a href="explore.html#cb160-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015                  173         3305</span></span>
-<span id="cb160-13"><a href="explore.html#cb160-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016                  203         3513</span></span>
-<span id="cb160-14"><a href="explore.html#cb160-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017                  218         3811</span></span>
-<span id="cb160-15"><a href="explore.html#cb160-15" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with abbreviated variable name</span></span>
-<span id="cb160-16"><a href="explore.html#cb160-16" aria-hidden="true" tabindex="-1"></a><span class="co"># #   1: `sum(actual_robbery_total)`</span></span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="explore.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(colorado, <span class="fu">sum</span>(actual_murder), </span>
+<span id="cb161-2"><a href="explore.html#cb161-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(actual_robbery_total))</span>
+<span id="cb161-3"><a href="explore.html#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 3</span></span>
+<span id="cb161-4"><a href="explore.html#cb161-4" aria-hidden="true" tabindex="-1"></a><span class="co">#    year `sum(actual_murder)` `sum(actual_robbery_total)`</span></span>
+<span id="cb161-5"><a href="explore.html#cb161-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;                &lt;dbl&gt;                       &lt;dbl&gt;</span></span>
+<span id="cb161-6"><a href="explore.html#cb161-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011                  154                        3287</span></span>
+<span id="cb161-7"><a href="explore.html#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012                  163                        3369</span></span>
+<span id="cb161-8"><a href="explore.html#cb161-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013                  172                        3122</span></span>
+<span id="cb161-9"><a href="explore.html#cb161-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014                  148                        3021</span></span>
+<span id="cb161-10"><a href="explore.html#cb161-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015                  173                        3305</span></span>
+<span id="cb161-11"><a href="explore.html#cb161-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016                  203                        3513</span></span>
+<span id="cb161-12"><a href="explore.html#cb161-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017                  218                        3811</span></span></code></pre></div>
 <p>We could even do different math operations on the same column and we’d get multiple columns from it. Let’s add another column showing the average number of robberies as an example.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb161-1"><a href="explore.html#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(</span>
-<span id="cb161-2"><a href="explore.html#cb161-2" aria-hidden="true" tabindex="-1"></a>  colorado, <span class="fu">sum</span>(actual_murder),</span>
-<span id="cb161-3"><a href="explore.html#cb161-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(actual_robbery_total),</span>
-<span id="cb161-4"><a href="explore.html#cb161-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(actual_robbery_total)</span>
-<span id="cb161-5"><a href="explore.html#cb161-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb161-6"><a href="explore.html#cb161-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 4</span></span>
-<span id="cb161-7"><a href="explore.html#cb161-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    year sum(actual_murd~1 sum(a~2 mean(~3</span></span>
-<span id="cb161-8"><a href="explore.html#cb161-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;             &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span id="cb161-9"><a href="explore.html#cb161-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011               154    3287   11.2 </span></span>
-<span id="cb161-10"><a href="explore.html#cb161-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012               163    3369   11.2 </span></span>
-<span id="cb161-11"><a href="explore.html#cb161-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013               172    3122   10.3 </span></span>
-<span id="cb161-12"><a href="explore.html#cb161-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014               148    3021    9.94</span></span>
-<span id="cb161-13"><a href="explore.html#cb161-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015               173    3305   10.9 </span></span>
-<span id="cb161-14"><a href="explore.html#cb161-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016               203    3513   11.6 </span></span>
-<span id="cb161-15"><a href="explore.html#cb161-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017               218    3811   12.5 </span></span>
-<span id="cb161-16"><a href="explore.html#cb161-16" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with abbreviated variable names</span></span>
-<span id="cb161-17"><a href="explore.html#cb161-17" aria-hidden="true" tabindex="-1"></a><span class="co"># #   1: `sum(actual_murder)`,</span></span>
-<span id="cb161-18"><a href="explore.html#cb161-18" aria-hidden="true" tabindex="-1"></a><span class="co"># #   2: `sum(actual_robbery_total)`,</span></span>
-<span id="cb161-19"><a href="explore.html#cb161-19" aria-hidden="true" tabindex="-1"></a><span class="co"># #   3: `mean(actual_robbery_total)`</span></span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="explore.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(colorado, <span class="fu">sum</span>(actual_murder),</span>
+<span id="cb162-2"><a href="explore.html#cb162-2" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(actual_robbery_total),</span>
+<span id="cb162-3"><a href="explore.html#cb162-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">mean</span>(actual_robbery_total))</span>
+<span id="cb162-4"><a href="explore.html#cb162-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 4</span></span>
+<span id="cb162-5"><a href="explore.html#cb162-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    year `sum(actual_murder)` `sum(actual_robbery_total)` mean(actual_robbery_t~1</span></span>
+<span id="cb162-6"><a href="explore.html#cb162-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;                &lt;dbl&gt;                       &lt;dbl&gt;                   &lt;dbl&gt;</span></span>
+<span id="cb162-7"><a href="explore.html#cb162-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011                  154                        3287                   11.2 </span></span>
+<span id="cb162-8"><a href="explore.html#cb162-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012                  163                        3369                   11.2 </span></span>
+<span id="cb162-9"><a href="explore.html#cb162-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013                  172                        3122                   10.3 </span></span>
+<span id="cb162-10"><a href="explore.html#cb162-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014                  148                        3021                    9.94</span></span>
+<span id="cb162-11"><a href="explore.html#cb162-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015                  173                        3305                   10.9 </span></span>
+<span id="cb162-12"><a href="explore.html#cb162-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016                  203                        3513                   11.6 </span></span>
+<span id="cb162-13"><a href="explore.html#cb162-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017                  218                        3811                   12.5 </span></span>
+<span id="cb162-14"><a href="explore.html#cb162-14" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with abbreviated variable name 1: `mean(actual_robbery_total)`</span></span></code></pre></div>
 <p>By default <code>summarize()</code> calls the columns it makes using what we include in the parentheses. Since we said “sum(actual_murder)”, to get the sum of the murder column, it names that new column “sum(actual_murder)”. Usually we’ll want to name the columns ourselves. We can do this by assigning the summarized column to a name using “name =” before it. For example, we could write “murders = sum(actual_murder)” and it will name that column “murders” instead of “sum(actual_murder)”. Like other things in <code>dplyr</code> functions, we don’t need to put quotes around our new column name. We’ll assign this final summarized data to an object called “colorado_agg” so we can use it to make graphs. And to be able to create crime rates per population, we’ll also find the sum of the population for each year.</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="explore.html#cb162-1" aria-hidden="true" tabindex="-1"></a>colorado_agg <span class="ot">&lt;-</span> <span class="fu">summarize</span>(colorado,</span>
-<span id="cb162-2"><a href="explore.html#cb162-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">murders    =</span> <span class="fu">sum</span>(actual_murder),</span>
-<span id="cb162-3"><a href="explore.html#cb162-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">robberies  =</span> <span class="fu">sum</span>(actual_robbery_total),</span>
-<span id="cb162-4"><a href="explore.html#cb162-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">population =</span> <span class="fu">sum</span>(population)</span>
-<span id="cb162-5"><a href="explore.html#cb162-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb162-6"><a href="explore.html#cb162-6" aria-hidden="true" tabindex="-1"></a>colorado_agg</span>
-<span id="cb162-7"><a href="explore.html#cb162-7" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 4</span></span>
-<span id="cb162-8"><a href="explore.html#cb162-8" aria-hidden="true" tabindex="-1"></a><span class="co">#    year murders robberies population</span></span>
-<span id="cb162-9"><a href="explore.html#cb162-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
-<span id="cb162-10"><a href="explore.html#cb162-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011     154      3287    5155993</span></span>
-<span id="cb162-11"><a href="explore.html#cb162-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012     163      3369    5227884</span></span>
-<span id="cb162-12"><a href="explore.html#cb162-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013     172      3122    5308236</span></span>
-<span id="cb162-13"><a href="explore.html#cb162-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014     148      3021    5402555</span></span>
-<span id="cb162-14"><a href="explore.html#cb162-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015     173      3305    5505856</span></span>
-<span id="cb162-15"><a href="explore.html#cb162-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016     203      3513    5590124</span></span>
-<span id="cb162-16"><a href="explore.html#cb162-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017     218      3811    5661529</span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="explore.html#cb163-1" aria-hidden="true" tabindex="-1"></a>colorado_agg <span class="ot">&lt;-</span> <span class="fu">summarize</span>(colorado,</span>
+<span id="cb163-2"><a href="explore.html#cb163-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">murders    =</span> <span class="fu">sum</span>(actual_murder),</span>
+<span id="cb163-3"><a href="explore.html#cb163-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robberies  =</span> <span class="fu">sum</span>(actual_robbery_total),</span>
+<span id="cb163-4"><a href="explore.html#cb163-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">population =</span> <span class="fu">sum</span>(population))</span>
+<span id="cb163-5"><a href="explore.html#cb163-5" aria-hidden="true" tabindex="-1"></a>colorado_agg</span>
+<span id="cb163-6"><a href="explore.html#cb163-6" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 4</span></span>
+<span id="cb163-7"><a href="explore.html#cb163-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    year murders robberies population</span></span>
+<span id="cb163-8"><a href="explore.html#cb163-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span id="cb163-9"><a href="explore.html#cb163-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011     154      3287    5155993</span></span>
+<span id="cb163-10"><a href="explore.html#cb163-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012     163      3369    5227884</span></span>
+<span id="cb163-11"><a href="explore.html#cb163-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013     172      3122    5308236</span></span>
+<span id="cb163-12"><a href="explore.html#cb163-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014     148      3021    5402555</span></span>
+<span id="cb163-13"><a href="explore.html#cb163-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015     173      3305    5505856</span></span>
+<span id="cb163-14"><a href="explore.html#cb163-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016     203      3513    5590124</span></span>
+<span id="cb163-15"><a href="explore.html#cb163-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017     218      3811    5661529</span></span></code></pre></div>
 <p>Now we can see that the total number of murders increased over time. So can we conclude that marijuana legalization increases murder? No, all this analysis shows is that the years following marijuana legalization, murders increased in Colorado. But that can be due to many reasons other than marijuana. For a proper analysis you’d need a comparison state that is similar to Colorado prior to legalization (and that didn’t legalize marijuana) and see if their murders changes following Colorado’s legalization.</p>
 <p>To control for population, we’ll standardize our murder data by creating a murder rate per 100,000 people. We can do this by dividing the murder column by the population column and then multiplying by 100,000. Let’s do that and assign the result into a new column called “murder_rate”.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="explore.html#cb163-1" aria-hidden="true" tabindex="-1"></a>colorado_agg<span class="sc">$</span>murder_rate <span class="ot">&lt;-</span> colorado_agg<span class="sc">$</span>murders <span class="sc">/</span></span>
-<span id="cb163-2"><a href="explore.html#cb163-2" aria-hidden="true" tabindex="-1"></a>  colorado_agg<span class="sc">$</span>population <span class="sc">*</span> <span class="dv">100000</span></span></code></pre></div>
-<p>If we also wanted a robbery rate we’d do the same with the robberies column.</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="explore.html#cb164-1" aria-hidden="true" tabindex="-1"></a>colorado_agg<span class="sc">$</span>robbery_rate <span class="ot">&lt;-</span> colorado_agg<span class="sc">$</span>robberies <span class="sc">/</span></span>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="explore.html#cb164-1" aria-hidden="true" tabindex="-1"></a>colorado_agg<span class="sc">$</span>murder_rate <span class="ot">&lt;-</span> colorado_agg<span class="sc">$</span>murders <span class="sc">/</span> </span>
 <span id="cb164-2"><a href="explore.html#cb164-2" aria-hidden="true" tabindex="-1"></a>  colorado_agg<span class="sc">$</span>population <span class="sc">*</span> <span class="dv">100000</span></span></code></pre></div>
+<p>If we also wanted a robbery rate we’d do the same with the robberies column.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="explore.html#cb165-1" aria-hidden="true" tabindex="-1"></a>colorado_agg<span class="sc">$</span>robbery_rate <span class="ot">&lt;-</span> colorado_agg<span class="sc">$</span>robberies <span class="sc">/</span> </span>
+<span id="cb165-2"><a href="explore.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  colorado_agg<span class="sc">$</span>population <span class="sc">*</span> <span class="dv">100000</span></span></code></pre></div>
 <p>The <code>dplyr</code> package has a helpful function that can do this too, and allows us to do it while writing less code. The <code>mutate()</code> function lets us create or alter columns in our data. Like other <code>dplyr</code> functions we start by including our data set in the parentheses, and then we can follow standard assignment (covered in Section <a href="intro-to-r.html#assignment">2.2</a>) though we must use <code>=</code> here and not <code>&lt;-</code>. A benefit of using <code>mutate()</code> is that we don’t have to write out our data set name each time. So we’d write <code>murder_rate = murders / population * 100000</code>. And if we wanted to make two (or more) columns at the same time we just add a comma after our first assignment and then do the next assignment.</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="explore.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(colorado_agg,</span>
-<span id="cb165-2"><a href="explore.html#cb165-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">murder_rate  =</span> murders <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">100000</span>,</span>
-<span id="cb165-3"><a href="explore.html#cb165-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">robbery_rate =</span> robberies <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">100000</span></span>
-<span id="cb165-4"><a href="explore.html#cb165-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb165-5"><a href="explore.html#cb165-5" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 6</span></span>
-<span id="cb165-6"><a href="explore.html#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="co">#    year murders robberies popul~1 murde~2</span></span>
-<span id="cb165-7"><a href="explore.html#cb165-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span id="cb165-8"><a href="explore.html#cb165-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011     154      3287 5155993    2.99</span></span>
-<span id="cb165-9"><a href="explore.html#cb165-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012     163      3369 5227884    3.12</span></span>
-<span id="cb165-10"><a href="explore.html#cb165-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013     172      3122 5308236    3.24</span></span>
-<span id="cb165-11"><a href="explore.html#cb165-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014     148      3021 5402555    2.74</span></span>
-<span id="cb165-12"><a href="explore.html#cb165-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015     173      3305 5505856    3.14</span></span>
-<span id="cb165-13"><a href="explore.html#cb165-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016     203      3513 5590124    3.63</span></span>
-<span id="cb165-14"><a href="explore.html#cb165-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017     218      3811 5661529    3.85</span></span>
-<span id="cb165-15"><a href="explore.html#cb165-15" aria-hidden="true" tabindex="-1"></a><span class="co"># # ... with 1 more variable:</span></span>
-<span id="cb165-16"><a href="explore.html#cb165-16" aria-hidden="true" tabindex="-1"></a><span class="co"># #   robbery_rate &lt;dbl&gt;, and abbreviated</span></span>
-<span id="cb165-17"><a href="explore.html#cb165-17" aria-hidden="true" tabindex="-1"></a><span class="co"># #   variable names 1: population,</span></span>
-<span id="cb165-18"><a href="explore.html#cb165-18" aria-hidden="true" tabindex="-1"></a><span class="co"># #   2: murder_rate</span></span>
-<span id="cb165-19"><a href="explore.html#cb165-19" aria-hidden="true" tabindex="-1"></a><span class="co"># # i Use `colnames()` to see all variable names</span></span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="explore.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(colorado_agg,</span>
+<span id="cb166-2"><a href="explore.html#cb166-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">murder_rate  =</span> murders <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">100000</span>,</span>
+<span id="cb166-3"><a href="explore.html#cb166-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">robbery_rate =</span> robberies <span class="sc">/</span> population <span class="sc">*</span> <span class="dv">100000</span>)</span>
+<span id="cb166-4"><a href="explore.html#cb166-4" aria-hidden="true" tabindex="-1"></a><span class="co"># # A tibble: 7 x 6</span></span>
+<span id="cb166-5"><a href="explore.html#cb166-5" aria-hidden="true" tabindex="-1"></a><span class="co">#    year murders robberies population murder_rate robbery_rate</span></span>
+<span id="cb166-6"><a href="explore.html#cb166-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span id="cb166-7"><a href="explore.html#cb166-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2011     154      3287    5155993        2.99         63.8</span></span>
+<span id="cb166-8"><a href="explore.html#cb166-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  2012     163      3369    5227884        3.12         64.4</span></span>
+<span id="cb166-9"><a href="explore.html#cb166-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  2013     172      3122    5308236        3.24         58.8</span></span>
+<span id="cb166-10"><a href="explore.html#cb166-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  2014     148      3021    5402555        2.74         55.9</span></span>
+<span id="cb166-11"><a href="explore.html#cb166-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  2015     173      3305    5505856        3.14         60.0</span></span>
+<span id="cb166-12"><a href="explore.html#cb166-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  2016     203      3513    5590124        3.63         62.8</span></span>
+<span id="cb166-13"><a href="explore.html#cb166-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 7  2017     218      3811    5661529        3.85         67.3</span></span></code></pre></div>
 <p>Now let’s make a plot of this data showing the murder rate over time. With time-series graphs we want the time variable to be on the x-axis and the numeric variable that we are measuring to be on the y-axis.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="explore.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb166-2"><a href="explore.html#cb166-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
-<span id="cb166-3"><a href="explore.html#cb166-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate</span>
-<span id="cb166-4"><a href="explore.html#cb166-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-250-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="explore.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
+<span id="cb167-2"><a href="explore.html#cb167-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>By default <code>plot()</code> makes a scatterplot. If we set the parameter <code>type</code> to “l” it will be a <strong>l</strong>ine plot.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb167-1"><a href="explore.html#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb167-2"><a href="explore.html#cb167-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
-<span id="cb167-3"><a href="explore.html#cb167-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
-<span id="cb167-4"><a href="explore.html#cb167-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;l&quot;</span></span>
-<span id="cb167-5"><a href="explore.html#cb167-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-251-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="explore.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
+<span id="cb168-2"><a href="explore.html#cb168-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
+<span id="cb168-3"><a href="explore.html#cb168-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>We can add some labels and a title to make this graph easier to read.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="explore.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
-<span id="cb168-2"><a href="explore.html#cb168-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
-<span id="cb168-3"><a href="explore.html#cb168-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
-<span id="cb168-4"><a href="explore.html#cb168-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
-<span id="cb168-5"><a href="explore.html#cb168-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
-<span id="cb168-6"><a href="explore.html#cb168-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</span>
-<span id="cb168-7"><a href="explore.html#cb168-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span></span>
-<span id="cb168-8"><a href="explore.html#cb168-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-252-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="explore.html#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> colorado_agg<span class="sc">$</span>year,</span>
+<span id="cb169-2"><a href="explore.html#cb169-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> colorado_agg<span class="sc">$</span>murder_rate,</span>
+<span id="cb169-3"><a href="explore.html#cb169-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb169-4"><a href="explore.html#cb169-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Year&quot;</span>,</span>
+<span id="cb169-5"><a href="explore.html#cb169-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Murders per 100k Population&quot;</span>,</span>
+<span id="cb169-6"><a href="explore.html#cb169-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Murder Rate in Colorado, 2011-2017&quot;</span>)</span></code></pre></div>
+<p><img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="dplyr-pipes" class="section level2 hasAnchor" number="11.4">
 <h2><span class="header-section-number">11.4</span> Pipes in <code>dplyr</code><a href="explore.html#dplyr-pipes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To end this chapter we’ll talk about something called a pipe that is a very useful and powerful part of <code>dplyr</code>.</p>
 <p>Think about the math equation 1 + 2 + 3 + 4. Here we know that we add 1 and 2 together, and then add the result to 3 and then add the result of that to 4. This is much simpler to write than splitting everything up and summing each value together in a different line. In terms of R, we have so far been doing things as if we could only add two numbers together and then need a separate line to add the third (and another line to add the fourth) number. For example, below are the two lines of code we used to subset the data to just the right state and years we wanted, and the columns we wanted. We did this in two separate lines. In our math example, we did 1 + 2. And then found the answer, and separately did 3 + 3. And then again found the answer and did 6 + 4.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="explore.html#cb169-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">filter</span>(</span>
-<span id="cb169-2"><a href="explore.html#cb169-2" aria-hidden="true" tabindex="-1"></a>  ucr, state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
-<span id="cb169-3"><a href="explore.html#cb169-3" aria-hidden="true" tabindex="-1"></a>  year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span></span>
-<span id="cb169-4"><a href="explore.html#cb169-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb169-5"><a href="explore.html#cb169-5" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">select</span>(</span>
-<span id="cb169-6"><a href="explore.html#cb169-6" aria-hidden="true" tabindex="-1"></a>  colorado,</span>
-<span id="cb169-7"><a href="explore.html#cb169-7" aria-hidden="true" tabindex="-1"></a>  actual_murder,</span>
-<span id="cb169-8"><a href="explore.html#cb169-8" aria-hidden="true" tabindex="-1"></a>  actual_robbery_total,</span>
-<span id="cb169-9"><a href="explore.html#cb169-9" aria-hidden="true" tabindex="-1"></a>  state,</span>
-<span id="cb169-10"><a href="explore.html#cb169-10" aria-hidden="true" tabindex="-1"></a>  year,</span>
-<span id="cb169-11"><a href="explore.html#cb169-11" aria-hidden="true" tabindex="-1"></a>  population,</span>
-<span id="cb169-12"><a href="explore.html#cb169-12" aria-hidden="true" tabindex="-1"></a>  ori,</span>
-<span id="cb169-13"><a href="explore.html#cb169-13" aria-hidden="true" tabindex="-1"></a>  agency_name</span>
-<span id="cb169-14"><a href="explore.html#cb169-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb169-15"><a href="explore.html#cb169-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(colorado)</span>
-<span id="cb169-16"><a href="explore.html#cb169-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_murder actual_robbery_total</span></span>
-<span id="cb169-17"><a href="explore.html#cb169-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1             7                   80</span></span>
-<span id="cb169-18"><a href="explore.html#cb169-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2            11                   93</span></span>
-<span id="cb169-19"><a href="explore.html#cb169-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3             6                   68</span></span>
-<span id="cb169-20"><a href="explore.html#cb169-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4             6                   58</span></span>
-<span id="cb169-21"><a href="explore.html#cb169-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5             7                   44</span></span>
-<span id="cb169-22"><a href="explore.html#cb169-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6             7                   55</span></span>
-<span id="cb169-23"><a href="explore.html#cb169-23" aria-hidden="true" tabindex="-1"></a><span class="co">#      state year population     ori</span></span>
-<span id="cb169-24"><a href="explore.html#cb169-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 colorado 2017      99940 CO00100</span></span>
-<span id="cb169-25"><a href="explore.html#cb169-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 colorado 2016     100526 CO00100</span></span>
-<span id="cb169-26"><a href="explore.html#cb169-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 colorado 2015     100266 CO00100</span></span>
-<span id="cb169-27"><a href="explore.html#cb169-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 colorado 2014      98569 CO00100</span></span>
-<span id="cb169-28"><a href="explore.html#cb169-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 colorado 2013      97146 CO00100</span></span>
-<span id="cb169-29"><a href="explore.html#cb169-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 colorado 2012      93542 CO00100</span></span>
-<span id="cb169-30"><a href="explore.html#cb169-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   agency_name</span></span>
-<span id="cb169-31"><a href="explore.html#cb169-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       adams</span></span>
-<span id="cb169-32"><a href="explore.html#cb169-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       adams</span></span>
-<span id="cb169-33"><a href="explore.html#cb169-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       adams</span></span>
-<span id="cb169-34"><a href="explore.html#cb169-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       adams</span></span>
-<span id="cb169-35"><a href="explore.html#cb169-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       adams</span></span>
-<span id="cb169-36"><a href="explore.html#cb169-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       adams</span></span></code></pre></div>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="explore.html#cb170-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">filter</span>(ucr, state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
+<span id="cb170-2"><a href="explore.html#cb170-2" aria-hidden="true" tabindex="-1"></a>                   year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span>)</span>
+<span id="cb170-3"><a href="explore.html#cb170-3" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> <span class="fu">select</span>(colorado,</span>
+<span id="cb170-4"><a href="explore.html#cb170-4" aria-hidden="true" tabindex="-1"></a>                   actual_murder, </span>
+<span id="cb170-5"><a href="explore.html#cb170-5" aria-hidden="true" tabindex="-1"></a>                   actual_robbery_total,</span>
+<span id="cb170-6"><a href="explore.html#cb170-6" aria-hidden="true" tabindex="-1"></a>                   state, </span>
+<span id="cb170-7"><a href="explore.html#cb170-7" aria-hidden="true" tabindex="-1"></a>                   year,</span>
+<span id="cb170-8"><a href="explore.html#cb170-8" aria-hidden="true" tabindex="-1"></a>                   population,</span>
+<span id="cb170-9"><a href="explore.html#cb170-9" aria-hidden="true" tabindex="-1"></a>                   ori,</span>
+<span id="cb170-10"><a href="explore.html#cb170-10" aria-hidden="true" tabindex="-1"></a>                   agency_name)</span>
+<span id="cb170-11"><a href="explore.html#cb170-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(colorado)</span>
+<span id="cb170-12"><a href="explore.html#cb170-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_murder actual_robbery_total    state year population     ori</span></span>
+<span id="cb170-13"><a href="explore.html#cb170-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1             7                   80 colorado 2017      99940 CO00100</span></span>
+<span id="cb170-14"><a href="explore.html#cb170-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2            11                   93 colorado 2016     100526 CO00100</span></span>
+<span id="cb170-15"><a href="explore.html#cb170-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3             6                   68 colorado 2015     100266 CO00100</span></span>
+<span id="cb170-16"><a href="explore.html#cb170-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4             6                   58 colorado 2014      98569 CO00100</span></span>
+<span id="cb170-17"><a href="explore.html#cb170-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5             7                   44 colorado 2013      97146 CO00100</span></span>
+<span id="cb170-18"><a href="explore.html#cb170-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 6             7                   55 colorado 2012      93542 CO00100</span></span>
+<span id="cb170-19"><a href="explore.html#cb170-19" aria-hidden="true" tabindex="-1"></a><span class="co">#   agency_name</span></span>
+<span id="cb170-20"><a href="explore.html#cb170-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       adams</span></span>
+<span id="cb170-21"><a href="explore.html#cb170-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       adams</span></span>
+<span id="cb170-22"><a href="explore.html#cb170-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       adams</span></span>
+<span id="cb170-23"><a href="explore.html#cb170-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       adams</span></span>
+<span id="cb170-24"><a href="explore.html#cb170-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       adams</span></span>
+<span id="cb170-25"><a href="explore.html#cb170-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       adams</span></span></code></pre></div>
 <p>With <code>dplyr</code> we actually do have a way to chain together functions; to do the programming equivalent of 1 + 2 + 3 + 4 all at once.<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a> We do this through what is called a pipe, which allows us to take the result of one function and immediately put it into another function without having to save the initial result or start a new line of code. To use a pipe we put the following code after the end of a function: <code>%&gt;%</code>.</p>
 <p>These three characters, <code>%&gt;%</code>, are the pipe, and they must be written exactly like this. The pipe is itself actually a function, but it is a special type of function we won’t go into detail about. Personally I don’t think this really looks like a pipe at all, but it is called a pipe so that’s the terminology I’ll be using. How a pipe technically works is that it takes the output of the initial function (which is usually a tibble, which is the tidyverse’s modified version of a data.frame) and puts it automatically in the first input in the next function. This won’t work for all functions but nearly all functions from the tidyverse collection of packages have a data set as the first input so it will work here. The benefit is that we don’t need to keep saving the output from functions or specifying which data set to include in each function.</p>
 <p>As an example, we’ll rewrite the previous code using a pipe. We start with our data.frame, which is normally the first thing we put in any <code>dplyr</code> function, and then immediately have a pipe <code>%&gt;%</code> into a <code>dplyr</code> function, which here is <code>filter()</code>. Now we don’t need to say what the data set is because it takes the last thing that was piped into the function, which in our case is the entire data.frame ucr. After our <code>filter()</code> is done we have another pipe and go into <code>select()</code>. Now <code>select()</code> will use as its first input whatever is outputted from the <code>filter()</code>. So the input to <code>select()</code> will be the subsetted data output from <code>filter()</code>. We can have as many pipes as we wish, and chain many different <code>dplyr</code> functions together, but we just use two functions here so we’ll end after our <code>select()</code> function.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="explore.html#cb170-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> ucr <span class="sc">%&gt;%</span></span>
-<span id="cb170-2"><a href="explore.html#cb170-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb170-3"><a href="explore.html#cb170-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
-<span id="cb170-4"><a href="explore.html#cb170-4" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span></span>
-<span id="cb170-5"><a href="explore.html#cb170-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb170-6"><a href="explore.html#cb170-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb170-7"><a href="explore.html#cb170-7" aria-hidden="true" tabindex="-1"></a>    actual_murder,</span>
-<span id="cb170-8"><a href="explore.html#cb170-8" aria-hidden="true" tabindex="-1"></a>    actual_robbery_total,</span>
-<span id="cb170-9"><a href="explore.html#cb170-9" aria-hidden="true" tabindex="-1"></a>    state, year, population,</span>
-<span id="cb170-10"><a href="explore.html#cb170-10" aria-hidden="true" tabindex="-1"></a>    ori, agency_name</span>
-<span id="cb170-11"><a href="explore.html#cb170-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="explore.html#cb171-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> ucr <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
+<span id="cb171-2"><a href="explore.html#cb171-2" aria-hidden="true" tabindex="-1"></a>                           year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb171-3"><a href="explore.html#cb171-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(actual_murder,</span>
+<span id="cb171-4"><a href="explore.html#cb171-4" aria-hidden="true" tabindex="-1"></a>         actual_robbery_total,</span>
+<span id="cb171-5"><a href="explore.html#cb171-5" aria-hidden="true" tabindex="-1"></a>         state, year, population, </span>
+<span id="cb171-6"><a href="explore.html#cb171-6" aria-hidden="true" tabindex="-1"></a>         ori, agency_name)</span></code></pre></div>
 <p>If we check results using <code>head()</code>, we can see that this code is exactly the same as not using pipes.</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="explore.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(colorado)</span>
-<span id="cb171-2"><a href="explore.html#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_murder actual_robbery_total</span></span>
-<span id="cb171-3"><a href="explore.html#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1             7                   80</span></span>
-<span id="cb171-4"><a href="explore.html#cb171-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2            11                   93</span></span>
-<span id="cb171-5"><a href="explore.html#cb171-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3             6                   68</span></span>
-<span id="cb171-6"><a href="explore.html#cb171-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4             6                   58</span></span>
-<span id="cb171-7"><a href="explore.html#cb171-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5             7                   44</span></span>
-<span id="cb171-8"><a href="explore.html#cb171-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6             7                   55</span></span>
-<span id="cb171-9"><a href="explore.html#cb171-9" aria-hidden="true" tabindex="-1"></a><span class="co">#      state year population     ori</span></span>
-<span id="cb171-10"><a href="explore.html#cb171-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 colorado 2017      99940 CO00100</span></span>
-<span id="cb171-11"><a href="explore.html#cb171-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 colorado 2016     100526 CO00100</span></span>
-<span id="cb171-12"><a href="explore.html#cb171-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 colorado 2015     100266 CO00100</span></span>
-<span id="cb171-13"><a href="explore.html#cb171-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 colorado 2014      98569 CO00100</span></span>
-<span id="cb171-14"><a href="explore.html#cb171-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 colorado 2013      97146 CO00100</span></span>
-<span id="cb171-15"><a href="explore.html#cb171-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 colorado 2012      93542 CO00100</span></span>
-<span id="cb171-16"><a href="explore.html#cb171-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   agency_name</span></span>
-<span id="cb171-17"><a href="explore.html#cb171-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       adams</span></span>
-<span id="cb171-18"><a href="explore.html#cb171-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       adams</span></span>
-<span id="cb171-19"><a href="explore.html#cb171-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       adams</span></span>
-<span id="cb171-20"><a href="explore.html#cb171-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       adams</span></span>
-<span id="cb171-21"><a href="explore.html#cb171-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       adams</span></span>
-<span id="cb171-22"><a href="explore.html#cb171-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       adams</span></span></code></pre></div>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="explore.html#cb172-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(colorado)</span>
+<span id="cb172-2"><a href="explore.html#cb172-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   actual_murder actual_robbery_total    state year population     ori</span></span>
+<span id="cb172-3"><a href="explore.html#cb172-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1             7                   80 colorado 2017      99940 CO00100</span></span>
+<span id="cb172-4"><a href="explore.html#cb172-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2            11                   93 colorado 2016     100526 CO00100</span></span>
+<span id="cb172-5"><a href="explore.html#cb172-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3             6                   68 colorado 2015     100266 CO00100</span></span>
+<span id="cb172-6"><a href="explore.html#cb172-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4             6                   58 colorado 2014      98569 CO00100</span></span>
+<span id="cb172-7"><a href="explore.html#cb172-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5             7                   44 colorado 2013      97146 CO00100</span></span>
+<span id="cb172-8"><a href="explore.html#cb172-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6             7                   55 colorado 2012      93542 CO00100</span></span>
+<span id="cb172-9"><a href="explore.html#cb172-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   agency_name</span></span>
+<span id="cb172-10"><a href="explore.html#cb172-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       adams</span></span>
+<span id="cb172-11"><a href="explore.html#cb172-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       adams</span></span>
+<span id="cb172-12"><a href="explore.html#cb172-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       adams</span></span>
+<span id="cb172-13"><a href="explore.html#cb172-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       adams</span></span>
+<span id="cb172-14"><a href="explore.html#cb172-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       adams</span></span>
+<span id="cb172-15"><a href="explore.html#cb172-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       adams</span></span></code></pre></div>
 <p>The normal way to write code using pipes is to have a new line after the pipe and after each comma in <code>filter()</code> and <code>select()</code>. This doesn’t change how the code works at all, but it is easier to read now because it has less code bunched together in a single line.</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="explore.html#cb172-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> ucr <span class="sc">%&gt;%</span></span>
-<span id="cb172-2"><a href="explore.html#cb172-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb172-3"><a href="explore.html#cb172-3" aria-hidden="true" tabindex="-1"></a>    state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
-<span id="cb172-4"><a href="explore.html#cb172-4" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span></span>
-<span id="cb172-5"><a href="explore.html#cb172-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb172-6"><a href="explore.html#cb172-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb172-7"><a href="explore.html#cb172-7" aria-hidden="true" tabindex="-1"></a>    actual_murder,</span>
-<span id="cb172-8"><a href="explore.html#cb172-8" aria-hidden="true" tabindex="-1"></a>    actual_robbery_total,</span>
-<span id="cb172-9"><a href="explore.html#cb172-9" aria-hidden="true" tabindex="-1"></a>    state,</span>
-<span id="cb172-10"><a href="explore.html#cb172-10" aria-hidden="true" tabindex="-1"></a>    year,</span>
-<span id="cb172-11"><a href="explore.html#cb172-11" aria-hidden="true" tabindex="-1"></a>    population,</span>
-<span id="cb172-12"><a href="explore.html#cb172-12" aria-hidden="true" tabindex="-1"></a>    ori,</span>
-<span id="cb172-13"><a href="explore.html#cb172-13" aria-hidden="true" tabindex="-1"></a>    agency_name</span>
-<span id="cb172-14"><a href="explore.html#cb172-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="explore.html#cb173-1" aria-hidden="true" tabindex="-1"></a>colorado <span class="ot">&lt;-</span> ucr <span class="sc">%&gt;%</span></span>
+<span id="cb173-2"><a href="explore.html#cb173-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;colorado&quot;</span>,</span>
+<span id="cb173-3"><a href="explore.html#cb173-3" aria-hidden="true" tabindex="-1"></a>         year <span class="sc">%in%</span> <span class="dv">2011</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb173-4"><a href="explore.html#cb173-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(actual_murder, </span>
+<span id="cb173-5"><a href="explore.html#cb173-5" aria-hidden="true" tabindex="-1"></a>         actual_robbery_total,</span>
+<span id="cb173-6"><a href="explore.html#cb173-6" aria-hidden="true" tabindex="-1"></a>         state, </span>
+<span id="cb173-7"><a href="explore.html#cb173-7" aria-hidden="true" tabindex="-1"></a>         year,</span>
+<span id="cb173-8"><a href="explore.html#cb173-8" aria-hidden="true" tabindex="-1"></a>         population,</span>
+<span id="cb173-9"><a href="explore.html#cb173-9" aria-hidden="true" tabindex="-1"></a>         ori, </span>
+<span id="cb173-10"><a href="explore.html#cb173-10" aria-hidden="true" tabindex="-1"></a>         agency_name)</span></code></pre></div>
 
 </div>
 </div>

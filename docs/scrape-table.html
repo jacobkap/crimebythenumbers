@@ -493,269 +493,249 @@ div.csl-indent {
 <h2><span class="header-section-number">22.1</span> Scraping the first table<a href="scrape-table.html#scraping-the-first-table" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We’ve now seen all three of the tables that we want to scrape so we can begin the process of actually scraping them. Note that each table is very similar, meaning that we can reuse some code to scrape as well as to clean the data. That means that we will want to write some functions to make our work easier and avoid copy and pasting code.</p>
 <p>We will start by using the <code>pdf_text()</code> function from the <code>pdftools</code> package to read the PDFs into R.</p>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="scrape-table.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;pdftools&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="scrape-table.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span>
-<span id="cb401-2"><a href="scrape-table.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;pdftools&#39; was built under R version 4.1.3</span></span>
-<span id="cb401-3"><a href="scrape-table.html#cb401-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Using poppler version 22.04.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="scrape-table.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;pdftools&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="scrape-table.html#cb402-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span>
+<span id="cb402-2"><a href="scrape-table.html#cb402-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;pdftools&#39; was built under R version 4.1.3</span></span>
+<span id="cb402-3"><a href="scrape-table.html#cb402-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Using poppler version 22.04.0</span></span></code></pre></div>
 <p>We can assign the output of the <code>pdf_text()</code> function to the object <em>border_patrol</em>, and we’ll use it for each table. The input to <code>pdf_text()</code> is the name of the PDF we want to scrape.</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="scrape-table.html#cb402-1" aria-hidden="true" tabindex="-1"></a>border_patrol <span class="ot">&lt;-</span> <span class="fu">pdf_text</span>(<span class="st">&quot;data/usbp_stats_fy2017_sector_profile.pdf&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="scrape-table.html#cb403-1" aria-hidden="true" tabindex="-1"></a>border_patrol <span class="ot">&lt;-</span> <span class="fu">pdf_text</span>(<span class="st">&quot;data/usbp_stats_fy2017_sector_profile.pdf&quot;</span>)</span></code></pre></div>
 <p>We can take a look at the <code>head()</code> of the result using <code>head(border_patrol)</code>.</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb403-1"><a href="scrape-table.html#cb403-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(border_patrol)</span></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="scrape-table.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(border_patrol)</span></code></pre></div>
 <p><img src="images/pdf_scrape_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the <code>length()</code> of “border_patrol”, which tells us how many elements are in a vector.</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="scrape-table.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(border_patrol)</span>
-<span id="cb404-2"><a href="scrape-table.html#cb404-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="scrape-table.html#cb405-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(border_patrol)</span>
+<span id="cb405-2"><a href="scrape-table.html#cb405-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 4</span></span></code></pre></div>
 <p>It is four elements long, one for each table.</p>
 <p>Looking at just the first element in <em>border_patrol</em> gives us all the values in the first table plus a few sentences at the end detailing some features of the table. At the end of each line (where in the PDF it should end but doesn’t in our data yet) there is a <code>\n</code> indicating that there should be a new line. We want to use <code>strsplit()</code> to split at the <code>\n</code>.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb405-1"><a href="scrape-table.html#cb405-1" aria-hidden="true" tabindex="-1"></a>border_patrol[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="scrape-table.html#cb406-1" aria-hidden="true" tabindex="-1"></a>border_patrol[<span class="dv">1</span>]</span></code></pre></div>
 <p><img src="images/pdf_scrape_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>The <code>strsplit()</code> function breaks up a string into pieces based on a value inside of the string. Let’s use the word “criminology” as an example. If we want to split it by the letter “n” we’d have two results, “crimi” and “ology” as these are the pieces of the word after breaking up “criminology” at letter “n”.</p>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="scrape-table.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(<span class="st">&quot;criminology&quot;</span>, <span class="at">split =</span> <span class="st">&quot;n&quot;</span>)</span>
-<span id="cb406-2"><a href="scrape-table.html#cb406-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[1]]</span></span>
-<span id="cb406-3"><a href="scrape-table.html#cb406-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;crimi&quot; &quot;ology&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="scrape-table.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strsplit</span>(<span class="st">&quot;criminology&quot;</span>, <span class="at">split =</span> <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb407-2"><a href="scrape-table.html#cb407-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[1]]</span></span>
+<span id="cb407-3"><a href="scrape-table.html#cb407-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;crimi&quot; &quot;ology&quot;</span></span></code></pre></div>
 <p>Note that it deletes whatever value is used to break up the string.</p>
 <p>Let’s assign a new object with the value in the first element of <em>border_patrol</em>, calling it <em>sector_profile</em> as that’s the name of that table, and then using <code>strsplit()</code> on it to split it every <code>\n</code>. In effect this makes each line of the table an element in a vector that we’ll create rather than having the entire table be a single long string as it is now. <code>strsplit()</code> returns a list so we will also want to keep just the first element of that list using double square bracket <code>[[]]</code> notation.</p>
-<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="scrape-table.html#cb407-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> border_patrol[<span class="dv">1</span>]</span>
-<span id="cb407-2"><a href="scrape-table.html#cb407-2" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sector_profile, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb407-3"><a href="scrape-table.html#cb407-3" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="scrape-table.html#cb408-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> border_patrol[<span class="dv">1</span>]</span>
+<span id="cb408-2"><a href="scrape-table.html#cb408-2" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sector_profile, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb408-3"><a href="scrape-table.html#cb408-3" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[[<span class="dv">1</span>]]</span></code></pre></div>
 <p>Now we can look at the first six rows of this data.</p>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="scrape-table.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="scrape-table.html#cb409-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span></code></pre></div>
 <p><img src="images/pdf_scrape_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use <code>trimws()</code> and put the entire <em>sector_profile</em> data in the (), and it’ll remove any white space that is at the beginning or end of the string.</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="scrape-table.html#cb409-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">trimws</span>(sector_profile)</span></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="scrape-table.html#cb410-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">trimws</span>(sector_profile)</span></code></pre></div>
 <p>We have more rows than we want so let’s look at the entire data and try to figure out how to keep just the necessary rows.</p>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="scrape-table.html#cb410-1" aria-hidden="true" tabindex="-1"></a>sector_profile</span></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="scrape-table.html#cb411-1" aria-hidden="true" tabindex="-1"></a>sector_profile</span></code></pre></div>
 <p><img src="images/pdf_scrape_4.PNG" width="100%" height="100%"  style="display: block; margin: auto;" /></p>
 <p>Based on the PDF, we want every row from Miami to Nationwide Total. But here we have several rows with the title of the table and the column names, and at the end we have the sentences with some details that we don’t need.</p>
 <p>To keep only the rows that we want, we can combine <code>grep()</code> and subsetting to find the rows from Miami to Nationwide Total and keep only those rows. We will use <code>grep()</code> to find which row has the text “Miami” and which has the text “Nationwide Total” and keep all rows between them (including those matched rows as well). Since each only appears once in the table we don’t need to worry about handling duplicate results.</p>
-<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="scrape-table.html#cb411-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)</span>
-<span id="cb411-2"><a href="scrape-table.html#cb411-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 10</span></span></code></pre></div>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="scrape-table.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)</span>
-<span id="cb412-2"><a href="scrape-table.html#cb412-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 35</span></span></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="scrape-table.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)</span>
+<span id="cb412-2"><a href="scrape-table.html#cb412-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 10</span></span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="scrape-table.html#cb413-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)</span>
+<span id="cb413-2"><a href="scrape-table.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 35</span></span></code></pre></div>
 <p>We’ll use square bracket notation to keep all rows between those two values (including each value). Since the data is a vector, not a data.frame, we don’t need a comma.</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="scrape-table.html#cb413-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[<span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)<span class="sc">:</span></span>
-<span id="cb413-2"><a href="scrape-table.html#cb413-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)]</span></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="scrape-table.html#cb414-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[<span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, sector_profile)<span class="sc">:</span></span>
+<span id="cb414-2"><a href="scrape-table.html#cb414-2" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, sector_profile)]</span></code></pre></div>
 <p>Note that we’re getting rid of the rows that had the column names. It’s easier to make the names ourselves than to deal with that mess. The data now has only the rows we want but still doesn’t have any columns, it’s currently just a vector of strings. We want to make it into a data.frame to be able to work on it like we usually do.</p>
-<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="scrape-table.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="scrape-table.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span></code></pre></div>
 <p><img src="images/pdf_scrape_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>When looking at this data it is clear that where the division between columns is supposed to be is a bunch of white space in each string. Take the first row for example, it says “Miami” then after lots of white spaces “111” than again with “2,280” and so on for the rest of the row. We’ll use this pattern of columns differentiated by white space to make <em>sector_profile</em> into a data.frame.</p>
 <p>We will use the function <code>str_split_fixed()</code> from the <code>stringr</code> package. This function is very similar to <code>strsplit()</code> except you can tell it how many columns to expect.</p>
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="scrape-table.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;stringr&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="scrape-table.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="scrape-table.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;stringr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="scrape-table.html#cb417-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code></pre></div>
 <p>The syntax of <code>str_split_fixed()</code> is similar to <code>strsplit()</code> except the new parameter of the number of splits to expect. The “_fixed” part of <code>str_split_fixed()</code> is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that’s the number we’ll use. Our split will be ” {2,}“. That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can’t have only one space, we need at least two. If you look carefully at the rows with sectors”Coastal Border Sectors Total” and “Northern Border Sectors Total”, the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we’d want to fix this using <code>gsub()</code>, but those values will turn to NA anyway so we won’t bother in this case.</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="scrape-table.html#cb417-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(sector_profile, <span class="st">&quot; {2,}&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="scrape-table.html#cb418-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(sector_profile, <span class="st">&quot; {2,}&quot;</span>, <span class="dv">10</span>)</span></code></pre></div>
 <p>If we check the <code>head()</code> we can see that we have the proper columns now, but this still isn’t a data.frame and has no column names.</p>
-<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="scrape-table.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span>
-<span id="cb418-2"><a href="scrape-table.html#cb418-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1]                           [,2]  [,3]    [,4]   </span></span>
-<span id="cb418-3"><a href="scrape-table.html#cb418-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;Miami&quot;                        &quot;111&quot; &quot;2,280&quot; &quot;1,646&quot;</span></span>
-<span id="cb418-4"><a href="scrape-table.html#cb418-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;New Orleans&quot;                  &quot;63&quot;  &quot;920&quot;   &quot;528&quot;  </span></span>
-<span id="cb418-5"><a href="scrape-table.html#cb418-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;Ramey&quot;                        &quot;38&quot;  &quot;388&quot;   &quot;387&quot;  </span></span>
-<span id="cb418-6"><a href="scrape-table.html#cb418-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;Coastal Border Sectors Total&quot; &quot;212&quot; &quot;3,588&quot; &quot;2,561&quot;</span></span>
-<span id="cb418-7"><a href="scrape-table.html#cb418-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;&quot;                             &quot;&quot;    &quot;&quot;      &quot;&quot;     </span></span>
-<span id="cb418-8"><a href="scrape-table.html#cb418-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [6,] &quot;Blaine&quot;                       &quot;296&quot; &quot;288&quot;   &quot;237&quot;  </span></span>
-<span id="cb418-9"><a href="scrape-table.html#cb418-9" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,5]    [,6]    [,7]  [,8] [,9]       [,10]     </span></span>
-<span id="cb418-10"><a href="scrape-table.html#cb418-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;2,253&quot; &quot;231&quot;   &quot;292&quot; &quot;1&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
-<span id="cb418-11"><a href="scrape-table.html#cb418-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;21&quot;    &quot;6&quot;     &quot;10&quot;  &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
-<span id="cb418-12"><a href="scrape-table.html#cb418-12" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;3&quot;     &quot;2,932&quot; &quot;89&quot;  &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
-<span id="cb418-13"><a href="scrape-table.html#cb418-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;2,277&quot; &quot;3,169&quot; &quot;391&quot; &quot;1&quot;  &quot;N/A ****&quot; &quot;N/A ****&quot;</span></span>
-<span id="cb418-14"><a href="scrape-table.html#cb418-14" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;&quot;      &quot;&quot;      &quot;&quot;    &quot;&quot;   &quot;&quot;         &quot;&quot;        </span></span>
-<span id="cb418-15"><a href="scrape-table.html#cb418-15" aria-hidden="true" tabindex="-1"></a><span class="co"># [6,] &quot;0&quot;     &quot;0&quot;     &quot;9&quot;   &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="scrape-table.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span>
+<span id="cb419-2"><a href="scrape-table.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1]                           [,2]  [,3]    [,4]   </span></span>
+<span id="cb419-3"><a href="scrape-table.html#cb419-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;Miami&quot;                        &quot;111&quot; &quot;2,280&quot; &quot;1,646&quot;</span></span>
+<span id="cb419-4"><a href="scrape-table.html#cb419-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;New Orleans&quot;                  &quot;63&quot;  &quot;920&quot;   &quot;528&quot;  </span></span>
+<span id="cb419-5"><a href="scrape-table.html#cb419-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;Ramey&quot;                        &quot;38&quot;  &quot;388&quot;   &quot;387&quot;  </span></span>
+<span id="cb419-6"><a href="scrape-table.html#cb419-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;Coastal Border Sectors Total&quot; &quot;212&quot; &quot;3,588&quot; &quot;2,561&quot;</span></span>
+<span id="cb419-7"><a href="scrape-table.html#cb419-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;&quot;                             &quot;&quot;    &quot;&quot;      &quot;&quot;     </span></span>
+<span id="cb419-8"><a href="scrape-table.html#cb419-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [6,] &quot;Blaine&quot;                       &quot;296&quot; &quot;288&quot;   &quot;237&quot;  </span></span>
+<span id="cb419-9"><a href="scrape-table.html#cb419-9" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,5]    [,6]    [,7]  [,8] [,9]       [,10]     </span></span>
+<span id="cb419-10"><a href="scrape-table.html#cb419-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;2,253&quot; &quot;231&quot;   &quot;292&quot; &quot;1&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
+<span id="cb419-11"><a href="scrape-table.html#cb419-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;21&quot;    &quot;6&quot;     &quot;10&quot;  &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
+<span id="cb419-12"><a href="scrape-table.html#cb419-12" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;3&quot;     &quot;2,932&quot; &quot;89&quot;  &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;     </span></span>
+<span id="cb419-13"><a href="scrape-table.html#cb419-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;2,277&quot; &quot;3,169&quot; &quot;391&quot; &quot;1&quot;  &quot;N/A ****&quot; &quot;N/A ****&quot;</span></span>
+<span id="cb419-14"><a href="scrape-table.html#cb419-14" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;&quot;      &quot;&quot;      &quot;&quot;    &quot;&quot;   &quot;&quot;         &quot;&quot;        </span></span>
+<span id="cb419-15"><a href="scrape-table.html#cb419-15" aria-hidden="true" tabindex="-1"></a><span class="co"># [6,] &quot;0&quot;     &quot;0&quot;     &quot;9&quot;   &quot;0&quot;  &quot;N/A&quot;      &quot;N/A&quot;</span></span></code></pre></div>
 <p>We can make it a data.frame just by putting it in <code>data.frame()</code>. And we can assign the columns names using a vector of strings we can make. We’ll use the same column names as in the PDF but in lowercase and replacing spaces and parentheses with underscores.</p>
-<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="scrape-table.html#cb419-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sector_profile)</span>
-<span id="cb419-2"><a href="scrape-table.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sector_profile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb419-3"><a href="scrape-table.html#cb419-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;sector&quot;</span>,</span>
-<span id="cb419-4"><a href="scrape-table.html#cb419-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;agent_staffing&quot;</span>,</span>
-<span id="cb419-5"><a href="scrape-table.html#cb419-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;apprehensions&quot;</span>,</span>
-<span id="cb419-6"><a href="scrape-table.html#cb419-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>,</span>
-<span id="cb419-7"><a href="scrape-table.html#cb419-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
-<span id="cb419-8"><a href="scrape-table.html#cb419-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
-<span id="cb419-9"><a href="scrape-table.html#cb419-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
-<span id="cb419-10"><a href="scrape-table.html#cb419-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;assaults&quot;</span>,</span>
-<span id="cb419-11"><a href="scrape-table.html#cb419-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;rescues&quot;</span>,</span>
-<span id="cb419-12"><a href="scrape-table.html#cb419-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;deaths&quot;</span></span>
-<span id="cb419-13"><a href="scrape-table.html#cb419-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="scrape-table.html#cb420-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sector_profile)</span>
+<span id="cb420-2"><a href="scrape-table.html#cb420-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sector_profile) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb420-3"><a href="scrape-table.html#cb420-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;agent_staffing&quot;</span>,</span>
+<span id="cb420-4"><a href="scrape-table.html#cb420-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;apprehensions&quot;</span>,</span>
+<span id="cb420-5"><a href="scrape-table.html#cb420-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>, </span>
+<span id="cb420-6"><a href="scrape-table.html#cb420-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
+<span id="cb420-7"><a href="scrape-table.html#cb420-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
+<span id="cb420-8"><a href="scrape-table.html#cb420-8" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
+<span id="cb420-9"><a href="scrape-table.html#cb420-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;assaults&quot;</span>,</span>
+<span id="cb420-10"><a href="scrape-table.html#cb420-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;rescues&quot;</span>,</span>
+<span id="cb420-11"><a href="scrape-table.html#cb420-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;deaths&quot;</span>)</span></code></pre></div>
 <p>We have now taken a table from a PDF and successfully scraped it to a data.frame in R. Now we can work on it as we would any other data set that we’ve used previously.</p>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="scrape-table.html#cb420-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span>
-<span id="cb420-2"><a href="scrape-table.html#cb420-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                         sector agent_staffing apprehensions</span></span>
-<span id="cb420-3"><a href="scrape-table.html#cb420-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                        Miami            111         2,280</span></span>
-<span id="cb420-4"><a href="scrape-table.html#cb420-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                  New Orleans             63           920</span></span>
-<span id="cb420-5"><a href="scrape-table.html#cb420-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                        Ramey             38           388</span></span>
-<span id="cb420-6"><a href="scrape-table.html#cb420-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Coastal Border Sectors Total            212         3,588</span></span>
-<span id="cb420-7"><a href="scrape-table.html#cb420-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                          </span></span>
-<span id="cb420-8"><a href="scrape-table.html#cb420-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       Blaine            296           288</span></span>
-<span id="cb420-9"><a href="scrape-table.html#cb420-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   other_than_mexican_apprehensions marijuana_pounds</span></span>
-<span id="cb420-10"><a href="scrape-table.html#cb420-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                            1,646            2,253</span></span>
-<span id="cb420-11"><a href="scrape-table.html#cb420-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                              528               21</span></span>
-<span id="cb420-12"><a href="scrape-table.html#cb420-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                              387                3</span></span>
-<span id="cb420-13"><a href="scrape-table.html#cb420-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                            2,561            2,277</span></span>
-<span id="cb420-14"><a href="scrape-table.html#cb420-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                  </span></span>
-<span id="cb420-15"><a href="scrape-table.html#cb420-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                              237                0</span></span>
-<span id="cb420-16"><a href="scrape-table.html#cb420-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   cocaine_pounds accepted_prosecutions assaults  rescues</span></span>
-<span id="cb420-17"><a href="scrape-table.html#cb420-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1            231                   292        1      N/A</span></span>
-<span id="cb420-18"><a href="scrape-table.html#cb420-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2              6                    10        0      N/A</span></span>
-<span id="cb420-19"><a href="scrape-table.html#cb420-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3          2,932                    89        0      N/A</span></span>
-<span id="cb420-20"><a href="scrape-table.html#cb420-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4          3,169                   391        1 N/A ****</span></span>
-<span id="cb420-21"><a href="scrape-table.html#cb420-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                       </span></span>
-<span id="cb420-22"><a href="scrape-table.html#cb420-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6              0                     9        0      N/A</span></span>
-<span id="cb420-23"><a href="scrape-table.html#cb420-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     deaths</span></span>
-<span id="cb420-24"><a href="scrape-table.html#cb420-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1      N/A</span></span>
-<span id="cb420-25"><a href="scrape-table.html#cb420-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2      N/A</span></span>
-<span id="cb420-26"><a href="scrape-table.html#cb420-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3      N/A</span></span>
-<span id="cb420-27"><a href="scrape-table.html#cb420-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 N/A ****</span></span>
-<span id="cb420-28"><a href="scrape-table.html#cb420-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5         </span></span>
-<span id="cb420-29"><a href="scrape-table.html#cb420-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6      N/A</span></span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="scrape-table.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sector_profile)</span>
+<span id="cb421-2"><a href="scrape-table.html#cb421-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                         sector agent_staffing apprehensions</span></span>
+<span id="cb421-3"><a href="scrape-table.html#cb421-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                        Miami            111         2,280</span></span>
+<span id="cb421-4"><a href="scrape-table.html#cb421-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                  New Orleans             63           920</span></span>
+<span id="cb421-5"><a href="scrape-table.html#cb421-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                        Ramey             38           388</span></span>
+<span id="cb421-6"><a href="scrape-table.html#cb421-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Coastal Border Sectors Total            212         3,588</span></span>
+<span id="cb421-7"><a href="scrape-table.html#cb421-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                          </span></span>
+<span id="cb421-8"><a href="scrape-table.html#cb421-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       Blaine            296           288</span></span>
+<span id="cb421-9"><a href="scrape-table.html#cb421-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   other_than_mexican_apprehensions marijuana_pounds</span></span>
+<span id="cb421-10"><a href="scrape-table.html#cb421-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                            1,646            2,253</span></span>
+<span id="cb421-11"><a href="scrape-table.html#cb421-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                              528               21</span></span>
+<span id="cb421-12"><a href="scrape-table.html#cb421-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                              387                3</span></span>
+<span id="cb421-13"><a href="scrape-table.html#cb421-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                            2,561            2,277</span></span>
+<span id="cb421-14"><a href="scrape-table.html#cb421-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                  </span></span>
+<span id="cb421-15"><a href="scrape-table.html#cb421-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                              237                0</span></span>
+<span id="cb421-16"><a href="scrape-table.html#cb421-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   cocaine_pounds accepted_prosecutions assaults  rescues</span></span>
+<span id="cb421-17"><a href="scrape-table.html#cb421-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1            231                   292        1      N/A</span></span>
+<span id="cb421-18"><a href="scrape-table.html#cb421-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2              6                    10        0      N/A</span></span>
+<span id="cb421-19"><a href="scrape-table.html#cb421-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3          2,932                    89        0      N/A</span></span>
+<span id="cb421-20"><a href="scrape-table.html#cb421-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4          3,169                   391        1 N/A ****</span></span>
+<span id="cb421-21"><a href="scrape-table.html#cb421-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                       </span></span>
+<span id="cb421-22"><a href="scrape-table.html#cb421-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6              0                     9        0      N/A</span></span>
+<span id="cb421-23"><a href="scrape-table.html#cb421-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     deaths</span></span>
+<span id="cb421-24"><a href="scrape-table.html#cb421-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1      N/A</span></span>
+<span id="cb421-25"><a href="scrape-table.html#cb421-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2      N/A</span></span>
+<span id="cb421-26"><a href="scrape-table.html#cb421-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3      N/A</span></span>
+<span id="cb421-27"><a href="scrape-table.html#cb421-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 N/A ****</span></span>
+<span id="cb421-28"><a href="scrape-table.html#cb421-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5         </span></span>
+<span id="cb421-29"><a href="scrape-table.html#cb421-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6      N/A</span></span></code></pre></div>
 <p>To really be able to use this data we’ll want to clean the columns to turn the values to numeric type, but we can leave that until later. For now let’s write a function that replicates much of this work for the next tables.</p>
 </div>
 <div id="making-a-function" class="section level2 hasAnchor" number="22.2">
 <h2><span class="header-section-number">22.2</span> Making a function<a href="scrape-table.html#making-a-function" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As we’ve done before, we want to take the code we wrote for the specific case of the first table in this PDF and turn it into a function for the general case of other tables in the PDF. Let’s copy the code we used previously before we convert it to a function.</p>
-<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="scrape-table.html#cb421-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> border_patrol[<span class="dv">1</span>]</span>
-<span id="cb421-2"><a href="scrape-table.html#cb421-2" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">trimws</span>(sector_profile)</span>
-<span id="cb421-3"><a href="scrape-table.html#cb421-3" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sector_profile, <span class="st">&quot;</span><span class="sc">\r\n</span><span class="st">&quot;</span>)</span>
-<span id="cb421-4"><a href="scrape-table.html#cb421-4" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[[<span class="dv">1</span>]]</span>
-<span id="cb421-5"><a href="scrape-table.html#cb421-5" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[<span class="fu">grep</span>(</span>
-<span id="cb421-6"><a href="scrape-table.html#cb421-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Miami&quot;</span>,</span>
-<span id="cb421-7"><a href="scrape-table.html#cb421-7" aria-hidden="true" tabindex="-1"></a>  sector_profile</span>
-<span id="cb421-8"><a href="scrape-table.html#cb421-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">:</span></span>
-<span id="cb421-9"><a href="scrape-table.html#cb421-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span>(</span>
-<span id="cb421-10"><a href="scrape-table.html#cb421-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Nationwide Total&quot;</span>,</span>
-<span id="cb421-11"><a href="scrape-table.html#cb421-11" aria-hidden="true" tabindex="-1"></a>  sector_profile</span>
-<span id="cb421-12"><a href="scrape-table.html#cb421-12" aria-hidden="true" tabindex="-1"></a>)]</span>
-<span id="cb421-13"><a href="scrape-table.html#cb421-13" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(sector_profile, <span class="st">&quot; {2,}&quot;</span>, <span class="dv">10</span>)</span>
-<span id="cb421-14"><a href="scrape-table.html#cb421-14" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sector_profile)</span>
-<span id="cb421-15"><a href="scrape-table.html#cb421-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sector_profile) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb421-16"><a href="scrape-table.html#cb421-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;sector&quot;</span>,</span>
-<span id="cb421-17"><a href="scrape-table.html#cb421-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;agent_staffing&quot;</span>,</span>
-<span id="cb421-18"><a href="scrape-table.html#cb421-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;total_apprehensions&quot;</span>,</span>
-<span id="cb421-19"><a href="scrape-table.html#cb421-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>,</span>
-<span id="cb421-20"><a href="scrape-table.html#cb421-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
-<span id="cb421-21"><a href="scrape-table.html#cb421-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
-<span id="cb421-22"><a href="scrape-table.html#cb421-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
-<span id="cb421-23"><a href="scrape-table.html#cb421-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;assaults&quot;</span>,</span>
-<span id="cb421-24"><a href="scrape-table.html#cb421-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;rescues&quot;</span>,</span>
-<span id="cb421-25"><a href="scrape-table.html#cb421-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;deaths&quot;</span></span>
-<span id="cb421-26"><a href="scrape-table.html#cb421-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="scrape-table.html#cb422-1" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> border_patrol[<span class="dv">1</span>]</span>
+<span id="cb422-2"><a href="scrape-table.html#cb422-2" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">trimws</span>(sector_profile)</span>
+<span id="cb422-3"><a href="scrape-table.html#cb422-3" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sector_profile, <span class="st">&quot;</span><span class="sc">\r\n</span><span class="st">&quot;</span>)</span>
+<span id="cb422-4"><a href="scrape-table.html#cb422-4" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[[<span class="dv">1</span>]]</span>
+<span id="cb422-5"><a href="scrape-table.html#cb422-5" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> sector_profile[<span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>,</span>
+<span id="cb422-6"><a href="scrape-table.html#cb422-6" aria-hidden="true" tabindex="-1"></a>                                      sector_profile)<span class="sc">:</span></span>
+<span id="cb422-7"><a href="scrape-table.html#cb422-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>,</span>
+<span id="cb422-8"><a href="scrape-table.html#cb422-8" aria-hidden="true" tabindex="-1"></a>                                        sector_profile)]</span>
+<span id="cb422-9"><a href="scrape-table.html#cb422-9" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(sector_profile, <span class="st">&quot; {2,}&quot;</span>, <span class="dv">10</span>)</span>
+<span id="cb422-10"><a href="scrape-table.html#cb422-10" aria-hidden="true" tabindex="-1"></a>sector_profile <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sector_profile)</span>
+<span id="cb422-11"><a href="scrape-table.html#cb422-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sector_profile) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb422-12"><a href="scrape-table.html#cb422-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;agent_staffing&quot;</span>,</span>
+<span id="cb422-13"><a href="scrape-table.html#cb422-13" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;total_apprehensions&quot;</span>,</span>
+<span id="cb422-14"><a href="scrape-table.html#cb422-14" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>, </span>
+<span id="cb422-15"><a href="scrape-table.html#cb422-15" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
+<span id="cb422-16"><a href="scrape-table.html#cb422-16" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
+<span id="cb422-17"><a href="scrape-table.html#cb422-17" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
+<span id="cb422-18"><a href="scrape-table.html#cb422-18" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;assaults&quot;</span>,</span>
+<span id="cb422-19"><a href="scrape-table.html#cb422-19" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;rescues&quot;</span>,</span>
+<span id="cb422-20"><a href="scrape-table.html#cb422-20" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;deaths&quot;</span>)</span></code></pre></div>
 <p>Since each table is so similar our function will only need a few changes in the above code to work for all three tables. The object <em>border_patrol</em> has all four of the tables in the data, so we need to say which of these tables we want - we can call the parameter <code>table_number</code>. Then each table has a different number of columns so we need to change the <code>str_split_fixed()</code> function to take a variable with the number of columns we input, a value we’ll call <code>number_columns</code>. We rename each column to its proper name so we need to input a vector - which we’ll call <code>column_names</code> - with the names for each column. Finally, we want to have a parameter where we enter in the data, which holds all of the tables, our object <em>border_patrol</em>, we can call this <code>list_of_tables</code> as it is fairly descriptive.</p>
 <p>We do this as it is bad form (and potentially dangerous) to have a function that relies on an object that isn’t explicitly put in the function. It we change our <em>border_patrol</em> object (such as by scraping a different file but calling that object <em>border_patrol</em>) and the function doesn’t have that as an input, it will work differently than we expect. Since we called the object we scraped <em>sector_profile</em> for the first table, let’s change that to <em>data</em> as not all tables are called Sector Profile.</p>
-<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="scrape-table.html#cb422-1" aria-hidden="true" tabindex="-1"></a>scrape_pdf <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_tables,</span>
-<span id="cb422-2"><a href="scrape-table.html#cb422-2" aria-hidden="true" tabindex="-1"></a>                       table_number,</span>
-<span id="cb422-3"><a href="scrape-table.html#cb422-3" aria-hidden="true" tabindex="-1"></a>                       number_columns,</span>
-<span id="cb422-4"><a href="scrape-table.html#cb422-4" aria-hidden="true" tabindex="-1"></a>                       column_names) {</span>
-<span id="cb422-5"><a href="scrape-table.html#cb422-5" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> list_of_tables[table_number]</span>
-<span id="cb422-6"><a href="scrape-table.html#cb422-6" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">trimws</span>(data)</span>
-<span id="cb422-7"><a href="scrape-table.html#cb422-7" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(data, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb422-8"><a href="scrape-table.html#cb422-8" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
-<span id="cb422-9"><a href="scrape-table.html#cb422-9" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[<span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, data)<span class="sc">:</span></span>
-<span id="cb422-10"><a href="scrape-table.html#cb422-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, data)]</span>
-<span id="cb422-11"><a href="scrape-table.html#cb422-11" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(data, <span class="st">&quot; {2,}&quot;</span>, number_columns)</span>
-<span id="cb422-12"><a href="scrape-table.html#cb422-12" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(data)</span>
-<span id="cb422-13"><a href="scrape-table.html#cb422-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(data) <span class="ot">&lt;-</span> column_names</span>
-<span id="cb422-14"><a href="scrape-table.html#cb422-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb422-15"><a href="scrape-table.html#cb422-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(data)</span>
-<span id="cb422-16"><a href="scrape-table.html#cb422-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="scrape-table.html#cb423-1" aria-hidden="true" tabindex="-1"></a>scrape_pdf <span class="ot">&lt;-</span> <span class="cf">function</span>(list_of_tables,</span>
+<span id="cb423-2"><a href="scrape-table.html#cb423-2" aria-hidden="true" tabindex="-1"></a>                       table_number,</span>
+<span id="cb423-3"><a href="scrape-table.html#cb423-3" aria-hidden="true" tabindex="-1"></a>                       number_columns, </span>
+<span id="cb423-4"><a href="scrape-table.html#cb423-4" aria-hidden="true" tabindex="-1"></a>                       column_names) {</span>
+<span id="cb423-5"><a href="scrape-table.html#cb423-5" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> list_of_tables[table_number]</span>
+<span id="cb423-6"><a href="scrape-table.html#cb423-6" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">trimws</span>(data)</span>
+<span id="cb423-7"><a href="scrape-table.html#cb423-7" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(data, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb423-8"><a href="scrape-table.html#cb423-8" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[[<span class="dv">1</span>]]</span>
+<span id="cb423-9"><a href="scrape-table.html#cb423-9" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> data[<span class="fu">grep</span>(<span class="st">&quot;Miami&quot;</span>, data)<span class="sc">:</span></span>
+<span id="cb423-10"><a href="scrape-table.html#cb423-10" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">grep</span>(<span class="st">&quot;Nationwide Total&quot;</span>, data)]</span>
+<span id="cb423-11"><a href="scrape-table.html#cb423-11" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(data, <span class="st">&quot; {2,}&quot;</span>, number_columns)</span>
+<span id="cb423-12"><a href="scrape-table.html#cb423-12" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(data)</span>
+<span id="cb423-13"><a href="scrape-table.html#cb423-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(data) <span class="ot">&lt;-</span> column_names</span>
+<span id="cb423-14"><a href="scrape-table.html#cb423-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb423-15"><a href="scrape-table.html#cb423-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(data)</span>
+<span id="cb423-16"><a href="scrape-table.html#cb423-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Now let’s run this function for each of the three tables we want to scrape, changing the function’s parameters to work for each table. To see what parameter values you need to input, look at the PDF itself or the screenshots in this lesson.</p>
-<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="scrape-table.html#cb423-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(</span>
-<span id="cb423-2"><a href="scrape-table.html#cb423-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">list_of_tables =</span> border_patrol,</span>
-<span id="cb423-3"><a href="scrape-table.html#cb423-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">table_number =</span> <span class="dv">1</span>,</span>
-<span id="cb423-4"><a href="scrape-table.html#cb423-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">number_columns =</span> <span class="dv">10</span>,</span>
-<span id="cb423-5"><a href="scrape-table.html#cb423-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names =</span> <span class="fu">c</span>(</span>
-<span id="cb423-6"><a href="scrape-table.html#cb423-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;sector&quot;</span>,</span>
-<span id="cb423-7"><a href="scrape-table.html#cb423-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;agent_staffing&quot;</span>,</span>
-<span id="cb423-8"><a href="scrape-table.html#cb423-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;total_apprehensions&quot;</span>,</span>
-<span id="cb423-9"><a href="scrape-table.html#cb423-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>,</span>
-<span id="cb423-10"><a href="scrape-table.html#cb423-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
-<span id="cb423-11"><a href="scrape-table.html#cb423-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
-<span id="cb423-12"><a href="scrape-table.html#cb423-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
-<span id="cb423-13"><a href="scrape-table.html#cb423-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;assaults&quot;</span>,</span>
-<span id="cb423-14"><a href="scrape-table.html#cb423-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;rescues&quot;</span>,</span>
-<span id="cb423-15"><a href="scrape-table.html#cb423-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;deaths&quot;</span></span>
-<span id="cb423-16"><a href="scrape-table.html#cb423-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb423-17"><a href="scrape-table.html#cb423-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb423-18"><a href="scrape-table.html#cb423-18" aria-hidden="true" tabindex="-1"></a>table_2 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(</span>
-<span id="cb423-19"><a href="scrape-table.html#cb423-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">list_of_tables =</span> border_patrol,</span>
-<span id="cb423-20"><a href="scrape-table.html#cb423-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">table_number =</span> <span class="dv">2</span>,</span>
-<span id="cb423-21"><a href="scrape-table.html#cb423-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">number_columns =</span> <span class="dv">6</span>,</span>
-<span id="cb423-22"><a href="scrape-table.html#cb423-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names =</span> <span class="fu">c</span>(</span>
-<span id="cb423-23"><a href="scrape-table.html#cb423-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;sector&quot;</span>,</span>
-<span id="cb423-24"><a href="scrape-table.html#cb423-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;accompanied_juveniles&quot;</span>,</span>
-<span id="cb423-25"><a href="scrape-table.html#cb423-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;unaccompanied_juveniles&quot;</span>,</span>
-<span id="cb423-26"><a href="scrape-table.html#cb423-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;total_juveniles&quot;</span>,</span>
-<span id="cb423-27"><a href="scrape-table.html#cb423-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;total_adults&quot;</span>,</span>
-<span id="cb423-28"><a href="scrape-table.html#cb423-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;total_apprehensions&quot;</span></span>
-<span id="cb423-29"><a href="scrape-table.html#cb423-29" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb423-30"><a href="scrape-table.html#cb423-30" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb423-31"><a href="scrape-table.html#cb423-31" aria-hidden="true" tabindex="-1"></a>table_3 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(</span>
-<span id="cb423-32"><a href="scrape-table.html#cb423-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">list_of_tables =</span> border_patrol,</span>
-<span id="cb423-33"><a href="scrape-table.html#cb423-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">table_number =</span> <span class="dv">3</span>,</span>
-<span id="cb423-34"><a href="scrape-table.html#cb423-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">number_columns =</span> <span class="dv">4</span>,</span>
-<span id="cb423-35"><a href="scrape-table.html#cb423-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_names =</span> <span class="fu">c</span>(</span>
-<span id="cb423-36"><a href="scrape-table.html#cb423-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;sector&quot;</span>,</span>
-<span id="cb423-37"><a href="scrape-table.html#cb423-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;female&quot;</span>,</span>
-<span id="cb423-38"><a href="scrape-table.html#cb423-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;male&quot;</span>,</span>
-<span id="cb423-39"><a href="scrape-table.html#cb423-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;total_apprehensions&quot;</span></span>
-<span id="cb423-40"><a href="scrape-table.html#cb423-40" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb423-41"><a href="scrape-table.html#cb423-41" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="scrape-table.html#cb424-1" aria-hidden="true" tabindex="-1"></a>table_1 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(<span class="at">list_of_tables =</span> border_patrol,</span>
+<span id="cb424-2"><a href="scrape-table.html#cb424-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">table_number =</span> <span class="dv">1</span>, </span>
+<span id="cb424-3"><a href="scrape-table.html#cb424-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">number_columns =</span> <span class="dv">10</span>, </span>
+<span id="cb424-4"><a href="scrape-table.html#cb424-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">column_names =</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb424-5"><a href="scrape-table.html#cb424-5" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;agent_staffing&quot;</span>,</span>
+<span id="cb424-6"><a href="scrape-table.html#cb424-6" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;total_apprehensions&quot;</span>,</span>
+<span id="cb424-7"><a href="scrape-table.html#cb424-7" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;other_than_mexican_apprehensions&quot;</span>, </span>
+<span id="cb424-8"><a href="scrape-table.html#cb424-8" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;marijuana_pounds&quot;</span>,</span>
+<span id="cb424-9"><a href="scrape-table.html#cb424-9" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;cocaine_pounds&quot;</span>,</span>
+<span id="cb424-10"><a href="scrape-table.html#cb424-10" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;accepted_prosecutions&quot;</span>,</span>
+<span id="cb424-11"><a href="scrape-table.html#cb424-11" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;assaults&quot;</span>,</span>
+<span id="cb424-12"><a href="scrape-table.html#cb424-12" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;rescues&quot;</span>,</span>
+<span id="cb424-13"><a href="scrape-table.html#cb424-13" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;deaths&quot;</span>))</span>
+<span id="cb424-14"><a href="scrape-table.html#cb424-14" aria-hidden="true" tabindex="-1"></a>table_2 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(<span class="at">list_of_tables =</span> border_patrol,</span>
+<span id="cb424-15"><a href="scrape-table.html#cb424-15" aria-hidden="true" tabindex="-1"></a>                      <span class="at">table_number =</span> <span class="dv">2</span>, </span>
+<span id="cb424-16"><a href="scrape-table.html#cb424-16" aria-hidden="true" tabindex="-1"></a>                      <span class="at">number_columns =</span> <span class="dv">6</span>, </span>
+<span id="cb424-17"><a href="scrape-table.html#cb424-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">column_names =</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb424-18"><a href="scrape-table.html#cb424-18" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;accompanied_juveniles&quot;</span>,</span>
+<span id="cb424-19"><a href="scrape-table.html#cb424-19" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;unaccompanied_juveniles&quot;</span>,</span>
+<span id="cb424-20"><a href="scrape-table.html#cb424-20" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;total_juveniles&quot;</span>, </span>
+<span id="cb424-21"><a href="scrape-table.html#cb424-21" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;total_adults&quot;</span>,</span>
+<span id="cb424-22"><a href="scrape-table.html#cb424-22" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;total_apprehensions&quot;</span>))</span>
+<span id="cb424-23"><a href="scrape-table.html#cb424-23" aria-hidden="true" tabindex="-1"></a>table_3 <span class="ot">&lt;-</span> <span class="fu">scrape_pdf</span>(<span class="at">list_of_tables =</span> border_patrol,</span>
+<span id="cb424-24"><a href="scrape-table.html#cb424-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">table_number =</span> <span class="dv">3</span>, </span>
+<span id="cb424-25"><a href="scrape-table.html#cb424-25" aria-hidden="true" tabindex="-1"></a>                      <span class="at">number_columns =</span> <span class="dv">4</span>, </span>
+<span id="cb424-26"><a href="scrape-table.html#cb424-26" aria-hidden="true" tabindex="-1"></a>                      <span class="at">column_names =</span> <span class="fu">c</span>(<span class="st">&quot;sector&quot;</span>,</span>
+<span id="cb424-27"><a href="scrape-table.html#cb424-27" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;female&quot;</span>,</span>
+<span id="cb424-28"><a href="scrape-table.html#cb424-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;male&quot;</span>,</span>
+<span id="cb424-29"><a href="scrape-table.html#cb424-29" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;total_apprehensions&quot;</span>))</span></code></pre></div>
 <p>We can use the function <code>left_join()</code> from the <code>dplyr</code> package to combine the three tables into a single object. In the first table there are some asterisks after the final two row names in the Sector column. For our match to work properly we need to delete them, which we can do using <code>gsub()</code>.</p>
-<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="scrape-table.html#cb424-1" aria-hidden="true" tabindex="-1"></a>table_1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">*&quot;</span>, <span class="st">&quot;&quot;</span>, table_1<span class="sc">$</span>sector)</span></code></pre></div>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="scrape-table.html#cb425-1" aria-hidden="true" tabindex="-1"></a>table_1<span class="sc">$</span>sector <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">*&quot;</span>, <span class="st">&quot;&quot;</span>, table_1<span class="sc">$</span>sector)</span></code></pre></div>
 <p>Now we can run <code>left_join()</code>. <code>left_join()</code> will automatically join based on shared column names in the two data sets we are joining. In our case this is “sector” and “total_apprehensions.” All we need to input into <code>left_join()</code> is the name of the data sets we want to join together. <code>left_join()</code> can only combine two data sets at a time so we’ll first join table_1 and table_2 and then join table_3 with the result of the first join, which we’ll call “final_data.”</p>
-<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="scrape-table.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb425-2"><a href="scrape-table.html#cb425-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;dplyr&#39; was built under R version 4.1.3</span></span>
-<span id="cb425-3"><a href="scrape-table.html#cb425-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb425-4"><a href="scrape-table.html#cb425-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb425-5"><a href="scrape-table.html#cb425-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb425-6"><a href="scrape-table.html#cb425-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb425-7"><a href="scrape-table.html#cb425-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     filter, lag</span></span>
-<span id="cb425-8"><a href="scrape-table.html#cb425-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb425-9"><a href="scrape-table.html#cb425-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb425-10"><a href="scrape-table.html#cb425-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     intersect, setdiff, setequal, union</span></span>
-<span id="cb425-11"><a href="scrape-table.html#cb425-11" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(table_1, table_2)</span>
-<span id="cb425-12"><a href="scrape-table.html#cb425-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining, by = c(&quot;sector&quot;, &quot;total_apprehensions&quot;)</span></span>
-<span id="cb425-13"><a href="scrape-table.html#cb425-13" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(final_data, table_3)</span>
-<span id="cb425-14"><a href="scrape-table.html#cb425-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining, by = c(&quot;sector&quot;, &quot;total_apprehensions&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="scrape-table.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb426-2"><a href="scrape-table.html#cb426-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;dplyr&#39; was built under R version 4.1.3</span></span>
+<span id="cb426-3"><a href="scrape-table.html#cb426-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb426-4"><a href="scrape-table.html#cb426-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb426-5"><a href="scrape-table.html#cb426-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb426-6"><a href="scrape-table.html#cb426-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb426-7"><a href="scrape-table.html#cb426-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     filter, lag</span></span>
+<span id="cb426-8"><a href="scrape-table.html#cb426-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb426-9"><a href="scrape-table.html#cb426-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb426-10"><a href="scrape-table.html#cb426-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     intersect, setdiff, setequal, union</span></span>
+<span id="cb426-11"><a href="scrape-table.html#cb426-11" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(table_1, table_2)</span>
+<span id="cb426-12"><a href="scrape-table.html#cb426-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining, by = c(&quot;sector&quot;, &quot;total_apprehensions&quot;)</span></span>
+<span id="cb426-13"><a href="scrape-table.html#cb426-13" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(final_data, table_3)</span>
+<span id="cb426-14"><a href="scrape-table.html#cb426-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining, by = c(&quot;sector&quot;, &quot;total_apprehensions&quot;)</span></span></code></pre></div>
 <p>Let’s take a look at the <code>head()</code> of this combined data.</p>
-<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="scrape-table.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(final_data)</span>
-<span id="cb426-2"><a href="scrape-table.html#cb426-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                         sector agent_staffing</span></span>
-<span id="cb426-3"><a href="scrape-table.html#cb426-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                        Miami            111</span></span>
-<span id="cb426-4"><a href="scrape-table.html#cb426-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                  New Orleans             63</span></span>
-<span id="cb426-5"><a href="scrape-table.html#cb426-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                        Ramey             38</span></span>
-<span id="cb426-6"><a href="scrape-table.html#cb426-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Coastal Border Sectors Total            212</span></span>
-<span id="cb426-7"><a href="scrape-table.html#cb426-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                            </span></span>
-<span id="cb426-8"><a href="scrape-table.html#cb426-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       Blaine            296</span></span>
-<span id="cb426-9"><a href="scrape-table.html#cb426-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   total_apprehensions other_than_mexican_apprehensions</span></span>
-<span id="cb426-10"><a href="scrape-table.html#cb426-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1               2,280                            1,646</span></span>
-<span id="cb426-11"><a href="scrape-table.html#cb426-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                 920                              528</span></span>
-<span id="cb426-12"><a href="scrape-table.html#cb426-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                 388                              387</span></span>
-<span id="cb426-13"><a href="scrape-table.html#cb426-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4               3,588                            2,561</span></span>
-<span id="cb426-14"><a href="scrape-table.html#cb426-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                     </span></span>
-<span id="cb426-15"><a href="scrape-table.html#cb426-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                 288                              237</span></span>
-<span id="cb426-16"><a href="scrape-table.html#cb426-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   marijuana_pounds cocaine_pounds accepted_prosecutions</span></span>
-<span id="cb426-17"><a href="scrape-table.html#cb426-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1            2,253            231                   292</span></span>
-<span id="cb426-18"><a href="scrape-table.html#cb426-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2               21              6                    10</span></span>
-<span id="cb426-19"><a href="scrape-table.html#cb426-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                3          2,932                    89</span></span>
-<span id="cb426-20"><a href="scrape-table.html#cb426-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4            2,277          3,169                   391</span></span>
-<span id="cb426-21"><a href="scrape-table.html#cb426-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                      </span></span>
-<span id="cb426-22"><a href="scrape-table.html#cb426-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                0              0                     9</span></span>
-<span id="cb426-23"><a href="scrape-table.html#cb426-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   assaults  rescues   deaths accompanied_juveniles</span></span>
-<span id="cb426-24"><a href="scrape-table.html#cb426-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1      N/A      N/A                    19</span></span>
-<span id="cb426-25"><a href="scrape-table.html#cb426-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        0      N/A      N/A                     1</span></span>
-<span id="cb426-26"><a href="scrape-table.html#cb426-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        0      N/A      N/A                     7</span></span>
-<span id="cb426-27"><a href="scrape-table.html#cb426-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        1 N/A **** N/A ****                    27</span></span>
-<span id="cb426-28"><a href="scrape-table.html#cb426-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                             &lt;NA&gt;</span></span>
-<span id="cb426-29"><a href="scrape-table.html#cb426-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6        0      N/A      N/A                    29</span></span>
-<span id="cb426-30"><a href="scrape-table.html#cb426-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   unaccompanied_juveniles total_juveniles total_adults</span></span>
-<span id="cb426-31"><a href="scrape-table.html#cb426-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                      42              61        2,219</span></span>
-<span id="cb426-32"><a href="scrape-table.html#cb426-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                      22              23          897</span></span>
-<span id="cb426-33"><a href="scrape-table.html#cb426-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                       1               8          380</span></span>
-<span id="cb426-34"><a href="scrape-table.html#cb426-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                      65              92        3,496</span></span>
-<span id="cb426-35"><a href="scrape-table.html#cb426-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                    &lt;NA&gt;            &lt;NA&gt;         &lt;NA&gt;</span></span>
-<span id="cb426-36"><a href="scrape-table.html#cb426-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       7              36          252</span></span>
-<span id="cb426-37"><a href="scrape-table.html#cb426-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   female  male</span></span>
-<span id="cb426-38"><a href="scrape-table.html#cb426-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 1    219 2,061</span></span>
-<span id="cb426-39"><a href="scrape-table.html#cb426-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 2     92   828</span></span>
-<span id="cb426-40"><a href="scrape-table.html#cb426-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 3     65   323</span></span>
-<span id="cb426-41"><a href="scrape-table.html#cb426-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    376 3,212</span></span>
-<span id="cb426-42"><a href="scrape-table.html#cb426-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 5   &lt;NA&gt;  &lt;NA&gt;</span></span>
-<span id="cb426-43"><a href="scrape-table.html#cb426-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 6     97   191</span></span></code></pre></div>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="scrape-table.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(final_data)</span>
+<span id="cb427-2"><a href="scrape-table.html#cb427-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                         sector agent_staffing</span></span>
+<span id="cb427-3"><a href="scrape-table.html#cb427-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                        Miami            111</span></span>
+<span id="cb427-4"><a href="scrape-table.html#cb427-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                  New Orleans             63</span></span>
+<span id="cb427-5"><a href="scrape-table.html#cb427-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                        Ramey             38</span></span>
+<span id="cb427-6"><a href="scrape-table.html#cb427-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 Coastal Border Sectors Total            212</span></span>
+<span id="cb427-7"><a href="scrape-table.html#cb427-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                            </span></span>
+<span id="cb427-8"><a href="scrape-table.html#cb427-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       Blaine            296</span></span>
+<span id="cb427-9"><a href="scrape-table.html#cb427-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   total_apprehensions other_than_mexican_apprehensions</span></span>
+<span id="cb427-10"><a href="scrape-table.html#cb427-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1               2,280                            1,646</span></span>
+<span id="cb427-11"><a href="scrape-table.html#cb427-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                 920                              528</span></span>
+<span id="cb427-12"><a href="scrape-table.html#cb427-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                 388                              387</span></span>
+<span id="cb427-13"><a href="scrape-table.html#cb427-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4               3,588                            2,561</span></span>
+<span id="cb427-14"><a href="scrape-table.html#cb427-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                     </span></span>
+<span id="cb427-15"><a href="scrape-table.html#cb427-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                 288                              237</span></span>
+<span id="cb427-16"><a href="scrape-table.html#cb427-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   marijuana_pounds cocaine_pounds accepted_prosecutions</span></span>
+<span id="cb427-17"><a href="scrape-table.html#cb427-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1            2,253            231                   292</span></span>
+<span id="cb427-18"><a href="scrape-table.html#cb427-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2               21              6                    10</span></span>
+<span id="cb427-19"><a href="scrape-table.html#cb427-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                3          2,932                    89</span></span>
+<span id="cb427-20"><a href="scrape-table.html#cb427-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4            2,277          3,169                   391</span></span>
+<span id="cb427-21"><a href="scrape-table.html#cb427-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                                      </span></span>
+<span id="cb427-22"><a href="scrape-table.html#cb427-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                0              0                     9</span></span>
+<span id="cb427-23"><a href="scrape-table.html#cb427-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   assaults  rescues   deaths accompanied_juveniles</span></span>
+<span id="cb427-24"><a href="scrape-table.html#cb427-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1      N/A      N/A                    19</span></span>
+<span id="cb427-25"><a href="scrape-table.html#cb427-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        0      N/A      N/A                     1</span></span>
+<span id="cb427-26"><a href="scrape-table.html#cb427-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        0      N/A      N/A                     7</span></span>
+<span id="cb427-27"><a href="scrape-table.html#cb427-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        1 N/A **** N/A ****                    27</span></span>
+<span id="cb427-28"><a href="scrape-table.html#cb427-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                                             &lt;NA&gt;</span></span>
+<span id="cb427-29"><a href="scrape-table.html#cb427-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6        0      N/A      N/A                    29</span></span>
+<span id="cb427-30"><a href="scrape-table.html#cb427-30" aria-hidden="true" tabindex="-1"></a><span class="co">#   unaccompanied_juveniles total_juveniles total_adults</span></span>
+<span id="cb427-31"><a href="scrape-table.html#cb427-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                      42              61        2,219</span></span>
+<span id="cb427-32"><a href="scrape-table.html#cb427-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                      22              23          897</span></span>
+<span id="cb427-33"><a href="scrape-table.html#cb427-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                       1               8          380</span></span>
+<span id="cb427-34"><a href="scrape-table.html#cb427-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                      65              92        3,496</span></span>
+<span id="cb427-35"><a href="scrape-table.html#cb427-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                    &lt;NA&gt;            &lt;NA&gt;         &lt;NA&gt;</span></span>
+<span id="cb427-36"><a href="scrape-table.html#cb427-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                       7              36          252</span></span>
+<span id="cb427-37"><a href="scrape-table.html#cb427-37" aria-hidden="true" tabindex="-1"></a><span class="co">#   female  male</span></span>
+<span id="cb427-38"><a href="scrape-table.html#cb427-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 1    219 2,061</span></span>
+<span id="cb427-39"><a href="scrape-table.html#cb427-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 2     92   828</span></span>
+<span id="cb427-40"><a href="scrape-table.html#cb427-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 3     65   323</span></span>
+<span id="cb427-41"><a href="scrape-table.html#cb427-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    376 3,212</span></span>
+<span id="cb427-42"><a href="scrape-table.html#cb427-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 5   &lt;NA&gt;  &lt;NA&gt;</span></span>
+<span id="cb427-43"><a href="scrape-table.html#cb427-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 6     97   191</span></span></code></pre></div>
 <p>In one data set we now have information from three separate tables in a PDF. We have now scraped three different tables from a PDF and turned them into a single data set, turning the PDF into actually usable (and useful) data!</p>
 
 </div>
