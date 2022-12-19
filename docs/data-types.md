@@ -339,6 +339,8 @@ The other type of data structure is a matrix. A matrix is a two-dimensional obje
 
 ```r
 matrix(1:50, nrow = 5, ncol = 5)
+# Warning in matrix(1:50, nrow = 5, ncol = 5): data length differs from size of
+# matrix: [50 != 5 x 5]
 #      [,1] [,2] [,3] [,4] [,5]
 # [1,]    1    6   11   16   21
 # [2,]    2    7   12   17   22
@@ -352,6 +354,8 @@ If I change it to have the first value be "1" (in quotes so it is a character) a
 
 ```r
 matrix(c("1", 2:50), nrow = 5, ncol = 5)
+# Warning in matrix(c("1", 2:50), nrow = 5, ncol = 5): data length differs from
+# size of matrix: [50 != 5 x 5]
 #      [,1] [,2] [,3] [,4] [,5]
 # [1,] "1"  "6"  "11" "16" "21"
 # [2,] "2"  "7"  "12" "17" "22"

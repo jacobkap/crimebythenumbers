@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>3 Data types and structures | Crime by the Numbers: A Criminologist’s Guide to R</title>
   <meta name="description" content="A guide to learning R for the purpose of conducting quantitative research. This covers collecting and cleaning data, and visualizing it in graphs and maps." />
-  <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
 
   <meta property="og:title" content="3 Data types and structures | Crime by the Numbers: A Criminologist’s Guide to R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-09-24" />
+<meta name="date" content="2022-12-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -504,15 +504,13 @@ div.csl-indent {
 <span id="cb28-2"><a href="data-types.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;numeric&quot; &quot;vector&quot;</span></span></code></pre></div>
 <p>Checking what 2 is tells us that it is both a “numeric” type and a “vector” type.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="data-types.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="st">&quot;2&quot;</span>)</span>
-<span id="cb29-2"><a href="data-types.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot;</span></span>
-<span id="cb29-3"><a href="data-types.html#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;SuperClassMethod&quot;</span></span></code></pre></div>
+<span id="cb29-2"><a href="data-types.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot; &quot;SuperClassMethod&quot;</span></span></code></pre></div>
 <p>Checking “2” (in quotes), gives us four different types of data for this value: “character”, “vector”, “data.frameRowLabels”, and “SuperClassMethod”. You can ignore the last two types, we just are interested in that it is a “character” type and, like the type of 2, is a “vector”.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="data-types.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="cn">TRUE</span>)</span>
 <span id="cb30-2"><a href="data-types.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;logical&quot; &quot;vector&quot;</span></span></code></pre></div>
 <p>Finally, checking what TRUE is returns both “logical” and “vector”. We expected logical since TRUE is a logical type. Again, we see that it is also a vector type. TRUE has to be both in capital letters and not be in quotes. If we write it in quotes then R will think it is a character, and if we have it lowercase and without quotes R will think that it is an object (such as something we make using <code>&lt;-</code> and not a Boolean).</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="data-types.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(<span class="st">&quot;TRUE&quot;</span>)</span>
-<span id="cb31-2"><a href="data-types.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot;</span></span>
-<span id="cb31-3"><a href="data-types.html#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;SuperClassMethod&quot;</span></span></code></pre></div>
+<span id="cb31-2"><a href="data-types.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;character&quot;           &quot;vector&quot;              &quot;data.frameRowLabels&quot; &quot;SuperClassMethod&quot;</span></span></code></pre></div>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="data-types.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(true)</span>
 <span id="cb32-2"><a href="data-types.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Error in is(true): object &#39;true&#39; not found</span></span></code></pre></div>
 <p>All three of the values we checked say that they are a “vector” type. We’ll cover vectors in the next section, but for now let’s see one other function that tells us the type of data something is. If we use <code>class()</code> instead of <code>is()</code> we’ll get just the first value returned in the types of data that we input.</p>
@@ -537,11 +535,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="data-types.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/ucr2017.rda&quot;</span>)</span></code></pre></div>
 <p>We need to know the column names before using them, so we can use the <code>names()</code> function to get a list of all of the column names (the <code>colnames()</code> function does the same thing).</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="data-types.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ucr2017)</span>
-<span id="cb36-2"><a href="data-types.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                       &quot;year&quot;                     </span></span>
-<span id="cb36-3"><a href="data-types.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [3] &quot;agency_name&quot;               &quot;state&quot;                    </span></span>
-<span id="cb36-4"><a href="data-types.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] &quot;population&quot;                &quot;actual_murder&quot;            </span></span>
-<span id="cb36-5"><a href="data-types.html#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;     </span></span>
-<span id="cb36-6"><a href="data-types.html#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
+<span id="cb36-2"><a href="data-types.html#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;ori&quot;                       &quot;year&quot;                      &quot;agency_name&quot;              </span></span>
+<span id="cb36-3"><a href="data-types.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [4] &quot;state&quot;                     &quot;population&quot;                &quot;actual_murder&quot;            </span></span>
+<span id="cb36-4"><a href="data-types.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [7] &quot;actual_rape_total&quot;         &quot;actual_robbery_total&quot;      &quot;actual_assault_aggravated&quot;</span></span></code></pre></div>
 <p>Now we can check the types of some of the columns. Let’s check the year column as an example. A year is a number so we may expect it to be numeric, but there’s technically nothing stopping that data from being character type. It can’t be logical type because then instead of a year value it’d just be TRUE or FALSE, which is certainly not what a year is.</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="data-types.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(ucr2017<span class="sc">$</span>year)</span>
 <span id="cb37-2"><a href="data-types.html#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;numeric&quot; &quot;vector&quot;</span></span></code></pre></div>
@@ -580,46 +576,55 @@ div.csl-indent {
 <p>Nearly everything you do in this book and in research will be through data.frames. A data.frame is basically R’s version of an Excel file. More precisely, a data.frame is a collection of equal-length vectors. Each column in a data.frame is actually a vector. They must all be equal length so every column has the same number of rows. You can’t have, for example, a data.frame with 10 rows of data for the city column and only 8 rows for the year column. It must be 10 for each. Since vectors can only be a single type, each row in a particular column in a data.frame must be the same type, though different columns can be different types. This is how we can have, for example, our ucr2017 data.frame, which has both numeric and character type columns.</p>
 <p>In this book I’ll refer to data.frames by keeping it all lower case and with a dot between the words. This is just because the function to make one is <code>data.frame()</code>, and writing it this way is the normal convention. But writing it as a data frame is also fine. In nearly all cases we’ll be using data that is loaded into R and is already in the structure of a data.frame (usually these will be Excel files or R data files like an .rda or .rds file).</p>
 <p>If we wanted to create our own data.frame we would use the <code>data.frame()</code>, function and the input would be vectors, which will become our columns. Let’s make a simple one. If the vector is already created then R would automatically take the name of that vector object as the column name, otherwise we could name it ourselves</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="data-types.html#cb43-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">column_1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>),</span>
-<span id="cb43-2"><a href="data-types.html#cb43-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">column2  =</span> <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>,</span>
-<span id="cb43-3"><a href="data-types.html#cb43-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;darkness&quot;</span>, </span>
-<span id="cb43-4"><a href="data-types.html#cb43-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;my&quot;</span>,</span>
-<span id="cb43-5"><a href="data-types.html#cb43-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;old&quot;</span>, </span>
-<span id="cb43-6"><a href="data-types.html#cb43-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;friend&quot;</span>))</span>
-<span id="cb43-7"><a href="data-types.html#cb43-7" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb43-8"><a href="data-types.html#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   column_1  column2</span></span>
-<span id="cb43-9"><a href="data-types.html#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1    hello</span></span>
-<span id="cb43-10"><a href="data-types.html#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        3 darkness</span></span>
-<span id="cb43-11"><a href="data-types.html#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        5       my</span></span>
-<span id="cb43-12"><a href="data-types.html#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        7      old</span></span>
-<span id="cb43-13"><a href="data-types.html#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5        9   friend</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="data-types.html#cb43-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb43-2"><a href="data-types.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">column_1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>),</span>
+<span id="cb43-3"><a href="data-types.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">column2 =</span> <span class="fu">c</span>(</span>
+<span id="cb43-4"><a href="data-types.html#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hello&quot;</span>,</span>
+<span id="cb43-5"><a href="data-types.html#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;darkness&quot;</span>,</span>
+<span id="cb43-6"><a href="data-types.html#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;my&quot;</span>,</span>
+<span id="cb43-7"><a href="data-types.html#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;old&quot;</span>,</span>
+<span id="cb43-8"><a href="data-types.html#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;friend&quot;</span></span>
+<span id="cb43-9"><a href="data-types.html#cb43-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb43-10"><a href="data-types.html#cb43-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-11"><a href="data-types.html#cb43-11" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb43-12"><a href="data-types.html#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   column_1  column2</span></span>
+<span id="cb43-13"><a href="data-types.html#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1    hello</span></span>
+<span id="cb43-14"><a href="data-types.html#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        3 darkness</span></span>
+<span id="cb43-15"><a href="data-types.html#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        5       my</span></span>
+<span id="cb43-16"><a href="data-types.html#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        7      old</span></span>
+<span id="cb43-17"><a href="data-types.html#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5        9   friend</span></span></code></pre></div>
 <p>Now we have a new data.frame called example, which has two columns and five rows. We named the columns ourselves, and in this case we don’t need to put the column name in quotes, though doing so would give the same result. Here we’re saying that the column “column_1” is equal to the vector <code>c(1, 3, 5, 7, 9)</code> and “column_2” is equal to the vector <code>c("hello", "darkness", "my", "old", "friend")</code>. We’re essentially creating an object inside of the <code>data.frame()</code> function but in this case we need to use the equal sign and not the <code>&lt;-</code> because R doesn’t allow the use of <code>&lt;-</code> inside of a function.</p>
 <p>If we forget to name the columns, and our vectors aren’t already created with their own name, R will create a name based on the values in that vector. As shown below, this looks really bad so make sure to always name your columns.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="data-types.html#cb44-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>),</span>
-<span id="cb44-2"><a href="data-types.html#cb44-2" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>,</span>
-<span id="cb44-3"><a href="data-types.html#cb44-3" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;darkness&quot;</span>, </span>
-<span id="cb44-4"><a href="data-types.html#cb44-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;my&quot;</span>, </span>
-<span id="cb44-5"><a href="data-types.html#cb44-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;old&quot;</span>,</span>
-<span id="cb44-6"><a href="data-types.html#cb44-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;friend&quot;</span>))</span>
-<span id="cb44-7"><a href="data-types.html#cb44-7" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb44-8"><a href="data-types.html#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   c.1..3..5..7..9. c..hello....darkness....my....old....friend..</span></span>
-<span id="cb44-9"><a href="data-types.html#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                1                                         hello</span></span>
-<span id="cb44-10"><a href="data-types.html#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                3                                      darkness</span></span>
-<span id="cb44-11"><a href="data-types.html#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                5                                            my</span></span>
-<span id="cb44-12"><a href="data-types.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                7                                           old</span></span>
-<span id="cb44-13"><a href="data-types.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                9                                        friend</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="data-types.html#cb44-1" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-2"><a href="data-types.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>),</span>
+<span id="cb44-3"><a href="data-types.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb44-4"><a href="data-types.html#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hello&quot;</span>,</span>
+<span id="cb44-5"><a href="data-types.html#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;darkness&quot;</span>,</span>
+<span id="cb44-6"><a href="data-types.html#cb44-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;my&quot;</span>,</span>
+<span id="cb44-7"><a href="data-types.html#cb44-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;old&quot;</span>,</span>
+<span id="cb44-8"><a href="data-types.html#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;friend&quot;</span></span>
+<span id="cb44-9"><a href="data-types.html#cb44-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-10"><a href="data-types.html#cb44-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-11"><a href="data-types.html#cb44-11" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb44-12"><a href="data-types.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   c.1..3..5..7..9. c..hello....darkness....my....old....friend..</span></span>
+<span id="cb44-13"><a href="data-types.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                1                                         hello</span></span>
+<span id="cb44-14"><a href="data-types.html#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                3                                      darkness</span></span>
+<span id="cb44-15"><a href="data-types.html#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                5                                            my</span></span>
+<span id="cb44-16"><a href="data-types.html#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                7                                           old</span></span>
+<span id="cb44-17"><a href="data-types.html#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                9                                        friend</span></span></code></pre></div>
 <p>If the vectors are already made then we won’t have an issue. R will default to the vector name, but we can override that if we want.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="data-types.html#cb45-1" aria-hidden="true" tabindex="-1"></a>column_1 <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
-<span id="cb45-2"><a href="data-types.html#cb45-2" aria-hidden="true" tabindex="-1"></a>column2  <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;darkness&quot;</span>, <span class="st">&quot;my&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;friend&quot;</span>)</span>
-<span id="cb45-3"><a href="data-types.html#cb45-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(column_1, </span>
-<span id="cb45-4"><a href="data-types.html#cb45-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">overridden_name =</span> column2)</span>
-<span id="cb45-5"><a href="data-types.html#cb45-5" aria-hidden="true" tabindex="-1"></a>example</span>
-<span id="cb45-6"><a href="data-types.html#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   column_1 overridden_name</span></span>
-<span id="cb45-7"><a href="data-types.html#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1           hello</span></span>
-<span id="cb45-8"><a href="data-types.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        3        darkness</span></span>
-<span id="cb45-9"><a href="data-types.html#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        5              my</span></span>
-<span id="cb45-10"><a href="data-types.html#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        7             old</span></span>
-<span id="cb45-11"><a href="data-types.html#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 5        9          friend</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="data-types.html#cb45-1" aria-hidden="true" tabindex="-1"></a>column_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
+<span id="cb45-2"><a href="data-types.html#cb45-2" aria-hidden="true" tabindex="-1"></a>column2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;darkness&quot;</span>, <span class="st">&quot;my&quot;</span>, <span class="st">&quot;old&quot;</span>, <span class="st">&quot;friend&quot;</span>)</span>
+<span id="cb45-3"><a href="data-types.html#cb45-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(column_1,</span>
+<span id="cb45-4"><a href="data-types.html#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">overridden_name =</span> column2</span>
+<span id="cb45-5"><a href="data-types.html#cb45-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb45-6"><a href="data-types.html#cb45-6" aria-hidden="true" tabindex="-1"></a>example</span>
+<span id="cb45-7"><a href="data-types.html#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   column_1 overridden_name</span></span>
+<span id="cb45-8"><a href="data-types.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1        1           hello</span></span>
+<span id="cb45-9"><a href="data-types.html#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2        3        darkness</span></span>
+<span id="cb45-10"><a href="data-types.html#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3        5              my</span></span>
+<span id="cb45-11"><a href="data-types.html#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4        7             old</span></span>
+<span id="cb45-12"><a href="data-types.html#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 5        9          friend</span></span></code></pre></div>
 <p>As with other objects, we can use the <code>is()</code> function to see what type it is. If we use <code>is()</code> on our example object, it’ll tell us that it is a data.frame.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="data-types.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is</span>(example)</span>
 <span id="cb46-2"><a href="data-types.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;data.frame&quot; &quot;list&quot;       &quot;oldClass&quot;   &quot;vector&quot;</span></span></code></pre></div>
@@ -635,51 +640,55 @@ div.csl-indent {
 <h3><span class="header-section-number">3.3.3</span> Other data structures<a href="data-types.html#other-data-structures" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are two other data structures that I’ll mention only so you have heard of them and can look up more information on them if you’d like. However, these are not <em>that</em> important to know about for the purpose of this book. Some of these structures may come up in rare cases when you’re programming, so it’s important to know that they exist.</p>
 <p>The first data structure is a list. A list is essentially a vector but where different values can be different types. Lists are actually very powerful data structures and ones that you’ll encounter a lot when using R, but are almost entirely on the backend of R so not things you’ll actually deal with much. For example, all data.frames are actually lists. And more specifically, they are a list of vectors. Lists can come in handy because they can store different types of data structures. A single list can, for example, have a number, a vector, a matrix (discussed below), and an entire data.frame inside. Lists can even have other lists inside of them. Let’s look at an example of this.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="data-types.html#cb49-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;hello&quot;</span>,</span>
-<span id="cb49-2"><a href="data-types.html#cb49-2" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb49-3"><a href="data-types.html#cb49-3" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>,</span>
-<span id="cb49-4"><a href="data-types.html#cb49-4" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">66</span>, <span class="dv">99</span>)),</span>
-<span id="cb49-5"><a href="data-types.html#cb49-5" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">head</span>(mtcars))</span>
-<span id="cb49-6"><a href="data-types.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(list_example)</span>
-<span id="cb49-7"><a href="data-types.html#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [[1]]</span></span>
-<span id="cb49-8"><a href="data-types.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;hello&quot;</span></span>
-<span id="cb49-9"><a href="data-types.html#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb49-10"><a href="data-types.html#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [[2]]</span></span>
-<span id="cb49-11"><a href="data-types.html#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 1 2 3 4 5</span></span>
-<span id="cb49-12"><a href="data-types.html#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb49-13"><a href="data-types.html#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [[3]]</span></span>
-<span id="cb49-14"><a href="data-types.html#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="co"># [1]  6  7  8  9 10</span></span>
-<span id="cb49-15"><a href="data-types.html#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb49-16"><a href="data-types.html#cb49-16" aria-hidden="true" tabindex="-1"></a><span class="co"># [[4]]</span></span>
-<span id="cb49-17"><a href="data-types.html#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="co"># [[4]][[1]]</span></span>
-<span id="cb49-18"><a href="data-types.html#cb49-18" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 33 66 99</span></span>
-<span id="cb49-19"><a href="data-types.html#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb49-20"><a href="data-types.html#cb49-20" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb49-21"><a href="data-types.html#cb49-21" aria-hidden="true" tabindex="-1"></a><span class="co"># [[5]]</span></span>
-<span id="cb49-22"><a href="data-types.html#cb49-22" aria-hidden="true" tabindex="-1"></a><span class="co">#                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
-<span id="cb49-23"><a href="data-types.html#cb49-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
-<span id="cb49-24"><a href="data-types.html#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
-<span id="cb49-25"><a href="data-types.html#cb49-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></span>
-<span id="cb49-26"><a href="data-types.html#cb49-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></span>
-<span id="cb49-27"><a href="data-types.html#cb49-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></span>
-<span id="cb49-28"><a href="data-types.html#cb49-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="data-types.html#cb49-1" aria-hidden="true" tabindex="-1"></a>list_example <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb49-2"><a href="data-types.html#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hello&quot;</span>,</span>
+<span id="cb49-3"><a href="data-types.html#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb49-4"><a href="data-types.html#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>,</span>
+<span id="cb49-5"><a href="data-types.html#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">33</span>, <span class="dv">66</span>, <span class="dv">99</span>)),</span>
+<span id="cb49-6"><a href="data-types.html#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(mtcars)</span>
+<span id="cb49-7"><a href="data-types.html#cb49-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb49-8"><a href="data-types.html#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(list_example)</span>
+<span id="cb49-9"><a href="data-types.html#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="co"># [[1]]</span></span>
+<span id="cb49-10"><a href="data-types.html#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] &quot;hello&quot;</span></span>
+<span id="cb49-11"><a href="data-types.html#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb49-12"><a href="data-types.html#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="co"># [[2]]</span></span>
+<span id="cb49-13"><a href="data-types.html#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 1 2 3 4 5</span></span>
+<span id="cb49-14"><a href="data-types.html#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb49-15"><a href="data-types.html#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="co"># [[3]]</span></span>
+<span id="cb49-16"><a href="data-types.html#cb49-16" aria-hidden="true" tabindex="-1"></a><span class="co"># [1]  6  7  8  9 10</span></span>
+<span id="cb49-17"><a href="data-types.html#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb49-18"><a href="data-types.html#cb49-18" aria-hidden="true" tabindex="-1"></a><span class="co"># [[4]]</span></span>
+<span id="cb49-19"><a href="data-types.html#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="co"># [[4]][[1]]</span></span>
+<span id="cb49-20"><a href="data-types.html#cb49-20" aria-hidden="true" tabindex="-1"></a><span class="co"># [1] 33 66 99</span></span>
+<span id="cb49-21"><a href="data-types.html#cb49-21" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb49-22"><a href="data-types.html#cb49-22" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb49-23"><a href="data-types.html#cb49-23" aria-hidden="true" tabindex="-1"></a><span class="co"># [[5]]</span></span>
+<span id="cb49-24"><a href="data-types.html#cb49-24" aria-hidden="true" tabindex="-1"></a><span class="co">#                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span></span>
+<span id="cb49-25"><a href="data-types.html#cb49-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span></span>
+<span id="cb49-26"><a href="data-types.html#cb49-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span></span>
+<span id="cb49-27"><a href="data-types.html#cb49-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span></span>
+<span id="cb49-28"><a href="data-types.html#cb49-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span></span>
+<span id="cb49-29"><a href="data-types.html#cb49-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span></span>
+<span id="cb49-30"><a href="data-types.html#cb49-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></span></code></pre></div>
 <p>The list that I called list_example contains six different elements in it: a character, two numeric vectors, a list of a numeric vector, and the first six rows of the mtcars data.frame. Lists can be useful when storing many different objects at once, but as they are not used too often for research-related programming I’ll say no more of them.</p>
 <p>The other type of data structure is a matrix. A matrix is a two-dimensional object where every value is the same type. Think of a data.frame but each column has to be the same type. Below is an example of a matrix with values 1 through 50 and with five columns and five rows. Every value here is a number.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="data-types.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb50-2"><a href="data-types.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb50-3"><a href="data-types.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,]    1    6   11   16   21</span></span>
-<span id="cb50-4"><a href="data-types.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,]    2    7   12   17   22</span></span>
-<span id="cb50-5"><a href="data-types.html#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,]    3    8   13   18   23</span></span>
-<span id="cb50-6"><a href="data-types.html#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,]    4    9   14   19   24</span></span>
-<span id="cb50-7"><a href="data-types.html#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,]    5   10   15   20   25</span></span></code></pre></div>
+<span id="cb50-2"><a href="data-types.html#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning in matrix(1:50, nrow = 5, ncol = 5): data length differs from size of matrix: [50 != 5 x 5]</span></span>
+<span id="cb50-3"><a href="data-types.html#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb50-4"><a href="data-types.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,]    1    6   11   16   21</span></span>
+<span id="cb50-5"><a href="data-types.html#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,]    2    7   12   17   22</span></span>
+<span id="cb50-6"><a href="data-types.html#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,]    3    8   13   18   23</span></span>
+<span id="cb50-7"><a href="data-types.html#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,]    4    9   14   19   24</span></span>
+<span id="cb50-8"><a href="data-types.html#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,]    5   10   15   20   25</span></span></code></pre></div>
 <p>If I change it to have the first value be “1” (in quotes so it is a character) and the others be the numbers 2 through 50, the matrix will automatically convert everything to a character type. So it will remain having everything be the same type, but now everything is a character.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="data-types.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">50</span>), <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
-<span id="cb51-2"><a href="data-types.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb51-3"><a href="data-types.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;1&quot;  &quot;6&quot;  &quot;11&quot; &quot;16&quot; &quot;21&quot;</span></span>
-<span id="cb51-4"><a href="data-types.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;2&quot;  &quot;7&quot;  &quot;12&quot; &quot;17&quot; &quot;22&quot;</span></span>
-<span id="cb51-5"><a href="data-types.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;3&quot;  &quot;8&quot;  &quot;13&quot; &quot;18&quot; &quot;23&quot;</span></span>
-<span id="cb51-6"><a href="data-types.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;4&quot;  &quot;9&quot;  &quot;14&quot; &quot;19&quot; &quot;24&quot;</span></span>
-<span id="cb51-7"><a href="data-types.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;5&quot;  &quot;10&quot; &quot;15&quot; &quot;20&quot; &quot;25&quot;</span></span></code></pre></div>
+<span id="cb51-2"><a href="data-types.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning in matrix(c(&quot;1&quot;, 2:50), nrow = 5, ncol = 5): data length differs from size of matrix: [50 != 5 x 5]</span></span>
+<span id="cb51-3"><a href="data-types.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb51-4"><a href="data-types.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># [1,] &quot;1&quot;  &quot;6&quot;  &quot;11&quot; &quot;16&quot; &quot;21&quot;</span></span>
+<span id="cb51-5"><a href="data-types.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co"># [2,] &quot;2&quot;  &quot;7&quot;  &quot;12&quot; &quot;17&quot; &quot;22&quot;</span></span>
+<span id="cb51-6"><a href="data-types.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [3,] &quot;3&quot;  &quot;8&quot;  &quot;13&quot; &quot;18&quot; &quot;23&quot;</span></span>
+<span id="cb51-7"><a href="data-types.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [4,] &quot;4&quot;  &quot;9&quot;  &quot;14&quot; &quot;19&quot; &quot;24&quot;</span></span>
+<span id="cb51-8"><a href="data-types.html#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [5,] &quot;5&quot;  &quot;10&quot; &quot;15&quot; &quot;20&quot; &quot;25&quot;</span></span></code></pre></div>
 
 </div>
 </div>

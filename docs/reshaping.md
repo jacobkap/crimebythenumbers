@@ -18,7 +18,6 @@ For this chapter we'll use microdata from the New York City Police Department fo
 
 ```r
 library(readxl)
-# Warning: package 'readxl' was built under R version 4.1.3
 sqf <- read_excel("data/sqf-2019.xlsx")
 ```
 
@@ -133,7 +132,6 @@ We've already used the `group_by()` function in aggregating, and now we'll intro
 ```r
 library(tidyr)
 library(dplyr)
-# Warning: package 'dplyr' was built under R version 4.1.3
 # 
 # Attaching package: 'dplyr'
 # The following objects are masked from 'package:stats':
@@ -320,7 +318,6 @@ head(sqf_agg_wide)
 # #   abbreviated variable names 1: n_asian_pacific_islander,
 # #   2: n_black_hispanic, 3: n_white_hispanic, 4: n_american_indian_alaskan_n,
 # #   5: n2_asian_pacific_islander, 6: n2_black
-# # i Use `colnames()` to see all variable names
 ```
 
 We now have the same wide data set as before, but now there are twice as many race columns. And the `pivot_wider()` function renamed the columns so we can tell the "n" columns from the "n2" columns. The easiest way to reshape this data from wide to long is to again use the `pivot_longer()` function but now use it twice: first to reshape the "n" columns and then to reshape the "n2" columns. We'll use the exact same code as before, but change the column names to suit their new names. 

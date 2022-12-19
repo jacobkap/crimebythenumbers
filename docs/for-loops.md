@@ -171,5 +171,6 @@ for (recipe_url in recipe_urls) {
 }
 ```
 
-<img src="images/forloops.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/forloops} \end{center}
 

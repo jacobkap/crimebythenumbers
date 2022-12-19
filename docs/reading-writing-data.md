@@ -72,7 +72,6 @@ head(shootings)
 # # ... with 3 more variables: threat_level <chr>, flee <chr>, body_camera <lgl>,
 # #   and abbreviated variable names 1: manner_of_death,
 # #   2: signs_of_mental_illness
-# # i Use `colnames()` to see all variable names
 ```
 
 We can convert it to a data.frame using the function `as.data.frame()` though that isn't strictly necessary since tibbles and data.frames operate so similarly.
@@ -92,7 +91,6 @@ install.packages("readxl")
 
 ```r
 library(readxl)
-# Warning: package 'readxl' was built under R version 4.1.3
 ```
 
 
@@ -112,7 +110,6 @@ install.packages("haven")
 
 ```r
 library(haven)
-# Warning: package 'haven' was built under R version 4.1.3
 ```
 
 `haven` follows the same syntax for each data type and is the same as with `read_csv()` - for each data type we simply include the file name (in quotes, with the extension) and designate a name to be assigned the data.

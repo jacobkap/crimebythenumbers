@@ -306,6 +306,8 @@ No more NAs, which means that we successfully geocoded our addresses. Another ch
 plot(marijuana$long, marijuana$lat)
 ```
 
-<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 

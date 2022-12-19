@@ -13,6 +13,7 @@ site: bookdown::bookdown_site
 documentclass: krantz
 monofont: "Source Code Pro"
 monofontoptions: "Scale=0.7"
+graphics: yes
 ---
 ```{r include=FALSE, cache=FALSE}
 library(formatR)
@@ -96,7 +97,11 @@ detachAllPackages <- function() {
 \frontmatter
 # Preface {-}
 
+
+
 This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
+
+If you would like to purchase a physical copy of this book, it is available from [Amazon](https://www.amazon.com/Criminologists-Guide-Crime-Numbers-Chapman/dp/1032244070/?_encoding=UTF8&pd_rd_w=Ia4RG&content-id=amzn1.sym.e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_p=e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_r=G1A0TFSVYNG3GP667X0F&pd_rd_wg=uZ6xj&pd_rd_r=82e214d8-720f-492b-b5b5-df9b6d52d95a&ref_=pd_gw_ci_mcx_mr_hp_atf_m). 
 
 For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (the free version).](https://www.rstudio.com/products/rstudio/download/) We'll get into detail on what R and  RStudio are soon, but please have them both installed to be able to follow along with each chapter. While you must install both, you only ever need to open RStudio. While R is the actual programming language, RStudio is a program that makes it a lot easier to interact with R than opening up the R application itself.^[This is formally known as an "integrated development environment" or an IDE.] I highly recommend following along with the code for each lesson and then trying to use the lessons learned on a data set that you are interested in.  
 
@@ -162,7 +167,7 @@ This book is written so a person who has no programming experience can start wit
 
 If this book was useful in your research, please cite it. To cite this book, please use the below citation: 
 
-Kaplan J (2021). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
+Kaplan J (2022). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
 
 BibTeX format:
 
@@ -170,7 +175,7 @@ BibTeX format:
 @Manual{crimebythenumbers,
   title = {Crime by the Numbers: A Criminologist's Guide to R},
   author = {Jacob Kaplan},
-  year = {2021},
+  year = {2022},
   url = {https://crimebythenumbers.com/},
 }
 ```
@@ -189,7 +194,7 @@ Please only use the above two methods to contribute or make suggestions about th
 
 ## Where to find data included in this book {-}
 
-To download the data used in this book please see [here.](https://github.com/jacobkap/r4crimz/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
+To download the data used in this book please see [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
 
 ## Where to find code included in this book {-}
 
@@ -243,7 +248,7 @@ detachAllPackages <- function() {
 # About the author {-}
 
 
-**Jacob Kaplan** is the a researcher at the Princeton School of Public and International Affairs. He holds a PhD from the University of Pennsylvania. 
+**Jacob Kaplan** is a researcher at the Princeton School of Public and International Affairs. He holds a PhD from the University of Pennsylvania. 
 
 He is the author of several R packages that make it easier to work with data, including  [fastDummies](https://jacobkap.github.io/fastDummies/) and [asciiSetupReader.](https://jacobkap.github.io/asciiSetupReader/) His [website](http://jacobdkaplan.com/) allows easy analysis of crime-related data, and he has released over a [dozen crime data sets](http://jacobdkaplan.com/data.html) that he has compiled, cleaned, and made available to the public. He is also the author of books on the two primary criminal justice data sets: the FBI's [Uniform Crime Reporting (UCR) Program Data](https://ucrbook.com/) and the FBI's [National Incident Based Reporting System (NIBRS)](https://nibrsbook.com/) data. 
 
@@ -294,7 +299,7 @@ detachAllPackages <- function() {
 
 # A soup to nuts project example
 
-Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/r4crimz/tree/master/data) The file is called "shr_1976_2020.rds".
+Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) The file is called "shr_1976_2020.rds".
 
 ## Big picture data example
 
@@ -371,7 +376,7 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
@@ -457,7 +462,7 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
@@ -532,7 +537,7 @@ detachAllPackages <- function() {
 ```
 # Introduction to R and RStudio {#intro-to-r}
 
-In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/r4crimz/tree/master/data)
+In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data)
 
 
 ## Using RStudio
@@ -815,6 +820,11 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 
 ```{r eval = FALSE}
 View(ucr2017)
+```
+
+
+```{r, echo = FALSE}
+knitr::include_graphics('images/view_example.PNG')
 ```
 
 <!--chapter:end:intro-to-r.Rmd-->
@@ -1143,7 +1153,7 @@ detachAllPackages <- function() {
 ```
 # Reading and writing data
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
 
 So far in these lessons we've used data from a number of sources, but which came as .rda or .rds files, which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda or .rds files but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson, we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
@@ -1845,7 +1855,7 @@ detachAllPackages <- function() {
 ```
 # Testing your code {#tests}
 
-This chapter covers how to write code that tests other code. It's especially useful when you write complex functions but is also useful for work such as PDF scraping or webscraping where you know the right answer (by looking at the PDF or webpage yourself) and want to be sure your scraping code did the scrape correctly. However, in most cases when programming for research you won't formally test your code - though you should be checking if everything makes sense and rereading your code to look out for errors (such as typos or using the wrong data). If you've never programmed before, I recommend that you skip this chapter entirely (or read it but don't feel pressure to understand everything) and return to it after you've finished the rest of the book.
+This chapter covers how to write code that tests other code. It's especially useful when you write complex functions but is also useful for work such as PDF scraping or webscraping where you know the right answer (by looking at the PDF or web page yourself) and want to be sure your scraping code did the scrape correctly. However, in most cases when programming for research you won't formally test your code - though you should be checking if everything makes sense and rereading your code to look out for errors (such as typos or using the wrong data). If you've never programmed before, I recommend that you skip this chapter entirely (or read it but don't feel pressure to understand everything) and return to it after you've finished the rest of the book.
 
 ## Why test your code?
 
@@ -2281,7 +2291,7 @@ detachAllPackages <- function() {
 
 # Subsetting: Making big things small {#subsetting-intro}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): offenses_known_yearly_1960_2020.rds.
 
 Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you'd subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R. 
 
@@ -2827,7 +2837,7 @@ detachAllPackages <- function() {
 ```
 # Exploratory data analysis {#explore}
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
 
 When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
@@ -3543,7 +3553,7 @@ detachAllPackages <- function() {
 ```
 # Reshaping data {#reshaping}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
 
 When you're using data for research, the end result is usually a regression or a graph (or both), and that requires your data to be in a particular format. Usually your data should have one row for each unit of analysis, and each column should have information about that unit. As an example, if you wanted to study city-level crime over time, you'd have each row be a single city in a single time period. If you looked at 10 different time periods, say 10 years, you'd have 10 rows for each city. And each column would have information about that city in that time period, such as the number of murders that occurred. 
 
@@ -3751,7 +3761,7 @@ detachAllPackages <- function() {
 
 # Graphing with `ggplot2` {#graphing-intro}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): apparent_per_capita_alcohol_consumption.rda.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): apparent_per_capita_alcohol_consumption.rda.
 
 We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant-looking graphs. 
 
@@ -4038,7 +4048,7 @@ detachAllPackages <- function() {
 ```
 # More graphing with `ggplot2` {#ois-graphs}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): fatal-police-shootings-data.csv.
 
 In this lesson we will continue to explore graphing using `ggplot2`. The data we will use is microdata on officer-involved shootings that resulted in a death in the United States since January 1st, 2015. This data has been compiled and released by *The Washington Post* so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. Each row of data is a different person who was shot and killed by the police, and each column gives us information about the individual or the shooting, such as their age, whether they carried any weapon, and the shooting location. 
 
@@ -4471,7 +4481,7 @@ detachAllPackages <- function() {
 ```
 # Hotspot maps
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_suicide_2003_2017.csv.
 
 Hotspot maps are used to find where events or places (e.g. crimes, marijuana dispensaries, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which focuses patrols on high-crime areas).
 
@@ -4761,7 +4771,7 @@ detachAllPackages <- function() {
 ```
 # Choropleth maps
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
 
 In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in northeast San Francisco. In this chapter we will make choropleth maps, which are shaded maps where each "unit" is some known geographic area, such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this chapter we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the chapter) in the city. 
 
@@ -5087,7 +5097,7 @@ detachAllPackages()
 ```
 
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
 
@@ -5601,8 +5611,12 @@ In later lessons we'll learn how to scrape the ingredients of any recipe on the 
 
 The first step to scraping a page is to read in that page's information to R using the function `read_html()` from the `rvest` package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages. 
 
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
+```
+
+```{r, echo = FALSE}
+knitr::include_graphics('images/webscraping_read_html.PNG')
 ```
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to assign the output of `read_html()` to an object, which we'll call *brownies* since that is the recipe we are currently scraping. 
@@ -6146,7 +6160,7 @@ options(width = 60)
 ```
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
 Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different from what we've done before. 
 
@@ -6498,7 +6512,7 @@ detachAllPackages <- function() {
 ```
 # More scraping tables from PDFs {#scrape-table2}
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): AbbreRptCurrent.pdf and PregnantFemaleReportingCurrent.pdf.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): AbbreRptCurrent.pdf and PregnantFemaleReportingCurrent.pdf.
 
 
 In Chapter \@ref(scrape-table) we used the package `pdftools` to scrape tables on arrests/seizures from the US Customs and Border Protection that were only available in a PDF. Given the importance of PDF scraping, in this chapter we'll continue working on scraping tables from PDFs. Here, we will use the package `tabulizer`, which has a number of features making it especially useful for grabbing tables from PDFs.
@@ -6820,7 +6834,7 @@ detach("package:ggmap", unload = TRUE)
 ```
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_active_marijuana_retailers.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_active_marijuana_retailers.csv.
 
 Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each crime occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
 

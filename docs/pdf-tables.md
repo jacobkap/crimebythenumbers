@@ -20,7 +20,8 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017, which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-<img src="images/pdf_table_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_1} \end{center}
 
 Now if we look more at the table, we can see that each row is a section of the US border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data sets will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -28,15 +29,18 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 The second table has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in the first table.
 
-<img src="images/pdf_table_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_2} \end{center}
 
 The third table follows the same format, and the new columns are number of apprehensions by gender.
 
-<img src="images/pdf_table_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_3} \end{center}
 
 Finally, the fourth table is a bit different in its format. The rows are now variables, and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of the first table but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently from the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-<img src="images/pdf_table_4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_4} \end{center}
 
 ## Scraping the first table
 
@@ -53,7 +57,6 @@ install.packages("pdftools")
 
 ```r
 library(pdftools)
-# Warning: package 'pdftools' was built under R version 4.1.3
 # Using poppler version 22.04.0
 ```
 
@@ -71,7 +74,8 @@ We can take a look at the `head()` of the result using `head(border_patrol)`.
 head(border_patrol)
 ```
 
-<img src="images/pdf_scrape_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_1} \end{center}
 
 If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol", which tells us how many elements are in a vector.
 
@@ -90,7 +94,8 @@ Looking at just the first element in *border_patrol* gives us all the values in 
 border_patrol[1]
 ```
 
-<img src="images/pdf_scrape_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_2} \end{center}
 
 The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
 
@@ -119,7 +124,8 @@ Now we can look at the first six rows of this data.
 head(sector_profile)
 ```
 
-<img src="images/pdf_scrape_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_3} \end{center}
 
 Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the (), and it'll remove any white space that is at the beginning or end of the string.
 
@@ -135,7 +141,8 @@ We have more rows than we want so let's look at the entire data and try to figur
 sector_profile
 ```
 
-<img src="images/pdf_scrape_4.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/pdf_scrape_4} \end{center}
 
 Based on the PDF, we want every row from Miami to Nationwide Total. But here we have several rows with the title of the table and the column names, and at the end we have the sentences with some details that we don't need. 
 
@@ -168,7 +175,8 @@ Note that we're getting rid of the rows that had the column names. It's easier t
 head(sector_profile)
 ```
 
-<img src="images/pdf_scrape_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
+
+\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_5} \end{center}
 
 When looking at this data it is clear that where the division between columns is supposed to be is a bunch of white space in each string. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 
@@ -365,7 +373,6 @@ Now we can run `left_join()`. `left_join()` will automatically join based on sha
 
 ```r
 library(dplyr)
-# Warning: package 'dplyr' was built under R version 4.1.3
 # 
 # Attaching package: 'dplyr'
 # The following objects are masked from 'package:stats':
