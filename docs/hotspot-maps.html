@@ -23,7 +23,7 @@
 <meta name="author" content="Jacob Kaplan" />
 
 
-<meta name="date" content="2022-12-18" />
+<meta name="date" content="2023-01-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -485,20 +485,27 @@ div.csl-indent {
 <p>This data contains information on each crime reported in San Francisco including the type of crime (in our case always suicide), a more detailed crime category, and a number of date and location variables. Please note that suicide is not actually a crime, even though it is included in the San Francisco Police Department’s crime data. As shown in Chapter <a href="regular-expressions.html#regular-expressions">12</a>, which also used San Francisco crime data, there are a number of other non-crimes included such as “Fire Report,” “Traffic Collision,” and “Non-Criminal.” This is a fairly common occurrence in “crime” data where it also includes non-crimes that the police generally respond to so it is important to carefully examine your data to see what is included. Simply summing up the rows as a measure of crime will generally overcount crimes.</p>
 <p>The columns X and Y are our longitude and latitude columns, which we will use to map the data.</p>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="hotspot-maps.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(suicide)</span>
-<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category                           Descript DayOfWeek       Date     Time PdDistrict Resolution</span></span>
-<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018 06:30:00    TARAVAL       NONE</span></span>
-<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018 17:54:00   NORTHERN       NONE</span></span>
-<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018 12:20:00   RICHMOND       NONE</span></span>
-<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018 05:13:00    CENTRAL       NONE</span></span>
-<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018 09:15:00    TARAVAL       NONE</span></span>
-<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018 17:30:00   RICHMOND       NONE</span></span>
-<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                   Address         X        Y                                       Location         PdId year</span></span>
-<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1     0 Block of BRUCE AV -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315) 1.803189e+13 2018</span></span>
-<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2   700 Block of HAYES ST -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792) 1.803155e+13 2018</span></span>
-<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   3700 Block of CLAY ST -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736) 1.802957e+13 2018</span></span>
-<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4     0 Block of DRUMM ST -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039) 1.802637e+13 2018</span></span>
-<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 0 Block of FAIRFIELD WY -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551) 1.802355e+13 2018</span></span>
-<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6    300 Block of 29TH AV -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265) 1.802365e+13 2018</span></span></code></pre></div>
+<span id="cb291-2"><a href="hotspot-maps.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   IncidntNum Category                           Descript DayOfWeek       Date     Time PdDistrict</span></span>
+<span id="cb291-3"><a href="hotspot-maps.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  180318931  SUICIDE ATTEMPTED SUICIDE BY STRANGULATION    Monday 04/30/2018 06:30:00    TARAVAL</span></span>
+<span id="cb291-4"><a href="hotspot-maps.html#cb291-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  180315501  SUICIDE       ATTEMPTED SUICIDE BY JUMPING  Saturday 04/28/2018 17:54:00   NORTHERN</span></span>
+<span id="cb291-5"><a href="hotspot-maps.html#cb291-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  180295674  SUICIDE              SUICIDE BY LACERATION  Saturday 04/21/2018 12:20:00   RICHMOND</span></span>
+<span id="cb291-6"><a href="hotspot-maps.html#cb291-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4  180263659  SUICIDE                            SUICIDE   Tuesday 04/10/2018 05:13:00    CENTRAL</span></span>
+<span id="cb291-7"><a href="hotspot-maps.html#cb291-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  180235523  SUICIDE     ATTEMPTED SUICIDE BY INGESTION    Friday 03/30/2018 09:15:00    TARAVAL</span></span>
+<span id="cb291-8"><a href="hotspot-maps.html#cb291-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  180236515  SUICIDE            SUICIDE BY ASPHYXIATION  Thursday 03/29/2018 17:30:00   RICHMOND</span></span>
+<span id="cb291-9"><a href="hotspot-maps.html#cb291-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   Resolution                 Address         X        Y                                       Location</span></span>
+<span id="cb291-10"><a href="hotspot-maps.html#cb291-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1       NONE     0 Block of BRUCE AV -122.4517 37.72218  POINT (-122.45168059935614 37.72218061554315)</span></span>
+<span id="cb291-11"><a href="hotspot-maps.html#cb291-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2       NONE   700 Block of HAYES ST -122.4288 37.77620  POINT (-122.42876060987851 37.77620120112792)</span></span>
+<span id="cb291-12"><a href="hotspot-maps.html#cb291-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3       NONE   3700 Block of CLAY ST -122.4546 37.78818   POINT (-122.45462091999406 37.7881754224736)</span></span>
+<span id="cb291-13"><a href="hotspot-maps.html#cb291-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4       NONE     0 Block of DRUMM ST -122.3964 37.79414  POINT (-122.39642194376758 37.79414474237039)</span></span>
+<span id="cb291-14"><a href="hotspot-maps.html#cb291-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5       NONE 0 Block of FAIRFIELD WY -122.4632 37.72679  POINT (-122.46324153155875 37.72679184368551)</span></span>
+<span id="cb291-15"><a href="hotspot-maps.html#cb291-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6       NONE    300 Block of 29TH AV -122.4893 37.78274 POINT (-122.48929119750689 37.782735835121265)</span></span>
+<span id="cb291-16"><a href="hotspot-maps.html#cb291-16" aria-hidden="true" tabindex="-1"></a><span class="co">#           PdId year</span></span>
+<span id="cb291-17"><a href="hotspot-maps.html#cb291-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 1.803189e+13 2018</span></span>
+<span id="cb291-18"><a href="hotspot-maps.html#cb291-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 1.803155e+13 2018</span></span>
+<span id="cb291-19"><a href="hotspot-maps.html#cb291-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 1.802957e+13 2018</span></span>
+<span id="cb291-20"><a href="hotspot-maps.html#cb291-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 1.802637e+13 2018</span></span>
+<span id="cb291-21"><a href="hotspot-maps.html#cb291-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 1.802355e+13 2018</span></span>
+<span id="cb291-22"><a href="hotspot-maps.html#cb291-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 1.802365e+13 2018</span></span></code></pre></div>
 <div id="a-simple-map" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> A simple map<a href="hotspot-maps.html#a-simple-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To make these maps we will use the package <code>ggmap</code>.</p>
