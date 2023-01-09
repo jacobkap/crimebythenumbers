@@ -478,9 +478,9 @@ div.csl-indent {
 <p>While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.</p>
 <p>For this lesson we will be using data on every marijuana dispensary in San Francisco that has an active dispensary license as of late September 2019. The file is called “san_francisco_marijuana_geocoded.csv”.</p>
 <p>When downloaded from California’s Bureau of Cannabis Control (<a href="https://aca5.accela.com/bcc/customization/bcc/cap/licenseSearch.aspx">here</a> if you’re interested) the data contains the address of each dispensary but does not have coordinates. Without coordinates we are unable to map points, meaning we need to geocode them. Geocoding is the process of taking an address and getting the longitude and latitude of that address for mapping. For this lesson I’ve already geocoded the data, and we’ll learn how to do so in Chapter <a href="geocoding.html#geocoding">24</a>.</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="interactive-maps.html#cb341-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb341-2"><a href="interactive-maps.html#cb341-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_marijuana_geocoded.csv&quot;</span>)</span>
-<span id="cb341-3"><a href="interactive-maps.html#cb341-3" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(marijuana)</span></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="interactive-maps.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb342-2"><a href="interactive-maps.html#cb342-2" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/san_francisco_marijuana_geocoded.csv&quot;</span>)</span>
+<span id="cb342-3"><a href="interactive-maps.html#cb342-3" aria-hidden="true" tabindex="-1"></a>marijuana <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(marijuana)</span></code></pre></div>
 <div id="why-do-interactive-graphs-matter" class="section level2 hasAnchor" number="18.1">
 <h2><span class="header-section-number">18.1</span> Why do interactive graphs matter?<a href="interactive-maps.html#why-do-interactive-graphs-matter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="understanding-your-data" class="section level3 hasAnchor" number="18.1.1">
@@ -496,150 +496,133 @@ div.csl-indent {
 <div id="making-the-interactive-map" class="section level2 hasAnchor" number="18.2">
 <h2><span class="header-section-number">18.2</span> Making the interactive map<a href="interactive-maps.html#making-the-interactive-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As usual, let’s take a look at the top 6 rows of the data.</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="interactive-maps.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
-<span id="cb342-2"><a href="interactive-maps.html#cb342-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    License_Number                License_Type   Business_Owner        Business_Structure</span></span>
-<span id="cb342-3"><a href="interactive-maps.html#cb342-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller Limited Liability Company</span></span>
-<span id="cb342-4"><a href="interactive-maps.html#cb342-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin               Corporation</span></span>
-<span id="cb342-5"><a href="interactive-maps.html#cb342-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin               Corporation</span></span>
-<span id="cb342-6"><a href="interactive-maps.html#cb342-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle               Corporation</span></span>
-<span id="cb342-7"><a href="interactive-maps.html#cb342-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson Limited Liability Company</span></span>
-<span id="cb342-8"><a href="interactive-maps.html#cb342-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson Limited Liability Company</span></span>
-<span id="cb342-9"><a href="interactive-maps.html#cb342-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                           Premise_Address Status Issue_Date Expiration_Date                Activities</span></span>
-<span id="cb342-10"><a href="interactive-maps.html#cb342-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  2165 IRVING ST san francisco, CA 94122 Active  9/13/2019       9/12/2020 N/A for this license type</span></span>
-<span id="cb342-11"><a href="interactive-maps.html#cb342-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 122 10TH ST SAN FRANCISCO, CA 941032605 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb342-12"><a href="interactive-maps.html#cb342-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3   843 Howard ST SAN FRANCISCO, CA 94103 Active  8/26/2019       8/25/2020 N/A for this license type</span></span>
-<span id="cb342-13"><a href="interactive-maps.html#cb342-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4    70 SECOND ST SAN FRANCISCO, CA 94105 Active   8/5/2019        8/4/2020 N/A for this license type</span></span>
-<span id="cb342-14"><a href="interactive-maps.html#cb342-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5   527 Howard ST San Francisco, CA 94105 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb342-15"><a href="interactive-maps.html#cb342-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 2414 Lombard ST San Francisco, CA 94123 Active  7/29/2019       7/28/2020 N/A for this license type</span></span>
-<span id="cb342-16"><a href="interactive-maps.html#cb342-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   Adult-Use/Medicinal      lat      long</span></span>
-<span id="cb342-17"><a href="interactive-maps.html#cb342-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1                BOTH 37.76318 -122.4811</span></span>
-<span id="cb342-18"><a href="interactive-maps.html#cb342-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2                BOTH 37.77480 -122.4157</span></span>
-<span id="cb342-19"><a href="interactive-maps.html#cb342-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3                BOTH 37.78228 -122.4035</span></span>
-<span id="cb342-20"><a href="interactive-maps.html#cb342-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4                BOTH 37.78823 -122.4004</span></span>
-<span id="cb342-21"><a href="interactive-maps.html#cb342-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5                BOTH 37.78783 -122.3965</span></span>
-<span id="cb342-22"><a href="interactive-maps.html#cb342-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6                BOTH 37.79944 -122.4414</span></span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="interactive-maps.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(marijuana)</span>
+<span id="cb343-2"><a href="interactive-maps.html#cb343-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    License_Number                License_Type   Business_Owner</span></span>
+<span id="cb343-3"><a href="interactive-maps.html#cb343-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 C10-0000614-LIC Cannabis - Retailer License     Terry Muller</span></span>
+<span id="cb343-4"><a href="interactive-maps.html#cb343-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 C10-0000586-LIC Cannabis - Retailer License    Jeremy Goodin</span></span>
+<span id="cb343-5"><a href="interactive-maps.html#cb343-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 C10-0000587-LIC Cannabis - Retailer License     Justin Jarin</span></span>
+<span id="cb343-6"><a href="interactive-maps.html#cb343-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 C10-0000539-LIC Cannabis - Retailer License Ondyn Herschelle</span></span>
+<span id="cb343-7"><a href="interactive-maps.html#cb343-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 C10-0000522-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb343-8"><a href="interactive-maps.html#cb343-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 C10-0000523-LIC Cannabis - Retailer License      Ryan Hudson</span></span>
+<span id="cb343-9"><a href="interactive-maps.html#cb343-9" aria-hidden="true" tabindex="-1"></a><span class="co">#          Business_Structure                         Premise_Address Status</span></span>
+<span id="cb343-10"><a href="interactive-maps.html#cb343-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 Limited Liability Company  2165 IRVING ST san francisco, CA 94122 Active</span></span>
+<span id="cb343-11"><a href="interactive-maps.html#cb343-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2               Corporation 122 10TH ST SAN FRANCISCO, CA 941032605 Active</span></span>
+<span id="cb343-12"><a href="interactive-maps.html#cb343-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3               Corporation   843 Howard ST SAN FRANCISCO, CA 94103 Active</span></span>
+<span id="cb343-13"><a href="interactive-maps.html#cb343-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4               Corporation    70 SECOND ST SAN FRANCISCO, CA 94105 Active</span></span>
+<span id="cb343-14"><a href="interactive-maps.html#cb343-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 Limited Liability Company   527 Howard ST San Francisco, CA 94105 Active</span></span>
+<span id="cb343-15"><a href="interactive-maps.html#cb343-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 Limited Liability Company 2414 Lombard ST San Francisco, CA 94123 Active</span></span>
+<span id="cb343-16"><a href="interactive-maps.html#cb343-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   Issue_Date Expiration_Date                Activities Adult-Use/Medicinal</span></span>
+<span id="cb343-17"><a href="interactive-maps.html#cb343-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1  9/13/2019       9/12/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-18"><a href="interactive-maps.html#cb343-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-19"><a href="interactive-maps.html#cb343-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3  8/26/2019       8/25/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-20"><a href="interactive-maps.html#cb343-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 4   8/5/2019        8/4/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-21"><a href="interactive-maps.html#cb343-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 5  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-22"><a href="interactive-maps.html#cb343-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 6  7/29/2019       7/28/2020 N/A for this license type                BOTH</span></span>
+<span id="cb343-23"><a href="interactive-maps.html#cb343-23" aria-hidden="true" tabindex="-1"></a><span class="co">#        lat      long</span></span>
+<span id="cb343-24"><a href="interactive-maps.html#cb343-24" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 37.76318 -122.4811</span></span>
+<span id="cb343-25"><a href="interactive-maps.html#cb343-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 37.77480 -122.4157</span></span>
+<span id="cb343-26"><a href="interactive-maps.html#cb343-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 37.78228 -122.4035</span></span>
+<span id="cb343-27"><a href="interactive-maps.html#cb343-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 37.78823 -122.4004</span></span>
+<span id="cb343-28"><a href="interactive-maps.html#cb343-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 37.78783 -122.3965</span></span>
+<span id="cb343-29"><a href="interactive-maps.html#cb343-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 37.79944 -122.4414</span></span></code></pre></div>
 <p>This data has information about the type of license, who the owner is, and where the dispensary is (as an address and as coordinates). We’ll be making a map showing every dispensary in the city and make it so when you click a dot it’ll make a popup showing information about that dispensary.</p>
 <p>We will use the package <code>leaflet</code> for our interactive map. <code>leaflet</code> produces maps similar to Google Maps with circles (or any icon we choose) for each value we add to the map. It allows you to zoom in, scroll around, and provides context to each incident that isn’t available on a static map.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="interactive-maps.html#cb343-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;leaflet&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="interactive-maps.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code></pre></div>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="interactive-maps.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;leaflet&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="interactive-maps.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code></pre></div>
 <p>To make a <code>leaflet</code> map we need to run the function <code>leaflet()</code> and add a tile to the map. We can just use the default tile which doesn’t need an input. If you’re interested in other tiles, please see this <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">website</a>.</p>
 <p>We will use a standard tile from Open Street Maps. This tile gives street names and highlights important features such as parks and large stores which provides useful contexts for looking at the data.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="interactive-maps.html#cb345-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb345-2"><a href="interactive-maps.html#cb345-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="interactive-maps.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb346-2"><a href="interactive-maps.html#cb346-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>()</span></code></pre></div>
 <p><img src="images/leaflet_map1.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>When you run the above code it shows a world map (copied several times). Zoom into it, and it’ll start showing relevant features of wherever you’re looking.</p>
 <p>Note the <code>%&gt;%</code> between the <code>leaflet()</code> function and the <code>addTiles()</code> function. <code>leaflet</code> is one of the packages in R where we can use pipes.</p>
 <p>To add the points to the graph we use the function <code>addMarkers()</code>, which has two parameters, <code>lng</code> and <code>lat</code>. For both parameters we put the column in which the longitude and latitude are, respectively.</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="interactive-maps.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb346-2"><a href="interactive-maps.html#cb346-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb346-3"><a href="interactive-maps.html#cb346-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(</span>
-<span id="cb346-4"><a href="interactive-maps.html#cb346-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb346-5"><a href="interactive-maps.html#cb346-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat</span>
-<span id="cb346-6"><a href="interactive-maps.html#cb346-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="interactive-maps.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb347-2"><a href="interactive-maps.html#cb347-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb347-3"><a href="interactive-maps.html#cb347-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb347-4"><a href="interactive-maps.html#cb347-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">lat =</span> marijuana<span class="sc">$</span>lat)</span></code></pre></div>
 <p><img src="images/leaflet_map2.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>It now adds an icon indicating where every dispensary in our data is. You can zoom in and scroll around to see more about where the dispensaries are. There are only a few dozen locations in the data so the popups overlapping a bit doesn’t affect our map too much. If we had more - such as crime data with millions of offenses - it would make it very hard to read. To change the icons to circles we can change the function <code>addMarkers()</code> to <code>addCircleMarkers()</code>, keeping the rest of the code the same.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="interactive-maps.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb347-2"><a href="interactive-maps.html#cb347-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb347-3"><a href="interactive-maps.html#cb347-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb347-4"><a href="interactive-maps.html#cb347-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb347-5"><a href="interactive-maps.html#cb347-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat</span>
-<span id="cb347-6"><a href="interactive-maps.html#cb347-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="interactive-maps.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb348-2"><a href="interactive-maps.html#cb348-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb348-3"><a href="interactive-maps.html#cb348-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb348-4"><a href="interactive-maps.html#cb348-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat)</span></code></pre></div>
 <p><img src="images/leaflet_map3.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>This makes the icon into circles, which take up less space than icons. To adjust the size of our icons we use the <code>radius</code> parameter in <code>addMarkers()</code> or <code>addCircleMarkers()</code>. The larger the radius, the larger the icons.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="interactive-maps.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb348-2"><a href="interactive-maps.html#cb348-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb348-3"><a href="interactive-maps.html#cb348-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb348-4"><a href="interactive-maps.html#cb348-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb348-5"><a href="interactive-maps.html#cb348-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb348-6"><a href="interactive-maps.html#cb348-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span></span>
-<span id="cb348-7"><a href="interactive-maps.html#cb348-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="interactive-maps.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb349-2"><a href="interactive-maps.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb349-3"><a href="interactive-maps.html#cb349-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb349-4"><a href="interactive-maps.html#cb349-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb349-5"><a href="interactive-maps.html#cb349-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="images/leaflet_map4.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Setting the <code>radius</code> option to 5 shrinks the size of the icon a lot. In your own maps you’ll have to fiddle with this option to get it to look the way you want. Let’s move on to adding information about each icon when clicked upon.</p>
 </div>
 <div id="adding-popup-information" class="section level2 hasAnchor" number="18.3">
 <h2><span class="header-section-number">18.3</span> Adding popup information<a href="interactive-maps.html#adding-popup-information" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The parameter <code>popup</code> in the <code>addMarkers()</code> or <code>addCircleMarkers()</code> functions lets you input a character value (if not already a character value it will convert it to one) and that will be shown as a popup when you click on the icon. Let’s start simple here by inputting the business owner column in our data and then build it up to a more complicated popup.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="interactive-maps.html#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb349-2"><a href="interactive-maps.html#cb349-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb349-3"><a href="interactive-maps.html#cb349-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb349-4"><a href="interactive-maps.html#cb349-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb349-5"><a href="interactive-maps.html#cb349-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb349-6"><a href="interactive-maps.html#cb349-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
-<span id="cb349-7"><a href="interactive-maps.html#cb349-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> marijuana<span class="sc">$</span>Business_Owner</span>
-<span id="cb349-8"><a href="interactive-maps.html#cb349-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="interactive-maps.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb350-2"><a href="interactive-maps.html#cb350-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb350-3"><a href="interactive-maps.html#cb350-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb350-4"><a href="interactive-maps.html#cb350-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb350-5"><a href="interactive-maps.html#cb350-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb350-6"><a href="interactive-maps.html#cb350-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> marijuana<span class="sc">$</span>Business_Owner)</span></code></pre></div>
 <p><img src="images/interactive_popup1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Try clicking around and you’ll see that the owner of the dispensary you clicked on appears over the dot. If you’re reading the print version of this book you won’t, of course, be able to click on the map. We usually want to have a title indicating what the value in the popup means. We can do this by using the <code>paste()</code> function to combine text explaining the value with the value itself. Let’s add the words “Business Owner:” before the business owner column.</p>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="interactive-maps.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb350-2"><a href="interactive-maps.html#cb350-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb350-3"><a href="interactive-maps.html#cb350-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb350-4"><a href="interactive-maps.html#cb350-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb350-5"><a href="interactive-maps.html#cb350-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb350-6"><a href="interactive-maps.html#cb350-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
-<span id="cb350-7"><a href="interactive-maps.html#cb350-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
-<span id="cb350-8"><a href="interactive-maps.html#cb350-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Business Owner:&quot;</span>,</span>
-<span id="cb350-9"><a href="interactive-maps.html#cb350-9" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Business_Owner</span>
-<span id="cb350-10"><a href="interactive-maps.html#cb350-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb350-11"><a href="interactive-maps.html#cb350-11" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="interactive-maps.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb351-2"><a href="interactive-maps.html#cb351-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb351-3"><a href="interactive-maps.html#cb351-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb351-4"><a href="interactive-maps.html#cb351-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb351-5"><a href="interactive-maps.html#cb351-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb351-6"><a href="interactive-maps.html#cb351-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">&quot;Business Owner:&quot;</span>,</span>
+<span id="cb351-7"><a href="interactive-maps.html#cb351-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner))</span></code></pre></div>
 <p><img src="images/interactive_popup2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>We don’t have too much information in the data, but let’s add the address and license number to the popup by adding them to the <code>paste()</code> function we’re using.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="interactive-maps.html#cb351-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb351-2"><a href="interactive-maps.html#cb351-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb351-3"><a href="interactive-maps.html#cb351-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb351-4"><a href="interactive-maps.html#cb351-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb351-5"><a href="interactive-maps.html#cb351-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb351-6"><a href="interactive-maps.html#cb351-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
-<span id="cb351-7"><a href="interactive-maps.html#cb351-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
-<span id="cb351-8"><a href="interactive-maps.html#cb351-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Business Owner:&quot;</span>,</span>
-<span id="cb351-9"><a href="interactive-maps.html#cb351-9" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Business_Owner,</span>
-<span id="cb351-10"><a href="interactive-maps.html#cb351-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Address:&quot;</span>,</span>
-<span id="cb351-11"><a href="interactive-maps.html#cb351-11" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Premise_Address,</span>
-<span id="cb351-12"><a href="interactive-maps.html#cb351-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;License:&quot;</span>,</span>
-<span id="cb351-13"><a href="interactive-maps.html#cb351-13" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>License_Number</span>
-<span id="cb351-14"><a href="interactive-maps.html#cb351-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb351-15"><a href="interactive-maps.html#cb351-15" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="interactive-maps.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb352-2"><a href="interactive-maps.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb352-3"><a href="interactive-maps.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb352-4"><a href="interactive-maps.html#cb352-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb352-5"><a href="interactive-maps.html#cb352-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb352-6"><a href="interactive-maps.html#cb352-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">&quot;Business Owner:&quot;</span>,</span>
+<span id="cb352-7"><a href="interactive-maps.html#cb352-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb352-8"><a href="interactive-maps.html#cb352-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;Address:&quot;</span>,</span>
+<span id="cb352-9"><a href="interactive-maps.html#cb352-9" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb352-10"><a href="interactive-maps.html#cb352-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;License:&quot;</span>, </span>
+<span id="cb352-11"><a href="interactive-maps.html#cb352-11" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number))</span></code></pre></div>
 <p><img src="images/interactive_popup3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Just adding the location text makes it try to print out everything on one line, which is hard to read. If we add the text <code>&lt;br&gt;</code> where we want a line break, it will make one. <code>&lt;br&gt;</code> is the HTML tag for line-break, which is why it works making a new line in this case.</p>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="interactive-maps.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb352-2"><a href="interactive-maps.html#cb352-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb352-3"><a href="interactive-maps.html#cb352-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb352-4"><a href="interactive-maps.html#cb352-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb352-5"><a href="interactive-maps.html#cb352-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb352-6"><a href="interactive-maps.html#cb352-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
-<span id="cb352-7"><a href="interactive-maps.html#cb352-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
-<span id="cb352-8"><a href="interactive-maps.html#cb352-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Business Owner:&quot;</span>,</span>
-<span id="cb352-9"><a href="interactive-maps.html#cb352-9" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Business_Owner,</span>
-<span id="cb352-10"><a href="interactive-maps.html#cb352-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb352-11"><a href="interactive-maps.html#cb352-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Address:&quot;</span>,</span>
-<span id="cb352-12"><a href="interactive-maps.html#cb352-12" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Premise_Address,</span>
-<span id="cb352-13"><a href="interactive-maps.html#cb352-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb352-14"><a href="interactive-maps.html#cb352-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;License:&quot;</span>,</span>
-<span id="cb352-15"><a href="interactive-maps.html#cb352-15" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>License_Number</span>
-<span id="cb352-16"><a href="interactive-maps.html#cb352-16" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb352-17"><a href="interactive-maps.html#cb352-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="interactive-maps.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb353-2"><a href="interactive-maps.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb353-3"><a href="interactive-maps.html#cb353-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb353-4"><a href="interactive-maps.html#cb353-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb353-5"><a href="interactive-maps.html#cb353-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb353-6"><a href="interactive-maps.html#cb353-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">&quot;Business Owner:&quot;</span>,</span>
+<span id="cb353-7"><a href="interactive-maps.html#cb353-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb353-8"><a href="interactive-maps.html#cb353-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb353-9"><a href="interactive-maps.html#cb353-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;Address:&quot;</span>, </span>
+<span id="cb353-10"><a href="interactive-maps.html#cb353-10" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb353-11"><a href="interactive-maps.html#cb353-11" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb353-12"><a href="interactive-maps.html#cb353-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;License:&quot;</span>,</span>
+<span id="cb353-13"><a href="interactive-maps.html#cb353-13" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number))</span></code></pre></div>
 <p><img src="images/interactive_popup4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 </div>
 <div id="dealing-with-too-many-markers" class="section level2 hasAnchor" number="18.4">
 <h2><span class="header-section-number">18.4</span> Dealing with too many markers<a href="interactive-maps.html#dealing-with-too-many-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In our case with only 33 rows of data, turning the markers to circles solves our visibility issue. In cases with many more rows of data, this doesn’t always work. A solution for this is to cluster the data into groups where the dots only show if you zoom in.</p>
 <p>If we add the code <code>clusterOptions = markerClusterOptions()</code> to our <code>addCircleMarkers()</code> it will cluster for us.</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="interactive-maps.html#cb353-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb353-2"><a href="interactive-maps.html#cb353-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb353-3"><a href="interactive-maps.html#cb353-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(</span>
-<span id="cb353-4"><a href="interactive-maps.html#cb353-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lng =</span> marijuana<span class="sc">$</span>long,</span>
-<span id="cb353-5"><a href="interactive-maps.html#cb353-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
-<span id="cb353-6"><a href="interactive-maps.html#cb353-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">radius =</span> <span class="dv">5</span>,</span>
-<span id="cb353-7"><a href="interactive-maps.html#cb353-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste</span>(</span>
-<span id="cb353-8"><a href="interactive-maps.html#cb353-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Business Owner:&quot;</span>,</span>
-<span id="cb353-9"><a href="interactive-maps.html#cb353-9" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Business_Owner,</span>
-<span id="cb353-10"><a href="interactive-maps.html#cb353-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb353-11"><a href="interactive-maps.html#cb353-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Address:&quot;</span>,</span>
-<span id="cb353-12"><a href="interactive-maps.html#cb353-12" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>Premise_Address,</span>
-<span id="cb353-13"><a href="interactive-maps.html#cb353-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb353-14"><a href="interactive-maps.html#cb353-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;License:&quot;</span>,</span>
-<span id="cb353-15"><a href="interactive-maps.html#cb353-15" aria-hidden="true" tabindex="-1"></a>      marijuana<span class="sc">$</span>License_Number</span>
-<span id="cb353-16"><a href="interactive-maps.html#cb353-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb353-17"><a href="interactive-maps.html#cb353-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">clusterOptions =</span> <span class="fu">markerClusterOptions</span>()</span>
-<span id="cb353-18"><a href="interactive-maps.html#cb353-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="interactive-maps.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb354-2"><a href="interactive-maps.html#cb354-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb354-3"><a href="interactive-maps.html#cb354-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addCircleMarkers</span>(<span class="at">lng =</span> marijuana<span class="sc">$</span>long, </span>
+<span id="cb354-4"><a href="interactive-maps.html#cb354-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">lat =</span> marijuana<span class="sc">$</span>lat,</span>
+<span id="cb354-5"><a href="interactive-maps.html#cb354-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">radius =</span> <span class="dv">5</span>,</span>
+<span id="cb354-6"><a href="interactive-maps.html#cb354-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">popup =</span> <span class="fu">paste</span>(<span class="st">&quot;Business Owner:&quot;</span>, </span>
+<span id="cb354-7"><a href="interactive-maps.html#cb354-7" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Business_Owner,</span>
+<span id="cb354-8"><a href="interactive-maps.html#cb354-8" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb354-9"><a href="interactive-maps.html#cb354-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;Address:&quot;</span>,</span>
+<span id="cb354-10"><a href="interactive-maps.html#cb354-10" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>Premise_Address,</span>
+<span id="cb354-11"><a href="interactive-maps.html#cb354-11" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb354-12"><a href="interactive-maps.html#cb354-12" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">&quot;License:&quot;</span>,</span>
+<span id="cb354-13"><a href="interactive-maps.html#cb354-13" aria-hidden="true" tabindex="-1"></a>                                 marijuana<span class="sc">$</span>License_Number),</span>
+<span id="cb354-14"><a href="interactive-maps.html#cb354-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clusterOptions =</span> <span class="fu">markerClusterOptions</span>())</span></code></pre></div>
 <p><img src="images/leaflet_map_temp.png" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Locations close to each other are grouped together in fairly arbitrary groupings, and we can see how large each grouping is by moving our cursor over the circle. Click on a circle or zoom in and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in, and it will eventually show each location as its own circle.</p>
 <p>This method is very useful for dealing with huge amounts of data as it avoids overflowing the map with too many icons at one time. A downside, however, is that the clusters are created arbitrarily meaning that important context, such as neighborhood, can be lost.</p>
@@ -648,129 +631,101 @@ div.csl-indent {
 <h2><span class="header-section-number">18.5</span> Interactive choropleth maps<a href="interactive-maps.html#interactive-choropleth-maps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In Chapter <a href="choropleth-maps.html#choropleth-maps">17</a> we worked on choropleth maps which are maps with shaded regions, such as states colored by which political party won them in an election. Here we will make interactive choropleth maps where you can click on a shaded region and see information about that region. We’ll make the same map as before - neighborhoods shaded by the number of suicides.</p>
 <p>Let’s load the San Francisco suicides-by-neighborhood data that we made earlier. We’ll also want to project it to the standard longitude and latitude projection, otherwise our map won’t work right.</p>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="interactive-maps.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb354-2"><a href="interactive-maps.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;sf&#39; was built under R version 4.2.2</span></span>
-<span id="cb354-3"><a href="interactive-maps.html#cb354-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE</span></span>
-<span id="cb354-4"><a href="interactive-maps.html#cb354-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>)</span>
-<span id="cb354-5"><a href="interactive-maps.html#cb354-5" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(</span>
-<span id="cb354-6"><a href="interactive-maps.html#cb354-6" aria-hidden="true" tabindex="-1"></a>  sf_neighborhoods_suicide,</span>
-<span id="cb354-7"><a href="interactive-maps.html#cb354-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span></span>
-<span id="cb354-8"><a href="interactive-maps.html#cb354-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="interactive-maps.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb355-2"><a href="interactive-maps.html#cb355-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Warning: package &#39;sf&#39; was built under R version 4.2.2</span></span>
+<span id="cb355-3"><a href="interactive-maps.html#cb355-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE</span></span>
+<span id="cb355-4"><a href="interactive-maps.html#cb355-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;data/sf_neighborhoods_suicide.rda&quot;</span>) </span>
+<span id="cb355-5"><a href="interactive-maps.html#cb355-5" aria-hidden="true" tabindex="-1"></a>sf_neighborhoods_suicide <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(sf_neighborhoods_suicide, </span>
+<span id="cb355-6"><a href="interactive-maps.html#cb355-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="st">&quot;+proj=longlat +datum=WGS84&quot;</span>)</span></code></pre></div>
 <p>We’ll begin the <code>leaflet</code> map similar to before but use the function <code>addPolygons()</code>, and our input here is the geometry column of <em>sf_neighborhoods_suicide</em>.</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="interactive-maps.html#cb355-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb355-2"><a href="interactive-maps.html#cb355-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb355-3"><a href="interactive-maps.html#cb355-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry)</span></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="interactive-maps.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb356-2"><a href="interactive-maps.html#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb356-3"><a href="interactive-maps.html#cb356-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry)</span></code></pre></div>
 <p><img src="images/leaflet_choropleth1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>It made a map with thick blue lines indicating each neighborhood. Let’s change the appearance of the graph a bit before making a popup or shading the neighborhoods The parameter <code>color</code> in <code>addPolygons()</code> changes the color of the lines - let’s change it to black. The lines are also very thick, blurring into each other and making the neighborhoods hard to see. We can change the <code>weight</code> parameter to alter the size of these lines - smaller values are thinner lines. Let’s try setting this to 1.</p>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="interactive-maps.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb356-2"><a href="interactive-maps.html#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb356-3"><a href="interactive-maps.html#cb356-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb356-4"><a href="interactive-maps.html#cb356-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb356-5"><a href="interactive-maps.html#cb356-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb356-6"><a href="interactive-maps.html#cb356-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span></span>
-<span id="cb356-7"><a href="interactive-maps.html#cb356-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="interactive-maps.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb357-2"><a href="interactive-maps.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb357-3"><a href="interactive-maps.html#cb357-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb357-4"><a href="interactive-maps.html#cb357-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb357-5"><a href="interactive-maps.html#cb357-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="images/leaflet_choropleth2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>That looks better and we can clearly distinguish each neighborhood now.</p>
 <p>As we did earlier, we can add the popup text directly to the function which makes the geographic shapes, in this case <code>addPolygons()</code>. Let’s add the <em>nhood</em> column value - the name of that neighborhood - and the number of suicides that occurred in that neighborhood. As before, when we click on a neighborhood a popup appears with the output we specified.</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="interactive-maps.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb357-2"><a href="interactive-maps.html#cb357-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb357-3"><a href="interactive-maps.html#cb357-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb357-4"><a href="interactive-maps.html#cb357-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb357-5"><a href="interactive-maps.html#cb357-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb357-6"><a href="interactive-maps.html#cb357-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span>,</span>
-<span id="cb357-7"><a href="interactive-maps.html#cb357-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste0</span>(</span>
-<span id="cb357-8"><a href="interactive-maps.html#cb357-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Neighborhood: &quot;</span>,</span>
-<span id="cb357-9"><a href="interactive-maps.html#cb357-9" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
-<span id="cb357-10"><a href="interactive-maps.html#cb357-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb357-11"><a href="interactive-maps.html#cb357-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
-<span id="cb357-12"><a href="interactive-maps.html#cb357-12" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>number_suicides</span>
-<span id="cb357-13"><a href="interactive-maps.html#cb357-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb357-14"><a href="interactive-maps.html#cb357-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="interactive-maps.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb358-2"><a href="interactive-maps.html#cb358-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb358-3"><a href="interactive-maps.html#cb358-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb358-4"><a href="interactive-maps.html#cb358-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb358-5"><a href="interactive-maps.html#cb358-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb358-6"><a href="interactive-maps.html#cb358-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">&quot;Neighborhood: &quot;</span>, </span>
+<span id="cb358-7"><a href="interactive-maps.html#cb358-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb358-8"><a href="interactive-maps.html#cb358-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb358-9"><a href="interactive-maps.html#cb358-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
+<span id="cb358-10"><a href="interactive-maps.html#cb358-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides))</span></code></pre></div>
 <p><img src="images/leaflet_choropleth3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>For these types of maps we generally want to shade each polygon to indicate how frequently the event occurred in the polygon. We’ll use the function <code>colorNumeric()</code>, which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette, which we can get from the site <a href="http://colorbrewer2.org/#type=sequential&amp;scheme=OrRd&amp;n=3">Color Brewer.</a> Let’s use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is “3-class OrRd.” The “3-class” just means we selected 3 colors, the “OrRd” is the part we want. That will tell <code>colorNumeric()</code> to make the palette using these colors. The second parameter is the column for our numeric variable, <em>number_suicides</em>.
 We will save the output of <code>colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)</code> as a new object, which we’ll call <em>pal</em> for convenience since it is a palette of colors. Then inside of <code>addPolygons()</code> we’ll set the parameter <code>fillColor</code> to <code>pal(sf_neighborhoods_suicide$number_suicides)</code>, running this function on the column. What this really does is determine which color every neighborhood should be based on the value in the <em>number_suicides</em> column.</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="interactive-maps.html#cb358-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(<span class="st">&quot;OrRd&quot;</span>, sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
-<span id="cb358-2"><a href="interactive-maps.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb358-3"><a href="interactive-maps.html#cb358-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb358-4"><a href="interactive-maps.html#cb358-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb358-5"><a href="interactive-maps.html#cb358-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb358-6"><a href="interactive-maps.html#cb358-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb358-7"><a href="interactive-maps.html#cb358-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span>,</span>
-<span id="cb358-8"><a href="interactive-maps.html#cb358-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste0</span>(</span>
-<span id="cb358-9"><a href="interactive-maps.html#cb358-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Neighborhood: &quot;</span>,</span>
-<span id="cb358-10"><a href="interactive-maps.html#cb358-10" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
-<span id="cb358-11"><a href="interactive-maps.html#cb358-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb358-12"><a href="interactive-maps.html#cb358-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
-<span id="cb358-13"><a href="interactive-maps.html#cb358-13" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>number_suicides</span>
-<span id="cb358-14"><a href="interactive-maps.html#cb358-14" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb358-15"><a href="interactive-maps.html#cb358-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
-<span id="cb358-16"><a href="interactive-maps.html#cb358-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="interactive-maps.html#cb359-1" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">colorNumeric</span>(<span class="st">&quot;OrRd&quot;</span>, sf_neighborhoods_suicide<span class="sc">$</span>number_suicides)</span>
+<span id="cb359-2"><a href="interactive-maps.html#cb359-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb359-3"><a href="interactive-maps.html#cb359-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb359-4"><a href="interactive-maps.html#cb359-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb359-5"><a href="interactive-maps.html#cb359-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb359-6"><a href="interactive-maps.html#cb359-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb359-7"><a href="interactive-maps.html#cb359-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">&quot;Neighborhood: &quot;</span>,</span>
+<span id="cb359-8"><a href="interactive-maps.html#cb359-8" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb359-9"><a href="interactive-maps.html#cb359-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb359-10"><a href="interactive-maps.html#cb359-10" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
+<span id="cb359-11"><a href="interactive-maps.html#cb359-11" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb359-12"><a href="interactive-maps.html#cb359-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides))</span></code></pre></div>
 <p><img src="images/leaflet_choropleth4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Since the neighborhoods are transparent, it is hard to distinguish which color is shown. We can make each neighborhood a solid color by setting the parameter <code>fillOpacity</code> inside of <code>addPolygons()</code> to 1.</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="interactive-maps.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb359-2"><a href="interactive-maps.html#cb359-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb359-3"><a href="interactive-maps.html#cb359-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb359-4"><a href="interactive-maps.html#cb359-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb359-5"><a href="interactive-maps.html#cb359-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb359-6"><a href="interactive-maps.html#cb359-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span>,</span>
-<span id="cb359-7"><a href="interactive-maps.html#cb359-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste0</span>(</span>
-<span id="cb359-8"><a href="interactive-maps.html#cb359-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Neighborhood: &quot;</span>,</span>
-<span id="cb359-9"><a href="interactive-maps.html#cb359-9" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
-<span id="cb359-10"><a href="interactive-maps.html#cb359-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb359-11"><a href="interactive-maps.html#cb359-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
-<span id="cb359-12"><a href="interactive-maps.html#cb359-12" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>number_suicides</span>
-<span id="cb359-13"><a href="interactive-maps.html#cb359-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb359-14"><a href="interactive-maps.html#cb359-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
-<span id="cb359-15"><a href="interactive-maps.html#cb359-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="dv">1</span></span>
-<span id="cb359-16"><a href="interactive-maps.html#cb359-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="interactive-maps.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb360-2"><a href="interactive-maps.html#cb360-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb360-3"><a href="interactive-maps.html#cb360-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb360-4"><a href="interactive-maps.html#cb360-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb360-5"><a href="interactive-maps.html#cb360-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb360-6"><a href="interactive-maps.html#cb360-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">&quot;Neighborhood: &quot;</span>,</span>
+<span id="cb360-7"><a href="interactive-maps.html#cb360-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb360-8"><a href="interactive-maps.html#cb360-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb360-9"><a href="interactive-maps.html#cb360-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
+<span id="cb360-10"><a href="interactive-maps.html#cb360-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb360-11"><a href="interactive-maps.html#cb360-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb360-12"><a href="interactive-maps.html#cb360-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="images/leaflet_choropleth5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>To add a legend to this we use the function <code>addLegend()</code>, which takes three parameters. <code>pal</code> asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods, so we’ll use the <em>pal</em> object we made. The <code>values</code> parameter is used for which column our numeric values are from, in our case the <em>number_suicides</em> column so we’ll input that. Finally <code>opacity</code> determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we’ll also set this to 1 to be consistent.</p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="interactive-maps.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb360-2"><a href="interactive-maps.html#cb360-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb360-3"><a href="interactive-maps.html#cb360-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb360-4"><a href="interactive-maps.html#cb360-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb360-5"><a href="interactive-maps.html#cb360-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb360-6"><a href="interactive-maps.html#cb360-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span>,</span>
-<span id="cb360-7"><a href="interactive-maps.html#cb360-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste0</span>(</span>
-<span id="cb360-8"><a href="interactive-maps.html#cb360-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Neighborhood: &quot;</span>,</span>
-<span id="cb360-9"><a href="interactive-maps.html#cb360-9" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
-<span id="cb360-10"><a href="interactive-maps.html#cb360-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb360-11"><a href="interactive-maps.html#cb360-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
-<span id="cb360-12"><a href="interactive-maps.html#cb360-12" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>number_suicides</span>
-<span id="cb360-13"><a href="interactive-maps.html#cb360-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb360-14"><a href="interactive-maps.html#cb360-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
-<span id="cb360-15"><a href="interactive-maps.html#cb360-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="dv">1</span></span>
-<span id="cb360-16"><a href="interactive-maps.html#cb360-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb360-17"><a href="interactive-maps.html#cb360-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(</span>
-<span id="cb360-18"><a href="interactive-maps.html#cb360-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pal =</span> pal,</span>
-<span id="cb360-19"><a href="interactive-maps.html#cb360-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
-<span id="cb360-20"><a href="interactive-maps.html#cb360-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">opacity =</span> <span class="dv">1</span></span>
-<span id="cb360-21"><a href="interactive-maps.html#cb360-21" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="interactive-maps.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb361-2"><a href="interactive-maps.html#cb361-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb361-3"><a href="interactive-maps.html#cb361-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb361-4"><a href="interactive-maps.html#cb361-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb361-5"><a href="interactive-maps.html#cb361-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb361-6"><a href="interactive-maps.html#cb361-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">&quot;Neighborhood: &quot;</span>, </span>
+<span id="cb361-7"><a href="interactive-maps.html#cb361-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb361-8"><a href="interactive-maps.html#cb361-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb361-9"><a href="interactive-maps.html#cb361-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
+<span id="cb361-10"><a href="interactive-maps.html#cb361-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb361-11"><a href="interactive-maps.html#cb361-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb361-12"><a href="interactive-maps.html#cb361-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb361-13"><a href="interactive-maps.html#cb361-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, </span>
+<span id="cb361-14"><a href="interactive-maps.html#cb361-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
+<span id="cb361-15"><a href="interactive-maps.html#cb361-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">opacity =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p><img src="images/leaflet_choropleth6.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 <p>Finally, we can add a title to the legend using the <code>title</code> parameter inside of <code>addLegend()</code>.</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="interactive-maps.html#cb361-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb361-2"><a href="interactive-maps.html#cb361-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb361-3"><a href="interactive-maps.html#cb361-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(</span>
-<span id="cb361-4"><a href="interactive-maps.html#cb361-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
-<span id="cb361-5"><a href="interactive-maps.html#cb361-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb361-6"><a href="interactive-maps.html#cb361-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="dv">1</span>,</span>
-<span id="cb361-7"><a href="interactive-maps.html#cb361-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="fu">paste0</span>(</span>
-<span id="cb361-8"><a href="interactive-maps.html#cb361-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Neighborhood: &quot;</span>,</span>
-<span id="cb361-9"><a href="interactive-maps.html#cb361-9" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
-<span id="cb361-10"><a href="interactive-maps.html#cb361-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
-<span id="cb361-11"><a href="interactive-maps.html#cb361-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
-<span id="cb361-12"><a href="interactive-maps.html#cb361-12" aria-hidden="true" tabindex="-1"></a>      sf_neighborhoods_suicide<span class="sc">$</span>number_suicides</span>
-<span id="cb361-13"><a href="interactive-maps.html#cb361-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb361-14"><a href="interactive-maps.html#cb361-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
-<span id="cb361-15"><a href="interactive-maps.html#cb361-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">fillOpacity =</span> <span class="dv">1</span></span>
-<span id="cb361-16"><a href="interactive-maps.html#cb361-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb361-17"><a href="interactive-maps.html#cb361-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(</span>
-<span id="cb361-18"><a href="interactive-maps.html#cb361-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">pal =</span> pal,</span>
-<span id="cb361-19"><a href="interactive-maps.html#cb361-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
-<span id="cb361-20"><a href="interactive-maps.html#cb361-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">opacity =</span> <span class="dv">1</span>,</span>
-<span id="cb361-21"><a href="interactive-maps.html#cb361-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Suicides&quot;</span></span>
-<span id="cb361-22"><a href="interactive-maps.html#cb361-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb361-23"><a href="interactive-maps.html#cb361-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron)</span></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="interactive-maps.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb362-2"><a href="interactive-maps.html#cb362-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb362-3"><a href="interactive-maps.html#cb362-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolygons</span>(<span class="at">data =</span> sf_neighborhoods_suicide<span class="sc">$</span>geometry,</span>
+<span id="cb362-4"><a href="interactive-maps.html#cb362-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb362-5"><a href="interactive-maps.html#cb362-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weight =</span> <span class="dv">1</span>,</span>
+<span id="cb362-6"><a href="interactive-maps.html#cb362-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">popup =</span> <span class="fu">paste0</span>(<span class="st">&quot;Neighborhood: &quot;</span>,</span>
+<span id="cb362-7"><a href="interactive-maps.html#cb362-7" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>nhood,</span>
+<span id="cb362-8"><a href="interactive-maps.html#cb362-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;&lt;br&gt;&quot;</span>,</span>
+<span id="cb362-9"><a href="interactive-maps.html#cb362-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">&quot;Number of Suicides: &quot;</span>,</span>
+<span id="cb362-10"><a href="interactive-maps.html#cb362-10" aria-hidden="true" tabindex="-1"></a>                             sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb362-11"><a href="interactive-maps.html#cb362-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillColor =</span> <span class="fu">pal</span>(sf_neighborhoods_suicide<span class="sc">$</span>number_suicides),</span>
+<span id="cb362-12"><a href="interactive-maps.html#cb362-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fillOpacity =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb362-13"><a href="interactive-maps.html#cb362-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addLegend</span>(<span class="at">pal =</span> pal, </span>
+<span id="cb362-14"><a href="interactive-maps.html#cb362-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">values =</span> sf_neighborhoods_suicide<span class="sc">$</span>number_suicides,</span>
+<span id="cb362-15"><a href="interactive-maps.html#cb362-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">opacity =</span> <span class="dv">1</span>,</span>
+<span id="cb362-16"><a href="interactive-maps.html#cb362-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">title =</span> <span class="st">&quot;Suicides&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb362-17"><a href="interactive-maps.html#cb362-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>CartoDB.Positron)  </span></code></pre></div>
 <p><img src="images/leaflet_choropleth7.PNG" width="100%" height="45%"  style="display: block; margin: auto;" /></p>
 
 </div>

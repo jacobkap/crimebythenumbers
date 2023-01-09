@@ -8,7 +8,7 @@ output:
 
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
 Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different from what we've done before. 
 
@@ -20,8 +20,7 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017, which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_1} \end{center}
+<img src="images/pdf_table_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now if we look more at the table, we can see that each row is a section of the US border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data sets will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -29,18 +28,15 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 The second table has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in the first table.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_2} \end{center}
+<img src="images/pdf_table_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The third table follows the same format, and the new columns are number of apprehensions by gender.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_3} \end{center}
+<img src="images/pdf_table_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, the fourth table is a bit different in its format. The rows are now variables, and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of the first table but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently from the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_4} \end{center}
+<img src="images/pdf_table_4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Scraping the first table
 
@@ -74,8 +70,7 @@ We can take a look at the `head()` of the result using `head(border_patrol)`.
 head(border_patrol)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_1} \end{center}
+<img src="images/pdf_scrape_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol", which tells us how many elements are in a vector.
 
@@ -94,8 +89,7 @@ Looking at just the first element in *border_patrol* gives us all the values in 
 border_patrol[1]
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_2} \end{center}
+<img src="images/pdf_scrape_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
 
@@ -124,8 +118,7 @@ Now we can look at the first six rows of this data.
 head(sector_profile)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_3} \end{center}
+<img src="images/pdf_scrape_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the (), and it'll remove any white space that is at the beginning or end of the string.
 
@@ -141,8 +134,7 @@ We have more rows than we want so let's look at the entire data and try to figur
 sector_profile
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/pdf_scrape_4} \end{center}
+<img src="images/pdf_scrape_4.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 Based on the PDF, we want every row from Miami to Nationwide Total. But here we have several rows with the title of the table and the column names, and at the end we have the sentences with some details that we don't need. 
 
@@ -175,8 +167,7 @@ Note that we're getting rid of the rows that had the column names. It's easier t
 head(sector_profile)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_5} \end{center}
+<img src="images/pdf_scrape_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When looking at this data it is clear that where the division between columns is supposed to be is a bunch of white space in each string. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 
@@ -190,6 +181,7 @@ install.packages("stringr")
 
 ```r
 library(stringr)
+# Warning: package 'stringr' was built under R version 4.2.2
 ```
 
 The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 

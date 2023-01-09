@@ -2,7 +2,7 @@
 
 # Subsetting: Making big things small {#subsetting-intro}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): offenses_known_yearly_1960_2020.rds.
 
 Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you'd subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R. 
 
@@ -282,13 +282,11 @@ numbers > 3
 
 In many cases when you are subsetting you will want to subset based on more than one condition. These "conditional statements" can be tricky for new R users since you need to remember both what conditions you need *and* the R code to write it. For a simple introduction to combining conditional statements, we'll first start with the dog food instructions for my new puppy Peanut.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/peanut} \end{center}
+<img src="images/peanut.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Here, the instructions indicate how much food to feed your dog each day. Then instructions are broken down into dog age **and** expected size (in pounds or kilograms), and the intersection of these tells you how much food to feed your dog. Even once you figure out how much to feed the dog, there's another conditional statement to figure out whether you feed them twice a day or three times a day. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/dog_food} \end{center}
+<img src="images/dog_food.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the top to figure out how much to feed your dog.^[If you encounter some conditional statements that confuse you - which will be more common as you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.] 
 
@@ -515,8 +513,7 @@ head(ucr$actual_murder)
 
 One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/tab_example} \end{center}
+<img src="images/tab_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Select specific rows
 

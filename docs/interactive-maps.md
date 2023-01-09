@@ -4,7 +4,7 @@
 
 
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
 
@@ -94,8 +94,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map1} \end{center}
+<img src="images/leaflet_map1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 When you run the above code it shows a world map (copied several times). Zoom into it, and it'll start showing relevant features of wherever you're looking.
@@ -115,8 +114,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map2} \end{center}
+<img src="images/leaflet_map2.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It now adds an icon indicating where every dispensary in our data is. You can zoom in and scroll around to see more about where the dispensaries are. There are only a few dozen locations in the data so the popups overlapping a bit doesn't affect our map too much. If we had more - such as crime data with millions of offenses - it would make it very hard to read. To change the icons to circles we can change the function `addMarkers()` to `addCircleMarkers()`, keeping the rest of the code the same.
 
@@ -132,8 +130,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map3} \end{center}
+<img src="images/leaflet_map3.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This makes the icon into circles, which take up less space than icons. To adjust the size of our icons we use the `radius` parameter in `addMarkers()` or `addCircleMarkers()`. The larger the radius, the larger the icons. 
 
@@ -148,8 +145,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map4} \end{center}
+<img src="images/leaflet_map4.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Setting the `radius` option to 5 shrinks the size of the icon a lot. In your own maps you'll have to fiddle with this option to get it to look the way you want. Let's move on to adding information about each icon when clicked upon. 
 
@@ -167,8 +163,7 @@ leaflet() %>%
                    popup = marijuana$Business_Owner)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup1} \end{center}
+<img src="images/interactive_popup1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Try clicking around and you'll see that the owner of the dispensary you clicked on appears over the dot. If you're reading the print version of this book you won't, of course, be able to click on the map. We usually want to have a title indicating what the value in the popup means. We can do this by using the `paste()` function to combine text explaining the value with the value itself. Let's add the words "Business Owner:" before the business owner column.
 
@@ -183,8 +178,7 @@ leaflet() %>%
                                  marijuana$Business_Owner))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup2} \end{center}
+<img src="images/interactive_popup2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We don't have too much information in the data, but let's add the address and license number to the popup by adding them to the `paste()` function we're using. 
 
@@ -203,8 +197,7 @@ leaflet() %>%
                                  marijuana$License_Number))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup3} \end{center}
+<img src="images/interactive_popup3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Just adding the location text makes it try to print out everything on one line, which is hard to read. If we add the text `<br>` where we want a line break, it will make one. `<br>` is the HTML tag for line-break, which is why it works making a new line in this case. 
 
@@ -225,8 +218,7 @@ leaflet() %>%
                                  marijuana$License_Number))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup4} \end{center}
+<img src="images/interactive_popup4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Dealing with too many markers
 
@@ -254,8 +246,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map_temp} \end{center}
+<img src="images/leaflet_map_temp.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Locations close to each other are grouped together in fairly arbitrary groupings, and we can see how large each grouping is by moving our cursor over the circle. Click on a circle or zoom in and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in, and it will eventually show each location as its own circle. 
 
@@ -270,7 +261,8 @@ Let's load the San Francisco suicides-by-neighborhood data that we made earlier.
 
 ```r
 library(sf)
-# Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
+# Warning: package 'sf' was built under R version 4.2.2
+# Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
 load("data/sf_neighborhoods_suicide.rda") 
 sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide, 
                                          "+proj=longlat +datum=WGS84")
@@ -286,8 +278,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth1} \end{center}
+<img src="images/leaflet_choropleth1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It made a map with thick blue lines indicating each neighborhood. Let's change the appearance of the graph a bit before making a popup or shading the neighborhoods The parameter `color` in `addPolygons()` changes the color of the lines - let's change it to black. The lines are also very thick, blurring into each other and making the neighborhoods hard to see. We can change the `weight` parameter to alter the size of these lines - smaller values are thinner lines. Let's try setting this to 1.
 
@@ -301,8 +292,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth2} \end{center}
+<img src="images/leaflet_choropleth2.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 That looks better and we can clearly distinguish each neighborhood now. 
 
@@ -323,8 +313,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth3} \end{center}
+<img src="images/leaflet_choropleth3.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 For these types of maps we generally want to shade each polygon to indicate how frequently the event occurred in the polygon. We'll use the function `colorNumeric()`, which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette, which we can get from the site [Color Brewer.](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3) Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd." The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
 We will save the output of `colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)` as a new object, which we'll call *pal* for convenience since it is a palette of colors. Then inside of `addPolygons()` we'll set the parameter `fillColor` to `pal(sf_neighborhoods_suicide$number_suicides)`, running this function on the column. What this really does is determine which color every neighborhood should be based on the value in the *number_suicides* column.
@@ -345,8 +334,7 @@ leaflet() %>%
               fillColor = pal(sf_neighborhoods_suicide$number_suicides))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth4} \end{center}
+<img src="images/leaflet_choropleth4.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since the neighborhoods are transparent, it is hard to distinguish which color is shown. We can make each neighborhood a solid color by setting the parameter `fillOpacity` inside of `addPolygons()` to 1.
 
@@ -366,8 +354,7 @@ leaflet() %>%
               fillOpacity = 1)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth5} \end{center}
+<img src="images/leaflet_choropleth5.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 To add a legend to this we use the function `addLegend()`, which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods, so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_suicides* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we'll also set this to 1 to be consistent. 
 
@@ -390,8 +377,7 @@ leaflet() %>%
             opacity = 1)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth6} \end{center}
+<img src="images/leaflet_choropleth6.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, we can add a title to the legend using the `title` parameter inside of `addLegend()`.
 
@@ -416,5 +402,4 @@ leaflet() %>%
  addProviderTiles(providers$CartoDB.Positron)  
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth7} \end{center}
+<img src="images/leaflet_choropleth7.png" width="100%" height="45%"  style="display: block; margin: auto;" />

@@ -4,7 +4,7 @@
 
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_active_marijuana_retailers.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_active_marijuana_retailers.csv.
 
 Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each crime occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
 
@@ -46,7 +46,7 @@ Now let's try again. We'll enter our data.frame *address_to_geocode* first and t
 
 ```r
 geocode(address_to_geocode, address)
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -59,7 +59,7 @@ You might be wondering why we put "address" into `geocode()` without quotes when
 
 ```r
 geocode(address_to_geocode, "address")
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -75,7 +75,7 @@ At the time of this writing the `tidygeocoder` package can handle geocoding from
 ```r
 example <- geocode(address_to_geocode, "address", method = "osm")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -85,7 +85,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "census")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -95,7 +95,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -306,8 +306,6 @@ No more NAs, which means that we successfully geocoded our addresses. Another ch
 plot(marijuana$long, marijuana$lat)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 

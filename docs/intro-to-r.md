@@ -1,6 +1,6 @@
 # Introduction to R and RStudio {#intro-to-r}
 
-In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/r4crimz/tree/master/data)
+In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data)
 
 
 ## Using RStudio
@@ -11,8 +11,7 @@ RStudio is the interface we use to work with R. It has a number of features to m
 
 When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the following image - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_1} \end{center}
+<img src="images/rstudio_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 At the top right of the image (and this may be in a different location on your RStudio) is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
@@ -28,8 +27,7 @@ While the Source and Console panels are the ones that are of most use, there are
 
 When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available: R Presentation which can make PowerPoints; R Markdown, which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \@ref(r-markdown)); and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this, but keep in mind the wide capabilities of R if you have another task to do. To open an R Script that is already saved to your computer, click "Open File..." and navigate to the file that you want to open.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_2} \end{center}
+<img src="images/rstudio_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Setting the working directory
 
@@ -37,8 +35,7 @@ Many research projects incorporate data that someone else (such as the FBI or a 
 
 We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" (or the "Folders where I want you, R, to look for my data" in more simple terms). To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_3} \end{center}
+<img src="images/rstudio_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. Copy the line of code that says `setwd()` (which stands for "set working directory"), including everything in the parentheses, to your R Script when you start working. 
 
@@ -46,8 +43,7 @@ After clicking Open in that window you'll see a new line of code in the Console 
 
 Your RStudio looks different than my RStudio because I changed a number of settings to suit my preferences. To do so yourself click the Tools tab on the top menu and then click Global Options.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_5} \end{center}
+<img src="images/rstudio_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This opens up a window with a number of different tabs to change how R behaves and how it looks. 
 
@@ -57,15 +53,13 @@ Under Workspace  in the General tab make sure to **uncheck** the "Restore .RData
 
 You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be, but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_6} \end{center}
+<img src="images/rstudio_6.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Code
 
 The Code tab lets you specify how you want the code to be displayed. The important section for us is to make sure to check the "Soft-wrap R source files" check-box. If you write a very long line of code it gets too big to view all at once and you must scroll to the right to read it all. That can be annoying as you won't be able to see all the code at once. Setting "Soft-wrap" makes it so if a line is too long it will just be shown on multiple lines, which solves that issue. In practice it is best to avoid long lines of codes as it makes it hard to read, but that isn't always possible. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_7} \end{center}
+<img src="images/rstudio_7.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ##### Saving
 
@@ -73,15 +67,13 @@ Inside of the Code tab we also want to turn on an option to have RStudio automat
 
 To set it to autosave, move to the Saving tab, and check the "Automatically save when editor loses focus" box. So if you click out of RStudio or stop typing, it will automatically save. You can also say how long to wait before saving with options ranging from 500 milliseconds to 10,000 milliseconds, which is the same as 0.5 seconds to 10 seconds.  
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/auto_save} \end{center}
+<img src="images/auto_save.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Appearance
 
 The Appearance tab lets you change the background, color, and size of text. Change it to your preferences. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_8} \end{center}
+<img src="images/rstudio_8.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Pane Layout
 
@@ -89,15 +81,13 @@ The final tab we'll look at is Pane Layout. This lets you move around the Source
 
 As we'll discuss more in Section \@ref(functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting RStudio) so you can scroll through the plots. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/rstudio_9} \end{center}
+<img src="images/rstudio_9.PNG" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 ### Helpful cheat sheets
 
 RStudio also includes a number of links to helpful cheat sheets for a few important topics. To get to it click Help, then Cheatsheets, and click on whichever one you need. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/rstudio_4} \end{center}
+<img src="images/rstudio_4.PNG" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 ## Assigning variables {#assignment}
 
@@ -182,8 +172,7 @@ If you are having trouble understanding what a function does or how to use it, y
 
 If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page.  Unfortunately, many help pages are not that useful. The following image shows the help page for `head()`, and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow,](https://stackoverflow.com/) where people can ask questions about programming. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/help_page} \end{center}
+<img src="images/help_page.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 For `head()`, all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one of a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out data to the console; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being information about the car such as the miles per gallon it gets and how many gears it has.
 
@@ -214,8 +203,7 @@ install.packages("caesar")
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown in the following image where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button, which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/install_packages} \end{center}
+<img src="images/install_packages.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Once we have downloaded the package, we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. We need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting RStudio. The way to do this is to use the function `library()`, where we put the package name in the parentheses. Since the package is something that has been installed to R, we don't need to have quotes around the name.
 
@@ -329,9 +317,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
+<img src="intro-to-r_files/figure-html/unnamed-chunk-26-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data. 
 
@@ -339,3 +325,6 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 ```r
 View(ucr2017)
 ```
+
+
+<img src="images/view_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />

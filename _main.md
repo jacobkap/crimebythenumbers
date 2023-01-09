@@ -1,6 +1,6 @@
 --- 
 title: "Crime by the Numbers: A Criminologist's Guide to R"
-date: "2022-10-12"
+date: "2023-01-07"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -22,7 +22,11 @@ graphics: yes
 \frontmatter
 # Preface {-}
 
+
+
 This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
+
+If you would like to purchase a physical copy of this book, it is available from [Amazon](https://www.amazon.com/Criminologists-Guide-Crime-Numbers-Chapman/dp/1032244070/?_encoding=UTF8&pd_rd_w=Ia4RG&content-id=amzn1.sym.e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_p=e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_r=G1A0TFSVYNG3GP667X0F&pd_rd_wg=uZ6xj&pd_rd_r=82e214d8-720f-492b-b5b5-df9b6d52d95a&ref_=pd_gw_ci_mcx_mr_hp_atf_m). 
 
 For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (the free version).](https://www.rstudio.com/products/rstudio/download/) We'll get into detail on what R and  RStudio are soon, but please have them both installed to be able to follow along with each chapter. While you must install both, you only ever need to open RStudio. While R is the actual programming language, RStudio is a program that makes it a lot easier to interact with R than opening up the R application itself.^[This is formally known as an "integrated development environment" or an IDE.] I highly recommend following along with the code for each lesson and then trying to use the lessons learned on a data set that you are interested in.  
 
@@ -88,7 +92,7 @@ This book is written so a person who has no programming experience can start wit
 
 If this book was useful in your research, please cite it. To cite this book, please use the below citation: 
 
-Kaplan J (2021). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
+Kaplan J (2022). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
 
 BibTeX format:
 
@@ -96,7 +100,7 @@ BibTeX format:
 @Manual{crimebythenumbers,
   title = {Crime by the Numbers: A Criminologist's Guide to R},
   author = {Jacob Kaplan},
-  year = {2021},
+  year = {2022},
   url = {https://crimebythenumbers.com/},
 }
 ```
@@ -107,21 +111,19 @@ If you have any questions, suggestions (such as a topic to cover), or find any i
 
 For more minor issues like typos or grammar mistakes, you can edit the book directly through its GitHub page. That'll make an update for me to accept, which will change the book to include your edit. To do that, click the edit button at the top of the site - the button is highlighted in the below figure. You will need to make a GitHub account to make edits. When you click on that button you'll be taken to a page that looks like a Word doc where you can make edits. Make any edits you want and then scroll to the bottom of the page. There you can write a short (please, no more than a sentence or two) description of what you've done and then submit the changes for me to review.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/edit_button} \end{center}
+<img src="images/edit_button.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Please only use the above two methods to contribute or make suggestions about the book. Don't email me. While it's a bit more work for you to do it this way, since you'll need to make a GitHub account if you don't already have one, it helps me. I wrote this book, in part, to help my career so having evidence that people read it and are contributing to it is important to me. It's a way to publicly measure the book's impact. 
 
 ## Where to find data included in this book {-}
 
-To download the data used in this book please see [here.](https://github.com/jacobkap/r4crimz/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
+To download the data used in this book please see [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
 
 ## Where to find code included in this book {-}
 
 If you're reading this book through its [website,](https://crimebythenumbers.com) you can easily copy the code by clicking on the "Copy to clipboard" option on the top right of every chunk of code. This button, shown in the image below, will copy all of the code in the chunk and you can then paste (through Control/Command+V) into R.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/copy_code} \end{center}
+<img src="images/copy_code.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 I've also made each chapter available to download as an R file that has every line of code used in each chapter available to you to run. To download the files, please go to the book's GitHub page [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/code_repository) I've saved each chapter twice - once where it only includes the code used (in the "just_code" folder) and once where it includes the code and all of the text in the chapter (in the "code_and_text" folder). So download whichever one you want to use. The code is identical in each. 
 
@@ -131,7 +133,7 @@ I've also made each chapter available to download as an R file that has every li
 # About the author {-}
 
 
-**Jacob Kaplan** is the a researcher at the Princeton School of Public and International Affairs. He holds a PhD from the University of Pennsylvania. 
+**Jacob Kaplan** is a researcher at the Princeton School of Public and International Affairs. He holds a PhD from the University of Pennsylvania. 
 
 He is the author of several R packages that make it easier to work with data, including  [fastDummies](https://jacobkap.github.io/fastDummies/) and [asciiSetupReader.](https://jacobkap.github.io/asciiSetupReader/) His [website](http://jacobdkaplan.com/) allows easy analysis of crime-related data, and he has released over a [dozen crime data sets](http://jacobdkaplan.com/data.html) that he has compiled, cleaned, and made available to the public. He is also the author of books on the two primary criminal justice data sets: the FBI's [Uniform Crime Reporting (UCR) Program Data](https://ucrbook.com/) and the FBI's [National Incident Based Reporting System (NIBRS)](https://nibrsbook.com/) data. 
 
@@ -146,7 +148,7 @@ He is the author of several R packages that make it easier to work with data, in
 
 # A soup to nuts project example
 
-Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/r4crimz/tree/master/data) The file is called "shr_1976_2020.rds".
+Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) The file is called "shr_1976_2020.rds".
 
 ## Big picture data example
 
@@ -158,8 +160,7 @@ At the time of this writing, the FBI had just released 2020 crime data, which sh
 
 The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data, which technically does have a variable that says if the murder is gang related, but it's a very flawed variable (i.e. vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a rough proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and it was not driven merely by an increase in one or a few groups. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/shr_motivation_example} \end{center}
+<img src="images/shr_motivation_example.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site [FiveThirtyEight](https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/) in discussing the murder increase in 2020. So this is an actual work product that is used in a major media publication - and is something that you'll be able to do by the end of this book. For nearly all research you do you'll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.
 
@@ -177,6 +178,7 @@ library(dplyr)      # Used to aggregate data
 # 
 #     intersect, setdiff, setequal, union
 library(ggplot2)    # Used to make the graph
+# Warning: package 'ggplot2' was built under R version 4.2.2
 library(crimeutils) # Used to capitalize words in a column
 library(tidyr)      # Used to reshape the data
 
@@ -231,14 +233,12 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-2-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Little picture data example
 
@@ -310,7 +310,7 @@ shr_difference <-
   filter(`2019` >= 50) %>%
   arrange(percent_change)
 shr_difference
-# # A tibble: 16 x 5
+# # A tibble: 16 × 5
 #    victim_1_relation_to_offender_1 `2019` `2020` difference percent_change
 #    <chr>                            <int>  <int>      <int>          <dbl>
 #  1 Wife                               330    294        -36         -10.9 
@@ -345,14 +345,12 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Reusing and modifying code
 
@@ -385,15 +383,13 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-8-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:example-project.Rmd-->
 
 # Introduction to R and RStudio {#intro-to-r}
 
-In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/r4crimz/tree/master/data)
+In this chapter you'll learn to open a data file in R. That file is "ucr2017.rda," which you'll need to download from the data repository available [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data)
 
 
 ## Using RStudio
@@ -404,8 +400,7 @@ RStudio is the interface we use to work with R. It has a number of features to m
 
 When you open up RStudio you'll see four panels, each of which plays an important role in RStudio. Your RStudio may not look like the setup I have in the following image - that is fine, we'll learn how to change the appearance of RStudio soon. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_1} \end{center}
+<img src="images/rstudio_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 At the top right of the image (and this may be in a different location on your RStudio) is the Console panel. Here you can write code, hit enter/return, and R will run that code. If you write `2+2` it will return (in this case that just mean it will print an answer) 4. This is useful for doing something simple like using R as a calculator or quickly looking at data. In most cases during research this is where you'd do something that you don't care to keep. This is because when you restart R it won't save anything written in the Console. To do reproducible research or to be able to collaborate with others you need a way to keep the code you've written. 
 
@@ -421,8 +416,7 @@ While the Source and Console panels are the ones that are of most use, there are
 
 When you want to open up a new R Script you can click File on the very top left, then R Script. It will open up the script in a new tab inside of the Source panel. There are also a number of other file options available: R Presentation which can make PowerPoints; R Markdown, which can make Word Documents or PDFs that incorporate R code used to make tables or graphs (and which we'll cover in Chapter \@ref(r-markdown)); and Shiny Web App to make websites using R. There is too much to cover for an introductory book such as this, but keep in mind the wide capabilities of R if you have another task to do. To open an R Script that is already saved to your computer, click "Open File..." and navigate to the file that you want to open.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_2} \end{center}
+<img src="images/rstudio_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Setting the working directory
 
@@ -430,8 +424,7 @@ Many research projects incorporate data that someone else (such as the FBI or a 
 
 We need to tell R explicitly which folder has the data to load. We do this by setting the "Working Directory" (or the "Folders where I want you, R, to look for my data" in more simple terms). To set a working directory in R click the Session tab on the top menu, scroll to Set Working Directory, then click Choose Directory. This will open a window where you can navigate to the folder you want. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_3} \end{center}
+<img src="images/rstudio_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 After clicking Open in that window you'll see a new line of code in the Console starting with `setwd()` and inside of the parentheses is the route your computer takes to get to the folder you selected. And now R knows which folder to look in for the data you want. It is good form to start your R Script with `setwd()` to make sure you can load the data. Copy the line of code that says `setwd()` (which stands for "set working directory"), including everything in the parentheses, to your R Script when you start working. 
 
@@ -439,8 +432,7 @@ After clicking Open in that window you'll see a new line of code in the Console 
 
 Your RStudio looks different than my RStudio because I changed a number of settings to suit my preferences. To do so yourself click the Tools tab on the top menu and then click Global Options.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_5} \end{center}
+<img src="images/rstudio_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This opens up a window with a number of different tabs to change how R behaves and how it looks. 
 
@@ -450,15 +442,13 @@ Under Workspace  in the General tab make sure to **uncheck** the "Restore .RData
 
 You want your code to run from start to finish without any errors. Something I've seen many students do is write some code in the Console (or in their R Script but out of order of how it should be run) to fix an issue with the data. This means their data is how it should be, but when the R session restarts (such as if the computer restarts) they won't be able to get back to that point. Making sure your code handles everything from start to finish is well-worth the avoided headache of trying to remember what code you did to fix the issue previously. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_6} \end{center}
+<img src="images/rstudio_6.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Code
 
 The Code tab lets you specify how you want the code to be displayed. The important section for us is to make sure to check the "Soft-wrap R source files" check-box. If you write a very long line of code it gets too big to view all at once and you must scroll to the right to read it all. That can be annoying as you won't be able to see all the code at once. Setting "Soft-wrap" makes it so if a line is too long it will just be shown on multiple lines, which solves that issue. In practice it is best to avoid long lines of codes as it makes it hard to read, but that isn't always possible. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_7} \end{center}
+<img src="images/rstudio_7.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ##### Saving
 
@@ -466,15 +456,13 @@ Inside of the Code tab we also want to turn on an option to have RStudio automat
 
 To set it to autosave, move to the Saving tab, and check the "Automatically save when editor loses focus" box. So if you click out of RStudio or stop typing, it will automatically save. You can also say how long to wait before saving with options ranging from 500 milliseconds to 10,000 milliseconds, which is the same as 0.5 seconds to 10 seconds.  
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/auto_save} \end{center}
+<img src="images/auto_save.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Appearance
 
 The Appearance tab lets you change the background, color, and size of text. Change it to your preferences. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rstudio_8} \end{center}
+<img src="images/rstudio_8.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 #### Pane Layout
 
@@ -482,15 +470,13 @@ The final tab we'll look at is Pane Layout. This lets you move around the Source
 
 As we'll discuss more in Section \@ref(functions-intro), the Help tab will open up to show you a help page for a function you want more information on (we'll also discuss exactly what a function is below. But for now just think of a function as a shortcut to using code that someone else wrote). The Plots tab will display any plot you make. It also keeps all plots you've made (until restarting RStudio) so you can scroll through the plots. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/rstudio_9} \end{center}
+<img src="images/rstudio_9.PNG" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 ### Helpful cheat sheets
 
 RStudio also includes a number of links to helpful cheat sheets for a few important topics. To get to it click Help, then Cheatsheets, and click on whichever one you need. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/rstudio_4} \end{center}
+<img src="images/rstudio_4.PNG" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 ## Assigning variables {#assignment}
 
@@ -575,8 +561,7 @@ If you are having trouble understanding what a function does or how to use it, y
 
 If we wrote `help(head)` to figure out what the `head()` function does, it will open up this page.  Unfortunately, many help pages are not that useful. The following image shows the help page for `head()`, and it is not very friendly to a new R programmer. In cases where the help page is not useful, and you're looking at functions not covered in this book, I recommend looking online for help pages dedicated to that function or broader programming sites such as [Stack Overflow,](https://stackoverflow.com/) where people can ask questions about programming. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/help_page} \end{center}
+<img src="images/help_page.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 For `head()`, all we need to do is tell the function what data we're looking at. In programming terms, the input to the function (what we have to include in the parentheses) is the name of our data object. We'll look at the very commonly used data called `mtcars`. `mtcars` is one of a small number of data files that are already in R when you open it. These are included in R just as examples of data to use when testing our code or teaching people to use R. Just type `mtcars` into the console and it will print out data to the console; there's nothing you need to do to load the data into R. `mtcars` has info about a number of cars with each row being a type of car and each column being information about the car such as the miles per gallon it gets and how many gears it has.
 
@@ -607,8 +592,7 @@ install.packages("caesar")
 
 The RStudio shortcut way is to go to the Packages tab and then click Install on the top left of this tab. This will open up a window as shown in the following image where you can enter the name of the package you want. Then click Install and RStudio will install it for you. Also in this tab is the Update button, which allows you to update packages that you have already installed. Since R programmers generally provide updates to their packages (usually bug fixes but occasionally new features and new functions), it's important to update your packages every several months or so.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/install_packages} \end{center}
+<img src="images/install_packages.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Once we have downloaded the package, we need to tell R that we want to use that package. There are thousands of R packages and you'll likely have hundreds downloaded before long (if a package relies on other packages to work it'll download those too. So even if you install a single package it may also install other packages necessary for the package you want). Some packages have functions with the same name (but they do different things) so using all packages at once will cause issues since we won't know which functions we're actually using. So we only want to use the packages we need for that task. We need a way to tell R that we want to use a package. We only need to do this once per session - that is, once before restarting RStudio. The way to do this is to use the function `library()`, where we put the package name in the parentheses. Since the package is something that has been installed to R, we don't need to have quotes around the name.
 
@@ -722,9 +706,7 @@ To do so we must specify which column is displayed on the x-axis and which one i
 plot(x = ucr2017$actual_murder, y = ucr2017$actual_assault_aggravated)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
+<img src="intro-to-r_files/figure-html/unnamed-chunk-26-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, `View()` opens essentially an Excel file of the data set you put inside the (). This allows you to look at the data as if it were in Excel (though you can't edit the data at all here) and is a good way to start to understand the data. 
 
@@ -732,6 +714,9 @@ Finally, `View()` opens essentially an Excel file of the data set you put inside
 ```r
 View(ucr2017)
 ```
+
+
+<img src="images/view_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:intro-to-r.Rmd-->
 
@@ -1105,7 +1090,7 @@ matrix(c("1", 2:50), nrow = 5, ncol = 5)
 
 # Reading and writing data
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
 
 So far in these lessons we've used data from a number of sources, but which came as .rda or .rds files, which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda or .rds files but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson, we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
@@ -1165,18 +1150,17 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 
 ```r
 head(shootings)
-# # A tibble: 6 x 14
-#      id name     date       manne~1 armed   age gender race  city  state signs~2
+# # A tibble: 6 × 14
+#      id name     date       manne…¹ armed   age gender race  city  state signs…²
 #   <dbl> <chr>    <date>     <chr>   <chr> <dbl> <chr>  <chr> <chr> <chr> <lgl>  
-# 1     3 Tim Ell~ 2015-01-02 shot    gun      53 M      A     Shel~ WA    TRUE   
-# 2     4 Lewis L~ 2015-01-02 shot    gun      47 M      W     Aloha OR    FALSE  
-# 3     5 John Pa~ 2015-01-03 shot a~ unar~    23 M      H     Wich~ KS    FALSE  
-# 4     8 Matthew~ 2015-01-04 shot    toy ~    32 M      W     San ~ CA    TRUE   
-# 5     9 Michael~ 2015-01-04 shot    nail~    39 M      H     Evans CO    FALSE  
-# 6    11 Kenneth~ 2015-01-04 shot    gun      18 M      W     Guth~ OK    FALSE  
-# # ... with 3 more variables: threat_level <chr>, flee <chr>, body_camera <lgl>,
-# #   and abbreviated variable names 1: manner_of_death,
-# #   2: signs_of_mental_illness
+# 1     3 Tim Ell… 2015-01-02 shot    gun      53 M      A     Shel… WA    TRUE   
+# 2     4 Lewis L… 2015-01-02 shot    gun      47 M      W     Aloha OR    FALSE  
+# 3     5 John Pa… 2015-01-03 shot a… unar…    23 M      H     Wich… KS    FALSE  
+# 4     8 Matthew… 2015-01-04 shot    toy …    32 M      W     San … CA    TRUE   
+# 5     9 Michael… 2015-01-04 shot    nail…    39 M      H     Evans CO    FALSE  
+# 6    11 Kenneth… 2015-01-04 shot    gun      18 M      W     Guth… OK    FALSE  
+# # … with 3 more variables: threat_level <chr>, flee <chr>, body_camera <lgl>,
+# #   and abbreviated variable names ¹​manner_of_death, ²​signs_of_mental_illness
 ```
 
 We can convert it to a data.frame using the function `as.data.frame()` though that isn't strictly necessary since tibbles and data.frames operate so similarly.
@@ -1360,14 +1344,17 @@ One of the biggest challenges I had early in my PhD was figuring out what data w
 Below are two images from a recent project of mine with the tables and graphs that I wanted sketched out. Note that in the image showing my graphs I have crossed out the first graph. These sketches are just preliminary tools to help your work, you aren't chained to them. Like any tool, if it is no longer relevant or useful, find something new. For regression result tables especially, sketching these out helps you think about what variables you will need to have to run the regression. For example, you may want to have control variables for demographics in your geographic unit (say, from the US Census). If we continue our example of using the US Border Patrol data, this means that you'll also need to grab, clean, and merge Census data to your other data sets. Sketching out the resulting tables and graphs is a good tool to figure out steps that you'll need to do for the project but may have not thought of. 
 
 
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-1-1} \end{center}
+```
+# Warning: package 'ggplot2' was built under R version 4.2.2
+```
+
+<img src="workflow_files/figure-html/unnamed-chunk-1-1.png" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 ## R Projects
 
 We've talked about projects in an abstract sense - that they are research papers or specific data exploration jobs. RStudio provides, a bit confusingly, something called an R Project, which is merely a helpful way to organize folders for a specific project (paper, data exploration, etc.) that you do. When you do a project, I recommend keeping *everything* for that project in a single folder on your computer. Below is an image showing all of the folders I use for my various R work. As you can see from the file names, each folder is for a separate project, and there is not overlap between them - each project is independent. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/projects} \end{center}
+<img src="images/projects.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 First, I'll explain how to set up an R Project through RStudio, and why you would want to do it. There are two main reasons to want to use an R Project. First, throughout this book I had you set your working directory so that R knew where to look for a particular file. In R Projects, by default the working directory is in that project's folder. So if you had a file `example.csv` in your project folder, you wouldn't need to set a working directory since R would already be looking in that folder.
 
@@ -1375,42 +1362,35 @@ This may be a minor time-saving method if you're working alone since you'd only 
 
 To make an R Project, start by clicking the *File* button on the top-left corner of RStudio and then click *New Project*. This will open up a window that has three options: New Directory, Existing Directory, and Version Control. New Directory says that the project we are making is going to be in a brand-new folder that we're (R will do this automatically) going to create. This is the one you'll click on in the majority of cases. Existing Directory is for making a folder in an existing folder, which doesn't have too many useful cases. The Version Control is taking a project that someone else has created and downloading it to your computer. We'll cover this more in Chapter \@ref(git). 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/new_project_1} \end{center}
+<img src="images/new_project_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Once you've clicked New Directory, it'll change the window to ask you what type of project you want. The following two figures show all the different types of projects R can make (installing some R packages, such as `bookdown`, can add more types of projects to this list). R is very versatile and has project types ranging from the standard R Project to books and websites. We just want a standard project so click the New Project button at the top. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.35\textheight,]{images/new_project_2} \end{center}
+<img src="images/new_project_2.PNG" width="100%" height="35%"  style="display: block; margin: auto;" />
 
 Now it'll have a window that says Create New Project up top. In the Directory name: section you write the name of your R Project. This will be the name of your folder so you want it descriptive enough to understand (and for collaborators to understand) what it is for, without being overly long. Once you have a name you can click the Browse... button on the right and go to the folder on your computer where you want to put this folder (ideally, you'll put it in a folder that is backed up by something like DropBox). Make sure the *Create a git repository* checkbox is selected, and we'll explain why in Chapter \@ref(git). Click Create Project and R will make the project folder on your computer and open that project in RStudio.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.35\textheight,]{images/new_project_4} \end{center}
+<img src="images/new_project_4.PNG" width="100%" height="35%"  style="display: block; margin: auto;" />
 
 Below are images of a brand new R Project that I made called *example* that I put in my Desktop folder. The folder is now empty except for two files - .gitignore (which we won't talk about here) and *example* which is type "R Project" (and the full name would be *example.Rproj*). This is a **very** important file. Note that its name is the same as the R Project name that I made, and the same as the folder name on my computer. This file is essentially a shortcut that you click to open that R Project. It doesn't do anything more than open the R Project, but this is the way you'll access the project every time you want to use it. Double-click this and the R Project will open. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.35\textheight,]{images/new_project_6} \end{center}
+<img src="images/new_project_6.PNG" width="100%" height="35%"  style="display: block; margin: auto;" />
 
 This RStudio session looks nearly identical to other sessions that we've used - and it is nearly identical. A few key differences can be found in the top-left corner where it says "example - RStudio," indicating that we're in the *example* R Project. And then directly below the "Console" tab it says "C:/Users/user/Desktop/example/". This is the working directory of this project. I didn't set it; R just knew where it was. If you move this folder to a new folder (say, the Downloads folder) or if someone else downloads it to their computer, R will automatically change the working directory to the right one. You no longer have to worry about it.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.35\textheight,]{images/new_project_5} \end{center}
+<img src="images/new_project_5.PNG" width="100%" height="35%"  style="display: block; margin: auto;" />
 
 ### Folders
 
 Now that we have the R Project made, we need to start adding some R code and data files to the project so we can get started working. But first, let's talk about proper ways to organize the folder. I've added a few new folders to the new *example* R Project as the basic layout of my work process. This is for a research-oriented project so it may not apply in your particular case. Organizing your folders (and as we'll see below, your code) is important so please play around with different ways to organize and find a way that works well for you. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/new_project_7} \end{center}
+<img src="images/new_project_7.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 I've added five folders to the R Project folder: analysis, articles, data, drafts, and R (note that I moved it to the Downloads folder, and if I opened the project RStudio would know where the new working directory was). I tend to do my analysis using Stata (primarily because most of my co-authors use Stata instead of R so this is a way we can both work on the analysis) so in the analysis folder I'd keep all of the .do (Stata) files to run the regressions. In articles, I put PDFs of every article I read that I use (or planned to use while reading it) for the paper I'm working on in this project. It's good to keep this organized to share with co-authors or just for easy reference after you've read it. It certainly takes time to find good sources for a lot of research, so you don't want to have to search again because you've forgotten which article you had a particular reference from or that was important to your study. While I recommend writing your papers in R Markdown (see Chapter \@ref(r-markdown)), you will need to create drafts of the paper to send to others (e.g. your collaborators or journals). The "drafts" folder is a good place to keep these versions - some journals require that you submit a Word Document with track-changes for a revise and resubmit so you will need to leave R Markdown occasionally to comply with these rules.
 
 The final two important folders are "R" and "data." In the R folder - as you may have guessed - belong the various R scripts that you write during the project. In Section \@ref(modular-r-scripts), we'll talk in detail as to how to organize these scripts. Inside the "data" folder I made two subfolders: "raw" and "clean." The raw folder is where you'll store the data exactly as you got it (for cases where the data is acquired through webscraping, this isn't necessary). This folder will have, for example, the PDFs that you intend to scrape, or .csv files with crime data in them. It is important to keep this data always unchanged (change it only in R and save the output to a new file) so you can replicate your results from the original data. In the clean folder is that final data output from your work to clean and manipulate (e.g. subset, aggregate) the data. It isn't strictly necessary to even output a final data set - you could just rerun your code from the original data each time, and this is fine if your code is very quick to run - but it is important both for safekeeping and to be able to share with others. If you collaborate with people, you'll want to be able to send them the data so they can examine it without having to run all of your code themselves. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/new_project_8} \end{center}
+<img src="images/new_project_8.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Modular R scripts
 
@@ -1418,8 +1398,7 @@ If you are like many people who start programming, all of your code will be in a
 
 When you're writing a paper you don't just write one extremely long sentence. You break up ideas into paragraphs and divide groups of paragraphs into larger sections. This is useful in a paper to organize your thoughts and to make it readable for others. It's also useful when working since you know, for example, "Section 1 is done, but I still need to finish Section 2 and the last part of Section 3." This way you don't confront working on the entire paper at once. You'll want to follow these lessons in the code you write, with each "section" of code being its own R script and within a script split up code into particular "paragraphs." The end goal should be to have modular R scripts, with each script being independent (or relatively so) and the combination of these parts has all the code for your particular project. This is a bit of an abstract concept so let's use a real example from one of my recent projects.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/modular_scripts} \end{center}
+<img src="images/modular_scripts.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Above is a folder for the code used to analyze data for a paper examining perceptions of outdoor lighting. There are five R scripts in the folder - clean.R, census.R, tables.R, graphs.R, and utils.R - and these are the only ones used for this project.^[The analysis was done in Stata so there are separate files for that.] Each of these files (utils.R is an exception) has a particular role to play in the analysis of the data. The first file, clean.R is just code that cleans up the survey data and makes it ready to be analyzed and graphed. The census.R file has code that cleans Census data that my co-author and I use to compare our survey sample to the general public. As this is a separate data set than the survey data, I have it in its own R script. tables.R and graphs.R are the code to make descriptive statistics tables and figures for the paper, respectively. I chose these files because they are doing fairly separate tasks, all with the goal of turning raw data into a research paper. 
 
@@ -1435,13 +1414,11 @@ The goal of making modular code is to avoid having a large amount of code withou
 
 When you have major parts of an R script, you should have something to indicate that this is a distinct section from other parts. RStudio has a handy tool to help make that distinction by creating sections in your R script. Press the keys Control+Shift+R (Command+Shift+R in a Mac), and it will open up a window where you can set a section label. Write the name of the section you want and click OK, and it'll add that to where your cursor was in the R Script. You can also do this by simply adding four dashes on the end of a comment.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/section_label1} \end{center}
+<img src="images/section_label1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Sections are more than just commented parts of a Script. Note that in the following screenshot, there is both the Section label in the R Script and that same label in a new section of the Source tab on the right. You can get to this section by clicking on the button on the very top right, the one that looks like a bunch of misaligned lines. In here, it shows all the Sections that exist and clicking the Section name will move to the start of that Section in your R Script. If you have a long script (which is generally unadvised but sometimes can't be helped), this is an easy way to find a particular part of your code. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/section_label2} \end{center}
+<img src="images/section_label2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Helper R scripts
 
@@ -1512,23 +1489,19 @@ I include this chapter early in the book - and likely before you are really comf
 
 To open up an R Markdown file click File from the top menu, then New File, and then R Markdown...
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/markdown1} \end{center}
+<img src="images/markdown1.png" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 From here it'll open up a window where you select the title, author, and type of output. You can always change all three of these selections right in the R Markdown file after making your selection here. Selecting PDF may require you to download additional software to get it to output - some operating systems may already have the software installed. For a nice guide to making PDFs with R Markdown, see  [here.](https://medium.com/@sorenlind/create-pdf-.reports-using-r-r-markdown-latex-and-knitr-on-windows-10-952b0c48bfa9)
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/markdown2} \end{center}
+<img src="images/markdown2.png" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 When you click OK, it will open a new R Markdown file that is already populated with example text and code. You can delete this entirely or modify it as needed.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.4\textheight,]{images/markdown6} \end{center}
+<img src="images/markdown6.PNG" width="100%" height="40%"  style="display: block; margin: auto;" />
 
 When you output that file as a PDF it will look like the image below.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/markdown_output_example} \end{center}
+<img src="images/markdown_output_example.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 R converted the file into a PDF, running the code and using the formatting specified. In an R Script a `#` means that the line is a comment. In an R Markdown file, the `#` signifies that the line is a section header. There are 6 possible headers, made by combining the `#` together - a `#` is the largest header while `######` is the smallest header. As with comments, they must be at the beginning of a line. 
 
@@ -1542,13 +1515,11 @@ The reason R Markdown is so useful is because you can include code output in the
 
 To make a chunk click Insert near the top right, then R.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/markdown3} \end{center}
+<img src="images/markdown3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It will then make an empty code chunk where your cursor is. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/chunk_example} \end{center}
+<img src="images/chunk_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Notice the three \` at the top and bottom of the chunk. Don't touch these! They tell R that anything in it is a code chunk (i.e. that R should run the code). Inside the squiggly brackets `{}` are instructions about how the code is outputted. Here you can specify, among other things if the code will be outputted or just the output itself, captions for tables or graphs, and formatting for the output. Include all of these options after the `r` in the squiggly brackets. Multiple options must be separated by a comma (just like options in normal R functions).  
 
@@ -1568,8 +1539,7 @@ You can also include R code directly in the text of your document and it will re
 
 The data set mtcars has 32 rows and 11 columns. The mean of the mpg column is 20.090625. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/inline_code} \end{center}
+<img src="images/inline_code.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Tables
 
@@ -1584,26 +1554,17 @@ mtcars_small <- mtcars[1:5, 1:5]
 kable(mtcars_small, caption = "This is an example table caption")
 ```
 
-\begin{table}
 
-\caption{(\#tab:unnamed-chunk-8)This is an example table caption}
-\centering
-\begin{tabular}[t]{l|r|r|r|r|r}
-\hline
-  & mpg & cyl & disp & hp & drat\\
-\hline
-Mazda RX4 & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Mazda RX4 Wag & 21.0 & 6 & 160 & 110 & 3.90\\
-\hline
-Datsun 710 & 22.8 & 4 & 108 & 93 & 3.85\\
-\hline
-Hornet 4 Drive & 21.4 & 6 & 258 & 110 & 3.08\\
-\hline
-Hornet Sportabout & 18.7 & 8 & 360 & 175 & 3.15\\
-\hline
-\end{tabular}
-\end{table}
+
+Table: (\#tab:unnamed-chunk-8)This is an example table caption
+
+|                  |  mpg| cyl| disp|  hp| drat|
+|:-----------------|----:|---:|----:|---:|----:|
+|Mazda RX4         | 21.0|   6|  160| 110| 3.90|
+|Mazda RX4 Wag     | 21.0|   6|  160| 110| 3.90|
+|Datsun 710        | 22.8|   4|  108|  93| 3.85|
+|Hornet 4 Drive    | 21.4|   6|  258| 110| 3.08|
+|Hornet Sportabout | 18.7|   8|  360| 175| 3.15|
 
 For another package to make very nice looking tables, see [this guide](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) to the `kableExtra` package.
 
@@ -1619,20 +1580,17 @@ In academic research you will need to cite the papers that you are referencing. 
 
 Note, there may be other ways to get the citations in the right format; I'm just showing you one way to do so. For this example, we'll use the article "Using NIBRS data to analyze violent crime" by Brian Reaves that was published in 1993. We'll walk through the process from finding the article on Google Scholar to citing it in your paper. First, from Google Scholar we'll search for the article title. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/citation_google_scholar} \end{center}
+<img src="images/citation_google_scholar.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This returns all articles that meet your search criteria. Since we're searching for a specific article title, we only get one result. The result shows some basic info about the article - title, date, name, abstract. Below the abstract are some important things. First, and circled in blue in the above photo, is a link that looks like quotation marks. This is what we'll click on to get to the BibTeX citation. While not necessary for citation, the next two links may come in handy during your research. "Cited by 31" means that 31 published (in some format that Google can locate, not necessarily peer-reviewed) articles have cited this article. If you click the link it'll open up a Google Scholar page with all of these articles. This is a good way to find relevant literature. Clicking 'Related articles' does the same thing but with articles that Google Scholar deems similar, not necessarily articles linking to the one you're looking up.
 
 But back to the quotes link circled in blue. Click this and it'll make a popup, shown below, of ways to cite this article is various formats. We'll have R Markdown automatically generate the citation in the format we want so we don't need to worry about this. Instead, click the BibTeX link at the bottom left.   
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/google_scholar_cite} \end{center}
+<img src="images/google_scholar_cite.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When you click it, it'll open up a new page with that article's citation in BibTeX form, as shown below. This basically is just a way to tell a computer how to cite it properly. Each part of the citation - author, year, title, etc. - is its own piece. Take a close look at the section immediately after the first squiggly bracket, "reaves1993using". This is how you'll identify the article in R Markdown so R knows which article to cite. It's essentially the citation's name. It's created automatically by combining the author name (first author if there are more than one author, publication year, and part of the title). You can change it to whatever you want it to be called. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/google_scholar_bibtex} \end{center}
+<img src="images/google_scholar_bibtex.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note at the end of the publisher section are the characters "~...". This looks like a mistake made by Google Scholar so we'll need to delete that so it isn't included in a paper we use this citation in. When using Google Scholar, you'll occasionally find issues like this which you'll need to fix manually - a bigger issue is apostrophes or other punctuation may copy over from Google Scholar weirdly (meaning that it copies as a character that your computer, and thus R Markdown, doesn't understand) and needs to be rewritten so R Markdown will run. You can rewrite it by just deleting the punctuation and typing it using your keyboard. This isn't always an issue so don't worry about it unless you get an error with the citations when outputting your document.
 
@@ -1640,13 +1598,11 @@ Below is the citation included in my .bib file, and the start of another citatio
 
 Note that I have the word NIBRS surrounded by squiggly brackets {}. That is because by default R Markdown (and other citation generators such as Overleaf) will only capitalize the first letter of the title or the first letter following a colon. Since NIBRS is an abbreviation and should be capitalized, I put it in the {} to force it to remain capitalized. This is often a problem with abbreviations or country names (such as United States) in the paper title. Since all citations you use for a project should be in a single .bib file, you can see the start of another article citation below the Reaves citation. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/bibtex_example} \end{center}
+<img src="images/bibtex_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 To use citations from your .bib file, add `bibliography: references_file_name.bib` to the head of your R Markdown file. If your .bib file isn't in the R Markdown file's working directory, as my example below is not, you'll need to include the path in the file name.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/rmarkdown_bib} \end{center}
+<img src="images/rmarkdown_bib.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now that we have the citation in BibTeX format, have put it in our .bib file, and have told R Markdown where to look for that file, we are ready to finally cite that article. To use a citation we simply put the @ sign in front of the citation name (in our case "reaves1993using") so we would write `@reaves1993using`. This will give us an in-text citation, with the author name in the text and the year in parentheses. Adding a - right in front of the @ will cause the citation to show just the year, not the author's name. You'll usually want to use this if you've already named the author earlier in the sentence. Generally we will want parenthetical citations, with both the authors and the year in parentheses. To do this, we put the citation inside of square brackets like this `[@reaves1993using]`. If we're citing multiple articles, we separate each citation using a semicolon `[@reaves1993using; @jain2000recruitment]`.
 
@@ -1666,8 +1622,7 @@ If you use a citation that isn't in your .bib file, R Markdown will show a quest
 
 [@wrongCitation]
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/citation_raw} \end{center}
+<img src="images/citation_raw.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When you use citations, R will automatically put the reference section at the very end of the document. Two LaTeX commands may be useful here. `\clearpage` makes a new page so your reference section isn't on the same page as the conclusion. `\singlespace` makes the reference section single spaced if your document is set to be double spaced. Put these commands at the very end of your document so they only apply to the reference page. You don't need to do anything other than write them (for easier reading, make them on separate lines) at the end of the R Markdown file. If you want to make the references go in another part of the paper (e.g. after tables and figures), just put this code at the place in the paper where you want to reference section to go: `<div id="refs"></div>`.
  
@@ -1679,14 +1634,13 @@ R Markdown does have a built-in spell checker (the ABC above a check mark symbol
 
 To create the Word or PDF output click `Knit` and it will create the output in the format set in the very top. To change this format click the white down-arrow directly to the right of `Knit` and it will drop-down a menu with output options. Click the option you want and it will output it in that format and change that to the new default. Sometimes it takes a while for it to output, so be patient.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/markdown4} \end{center}
+<img src="images/markdown4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:rmarkdown.Rmd-->
 
 # Testing your code {#tests}
 
-This chapter covers how to write code that tests other code. It's especially useful when you write complex functions but is also useful for work such as PDF scraping or webscraping where you know the right answer (by looking at the PDF or webpage yourself) and want to be sure your scraping code did the scrape correctly. However, in most cases when programming for research you won't formally test your code - though you should be checking if everything makes sense and rereading your code to look out for errors (such as typos or using the wrong data). If you've never programmed before, I recommend that you skip this chapter entirely (or read it but don't feel pressure to understand everything) and return to it after you've finished the rest of the book.
+This chapter covers how to write code that tests other code. It's especially useful when you write complex functions but is also useful for work such as PDF scraping or webscraping where you know the right answer (by looking at the PDF or web page yourself) and want to be sure your scraping code did the scrape correctly. However, in most cases when programming for research you won't formally test your code - though you should be checking if everything makes sense and rereading your code to look out for errors (such as typos or using the wrong data). If you've never programmed before, I recommend that you skip this chapter entirely (or read it but don't feel pressure to understand everything) and return to it after you've finished the rest of the book.
 
 ## Why test your code?
 
@@ -1754,6 +1708,7 @@ install.packages("testthat")
 
 ```r
 library(testthat)
+# Warning: package 'testthat' was built under R version 4.2.2
 ```
 
 In `testthat`, every function follows the same `expect_` format where a type of conditional statement follows the _. For example, `expect_equal()` checks if two values are equal, `expect_named()` checks if the name of a data set is correct, and `expect_silent()` makes sure that the code that's run doesn't return any warnings, messages, or errors. To use this technique for our above example of the function that adds 2 to an inputted number - which we'll call `add_2()` - we can use some `expect_equal()` functions. If we input 2, we expect 4. So we'd write `expect_that(add_2(2), 4)`.     
@@ -1784,48 +1739,41 @@ You will also need to run all the functions or load all of the data that the tes
 
 The final way is to use the keyboard shortcut Control+Shift+T (Command+Shift+T on a Mac, the T stands for "Test") which will load all of the files in your folder and then run all of the tests. It's a quicker way of doing the above method. However, this shortcut only works when using an R Package, not a normal R Project. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/test_summary} \end{center}
+<img src="images/test_summary.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Modular test scripts
 
 Before getting into exactly how to write a unit test correctly, we'll talk about organizing each testing file. As with your normal R script, you can have separate testing scripts (a testing script is a normal R script which people use specifically for testing code but doesn't actually function any different) for each major part of the code that you're testing.^[For more info on having separate R scripts for each major section of your code, please refer to Section \@ref(modular-r-scripts)] As with the R scripts for your code, this is simply a way to organize your work, and doesn't affect the testing. Below is an image showing the files I use to test the US Border Patrol scrapers. I have one file per PDF that I scraped. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/test_file_setup} \end{center}
+<img src="images/test_file_setup.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note where the folder depicted above is located. It's in a folder called "testthat" in the "tests" folder in the main project folder that I called "borderpatrol." We'll use a helpful function from the `usethis` package to organize our test files and generate them automatically. If you haven't installed this package already, do so using `install.packages("usethis")` and then load it with `library(usethis)`. ^[The `usethis` package is an extremely helpful package that automates a lot of work that you would do primarily for R package development so if you go down that route I recommend exploring the package more through its website https://usethis.r-lib.org/index.html).]
 
 You can use the function `use_test()` from the `usethis` package to create a test file inside your R Project. This will automatically create the necessary file and folders (if not created already) so you don't have to do any more work. Run this function by putting the name of the test file you want to create (in quotes) in the parentheses. It will open the test file in the Source panel (shown in the top left). In the example shown below, I wrote `use_test("test")` to make a new file called "test". In the Source panel, the file is called "test-test.R," which is just because `usethis` will automatically add "test-" to the name of any test file name you make. `use_test()` will also generate an example of a test, which you can modify (or delete entirely) to suit your own needs. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/usethis_test} \end{center}
+<img src="images/usethis_test.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The first file in the testthat folder is called setup.R, which is a file that will automatically run first when you run a test script through R or using RStudio's keyboard shortcut. This file is where you run some code that is used during the tests. In my setup.R file I made several vectors, which I use during the tests to subset the data. You won't always need to have a setup.R file, but it's useful when you want to run the same code beforehand for multiple different test scripts. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/test_setup} \end{center}
+<img src="images/test_setup.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### How to write unit tests
 
 We'll start by looking at the default test example made when using `use_test()` to understand the organization of a test file before getting into an example of actual tests. In the image below, there are really two pieces. First, we have the actual test on line 2 - `expect_equal(2 * 2, 4)`. This is saying, I expect 2 * 2 to equal 4, and R will check if that is true. All of your tests will be in this format, just for a specific result from a specific input. Now let's look at the code surrounding that line - `test_that("multiplication works", {})` where the `expect_equal()` line goes inside the {}. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/usethis_test_default_example} \end{center}
+<img src="images/usethis_test_default_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The `test_that` code is basically a form of organization within a test file to group similar tests together. In this case it is grouping all of the tests that check if "multiplication works," though we only have one test written. Below I've added three new tests to this "multiplication works" testing group. To run this code, I can either run each `expect_equal()` individually (remember to run `library(testthat)` beforehand or it won't run) or run the entire `test_that()` group at once. You can do this by either highlighting it all and running it or selecting either the top or bottom line (which has the squiggly brackets) and running that line - the entire thing will run. 
 
 The benefit of this is that when you run all the tests you write (and you'll often have many test groups and more individual tests than shown here), if a test in a group fails, it will tell you exactly which group failed (based on the name of the group which you specify - here, "multiplication works"). Note that the final test in this example is incorrect, and in the Console panel on the right it says that "Test failed: 'multiplication works' to tell you where the test failed. The test groups aren't necessary, but they make it easier to organize your tests.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/usethis_test_default_example2} \end{center}
+<img src="images/usethis_test_default_example2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 As an example of actual tests, we'll go over the tests that I wrote when I first scraped the US Border Patrol data that we will scrape in Chapter \@ref(scrape-table). This test file is organized almost identically to the example one shown above. At the start I have some code that loads the data that I will test - this isn't in the setup file since the code is for this specific test script (though it could be in the setup.R file and the results would be the same). While most tests check the result of functions, here I am checking the data that is outputted by the function, and not rerunning the function for each test. I do this because the function that scrapes the PDF is relatively slow to run and I have many tests, but putting the function that gets the data in the test directly will give the exact same results. Then there are several `test_that()` groups with some `expect_equal()` tests inside each. 
 
 Since these tests are checking if the code is scraping the PDFs correctly, I determine the expected result by looking at the PDFs and writing down what the values should be (be careful, this must be done by hand but that can mean you mistype - so double-check your work!). We'll use the test on lines 21-22 as an example. Here I am asking if the values in the "cocaine_pounds" column, for rows where the sector is "coastal border" are equal to the values `c(6843, 1701, 3169, 1288, 6884, 20, 709, 5962, 989)`. If they are, then the scraping was correct (at least for this part of the PDF) and the code worked. In this case I checked every value that meets the two conditions, but that's just because there were relatively few values. If I had many values that meet those conditions (i.e. many rows of data in that column), I would just check a small number of them. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/test_example} \end{center}
+<img src="images/test_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### What to test
 
@@ -1867,13 +1815,11 @@ Before getting into exactly how to use Git, we'll talk first about what it is an
 
 With backup software such as Dropbox, it'll save your work very frequently - so frequently in fact that I sometimes turn off Dropbox when I write R since it keeps interrupting me by saving at the moment I'm typing, which stops the typing. The following image is the Dropbox page for some R code that I've been working on to scrape Covid data. Notice the timestamps - 4/5 of them are within one minute, showing how often Dropbox is saving changes. This is useful if I need the most recent update - or to share the most recent version with a collaborator. Here's the big issue - and the one that Git solves - I have four versions within a minute of each other: what's the difference between them? Dropbox is saving automatically and doesn't indicate how they're different (clicking on the file shows the complete file, not differences relative to some previous version), which means if I mess up some code a while ago, I can't easily see which version is the one that works. With Git you can wait until you've made enough changes to decide that these changes merit a new "version" of your work.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/dropbox} \end{center}
+<img src="images/dropbox.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 If you've ever used the track changes feature on a Word Document, the concept is similar. When you have this setting in a Word Document every time you (or anyone else) makes changes in that document, those changes, who made them, and when they occurred, is tracked. This makes it easy to see exactly what part of the file was changed and to undo that change if necessary. Below is an example of this feature on one of my drafts on Overleaf (basically a way to collaborate using LaTeX, which is similar to R Markdown). You can see each change that my co-author made in the draft in the purple changes in the main part of the photo. The parts that were rewritten or added are highlighted in purple while the parts that were deleted are crossed out. What is shown in purple isn't all of the history of changes for this paper. If you look at the part on the right, highlighted in green, it shows what files were edited, by whom, and at what time. If you don't like a change - or in R's case more commonly, broke some code by accident - you can go back in the history of changes and return to an older version.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/overleaf} \end{center}
+<img src="images/overleaf.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The way that R - and many other programming languages (and technically you can use this for any file or folder) does this "version control" is through Git. 
 
@@ -1913,8 +1859,7 @@ use_git_config(user.name = "Your name",
 
 Once you have Git installed, you'll need to enable it through RStudio. To do this, go to Tools and click Global Options. Then go to the Git/SVN tab and check the "Enable version control interface for RStudio projects" checkbox. The final step here is to click the first Browse button and navigate to where you installed Git on your computer. Select the Git file (on a Windows computer this will be within the larger Git folder) and then hit OK to close the popup. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_tools} \end{center}
+<img src="images/git_tools.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Setting up GitHub
 
@@ -1924,28 +1869,23 @@ A public repository is one that anyone can look at on GitHub, download the code/
 
 Once you've made an account on GitHub, you'll need to create a repository there to connect to your R Project. You can do this through the GitHub home page as shown in the following image. This page is my own homepage and shows several of my current repositories on the left (note the ones with a golden lock to the left, these are the private repositories which are only accessible to people I permit), a list of updates on other people's repositories that I chose to get updates from, and some suggested repositories that GitHub thinks I'd be interested in on the right. To create a new repository, click the green New button on the left side above the list of current repositories. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/github_new_repo} \end{center}
+<img src="images/github_new_repo.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 After you click the green New button, you'll go to a page when you set a name for your repository (this can be different from the name of your R Project, though I prefer to use the same name so I know exactly what project the repository is for), provide a short description, and choose if the repository should be public or private. You can also optionally add a README file, which is a longer form of description for what the code is and its purpose (basically a short manual for the project - often explaining how, not why, it works), and add a .gitignore file or set a license (which tells people who look at the project what they're allowed to do with it. For more on code licenses please see this excellent [site.](https://choosealicense.com/)) The .gitignore file is essentially a list of files or folders than you do **not** want to upload to GitHub. These last three choices are all optional. and if you don't do it now, you can do it anytime through R. Once you've made your choices, click the green Create Repository button
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/github_new_repo2} \end{center}
+<img src="images/github_new_repo2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This will open up a new page with a bunch of code that you'll enter in R that connects your Git commits to this repository on GitHub. We'll get to this in a bit - for now, let's focus on those three buttons in the top right. These are for accessing or following other people's public repositories (you can technically click on them in your own repository, but there isn't much benefit to that apart from the first button). 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/github_new_repo3} \end{center}
+<img src="images/github_new_repo3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The first button sets your notification settings for the repository. To change the notification setting, click "Unwatch" and then select what you want to be notified for. By default it is set to notify you of all conversations that occur. The main conversation will be when someone posts a message in the Issues tab where they tell you about an issue (or sometimes make a request for a new feature or just ask a question) about the code in this repo. With your own repositories, you'll want to be notified of all conversations so you don't miss anything. You can use this option on other people's repositories, and it will alert you of changes or conversations in that repo. This is useful when you want to know about updates (i.e. new features) on repositories that you're interested in (for example, I follow the [testthat repo](https://gitHub.com/r-lib/testthat) so I know of any new versions of that package that may have useful features).
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/github_new_repo4} \end{center}
+<img src="images/github_new_repo4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Stars are simply a way to favorite a repository, and you can see a list of all repositories that you have starred by clicking the profile button on the top right and going to "Your stars."
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/stars} \end{center}
+<img src="images/stars.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The final option is "Fork" which creates a new repository on your account that is a copy of the repository that you forked. You will occasionally want to fork other people's repositories - there isn't much benefit of forking your own as that's essentially just making a duplicate of your own work - and modify them to suit your needs. This is useful for two reasons. First, if you want to collaborate with someone - even if just to submit a fix to a bug you found (or a typo in this book!) - you can fork their repository, make the changes on your own R Project, commit the changes, and request that the original account accept your changes into the repository that you forked (called a "pull request").
 
@@ -1961,58 +1901,47 @@ If you didn't tell RStudio to set up Git in your R Project, it's quite simple to
 
 First, go to Tool -> Project Options. Then click the Git/SVN button that is second to the bottom to open up the Git options. This will open up a page that says "Version control system," which will be set to "(None)." Click this and set it to "Git."
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_existing_project} \end{center}
+<img src="images/git_existing_project.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It will then ask if you want to set up Git for the current R Project. Say Yes. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_existing_project2} \end{center}
+<img src="images/git_existing_project2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 You need to restart RStudio for Git to work now, so click Yes.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_existing_project3} \end{center}
+<img src="images/git_existing_project3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now if you look at the Environment panel you can see a new tab called "Git". We'll do all of the Git work in RStudio through this tab. You are now ready to use Git for this project. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_existing_project4} \end{center}
+<img src="images/git_existing_project4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Using Git through RStudio
 
 Now we have an R Project with Git ready, and a repo on GitHub to store the project files. We need a way to connect the R Project to the specific GitHub repo - for this, we'll return to that screen on GitHub with all of the weird code that starts with the word "git." We need to enter that code into R to connect the two. To do this, we need to use the Git Shell, which is basically like the Console panel but for Git. You can get to this by going to the Git tab, click on the More button, then click "Shell...".
 
+<img src="images/github_new_repo3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/github_new_repo3} \end{center}
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_shell} \end{center}
+<img src="images/git_shell.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This opens up a popup almost identical to the Console panel. Here we can write the code (or copy it from GitHub) and hit enter/return to run the line. This is the only time we will be using actual Git code in this chapter (there is some benefit to learning the Git code rather than relying on the buttons in RStudio as it is much faster when dealing with large files or simply a large number of files to use the code rather than through RStudio - though I'm not sure why this is). 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_shell3} \end{center}
+<img src="images/git_shell3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We will use the first chunk of code that's shown on GitHub - the one that starts with the bold text **"...or create a new repository on the command line"**. You can copy and paste all of the code (starting with the "echo" line and ending with the "Git push -u origin master" line) to the shell and hit enter or you can do it one line at a time. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_shell2} \end{center}
+<img src="images/git_shell2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Refresh your GitHub page and you'll see that instead of code on the screen, it shows the files that you uploaded. In this case, I didn't make any files so it is largely blank, just a relatively empty README file. If this was a real project, you'd see all of the same files (except those you chose not to commit) as in your R Project folder. Your R Project is now connected to the GitHub repo so you can do the rest of the Git work on this project entirely through RStudio and will not need to touch the Git Shell again.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_shell_4} \end{center}
+<img src="images/git_shell_4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The below image shows my Git tab while working on this chapter and from an update to the Subsetting chapter. It has a list of all of the files that I changed since my last commit (if you haven't committed at all yet, this is just all of the files in your project folder) and is color coded based on what I did to them. The blue M means that I have modified an already existing (i.e. one that has already been committed through Git) file, and the yellow ? means that these are new files. If there was a red D next to any of the files, that would mean that I deleted a file that had previously been committed. There are a lot of buttons here (Diff, Commit, Pull, etc.) but you can ignore them and just click the Commit button when ready to make a commit. Doing so will open up a new window that has all the functionality of these various buttons in an easier (in my opinion) format.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_commit1} \end{center}
+<img src="images/git_commit1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This window (shown in the following image) is where you can review the changes and write up a brief note about what you did. The window is a bit overwhelming so we'll take it in pieces. First let's start by examining how the list of files in the top-left is related to the big box on the bottom with text highlighted in red and green. The list of files is identical to that in the Git tab - it's just a list of files that have changed (including new files and deleted files) since the last commit. When you click one, it'll show you the changes made to this file relative to the most recent version on Git (note that while this will show changes on R files and some other types of files, not all are available to be viewed - though that won't affect Git working at all - so it may just show a blank part of the window instead). The section that was removed is highlighted in red, and the replacement is highlighted in green. Unfortunately, it shows changes on entire lines so if you only change a small part of a line, you will have to read closely to see the difference. You can look through this to figure out exactly what you changed - both which files were changed and what was changed in each file.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_commit2} \end{center}
+<img src="images/git_commit2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now let's walk through the process of actually committing and pushing your changes to GitHub. In real terms, this is basically uploading a new version of the files to GitHub, with brief documentation of what changed. At this point all we need to do is tell RStudio which files we want to commit, write a brief message explaining the changes, and submit it. 
 
@@ -2022,13 +1951,11 @@ Now you're ready to document the **overall** changes that you're committing, not
 
 It will make a popup window showing all the changes that it made. The "create mode ..." stuff is saying that these files are new files that Git hasn't seen before. You can close this popup.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_commit3} \end{center}
+<img src="images/git_commit3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 You have now completed your first commit using Git through RStudio. The files aren't on GitHub just yet though. Now right above the list of files is text that says "Your branch is ahead of 'origin/master' by 1 commit." This means that your version of the project is ahead of (since you made changes to the project that you just committed) the version on GitHub. To send it to GitHub you just need to click the Push button on the top right. In our email example, this is like clicking send after writing your draft and saving (committing) it. When you click Push it'll open up a popup, which you can close once it's done.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/git_commit4} \end{center}
+<img src="images/git_commit4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## When to commit
 
@@ -2044,7 +1971,7 @@ For an excellent overview of using Git and GitHub with R, please see [this chapt
 
 # Subsetting: Making big things small {#subsetting-intro}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): offenses_known_yearly_1960_2020.rds.
 
 Subsetting data is a way to take a large data set and reduce it to a smaller one that is better suited for answering a specific question. This is useful when you have a lot of data in the data set that isn't relevant to your research - for example, if you are studying crime in Colorado and have every state in your data, you'd subset it to keep only the Colorado data. Reducing it to a smaller data set makes it easier to manage, both in understanding your data and avoiding have a huge file that could slow down R. 
 
@@ -2324,13 +2251,11 @@ numbers > 3
 
 In many cases when you are subsetting you will want to subset based on more than one condition. These "conditional statements" can be tricky for new R users since you need to remember both what conditions you need *and* the R code to write it. For a simple introduction to combining conditional statements, we'll first start with the dog food instructions for my new puppy Peanut.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/peanut} \end{center}
+<img src="images/peanut.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Here, the instructions indicate how much food to feed your dog each day. Then instructions are broken down into dog age **and** expected size (in pounds or kilograms), and the intersection of these tells you how much food to feed your dog. Even once you figure out how much to feed the dog, there's another conditional statement to figure out whether you feed them twice a day or three times a day. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/dog_food} \end{center}
+<img src="images/dog_food.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This food chart is basically a conditional statement matrix where you match the conditions on the left side with those on the top to figure out how much to feed your dog.^[If you encounter some conditional statements that confuse you - which will be more common as you combine many statements together - I encourage you to make a matrix like this yourself. Even if it isn't that complicated, I think it's easier to see it written down than to try to keep all of the possible conditions in your head.] 
 
@@ -2557,8 +2482,7 @@ head(ucr$actual_murder)
 
 One hint is to write out the data set name in the console and hit the Tab key. Wait a couple of seconds and a popup will appear listing every column in the data set. You can scroll through this and then hit enter to select that column.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/tab_example} \end{center}
+<img src="images/tab_example.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Select specific rows
 
@@ -2960,7 +2884,7 @@ unique(colorado$year)
 
 # Exploratory data analysis {#explore}
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
 
 When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
@@ -3208,9 +3132,7 @@ plot(ucr2017$actual_murder,
      ucr2017$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner that have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -3242,9 +3164,7 @@ plot(ucr2017_big_cities$actual_murder,
      ucr2017_big_cities$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or murders, but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
@@ -3265,9 +3185,7 @@ plot(ucr2017_big_cities$actual_murder,
      main = "Relationship between murder and robbery")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -3306,7 +3224,7 @@ Now we can summarize the data using the `summarize()` function. As with other `d
 
 ```r
 summarize(colorado, sum(actual_murder))
-# # A tibble: 7 x 2
+# # A tibble: 7 × 2
 #    year `sum(actual_murder)`
 #   <dbl>                <dbl>
 # 1  2011                  154
@@ -3324,7 +3242,7 @@ If we want to aggregate another column we just add a comma after our initial col
 ```r
 summarize(colorado, sum(actual_murder), 
           sum(actual_robbery_total))
-# # A tibble: 7 x 3
+# # A tibble: 7 × 3
 #    year `sum(actual_murder)` `sum(actual_robbery_total)`
 #   <dbl>                <dbl>                       <dbl>
 # 1  2011                  154                        3287
@@ -3343,8 +3261,8 @@ We could even do different math operations on the same column and we'd get multi
 summarize(colorado, sum(actual_murder),
           sum(actual_robbery_total),
           mean(actual_robbery_total))
-# # A tibble: 7 x 4
-#    year `sum(actual_murder)` `sum(actual_robbery_total)` mean(actual_robbery_t~1
+# # A tibble: 7 × 4
+#    year `sum(actual_murder)` `sum(actual_robbery_total)` mean(actual_robbery_t…¹
 #   <dbl>                <dbl>                       <dbl>                   <dbl>
 # 1  2011                  154                        3287                   11.2 
 # 2  2012                  163                        3369                   11.2 
@@ -3353,7 +3271,7 @@ summarize(colorado, sum(actual_murder),
 # 5  2015                  173                        3305                   10.9 
 # 6  2016                  203                        3513                   11.6 
 # 7  2017                  218                        3811                   12.5 
-# # ... with abbreviated variable name 1: `mean(actual_robbery_total)`
+# # … with abbreviated variable name ¹​`mean(actual_robbery_total)`
 ```
 
 By default `summarize()` calls the columns it makes using what we include in the parentheses. Since we said "sum(actual_murder)", to get the sum of the murder column, it names that new column "sum(actual_murder)". Usually we'll want to name the columns ourselves. We can do this by assigning the summarized column to a name using "name = " before it. For example, we could write "murders = sum(actual_murder)" and it will name that column "murders" instead of "sum(actual_murder)". Like other things in `dplyr` functions, we don't need to put quotes around our new column name. We'll assign this final summarized data to an object called "colorado_agg" so we can use it to make graphs. And to be able to create crime rates per population, we'll also find the sum of the population for each year.
@@ -3365,7 +3283,7 @@ colorado_agg <- summarize(colorado,
                           robberies  = sum(actual_robbery_total),
                           population = sum(population))
 colorado_agg
-# # A tibble: 7 x 4
+# # A tibble: 7 × 4
 #    year murders robberies population
 #   <dbl>   <dbl>     <dbl>      <dbl>
 # 1  2011     154      3287    5155993
@@ -3402,7 +3320,7 @@ The `dplyr` package has a helpful function that can do this too, and allows us t
 mutate(colorado_agg,
        murder_rate  = murders / population * 100000,
        robbery_rate = robberies / population * 100000)
-# # A tibble: 7 x 6
+# # A tibble: 7 × 6
 #    year murders robberies population murder_rate robbery_rate
 #   <dbl>   <dbl>     <dbl>      <dbl>       <dbl>        <dbl>
 # 1  2011     154      3287    5155993        2.99         63.8
@@ -3423,9 +3341,7 @@ plot(x = colorado_agg$year,
      y = colorado_agg$murder_rate)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -3436,9 +3352,7 @@ plot(x = colorado_agg$year,
      type = "l")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -3452,9 +3366,7 @@ plot(x = colorado_agg$year,
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Pipes in `dplyr` {#dplyr-pipes}
 
@@ -4428,7 +4340,7 @@ tolower(crimes)
 
 # Reshaping data {#reshaping}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
 
 When you're using data for research, the end result is usually a regression or a graph (or both), and that requires your data to be in a particular format. Usually your data should have one row for each unit of analysis, and each column should have information about that unit. As an example, if you wanted to study city-level crime over time, you'd have each row be a single city in a single time period. If you looked at 10 different time periods, say 10 years, you'd have 10 rows for each city. And each column would have information about that city in that time period, such as the number of murders that occurred. 
 
@@ -4579,7 +4491,7 @@ Now let's look at the `head()` of the result.
 
 ```r
 head(sqf_agg)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   MONTH2, DAY2 [1]
 #   MONTH2 DAY2   SUSPECT_RACE_DESCRIPTION     n
 #   <chr>  <chr>  <chr>                    <int>
@@ -4622,9 +4534,9 @@ sqf_agg_wide <- sqf_agg %>%
   pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION,
               values_from = n) 
 head(sqf_agg_wide)
-# # A tibble: 6 x 8
+# # A tibble: 6 × 8
 # # Groups:   MONTH2, DAY2 [6]
-#   MONTH2 DAY2     `ASIAN / PACIFIC ISLANDER` BLACK BLACK~1 WHITE WHITE~2 AMERI~3
+#   MONTH2 DAY2     `ASIAN / PACIFIC ISLANDER` BLACK BLACK…¹ WHITE WHITE…² AMERI…³
 #   <chr>  <chr>                         <int> <int>   <int> <int>   <int>   <int>
 # 1 April  Friday                            1   104      17    16      31      NA
 # 2 April  Monday                            1    92      10    32      29      NA
@@ -4632,8 +4544,8 @@ head(sqf_agg_wide)
 # 4 April  Sunday                            2    96      12    15      38      NA
 # 5 April  Thursday                          2   122      10    18      38      NA
 # 6 April  Tuesday                           7   137      14    20      49      NA
-# # ... with abbreviated variable names 1: `BLACK HISPANIC`, 2: `WHITE HISPANIC`,
-# #   3: `AMERICAN INDIAN/ALASKAN N`
+# # … with abbreviated variable names ¹​`BLACK HISPANIC`, ²​`WHITE HISPANIC`,
+# #   ³​`AMERICAN INDIAN/ALASKAN N`
 ```
 
 Now instead of having one row be a month-day-of-week-race combination, each row is a month-day-of-week pair, and we have one column for every race in our data. Each of these race columns tell us how many people of that race were stopped in that month-day-of-week. This allows for really easy comparison of things like racial differences in stops for each month-day-of-week as we just look at different columns in the same row. We have now successfully done our first reshaping, moving this data from long to wide format!
@@ -4679,7 +4591,7 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race",
                values_to = "number_of_people_stopped")
 head(sqf_agg_long)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   month2, day2 [1]
 #   month2 day2   race                      number_of_people_stopped
 #   <chr>  <chr>  <chr>                                        <int>
@@ -4700,7 +4612,7 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race",
                values_to = "number_of_people_stopped")
 head(sqf_agg_long)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   month2, day2 [1]
 #   month2 day2   race                      number_of_people_stopped
 #   <chr>  <chr>  <chr>                                        <int>
@@ -4731,21 +4643,21 @@ sqf_agg_wide <- sqf_agg %>%
               values_from = c(n, n2)) 
 names(sqf_agg_wide) <- make_clean_names(names(sqf_agg_wide))
 head(sqf_agg_wide)
-# # A tibble: 6 x 14
+# # A tibble: 6 × 14
 # # Groups:   month2, day2 [6]
-#   month2 day2    n_asi~1 n_black n_bla~2 n_white n_whi~3 n_ame~4 n2_as~5 n2_bl~6
+#   month2 day2    n_asi…¹ n_black n_bla…² n_white n_whi…³ n_ame…⁴ n2_as…⁵ n2_bl…⁶
 #   <chr>  <chr>     <int>   <int>   <int>   <int>   <int>   <int>   <dbl>   <dbl>
 # 1 April  Friday        1     104      17      16      31      NA      11     114
 # 2 April  Monday        1      92      10      32      29      NA      11     102
-# 3 April  Saturd~       3     115      24      24      44      NA      13     125
+# 3 April  Saturd…       3     115      24      24      44      NA      13     125
 # 4 April  Sunday        2      96      12      15      38      NA      12     106
-# 5 April  Thursd~       2     122      10      18      38      NA      12     132
+# 5 April  Thursd…       2     122      10      18      38      NA      12     132
 # 6 April  Tuesday       7     137      14      20      49      NA      17     147
-# # ... with 4 more variables: n2_black_hispanic <dbl>, n2_white <dbl>,
+# # … with 4 more variables: n2_black_hispanic <dbl>, n2_white <dbl>,
 # #   n2_white_hispanic <dbl>, n2_american_indian_alaskan_n <dbl>, and
-# #   abbreviated variable names 1: n_asian_pacific_islander,
-# #   2: n_black_hispanic, 3: n_white_hispanic, 4: n_american_indian_alaskan_n,
-# #   5: n2_asian_pacific_islander, 6: n2_black
+# #   abbreviated variable names ¹​n_asian_pacific_islander, ²​n_black_hispanic,
+# #   ³​n_white_hispanic, ⁴​n_american_indian_alaskan_n,
+# #   ⁵​n2_asian_pacific_islander, ⁶​n2_black
 ```
 
 We now have the same wide data set as before, but now there are twice as many race columns. And the `pivot_wider()` function renamed the columns so we can tell the "n" columns from the "n2" columns. The easiest way to reshape this data from wide to long is to again use the `pivot_longer()` function but now use it twice: first to reshape the "n" columns and then to reshape the "n2" columns. We'll use the exact same code as before, but change the column names to suit their new names. 
@@ -4770,17 +4682,17 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race2",
                values_to = "number_of_people_stopped2") 
 head(sqf_agg_long)
-# # A tibble: 6 x 6
+# # A tibble: 6 × 6
 # # Groups:   month2, day2 [1]
-#   month2 day2   race                     number_of_people_stopped race2  numbe~1
+#   month2 day2   race                     number_of_people_stopped race2  numbe…¹
 #   <chr>  <chr>  <chr>                                       <int> <chr>    <dbl>
-# 1 April  Friday n_asian_pacific_islander                        1 n2_as~      11
-# 2 April  Friday n_asian_pacific_islander                        1 n2_bl~     114
-# 3 April  Friday n_asian_pacific_islander                        1 n2_bl~      27
-# 4 April  Friday n_asian_pacific_islander                        1 n2_wh~      26
-# 5 April  Friday n_asian_pacific_islander                        1 n2_wh~      41
-# 6 April  Friday n_asian_pacific_islander                        1 n2_am~      NA
-# # ... with abbreviated variable name 1: number_of_people_stopped2
+# 1 April  Friday n_asian_pacific_islander                        1 n2_as…      11
+# 2 April  Friday n_asian_pacific_islander                        1 n2_bl…     114
+# 3 April  Friday n_asian_pacific_islander                        1 n2_bl…      27
+# 4 April  Friday n_asian_pacific_islander                        1 n2_wh…      26
+# 5 April  Friday n_asian_pacific_islander                        1 n2_wh…      41
+# 6 April  Friday n_asian_pacific_islander                        1 n2_am…      NA
+# # … with abbreviated variable name ¹​number_of_people_stopped2
 ```
 
 This now gives us two race columns - "race" and "race2" - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the "number_of_people_stopped" and "number_of_people_stopped2" columns as they frequently refer to different races.
@@ -4791,7 +4703,7 @@ This now gives us two race columns - "race" and "race2" - which are ordered diff
 
 # Graphing with `ggplot2` {#graphing-intro}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): apparent_per_capita_alcohol_consumption.rda.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): apparent_per_capita_alcohol_consumption.rda.
 
 We've made some simple graphs earlier; in this lesson we will use the package `ggplot2` to make simple and elegant-looking graphs. 
 
@@ -4805,6 +4717,7 @@ install.packages("ggplot2")
 
 ```r
 library(ggplot2)
+# Warning: package 'ggplot2' was built under R version 4.2.2
 ```
 
 When working with new data, it's often useful to quickly graph the data to try to understand what you're working with. It is also useful when understanding how much to trust the data.
@@ -4902,9 +4815,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note that on the x-axis it prints out every single year and makes it completely unreadable. That is because the "year" column is a character type, so R thinks each year is its own category. It prints every single year because it thinks we want every category shown. To fix this, we can make the column numeric, and `ggplot()` will be smarter about printing fewer years.
 
@@ -4919,9 +4830,7 @@ ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-9-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When we run it, we get our graph. It includes the variable names for each axis and shows the range of data through the tick marks. What is missing is the actual data. For that we need to specify what type of graph it is. We literally add it with the `+` followed by the type of graph we want. Make sure that the `+` is at the end of a line, not the start of one. Starting a line with the + will not work.
 
@@ -4934,9 +4843,7 @@ ggplot(penn_alcohol, aes(x = year,
   geom_point()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-10-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 ```r
@@ -4945,9 +4852,7 @@ ggplot(penn_alcohol, aes(x = year,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-11-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We can also combine different types of graphs.
 
@@ -4959,9 +4864,7 @@ ggplot(penn_alcohol, aes(x = year,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It looks like there's a huge change in beer consumption over time. But look at where they y-axis starts. It starts around 280 so really that change is only ~60 beers. That's because when graphs don't start at 0, it can make small changes appear big. We can fix this by forcing the y-axis to begin at 0. We can add `expand_limits(y = 0)` to the graph to say that the value 0 must always appear on the y-axis, even if no data is close to that value.
 
@@ -4974,9 +4877,7 @@ ggplot(penn_alcohol, aes(x = year,
   expand_limits(y = 0)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now that graph shows what looks like nearly no change even though that is also not true. Which graph is best? It's hard to say.
 
@@ -4987,11 +4888,11 @@ Inside the types of graphs we can change how it is displayed. As with using `plo
 ggplot(penn_alcohol, aes(x = year,
                          y = number_of_beers)) +
   geom_line(color = "forestgreen", size = 1.3)
+# Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+# ℹ Please use `linewidth` instead.
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-14-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Some other useful features are changing the axis labels and the graph title. Unlike in `plot()` we do not include it in the () of `ggplot()` but use their own functions to add them to the graph. The input to each of these functions is a string for what we want it to say.
 
@@ -5010,9 +4911,7 @@ ggplot(penn_alcohol, aes(x = year,
   ggtitle("PA Annual Beer Consumption Per Capita (1977-2017)")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-15-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Many time-series plots show multiple variables over the same time period (e.g. murder and robbery over time). There are ways to change the data itself to make creating graphs like this easier, but let's stick with the data we currently have and just change `ggplot()`.
 
@@ -5025,9 +4924,7 @@ ggplot(penn_alcohol, aes(x = year,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-16-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Then include a second `geom_line()` with its own `aes()` for the second variable. Since we are using the penn_alcohol data set for both lines we do not need to include it in the second `geom_line()` as it assumes that the data is the same if we don't specify otherwise. If we used a different data set for the second line, we would need to specify which data set it is inside of `geom_line()` and before `aes()`.
 
@@ -5040,9 +4937,7 @@ ggplot(penn_alcohol, aes(x = year,
                 y = number_of_shots_liquor))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-17-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 A problem with this is that both lines are the same color. We need to set a color for each line and do so within `aes()`. Instead of providing a color name, we need to provide the name the color will have in the legend. Do so for both lines.
 
@@ -5057,9 +4952,7 @@ ggplot(penn_alcohol, aes(x = year,
                 color = "Shots of Liquor"))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-18-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We can change the legend title by using the function `labs()` and changing the value `color` to what we want the legend title to be.
 
@@ -5075,9 +4968,7 @@ ggplot(penn_alcohol, aes(x = year,
   labs(color = "Alcohol Type")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-19-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, a useful option to move the legend from the side to the bottom is setting the `theme()` function to move the `legend.position` to "bottom". This will allow the graph to be wider.
 
@@ -5094,9 +4985,7 @@ ggplot(penn_alcohol, aes(x = year,
   theme(legend.position = "bottom")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-20-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Scatter plots
 
@@ -5109,9 +4998,7 @@ ggplot(penn_alcohol, aes(x = number_of_shots_liquor,
   geom_point()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-21-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This graph shows us that when liquor consumption increases, beer consumption also tends to increase.
 
@@ -5122,8 +5009,7 @@ While scatterplots can help show the relationship between variables, we lose the
 Please keep in mind that some people are color blind so graphs (or maps, which we will learn about soon) will be hard to read for these people if we choose bad colors. A helpful site for choosing colors for graphs and maps is [Color Brewer.](http://colorbrewer2.org)
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/colorbrewer} \end{center}
+<img src="images/colorbrewer.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This site lets you select which type of colors you want (sequential and diverging, such as shades in a hotspot map, and qualitative, such as for data like what we used in this lesson). In the "Only show:" section you can set it to "colorblind safe" to restrict it to colors that allow people with color blindness to read your graph. To the right of this section it shows the HEX codes for each color. A HEX code is just a code that a computer can read and know exactly which color it is. 
 
@@ -5143,15 +5029,13 @@ ggplot(penn_alcohol, aes(x = year,
   scale_color_manual(values = c("#7570b3", "#d95f02"))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
+<img src="graphing_files/figure-html/unnamed-chunk-23-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:graphing.Rmd-->
 
 # More graphing with `ggplot2` {#ois-graphs}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): fatal-police-shootings-data.csv.
 
 In this lesson we will continue to explore graphing using `ggplot2`. The data we will use is microdata on officer-involved shootings that resulted in a death in the United States since January 1st, 2015. This data has been compiled and released by *The Washington Post* so it will be a useful exercise in exploring data from non-government sources. This data is useful for our purposes as it has a number of variables related to the person who was shot, allowing us to practice making many types of graphs. Each row of data is a different person who was shot and killed by the police, and each column gives us information about the individual or the shooting, such as their age, whether they carried any weapon, and the shooting location. 
 
@@ -5472,6 +5356,7 @@ We've spent some time looking at the data so now we're ready to make the graphs.
 
 ```r
 library(ggplot2)
+# Warning: package 'ggplot2' was built under R version 4.2.2
 ```
 
 As a reminder, the benefit of using `ggplot()` is that we can start with a simple plot and build our way up to more complicated graphs. We'll start here by building some graphs to depict a numeric variable - in this case the "age" column. We start every `ggplot()` the same, by inserting the data set first and then put our x and y variables inside of the `aes()` parameter. In this case we're only going to be plotting an x variable so we don't need to write anything for y.
@@ -5481,9 +5366,7 @@ As a reminder, the benefit of using `ggplot()` is that we can start with a simpl
 ggplot(shootings, aes(x = age))
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 Running the above code returns a blank graph since we haven't told `ggplot()` what type of graph we want yet. Below are a few different types of ways to display a single numeric variable. They're essentially all variations of each other and show the data at different levels of precision. It's hard to say which is best - you'll need to use your best judgment and consider your audience. 
 
 ### Histogram
@@ -5495,12 +5378,10 @@ The histogram is a very common type of graph for a single numeric variable. Hist
 ggplot(shootings, aes(x = age)) + 
   geom_histogram()
 # `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-# Warning: Removed 182 rows containing non-finite values (stat_bin).
+# Warning: Removed 182 rows containing non-finite values (`stat_bin()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-14-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-14-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The x-axis is ages with each bar being a group of certain ages, and the y-axis is how many people are in each group. The grouping is done automatically and we can alter it by changing the `bin` parameter in `geom_histogram()`. By default this parameter is set to 30, but we can make each group smaller (have fewer ages per group) by **increasing** it from 30 or make each group larger by **decreasing** it.
 
@@ -5508,23 +5389,19 @@ The x-axis is ages with each bar being a group of certain ages, and the y-axis i
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 15)
-# Warning: Removed 182 rows containing non-finite values (stat_bin).
+# Warning: Removed 182 rows containing non-finite values (`stat_bin()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-15-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-15-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(bins = 45)
-# Warning: Removed 182 rows containing non-finite values (stat_bin).
+# Warning: Removed 182 rows containing non-finite values (`stat_bin()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-16-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note that while the overall trend (of most deaths being around age 25) doesn't change when we alter `bin`, the data gets more or less precise. Having fewer bins means fewer, but larger, bars which can obscure trends that more, smaller, bars would show. But having too many bars may make you focus on minor variations that could occur randomly and take away attention from the overall trend. I prefer to err on the side of more precise graphs (more, smaller bars) but be careful over-interpreting data from small groups.
 
@@ -5534,13 +5411,13 @@ These graphs show the y-axis as the number of people in each bar. If we want to 
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_histogram(aes(y = (..count..)/sum(..count..)))
+# Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
+# ℹ Please use `after_stat(count)` instead.
 # `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-# Warning: Removed 182 rows containing non-finite values (stat_bin).
+# Warning: Removed 182 rows containing non-finite values (`stat_bin()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-17-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-17-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Density plot
 
@@ -5552,12 +5429,10 @@ To interpret these kinds of graphs, I recommend looking for trends rather than t
 ```r
 ggplot(shootings, aes(x = age)) + 
   geom_density()
-# Warning: Removed 182 rows containing non-finite values (stat_density).
+# Warning: Removed 182 rows containing non-finite values (`stat_density()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-18-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-18-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ### Count graph
 
@@ -5567,12 +5442,10 @@ A count graph is essentially a histogram with a bar for every value in the numer
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count()
-# Warning: Removed 182 rows containing non-finite values (stat_count).
+# Warning: Removed 182 rows containing non-finite values (`stat_count()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-19-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now we have a single bar for every age in the data. Like the histogram, the y-axis shows the number of people that are that age. And like the histogram, we can change this from number of people to proportion of people using the exact same code.
 
@@ -5580,12 +5453,10 @@ Now we have a single bar for every age in the data. Like the histogram, the y-ax
 ```r
 ggplot(shootings, aes(x = age)) + 
   stat_count(aes(y = (..count..)/sum(..count..)))
-# Warning: Removed 182 rows containing non-finite values (stat_count).
+# Warning: Removed 182 rows containing non-finite values (`stat_count()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-20-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-20-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Graphing a categorical variable 
 
@@ -5599,9 +5470,7 @@ ggplot(shootings, aes(x = race)) +
   geom_bar()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-21-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-21-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This gives us a barplot in alphabetical order. In most cases we want the data sorted by frequency, so we can easily see which value is the most common, second most common, etc. There are a few ways to do this, but we'll do this by turning the "race" variable into a factor and ordering it by frequency. We can do that using the `factor()` function. The first input will be the "race" variable, and then we will need to set the `levels` parameter to a vector of values sorted by frequency. An easy way to know how often values are in a column is to use the `table()` function on that column, such as below.
 
@@ -5658,9 +5527,7 @@ ggplot(shootings, aes(x = race)) +
   geom_bar() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-27-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It works! Note that all the values that are missing in our data are still reported in the barplot under a column called "NA." This is not sorted properly since there are more NA values than three of the other values, but NA is still at the far right of the graph. We can change this if we want to make all the NA values an actual character type and call it something like "Unknown." But this way it does draw attention to how many values are missing from this column. Like most things in graphing, this is a personal choice as to what to do.
 
@@ -5673,9 +5540,7 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-28-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since it's flipped, now it's sorted from smallest to largest. So we'll need to change the `factor()` code to fix that by making the `decreasing` parameter in `sort()` FALSE.
 
@@ -5689,9 +5554,7 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-29-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The NA value is now at the top, which looks fairly bad. Let's change all NA values to the string "Unknown". And while we're at it, let's change all the abbreviated race values to actual names. We can get all the NA values by using `is.na(shootings$race)` and using a conditional statement to get all rows that meet that condition, then assign them the value "Unknown". Instead of trying to subset a factor variable to change the values, we should convert it back to a character type first using `as.character()`, and then convert it to a factor again once we're done. 
 
@@ -5725,9 +5588,7 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-32-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-32-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 As earlier, we can show proportion instead of count by adding `y = (..count..)/sum(..count..)` to the `aes()` in `geom_bar()`.
 
@@ -5738,9 +5599,7 @@ ggplot(shootings, aes(x = race)) +
   coord_flip() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-33-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-33-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Graphing data over time
 
@@ -5756,9 +5615,7 @@ ggplot(shootings, aes(x = date,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-34-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-34-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 This graph is clearly wrong. Why? Well, our y-axis variable is always 1 so there's no variation to plot. Every single value, even if there are more than one shooting per day, is on the 1 line on the y-axis. And the fact that we have multiple killings per day is an issue because we only want a single line in our graph. We'll need to aggregate our data to some time period (e.g. day, month, year) so that we have one row per time-period and know how many people were killed in that period. We'll start with yearly data and then move to monthly data. Since we're going to be dealing with dates, let's use the `lubridate()` package that is well-suited for this task. 
 
 
@@ -5770,6 +5627,9 @@ install.packages("lubridate")
 
 ```r
 library(lubridate)
+# Warning: package 'lubridate' was built under R version 4.2.2
+# Loading required package: timechange
+# Warning: package 'timechange' was built under R version 4.2.2
 # 
 # Attaching package: 'lubridate'
 # The following objects are masked from 'package:base':
@@ -5810,7 +5670,7 @@ monthly_shootings <- shootings %>%
   group_by(month_year) %>% 
   summarize(dummy = sum(dummy))
 head(monthly_shootings)
-# # A tibble: 6 x 2
+# # A tibble: 6 × 2
 #   month_year dummy
 #   <date>     <dbl>
 # 1 2015-01-01    76
@@ -5830,9 +5690,7 @@ ggplot(monthly_shootings, aes(x = month_year,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-39-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-39-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 The process is the same for yearly data.
 
 
@@ -5845,9 +5703,7 @@ ggplot(yearly_shootings, aes(x = year,
   geom_line()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-40-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-40-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note the steep drop-off at the end of each graph. Is that due to fewer shooting occurring more recently? No, it's simply an artifact of the graph comparing whole months (years) to parts of a month (year) since we haven't finished this month (year) yet. 
 
@@ -5878,9 +5734,7 @@ ggplot(yearly_shootings, aes(x = year,
   theme_fivethirtyeight()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-42-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-42-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 
@@ -5891,9 +5745,7 @@ ggplot(yearly_shootings, aes(x = year,
   theme_tufte()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-43-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-43-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 
@@ -5904,9 +5756,7 @@ ggplot(yearly_shootings, aes(x = year,
   theme_few()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-44-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-44-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 
@@ -5917,9 +5767,7 @@ ggplot(yearly_shootings, aes(x = year,
   theme_excel()
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-45-1} \end{center}
+<img src="graphing-2_files/figure-html/unnamed-chunk-45-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:graphing-2.Rmd-->
 
@@ -5930,7 +5778,7 @@ output:
 ---
 # Hotspot maps
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_suicide_2003_2017.csv.
 
 Hotspot maps are used to find where events or places (e.g. crimes, marijuana dispensaries, liquors stores) are especially prevalent. These maps are frequently used by police departments, particularly in determining where to do hotspot policing (which focuses patrols on high-crime areas).
 
@@ -5989,37 +5837,28 @@ install.packages("ggmap")
 
 ```r
 library(ggmap)
+# Warning: package 'ggmap' was built under R version 4.2.2
 # Loading required package: ggplot2
-# Google's Terms of Service: https://cloud.google.com/maps-platform/terms/.
-# Please cite ggmap if you use it! See citation("ggmap") for details.
+# Warning: package 'ggplot2' was built under R version 4.2.2
+# ℹ Google's Terms of Service: <]8;;https://mapsplatform.google.comhttps://mapsplatform.google.com]8;;>
+# ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.
 ```
 
 We'll start by making the background to our map, showing San Francisco. We do so by using the `get_map()` function from `ggmap`, which gets a map background from a number of sources. We'll set the source to "stamen" since Google no longer allows us to get a map without creating an account. The first parameter in `get_map()` is simply coordinates for San Francisco's bounding box to ensure we get a map of the right spot. A bounding box is four coordinates that connect to make a rectangle, used for determining where in the world to show. 
 
 An easy way to find the four coordinates for a bounding box is to go to the site [Bounding Box.](https://boundingbox.klokantech.com/) This site has a map of the world and a box on the screen. Move the box to the area you want the map of. You may need to resize the box to cover the area you want. Then in the section that says "Copy & Paste," change the dropdown box to "CSV." In the section to the right of this are the four numbers that make up the bounding box. You can copy those numbers into `get_map()`
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/bounding_box} \end{center}
+<img src="images/bounding_box.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 ```r
 sf_map <- ggmap(get_map(c(-122.530392,37.698887,-122.351177,37.812996), 
                             source = "stamen"))
-# Source : http://tile.stamen.com/terrain/12/653/1582.png
-# Source : http://tile.stamen.com/terrain/12/654/1582.png
-# Source : http://tile.stamen.com/terrain/12/655/1582.png
-# Source : http://tile.stamen.com/terrain/12/653/1583.png
-# Source : http://tile.stamen.com/terrain/12/654/1583.png
-# Source : http://tile.stamen.com/terrain/12/655/1583.png
-# Source : http://tile.stamen.com/terrain/12/653/1584.png
-# Source : http://tile.stamen.com/terrain/12/654/1584.png
-# Source : http://tile.stamen.com/terrain/12/655/1584.png
+# ℹ Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL.
 sf_map
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-6-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since we saved the map output into *sf_map* we can reuse this map background for all the maps we're making in this lesson. This saves us time as we don't have to wait to download the map every time. Let's plot the suicides from our data set. Just as with a scatterplot we use the `geom_point()` function from the `ggplot2` package and set our longitude and latitude variables on the x- and y-axis, respectively. When we load `ggmap` it also automatically loads `ggplot2` as that package is necessary for `ggmap` to work, so we don't need to do `library(ggplot2)` ourselves.
 
@@ -6028,12 +5867,10 @@ Since we saved the map output into *sf_map* we can reuse this map background for
 sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide)
-# Warning: Removed 1 rows containing missing values (geom_point).
+# Warning: Removed 1 rows containing missing values (`geom_point()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 If we wanted to color the dots, we can use `color = ` and then select a color. Let's try it with "forestgreen."
 
@@ -6043,12 +5880,10 @@ sf_map +
   geom_point(aes(x = X, y = Y),
              data  = suicide,
              color = "forestgreen")
-# Warning: Removed 1 rows containing missing values (geom_point).
+# Warning: Removed 1 rows containing missing values (`geom_point()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-8-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 As with other graphs we can change the size of the dot using `size = `.
 
@@ -6059,12 +5894,10 @@ sf_map +
              data  = suicide,
              color = "forestgreen",
              size  = 0.5)
-# Warning: Removed 1 rows containing missing values (geom_point).
+# Warning: Removed 1 rows containing missing values (`geom_point()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-9-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-9-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 ```r
@@ -6073,12 +5906,10 @@ sf_map +
              data  = suicide,
              color = "forestgreen",
              size  = 2)
-# Warning: Removed 1 rows containing missing values (geom_point).
+# Warning: Removed 1 rows containing missing values (`geom_point()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-10-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 For maps like this - with one point per event - it is hard to tell if any events happen on the same, or nearly the same, location as each point is solid green. We want to make the dots semi-transparent so if multiple suicides happen at the same place that dot will be shaded darker than if only one suicide happened there. To do so we use the parameter `alpha = ` which takes an input between 0 and 1 (inclusive). The lower the value the more transparent it is. 
 
@@ -6090,12 +5921,10 @@ sf_map +
              color = "forestgreen",
              size  = 2,
              alpha = 0.5)
-# Warning: Removed 1 rows containing missing values (geom_point).
+# Warning: Removed 1 rows containing missing values (`geom_point()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-11-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-11-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This map is useful because it allows us to easily see where each suicide in San Francisco happened between 2003 and 2017. There are some limitations though. For example, this shows all suicides in a single map, meaning that any time trends are lost. 
 
@@ -6108,9 +5937,7 @@ Let's pause for a moment to think about what a map really is. I made the followi
 plot(suicide$X, suicide$Y, col = "forestgreen")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Making a hotspot map
 
@@ -6143,13 +5970,10 @@ sf_map +
 
 
 ```
-# Warning: Removed 1 rows containing non-finite values (stat_binhex).
-# Warning: Computation failed in `stat_binhex()`:
+# Warning: Removed 1 rows containing non-finite values (`stat_binhex()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-16-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-16-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 From this map we can see that most areas in the city had no suicides and that the areas with the most suicides are in downtown San Francisco.
@@ -6169,13 +5993,10 @@ sf_map +
 
 
 ```
-# Warning: Removed 1 rows containing non-finite values (stat_binhex).
-# Warning: Computation failed in `stat_binhex()`:
+# Warning: Removed 1 rows containing non-finite values (`stat_binhex()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-19-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-19-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Each bin is much larger and covers nearly all of San Francisco. Be careful with maps like these! This map is so broad that it appears that suicides are ubiquitous across the city. We know from the map showing each suicide as a dot  that there are fewer than 1,300 suicides; thus this is not true. Maps like this make it easy to mislead the reader, including yourself!
 
@@ -6194,13 +6015,10 @@ sf_map +
 
 
 ```
-# Warning: Removed 1 rows containing non-finite values (stat_binhex).
-# Warning: Computation failed in `stat_binhex()`:
+# Warning: Removed 1 rows containing non-finite values (`stat_binhex()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-22-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-22-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now each bin is very small and a much smaller area in San Francisco has had a suicide. So what is the right number of bins to use? There is no correct universal answer - you must decide what the goal is with the data you are using. This opens up serious issues for manipulation - intentional or not - of the data as the map is so easily changeable without ever changing the data itself. 
 
@@ -6223,13 +6041,10 @@ sf_map +
 
 
 ```
-# Warning: Removed 1 rows containing non-finite values (stat_binhex).
-# Warning: Computation failed in `stat_binhex()`:
+# Warning: Removed 1 rows containing non-finite values (`stat_binhex()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 By default it labels the legend as "count." Since we know these are counts of suicides let's relabel that as such.
 
@@ -6249,19 +6064,16 @@ sf_map +
 
 
 ```
-# Warning: Removed 1 rows containing non-finite values (stat_binhex).
-# Warning: Computation failed in `stat_binhex()`:
+# Warning: Removed 1 rows containing non-finite values (`stat_binhex()`).
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
+<img src="hotspot-maps_files/figure-html/unnamed-chunk-28-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:hotspot-maps.Rmd-->
 
 # Choropleth maps
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
 
 In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in northeast San Francisco. In this chapter we will make choropleth maps, which are shaded maps where each "unit" is some known geographic area, such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this chapter we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the chapter) in the city. 
 
@@ -6284,7 +6096,8 @@ install.packages("sf")
 
 ```r
 library(sf)
-# Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
+# Warning: package 'sf' was built under R version 4.2.2
+# Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
 ```
 
 For this chapter we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco.  A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way `sf` reads in the shapefiles is through the `st_read()` function. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we'll call the object *sf_neighborhoods*. 
@@ -6323,9 +6136,7 @@ The last column is important. In shapefiles, the "geometry" column is the one wi
 plot(sf_neighborhoods$geometry)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city's attempt to create definitions of neighborhoods. Indeed, you're likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries [here,](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind. 
 
@@ -6345,8 +6156,7 @@ sf_neighborhoods <- st_transform(sf_neighborhoods, crs = 2227)
 st_crs(sf_neighborhoods)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/choropleth} \end{center}
+<img src="images/choropleth.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 ## Spatial joins
 
@@ -6419,9 +6229,7 @@ plot(sf_neighborhoods$geometry)
 plot(suicide$geometry, add = TRUE, col = "red")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let's plan it out before beginning. Our suicide data is one row for each suicide; our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with the original neighborhood data, and we can map it.
 
@@ -6599,6 +6407,7 @@ For these maps we are going to use `ggplot2` again so we need to load it.
 
 ```r
 library(ggplot2)
+# Warning: package 'ggplot2' was built under R version 4.2.2
 ```
 
 `ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()`, which knows how to handle spatial data. 
@@ -6611,9 +6420,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-26-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -6628,9 +6435,7 @@ ggplot(sf_neighborhoods_suicide,
                       high = "red") 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -6648,9 +6453,7 @@ ggplot(sf_neighborhoods_suicide,
        subtitle = "2003 - 2017") 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
@@ -6669,9 +6472,7 @@ ggplot(sf_neighborhoods_suicide,
         axis.ticks = element_blank())
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 
@@ -6693,7 +6494,7 @@ save(sf_neighborhoods_suicide, file = "data/sf_neighborhoods_suicide.rda")
 
 
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_marijuana_geocoded.csv and sf_neighborhoods_suicide.rda.
 
 While maps of data are useful, their ability to show incident-level information is quite limited. They tend to show broad trends - where crime happened in a city - rather than provide information about specific crime incidents. While broad trends are important, there are significant drawbacks about being unable to get important information about an incident without having to check the data. An interactive map bridges this gap by showing trends while allowing you to zoom into individual incidents and see information about each incident.
 
@@ -6783,8 +6584,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map1} \end{center}
+<img src="images/leaflet_map1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 When you run the above code it shows a world map (copied several times). Zoom into it, and it'll start showing relevant features of wherever you're looking.
@@ -6804,8 +6604,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map2} \end{center}
+<img src="images/leaflet_map2.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It now adds an icon indicating where every dispensary in our data is. You can zoom in and scroll around to see more about where the dispensaries are. There are only a few dozen locations in the data so the popups overlapping a bit doesn't affect our map too much. If we had more - such as crime data with millions of offenses - it would make it very hard to read. To change the icons to circles we can change the function `addMarkers()` to `addCircleMarkers()`, keeping the rest of the code the same.
 
@@ -6821,8 +6620,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map3} \end{center}
+<img src="images/leaflet_map3.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This makes the icon into circles, which take up less space than icons. To adjust the size of our icons we use the `radius` parameter in `addMarkers()` or `addCircleMarkers()`. The larger the radius, the larger the icons. 
 
@@ -6837,8 +6635,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map4} \end{center}
+<img src="images/leaflet_map4.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Setting the `radius` option to 5 shrinks the size of the icon a lot. In your own maps you'll have to fiddle with this option to get it to look the way you want. Let's move on to adding information about each icon when clicked upon. 
 
@@ -6856,8 +6653,7 @@ leaflet() %>%
                    popup = marijuana$Business_Owner)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup1} \end{center}
+<img src="images/interactive_popup1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Try clicking around and you'll see that the owner of the dispensary you clicked on appears over the dot. If you're reading the print version of this book you won't, of course, be able to click on the map. We usually want to have a title indicating what the value in the popup means. We can do this by using the `paste()` function to combine text explaining the value with the value itself. Let's add the words "Business Owner:" before the business owner column.
 
@@ -6872,8 +6668,7 @@ leaflet() %>%
                                  marijuana$Business_Owner))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup2} \end{center}
+<img src="images/interactive_popup2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We don't have too much information in the data, but let's add the address and license number to the popup by adding them to the `paste()` function we're using. 
 
@@ -6892,8 +6687,7 @@ leaflet() %>%
                                  marijuana$License_Number))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup3} \end{center}
+<img src="images/interactive_popup3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Just adding the location text makes it try to print out everything on one line, which is hard to read. If we add the text `<br>` where we want a line break, it will make one. `<br>` is the HTML tag for line-break, which is why it works making a new line in this case. 
 
@@ -6914,8 +6708,7 @@ leaflet() %>%
                                  marijuana$License_Number))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/interactive_popup4} \end{center}
+<img src="images/interactive_popup4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Dealing with too many markers
 
@@ -6943,8 +6736,7 @@ leaflet() %>%
 
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_map_temp} \end{center}
+<img src="images/leaflet_map_temp.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Locations close to each other are grouped together in fairly arbitrary groupings, and we can see how large each grouping is by moving our cursor over the circle. Click on a circle or zoom in and it will show smaller groupings at lower levels of aggregation. Keep clicking or zooming in, and it will eventually show each location as its own circle. 
 
@@ -6959,7 +6751,8 @@ Let's load the San Francisco suicides-by-neighborhood data that we made earlier.
 
 ```r
 library(sf)
-# Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
+# Warning: package 'sf' was built under R version 4.2.2
+# Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
 load("data/sf_neighborhoods_suicide.rda") 
 sf_neighborhoods_suicide <- st_transform(sf_neighborhoods_suicide, 
                                          "+proj=longlat +datum=WGS84")
@@ -6975,8 +6768,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth1} \end{center}
+<img src="images/leaflet_choropleth1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 It made a map with thick blue lines indicating each neighborhood. Let's change the appearance of the graph a bit before making a popup or shading the neighborhoods The parameter `color` in `addPolygons()` changes the color of the lines - let's change it to black. The lines are also very thick, blurring into each other and making the neighborhoods hard to see. We can change the `weight` parameter to alter the size of these lines - smaller values are thinner lines. Let's try setting this to 1.
 
@@ -6990,8 +6782,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth2} \end{center}
+<img src="images/leaflet_choropleth2.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 That looks better and we can clearly distinguish each neighborhood now. 
 
@@ -7012,8 +6803,7 @@ leaflet() %>%
 ```
 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth3} \end{center}
+<img src="images/leaflet_choropleth3.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 For these types of maps we generally want to shade each polygon to indicate how frequently the event occurred in the polygon. We'll use the function `colorNumeric()`, which takes a lot of the work out of the process of coloring in the map. This function takes two inputs, first a color palette, which we can get from the site [Color Brewer.](http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=3) Let's  use the fourth bar in the Sequential page, which is light orange to red. If you look in the section with each HEX value it says that the palette is "3-class OrRd." The "3-class" just means we selected 3 colors, the "OrRd" is the part we want. That will tell `colorNumeric()` to make the palette using these colors. The second parameter is the column for our numeric variable, *number_suicides*. 
 We will save the output of `colorNumeric("OrRd", sf_neighborhoods_suicide$number_suicides)` as a new object, which we'll call *pal* for convenience since it is a palette of colors. Then inside of `addPolygons()` we'll set the parameter `fillColor` to `pal(sf_neighborhoods_suicide$number_suicides)`, running this function on the column. What this really does is determine which color every neighborhood should be based on the value in the *number_suicides* column.
@@ -7034,8 +6824,7 @@ leaflet() %>%
               fillColor = pal(sf_neighborhoods_suicide$number_suicides))
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth4} \end{center}
+<img src="images/leaflet_choropleth4.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since the neighborhoods are transparent, it is hard to distinguish which color is shown. We can make each neighborhood a solid color by setting the parameter `fillOpacity` inside of `addPolygons()` to 1.
 
@@ -7055,8 +6844,7 @@ leaflet() %>%
               fillOpacity = 1)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth5} \end{center}
+<img src="images/leaflet_choropleth5.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 To add a legend to this we use the function `addLegend()`, which takes three parameters. `pal` asks which color palette we are using - we want it to be the exact same as we use to color the neighborhoods, so we'll use the *pal* object we made. The `values` parameter is used for which column our numeric values are from, in our case the *number_suicides* column so we'll input that. Finally `opacity` determines how transparent the legend will be. As each neighborhood is set to not be transparent at all, we'll also set this to 1 to be consistent. 
 
@@ -7079,8 +6867,7 @@ leaflet() %>%
             opacity = 1)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth6} \end{center}
+<img src="images/leaflet_choropleth6.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, we can add a title to the legend using the `title` parameter inside of `addLegend()`.
 
@@ -7105,8 +6892,7 @@ leaflet() %>%
  addProviderTiles(providers$CartoDB.Positron)  
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/leaflet_choropleth7} \end{center}
+<img src="images/leaflet_choropleth7.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:interactive-maps.Rmd-->
 
@@ -7139,11 +6925,9 @@ library(rvest)
 
 Here is a screenshot of the recipe for the "MMMMM... Brownies" (an excellent brownies recipe) [page](https://www.allrecipes.com/recipe/25080/mmmmm-brownies/?internalSource=hub%20recipe&referringContentType=Search).
 
+<img src="images/brownies_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/brownies_1} \end{center}
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/brownies_2} \end{center}
+<img src="images/brownies_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Scraping one page
 
@@ -7152,13 +6936,14 @@ In later lessons we'll learn how to scrape the ingredients of any recipe on the 
 The first step to scraping a page is to read in that page's information to R using the function `read_html()` from the `rvest` package. The input for the () is the URL of the page we want to scrape. In a later lesson, we will manipulate this URL to be able to scrape data from many pages. 
 
 
-```r
-read_html("https://www.allrecipes.com/recipe/25080/mmmmm-brownies/")
+```
 # {html_document}
-# <html id="recipeScTemplate_1-0" class="comp no-js taxlevel-5 recipeScTemplate html mntl-html" data-ab="61,99,62,99,87,99,99" data-resource-version="1.10.0" lang="en" data-mantle-resource-version="3.13.508" data-allrecipes-resource-version="1.10.0" data-tracking-container="true">
+# <html id="recipeScTemplate_1-0" class="comp no-js taxlevel-5 recipeScTemplate html mntl-html" data-ab="99,79,99,72,99,99,99,99" data-resource-version="1.35.0" lang="en" data-mantle-resource-version="3.13.678" data-allrecipes-resource-version="1.35.0" data-tracking-container="true">
 # [1] <head class="loc head">\n<meta http-equiv="Content-Type" content="text/ht ...
 # [2] <body>\n<svg class="mntl-svg-resource is-hidden"><defs><symbol id="icon-c ...
 ```
+
+<img src="images/webscraping_read_html.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When running the above code, it returns an XML Document. The `rvest` package is well suited for interpreting this and turning it into something we already know how to work with. To be able to work on this data, we need to assign the output of `read_html()` to an object, which we'll call *brownies* since that is the recipe we are currently scraping. 
 
@@ -7173,13 +6958,11 @@ We need to find just which parts of the page to scrape. To do so we'll use the h
 
 When you open SelectorGadget it allows you to click on parts of the page, and it will highlight every similar piece and show the CSS selector code in the box near the bottom. Here we clicked on the first ingredient - "1/2 cup white sugar." Every ingredient is highlighted in yellow as (to oversimplify this explanation) these ingredients are the same "type" in the page. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/brownies_3} \end{center}
+<img src="images/brownies_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Note that in the bottom right of the screen, the SelectorGadget bar now has the text ".ingredients-item-name". This is the CSS selector code we can use to get all of the ingredients. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/brownies_4} \end{center}
+<img src="images/brownies_4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We will use the function `html_nodes()` to grab the part of the page (based on the CSS selectors) that we want. The input for this function is first the object made from `read_html()` (which we called *brownies*) and then we can paste the CSS selector text - in this case, ".ingredients-item-name". We'll assign the resulting object to *ingredients* since we want to use *brownies* to also get the directions. 
 
@@ -7209,8 +6992,7 @@ Now let's do the same process to get the directions for baking.
 
 In SelectorGadget click clear to unselect the ingredients. Now click one of the lines of directions that starts with the word "Step". It'll highlight all three directions as they're all of the same "type".^[To be slightly more specific, when the site is made it has to put all of the pieces of the site together, such as links, photos, the section on ingredients, the section on directions, the section on reviews. So in this case we selected a "text" type in the section on directions and SelectorGadget then selected all "text" types inside of that section.] Note that if you click on the instructions without starting on one of the "Step" lines, such as clicking on the actual instructions (e.g. "Preheat the oven...") lines itself, SelectorGadget will have the node "p" and say it has found 25 "things" on that page that match. To fix this you just scroll up to see where the text "Best brownies I've ever had!" is also highlighted in yellow and click that to unselect it. Using SelectorGadget is often steps like this where you use trial and error to only select the parts of the page that you want.  
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/brownies_5} \end{center}
+<img src="images/brownies_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The CSS selector code this time is ".instructions-section-item" so we can put that inside of `html_nodes()`. Let's assign the output as *directions*.
 
@@ -7230,8 +7012,7 @@ Did it work?
 directions
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/webscraping1} \end{center}
+<img src="images/webscraping1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Yes! You may notice that each direction is one very long string, so long that we have to scroll to the right (in the web version of this book) to read it. If you run the code direction in RStudio, it'll automatically put it on multiple lines for easy reading. If you put it on a website or a PDF, it'll instead be so long that it may extend off the page. There are many features in RStudio that make it easy to work with data like this. In cases where you are presenting the data outside of RStudio, such as making an R Markdown document, it is important to check that the results look right in every format you are making (e.g. Word, HTML, PDF). 
 
@@ -7253,8 +7034,7 @@ ingredients
 directions
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/webscraping2} \end{center}
+<img src="images/webscraping2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now *ingredients* is as it should be, though note that all of the ingredient amounts - e.g. 2/3 cups - looks fine when in R. But when exporting it to PDF or HTML it shows weird characters like "<U+2154>." This is because the conversion from R to PDF or HTML isn't working right. I'm keeping this unfixed as a demonstration of how things can look right in R but look wrong when moving it elsewhere. So when working on something that you export out of R (including from R to PDF/HTML or even R to Excel), you should make sure to check that no issue occurred during the conversion. 
 
@@ -7274,8 +7054,7 @@ And one final check to make sure it worked.
 directions
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/webscraping3} \end{center}
+<img src="images/webscraping3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 In Chapter \@ref(functions) we'll learn to make a function to scrape any recipe from this site using just the URL and to print the ingredients and directions to the console.  
 
@@ -7458,8 +7237,7 @@ Now we can try it for a new recipe, this one for "The Best Lemon Bars" at this [
 scrape_recipes("https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/")
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/functions} \end{center}
+<img src="images/functions.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 In the next lesson we'll use "for loops" to scrape multiple recipes very quickly. 
@@ -7639,8 +7417,7 @@ for (recipe_url in recipe_urls) {
 }
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/forloops} \end{center}
+<img src="images/forloops.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 
 <!--chapter:end:for-loops.Rmd-->
@@ -7655,7 +7432,7 @@ output:
 
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): usbp_stats_fy2017_sector_profile.pdf.
 
 Government agencies in particular like to release their data in long PDFs which often have the data we want in a table on one of the pages. To use this data we need to scrape it from the PDF into R. In the majority of cases when you want data from a PDF it will be in a table. Essentially the data will be an Excel file inside of a PDF. This format is not altogether different from what we've done before. 
 
@@ -7667,8 +7444,7 @@ The file we want to use is called "usbp_stats_fy2017_sector_profile.pdf" and has
 
 The first table is "Sector Profile - Fiscal Year 2017 (Oct. 1st through Sept. 30th)". Before we even look down more at the table, the title is important. It is for fiscal year 2017, not calendar year 2017, which is more common in the data we usually use. This is important if we ever want to merge this data with other data sets. If possible, we would have to get data that is monthly so we can just use October 2016 through September 2017 to match up properly.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_1} \end{center}
+<img src="images/pdf_table_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now if we look more at the table, we can see that each row is a section of the US border. There are three main sections - Coastal, Northern, and Southwest, with subsections of each also included. The bottom row is the sum of all these sections and gives us nationwide data. Many government data sets will be like this form with sections and subsections in the same table. Watch out when doing mathematical operations! Just summing any of these columns will give you triple the true value due to the presence of nationwide, sectional, and subsectional data. 
 
@@ -7676,18 +7452,15 @@ There are 9 columns in the data other than the border section identifier. We hav
 
 The second table has a similar format with each row being a section or subsection. The columns now have the number of juveniles apprehended, subdivided by if they were accompanied by an adult or not, and the number of adults apprehended. The last column is total apprehensions which is also in the first table.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_2} \end{center}
+<img src="images/pdf_table_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The third table follows the same format, and the new columns are number of apprehensions by gender.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_3} \end{center}
+<img src="images/pdf_table_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Finally, the fourth table is a bit different in its format. The rows are now variables, and the columns are the locations. In this table it doesn't include subsections, only border sections and the nationwide total. The data it has available are partially a repeat of the first table but with more drug types and the addition of the number of drug seizures and some firearm seizure information. As this table is formatted differently from the others, we won't scrape it in this lesson - but you can use the skills you'll learn to do so yourself.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_table_4} \end{center}
+<img src="images/pdf_table_4.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Scraping the first table
 
@@ -7721,8 +7494,7 @@ We can take a look at the `head()` of the result using `head(border_patrol)`.
 head(border_patrol)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_1} \end{center}
+<img src="images/pdf_scrape_1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 If you look closely in this huge amount of text output, you can see that it is a vector with each table being an element in the vector. We can see this further by checking the `length()` of "border_patrol", which tells us how many elements are in a vector.
 
@@ -7741,8 +7513,7 @@ Looking at just the first element in *border_patrol* gives us all the values in 
 border_patrol[1]
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_2} \end{center}
+<img src="images/pdf_scrape_2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The `strsplit()` function breaks up a string into pieces based on a value inside of the string. Let's use the word "criminology" as an example. If we want to split it by the letter "n" we'd have two results, "crimi" and "ology" as these are the pieces of the word after breaking up "criminology" at letter "n". 
 
@@ -7771,8 +7542,7 @@ Now we can look at the first six rows of this data.
 head(sector_profile)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_3} \end{center}
+<img src="images/pdf_scrape_3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Notice that there is a lot of empty white space at the beginning of the rows. We want to get rid of that to make our next steps easier. We can use `trimws()` and put the entire *sector_profile* data in the (), and it'll remove any white space that is at the beginning or end of the string.
 
@@ -7788,8 +7558,7 @@ We have more rows than we want so let's look at the entire data and try to figur
 sector_profile
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/pdf_scrape_4} \end{center}
+<img src="images/pdf_scrape_4.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 Based on the PDF, we want every row from Miami to Nationwide Total. But here we have several rows with the title of the table and the column names, and at the end we have the sentences with some details that we don't need. 
 
@@ -7822,8 +7591,7 @@ Note that we're getting rid of the rows that had the column names. It's easier t
 head(sector_profile)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pdf_scrape_5} \end{center}
+<img src="images/pdf_scrape_5.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 When looking at this data it is clear that where the division between columns is supposed to be is a bunch of white space in each string. Take the first row for example, it says "Miami" then after lots of white spaces "111" than again with "2,280" and so on for the rest of the row. We'll use this pattern of columns differentiated by white space to make *sector_profile* into a data.frame. 
 
@@ -7837,6 +7605,7 @@ install.packages("stringr")
 
 ```r
 library(stringr)
+# Warning: package 'stringr' was built under R version 4.2.2
 ```
 
 The syntax of `str_split_fixed()` is similar to `strsplit()` except the new parameter of the number of splits to expect. The "_fixed" part of `str_split_fixed()` is that it expects the same number of splits (which in our case become columns) for every element in the vector that we input. Looking at the PDF shows us that there are 10 columns so that's the number we'll use. Our split will be " {2,}". That is, a space that occurs two or more times. Since there are sectors with spaces in their name, we can't have only one space, we need at least two. If you look carefully at the rows with sectors "Coastal Border Sectors Total" and "Northern Border Sectors Total", the final two columns actually do not have two spaces between them because of the amount of asterisks they have. Normally we'd want to fix this using `gsub()`, but those values will turn to NA anyway so we won't bother in this case. 
@@ -8089,7 +7858,7 @@ In one data set we now have information from three separate tables in a PDF. We 
 
 # More scraping tables from PDFs {#scrape-table2}
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): AbbreRptCurrent.pdf and PregnantFemaleReportingCurrent.pdf.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): AbbreRptCurrent.pdf and PregnantFemaleReportingCurrent.pdf.
 
 
 In Chapter \@ref(scrape-table) we used the package `pdftools` to scrape tables on arrests/seizures from the US Customs and Border Protection that were only available in a PDF. Given the importance of PDF scraping, in this chapter we'll continue working on scraping tables from PDFs. Here, we will use the package `tabulizer`, which has a number of features making it especially useful for grabbing tables from PDFs.
@@ -8106,8 +7875,7 @@ Just to understand what units our data is in we had to look at both the PDF itse
 
 Now let's look at what columns are available. It looks like each column is the number of people incarcerated in the jail, broken down into categories of people. For example, the first two columns after County are "Pretrial Felons" and "Conv. Felons" so those are probably how many people are incarcerated who are awaiting trial for a felony and those already convicted of a felony. The other columns seem to follow this same format until the last few ones, which describe the jails' capacity (i.e. how many people they can hold), what percent of capacity they are at, and specifically how many open beds they have. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/tabulizer1} \end{center}
+<img src="images/tabulizer1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Now that we've familiarized ourselves with the data, let's begin scraping this data using `tabulizer`. If you don't have this package installed, you'll need to install it using `install.packages("tabulizer")`. Then we'll need to run `library(tabulizer)`.
 
@@ -8387,7 +8155,7 @@ for (i in c(2, 4, 6, 8, 10, 12, 14, 16, 18)) {
   final       <- bind_rows(final, temp)
 }
 # New names:
-# * `` -> `...21`
+# • `` -> `...21`
 head(final)
 #      county pretrial_felons conv_felons
 # 1  Anderson              81          13
@@ -8482,8 +8250,7 @@ If you look closely at the final several rows you'll see that there is an extra 
 
 We'll finish this chapter with another example of data from Texas - this time using data on the number of pregnant women booked in Texas county jails. This data has a unique challenge: it has 10 columns, but we want to make it have only 2. In the data (shown following), it starts with a column of county names, then a column of the number of pregnant women booked into that county's jail. Next is another column of county names - instead of continuing onto another page, this data just makes new columns when it runs out of room. We'll scrape this PDF using `tabulizer()` and then work to fix this multiple-column issue. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/pregnant} \end{center}
+<img src="images/pregnant.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Notice that this data doesn't even have column names, so we'll have to make them ourselves. This is always a bit risky as maybe next month the table will change, and if we hard-code any column names, we'll either have code that breaks or - much more dangerous - mislabel the columns without noticing. In cases like this we have no other choice, but if you intend to scrape PDFs that regularly update (such as when a new month of data comes out) be careful about situations like this.
 
@@ -8667,14 +8434,11 @@ Given the effort you'll spend in scraping a PDF - and the relative rarity of thi
 
 If you decide to update the data, it'll keep a link to your older submission so you essentially have versions of the data. When you update the data, I recommend having a section on the submission description describing the changes in each version. As an example of what it looks like when submitting data to openICPSR, below are a few images showing the submission page for one of my submissions that has many versions (and corresponding version notes). 
 
+<img src="images/openICPSR1.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR1} \end{center}
+<img src="images/openICPSR2.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR2} \end{center}
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/openICPSR3} \end{center}
+<img src="images/openICPSR3.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 <!--chapter:end:pdf-tables2.Rmd-->
 
@@ -8684,7 +8448,7 @@ If you decide to update the data, it'll keep a link to your older submission so 
 
 
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_active_marijuana_retailers.csv.
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_active_marijuana_retailers.csv.
 
 Several recent studies have looked at the effect of marijuana dispensaries on crime around the dispensary. For these analyses they find the coordinates of each crime in the city and see if it occurred in a certain distance from the dispensary. Many crime data sets provide the coordinates of where each crime occurred, however sometimes the coordinates are missing - and other data such as marijuana dispensary locations give only the address - meaning that we need a way to find the coordinates of these locations.
 
@@ -8726,7 +8490,7 @@ Now let's try again. We'll enter our data.frame *address_to_geocode* first and t
 
 ```r
 geocode(address_to_geocode, address)
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -8739,7 +8503,7 @@ You might be wondering why we put "address" into `geocode()` without quotes when
 
 ```r
 geocode(address_to_geocode, "address")
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -8755,7 +8519,7 @@ At the time of this writing the `tidygeocoder` package can handle geocoding from
 ```r
 example <- geocode(address_to_geocode, "address", method = "osm")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -8765,7 +8529,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "census")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -8775,7 +8539,7 @@ example
 ```r
 example <- geocode(address_to_geocode, "address", method = "arcgis")
 example
-# # A tibble: 1 x 3
+# # A tibble: 1 × 3
 #   address                               lat  long
 #   <chr>                               <dbl> <dbl>
 # 1 750 Race St. Philadelphia, PA 19106  40.0 -75.2
@@ -8986,9 +8750,7 @@ No more NAs, which means that we successfully geocoded our addresses. Another ch
 plot(marijuana$long, marijuana$lat)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="geocoding_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Most points are within a very narrow range so it appears that our geocoding worked properly. 
 

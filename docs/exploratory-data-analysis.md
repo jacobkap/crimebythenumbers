@@ -1,6 +1,6 @@
 # Exploratory data analysis {#explore}
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): ucr2017.rda and offenses_known_yearly_1960_2020.rds.
 
 When you first start working on new data it is important to spend some time getting familiar with the data. This includes understanding how many rows and columns it has, what each row means (is each row an offender? a victim? crime in a city over a day/month/year?, etc.), and what columns it has. **Basically you want to know if the data is capable of answering the question you are asking.**
 
@@ -248,9 +248,7 @@ plot(ucr2017$actual_murder,
      ucr2017$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-10-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-10-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Above we are telling R to plot the number of murders on the x-axis and the number of robberies on the y-axis. This shows the relationship between a city's number of murders and number of robberies. We can see that there is a relationship where more murders is correlated with more robberies. However, there are a huge number of agencies in the bottom-left corner that have very few murders or robberies. This makes sense as - as we see in the `summary()` above - most agencies are small, with the median population under 5,000 people. 
 
@@ -282,9 +280,7 @@ plot(ucr2017_big_cities$actual_murder,
      ucr2017_big_cities$actual_robbery_total)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 The problem is somewhat solved. There is still a small clumping of agencies with few robberies or murders, but the issue is much better. And interestingly the trend is similar with this small subset of data as with all agencies included.
 
@@ -305,9 +301,7 @@ plot(ucr2017_big_cities$actual_murder,
      main = "Relationship between murder and robbery")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-13-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Aggregating (summaries of groups) {#aggregate}
 
@@ -346,7 +340,7 @@ Now we can summarize the data using the `summarize()` function. As with other `d
 
 ```r
 summarize(colorado, sum(actual_murder))
-# # A tibble: 7 x 2
+# # A tibble: 7 × 2
 #    year `sum(actual_murder)`
 #   <dbl>                <dbl>
 # 1  2011                  154
@@ -364,7 +358,7 @@ If we want to aggregate another column we just add a comma after our initial col
 ```r
 summarize(colorado, sum(actual_murder), 
           sum(actual_robbery_total))
-# # A tibble: 7 x 3
+# # A tibble: 7 × 3
 #    year `sum(actual_murder)` `sum(actual_robbery_total)`
 #   <dbl>                <dbl>                       <dbl>
 # 1  2011                  154                        3287
@@ -383,8 +377,8 @@ We could even do different math operations on the same column and we'd get multi
 summarize(colorado, sum(actual_murder),
           sum(actual_robbery_total),
           mean(actual_robbery_total))
-# # A tibble: 7 x 4
-#    year `sum(actual_murder)` `sum(actual_robbery_total)` mean(actual_robbery_t~1
+# # A tibble: 7 × 4
+#    year `sum(actual_murder)` `sum(actual_robbery_total)` mean(actual_robbery_t…¹
 #   <dbl>                <dbl>                       <dbl>                   <dbl>
 # 1  2011                  154                        3287                   11.2 
 # 2  2012                  163                        3369                   11.2 
@@ -393,7 +387,7 @@ summarize(colorado, sum(actual_murder),
 # 5  2015                  173                        3305                   10.9 
 # 6  2016                  203                        3513                   11.6 
 # 7  2017                  218                        3811                   12.5 
-# # ... with abbreviated variable name 1: `mean(actual_robbery_total)`
+# # … with abbreviated variable name ¹​`mean(actual_robbery_total)`
 ```
 
 By default `summarize()` calls the columns it makes using what we include in the parentheses. Since we said "sum(actual_murder)", to get the sum of the murder column, it names that new column "sum(actual_murder)". Usually we'll want to name the columns ourselves. We can do this by assigning the summarized column to a name using "name = " before it. For example, we could write "murders = sum(actual_murder)" and it will name that column "murders" instead of "sum(actual_murder)". Like other things in `dplyr` functions, we don't need to put quotes around our new column name. We'll assign this final summarized data to an object called "colorado_agg" so we can use it to make graphs. And to be able to create crime rates per population, we'll also find the sum of the population for each year.
@@ -405,7 +399,7 @@ colorado_agg <- summarize(colorado,
                           robberies  = sum(actual_robbery_total),
                           population = sum(population))
 colorado_agg
-# # A tibble: 7 x 4
+# # A tibble: 7 × 4
 #    year murders robberies population
 #   <dbl>   <dbl>     <dbl>      <dbl>
 # 1  2011     154      3287    5155993
@@ -442,7 +436,7 @@ The `dplyr` package has a helpful function that can do this too, and allows us t
 mutate(colorado_agg,
        murder_rate  = murders / population * 100000,
        robbery_rate = robberies / population * 100000)
-# # A tibble: 7 x 6
+# # A tibble: 7 × 6
 #    year murders robberies population murder_rate robbery_rate
 #   <dbl>   <dbl>     <dbl>      <dbl>       <dbl>        <dbl>
 # 1  2011     154      3287    5155993        2.99         63.8
@@ -463,9 +457,7 @@ plot(x = colorado_agg$year,
      y = colorado_agg$murder_rate)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-23-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-23-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 By default `plot()` makes a scatterplot. If we set the parameter `type` to "l" it will be a **l**ine plot. 
 
@@ -476,9 +468,7 @@ plot(x = colorado_agg$year,
      type = "l")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-24-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-24-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We can add some labels and a title to make this graph easier to read.
 
@@ -492,9 +482,7 @@ plot(x = colorado_agg$year,
      main = "Murder Rate in Colorado, 2011-2017")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-25-1} \end{center}
+<img src="exploratory-data-analysis_files/figure-html/unnamed-chunk-25-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Pipes in `dplyr` {#dplyr-pipes}
 

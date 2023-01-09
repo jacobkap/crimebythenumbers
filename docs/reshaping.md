@@ -1,6 +1,6 @@
 # Reshaping data {#reshaping}
 
-For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
+For this chapter you'll need the following file, which is available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): sqf-2019.xlsx. This file was initially downloaded from the New York City Police Department's page [here](https://www1.nyc.gov/site/nypd/stats/reports-analysis/stopfrisk.page). 
 
 When you're using data for research, the end result is usually a regression or a graph (or both), and that requires your data to be in a particular format. Usually your data should have one row for each unit of analysis, and each column should have information about that unit. As an example, if you wanted to study city-level crime over time, you'd have each row be a single city in a single time period. If you looked at 10 different time periods, say 10 years, you'd have 10 rows for each city. And each column would have information about that city in that time period, such as the number of murders that occurred. 
 
@@ -151,7 +151,7 @@ Now let's look at the `head()` of the result.
 
 ```r
 head(sqf_agg)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   MONTH2, DAY2 [1]
 #   MONTH2 DAY2   SUSPECT_RACE_DESCRIPTION     n
 #   <chr>  <chr>  <chr>                    <int>
@@ -194,9 +194,9 @@ sqf_agg_wide <- sqf_agg %>%
   pivot_wider(names_from = SUSPECT_RACE_DESCRIPTION,
               values_from = n) 
 head(sqf_agg_wide)
-# # A tibble: 6 x 8
+# # A tibble: 6 × 8
 # # Groups:   MONTH2, DAY2 [6]
-#   MONTH2 DAY2     `ASIAN / PACIFIC ISLANDER` BLACK BLACK~1 WHITE WHITE~2 AMERI~3
+#   MONTH2 DAY2     `ASIAN / PACIFIC ISLANDER` BLACK BLACK…¹ WHITE WHITE…² AMERI…³
 #   <chr>  <chr>                         <int> <int>   <int> <int>   <int>   <int>
 # 1 April  Friday                            1   104      17    16      31      NA
 # 2 April  Monday                            1    92      10    32      29      NA
@@ -204,8 +204,8 @@ head(sqf_agg_wide)
 # 4 April  Sunday                            2    96      12    15      38      NA
 # 5 April  Thursday                          2   122      10    18      38      NA
 # 6 April  Tuesday                           7   137      14    20      49      NA
-# # ... with abbreviated variable names 1: `BLACK HISPANIC`, 2: `WHITE HISPANIC`,
-# #   3: `AMERICAN INDIAN/ALASKAN N`
+# # … with abbreviated variable names ¹​`BLACK HISPANIC`, ²​`WHITE HISPANIC`,
+# #   ³​`AMERICAN INDIAN/ALASKAN N`
 ```
 
 Now instead of having one row be a month-day-of-week-race combination, each row is a month-day-of-week pair, and we have one column for every race in our data. Each of these race columns tell us how many people of that race were stopped in that month-day-of-week. This allows for really easy comparison of things like racial differences in stops for each month-day-of-week as we just look at different columns in the same row. We have now successfully done our first reshaping, moving this data from long to wide format!
@@ -251,7 +251,7 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race",
                values_to = "number_of_people_stopped")
 head(sqf_agg_long)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   month2, day2 [1]
 #   month2 day2   race                      number_of_people_stopped
 #   <chr>  <chr>  <chr>                                        <int>
@@ -272,7 +272,7 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race",
                values_to = "number_of_people_stopped")
 head(sqf_agg_long)
-# # A tibble: 6 x 4
+# # A tibble: 6 × 4
 # # Groups:   month2, day2 [1]
 #   month2 day2   race                      number_of_people_stopped
 #   <chr>  <chr>  <chr>                                        <int>
@@ -303,21 +303,21 @@ sqf_agg_wide <- sqf_agg %>%
               values_from = c(n, n2)) 
 names(sqf_agg_wide) <- make_clean_names(names(sqf_agg_wide))
 head(sqf_agg_wide)
-# # A tibble: 6 x 14
+# # A tibble: 6 × 14
 # # Groups:   month2, day2 [6]
-#   month2 day2    n_asi~1 n_black n_bla~2 n_white n_whi~3 n_ame~4 n2_as~5 n2_bl~6
+#   month2 day2    n_asi…¹ n_black n_bla…² n_white n_whi…³ n_ame…⁴ n2_as…⁵ n2_bl…⁶
 #   <chr>  <chr>     <int>   <int>   <int>   <int>   <int>   <int>   <dbl>   <dbl>
 # 1 April  Friday        1     104      17      16      31      NA      11     114
 # 2 April  Monday        1      92      10      32      29      NA      11     102
-# 3 April  Saturd~       3     115      24      24      44      NA      13     125
+# 3 April  Saturd…       3     115      24      24      44      NA      13     125
 # 4 April  Sunday        2      96      12      15      38      NA      12     106
-# 5 April  Thursd~       2     122      10      18      38      NA      12     132
+# 5 April  Thursd…       2     122      10      18      38      NA      12     132
 # 6 April  Tuesday       7     137      14      20      49      NA      17     147
-# # ... with 4 more variables: n2_black_hispanic <dbl>, n2_white <dbl>,
+# # … with 4 more variables: n2_black_hispanic <dbl>, n2_white <dbl>,
 # #   n2_white_hispanic <dbl>, n2_american_indian_alaskan_n <dbl>, and
-# #   abbreviated variable names 1: n_asian_pacific_islander,
-# #   2: n_black_hispanic, 3: n_white_hispanic, 4: n_american_indian_alaskan_n,
-# #   5: n2_asian_pacific_islander, 6: n2_black
+# #   abbreviated variable names ¹​n_asian_pacific_islander, ²​n_black_hispanic,
+# #   ³​n_white_hispanic, ⁴​n_american_indian_alaskan_n,
+# #   ⁵​n2_asian_pacific_islander, ⁶​n2_black
 ```
 
 We now have the same wide data set as before, but now there are twice as many race columns. And the `pivot_wider()` function renamed the columns so we can tell the "n" columns from the "n2" columns. The easiest way to reshape this data from wide to long is to again use the `pivot_longer()` function but now use it twice: first to reshape the "n" columns and then to reshape the "n2" columns. We'll use the exact same code as before, but change the column names to suit their new names. 
@@ -342,17 +342,17 @@ sqf_agg_long <- sqf_agg_wide %>%
                names_to = "race2",
                values_to = "number_of_people_stopped2") 
 head(sqf_agg_long)
-# # A tibble: 6 x 6
+# # A tibble: 6 × 6
 # # Groups:   month2, day2 [1]
-#   month2 day2   race                     number_of_people_stopped race2  numbe~1
+#   month2 day2   race                     number_of_people_stopped race2  numbe…¹
 #   <chr>  <chr>  <chr>                                       <int> <chr>    <dbl>
-# 1 April  Friday n_asian_pacific_islander                        1 n2_as~      11
-# 2 April  Friday n_asian_pacific_islander                        1 n2_bl~     114
-# 3 April  Friday n_asian_pacific_islander                        1 n2_bl~      27
-# 4 April  Friday n_asian_pacific_islander                        1 n2_wh~      26
-# 5 April  Friday n_asian_pacific_islander                        1 n2_wh~      41
-# 6 April  Friday n_asian_pacific_islander                        1 n2_am~      NA
-# # ... with abbreviated variable name 1: number_of_people_stopped2
+# 1 April  Friday n_asian_pacific_islander                        1 n2_as…      11
+# 2 April  Friday n_asian_pacific_islander                        1 n2_bl…     114
+# 3 April  Friday n_asian_pacific_islander                        1 n2_bl…      27
+# 4 April  Friday n_asian_pacific_islander                        1 n2_wh…      26
+# 5 April  Friday n_asian_pacific_islander                        1 n2_wh…      41
+# 6 April  Friday n_asian_pacific_islander                        1 n2_am…      NA
+# # … with abbreviated variable name ¹​number_of_people_stopped2
 ```
 
 This now gives us two race columns - "race" and "race2" - which are ordered differently so we need to make sure to either reorder the data to be the same ordering or to keep that in mind when comparing the "number_of_people_stopped" and "number_of_people_stopped2" columns as they frequently refer to different races.

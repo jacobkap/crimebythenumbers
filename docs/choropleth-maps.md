@@ -1,6 +1,6 @@
 # Choropleth maps
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): san_francisco_suicide_2003_2017.csv, san_francisco_neighborhoods.dbf, san_francisco_neighborhoods.prj, san_francisco_neighborhoods.shp, san_francisco_neighborhoods.shx.
 
 In Chapter \@ref(hotspot-maps) we made hotspot maps to show which areas in San Francisco had the most suicides. We made the maps in a number of ways and consistently found that suicides were most prevalent in northeast San Francisco. In this chapter we will make choropleth maps, which are shaded maps where each "unit" is some known geographic area, such as a state or neighborhood. Think of election maps where states are colored blue when a Democratic candidate wins that state and red when a Republican candidate wins. These are choropleth maps - each state is colored to indicate something. In this chapter we will continue to work on the suicide data and make choropleth maps shaded by the number of suicides in each neighborhood (we will define this later in the chapter) in the city. 
 
@@ -23,7 +23,8 @@ install.packages("sf")
 
 ```r
 library(sf)
-# Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
+# Warning: package 'sf' was built under R version 4.2.2
+# Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
 ```
 
 For this chapter we will need to read in a shapefile that depicts the boundaries of each neighborhood in San Francisco.  A shapefile is similar to a data.frame but has information on how to draw a geographic boundary such as a state. The way `sf` reads in the shapefiles is through the `st_read()` function. Our input inside the () is a string with the name of the ".shp" file we want to read in (since we are telling R to read a file on the computer rather than an object that exists, it needs to be in quotes). This shapefile contains neighborhoods in San Francisco so we'll call the object *sf_neighborhoods*. 
@@ -62,9 +63,7 @@ The last column is important. In shapefiles, the "geometry" column is the one wi
 plot(sf_neighborhoods$geometry)
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-6-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-6-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Here we have a map of San Francisco broken up into neighborhoods. Is this a perfect representation of the neighborhoods in San Francisco? No. It is simply the city's attempt to create definitions of neighborhoods. Indeed, you're likely to find that areas at the border of neighborhoods are more similar to each other than they are to areas at the opposite side of their designated neighborhood. You can read a bit about how San Francisco determined the neighborhood boundaries [here,](https://data.sfgov.org/Geographic-Locations-and-Boundaries/Analysis-Neighborhoods/p5b7-5n3h) but know that this, like all geographic areas that someone has designated, has some degree of inaccuracy and arbitrariness in it. Like many things in criminology, this is just another limitation we will have to keep in mind. 
 
@@ -84,8 +83,7 @@ sf_neighborhoods <- st_transform(sf_neighborhoods, crs = 2227)
 st_crs(sf_neighborhoods)
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=1\textheight,]{images/choropleth} \end{center}
+<img src="images/choropleth.PNG" width="100%" height="100%"  style="display: block; margin: auto;" />
 
 ## Spatial joins
 
@@ -158,9 +156,7 @@ plot(sf_neighborhoods$geometry)
 plot(suicide$geometry, add = TRUE, col = "red")
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-12-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Our next step is to combine these two data sets to figure out how many suicides occurred in each neighborhood. This will be a multi-step process so let's plan it out before beginning. Our suicide data is one row for each suicide; our neighborhood data is one row for each neighborhood. Since our goal is to map at the neighborhood-level we need to get the neighborhood where each suicide occurred then aggregate up to the neighborhood-level to get a count of the suicides-per-neighborhood. Then we need to combine that with the original neighborhood data, and we can map it.
 
@@ -338,6 +334,7 @@ For these maps we are going to use `ggplot2` again so we need to load it.
 
 ```r
 library(ggplot2)
+# Warning: package 'ggplot2' was built under R version 4.2.2
 ```
 
 `ggplot2`'s benefit is you can slowly build graphs or maps and improve the graph at every step. Earlier, we used functions such as `geom_line()` for line graphs and `geom_point()` for scatter plots. For mapping these polygons we will use `geom_sf()`, which knows how to handle spatial data. 
@@ -350,9 +347,7 @@ ggplot(sf_neighborhoods_suicide, aes(fill = number_suicides)) +
   geom_sf() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-26-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-26-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 We have now created a choropleth map showing the number of suicides per neighborhood in San Francisco! Based on the legend, neighborhoods that are light blue have the most suicides while neighborhoods that are dark blue have the fewest (or none at all). Normally we'd want the opposite, with darker areas signifying a greater amount of whatever the map is showing. 
 
@@ -367,9 +362,7 @@ ggplot(sf_neighborhoods_suicide,
                       high = "red") 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-27-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-27-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 This gives a much better map and clearly shows the areas where suicides are most common and where there were no suicides.
 
@@ -387,9 +380,7 @@ ggplot(sf_neighborhoods_suicide,
        subtitle = "2003 - 2017") 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-28-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-28-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Since the coordinates don't add anything to the map, let's get rid of them.
 
@@ -408,9 +399,7 @@ ggplot(sf_neighborhoods_suicide,
         axis.ticks = element_blank())
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-29-1} \end{center}
+<img src="choropleth-maps_files/figure-html/unnamed-chunk-29-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 So what should we take away from this map? There are more suicides in the downtown area than any other place in the city. Does this mean that people are more likely to kill themselves there than elsewhere? Not necessarily. A major mistake people make when making a choropleth map (or really any type of map) is accidentally making a population map. The darker shaded parts of our map are also where a lot of people live. So if there are more people, it is reasonable that there would be more suicides (or crimes, etc.). What we'd really want to do is make a rate per some population (usually per 100k though this assumes equal risk for every person in the city which isn't really correct) to control for population differences.
 

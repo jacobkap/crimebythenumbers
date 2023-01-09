@@ -1,6 +1,6 @@
 # Reading and writing data
 
-For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/r4crimz/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
+For this chapter you'll need the following files, which are available for download [here](https://github.com/jacobkap/crimebythenumbers/tree/master/data): fatal-police-shootings-data.csv, fatal-police-shootings-data.dta, fatal-police-shootings-data.sas, fatal-police-shootings-data.sav, sqf-2019.xlsx, sf_neighborhoods_suicide.rda, and shr_1976_2020.rds.
 
 So far in these lessons we've used data from a number of sources, but which came as .rda or .rds files, which are the standard R data formats. Many data sets, particularly older government data, will not come as .rda or .rds files but rather as Excel, Stata, SAS, SPSS, or fixed-width ASCII files. In this brief lesson, we'll cover how to read these formats into R as well as how to save data into these formats. Since many criminologists do not use R, it is important to be able to save the data in the language they use to be able to collaborate with them. 
 
@@ -60,18 +60,17 @@ shootings <- read_csv("data/fatal-police-shootings-data.csv")
 
 ```r
 head(shootings)
-# # A tibble: 6 x 14
-#      id name     date       manne~1 armed   age gender race  city  state signs~2
+# # A tibble: 6 × 14
+#      id name     date       manne…¹ armed   age gender race  city  state signs…²
 #   <dbl> <chr>    <date>     <chr>   <chr> <dbl> <chr>  <chr> <chr> <chr> <lgl>  
-# 1     3 Tim Ell~ 2015-01-02 shot    gun      53 M      A     Shel~ WA    TRUE   
-# 2     4 Lewis L~ 2015-01-02 shot    gun      47 M      W     Aloha OR    FALSE  
-# 3     5 John Pa~ 2015-01-03 shot a~ unar~    23 M      H     Wich~ KS    FALSE  
-# 4     8 Matthew~ 2015-01-04 shot    toy ~    32 M      W     San ~ CA    TRUE   
-# 5     9 Michael~ 2015-01-04 shot    nail~    39 M      H     Evans CO    FALSE  
-# 6    11 Kenneth~ 2015-01-04 shot    gun      18 M      W     Guth~ OK    FALSE  
-# # ... with 3 more variables: threat_level <chr>, flee <chr>, body_camera <lgl>,
-# #   and abbreviated variable names 1: manner_of_death,
-# #   2: signs_of_mental_illness
+# 1     3 Tim Ell… 2015-01-02 shot    gun      53 M      A     Shel… WA    TRUE   
+# 2     4 Lewis L… 2015-01-02 shot    gun      47 M      W     Aloha OR    FALSE  
+# 3     5 John Pa… 2015-01-03 shot a… unar…    23 M      H     Wich… KS    FALSE  
+# 4     8 Matthew… 2015-01-04 shot    toy …    32 M      W     San … CA    TRUE   
+# 5     9 Michael… 2015-01-04 shot    nail…    39 M      H     Evans CO    FALSE  
+# 6    11 Kenneth… 2015-01-04 shot    gun      18 M      W     Guth… OK    FALSE  
+# # … with 3 more variables: threat_level <chr>, flee <chr>, body_camera <lgl>,
+# #   and abbreviated variable names ¹​manner_of_death, ²​signs_of_mental_illness
 ```
 
 We can convert it to a data.frame using the function `as.data.frame()` though that isn't strictly necessary since tibbles and data.frames operate so similarly.

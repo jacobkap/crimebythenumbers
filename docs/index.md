@@ -1,6 +1,6 @@
 --- 
 title: "Crime by the Numbers: A Criminologist's Guide to R"
-date: "2022-10-12"
+date: "2023-01-07"
 author: "Jacob Kaplan"
 bibliography: [book.bib]
 biblio-style: apalike
@@ -22,7 +22,11 @@ graphics: yes
 \frontmatter
 # Preface {-}
 
+
+
 This book introduces the programming language R and is meant for undergrads or graduate students studying criminology. R is a programming language that is well-suited to the type of work frequently done in criminology - taking messy data and turning it into useful information. While R is a useful tool for many fields of study, this book focuses on the skills criminologists should know and uses crime data for the example data sets. 
+
+If you would like to purchase a physical copy of this book, it is available from [Amazon](https://www.amazon.com/Criminologists-Guide-Crime-Numbers-Chapman/dp/1032244070/?_encoding=UTF8&pd_rd_w=Ia4RG&content-id=amzn1.sym.e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_p=e4bd6ac6-9035-4a04-92a6-fc4ad60e09ad&pf_rd_r=G1A0TFSVYNG3GP667X0F&pd_rd_wg=uZ6xj&pd_rd_r=82e214d8-720f-492b-b5b5-df9b6d52d95a&ref_=pd_gw_ci_mcx_mr_hp_atf_m). 
 
 For this book you should have the latest version of [R](https://cloud.r-project.org/) installed and be running it through [RStudio Desktop (the free version).](https://www.rstudio.com/products/rstudio/download/) We'll get into detail on what R and  RStudio are soon, but please have them both installed to be able to follow along with each chapter. While you must install both, you only ever need to open RStudio. While R is the actual programming language, RStudio is a program that makes it a lot easier to interact with R than opening up the R application itself.^[This is formally known as an "integrated development environment" or an IDE.] I highly recommend following along with the code for each lesson and then trying to use the lessons learned on a data set that you are interested in.  
 
@@ -88,7 +92,7 @@ This book is written so a person who has no programming experience can start wit
 
 If this book was useful in your research, please cite it. To cite this book, please use the below citation: 
 
-Kaplan J (2021). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
+Kaplan J (2022). *Crime by the Numbers: A Criminologist's Guide to R*. https://crimebythenumbers.com/. 
 
 BibTeX format:
 
@@ -96,7 +100,7 @@ BibTeX format:
 @Manual{crimebythenumbers,
   title = {Crime by the Numbers: A Criminologist's Guide to R},
   author = {Jacob Kaplan},
-  year = {2021},
+  year = {2022},
   url = {https://crimebythenumbers.com/},
 }
 ```
@@ -107,20 +111,18 @@ If you have any questions, suggestions (such as a topic to cover), or find any i
 
 For more minor issues like typos or grammar mistakes, you can edit the book directly through its GitHub page. That'll make an update for me to accept, which will change the book to include your edit. To do that, click the edit button at the top of the site - the button is highlighted in the below figure. You will need to make a GitHub account to make edits. When you click on that button you'll be taken to a page that looks like a Word doc where you can make edits. Make any edits you want and then scroll to the bottom of the page. There you can write a short (please, no more than a sentence or two) description of what you've done and then submit the changes for me to review.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/edit_button} \end{center}
+<img src="images/edit_button.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 Please only use the above two methods to contribute or make suggestions about the book. Don't email me. While it's a bit more work for you to do it this way, since you'll need to make a GitHub account if you don't already have one, it helps me. I wrote this book, in part, to help my career so having evidence that people read it and are contributing to it is important to me. It's a way to publicly measure the book's impact. 
 
 ## Where to find data included in this book {-}
 
-To download the data used in this book please see [here.](https://github.com/jacobkap/r4crimz/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
+To download the data used in this book please see [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) Each of the files that are used in this book are available to download at that link. At the top of every chapter that uses one of these files I'll say exactly which file(s) you need to download. The best way to use this book is to follow along by downloading the data and running the code that I include in each chapter. 
 
 ## Where to find code included in this book {-}
 
 If you're reading this book through its [website,](https://crimebythenumbers.com) you can easily copy the code by clicking on the "Copy to clipboard" option on the top right of every chunk of code. This button, shown in the image below, will copy all of the code in the chunk and you can then paste (through Control/Command+V) into R.
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/copy_code} \end{center}
+<img src="images/copy_code.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 I've also made each chapter available to download as an R file that has every line of code used in each chapter available to you to run. To download the files, please go to the book's GitHub page [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/code_repository) I've saved each chapter twice - once where it only includes the code used (in the "just_code" folder) and once where it includes the code and all of the text in the chapter (in the "code_and_text" folder). So download whichever one you want to use. The code is identical in each. 

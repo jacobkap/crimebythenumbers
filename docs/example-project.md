@@ -4,7 +4,7 @@
 
 # A soup to nuts project example
 
-Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/r4crimz/tree/master/data) The file is called "shr_1976_2020.rds".
+Before we get into exactly how to use R, we'll go over a brief example of a kind of data project that you'd do in the real world. For this chapter we'll look at FBI homicide data that you can download [here.](https://github.com/jacobkap/crimebythenumbers/tree/master/data) The file is called "shr_1976_2020.rds".
 
 ## Big picture data example
 
@@ -16,8 +16,7 @@ At the time of this writing, the FBI had just released 2020 crime data, which sh
 
 The end result is the graph below. It is, in my opinion, a fairly strong answer to our question. It shows the percent change in murders by the victim-offender relationship from 2019 to 2020. This is using FBI murder data, which technically does have a variable that says if the murder is gang related, but it's a very flawed variable (i.e. vast undercount of gang-related murders) so I prefer to use stranger and acquaintance murders as a rough proxy. And we now have an easy to read graph that shows that while indeed stranger and acquaintance murders did go up a lot, nearly all relationship groups experienced far more murders in 2020 than in 2019. This suggests that there was a broad increase in murder in 2020, and it was not driven merely by an increase in one or a few groups. 
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/shr_motivation_example} \end{center}
+<img src="images/shr_motivation_example.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 These graphs (though modified to a table instead of a graph) were included in a article I contributed to on the site [FiveThirtyEight](https://fivethirtyeight.com/features/murders-spiked-in-2020-how-will-that-change-the-politics-of-crime/) in discussing the murder increase in 2020. So this is an actual work product that is used in a major media publication - and is something that you'll be able to do by the end of this book. For nearly all research you do you'll follow the same process as in this example: load data into R, clean it somehow, and create a graph or a table or do a regression on it. While this can range from very simple to very complex depending on your exact situation (and how clean the data is that you start with), all research projects are essentially the same.
 
@@ -35,6 +34,7 @@ library(dplyr)      # Used to aggregate data
 # 
 #     intersect, setdiff, setequal, union
 library(ggplot2)    # Used to make the graph
+# Warning: package 'ggplot2' was built under R version 4.2.2
 library(crimeutils) # Used to capitalize words in a column
 library(tidyr)      # Used to reshape the data
 
@@ -89,14 +89,12 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-2-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-2-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Little picture data example
 
@@ -168,7 +166,7 @@ shr_difference <-
   filter(`2019` >= 50) %>%
   arrange(percent_change)
 shr_difference
-# # A tibble: 16 x 5
+# # A tibble: 16 × 5
 #    victim_1_relation_to_offender_1 `2019` `2020` difference percent_change
 #    <chr>                            <int>  <int>      <int>          <dbl>
 #  1 Wife                               330    294        -36         -10.9 
@@ -203,14 +201,12 @@ ggplot(shr_difference, aes(x = victim_1_relation_to_offender_1,
                            y = percent_change)) +
   geom_bar(stat = "identity") +
   ylab("% Change, 2020 Vs. 2019") +
-  xlab("Who Victim Is Relative to Murderer") + 
+  xlab("Victim Relative to Murderer") + 
   coord_flip() +
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-7-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-7-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 ## Reusing and modifying code
 
@@ -243,6 +239,4 @@ ggplot(shr_difference, aes(x = offender_1_weapon,
   theme_crim() 
 ```
 
-
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{crimebythenumbers_files/figure-latex/unnamed-chunk-8-1} \end{center}
+<img src="example-project_files/figure-html/unnamed-chunk-8-1.png" width="100%" height="45%"  style="display: block; margin: auto;" />

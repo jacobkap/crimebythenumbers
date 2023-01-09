@@ -175,8 +175,7 @@ Now we can try it for a new recipe, this one for "The Best Lemon Bars" at this [
 scrape_recipes("https://www.allrecipes.com/recipe/10294/the-best-lemon-bars/")
 ```
 
-
-\begin{center}\includegraphics[width=1\linewidth,height=0.45\textheight,]{images/functions} \end{center}
+<img src="images/functions.PNG" width="100%" height="45%"  style="display: block; margin: auto;" />
 
 
 In the next lesson we'll use "for loops" to scrape multiple recipes very quickly. 
